@@ -27587,12 +27587,13 @@ USA
                 <example>But serious music was never meant to be soporific.</example><!-- www.collinsdictionary.com/dictionary/english/be-meant-to -->
                 <example>The aggressors are bound to be defeated.</example><!-- www.ldoceonline.com/dictionary/be-bound-to -->
                 <example>She was <marker>pleased</marker> to be treated as a guest.</example><!-- Can parse 'pleased' as an adjective. Compare: She was happy to be treated... VBN_VBD removes JJ-->
+                <example>He is <marker>very confused</marker> to be in this situation.</example>
             </rule>
             <rule>
                 <pattern>
                     <token skip="-1" regexp="yes" inflected="yes">advise|insist|propose|recommend|suggest</token>
                     <token postag="NN.*" postag_regexp="yes"/>
-                    <token min="0" max="1" postag="MD"/>
+                    <token postag="MD"/><!-- Without the modal verb, the sentence is subjunctive: https://en.oxforddictionaries.com/grammar/when-to-use-the-subjunctive -->
                     <token min="0" max="3" postag="RB"/>
                     <marker>
                         <token>be</token>
@@ -27601,52 +27602,50 @@ USA
                 </pattern>
                 <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
                 <example correction="">He insisted that red should <marker>be used</marker> by the designers.</example>
-                <example correction="">If he insists that red <marker>be used</marker>, then use red.</example>
+                <example correction="">She suggests the designers might not always <marker>be considered</marker> the experts (by the managers), and that other people have much to offer.</example>
                 <example>He insisted that the designers <marker>should use</marker> red.</example>
+                <example>If he insists that red <marker>be used</marker>, then use red.</example><!-- Subjunctive -->
             </rule>
             <rule>
                 <pattern> <!-- future perfect tense -->
                     <token skip="1" regexp="yes">will|shall</token>
-                    <!-- skip to allow for "not", "also", etc. -->
+                    <token min="0" max="3" postag="RB"/>
                     <token>have</token>
                     <token>been</token>
-                    <token postag="VBN"/>
+                    <token postag="VBN">
+                        <exception regexp="yes">bound|married|meant|pleased|supposed</exception>
+                        <exception postag="JJ"/>
+                        </token>
                 </pattern>
-                <message>Change from passive to active voice? Example: "Her work will have been finished by tonight." can be changed to "She will have her work finished by tonight."</message>
-                <example correction="">Her work <marker>will have been finished</marker> by tonight.</example>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
+                <example correction="">By now, the work <marker>will have been completed</marker> by the engineers.</example>
                 <example correction="">Her work <marker>will not have been finished</marker> by tonight.</example>
-                <example>She will have her work finished by tonight.</example>
+                <example correction="">Are you sure the carpets <marker>will not already have been cleaned</marker>?</example>
+                <example>By now, the engineers <marker>will have completed</marker> the work.</example>
+                <example>I think she will have been pleased by the admiration she received.</example>
+                <example>We will have been married for ten years on this day next week.</example><!-- VBN_VBD removes JJ -->
             </rule>
             <rule>
                 <pattern>
                     <token postag="NN.*" postag_regexp="yes"/>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for "not", "also", etc. -->
-                    <token>being</token>
-                    <token postag="VBN"/>
+                    <marker>
+                        <token inflected="yes">be</token>
+                        <token min="0" max="3" postag="RB"/>
+                        <token min="0" max="1">being</token>
+                        <token postag="VBN"/>
+                    </marker>
                 </pattern>
-                <message>Change from passive to active voice? Example: "A cake is being baked by him." can be changed to "He is baking a cake."</message>
-                <example correction="">A <marker>cake is being baked</marker> by him by tonight.</example>
-                <example>He is baking a cake.</example>
-                <example correction="">A <marker>cake is also being baked</marker> by him by tonight.</example>
-                <example correction="">A <marker>cake was also being baked</marker> by him by tonight.</example>
-                <example correction="">A dozen <marker>cookies were also being baked</marker> by him by tonight.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="NN.*" postag_regexp="yes"/>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for "not", "also", etc. -->
-                    <token skip="2" postag="VBN"/>
-                    <!-- skip to allow for "a noun" or "a adjective noun", etc. -->
-                    <token>by</token>
-                </pattern>
-                <message>Change from passive to active voice? Example: "Instruments are played by her." can be changed to "She plays instruments."</message>
-                <example correction=""><marker>Instruments are played by</marker> her.</example>
-                <example correction=""><marker>Instruments were played by</marker> her.</example>
-                <example correction=""><marker>Instruments are not played by</marker> her.</example>
-                <example correction=""><marker>John was given a book by</marker> her.</example>
-                <example>She plays instruments.</example>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
+                <example correction="">A cake <marker>is being baked</marker> by him.</example>
+                <example correction="">Tests <marker>are also usually being done</marker> during the night.</example>
+                <example correction="">Those engineers <marker>were unfortunately not actually being considered</marker> by management for the project.</example>
+                <example correction="">Instruments <marker>are played</marker> by her.</example>
+                <example correction="">Instruments <marker>were played</marker> in most cultures.</example>
+                <example correction="">Instruments <marker>are not always played</marker> well.</example>
+                <example correction="">John <marker>was given</marker> a very large book with a green cover by her.</example>
+                <example correction="">The mined ore <marker>is washed</marker>, crushed, classified, and separated from quartz.</example>
+                <example correction="">... fried meat and fried cheese <marker>are very often eaten</marker> for lunch and served in most typical restaurants.</example>
+                <example>He <marker>is baking</marker> a cake.</example>
             </rule>
         </rulegroup> <!-- end passive voice rule -->
     </category>
