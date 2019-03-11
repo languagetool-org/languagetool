@@ -3536,6 +3536,12 @@
 		<example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beatiful.</example>
 	</rule>
 	<rule id="VBN_VBD" name="Past Participle">
+		<antipattern><!-- If an adverb is an intensifier, then the VBN word is probably an adjective. https://learnenglish.britishcouncil.org/english-grammar/intensifiers -->
+			<token inflected="yes">be</token>
+			<token min="0" max="1">not</token>
+			<token regexp="yes">absolutely|amazingly|completely|exceptionally|incredibly|particularly|quite|really|remarkably|totally|unusually|utterly|very</token><!-- Common intensifiers -->
+			<token postag="JJ"/>
+		</antipattern>
 		<pattern>
 			<token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
@@ -3549,6 +3555,8 @@
 		</pattern>
 		<disambig postag="VBN"/>
 		<example type="untouched">He has a car.</example>
+		<example type="untouched">He is quite <marker>confused</marker> to be in this situation.</example>
+		<example type="untouched">She was not very <marker>pleased</marker> about the result.</example>
 		<example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
         <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
 	</rule>
