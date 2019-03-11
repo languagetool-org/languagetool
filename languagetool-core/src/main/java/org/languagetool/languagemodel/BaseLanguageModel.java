@@ -18,6 +18,7 @@
  */
 package org.languagetool.languagemodel;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.rules.ngrams.Probability;
 
 import java.util.List;
@@ -36,6 +37,40 @@ public abstract class BaseLanguageModel implements LanguageModel {
 
   public BaseLanguageModel()  {
   }
+
+
+  private long tryGetCount(List<String> context) {
+    try {
+      return getCount(context);
+    } catch(RuntimeException ignored) { // TODO: custom exception
+      return 0;
+    }
+  }
+
+  //@Override
+  public Probability getPseudoProbabilityStupidBackoff(List<String> context) {
+    // stupid backoff, see Brants et al. (2007)
+    List<String> backoffContext = context;
+    int maxCoverage = context.size();
+    int coverage = maxCoverage;
+    double lambda = 1.0;
+    final double lambdaFactor = 0.4;
+    while (backoffContext.size() != 0) {
+      long count = tryGetCount(backoffContext);
+      if (count != 0) {
+        long baseCount = tryGetCount(backoffContext.subList(0, backoffContext.size() - 1));
+        double prob = (double) count / baseCount;
+        float coverageRate = (float) coverage / maxCoverage;
+        return new Probability(lambda * prob, coverageRate);
+      } else {
+        coverage--;
+        backoffContext = backoffContext.subList(0, backoffContext.size() - 1);
+        lambda *= lambdaFactor;
+      }
+    }
+    return new Probability(0.0, 0.0f);
+  }
+
 
   @Override
   public Probability getPseudoProbability(List<String> context) {

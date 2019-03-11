@@ -607,15 +607,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   /**
    * @since 4.3
    */
-  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel lm) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages);
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
 
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
-    languageModel = lm;
   }
 
   @Override
@@ -693,6 +692,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public List<String> getSuggestions(String word) throws IOException {
     List<String> suggestions = super.getSuggestions(word);
+    //System.out.printf("Suggestions for %s: %s%n", word, suggestions);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
     if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
@@ -784,6 +784,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     result.addAll(0, topSuggestions);
+
     return result;
   }
 

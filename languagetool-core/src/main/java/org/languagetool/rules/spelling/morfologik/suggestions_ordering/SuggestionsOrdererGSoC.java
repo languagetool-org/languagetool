@@ -25,7 +25,9 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.MockLanguageModel;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.GoogleTokenUtil;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,8 +35,9 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public class SuggestionsOrderer {
+public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
   
   private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model";
   private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model";
@@ -47,13 +50,15 @@ public class SuggestionsOrderer {
   private NGramUtil nGramUtil = null;
   private Predictor predictor;
 
+  @Override
   public boolean isMlAvailable() {
     return mlAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
   }
 
-  public SuggestionsOrderer(Language language, String ruleId) {
+  public SuggestionsOrdererGSoC(Language language, LanguageModel languageModel, String ruleId) {
     try {
-      nGramUtil = new NGramUtil(language);
+      //nGramUtil = new NGramUtil(language);
+      nGramUtil = new NGramUtil(language, languageModel);
       String ngramBasedModelFilename = XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SPC_NGRAM_BASED_MODEL_FILENAME;
       String nonNgramModelFilename = XGBOOST_MODEL_BASE_PATH + ruleId + "/" + NO_NGRAM_BASED_MODEL_FILENAME;
 
@@ -140,23 +145,27 @@ public class SuggestionsOrderer {
     return (float) predictedScore;
   }
 
-  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
+  @Override
+  public List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     if (!isMlAvailable()) {
-      return suggestions;
+      return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
     }
     List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
     for (String suggestion : suggestions) {
       String text = sentence.getText();
-      String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + wordLength);
+      String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + word.length());
 
       float score = processRow(text, correctedSentence, word, suggestion, DEFAULT_CONTEXT_LENGTH);
       suggestionsScores.add(Pair.of(suggestion, score));
     }
     Comparator<Pair<String, Float>> comparing = Comparator.comparing(Pair::getValue);
     suggestionsScores.sort(comparing.reversed());
-    List<String> result = new LinkedList<>();
-    suggestionsScores.iterator().forEachRemaining((Pair<String, Float> p) -> result.add(p.getKey()));
-    return result;
+
+    return suggestionsScores.stream().map(p -> {
+      SuggestedReplacement s = new SuggestedReplacement(p.getKey());
+      s.setConfidence(p.getRight());
+      return s;
+    }).collect(Collectors.toList());
   }
 
   private static class NGramUtil {
@@ -164,6 +173,16 @@ public class SuggestionsOrderer {
     private final Language language;
     private LanguageModel languageModel;
     private boolean mockLanguageModel = false;
+
+    private NGramUtil(Language language, LanguageModel languageModel) {
+      this.language = language;
+      if (languageModel != null) {
+        this.languageModel = languageModel;
+      } else {
+        this.languageModel = new MockLanguageModel();
+        this.mockLanguageModel = true;
+      }
+    }
 
     private NGramUtil(Language language) {
       this.language = language;

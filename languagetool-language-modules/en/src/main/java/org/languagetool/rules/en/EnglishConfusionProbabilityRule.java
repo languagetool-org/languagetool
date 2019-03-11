@@ -43,8 +43,4 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
                    Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
 
-  @Override
-  protected WordTokenizer getGoogleStyleWordTokenizer() {
-    return tokenizer;
-  }
 }

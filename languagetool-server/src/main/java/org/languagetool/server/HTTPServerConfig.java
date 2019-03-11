@@ -304,7 +304,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void setLanguageModelDirectory(String langModelDir) {
+  void setLanguageModelDirectory(String langModelDir) {
     SuggestionsOrdererConfig.setNgramsPath(langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
@@ -847,7 +847,7 @@ public class HTTPServerConfig {
    */
   @Experimental
   public void setAbTest(@Nullable String abTest) {
-    List<String> values = Arrays.asList("SuggestionsOrderer");
+    List<String> values = Arrays.asList("SuggestionsOrderer", "SuggestionsRanker");
     if (abTest != null && !values.contains(abTest)) {
         throw new IllegalConfigurationException("Unknown value for 'abTest' property: Must be one of: " + values);
     }
