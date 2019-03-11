@@ -1914,7 +1914,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag_regexp='yes' postag='N.+'/>
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='V...3S.+'/>
+            <exception postag_regexp='yes' postag='V...3S.+|VMN0000'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Nesta situação deve utilizar o verbo no singular.</message>
@@ -1922,6 +1922,7 @@ title="Easy editing stylesheet" ?>
       <example correction='A maioria faz|A maioria fá'><marker>A maioria fazem</marker> muito pouco.</example>
       <example correction='A maioria não sabe'><marker>A maioria não sabem</marker> muito.</example>
       <example correction='A maioria do país não sabe'><marker>A maioria do país não sabem</marker> muito.</example>
+      <example>A maioria do país não saber muito.</example>
     </rule>
 
   <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
@@ -8383,6 +8384,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>['‘]</token>
           <token regexp='yes' spacebefore='no'>sets?</token>
           <token regexp='yes' spacebefore='no'>['’]</token>
+      </antipattern>
+      <antipattern>
+          <token>sine</token>
+          <token>qua</token>
+          <token>non</token>
       </antipattern>
     <rule>
       <pattern case_sensitive="no">
@@ -14902,7 +14908,7 @@ o tomate'>
   <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
     <!--	  TODO Write better examples for all these rules	    -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -14927,7 +14933,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_AH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (â)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -14951,7 +14957,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_AHH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ã)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -14975,7 +14981,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (é)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -14999,7 +15005,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_EH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ê)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -15023,7 +15029,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (í)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -15047,7 +15053,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_O_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ó)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -15071,7 +15077,7 @@ o tomate'>
 
   <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ú)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
-      <short>Nesta situação não se acentua a palavra.</short>
+      <short>Esta palavra não é um verbo.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
@@ -15150,9 +15156,14 @@ o tomate'>
 
   <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
       <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
-      <short>Nesta situação acentua-se a palavra.</short>
+      <short>Erro de acentuação.</short>
     <!-- 	  Rulegroup based on forum contribution by Enno		-->
     <!--  http://forum.languagetool.org/t/pt-suggest-substantive-instead-of-accent-less-verb-form/1165/6							-->
+      <antipattern>
+          <token/>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
+      </antipattern>
     <rule id='PARONYM_ARVORE_0' name='Confusão: verbo no lugar do parónimo acentuado (á)'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
@@ -21472,7 +21483,8 @@ TODO Write better examples
           <token>
             <exception regexp='yes'>e|ela|ele|que|se|você</exception></token>
         <marker>
-          <token regexp='yes'>perpetuas?</token>
+          <token regexp='yes'>perpetuas?
+            <exception scope='next' regexp='yes'>&hifen;</exception></token>
         </marker>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
@@ -22387,13 +22399,17 @@ TODO Write better examples
 
   <rulegroup id='DOSE_DOZE' name="Confusão: dose - doze">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-09 -->
+    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/utilizacao-de-s-ou-z/7335</url>
     <rule>
       <pattern>
-          <token regexp='yes'>meia|duas|&art_detecao_F;|&contracoes_FS;|&contracoes_FP;</token>
-          <token regexp='yes'>dozes?</token>
+          <token regexp='yes'>meia|duas|&art_detecao_F;|&contracoes_FS;
+            <exception regexp='yes'>.+s$</exception></token>
+          <token>doze</token>
       </pattern>
       <message>\2 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
       <example correction="Uma dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
+      <example>...a, a segunda maior de toda a América e também uma das doze forças armadas mais bem preparadas do mundo.</example>
+      <example>Veja abaixo as doze macro bacias hidrográficas brasileiras:</example>
     </rule>
     <rule>
       <pattern>
@@ -22421,16 +22437,34 @@ TODO Write better examples
           <token>donde</token>
           <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
       </pattern>
-      <message>\1 pode ser subsituido 'de que lugar'. Pretende dizer:<suggestion>onde \2</suggestion>?</message>
+      <message>\1 pode ser subsituido 'de que lugar'. Pretende dizer: <suggestion>onde \2</suggestion>?</message>
       <example correction="Onde vives"><marker>Donde vives</marker>?</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>até|de</token>
+          <token>onde</token>
+      </antipattern>
       <pattern>
           <token>onde</token>
-          <token regexp='yes' inflected='yes'>ir|partir|voar|navegar</token>
+          <token regexp='yes' inflected='yes'>ir|partir|voar|navegar|voltar
+            <exception inflected='yes'>ser</exception></token>
       </pattern>
-      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer:<suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
+      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
       <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
+      <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas...</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>até|de</token>
+          <token>onde</token>
+      </antipattern>
+      <pattern>
+          <token>onde</token>
+          <token inflected='yes'>vir</token>
+      </pattern>
+      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>donde \2</suggestion> ou <suggestion>de onde \2</suggestion>?</message>
+      <example correction="Donde vens|De onde vens"><marker>Onde vens</marker>?</example>
     </rule>
   </rulegroup>
 
@@ -22440,7 +22474,7 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>(?:abelha|amostra|arte|bateria|boa|chave|coluna|divina|galeria|ideia|lição|linha|madre|mola|obra|parede|própria|rainha|senha|suprema|unha|velha|viga)s?|lições</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>mestres?</token>
+          <token regexp='yes' spacebefore='no'>mestres?</token>
       </pattern>
       <message>Possível confusão de termos.</message>
         <suggestion>\1\2<match no='3' regexp_match='mestre(s?)' regexp_replace='mestra$1' include_skipped='all'/></suggestion>
@@ -29702,7 +29736,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token inflected='yes'>concertar</token>
+          <token inflected='yes'>concertar
+            <exception regexp='yes'>concertos?</exception></token>
       </pattern>
       <message>'\1' refere-se a estar em acordo ou sintonia com algo. O sinónimo de reparar escreve-se <suggestion><match no='1' regexp_match='once' regexp_replace='onse'/></suggestion>.</message>
       <example correction="consertar">Para <marker>concertar</marker>-lo terá de gastar 100€.</example>
