@@ -74,6 +74,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
   private static final Map<String, Integer> candidateFeatureCount = new HashMap<>();
   private static final Map<String, Integer> matchFeatureCount = new HashMap<>();
   private boolean modelAvailableForLanguage = false;
+  private static boolean xgboostNotSupported = false;
 
   static {
     List<Integer> defaultClasses = Arrays.asList(-1, 0, 1, 2, 3, 4);
@@ -94,6 +95,9 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
   public XGBoostSuggestionsOrderer(Language lang, LanguageModel languageModel) {
     super(lang, languageModel);
     String langCode = lang.getShortCodeWithCountryAndVariant();
+    if (xgboostNotSupported) {
+      return;
+    }
     if (autoCorrectThreshold.containsKey(langCode) && modelClasses.containsKey(langCode) &&
       JLanguageTool.getDataBroker().resourceExists(getModelPath(language))) {
       try {
@@ -102,6 +106,16 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
           modelPool.returnObject(language, model);
           modelAvailableForLanguage = true;
         }
+      } catch (NoClassDefFoundError | ExceptionInInitializerError e) {
+          /*
+          Workaround because maven package for XGBoost is missing libraries for Windows;
+          just disable functionality of this class via modelAvailableForLanguage and print a warning
+          Proper fix would involve building from source or using pre-built packages that include Windows dependencies
+          See note here: https://xgboost.readthedocs.io/en/latest/jvm/index.html#id7
+           */
+          logger.warn("At the moment, your platform (Windows?) is not supported by XGBoost maven packages;" +
+            " ML-based suggestion reordering is disabled.", e);
+          xgboostNotSupported = true;
       } catch (Exception e) {
         logger.warn("Could not load spelling suggestion ranking model for language " + language, e);
       }
@@ -122,6 +136,9 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
 
   @Override
   public List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+    if (!isMlAvailable()) {
+      throw new IllegalStateException("Illegal call to orderSuggestions() - isMlAvailable() returned false.");
+    }
     long featureStartTime = System.currentTimeMillis();
 
     String langCode = language.getShortCodeWithCountryAndVariant();
