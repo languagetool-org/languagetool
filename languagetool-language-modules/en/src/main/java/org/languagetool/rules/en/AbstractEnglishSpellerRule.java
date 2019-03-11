@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -44,15 +45,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.4
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
-    super.ignoreWordsWithLength = 1;
-    setCheckCompound(true);
-    addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
-                   Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
-    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
-    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
-      addIgnoreWords(ignoreWord);
-    }
+    this(messages, language, userConfig, altLanguages, null);
   }
 
   protected static Map<String,String> loadWordlist(String path, int column) {
@@ -61,8 +54,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     Map<String,String> words = new HashMap<>();
     try (
-        InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
+      InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(isr);
     ) {
       String line;
       while ((line = br.readLine()) != null) {
@@ -81,7 +74,26 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     return words;
   }
-  
+
+
+  /**
+   * @since 4.5
+   * optional: language model for better suggestions
+   */
+  @Experimental
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+                                    List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
+    super.ignoreWordsWithLength = 1;
+    setCheckCompound(true);
+    addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
+                   Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
+    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
+    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
+      addIgnoreWords(ignoreWord);
+    }
+  }
+
   @Override
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
@@ -111,8 +123,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected VariantInfo isValidInOtherVariant(String word) {
     return null;
   }
-  
+
   private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     List<String> allSuggestions = new ArrayList<>(forms);
@@ -126,6 +140,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> suggestions) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     newMatch.setSuggestedReplacements(suggestions);
