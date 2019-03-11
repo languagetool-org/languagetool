@@ -18,31 +18,47 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
 import java.util.Objects;
+import java.util.SortedMap;
 
 /**
  * @since 4.5
  */
 public class SuggestedReplacement {
 
-  private final String replacement;
-  private final String shortDescription;
-
+  private String replacement;
+  private String shortDescription;
+  private SortedMap<String, Float> features = Collections.emptySortedMap();
+  private Float confidence = null;
   public SuggestedReplacement(String replacement) {
-    this(replacement, null);
-  }
-  
-  public SuggestedReplacement(String replacement, String shortDescription) {
     this.replacement = Objects.requireNonNull(replacement);
-    this.shortDescription = shortDescription;
+  }
+
+  public SuggestedReplacement(SuggestedReplacement clone) {
+    this.replacement = clone.replacement;
+    setShortDescription(clone.getShortDescription());
+    setConfidence(clone.getConfidence());
+    setFeatures(clone.getFeatures());
   }
 
   public String getReplacement() {
     return replacement;
   }
 
+  public void setReplacement(String replacement) {
+    this.replacement = Objects.requireNonNull(replacement);
+  }
+
   public String getShortDescription() {
     return shortDescription;
+  }
+
+  public void setShortDescription(String desc) {
+    this.shortDescription = desc;
   }
 
   @Override
@@ -62,5 +78,23 @@ public class SuggestedReplacement {
   @Override
   public int hashCode() {
     return Objects.hash(replacement, shortDescription);
+  }
+
+  @Nullable
+  public Float getConfidence() {
+    return confidence;
+  }
+
+  public void setConfidence(@Nullable Float confidence) {
+    this.confidence = confidence;
+  }
+
+  @NotNull
+  public SortedMap<String, Float> getFeatures() {
+    return Collections.unmodifiableSortedMap(features);
+  }
+
+  public void setFeatures(@NotNull SortedMap<String, Float> features) {
+    this.features = features;
   }
 }
