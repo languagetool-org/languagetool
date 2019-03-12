@@ -5041,6 +5041,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>In ähnlicher <marker>Weise</marker> erledigen Sie die restlichen Arbeiten.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="RIEGEL_REGEL" name="Regel (Riegel)">
+            <rule>
+                <pattern>
+                    <token>hinter</token>
+                    <token case_sensitive="yes">Schloss</token>
+                    <token case_sensitive="yes">und</token>
+                    <marker>
+                        <token>Regel</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Riegel</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Riegel">Er brachte ihn hinter Schloss und <marker>Regel</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WAGE_VAGE" name="wage/vage">
             <rule>
                 <pattern>
@@ -17081,6 +17096,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VERB_FEM_SUBST" name="'miete (Miete) zahlen, flöte (Flöte) spielen' etc.">
         <!-- the regex below matches singular nouns of female gender that can also be verb forms -->
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="PRO:REF:.+" skip="1"></token>
+                    <token case_sensitive="yes">scheiße</token>
+                    <token inflected="yes">fühlen</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">fühlen</token>
+                    <token postag_regexp="yes" postag="PRO:REF:.+"></token>
+                    <token case_sensitive="yes">scheiße</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und</token>
                     <marker>
