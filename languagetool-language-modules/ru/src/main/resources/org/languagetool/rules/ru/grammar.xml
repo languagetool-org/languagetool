@@ -6875,6 +6875,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Некуда идти.</example>
                 <example correction="Некуда"><marker>Не куда</marker> лететь.</example>
             </rule>
+            <rule>
+                <!-- раздельное написание частицы не:
+                наречию на -о имеется противопоставление с союзом «а»
+                -->
+                <pattern>
+                    <marker>         
+                        <token postag="ADV"  regexp="yes">(не)(.*)[о]</token>
+                        <token>,</token>
+                        <token>а</token>
+                        <token postag="ADV"  ></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:1 regexp:не(.*) postag_regexp:(ADV)  "/>      <!-- Test if word without "не" exist -->
+                <message>Пишется раздельно с «не», имеется противопоставление с союзом «а»: <suggestion><match no="1" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match><match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>.</message>
+                <short>Раздельно с «не»</short>
+                <example>Работа выполнена не плохо, а хорошо.</example>
+                <example correction="не плохо, а хорошо">Работа выполнена <marker>неплохо, а хорошо</marker>.</example>
+            </rule>
+     
+            
         </rulegroup>
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
