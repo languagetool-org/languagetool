@@ -1355,6 +1355,11 @@
 
     <rule id="S_V" name="Preposição + Verbo">
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
+      <antipattern><!-- e.g. 'Só a olhar' and other 'continuous' infinitives -->
+        <token postag='R.' postag_regexp='yes'/>
+        <token>a</token>
+        <token postag='VMN0000'/>
+      </antipattern>
       <pattern>
           <token postag="SPS00" postag_regexp="no">
             <exception postag="SP.+" postag_regexp="yes" negate_pos='yes'/></token>
@@ -1368,6 +1373,7 @@
       <disambig action="remove" postag="V.+"/>
       <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
+      <example type="untouched">Só a olhar.</example>
     </rule>
 
     <rule id="PARA_WORKAROUND" name="Para">
