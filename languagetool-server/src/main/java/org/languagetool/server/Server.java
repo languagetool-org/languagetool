@@ -61,7 +61,7 @@ abstract class Server {
   public void run() {
     String hostName = host != null ? host : "localhost";
     ServerTools.print("Starting LanguageTool " + JLanguageTool.VERSION +
-            " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
+            " (build date: " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
     isRunning = true;
     ServerTools.print("Server started");

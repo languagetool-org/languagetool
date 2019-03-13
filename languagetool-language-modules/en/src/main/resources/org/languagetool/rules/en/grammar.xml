@@ -21726,6 +21726,7 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>then</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/than</url>
             <short>Possible typo</short>
             <example correction="then">If we want to eat, <marker>than</marker> we need to get some money.</example>
             <example>It's not much more, in fact, than the return that is offered on U. S. Treasury bonds.</example>
@@ -21737,6 +21738,7 @@ USA
                 <token>on</token>
             </pattern>
             <message>Did you mean <suggestion>from then on</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/than</url>
             <short>Possible typo</short>
             <example correction="From then on"><marker>From than on</marker> I entered a period of dullness, nothing bothered me anymore.</example>
         </rule>
@@ -21748,6 +21750,7 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>then</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/than</url>
             <short>Possible typo</short>
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
@@ -21789,6 +21792,7 @@ USA
                 <token>,</token>
             </pattern>
             <message>Did you mean <suggestion>then</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/than</url>
             <short>Possible typo</short>
             <example correction="then">The genuinely interesting question, <marker>than</marker>, becomes...</example>
         </rule>
@@ -21800,11 +21804,13 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>then</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/then</url>
             <short>Possible typo</short>
             <example correction="then">Please, who <marker>than</marker> can help!</example>
             <example>Please, who then can help?</example>
         </rule>
         <rulegroup id="RATHER_THEN" name="rather/other/different then (than)">
+            <url>https://en.wiktionary.org/wiki/than</url>
             <rule>
                 <pattern>
                     <token regexp="yes">rather|other</token>
@@ -21841,6 +21847,7 @@ USA
                 <token>of</token>
             </pattern>
             <message>Did you mean <suggestion>heart</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/heart</url>
             <example correction="heart">The questions of training and pay lie at the <marker>hard</marker> of the staffing problems.</example>
         </rule>
         <rule id="CONFUSION_AWAIT_WAIT" name="await (wait)">
@@ -21851,7 +21858,40 @@ USA
                 <token regexp="yes">until|till</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1" regexp_match="^a" regexp_replace=""/></suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/await</url>
             <example correction="wait">I can hardly <marker>await</marker> until " Evidence " arrives at my home.</example>
+        </rule>
+        <rule id="CONFUSION_DUE_DO" name="due (do)">
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
+            <pattern>
+                <token postag="SENT_START|TO" postag_regexp='yes'/>
+                <token>due</token>
+            </pattern>
+            <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/due</url>
+            <example correction="Do"><marker>Due</marker> you work this weekend?</example>
+            <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
+        </rule>
+        <rule id="CONFUSION_AWL_ALL" name="awl (all)">
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
+            <pattern>
+                <token>awl</token>
+                <token postag="PRP$"/>
+                <token postag="NNP?S" postag_regexp='yes'/>
+            </pattern>
+            <message>Did you mean <suggestion>all \2 \3</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/awl</url>
+            <example correction="all my things">I left <marker>awl my things</marker> there.</example>
+        </rule>
+        <rule id="CONFUSION_KNOT_NOT" name="knot (not)">
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
+            <pattern>
+                <token postag="MD|V.+" postag_regexp='yes'/>
+                <token>knot</token>
+            </pattern>
+            <message>Did you mean the negation <suggestion>\1 not</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/knot</url>
+            <example correction="should not">This <marker>should knot</marker> have happened.</example>
         </rule>
         <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
@@ -21861,6 +21901,7 @@ USA
                 <token regexp="yes">sa[dt]|aid</token>
             </pattern>
             <message>Did you mean <suggestion>That being said</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/said</url>
             <example correction="That being said"><marker>That being sad</marker> ...</example>
         </rule>
         <rule id="SAID_SAD" name="sad (said)">
@@ -21871,6 +21912,7 @@ USA
                 <marker><token>sad</token></marker>
             </pattern>
             <message>Did you mean <suggestion>said</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/said</url>
             <example correction="said">She <marker>sad</marker> that she was tired.</example>
             <example correction="said">This is exactly what you have <marker>sad</marker> yesterday.</example>
             <example>Are you sad?</example>
@@ -21884,6 +21926,7 @@ USA
                 <token regexp="yes">band|chase|Christmas|group|hell|X-?mas|ways?</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1" regexp_match="a" regexp_replace="e"/></suggestion> (=jolly, festive)?</message>
+            <url>https://en.wiktionary.org/wiki/marry</url>
             <example correction="Merry"><marker>Marry</marker> Christmas!</example>
         </rule>
         <rule id="IN_ON_VACATION" name="in (on) vacation">
@@ -21931,6 +21974,7 @@ USA
                 <token><exception>course</exception><exception>necessity</exception></token>
             </pattern>
             <message>Did you mean <suggestion>most of</suggestion> or <suggestion>must have</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/must</url>
             <short>Confused word</short>
             <example correction="most of|must have">I do this <marker>must of</marker> the time.</example>
             <example>There must of course be a relationship between translating and making poems of your own.</example>
@@ -21956,6 +22000,7 @@ USA
                     <token regexp="yes">cake|work|information|(soft|hard)ware|paper|land|advice|art|equipment|music|furniture|wood|cloth|meat|writing|shit</token>
                 </pattern>
                 <message>Did you mean <suggestion>piece</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/peace</url>
                 <short>Possible typo</short>
                 <example correction="piece">It's a <marker>peace</marker> of cake!</example>
             </rule>
@@ -21969,6 +22014,7 @@ USA
                     <token postag="SENT_END">?</token>
                 </pattern>
                 <message>Did you mean <suggestion>all ready</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/already</url>
                 <example correction="all ready">Are you <marker>already</marker>?</example>
             </rule>
             <rule>
@@ -21980,10 +22026,12 @@ USA
                     <token postag="JJ"/>
                 </pattern>
                 <message>Did you mean <suggestion>already</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/already</url>
                 <example correction="already">The device is <marker>all ready</marker> available in Korea.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUIET_QUITE" name="quite / quiet">
+            <url>https://en.wiktionary.org/wiki/quite</url>
             <rule>
                 <pattern>
                     <marker>
@@ -22050,10 +22098,12 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>knew</suggestion> (past of 'to know')?</message>
+            <url>https://en.wiktionary.org/wiki/new</url>
             <short>Possible typo</short>
             <example correction="knew">Ah, I <marker>new</marker> you would say that.</example>
         </rule>
         <rulegroup id="SOME_EXTEND" name="some/certain extend (extent)">
+            <url>https://en.wiktionary.org/wiki/extend</url>
             <rule>
                 <pattern>
                     <token regexp="yes">some|certain</token>
@@ -22079,6 +22129,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="THEIR_IS" name="their/they're (there) is/are">
+            <url>https://en.wiktionary.org/wiki/their</url>
             <rule>
                 <pattern>
                     <marker>
@@ -22118,6 +22169,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="MOTHER-IN-LOW" name="mother-in-low (mother-in-law)">
+            <url>https://en.wiktionary.org/wiki/mother-in-law</url>
             <rule>
                 <pattern>
                     <token regexp="yes">(mother|sister|brother|father|relative|son|daughter)s?-in-low</token>
@@ -22154,6 +22206,7 @@ USA
                 <token postag="VB"><exception postag="JJ|RB" postag_regexp="yes"/></token>
             </pattern>
             <message>Did you mean <suggestion>to \2</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/too</url>
             <short>Possible typo</short>
             <example correction="to go">I want <marker>too go</marker> abroad.</example>
             <example>He succeeded almost too well.</example>
@@ -22162,6 +22215,7 @@ USA
             <example>So this too <marker>can</marker>'t be used to prove the theory.</example>
         </rule>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
+            <url>https://en.wiktionary.org/wiki/too</url>
             <rule>
                 <pattern>
                     <token regexp="yes">comes|came|much|is|w(?:as|ere)|are|been|s|re|['´]</token>
@@ -22322,6 +22376,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
+            <url>https://en.wiktionary.org/wiki/your</url>
             <rule>
                 <antipattern>
                     <token>your</token>
@@ -22399,6 +22454,7 @@ USA
                 <token regexp="yes">English|French|Spanish|Chinese|Russian</token>
             </pattern>
             <message>Did you mean <suggestion>pidgin</suggestion> (=simplified language)?</message>
+            <url>https://en.wiktionary.org/wiki/pidgin</url>
             <short>Possible typo</short>
             <example correction="Pidgin"><marker>Pigeon</marker> English is spoken widely across Nigeria.</example>
         </rule>
@@ -22410,6 +22466,7 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>pole</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/telephone_pole</url>
             <short>Possible typo</short>
             <example correction="pole">As sort of life crises go, this is low on the totem <marker>poll</marker>.</example>
         </rule>
@@ -22421,10 +22478,12 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>poll</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/opinion_poll</url>
             <short>Possible typo</short>
             <example correction="poll">Is it possible to add an opinion <marker>pole</marker> to my Myspace page?</example>
         </rule>
         <rulegroup id="SHELL_WE" name="shell (shall) we">
+            <url>https://en.wiktionary.org/wiki/shell</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
@@ -22474,6 +22533,7 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>heard</suggestion> (past tense of 'hear')?</message>
+            <url>https://en.wiktionary.org/wiki/herd</url>
             <short>Possible typo</short>
             <example correction="heard">I <marker>herd</marker> of a new song by Madonna.</example>
         </rule>
@@ -22487,6 +22547,7 @@ USA
                     <token regexp="yes">key|connection|password</token>
                 </pattern>
                 <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+            <url>https://en.wiktionary.org/wiki/loose</url>
                 <short>Possible typo</short>
                 <example correction="lose">I always <marker>loose</marker> the password.</example>
             </rule>
@@ -22635,6 +22696,7 @@ USA
             <example>I could offer you advice, Tomas, but you wouldn't heed it.</example>
         </rule>
         <rulegroup id="HERE_HEAR" name="here (hear)">
+            <url>https://en.wiktionary.org/wiki/here</url>
             <rule>
                 <pattern>
                     <token>can</token>
@@ -22716,6 +22778,7 @@ USA
                 <token inflected="yes">be</token>
             </pattern>
             <message>Did you mean <suggestion>here</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/hear</url>
             <short>Possible typo</short>
             <example correction="Here"><marker>Hear</marker> is an entertainment fit for giants.</example>
         </rule>
@@ -22725,6 +22788,7 @@ USA
                 <token>haunt</token>
             </pattern>
             <message>Did you mean <suggestion>\1 hunt</suggestion> (=search for witches)?</message>
+            <url>https://en.wiktionary.org/wiki/haunt</url>
             <short>Possible typo</short>
             <example correction="witch hunt">An anti-Polish <marker>witch haunt</marker></example>
         </rule>
@@ -22734,6 +22798,7 @@ USA
                 <token>teem</token>
             </pattern>
             <message>Did you mean <suggestion>\1 team</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/teem</url>
             <short>Possible typo</short>
             <example correction="football team">This is my favorite <marker>football teem</marker>.</example>
             <example>The gardens teem with squawking parrots.</example>
@@ -22753,6 +22818,7 @@ USA
                 <token>words</token>
             </pattern>
             <message>Did you mean <suggestion>in other words</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/another</url>
             <example correction="in other words">Let me say this <marker>another words</marker>.</example>
         </rule>
         <rule id="CONFUSION_OF_SOBBER_SOBER" name="sobber (sober)">

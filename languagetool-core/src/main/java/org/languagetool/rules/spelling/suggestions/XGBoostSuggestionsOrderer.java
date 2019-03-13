@@ -40,6 +40,7 @@ import org.languagetool.rules.SuggestedReplacement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,9 +54,16 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
   private static final KeyedObjectPool<Language, Booster> modelPool = new GenericKeyedObjectPool<>(new BaseKeyedPooledObjectFactory<Language, Booster>() {
     @Override
     public Booster create(Language language) throws Exception {
-      String modelPath = getModelPath(language);
-      InputStream savedModel = JLanguageTool.getDataBroker().getFromResourceDirAsStream(modelPath);
-      return XGBoost.loadModel(savedModel);
+      String modelPath = "";
+      try {
+        modelPath = getModelPath(language);
+        InputStream savedModel = JLanguageTool.getDataBroker().getFromResourceDirAsStream(modelPath);
+        return XGBoost.loadModel(savedModel);
+      } catch (FileNotFoundException e) {
+        logger.warn(String.format("Could not load suggestion ranking model at '%s'. Platform might be unsupported by XGBoost" +
+          " maven package, or model might be missing/corrupted.", modelPath), e);
+        return null;
+      }
     }
 
     @Override

@@ -396,7 +396,7 @@ class Main {
       System.exit(1);
     }
     if (options.isPrintVersion()) {
-      System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+      System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
       System.exit(0);
     }
     if (options.isPrintLanguages()) {

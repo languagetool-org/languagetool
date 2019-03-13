@@ -52,6 +52,25 @@
           <plugins>
 
               <plugin>
+                  <groupId>pl.project13.maven</groupId>
+                  <artifactId>git-commit-id-plugin</artifactId>
+                  <version>2.2.6</version>
+                  <executions>
+                      <execution>
+                          <id>get-the-git-infos</id>
+                          <goals>
+                              <goal>revision</goal>
+                          </goals>
+                          <phase>initialize</phase>
+                      </execution>
+                  </executions>
+                  <configuration>
+                      <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                      <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                  </configuration>
+              </plugin>
+              
+              <plugin>
                   <artifactId>maven-compiler-plugin</artifactId>
                   <version>3.8.0</version>
                   <configuration>
