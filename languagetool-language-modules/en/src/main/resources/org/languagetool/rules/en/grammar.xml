@@ -21851,6 +21851,16 @@ USA
             <message>Did you mean <suggestion><match no="1" regexp_match="^a" regexp_replace=""/></suggestion>?</message>
             <example correction="wait">I can hardly <marker>await</marker> until " Evidence " arrives at my home.</example>
         </rule>
+        <rule id="CONFUSION_DUE_DO" name="due (do)">
+            <pattern>
+                <token postag="SENT_START|TO" postag_regexp='yes'/>
+                <token>due</token>
+            </pattern>
+            <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/due</url>
+            <example correction="Do"><marker>Due</marker> you work this weekend?</example>
+            <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
+        </rule>
         <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
