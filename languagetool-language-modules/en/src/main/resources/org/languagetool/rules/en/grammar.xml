@@ -21861,6 +21861,16 @@ USA
             <example correction="Do"><marker>Due</marker> you work this weekend?</example>
             <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
         </rule>
+        <rule id="CONFUSION_AWL_ALL" name="awl (all)">
+            <pattern>
+                <token>awl</token>
+                <token postag="PPR$"/>
+                <token postag="NNP?S" postag_regexp='yes'/>
+            </pattern>
+            <message>Did you mean <suggestion>all \2 \3</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/awl</url>
+            <example correction="Do">I left <marker>all my things</marker> there.</example>
+        </rule>
         <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
