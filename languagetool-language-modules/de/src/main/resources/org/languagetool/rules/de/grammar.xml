@@ -959,7 +959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag=".*NOM.*" postag_regexp="yes"/>
                     <marker>
-                        <token>reiz</token>
+                        <token case_sensitive="yes">reiz</token>
                     </marker>
                     <token regexp="yes">[dm]ich|ihn|sie|es|uns|euch</token>
                 </pattern>
@@ -971,7 +971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">[dm]ich|ihn|sie|es|uns|euch</token>
                     <marker>
-                        <token>reiz</token>
+                        <token case_sensitive="yes">reiz</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>reizt</suggestion>?</message>
@@ -5054,6 +5054,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&verw;Meinten Sie <suggestion>Riegel</suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Riegel">Er brachte ihn hinter Schloss und <marker>Regel</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SEGEL_SIEGEL" name="Segel (Siegel)">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Brief</token>
+                    <token case_sensitive="yes">und</token>
+                    <marker>
+                        <token>Segel</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Siegel</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Siegel">Ich gebe dir Brief und <marker>Segel</marker> darauf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAGE_VAGE" name="wage/vage">
