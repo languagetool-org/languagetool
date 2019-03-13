@@ -69,6 +69,11 @@ public class JLanguageTool {
   public static final String VERSION = "4.5-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
+  /** 
+   * Abbreviated git id or {@code null} if not available.
+   * @since 4.5
+   */
+  @Nullable public static final String GIT_SHORT_ID = getShortGitId();
 
   /** The name of the file with error patterns. */
   public static final String PATTERN_FILE = "grammar.xml";
@@ -110,6 +115,24 @@ public class JLanguageTool {
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not get build date from JAR", e);
+    }
+  }
+
+  /**
+   * Returns the abbreviated git id or {@code null}.
+   */
+  @Nullable
+  private static String getShortGitId() {
+    try {
+      InputStream in = JLanguageTool.class.getClassLoader().getResourceAsStream("git.properties");
+      if (in != null) {
+        Properties props = new Properties();
+        props.load(in);
+        return props.getProperty("git.commit.id.abbrev");
+      }
+      return null;
+    } catch (IOException e) {
+      throw new RuntimeException("Could not get git id from 'git.properties'", e);
     }
   }
 
