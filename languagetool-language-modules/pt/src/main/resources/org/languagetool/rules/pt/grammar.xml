@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Furadouro|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verify -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie)|t(?:aça|ema|empestade)|universidade|versão)">
+    <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie)|t(?:aça|ema|empestade)|universidade|versão)">
     <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|galardão|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
@@ -8676,6 +8676,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
       </antipattern>
+      <antipattern><!-- dealt in special rule #5-->
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
           <token><match no="0"/></token>
@@ -8710,6 +8714,16 @@ title="Easy editing stylesheet" ?>
       <example>…cana-de-açúcar, cacau, tomate, críticos, etc., para exportação.</example>
       <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith Di…</example>
       <example>Ex.: Sua Excelência saíu à rua</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>-</token>
+          <token spacebefore='no'>-</token>
+      </pattern>
+      <message>Pontuação duplicada</message>
+        <suggestion>\1</suggestion>
+        <suggestion>—</suggestion>
+      <example correction='—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
     </rule>
   </rulegroup>
 
@@ -22573,7 +22587,8 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag_regexp='yes' postag='D..MS.+'/>
-          <token>às</token>
+          <token>às
+            <exception postag='RG'/></token>
       </pattern>
       <message>Possível confusão de termos. A carta escreve-se com acento agudo.</message>
         <suggestion>\1 ás</suggestion>
