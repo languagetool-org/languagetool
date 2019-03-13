@@ -6894,9 +6894,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Работа выполнена не плохо, а хорошо.</example>
                 <example correction="не плохо, а хорошо">Работа выполнена <marker>неплохо, а хорошо</marker>.</example>
             </rule>
-     
-            
-        </rulegroup>
+        </rulegroup>         
+        <rule  default="on" id="Ne_narech2" name="«Не» с наречиями (слитное написание)">
+                <!-- слитное написание частицы не:
+                наречию на -о имеется союз «но» (приписывается оба признака)
+                -->
+                <pattern>
+                    <marker>         
+                        <token>не</token>
+                        <token postag="ADV"  regexp="yes">(.*)[о]</token>
+                        <token>,</token>
+                        <token >но</token>
+                    </marker>                 
+                    <or>  
+                        <token postag="ADV" ></token>
+                        <token postag="&lt;ADV&gt;" ></token>
+                    </or> 
+                 
+                </pattern>
+                <message>Пишется слитно с «не», имеется союз «но», нет отрицания: <suggestion>не<match no="2"></match><match no="3"></match> <match no="4" ></match></suggestion>.</message>
+                <short>Слитно с «не»</short>
+                <example>Работа выполнена неплохо, но с опозданием.</example>
+                <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> с опозданием.</example>
+                <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
+        </rule>
+        
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
                 <pattern>
