@@ -21865,12 +21865,15 @@ USA
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
             <pattern>
                 <token postag="SENT_START|TO" postag_regexp='yes'/>
-                <token>due</token>
+                <token>due
+                  <exception scope='next' regexp='yes'>to|the</exception></token>
             </pattern>
             <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
             <url>https://en.wiktionary.org/wiki/due</url>
             <example correction="Do"><marker>Due</marker> you work this weekend?</example>
             <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
+            <example>Due to its links to active workers' movements, the In...</example><!-- XXX All remaining FPs are in similar circumstances -->
+            <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
         </rule>
         <rule id="CONFUSION_AWL_ALL" name="awl (all)">
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
