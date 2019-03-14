@@ -6116,15 +6116,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">Ein|Das</token>
-                    <token postag="SUB:NOM:SIN:NEU"><exception regexp="yes">Argument|Gerücht</exception></token>
+                    <token postag="SUB:NOM:SIN:NEU"><exception regexp="yes">Argument|Bewusstsein|Ge(fühl|lübde|löbnis|rücht)|Glück|Segen|Image|Versprechen</exception></token>
                     <token>,</token>
                     <marker>
                         <token>dass</token>
                     </marker>
+                    <token><exception regexp="yes">das</exception></token>
                 </pattern>
                 <message>Meinten Sie das Relativpronomen <suggestion>das</suggestion>?</message>
                 <example correction="das">Das Kind, <marker>dass</marker> dort spielt.</example>
                 <example>Das Argument, <marker>dass</marker> es regnete, kann ich nicht gelten lassen.</example>
+                <example>Ein Segen, dass das Glück auf meiner Seite war!</example>
             </rule>
             <rule>
                 <pattern>
@@ -7765,6 +7767,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="zweieinhalb">Wir haben noch <marker>zwei einhalb</marker> Liter Sprit.</example>
         </rule>
+        <rulegroup id="ZAHL_ER" name="100 er (100er)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token spacebefore="yes">er</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1\2</suggestion> oder <suggestion>\1-\2</suggestion>?</message>
+                <short>&getrennt;</short>
+                <example correction="100er|100-er">Er zahlte mit einem <marker>100 er</marker>.</example>
+                <example correction="7er|7-er">Er fährt einen <marker>7 er</marker> BMW.</example>
+                
+            </rule>
+        </rulegroup>
         <rule id="AM_SONSTEN" name="am sonsten (ansonsten)">
             <pattern>
                 <token>am</token>
@@ -20425,8 +20440,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">g[ea]ben|gab|gibt</token>
-                    <token skip="1">sich</token>
+                    <token inflected="yes">geben</token>
+                    <token inflected="yes" skip="1">sich</token>
                     <marker>
                         <token>mühe</token>
                     </marker>
@@ -20435,29 +20450,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Sie geben sich große <marker>Mühe</marker>.</example>
                 <example correction="Mühe">Sie geben sich <marker>mühe</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[gG]ib(st)?</token>
-                    <token skip="1">dir</token>
-                    <marker>
-                        <token>mühe</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Mühe</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Mühe">Gib dir keine <marker>mühe</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[gG][ea]bt</token>
-                    <token skip="1">euch</token>
-                    <marker>
-                        <token>mühe</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Mühe</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Mühe">Gebt euch bitte <marker>mühe</marker>.</example>
             </rule>
             <rule>

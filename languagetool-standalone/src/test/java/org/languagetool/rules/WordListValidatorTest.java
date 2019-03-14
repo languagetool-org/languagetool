@@ -44,7 +44,7 @@ public class WordListValidatorTest {
           "·" +   // for Catalan
           "'ÅıøğåšĝÇİŞŠśčžć" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*"
+          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
   );
 
   // Words that are valid but with special characters so that we don't want to
