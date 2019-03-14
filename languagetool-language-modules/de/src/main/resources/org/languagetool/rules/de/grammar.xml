@@ -6121,7 +6121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>dass</token>
                     </marker>
-                    <token><exception regexp="yes">das</exception></token>
+                    <token><exception>das</exception></token>
                 </pattern>
                 <message>Meinten Sie das Relativpronomen <suggestion>das</suggestion>?</message>
                 <example correction="das">Das Kind, <marker>dass</marker> dort spielt.</example>
@@ -11303,7 +11303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token>über</token>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL.*|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/></token>
+                <token postag="VER:.+" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL.*|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -11319,7 +11319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min='0'>,</token>
                     <token regexp='yes'>(das|es)</token>
                     <marker>
-                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
+                        <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
                     </marker>
                 </pattern>
                 <message>Die Infinitivgruppe <suggestion><match no="5" regexp_match="zu" regexp_replace="zu "/></suggestion> wird auseinandergeschrieben.</message>
@@ -19820,10 +19820,10 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="DEN_KUERZEREN_ZIEHEN" name="'den kürzeren (Kürzeren) ziehen'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[dD]en</token>
+            <pattern>
+                <token>den</token>
                 <marker>
-                    <token>kürzeren</token>
+                    <token case_sensitive="yes">kürzeren</token>
                 </marker>
                 <token inflected="yes">ziehen</token>
             </pattern>
