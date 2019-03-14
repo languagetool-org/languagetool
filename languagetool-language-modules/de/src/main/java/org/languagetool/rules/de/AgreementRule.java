@@ -383,6 +383,9 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("dieser").build(),
       new PatternTokenBuilder().csToken("einen").build(),
       new PatternTokenBuilder().pos("SUB:DAT:SIN:FEM").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().posRegex("ABK:.+:SUB").build()
     )
   );
 

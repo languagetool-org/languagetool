@@ -4874,6 +4874,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="komischer">Er ist schon ein <marker>konischer</marker> Kauz.</example>
             <example correction="komisches">Ich habe ein <marker>konisches</marker> Gefühl bei der Sache.</example>
         </rule>
+        <rulegroup id="LIEBE_LEIBE" name="Leibe (Liebe)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token min="0">„</token>
+                    <marker><token inflected="yes">Leib</token></marker>
+                    <token postag_regexp="yes" postag="EIG:.+|SUB:.+"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ie"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Liebes"><marker>Leibes</marker> Kind, komm geh mit mir...</example>
+                <example correction="Liebe"><marker>Leibe</marker> Maria,...</example>
+                <example correction="Lieber"><marker>Leiber</marker> Tom,...</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SACHEN_SACHSEN" name="Sachen (Sachsen)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -4881,7 +4896,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder|,</token>
                     <token regexp="yes">Baden-Württemberg|Bayern|Berlin|Brandenburg|Bremen|Hamburg|Hessen|Mecklenburg-Vorpommern|Niedersachsen|Nordrhein-Westfalen|Rheinland-Pfalz|Saarland|Sachsen-Anhalt|Schleswig-Holstein|Thüringen</token>
                 </pattern>
-                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>.</message>
+                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von <marker>Sachen</marker> und Thüringen.</example>
             </rule>
@@ -4891,7 +4906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder|,</token>
                     <marker><token>Sachen</token></marker>
                 </pattern>
-                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>.</message>
+                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von Bayern und <marker>Sachen</marker>.</example>
             </rule>
@@ -21396,6 +21411,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">vergehen</token>
+                    <token regexp="yes" min="0">ih[mr]|[dm]ir|euch|uns|ihnen|einem</token>
                     <marker>
                         <token>hören</token>
                         <token>und</token>
@@ -21406,19 +21422,6 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Hören und Sehen">Ihm vergingen <marker>hören und sehen</marker>.</example>
                 <example>Mir vergingen <marker>Hören und Sehen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">vergehen</token>
-                    <token regexp="yes">ih[mr]|[dm]ir|euch|uns|ihnen|einem</token>
-                    <marker>
-                        <token>hören</token>
-                        <token>und</token>
-                        <token>sehen</token>
-                    </marker>
-                </pattern>
-                <message>&prgk;: Meinten Sie <suggestion>Hören und Sehen</suggestion>?</message>
-                <short>&prgk;.</short>
                 <example correction="Hören und Sehen">Da vergingen ihm <marker>hören und sehen</marker>.</example>
                 <example>Da vergingen mir <marker>Hören und Sehen</marker>.</example>
             </rule>
@@ -22073,7 +22076,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token postag="ADJ:DAT:SIN:(MAS|NEU):.+" postag_regexp="yes"/>
+                    <token postag="ADJ:DAT:SIN:(MAS|NEU):.+" postag_regexp="yes" min="0"/>
                     <marker>
                         <token>alter</token>
                     </marker>
@@ -22081,16 +22084,6 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Alter</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Alter">Er ist genau im richtigen <marker>alter</marker> dafür.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[iI]m</token>
-                    <marker>
-                        <token>alter</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Alter</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Alter">Im <marker>alter</marker> von zwölf Jahren lernte er das Klavierspiel.</example>
             </rule>
             <rule>
@@ -22580,8 +22573,8 @@ Andere Projekte</example>
             <antipattern>
                 <token regexp="yes">in|auf|[mds]ein|euer</token>
                 <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
-                <token postag_regexp="yes" postag="PA.:.*"/>
-                <token postag_regexp="yes" postag="SUB:.*"/>
+                <token postag_regexp="yes" postag="PA[12]:.+"/>
+                <token postag_regexp="yes" postag="SUB:.+"/>
             </antipattern>
             <pattern>
                 <token regexp="yes">in|auf|korrekte[ms]|richtige[ms]|[mds]ein|euer</token>
