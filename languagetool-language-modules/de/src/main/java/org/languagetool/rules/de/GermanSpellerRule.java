@@ -139,7 +139,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[nN]amenhaft(e[mnrs]?)?", "amen", "am");
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
-    putRepl("[DN]r", "r", "r.");
     put("Investion", "Investition");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters"));
@@ -154,7 +153,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Fritöse", "Fritteuse");
     put("unerkennlich", "unkenntlich");
     put("rückg[äe]nglich", "rückgängig");
-    put("emen[sz]", "immens");
+    put("em?men[sz]", "immens");
     put("verhing", "verhängte");
     put("verhingen", "verhängten");
     put("fangte", "fing");
@@ -1048,6 +1047,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (participleSuggestion != null) {
       return Collections.singletonList(participleSuggestion);
     }
+    String abbreviationSuggestion = getAbbreviationSuggestion(word);
+    if (abbreviationSuggestion != null) {
+      return Collections.singletonList(abbreviationSuggestion);
+    }
     // hyphenated compounds words (e.g., "Netflix-Flm")
     if (suggestions.isEmpty() && word.contains("-")) {
       String[] words = word.split("-");
@@ -1158,6 +1161,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return null;
   }
 
+  private String getAbbreviationSuggestion(String word) throws IOException {
+    if (word.length() < 5) {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+      for (AnalyzedTokenReadings reading : readings) {
+        if (reading.hasPosTagStartingWith("ABK:")) {
+          return word+".";
+        }
+      }
+    }
+    return null;
+  }
   private boolean ignoreByHangingHyphen(List<String> words, int idx) throws IOException {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
