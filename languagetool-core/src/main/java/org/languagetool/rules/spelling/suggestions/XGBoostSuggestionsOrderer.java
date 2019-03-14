@@ -60,7 +60,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
         InputStream savedModel = JLanguageTool.getDataBroker().getFromResourceDirAsStream(modelPath);
         return XGBoost.loadModel(savedModel);
       } catch (FileNotFoundException e) {
-        logger.warn(String.format("Could not load suggestion ranking model at '%s'. Platform might be unsupported by XGBoost" +
+        logger.warn(String.format("Could not load suggestion ranking model at '%s'. Platform might be unsupported by the official XGBoost" +
           " maven package, or model might be missing/corrupted.", modelPath), e);
         return null;
       }
@@ -105,6 +105,11 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
     String langCode = lang.getShortCodeWithCountryAndVariant();
     if (xgboostNotSupported) {
       return;
+    } else if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      xgboostNotSupported = true;
+      logger.warn("At the moment, your platform (Windows) is not supported by the official XGBoost maven package;" +
+        " ML-based suggestion reordering is disabled.");
+      return;
     }
     if (autoCorrectThreshold.containsKey(langCode) && modelClasses.containsKey(langCode) &&
       JLanguageTool.getDataBroker().resourceExists(getModelPath(language))) {
@@ -121,7 +126,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
           Proper fix would involve building from source or using pre-built packages that include Windows dependencies
           See note here: https://xgboost.readthedocs.io/en/latest/jvm/index.html#id7
            */
-          logger.warn("At the moment, your platform (Windows?) or architecture (32 bit?) is not supported by XGBoost maven packages;" +
+          logger.warn("At the moment, your platform (Windows?) or architecture (32 bit?) is not supported by the official XGBoost maven package;" +
             " ML-based suggestion reordering is disabled.", e);
           xgboostNotSupported = true;
       } catch (Exception e) {
