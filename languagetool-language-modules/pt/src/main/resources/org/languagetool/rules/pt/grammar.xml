@@ -47,7 +47,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie)|t(?:aça|ema|empestade)|universidade|versão)">
-    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|galardão|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
+    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|galardão|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -363,13 +363,14 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no="5" postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
-      <example correction='Uma vaca|Um boi'><marker>Um vaca</marker> está no pasto.</example>
-      <example correction='uma omelete|um (omelete)'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+      <example correction='Uma vaca|Um boi|Um, vaca'><marker>Um vaca</marker> está no pasto.</example>
+      <example correction='uma omelete|um (omelete)|um, omelete'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
       <example>O Um torna-se Dois, o Dois torna-se Três.</example>
       <example>Diz-se que a cada dia nasce um trouxa, e disso o vigarista sabe.</example>
-      <example correction='uma sanduíche|um (sanduíche)'>Estão comendo <marker>um sanduíche</marker>.</example>
-      <example correction="uma terrível dor|um terrível (dor)">Tenho <marker>um terrível dor</marker> na cabeça.</example>
-      <example correction="uma grande erupção|um grande (erupção)">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
+      <example correction='uma sanduíche|um (sanduíche)|um, sanduíche'>Estão comendo <marker>um sanduíche</marker>.</example>
+      <example correction="uma terrível dor|um terrível (dor)|um terrível, dor">Tenho <marker>um terrível dor</marker> na cabeça.</example>
+      <example correction="uma grande erupção|um grande (erupção)|um grande, erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
       <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
       <example>Não parece haver má notícia capaz de…</example>
     </rule>
@@ -429,15 +430,16 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)F.(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
-      <example correction='As invasoras|Os invasores'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte…</example>
-      <example correction='As frases|Os (frases)'><marker>Os frases</marker> estão erradas.</example>
-      <example correction='Umas cadelas|Uns cães|Uns cãos'><marker>Uns cadelas</marker> estão na rua.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+      <example correction='As invasoras|Os invasores|Os, invasoras'><marker>Os invasoras</marker> holandeses decidiram ir em direção ao Rio Grande do Norte…</example>
+      <example correction='As frases|Os (frases)|Os, frases'><marker>Os frases</marker> estão erradas.</example>
+      <example correction='Umas cadelas|Uns cães|Uns cãos|Uns, cadelas'><marker>Uns cadelas</marker> estão na rua.</example>
       <example type='correct'><marker>Os bois</marker> estão no pasto.</example>
-      <example correction="umas terríveis dores|uns terríveis (dores)">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
-      <example correction="umas mais terríveis dores|uns mais terríveis (dores)">Tenho <marker>uns mais terríveis dores</marker> na cabeça.</example>
+      <example correction="umas terríveis dores|uns terríveis (dores)|uns terríveis, dores">Tenho <marker>uns terríveis dores</marker> na cabeça.</example>
+      <example correction="umas mais terríveis dores|uns mais terríveis (dores)|uns mais terríveis, dores">Tenho <marker>uns mais terríveis dores</marker> na cabeça.</example>
       <example>Existe cada vez mais pressão nos média para que apresentem conteúdos de qualidade.</example>
       <example>Os rios Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
-      <example correction="As escolas|Os (escolas)"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
+      <example correction="As escolas|Os (escolas)|Os, escolas"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
     </rule>
     <rule>
       <pattern>
@@ -514,12 +516,13 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
-      <example correction='Um boi|Uma vaca'><marker>Uma boi</marker> está no pasto.</example>
-      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa'>Estão comendo um <marker>sanduíche demasiado bom</marker>.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+      <example correction='Um boi|Uma vaca|Uma, boi'><marker>Uma boi</marker> está no pasto.</example>
+      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa|sanduíche demasiado, bom'>Estão comendo um <marker>sanduíche demasiado bom</marker>.</example>
       <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Uma vaca está no pasto.</example>
-      <example correction="um terrível inchaço|uma terrível (inchaço)">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
-      <example correction="um mais terrível inchaço|uma mais terrível (inchaço)">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
+      <example correction="um terrível inchaço|uma terrível (inchaço)|uma terrível, inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
+      <example correction="um mais terrível inchaço|uma mais terrível (inchaço)|uma mais terrível, inchaço">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
       <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
       <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
       <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
@@ -590,13 +593,14 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECG;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
-      <example correction='Uns bois|Umas vacas'><marker>Umas bois</marker> estão no pasto.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+      <example correction='Uns bois|Umas vacas|Umas, bois'><marker>Umas bois</marker> estão no pasto.</example>
       <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
-      <example correction="uns terríveis inchaços|umas terríveis (inchaços)">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
-      <example correction="os milhares|as (milhares)">Vejam <marker>as milhares</marker> de mulheres.</example>
+      <example correction="uns terríveis inchaços|umas terríveis (inchaços)|umas terríveis, inchaços">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
+      <example correction="os milhares|as (milhares)|as, milhares">Vejam <marker>as milhares</marker> de mulheres.</example>
     <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
       <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example>
-      <example correction="Os rios|As (rios)"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
+      <example correction="Os rios|As (rios)|As, rios"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
       <example>… da aprovação das Leis n.º 54/2017, que procedeu à alteração…</example>
     </rule>
     <rule>
@@ -825,10 +829,11 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
-      <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
-      <example correction="pai natal|pais natais">Havia <marker>pais natal</marker> na festa.</example>
-      <example correction="todinho litoral|todo litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
-      <example correction="caso mais preocupante|casos mais preocupantes">Os <marker>casos mais preocupante</marker> são estas.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/>, <match no='4' include_skipped='all'/></suggestion>
+      <example correction='O cão|Os cães|Os cãos|Os, cão'><marker>Os cão</marker> está no pasto.</example>
+      <example correction="pai natal|pais natais|pais, natal">Havia <marker>pais natal</marker> na festa.</example>
+      <example correction="todinho litoral|todo litoral|todinho, litoral|todo, litoral">Possui uma extensão aproximada de 378 km, o que representa 3,8% de <marker>todos litoral</marker> do México.</example>
+      <example correction="caso mais preocupante|casos mais preocupantes|casos mais, preocupante">Os <marker>casos mais preocupante</marker> são estas.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Os rinocerontes serão anestesiados, antes de se remover o chifre.</example>
       <example>Calças, as mais rasgadas possível!</example>
@@ -892,7 +897,8 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECN;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
-      <example correction='Este gato|Estes gatos'><marker>Este gatos</marker> estão no pasto.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/>, <match no='4' include_skipped='all'/></suggestion>
+      <example correction='Este gato|Estes gatos|Este, gatos'><marker>Este gatos</marker> estão no pasto.</example>
       <example>Sou todo ouvidos</example>
       <example>Uso óculos desde os 6 anos,</example>
       <example>Calças, o mais possível rasgadas.</example>
@@ -960,10 +966,11 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECN;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
-      <example correction='A vaca|As vacas'><marker>A vacas</marker> são malhadas.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/>, <match no='4' include_skipped='all'/></suggestion>
+      <example correction='A vaca|As vacas|A, vacas'><marker>A vacas</marker> são malhadas.</example>
       <example>O programa Lendas do Futuro é bom?</example>
       <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
-      <example correction='união empobrecida|uniões empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example>
+      <example correction='união empobrecida|uniões empobrecidas|união, empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example>
       <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
       <example>…odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
     </rule>
@@ -1001,6 +1008,10 @@ title="Easy editing stylesheet" ?>
           <token>distribuições</token>
           <token>Linux</token>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='N..P.+'/><!-- XXX if this noun is part of a nominal group assume 'era' as a VERB-->
+          <token>era</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
@@ -1017,10 +1028,11 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-      <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/>, <match no='4' include_skipped='all'/></suggestion>
+      <example correction='A vaca|As vacas|As, vaca'><marker>As vaca</marker> são malhadas.</example>
       <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
-      <example correction='fechadura grande|fechaduras grandes'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
-      <example correction="situação mais preocupante|situações mais preocupantes">A <marker>situações mais preocupante</marker> é esta.</example>
+      <example correction='fechadura grande|fechaduras grandes|fechaduras, grande'>Coloca essa chave nas <marker>fechaduras grande</marker>.</example>
+      <example correction="situação mais preocupante|situações mais preocupantes|situações mais, preocupante">A <marker>situações mais preocupante</marker> é esta.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
     </rule>
@@ -2959,8 +2971,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
           <token postag="(?:R|A).+" postag_regexp="yes">
-            <exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto|abaixo|acima|longe|perto</exception></token>
-          <token regexp="yes">d[aeo]s?</token>
+            <exception inflected="yes" regexp="yes"><!--seguro|certo|livre|consciente|farto|-->abaixo|acima|longe|perto</exception></token>
+          <token regexp="yes">de</token>
           <token>que</token>
       </pattern>
       <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
@@ -2968,6 +2980,7 @@ title="Easy editing stylesheet" ?>
       <short>Possível 'dequeísmo'.</short>
       <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrarmo-nos</example>
       <example>O custo está abaixo do que foi estabelecido.</example>
+      <example>É diferente da que foi analisada</example>
     </rule>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id='V3_DE_QUE' name="Verbo na 3a pessoa + de que">
@@ -3100,7 +3113,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>às?</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='(?:[NZ].|A..)[FC].+'/></token>
+            <exception postag_regexp='yes' postag='(?:[NZ].|A..)[FC].+'/>
+            <exception case_sensitive='yes'>FIA</exception></token>
       </pattern>
       <message>Não se aplica a crase antes de um verbo.</message>
         <suggestion><match no='1' regexp_match='(à)(s?)' regexp_replace='a$2'/> \2</suggestion>
