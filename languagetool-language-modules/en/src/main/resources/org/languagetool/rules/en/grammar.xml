@@ -9280,6 +9280,12 @@ USA
                     <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     <token regexp="yes">is|was</token>
                 </antipattern>
+                <antipattern><!-- https://github.com/languagetool-org/languagetool/issues/1175 -->
+                    <token regexp="yes">I|you|we|they</token>
+                    <token regexp="yes">always|never|often|rarely|seldom|sometimes|usually</token>
+                    <token regexp="yes">am|are|were</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token postag="PRP"/>
                     <marker>
@@ -9291,6 +9297,7 @@ USA
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I am here and I <marker>sometimes am</marker> happy.</example>
                 <example>When it's valid (as it usually is), there's no problem.</example>
+                <example>They always are.</example>
             </rule>
             <rule>
                 <pattern>
