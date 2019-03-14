@@ -543,7 +543,7 @@ abstract class TextChecker {
       this.enableHiddenRules = enableHiddenRules;
       this.mode = Objects.requireNonNull(mode);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
-        throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+");
+        throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }
       this.callback = callback;
     }
