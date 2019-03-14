@@ -59,6 +59,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY contracoes_FS "(?:à|d(?:a|uma|ela|es[st]a|aquela|outra)|n(?:a|uma|ela|nes[st]a|aquela|outra)|pela|alguma|ma|ta|lha)">
     <!ENTITY contracoes_MP "(?:aos|d(?:os|uns|eles|es[st]es|aqueles|outros)|n(?:os|uns|eles|es[st]es|aqueles|outros)|pelos|alguns|mos|tos|lhos)">
     <!ENTITY contracoes_FP "(?:às|d(?:as|umas|elas|es[st]as|aquelas|outras)|n(?:as|umas|elas|es[st]as|aquelas|outras)|pelas|algumas|mas|tas|lhas)">
+    <!ENTITY expressao_invariavel_com_DE "antes|apesar|capacidade|depois|expec?tativas?|facto|invés|necessidade|objec?tivo|possibilidade|risco|intenção">
 
     <!ENTITY numero_por_extenso "(?:uma?|d(?:ois|uas)|três|quatro|cinco|s(?:eis|ete)|oito|nove|d(?:ez|ezenas?)|onze|doze|treze|catorze|quinze|dez(?:[ae]sseis|[ae]ssete|oito|anove)|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|ce(?:m|ntos?)|duzentos|trezentos|qu(?:atrocentos|inhentos)|se(?:iscentos|tecentos)|oitocentos|novecentos|mil(?:h(?:ão|ões))?|bili(?:ão|ões)|trili(?:ão|ões))">
     <!ENTITY multiplicadores "(?:dúzia|dezena|centena)s?|mil|milhar(?:es)?|(?:milh|bilh?i)(?:ão|ões)">
@@ -6548,7 +6549,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token skip='-1' regexp='yes'>d[ao]s?
             <exception scope='next' postag='_PUNCT'/></token>
         </marker>
@@ -6620,7 +6621,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>antes|apesar|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token><!-- XXX Do not include capacidade -->
+          <token regexp='yes'>&expressao_invariavel_com_DE;
+            <exception>capacidade</exception></token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6768,7 +6770,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6803,7 +6805,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6833,7 +6835,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DACOLÁ' name='De + artigos'><!-- default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6877,7 +6879,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6911,7 +6913,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DUM' name='De + um/uns'><!--default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -7762,12 +7764,13 @@ title="Easy editing stylesheet" ?>
           <token>fundo</token>
         </marker>
           <token>
-            <exception regexp='yes'>d[ao]s?</exception>
+            <exception regexp='yes'>d(?:[ao]|uma?|un|el[ae]|es[st][ae]|aquel[ae]|outr[ao])s?</exception>
             <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
-      <example correction="no fundo,">Foi feito com distinção e, <marker>no fundo</marker> está bem feito.</example>
+      <example correction="no fundo,">Foi feito com distinção e, <marker>no fundo</marker> ficou bem feito.</example>
+      <example>Foi feito <marker>no fundo dessas pedreiras</marker>, mas ficou bem feito.</example>
     </rule>
     <rule>
       <pattern>
@@ -8723,7 +8726,7 @@ title="Easy editing stylesheet" ?>
       <message>Pontuação duplicada</message>
         <suggestion>\1</suggestion>
         <suggestion>—</suggestion>
-      <example correction='—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
+      <example correction='-|—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
     </rule>
   </rulegroup>
 
