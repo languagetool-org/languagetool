@@ -53,7 +53,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
-    <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada)|jamais|sem|tampouco)">
+    <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada|enhu[mn]a?s?)|jamais|sem|tampouco)">
     <!ENTITY introduz_proclise "(?:a(?:inda|penas|té)|bem|c(?:aso|omo|onforme|onsoante)|e(?:mbora|nquanto)|já|mais|onde|p(?:ara|ois|orque|ortanto)|qu(?:ais|al|ando|ant[ao]s?|ão|em?)|se(?:mpre)?|talvez)"><!-- XXX Excluded pt-BR only: ali|aqui|acolá -->
 
     <!ENTITY contracoes_MS "(?:ao|d(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|n(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|pelo|algum|mo|to|lho)">
@@ -2732,7 +2732,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>nenhu[mn]a?s?|&negacoes;</token>
+          <token regexp='yes'>&negacoes;</token>
           <token postag_regexp='yes' postag='N.+' min='0'>
             <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
