@@ -22984,14 +22984,17 @@ Andere Projekte</example>
                 <example correction="Internationalen Olympischen">Des <marker>Internationalen olympischen</marker> Komitees</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">ein|eines</token>
+                    <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
                     </marker>
                     <token regexp="yes">Meere?s?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
                 <url>https://www.duden.de/rechtschreibung/schwarz</url>
                 <short>&namengross;</short>
                 <example>Das <marker>Schwarze</marker> Meer</example>
@@ -23001,14 +23004,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|e[ms])|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">[hH]eilige[sn]?</token>
                         <token regexp="yes">römischen?</token>
                     </marker>
                     <token regexp="yes">Reiche?s?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3 (bis 1806)? &namengross;</message>
                 <url>https://www.duden.de/rechtschreibung/Reich</url>
                 <short>&namengross;</short>
                 <example correction="Heilige Römische">Das <marker>Heilige römische</marker> Reich</example>
@@ -23016,14 +23018,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|e[ms])|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">heilige[sn]?</token>
                         <token regexp="yes">[rR]ömischen?</token>
                     </marker>
                     <token regexp="yes">Reiche?s?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> \3 (bis 1806)? &namengross;</message>
                 <url>https://www.duden.de/rechtschreibung/Reich</url>
                 <short>&namengross;</short>
                 <example correction="Heilige Römische">Das <marker>heilige Römische</marker> Reich</example>
@@ -23031,7 +23032,6 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](as|e[sm])|[vV]om|[iIaA]m)</token>
                     <token regexp="yes">[hH]eilige[sn]?</token>
                     <token regexp="yes">[Rr]ömischen?</token>
                     <token regexp="yes">Reiche?s?</token>
@@ -23040,7 +23040,7 @@ Andere Projekte</example>
                     </marker>
                     <token>Nation</token>
                 </pattern>
-                <message>Meinten Sie \2 \3 \4 <suggestion><match case_conversion="startupper" no="5"/></suggestion> \6 (bis 1806)? &namengross;</message>
+                <message>Meinten Sie \1 \2 \3 <suggestion><match case_conversion="startupper" no="4"/></suggestion> \5 (bis 1806)? &namengross;</message>
                 <url>https://www.duden.de/rechtschreibung/Reich</url>
                 <short>&namengross;</short>
                 <example>Das Heilige Römische Reich <marker>Deutscher</marker> Nation</example>
