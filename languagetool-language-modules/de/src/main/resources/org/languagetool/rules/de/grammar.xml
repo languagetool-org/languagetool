@@ -3463,16 +3463,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
             <example correction="wieder">Hin und <marker>wider</marker> kann man es machen.</example>
         </rule>
-        <rule id="WIEDER_EINMAL" name="'wider (wieder) einmal'">
-            <pattern>
-                <marker>
-                    <token regexp="yes">wider|Widder</token>
-                </marker>
-                <token>einmal</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
-            <example correction="wieder">Sie kam <marker>wider</marker> einmal zu spät.</example>
-        </rule>
+        <rulegroup id="WIEDER_EINMAL" name="'wider (wieder) einmal'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">wider|Widder</token>
+                    </marker>
+                    <token regexp="yes">(ein)?mal</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+                <example correction="wieder">Sie kam <marker>wider</marker> einmal zu spät.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(ein)?mal</token>
+                    <marker>
+                        <token regexp="yes">wider|Widder</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+                <example correction="wieder">Ich möchte mal <marker>wider</marker> richtig feiern.</example>
+            </rule>
+        </rulegroup>
         <rule id="SONDER" name="'sonder (sondern)'">
             <!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
             <pattern>
@@ -4849,6 +4861,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="1" regexp_match="ck" regexp_replace="cks"/></suggestion>?</message>
             <short>Mögliche Wortverwechslung</short>
             <example correction="druckste">Er <marker>druckte</marker> nur so herum.</example>
+        </rule>
+        <rule id="WAHREN_WAREN" name="wahren (waren)">
+            <antipattern>
+                <token>zu</token>
+                <token>wahren</token>
+            </antipattern>
+            <pattern>
+                <marker><token regexp="yes">wahr(en|st)?</token></marker>
+                <token postag="ADJ:PRD:GRU"><exception>geworden</exception></token>
+                <token postag="PKT"/>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="ah" regexp_replace="a"/></suggestion> (von 'sein')?</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="war">Er <marker>wahr</marker> glücklich.</example>
+            <example>Derjenige, der die Einheit seines Ichs zu wahren weiß, dessen Persönlichkeit...</example>
         </rule>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
@@ -10499,6 +10526,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>hin</token>
                     <token>und</token>
                     <token>her</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">(ein)?mal</token>
+                    <token>wider</token>
                 </antipattern>
                 <antipattern>
                     <token skip="3">vom</token>
