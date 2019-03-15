@@ -38,6 +38,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
+    <!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
 
     <!ENTITY contracoes_MS "(?:ao|d(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|n(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|pelo|algum|mo|to|lho)">
     <!ENTITY contracoes_FS "(?:à|d(?:a|uma|ela|es[st]a|aquela|outra)|n(?:a|uma|ela|nes[st]a|aquela|outra)|pela|alguma|ma|ta|lha)">
@@ -60,7 +61,6 @@ title="Easy editing stylesheet" ?>
     <!ENTITY prefixos_hifenizados_h "(?:p(?:r(?:(?:ot)?o|e)|seudo|enta|luri|an|os)|m(?:a(?:cro|xi)|i(?:cro|ni)|ulti|ega)|a(?:(?:[eg]r|ut)o|(?:rqu|nt)i)|s(?:u(?:p(?:er|ra)|b)|emi)|h(?:i(?:dro|per)|exa)|in(?:t(?:er|ra)|fra)|t(?:e(?:tra|le)|ri)|e(?:letro|xtra)|c(?:ircum|o)|re(?:tro)?|[gn]eo|ultra|bio?)">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
 
-    <!ENTITY pontos_cardiais "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
 ]>
@@ -1661,7 +1661,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>em|(?:n|pel)[ao]s?</token>
-          <token regexp='yes' case_sensitive='yes'>&pontos_cardiais;</token>
+          <token regexp='yes' case_sensitive='yes'>&pontos_cardeais_capitalizados;</token>
           <token regexp='yes'>d[eao]s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
@@ -1672,16 +1672,16 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>sentidos?|direção</token>
-          <token regexp='yes'>&pontos_cardiais;</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
           <token regexp='yes'>&hifen;|para</token>
-          <token regexp='yes'>&pontos_cardiais;</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
       </antipattern>
       <pattern case_sensitive='yes'>
           <token>
-            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|[Hh]emisfério|\-</exception>
+            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|[Hh]emisfério|\-|\p{Lu}\p{Ll}+</exception>
             <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
-          <token regexp='yes'>&pontos_cardiais;
+          <token regexp='yes'>&pontos_cardeais_capitalizados;
             <exception postag_regexp='yes' postag='NP..[^G].+'/></token>
         </marker>
       </pattern>
