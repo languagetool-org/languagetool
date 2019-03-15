@@ -3302,6 +3302,12 @@
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
     </rule>
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
+      <antipattern><!-- Fix for chunker: Only count every ... -->
+         <token postag="SENT_START"/>
+         <token postag="RB"/>
+         <token postag="VB"/>
+         <token postag="DT"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -3320,6 +3326,7 @@
       <example type="untouched">Wed love to hear this!</example>
       <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
       <example type="untouched">I have <marker>notice</marker> she doesn't like me.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
+      <example type="untouched">Only <marker>count</marker> every 10th item when you do the test.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
