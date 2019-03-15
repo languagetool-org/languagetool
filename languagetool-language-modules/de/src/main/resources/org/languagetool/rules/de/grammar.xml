@@ -14952,11 +14952,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Personenstunden">Das dauert geschätzt fünf <marker>Mannstunden</marker>.</example>
         </rule>
         <rule id="MAEDCHENNAME" name="'Mädchenname' statt 'Geburtsname'">
+            <antipattern>
+                <token postag="EIG:NOM:SIN:.+:VOR" postag_regexp="yes" skip="-1"/>
+                <token inflected="yes">Mädchenname</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">Mädchenname</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mädchen" regexp_replace="Geburts"/></suggestion> besser.</message>
             <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
+            <example>Saskia ist ein schöner Mädchenname.</example>
         </rule>
         <rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'">
             <pattern>
