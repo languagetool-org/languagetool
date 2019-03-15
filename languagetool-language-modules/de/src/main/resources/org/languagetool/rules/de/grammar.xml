@@ -31962,6 +31962,18 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
                     <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token></marker>
+                    <token postag_regexp="yes" postag="SUB:DAT:SIN:FEM">
+                        <exception postag_regexp="yes" postag="SUB:.*PLU.+"></exception>
+                        <exception regexp="yes">\w*[gG]ramm</exception>
+                    </token>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>.</message>
+                <example correction="voller">Mit <marker>vollen</marker> Absicht zerstörte er ihr Gewächshaus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|von|mit</token>
+                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token></marker>
                     <token postag_regexp="yes" postag="SUB:DAT:SIN:...">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"></exception>
                         <exception regexp="yes">\w*[gG]ramm</exception>
