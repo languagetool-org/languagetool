@@ -6849,8 +6849,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
             </rule>
         </rulegroup>
-         <rulegroup default="on" id="Ne_narech" name="«Не» с наречиями">
-            <rule> <!-- TODO  1.) невесть кто (что, какой, где, куда )-->
+        <rulegroup default="on" id="Ne_narech" name="«Не» с наречиями">
+            <!-- TODO  -->
+            <rule> <!--  1.) невесть кто (что, какой, где, куда )-->
                 <pattern case_sensitive="no">
                     <marker>
                         <token>не</token>
@@ -6877,7 +6878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- раздельное написание частицы не:
-                далеко не, вовсе не, отнюдь не
+                далеко не, вовсе не, отнюдь не или зависимые слова, начинающиеся с ни-
                 -->
                 <pattern>
                     <marker>         
@@ -6914,8 +6915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Работа выполнена не плохо, а хорошо.</example>
                 <example correction="не плохо, а хорошо">Работа выполнена <marker>неплохо, а хорошо</marker>.</example>
             </rule>
-        </rulegroup>         
-        <rule  default="on" id="Ne_narech2" name="«Не» с наречиями (слитное написание)">
+            <rule>
                 <!-- слитное написание частицы не:
                 наречию на -о имеется союз «но» (приписывается оба признака)
                 -->
@@ -6929,16 +6929,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <or>  
                         <token postag="ADV" ></token>
                         <token postag="&lt;ADV&gt;" ></token>
-                    </or> 
-                 
+                    </or>      
                 </pattern>
                 <message>Пишется слитно с «не», имеется союз «но», нет отрицания: <suggestion>не<match no="2"></match><match no="3"></match> <match no="4" ></match></suggestion>.</message>
                 <short>Слитно с «не»</short>
                 <example>Работа выполнена неплохо, но с опозданием.</example>
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> с опозданием.</example>
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
-        </rule>
-        
+            </rule>    
+        </rulegroup>                
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
                 <pattern>
