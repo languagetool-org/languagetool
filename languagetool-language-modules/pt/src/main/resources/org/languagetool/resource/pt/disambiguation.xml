@@ -1000,11 +1000,13 @@
     <rule id="BASTANTE" name="Bastante como adjetivo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-11-30  -->
       <pattern>
-          <token postag="V.+" postag_regexp='yes'/>
+          <token postag="V.+" postag_regexp='yes'>
+            <exception negate_pos='yes' postag="V.+" postag_regexp='yes'/></token>
         <marker>
           <token>bastante</token>
         </marker>
-          <token postag="V.+" postag_regexp='yes'/>
+          <token postag="N.+" postag_regexp='yes'>
+            <exception negate_pos='yes' postag="N.+" postag_regexp='yes'/></token>
       </pattern>
       <disambig action="filter" postag="A.+"/>
     </rule>
@@ -1455,11 +1457,30 @@
             <feature id="number"/>
           <token postag="DP.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes">
-            <exception postag="C.|S.*|R.*" postag_regexp="yes"/></token>
+            <exception postag="C.|S.+|R.+" postag_regexp="yes"/></token>
           </unify>
         </marker>
+          <token>
+            <exception postag="V.+" postag_regexp="yes"/></token>
       </pattern>
       <disambig action="unify"/>
+    <!--Example: seu irmão-->
+    </rule>
+
+    <!-- P_N Possesivo + nome -->
+    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
+    <rule id="PV" name="PP + VERBO ">
+      <pattern>
+          <token postag="PP.+" postag_regexp="yes">
+            <exception negate_pos='yes' postag="PP.+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
     <!--Example: seu irmão-->
     </rule>
 
@@ -2152,22 +2173,21 @@
       <pattern>
           <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
           <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?:(?i)(&ditongos_chineses;))?
-            <exception regexp='yes'>China|Minha</exception></token>
+            <exception>Time</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)
-            <exception regexp='yes'>China|Minha</exception></token>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)</token>
           <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)
-            <exception regexp='yes'>China|Minha</exception></token>
+          <token regexp="yes" postag='UNKNOWN' case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)
+            <exception>Time</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NPCS000_"/></disambig>
     </rule>

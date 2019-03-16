@@ -72,7 +72,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pronomes_retos "(?:eu|tu|el[ea]s?|nós|vós)">
     <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
-    <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh[aeo]s?|vos)">
+    <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh?[aeo]s?|vos)">
 
     <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|contudo|logo|todavia)"><!-- XXX do not readd 'assim' -->
 
@@ -732,9 +732,17 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
     <!--      Created by Tiago F. Santos, 2019-03-16      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
+      <antipattern>
+          <token postag="VMX0000"/>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+      </antipattern>
     <rule>
       <pattern>
-          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;</token>
+          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+            <exception inflected='yes'>ser</exception>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+            <!--exception regexp='yes'>quer|fora</exception--></token>
           <token postag="V.+" postag_regexp='yes'>
             <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes" />
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
@@ -746,10 +754,17 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1, \2</suggestion>
       <example correction="vão dormir|vão a dormir|vão dormindo|vão, dormi">Elas <marker>vão dormi</marker> agora.</example>
       <example correction="continua dormir|continua a dormir|continua dormindo|continua, dormi">Ele <marker>continua dormi</marker> na cama.</example>
+      <example>Podemos acompanhá-lo em sua caminhada?</example>
+      <example>É claro que isso foi há muito tempo atrás.</example>
+      <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o...</example>
+      <example>Ela tentou persuadi-lo a ir com ela.</example>
     </rule>
     <rule>
       <pattern>
-          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;</token>
+          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+            <exception inflected='yes'>ser</exception>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+            <!--exception regexp='yes'>quer|fora</exception--></token>
           <token regexp='yes'>de|a</token>
           <token postag="V.+" postag_regexp='yes'>
             <exception postag="VMN0000"/>
@@ -759,6 +774,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
       <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
+      <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
     </rule>
   </rulegroup>
 
@@ -1006,6 +1022,7 @@ title="Easy editing stylesheet" ?>
       <example correction='união empobrecida|uniões empobrecidas|união, empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example>
       <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
       <example>…odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
+      <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
     </rule>
     <rule>
       <antipattern>
@@ -4050,6 +4067,9 @@ title="Easy editing stylesheet" ?>
       <example><marker>9.7.1.</marker> Subcapítulo</example>
       <example>A) Primeiro Anexo.</example>
       <example>a) Primeiro Anexo.</example>
+      <example>Cuide da sua alimentação.</example>
+      <example>Junte a cebola.</example>
+      <example>Mande lembranças minhas para seus pais.</example>
     </rule>
 
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
@@ -4507,6 +4527,7 @@ title="Easy editing stylesheet" ?>
       <example>…rasileira da Cultura, Edição Século XXI", Volume I, Editorial Verbo, Braga, Janeiro de 1998</example>
       <example>Anarcocapitalismo, Multinacionais e Contratos</example>
       <example>Sendo liberal, é natural que tenha lido, entre outros, Adam Smith, Bastiat, Böhm-Bawerk, Schumpeter, Mises, Hayek, Friedman, Sowell. No entanto, também li Saint-Simon, Proudhon, Bakunin, Marx, Lassale, Lénin, Trotsky, Gramsci e Nikolai Berdyaev que, em 1923,…</example>
+      <example>Ele define os números no triângulo por recursão: Chame o número na (m+1)-ésima linha e na (n+1)-ésima co…</example>
     </rule>
 
   <rulegroup id='COMPOUND_PROPER_NOUNS_CASING' name="Capitalizar nomes próprios compostos...">
