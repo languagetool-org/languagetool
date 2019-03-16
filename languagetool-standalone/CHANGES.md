@@ -24,7 +24,7 @@
   * foreign names recognition
 
 #### Portuguese
-  * added and significant improvements in rules accuracy
+  * added and significantly improved rules accuracy
   * disambiguation improvements
      - Chinese common names are now detected
   * POS and spelling improvements
