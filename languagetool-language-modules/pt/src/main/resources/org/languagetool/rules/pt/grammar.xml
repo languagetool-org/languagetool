@@ -729,6 +729,20 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id='IR_INFINITIVE' name="Erro de concordância: IR + verbo no infinitivo">
+    <!--      Created by Tiago F. Santos, 2019-03-16      -->
+      <pattern>
+          <token inflected="yes">ir</token>
+          <token postag="V.+" postag_regexp='yes'>
+            <exception postag="VM[NG]0000" postag_regexp="yes" />
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
+      </pattern>
+      <message>Erro de concordância de género.</message>
+        <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
+        <suggestion>\1 <match no='2' postag='VMG0000'/></suggestion>
+      <example correction="vão dormir|vão dormindo">Elas <marker>vão dormi</marker> agora.</example>
+    </rule>
+
     <rule id='A_APRENDIZ' name="Concordância de género: A aprendiza">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
