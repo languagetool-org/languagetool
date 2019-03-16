@@ -20,11 +20,16 @@
 
 #### Galician
   * added and improved rules
+  * disambiguation improvements
+  * foreign names recognition
 
 #### Portuguese
-  * added and improved rules
+  * added and significant improvements in rules accuracy
   * disambiguation improvements
+     - Chinese common names are now detected
   * POS and spelling improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 3.1
 
 #### Russian
   * added and improved rules
