@@ -2144,6 +2144,23 @@
       <disambig action="replace"><wd pos="NPCP000"/><wd pos="NPCP000"/></disambig>
     </rule>
   </rulegroup>
+  <rulegroup id="CHINESE_NAMES" name="Chinese names">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-16  	-->
+    <!-- https://en.wikipedia.org/wiki/Pinyin_table -->
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?:(?i)(&ditongos_chineses;))?</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/></disambig>
+    </rule>
+  </rulegroup>
 
     <!-- XXX Ignore Spelling Rules XXX -->
     <!--rule id='CONTRATED_INFINITIVE' name='Formas verbais oxítonas'>
@@ -2755,24 +2772,6 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-
-  <rulegroup id="CHINESE_NAMES" name="Chinese names">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-16  	-->
-    <!-- https://en.wikipedia.org/wiki/Pinyin_table -->
-    <rule>
-      <pattern>
-          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
-          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?:(?i)(&ditongos_chineses;))?</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-  </rulegroup>
 
   <rulegroup id='LOOSE_UPPERCASES' name='Maiúsculas soltas'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
