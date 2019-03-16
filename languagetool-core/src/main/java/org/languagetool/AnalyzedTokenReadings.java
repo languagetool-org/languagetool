@@ -68,6 +68,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   // True if the token has the same lemma value for all tokens.
   // Can be used internally to optimize matching.
   private boolean hasSameLemmas;
+  private Language lang;
 
   public AnalyzedTokenReadings(AnalyzedToken[] tokens, int startPos) {
     this(Arrays.asList(tokens), startPos);
@@ -638,4 +639,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       }
     };
   }
+
+  /**
+   * @since 4.6
+   */
+  public void setLanguage(Language lang) {
+    this.lang = Objects.requireNonNull(lang);
+  }
+  
 }
