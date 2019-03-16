@@ -186,6 +186,6 @@ public class Catalan extends Language {
       case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

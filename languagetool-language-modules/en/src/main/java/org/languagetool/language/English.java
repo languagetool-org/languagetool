@@ -234,6 +234,6 @@ public class English extends Language implements AutoCloseable {
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

@@ -162,7 +162,7 @@ public class Dutch extends Language {
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 
   @Override

@@ -192,6 +192,6 @@ public class Galician extends Language {
       case "TOO_LONG_SENTENCE_60":      return -1004;
       // case "CACOPHONY":                 return -2000;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

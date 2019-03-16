@@ -60,6 +60,6 @@ public class BritishEnglish extends English {
       case "OXFORD_SPELLING_ISE_VERBS":     return -21;
       case "OXFORD_SPELLING_IZE":           return -22;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }
