@@ -16,7 +16,7 @@
   * Simple German: added and improved rules
   * improved suggestions for typos that end with a dot (typically at the end of
     the sentence) - the dot is not included anymore
-  * spell check ignores single characters (e.g., 'α') and hyphenated compounds (e.g., 'α-Strahler')  
+  * spell check ignores single characters (e.g., 'α') and hyphenated compounds (e.g., 'α-Strahler')
 
 #### Galician
   * added and improved rules
