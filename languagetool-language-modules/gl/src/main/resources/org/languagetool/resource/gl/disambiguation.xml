@@ -416,6 +416,31 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="CHINESE_NAMES" name="Chinese names">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-16  	-->
+    <!-- https://en.wikipedia.org/wiki/Pinyin_table -->
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?:(?i)(&ditongos_chineses;))?</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)</token>
+          <token regexp="yes" case_sensitive='yes'>&ditongos_chineses;</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive='yes'>(?-i)(&ditongos_chineses;)(?i)(&ditongos_chineses;)
+            <exception regexp='yes'>China|Minha</exception></token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/></disambig>
+    </rule>
+  </rulegroup>
 
     <rule id="DET_SUBST_ADX" name="det + subst + adx (unify)">
       <pattern>
