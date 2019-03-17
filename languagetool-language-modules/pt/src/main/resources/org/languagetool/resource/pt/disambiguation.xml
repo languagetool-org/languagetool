@@ -997,8 +997,30 @@
       <disambig action="replace" postag="NCCN000"/>
     </rule>
 
-    <rule id="BASTANTE" name="Bastante como adjetivo">
+  <rulegroup id="BASTANTE" name="Bastante como adjetivo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-11-30  -->
+    <rule>
+      <pattern>
+        <marker>
+          <token>bastante</token>
+        </marker>
+          <token>
+            <exception postag="N.+" postag_regexp='yes'/></token>
+      </pattern>
+      <disambig action="filter" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="N.+" postag_regexp='yes'>
+            <exception postag="V.+" postag_regexp='yes'/></token>
+        <marker>
+          <token>bastante</token>
+        </marker>
+          <token>vezes</token>
+      </pattern>
+      <disambig action="filter" postag="A.+"/>
+    </rule>
+    <rule>
       <pattern>
           <token postag="V.+" postag_regexp='yes'>
             <exception negate_pos='yes' postag="V.+" postag_regexp='yes'/></token>
@@ -1010,6 +1032,7 @@
       </pattern>
       <disambig action="filter" postag="A.+"/>
     </rule>
+  </rulegroup>
 
     <rule id="CERTO" name="Estar + Certo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-11-30  -->
@@ -1467,9 +1490,8 @@
     <!--Example: seu irmão-->
     </rule>
 
-    <!-- P_N Possesivo + nome -->
-    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="PV" name="PP + VERBO ">
+    <!-- 		Created by Tiago F. Santos, 2019-03-16		-->
       <pattern>
           <token postag="PP.+" postag_regexp="yes">
             <exception negate_pos='yes' postag="PP.+" postag_regexp="yes"/></token>
