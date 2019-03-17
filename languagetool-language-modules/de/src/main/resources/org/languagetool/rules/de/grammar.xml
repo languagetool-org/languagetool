@@ -220,7 +220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">Robe</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">er(nähren|schlagen)|fangen|fressen|jagen</token>
+                    <token regexp="yes" inflected="yes">er(nähren|schlagen)|fangen|fressen|jagen|leben|sterben</token>
                 </pattern>
                 <message>Ist hier das Nomen <suggestion><match no="1" regexp_match="b" regexp_replace="bb"/></suggestion> (= Säugetier) gemeint?</message>
                 <short>Möglicher Tippfehler.</short>
@@ -539,7 +539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
             <rule>
                 <pattern>
-                    <token regexp="yes">wo(durch|her|mit|raus|von|zu)?|wie(so)?|wa(rum|s)</token>
+                    <token regexp="yes">wo(durch|her|mit|raus|von|zu)?|wie(so)?|wa(rum|s)|weshalb</token>
                     <marker>
                         <token>bis</token>
                     </marker>
@@ -4111,9 +4111,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="INS_BEZUG" name="'ins (in) Bezug'">
             <pattern>
                 <marker>
-                    <token>ins</token>
+                    <token regexp="yes">i(ns|m)</token>
                 </marker>
-                <token regexp="yes">Bezug|Relation</token>
+                <token regexp="yes" case_sensitive="yes">Bezug|Relation</token>
             </pattern>
             <message>Meinten Sie <suggestion>in</suggestion>?</message>
             <example correction="in">Auffächerung der Altersgruppen <marker>ins</marker> Bezug zu den Einwohnerzahlen.</example>
@@ -4134,11 +4134,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="KON:UNT"/>
                 <token>dies</token>
-                <token/>
+                <token min="0"/>
+                <token postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):(PLU|(SIN:FEM)).*"/>
                 <token inflected="yes" regexp="yes">bedeuten|sein</token>
             </antipattern>
             <pattern>
-                <token><exception postag_regexp="yes" postag="VER:[123].*"/></token>
+                <token>
+                    <exception postag_regexp="yes" postag="VER:[123].*"/>
+                </token>
                 <marker>
                     <token>dies</token>
                 </marker>
@@ -4149,8 +4152,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example>Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
             <example correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
-            <example>Sie sagte, dass dies Rache bedeutet.</example>
-            <example>Erik sagte, dass dies Erpressung sei.</example>
+            <example>Sie sagt, dass dies Rache bedeutet.</example>
+            <example>Erik sagt, dass dies Erpressung sei.</example>
+            <example>Erik sagt, dass dies gute Nachrichten seien.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
             <regexp>\bzu Neige\b</regexp>
