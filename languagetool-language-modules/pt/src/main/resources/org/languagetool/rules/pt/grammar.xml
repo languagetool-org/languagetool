@@ -1470,7 +1470,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>
-            <exception regexp='yes'>&contracoes_MS;</exception>
+            <exception regexp='yes'>&contracoes_FS;</exception>
             <exception regexp="yes">[(,;:]</exception></token>
         <marker>
           <token case_sensitive="yes">Costa
@@ -1483,6 +1483,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>a Costa <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
       <example correction="A Costa Rica">Vão para <marker>Costa Rica</marker>.</example>
       <example correction="A Costa do Marfim"><marker>Costa do Marfim</marker>.</example>
+      <example>É natural da Costa Rica.</example>
       <example>Belize, Cuba, Costa Rica</example>
     </rule>
     <rule>
@@ -1588,7 +1589,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Negas que seja'><marker>Negas que é</marker> verdade?</example>
       <example correction='nega que tenha'>O Jorge <marker>nega que tem</marker> falado com ela.</example>
-      <example>Não vais <marker>negar que trazer</marker> o cão é um incómodo, certo?.</example>
+      <example>Não vais <marker>negar que trazer</marker> o cão é um incómodo, certo?</example>
     </rule>
     <rule>
       <antipattern>
@@ -3248,11 +3249,14 @@ title="Easy editing stylesheet" ?>
       <example correction='Em relação à'><marker>Em relação a</marker> falecida, estamos a averiguar a situação.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token inflected='yes' spacebefore='no' regexp='yes'>ir</token>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
-            <exception inflected='yes'>ser</exception>
-            <exception scope='previous'>&hifen;</exception></token>
+            <exception inflected='yes'>ser</exception></token>
           <token postag='R.' min='0' postag_regexp='yes'/>
           <token regexp='yes'>as?</token>
         </marker>
@@ -3271,6 +3275,7 @@ title="Easy editing stylesheet" ?>
       <example correction='equivalente às'>É <marker>equivalente as</marker> alternativas existentes.</example>
       <example>A causa de sua morte foi a pneumonia.</example>
       <example>Os 6% restantes pertencem a outras nacionalidades.</example>
+      <example>...terminada esta seguir-se-ia a construção...</example>
     </rule>
     <rule>
       <pattern>
@@ -5521,16 +5526,33 @@ title="Easy editing stylesheet" ?>
       <example correction="bolos-reis">Vamos comprar os <marker>bolos-rei</marker>.</example>
     </rule>
 
-    <rule id='DEZENAS_CENTENAS_DE_MILHAR' name="Dezenas/centenas de milhares">
+  <rulegroup id='DEZENAS_CENTENAS_DE_MILHAR' name="Dezenas/centenas de milhares">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
       <pattern>
-          <token regexp="yes">dezenas|centenas</token>
+          <token regexp="yes">dezenas|centenas
+            <exception scope='previous' postag_regexp='yes' postag='Z.+'/></token>
           <token>de</token>
           <token>milhar</token>
       </pattern>
       <message>Substitua por <suggestion>\1 \2 milhares</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/na-extraccao-dos-numeros-da-lotaria-devera-dizer-se-dezenas-de-milhar/1875</url>
       <example correction="centenas de milhares">Existem várias <marker>centenas de milhar</marker> de militantes.</example>
+      <example>Foram afetadas duas <marker>dezenas de milhar</marker> de habitantes.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='Z.+'/>
+          <token regexp="yes">dezenas|centenas</token>
+          <token>de</token>
+          <token>milhares</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 \2 \3 milhar</suggestion>.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/na-extraccao-dos-numeros-da-lotaria-devera-dizer-se-dezenas-de-milhar/1875</url>
+      <example>Existem várias <marker>centenas de milhares</marker> de militantes.</example>
+      <example correction="duas dezenas de milhar">Foram afetadas <marker>duas dezenas de milhares</marker> de habitantes.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='CHEGARAM_A_SABEREM' name="Chegaram a saber">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
