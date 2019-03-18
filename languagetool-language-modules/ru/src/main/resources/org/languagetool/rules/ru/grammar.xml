@@ -6937,7 +6937,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Работа выполнена неплохо, но с опозданием.</example>
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> с опозданием.</example>
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
-            </rule>    
+            </rule>
+            <rule>
+                <!-- слитное написание частицы не:
+               отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
+                -->
+                <pattern>
+                    <marker>         
+                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко</exception></token>
+                        <token postag="ADV"  regexp="yes">(.*)[о]<exception scope="next" regexp="yes">,|а|да</exception><exception scope="next" postag_regexp="yes"   postag="CONJ"></exception><exception postag="PARTICLE"></exception></token>
+                    </marker>                        
+                </pattern>
+                <message>Пишется слитно с «не», отсутствует противопоставление: <suggestion>не<match no="2"></match></suggestion>.</message>
+                <url>https://kak-pravilno.net/ne-obyazatelno-ili-neobyazatelno-kak-pravilno/</url>
+                <short>Слитно с «не»</short>
+                <example>Несложно проверить его стабильность.</example>
+                <example correction="Несложно"><marker>Не сложно</marker> проверить его стабильность.</example>
+            </rule>        
         </rulegroup>                
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
