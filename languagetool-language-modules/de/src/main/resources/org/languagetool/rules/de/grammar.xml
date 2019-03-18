@@ -30794,8 +30794,16 @@ Andere Projekte</example>
             <antipattern>
                 <token postag="SENT_START"/>
                 <token/>
+                <token postag='VER:INF:.+' postag_regexp='yes'/>
+                <token postag="PKT|SENT_END" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
                 <token/>
-                <token postag="PKT"/>
+                <token postag='VER:INF:.+' postag_regexp='yes'/>
+                <token postag="KON:NEB"/>
+                <token postag='VER:INF:.+' postag_regexp='yes'/>
+                <token postag="PKT|SENT_END" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
@@ -30826,7 +30834,7 @@ Andere Projekte</example>
                 </token>
                 <token><exception regexp="yes">die(se)?</exception></token>
             </pattern>
-            <message>Bitte prüfen, ob hier der Plural benutzt werden muss.</message>
+            <message>&subanfang;hier der Plural benutzt werden muss.</message>
             <example correction=''><marker>Regelsystem</marker> nutzen Verfahren wie diese.</example>
             <example correction=''><marker>System</marker> nutzen Verfahren wie diese.</example>
             <example><marker>Fußball</marker> spielen macht keinen Spaß.</example>
@@ -30857,19 +30865,19 @@ Andere Projekte</example>
                     <token postag='VER:1:SIN:PRÄ.*' postag_regexp='yes'><exception regexp="yes">sind|bitte|eine</exception></token>
                 </marker>
             </pattern>
-            <message>Bitte prüfen, ob hier die Pluralform des Verbs benutzt werden muss.</message>
+            <message>&subanfang;hier die Pluralform des Verbs benutzt werden muss.</message>
             <example correction=''>Regelsysteme <marker>nutze</marker> Verfahren wie diese.</example>
             <example correction=''>Systeme <marker>nutze</marker> Verfahren wie diese.</example>
             <example>Brüder habe ich keine.</example>
             <example>Links eine, rechts zwei.</example>
         </rule>
         <rule id="MICH_DENKEN_DASS" name="mich (mir) denken, dass">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <marker>
                     <token>mich</token>
                 </marker>
                 <token regexp="yes" min="0">nicht|kaum|schlecht|schon|ja|aber</token>
-                <token regexp="yes">vorstellen|denken|eingestehen</token>
+                <token regexp="yes">vorstellen|denken|eingestehen|versprechen</token>
                 <token>,</token>
                 <token>dass</token>
             </pattern>
@@ -30905,16 +30913,6 @@ Andere Projekte</example>
             <regexp>der Korpus\b</regexp>
             <message>Meinten Sie möglicherweise <suggestion>das Korpus</suggestion>, eine Textsammlung?</message>
             <example correction="Das Korpus"><marker>Der Korpus</marker> besteht aus 1000 Zeitungsartikeln.</example>
-        </rule>
-        <rule id="IM_DER" name="im der (in der)">
-            <regexp case_sensitive='yes'>\bim der\b</regexp>
-            <message>Meinten Sie möglicherweise <suggestion>in der</suggestion>?</message>
-            <example correction="in der">Danach lernte er ab 1910 <marker>im der</marker> Hamburger Niederlassung das Geschäft.</example>
-        </rule>
-        <rule id="IM_DEM" name="im dem (in dem)">
-            <regexp case_sensitive='yes'>\bim dem\b</regexp>
-            <message>Meinten Sie möglicherweise <suggestion>in dem</suggestion>?</message>
-            <example correction="in dem">Luxusurlaub <marker>im dem</marker> wohl besten Hotel der Türkei</example>
         </rule>
         <rulegroup id="DAS_DASS" name=", das dass (, dass das)">
             <url>http://www.das-dass.de</url>
@@ -33091,7 +33089,7 @@ Andere Projekte</example>
                 <example correction="sind">Die Principia Mathematica <marker>ist</marker> ein dreibändiges Werk von Bertrand Russell und Alfred North Whitehead.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_IM" name="in (im) Einsatz">
+        <rulegroup id="IN_IM" name="in (im)">
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">sein</token>
@@ -33116,6 +33114,18 @@ Andere Projekte</example>
                 <message>Meinten Sie <suggestion>im</suggestion>?</message>
                 <example correction="im">Wenn er <marker>in</marker> Einsatz ist, kann er dich nicht zurückrufen.</example>
                 <example correction="im">Stimmt es, dass du <marker>in</marker> Begriff warst fortzugehen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token regexp="yes">de[mr]|das</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>in</suggestion>?</message>
+                <example correction="in">Danach lernte er ab 1910 <marker>im</marker> der Hamburger Niederlassung.</example>
+                <example correction="in">Luxusurlaub <marker>im</marker> dem wohl besten Hotel der Türkei.</example>
+                <example correction="in">Er ging <marker>im</marker> das Haus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDER_OF_WORDS" name="falsche Wortreihenfolge">
