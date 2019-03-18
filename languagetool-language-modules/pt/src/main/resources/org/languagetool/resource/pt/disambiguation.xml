@@ -1402,12 +1402,18 @@
       <example type="untouched">Durante seu reinado, os Durrani consolidaram em uma só nação.</example>
     </rule>
 
-    <rule id="S_V" name="Preposição + Verbo">
+  <rulegroup id="S_V" name="Preposição + Verbo">
+    <rule>
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <antipattern><!-- e.g. 'Só a olhar' and other 'continuous' infinitives -->
         <token postag='R.' postag_regexp='yes'/>
         <token>a</token>
         <token postag='VMN0000'/>
+      </antipattern>
+      <antipattern><!-- e.g. Estavam 'a sentir pressões' -->
+        <token>a</token>
+        <token postag='VMN0000'/>
+        <token postag='N.F.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token postag="SPS00" postag_regexp="no">
@@ -1424,6 +1430,18 @@
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
       <example type="untouched">Só a olhar.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>a</token>
+        <marker>
+        <token postag='VMN0000'/>
+        </marker>
+        <token postag='N.F.+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action='filter' postag="VMN0000"/>
+      <!-- e.g. Estavam 'a sentir pressões' -->
+    </rule>
+  </rulegroup>
 
     <rule id="PARA_WORKAROUND" name="Para">
       <pattern>
