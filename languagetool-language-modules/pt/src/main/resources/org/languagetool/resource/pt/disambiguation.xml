@@ -1508,10 +1508,11 @@
     <!--Example: seu irmão-->
     </rule>
 
-    <rule id="PV" name="PP + VERBO ">
+  <rulegroup id="PV" name="PP + VERBO ">
     <!-- 		Created by Tiago F. Santos, 2019-03-16		-->
+    <rule>
       <pattern>
-          <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós</token>
+          <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
@@ -1522,6 +1523,20 @@
       <disambig action="filter" postag="V.+"/>
     <!--Example: Ele casa -->
     </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' spacebefore='yes'>&pronomes_nao_ambiguos;</token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    <!--Example: Ele casa -->
+    </rule>
+  </rulegroup>
 
     <rule id="PREPOSITION_SE" name="'Se' como preposição">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-28  	-->
