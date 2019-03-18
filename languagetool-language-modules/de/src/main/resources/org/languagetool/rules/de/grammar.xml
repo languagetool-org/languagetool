@@ -10961,7 +10961,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:|Blick</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token>zurück</token>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">durch.*</exception></token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/>
+                    <exception regexp="yes">(aus|her|durch|weg|über|unter).*</exception>
+                </token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -11094,7 +11096,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token>dazu</token>
-                <token case_sensitive="yes" inflected="yes" regexp="yes">tun|können|schlagen|schauen|sagen|stellen|halten|geben|rechnen|schreiben|lernen|stoßen|kommen|setzen|legen|erfinden|verdienen|bekommen|gehören|gewinnen|gesellen</token>
+                <token case_sensitive="yes" inflected="yes" regexp="yes">tun|können|schlagen|schauen|sagen|stellen|halten|geben|rechnen|schreiben|lernen|stoßen|kommen|setzen|legen|erfinden|verdienen|bekommen|gehören|gewinnen|gesellen
+                    <exception regexp="yes">(aus|her|durch|weg|über|unter).*</exception>
+                </token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -11118,7 +11122,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                     <marker>
                     <token>hinterher</token>
-                    <token case_sensitive="yes" inflected="yes" regexp="yes">rennen|werfen|tragen|rufen|schauen|gehen|fahren|kommen|laufen|hinken|jagen|blicken|kleckern|schicken|hecheln|schreien|telefonieren|spionieren</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">rennen|werfen|tragen|rufen|schauen|gehen|fahren|kommen|laufen|hinken|jagen|blicken|kleckern|schicken|hecheln|schreien|telefonieren|spionieren
+                        <exception regexp="yes">(aus|her|durch|weg|über|unter).*</exception>
+                    </token>
                     </marker>
                 </pattern>
                 <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -11338,7 +11344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>über</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">Tag|Nacht|Abend|Sommer|Winter|Frühling|Herbst|Minute|Stunde|Woche|Monat|Jahr(hundert|tausend)?</token>
+                <token inflected="yes" regexp="yes">Tag|Nacht|Abend|Sommer|Winter|Frühling|Herbst|Minute|Stunde|Woche|Monat|Jahr(hundert|tausend)?|.*zeit</token>
                 <token>über</token>
             </antipattern>
             <antipattern>
@@ -11353,13 +11359,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token>über</token>
-                <token postag="VER:.+" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL.*|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/></token>
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL.*|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/>
+                    <exception regexp="yes">(in|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend</exception>
+                </token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
             <example correction="übergeben">Der Junge hat sich <marker>über geben</marker>.</example>
             <example correction="überdehnt">Sie hat sich hat den Fuß <marker>über dehnt</marker>.</example>
             <example>Jahrhunderte <marker>über schlief</marker> das Ungeheuer in seiner Höhle.</example>
+            <example>Sie haben die gesamte Nachkriegszeit über verbissen für eine Rehabilitierung gekämpft.</example>
         </rule>
         <rulegroup id="INFINITIVGRUPPE_FALSCH_ZUSAMMEN" name="Falsche Zusammenschreibung bei Infinitivgruppen">
             <rule>
@@ -38133,11 +38143,17 @@ Andere Projekte</example>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
-                <antipattern>
+                <antipattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token>Als</token>
                     <token/>
                     <token inflected="yes" regexp="yes">werden|gelten</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token>Wie</token>
+                    <token/>
+                    <token inflected="yes" regexp="yes">sein|werden</token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
@@ -38170,6 +38186,7 @@ Andere Projekte</example>
                 <example>Als Todesursache wird nun stumpfe Gewalt angegeben.</example>
                 <example>Als Heilsbringer gilt er längst nicht mehr.</example>
                 <example>Da die Ausschussmehrheit sowohl die Detailarbeit lenken kann als auch den Bericht vorlegt, stellt der Untersuchungsausschuss Missstände meist nur in offensichtlichen Fällen fest.</example>
+                <example>Wie erfolgreich waren apologetische Bestrebungen, wenn sie doch verloren haben?</example>
             </rule>
             <rule>
                 <antipattern>
