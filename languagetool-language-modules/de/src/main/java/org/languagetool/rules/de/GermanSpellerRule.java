@@ -429,6 +429,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]evolutionie?sier(s?t|en?)", "ie?s", "");
     putRepl("Kohleaustiegs?", "aus", "auss");
     putRepl("[jJ]urististisch(e[mnrs]?)?", "istist", "ist");
+    putRepl("gehäckelt(e[nmrs]?)?", "ck", "k");
+    putRepl("deutsprachig(e[nmrs]?)?", "deut", "deutsch");
+    putRepl("angesehend(st)?e[nmrs]?", "end", "en");
+    put("[fF]rühstücksb[uü]ff?(é|ee)", "Frühstücksbuffet");
+    put("[aA]lterego", "Alter Ego");
+    put("Copyride", "Copyright");
     put("Analysierung", "Analyse");
     put("Exel", "Excel");
     put("Glücklichkeit", "Glück");
