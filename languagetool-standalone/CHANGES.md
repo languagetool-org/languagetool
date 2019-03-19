@@ -2,6 +2,10 @@
 
 ## 4.5-SNAPSHOT(release planned for 2019-03-26)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.3) with health terminology 
+
 #### English
   * `resource/en/en-US-GB.txt` contains a mapping from US to British
     English and vice versa. It's not used to detect correct or incorrect spellings,
