@@ -112,7 +112,7 @@ public class Galician extends Language {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Susana Sotelo Docío"),
-            new Contributor("Tiago F. Santos (4.0)", "https://github.com/TiagoSantos81")
+            new Contributor("Tiago F. Santos (4.0+)", "https://github.com/TiagoSantos81")
     };
   }
 
