@@ -36,6 +36,11 @@
   * disambiguation improvements
   * added many words without "yo" letter to POS dictionary
 
+#### Ukrainian
+  * dictionary update
+  * added and improved rules
+  * improvements to tokenization, tagging, and disambiguation
+
 #### General
   * URLs written like `mydomain.org/` are now detected as domains and not
     considered spelling errors anymore. Note that the slash is still needed
