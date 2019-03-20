@@ -1537,6 +1537,11 @@ title="Easy editing stylesheet" ?>
       <example>Michigan, Estados Unidos</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>Papua</token>
+          <token>Nova</token>
+          <token>Guiné</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp='yes'>&contracoes_FS;</exception>
@@ -3637,7 +3642,7 @@ title="Easy editing stylesheet" ?>
       <example>Nisso somos todos iguais.</example>
     </rule>
 
-    <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
+    <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais' com 'demais'">
     <!-- Created by Tiago F. Santos, 2017-03-15 -->
       <antipattern>
           <token regexp='yes'>&hifen;</token>
@@ -3652,6 +3657,28 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2\3</suggestion>
       <example correction='Os demais'><marker>Os de mais</marker> intervenientes na conversa, tiveram que ficar calados.</example>
     </rule>
+
+  <rulegroup id='PARCEIRA_PARCERIA' name="Confusão: 'parceira' com 'parceria'">
+    <!-- Created by Tiago F. Santos, 2019-03-19 -->
+    <rule>
+      <pattern>
+          <token>em</token>
+          <token regexp='yes'>parceiras?</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+        <suggestion>\1 parceria</suggestion>
+      <example correction='em parceria'>Essa empresa lançou-se <marker>em parceira</marker> connonsco.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>parceiras?</token>
+          <token regexp='yes'>com|con(?:n?osco|vosco)</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+        <suggestion>parceria<match no='1' regexp_match='.+?(s)' regexp_replace='$1'/> \2</suggestion>
+      <example correction='parcerias com'>As <marker>parceiras com</marker> a ABC e a DEF foi um experiência positiva.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
