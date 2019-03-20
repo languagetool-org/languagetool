@@ -262,7 +262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <marker>
-            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+
+            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ–-][^а-яіїєґ]*
               <exception regexp="yes">([кдсмн]|мк)?м[23]</exception>
               <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
             </token>
@@ -280,6 +280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>СО2</example>
         <example>ми скористалися службою «Інфо300»</example>
         <example>АН4774087</example>
+        <example>ТУ4-2441</example>
         <example>в підпункті 14а</example>
         <!-- часто виноски втрачають суперскрипт і стають числами після слова
         <example>абстракція11</example>
@@ -890,8 +891,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">В2В.*</token>
         </pattern>
         <message>Потенційна помилка: українські літери замість латинських</message>
-        <suggestion>B2B</suggestion>
-        <example correction="B2B">врахували це, <marker>В2В-маркетинг</marker>.</example>
+        <suggestion><match no="1" regexp_match="В2В(.*)" regexp_replace="B2B$1"/></suggestion>
+        <example correction="B2B-маркетинг">врахували це, <marker>В2В-маркетинг</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">рН.*</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion><match no="1" regexp_match="рН(.*)" regexp_replace="pH$1"/></suggestion>
+        <example correction="pH">врахували рівень <marker>рН</marker>.</example>
       </rule>
     </rulegroup>
 
