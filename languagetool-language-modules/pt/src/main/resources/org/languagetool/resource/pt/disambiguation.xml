@@ -1633,6 +1633,13 @@
 
     <rule id="MESMO" name="Mesmo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
+      <antipattern><!-- XXX D_R_N -->
+          <token spacebefore='yes' postag_regexp='yes' postag="D.+"/>
+          <token>mesmo</token>
+          <token postag="N.+" postag_regexp="yes">
+            <exception>são</exception>
+            <exception postag="(C|SP).*" postag_regexp="yes"/></token>
+      </antipattern>
       <pattern>
           <token spacebefore='yes' postag_regexp='yes' postag="[DP].+"/><!-- TODO add S.+ after proper splitting -->
         <marker>
