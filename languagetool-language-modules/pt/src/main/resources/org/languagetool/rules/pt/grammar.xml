@@ -35,7 +35,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)|época)s?|m(?:ês|eses)">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
-    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|uito)|nada|pouco|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)">
+    <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo|uito)|n(ada|ão)|pouco|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente">
     <!ENTITY adverbios_de_lugar "(?:a(?:baixo|cima|dentro|diante|fora|í|l(?:ém|gures|hures|i)|quém|trás)|cá|dentro|e(?:mbaixo|xternamente)|l(?:á|onge)|nenhures|perto)">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
 
@@ -4253,7 +4253,8 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+  <rulegroup id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+    <rule>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
       <antipattern><!-- XXX Better handled by CONFUSION_POR rule -->
           <token>de</token>
@@ -4290,6 +4291,17 @@ title="Easy editing stylesheet" ?>
       <example>A dissecação de animais antecedeu a de seres humanos.</example>
       <example>…trazer milhares de sem-abrigo para Rajneeshpuram para que estes pudessem votar nas eleições a favor da comunidade…</example>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>com|em</token>
+          <token case_sensitive="yes">entre</token>
+      </pattern>
+      <message>Duas preposição seguidas. Verifique.</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+      <example correction='em|entre'><marker>em entre</marker>.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="off">
     <!--    Localized from English grammar.xml by Tiago F. Santos, 2016-11-29      -->
@@ -6856,7 +6868,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|entre|is[st]o</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|is[st]o</token><!-- |entre -->
       </pattern>
       <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
       <example correction='na'><marker>em a</marker>.</example>
@@ -7141,7 +7153,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_NA' name='Em + a'>
       <pattern>
           <token>em</token>
-          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|entre|is[st]o|onde</token>
+          <token case_sensitive="yes" regexp='yes'>[ao]s?|aquel[ae]s?|aquilo|es[st][ae]s?|is[st]o|onde</token><!-- |entre -->
       </pattern>
       <message>Será que quis dizer <suggestion>n\2</suggestion>?</message>
       <example correction='na'><marker>em a</marker>.</example>
