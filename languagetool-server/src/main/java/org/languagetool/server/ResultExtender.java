@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
@@ -68,10 +69,12 @@ class ResultExtender {
    */
   @NotNull
   List<RuleMatch> getFilteredExtensionMatches(List<RuleMatch> matches, List<RemoteRuleMatch> extensionMatches) {
-    RuleMatch hiddenRuleMatch = new RuleMatch(new HiddenRule(), new AnalyzedSentence(new AnalyzedTokenReadings[]{}), 0, 1, "(hidden message)");
     List<RuleMatch> filteredExtMatches = new ArrayList<>();
     for (RemoteRuleMatch extensionMatch : extensionMatches) {
       if (!extensionMatch.isTouchedByOneOf(matches)) {
+        AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[]{});
+        RuleMatch hiddenRuleMatch = new RuleMatch(new HiddenRule(extensionMatch.getLocQualityIssueType().orElse(null)), sentence, extensionMatch.getErrorOffset(),
+                extensionMatch.getErrorOffset()+extensionMatch.getErrorLength(), "(hidden message)");
         filteredExtMatches.add(hiddenRuleMatch);
       }
     }
@@ -176,9 +179,17 @@ class ResultExtender {
   }
   
   class HiddenRule extends Rule {
+    final ITSIssueType itsType;
+    HiddenRule(String type) {
+      itsType = type != null ? ITSIssueType.getIssueType(type) : ITSIssueType.Uncategorized;
+    }
     @Override
     public String getId() {
       return "HIDDEN_RULE";
+    }
+    @Override
+    public ITSIssueType getLocQualityIssueType() {
+      return itsType;
     }
     @Override
     public String getDescription() {
