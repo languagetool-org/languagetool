@@ -92,6 +92,7 @@ public class SpellingCheckRuleTest {
     @Override public String getId() { return null; }
     @Override public String getDescription() { return null; }
     @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return null; }
+    @Override public boolean isMisspelled(String word) { return false; }
     void test() throws IOException {
       assertTrue(isUrl("http://www.test.de"));
       assertTrue(isUrl("http://www.test-dash.com"));

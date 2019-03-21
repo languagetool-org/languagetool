@@ -254,6 +254,11 @@ public class SymSpellRule extends SpellingCheckRule {
     return matches.toArray(new RuleMatch[0]);
   }
 
+  @Override
+  public boolean isMisspelled(String word) {
+    throw new RuntimeException("not implemented");
+  }
+
   @NotNull
   private List<String> filterCandidates(List<String> candidates) {
     Set<String> ignoredWords = ignoredWordsCache.getUnchecked(language);

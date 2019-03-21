@@ -194,6 +194,8 @@ public abstract class SpellingCheckRule extends Rule {
   @Override
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
+  public abstract boolean isMisspelled(String word);
+
   @Override
   public boolean isDictionaryBasedSpellingRule() {
     return true;

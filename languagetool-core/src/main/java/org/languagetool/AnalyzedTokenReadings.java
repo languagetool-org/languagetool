@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
 
@@ -645,6 +646,14 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public void setLanguage(Language lang) {
     this.lang = Objects.requireNonNull(lang);
+  }
+  
+  /**
+   * @since 4.6
+   */
+  @Nullable
+  public Language getLanguage() {
+    return lang;
   }
   
 }

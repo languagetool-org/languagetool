@@ -114,25 +114,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @Override
+  public boolean isMisspelled(String word) {
+    if (lazyInit()) return false;
+    return speller1.isMisspelled(word);
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     //lazy init
-    if (speller1 == null) {
-      String binaryDict = null;
-      if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        binaryDict = getFileName();
-      } else if (Files.exists(Paths.get(getFileName()))) {
-        binaryDict = getFileName();
-      }
-      if (binaryDict != null) {
-        initSpeller(binaryDict);
-      } else {
-        // should not happen, as we only configure this rule (or rather its subclasses)
-        // when we have the resources:
-        return toRuleMatchArray(ruleMatches);
-      }
-    }
+    if (lazyInit()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
@@ -160,6 +152,29 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean lazyInit() {
+    if (speller1 == null) {
+      String binaryDict = null;
+      if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
+        binaryDict = getFileName();
+      } else if (Files.exists(Paths.get(getFileName()))) {
+        binaryDict = getFileName();
+      }
+      if (binaryDict != null) {
+        try {
+          initSpeller(binaryDict);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      } else {
+        // should not happen, as we only configure this rule (or rather its subclasses)
+        // when we have the resources:
+        return true;
+      }
+    }
+    return false;
   }
 
   private void initSpeller(String binaryDict) throws IOException {

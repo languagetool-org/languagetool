@@ -157,6 +157,7 @@ public class JLanguageTool {
   private final List<Language> altLanguages;
   private final Language motherTongue;
 
+  private Language secondLanguage;
   private PrintStream printStream;
   private boolean listUnknownWords;
   private Set<String> unknownWords;
@@ -213,6 +214,21 @@ public class JLanguageTool {
    */
   public JLanguageTool(Language language) {
     this(language, null, null, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in Java rules for the
+   * given language.
+   *
+   * @param languages the languages of the text to be checked
+   * @since 4.6
+   */
+  public JLanguageTool(List<Language> languages) {
+    this(languages.get(0), null, null, null);
+    if (languages.size() != 2) {
+      throw new IllegalArgumentException("Please specify exactly 2 languages, not " + languages.size() + ": " + languages);
+    }
+    secondLanguage = languages.get(1);
   }
 
   /**
@@ -282,6 +298,7 @@ public class JLanguageTool {
     }
     this.cache = cache;
     descProvider = new ShortDescriptionProvider(language);
+    secondLanguage = null;
   }
 
   /**

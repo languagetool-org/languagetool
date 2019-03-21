@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.util.List;
 import java.util.Objects;
@@ -38,30 +39,38 @@ class LanguageAnnotator {
   }
 
   void annotateWithLanguage(List<AnalyzedSentence> analyzedSentences) {
-    Rule mainSpeller = getSpellerRule(mainLang);
-    Rule secondSpeller = getSpellerRule(mainLang);
+    SpellingCheckRule mainSpeller = getSpellerRule(mainLang);
+    SpellingCheckRule secondSpeller = getSpellerRule(secondLang);
     // TODO: what if the languages use different tokenizers?
+    Language prevLang = null;
     for (AnalyzedSentence sentence : analyzedSentences) {
-      for (AnalyzedTokenReadings tokens : sentence.getTokensWithoutWhitespace()) {
-        //mainSpeller.match(new AnalyzedSentence(new AnalyzedTokenReadings[] { tokens.getToken() }));
-        // TODO: if (!mainSpeller.isMisspelled(token))
-        if (true) {
-          // TODO: if (!secondSpeller.isMisspelled(token))
-          tokens.setLanguage(secondLang);
+      for (AnalyzedTokenReadings tokens : sentence.getTokens()) {
+        String word = tokens.getToken();
+        if (prevLang != null && (tokens.isWhitespace() || tokens.isNonWord())) {
+          tokens.setLanguage(prevLang);
+        } else {
+          if (mainSpeller.isMisspelled(word)) {
+            if (!secondSpeller.isMisspelled(word)) {
+              tokens.setLanguage(secondLang);
+              prevLang = secondLang;
+            }
+          } else {
+            tokens.setLanguage(mainLang);
+            prevLang = mainLang;
+          }
         }
       }
     }
   }
 
-  private Rule getSpellerRule(Language lang) {
+  private SpellingCheckRule getSpellerRule(Language lang) {
     List<Rule> rules = new JLanguageTool(lang).getAllActiveRules();
     for (Rule rule : rules) {
-      if (rule.isDictionaryBasedSpellingRule()) {
-        // TODO: there could me more than one!!
-        return rule;
+      if (rule.isDictionaryBasedSpellingRule() && rule instanceof SpellingCheckRule) {
+        return (SpellingCheckRule) rule;
       }
     }
-    return null;
+    throw new RuntimeException("No spell check rule found for " + lang);
   }
 
 }
