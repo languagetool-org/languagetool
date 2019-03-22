@@ -45,6 +45,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Furadouro|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verify -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
+    <!ENTITY requer_crase "(?:a(?:cesso|cessíve(l|is)|comodadad[ao]|costumad[ao])|destinad[ao]|e(?:quivalente|xpost[ao])|f(ace|iel|iéis)|homenage(m|ns)|i(?:gua(l|is)|nferior(es)?)|o(?:bediência|bediente)|s(?:entad[ao]|uperior(es)?)|visita)s?">
+
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|ema|empestade)|universidade|versão)">
     <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
@@ -3198,7 +3200,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token>a</token>
-          <token postag_regexp='yes' postag='D.+'/>
+          <token postag_regexp='yes' postag='D.+|PD.+'/>
       </antipattern>
     <rule>
       <antipattern>
@@ -3299,7 +3301,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
         <marker>
-          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
+          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler
             <exception inflected='yes'>ser</exception></token>
           <token postag='R.' min='0' postag_regexp='yes'/>
           <token regexp='yes'>as?</token>
@@ -3443,7 +3445,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>acomodadad[ao]s?|acostumad[ao]s?|destinad[ao]s?|expost[ao]s?|face|fiel|fiéis|homenage(m|ns)|igua(l|is)|inferior(es)?|obediência|obedientes?|sentad[ao]s?|superior(es)?|visitas?|acesso|acessíve(l|is)</token>
+          <token regexp='yes'>&requer_crase;</token>
           <token>a</token>
         </marker>
           <token postag_regexp='yes' postag='(?:N.|A..)FS.+'>
@@ -3457,10 +3459,11 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>acomodadad[ao]s?|acostumad[ao]s?|destinad[ao]s?|expost[ao]s?|face|fiel|fiéis|homenage(m|ns)|igua(l|is)|inferior(es)?|obediência|obedientes?|sentad[ao]s?|superior(es)?|visitas?|acesso|acessíve(l|is)</token>
+          <token regexp='yes'>&requer_crase;</token>
           <token>as</token>
         </marker>
-          <token postag_regexp='yes' postag='(?:N.|A..)FP.+'>
+          <token postag_regexp='yes' postag='(?:N.|A..)FS.+'>
+            <exception>umas</exception>
             <exception postag='R.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Possível erro de crase.</message>
@@ -6744,7 +6747,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&expressao_invariavel_com_DE;</token>
           <token skip='-1' regexp='yes'>d[ao]s?
-            <exception scope='next' postag='_PUNCT'/></token>
+            <exception scope='next' postag='_PUNCT|V.[^N].+' postag_regexp='yes'/></token>
         </marker>
           <token postag_regexp='yes' postag='VMN.+'/>
       </pattern>
@@ -6762,6 +6765,7 @@ title="Easy editing stylesheet" ?>
       <example>O cão pôs-se a rosnar pouco antes de uma rapariga ter aparecido.</example>
       <example>O problema está em o homem não querer pagar impostos.</example>
       <example>Esperou por o João chegar.</example>
+      <example>Depois das várias aplicações que tem sido instaladas para impedir malware...</example>
     </rule>
   </rulegroup>
 
@@ -23280,7 +23284,7 @@ TODO Write better examples
           <token>às</token>
       </antipattern>
       <antipattern><!-- XXX verbos com crase -->
-          <token regexp='yes' inflected='yes'>limitar|aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente|acomodadad[ao]s?|acostumad[ao]s?|destinad[ao]s?|expost[ao]s?|face|fiel|fiéis|homenage(m|ns)|igua(l|is)|inferior(es)?|obediência|obedientes?|sentad[ao]s?|superior(es)?|visitas?|acesso|acessíve(l|is)</token>
+          <token regexp='yes' inflected='yes'>limitar|aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|&requer_crase;</token>
           <token>às</token>
       </antipattern>
       <pattern>
@@ -25619,11 +25623,11 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
-      <example correction="">Visitávamos o cliente a <marker>7 Outubro 2020</marker>.</example>
-      <example correction="">Estávamos a visitar o cliente a <marker>7 Outubro 2020</marker>.</example>
+      <example correction="">Visitávamos o cliente a <marker>7 Outubro 2040</marker>.</example>
+      <example correction="">Estávamos a visitar o cliente a <marker>7 Outubro 2040</marker>.</example>
       <example>Visitávamos o cliente a <marker>7 Outubro 2010</marker>.</example>
       <example>Estávamos a visitar o cliente a <marker>7 Outubro 2010</marker>.</example>
-      <example>A nossa equipa anuncia a versão 4.5, que será lançada sexta-feira, 29 de março de 2019.</example>
+      <example>A nossa equipa anuncia a versão 20.5, que será lançada sexta-feira, 29 de março de 2029.</example>
     </rule>
     <rule> <!-- A 7 Outubro 2020, estávamos a visitar o cliente -->
       <pattern>
@@ -25633,7 +25637,7 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
-      <example correction="">A <marker>7 Outubro 2020</marker>, visitávamos o cliente.</example>
+      <example correction="">A <marker>7 Outubro 2040</marker>, visitávamos o cliente.</example>
       <example>A <marker>7 Outubro 2010</marker>, visitávamos o cliente.</example>
       <example>A 7 Outubro 2010, visitaremos o cliente.</example>
     </rule>
@@ -25645,7 +25649,7 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:2 day:\3"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
-      <example correction="">Visitávamos o cliente a <marker>Outubro 7, 2020</marker>.</example>
+      <example correction="">Visitávamos o cliente a <marker>Outubro 7, 2040</marker>.</example>
       <example>Visitávamos o cliente a <marker>Outubro 7, 2010</marker>.</example>
       <example>Informaremos o cliente a Outubro 7, 2010.</example>
     </rule>
@@ -25657,7 +25661,7 @@ TODO Write better examples
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:1 day:\2"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
-      <example correction="">A <marker>Outubro 7, 2020</marker>, visitávamos o cliente.</example>
+      <example correction="">A <marker>Outubro 7, 2040</marker>, visitávamos o cliente.</example>
       <example>A <marker>Outubro 7, 2010</marker>, visitávamos o cliente.</example>
       <example>A Outubro 7, 2010, informaremos o cliente.</example>
     </rule>
@@ -25687,9 +25691,12 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-
   <rulegroup id="DATE_FUTURE_VERB_PAST_MMDDYYYY" name="Datas: Data futura (MMDDAAA) + verbo no passado" default='off'>
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
+      <antipattern>
+          <token postag="V..F.+" postag_regexp="yes"/>
+          <token postag="V.P.+" postag_regexp="yes"/>
+      </antipattern>
     <rule> <!-- Estávamos a visitar o cliente a 10/27/2040 -->
       <pattern>
           <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
