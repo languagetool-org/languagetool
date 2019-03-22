@@ -25607,6 +25607,11 @@ TODO Write better examples
 
   <rulegroup id="DATE_FUTURE_VERB_PAST" name="Datas: Data futura + verbo no passado">
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
+      <antipattern>
+          <token postag="V..F.+" postag_regexp="yes"/>
+          <token postag="V.P.+" postag_regexp="yes"/>
+        <marker> &date_dmy; </marker>
+      </antipattern>
     <rule> <!-- Visitávamos 7 Outubro 2020 -->
       <pattern>
           <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
