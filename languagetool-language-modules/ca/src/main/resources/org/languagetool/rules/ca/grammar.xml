@@ -4429,16 +4429,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">se|es</token>
                     <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
+                    <token spacebefore="no" inflected="yes" regexp="yes">anar|haver|deure</token>
+                    <token inflected="yes">passar</token>
+                </pattern>
+                <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu.</message>
+                <suggestion>(descuidar-se de)</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/><match no="3"/> <match no="4"/> per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/><match no="3"/> <match no="4"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1441</url>
+                <short>Ús pronominal incorrecte</short>
+                <example correction="(descuidar-se de)|m'ha passat per alt|m'ha passat">A mi mai no <marker>se m'ha passat</marker> fer això.</example>
+                <example>No se'ls deixava passar mai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">se|es</token>
+                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
                     <token min="0" inflected="yes" regexp="yes">anar|haver|deure</token>
                     <token inflected="yes">passar</token>
                 </pattern>
                 <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu.</message>
                 <suggestion>(descuidar-se de)</suggestion>
                 <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> <match no="4"/> per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> <match no="4"/></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/1441</url>
                 <short>Ús pronominal incorrecte</short>
-                <example correction="(descuidar-se de)|li ha passat per alt">A Joan mai no <marker>se li ha passat</marker> fer això.</example>
-                <example correction="(Descuidar-se de)|Em degué passar per alt"><marker>Se'm degué passar</marker>.</example>
+                <example correction="(descuidar-se de)|li ha passat per alt|li ha passat">A Joan mai no <marker>se li ha passat</marker> fer això.</example>
+                <example correction="(Descuidar-se de)|Em degué passar per alt|Em degué passar"><marker>Se'm degué passar</marker>.</example>
                 <example>No se'ls deixava passar mai.</example>
             </rule>
         </rulegroup>
@@ -43161,12 +43178,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DERRAMAR" name="derramar / vessar,escampar">
+            <antipattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">derrama</token>
+                    <token postag="AQ0F.*" postag_regexp="yes" inflected="yes">voluntari</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">pagar|cobrar</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">derrama</token>
+                    </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">derramar</token>
             </pattern>
             <message>Incorrecte en el sentit de <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">vessar</match></suggestion>. Correcte en altres sentits.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">escampar</match></suggestion>
             <example correction="Vessaren|Escamparen"><marker>Derramaren</marker> molta sang.</example>
+            <example>Derrama voluntària.</example>
+            <example>Vam pagar una derrama.</example>
         </rule>
         <rule id="IMMEDIACIONS" name="immediacions">
             <pattern>
