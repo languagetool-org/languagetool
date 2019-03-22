@@ -47,7 +47,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|ema|empestade)|universidade|versão)">
-    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|galardão|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
+    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|pr(?:|émio|ojec?to)|r(?:egistr?o|eino|elatório|io)|t(?:ipo|eatro))">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -1390,12 +1390,16 @@ title="Easy editing stylesheet" ?>
           <token>espécie</token>
           <token>de</token>
       </antipattern>
-      <antipattern>
+      <antipattern case_sensitive='yes'>
           <token>teatro</token>
           <token>de</token>
           <token>rua</token>
       </antipattern>
-      <antipattern>
+      <antipattern case_sensitive='yes'>
+          <token>Porto</token>
+          <token>Alegre</token>
+      </antipattern>
+      <antipattern case_sensitive='yes'>
           <token>Viena</token>
           <token>de</token>
           <token>Áustria</token>
@@ -25604,7 +25608,8 @@ TODO Write better examples
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
     <rule> <!-- Visitávamos 7 Outubro 2020 -->
       <pattern>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
         <marker> &date_dmy; </marker>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -25613,11 +25618,13 @@ TODO Write better examples
       <example correction="">Estávamos a visitar o cliente a <marker>7 Outubro 2020</marker>.</example>
       <example>Visitávamos o cliente a <marker>7 Outubro 2010</marker>.</example>
       <example>Estávamos a visitar o cliente a <marker>7 Outubro 2010</marker>.</example>
+      <example>A nossa equipa anuncia a versão 4.5, que será lançada sexta-feira, 29 de março de 2019.</example>
     </rule>
     <rule> <!-- A 7 Outubro 2020, estávamos a visitar o cliente -->
       <pattern>
         <marker> &date_dmy_skip; </marker>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
@@ -25627,7 +25634,8 @@ TODO Write better examples
     </rule>
     <rule> <!-- Estávamos a visitar o cliente a Outubro 7, 2020 -->
       <pattern>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
         <marker> &date_mdy; </marker>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:2 day:\3"/>
@@ -25639,7 +25647,8 @@ TODO Write better examples
     <rule> <!-- A Outubro 7, 2020, estávamos a visitar o cliente -->
       <pattern>
         <marker> &date_mdy_skip; </marker>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:1 day:\2"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
@@ -25649,7 +25658,8 @@ TODO Write better examples
     </rule>
     <rule> <!-- estávamos a visitar o cliente a 27/10/2040 -->
       <pattern>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
         <marker> &date_dmy_numbers; </marker>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -25661,7 +25671,8 @@ TODO Write better examples
     <rule> <!-- A 27/10/2040, estávamos a visitar o cliente -->
       <pattern>
         <marker> &date_dmy_numbers_skip; </marker>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
@@ -25676,7 +25687,8 @@ TODO Write better examples
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
     <rule> <!-- Estávamos a visitar o cliente a 10/27/2040 -->
       <pattern>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
         <marker> &date_mdy_numbers; </marker>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
@@ -25688,7 +25700,8 @@ TODO Write better examples
     <rule> <!-- A 10/27/2040, estávamos a visitar o cliente -->
       <pattern>
         <marker> &date_mdy_numbers_skip; </marker>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
       </pattern>
       <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:\1 day:\2"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
