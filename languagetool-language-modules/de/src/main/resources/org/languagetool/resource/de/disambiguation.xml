@@ -944,6 +944,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
         </rule>
     </rulegroup>
+    <rulegroup id="DIREKTVERTRIEB" name="Kompositum mit 'Vertrieb' keine Verbform">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z].+vertrieb</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="SUB_PRT_VERB" name="Entferne Präteritum von Substantiv">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token><exception postag="SENT_START"/><exception regexp="yes">[:;]</exception></token>
+                <marker>
+                    <and>
+                        <token postag="SUB:.+" postag_regexp="yes"/>
+                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+            <example type="ambiguous" inputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS,abstehen/VER:1:SIN:PRT:NON:NEB,abstehen/VER:3:SIN:PRT:NON:NEB]" outputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS]">Ich habe Verständnis und halte <marker>Abstand</marker>.</example>
+        </rule>
+    </rulegroup>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
