@@ -8388,6 +8388,42 @@ title="Easy editing stylesheet" ?>
       <example>Carlos Magno,</example>
       <example>2730-146, BARCARENA,</example>
     </rule>
+    <rule>
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token skip="-1">
+            <exception postag="V.+" postag_regexp="yes"/>
+            <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
+          <token postag="SENT_END">
+            <exception postag="V.+" postag_regexp="yes"/></token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token max="3"/>
+          <token postag="SENT_END"/>
+      </antipattern>
+      <antipattern> <!-- tabelas, figuras, etc.  -->
+          <token postag="SENT_START"/>
+          <token regexp="yes">&legendas;</token>
+          <token regexp="yes">\d[\.\d]*</token>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min="0" regexp="yes">«|“|"</token>
+          <token skip="-1" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+        <marker>
+          <token postag="SENT_END" regexp="yes">\p{L}\p{Ll}+</token>
+        </marker>
+      </pattern>
+      <message>Pontuação final em falta.</message>
+        <suggestion>\4.</suggestion>
+        <suggestion>\4?</suggestion>
+        <suggestion>\4!</suggestion>
+        <suggestion>\4:</suggestion>
+      <example correction="casa.|casa?|casa!|casa:">Vou em direção a <marker>casa</marker></example>
+      <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="GREETING_COMMA" name="Pontuação: Saudações formais: 'Estimados senhores', etc.">
@@ -8939,43 +8975,6 @@ title="Easy editing stylesheet" ?>
       <message>Sinal de pontuação isolado.</message>
         <suggestion/>
       <example correction=""><marker>;</marker> Como estás?</example>
-    </rule>
-
-    <rule id="FINAL_PUNCTUATION" name="Pontuagão final em falta">
-    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
-      <antipattern>
-          <token postag="SENT_START"/>
-          <token skip="-1">
-            <exception postag="V.+" postag_regexp="yes"/>
-            <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
-          <token postag="SENT_END">
-            <exception postag="V.+" postag_regexp="yes"/></token>
-      </antipattern>
-      <antipattern>
-          <token postag="SENT_START"/>
-          <token max="3"/>
-          <token postag="SENT_END"/>
-      </antipattern>
-      <antipattern> <!-- tabelas, figuras, etc.  -->
-          <token postag="SENT_START"/>
-          <token regexp="yes">&legendas;</token>
-          <token regexp="yes">\d[\.\d]*</token>
-      </antipattern>
-      <pattern>
-          <token postag="SENT_START"/>
-          <token min="0" regexp="yes">«|“|"</token>
-          <token skip="-1" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-        <marker>
-          <token postag="SENT_END" regexp="yes">\p{L}\p{Ll}+</token>
-        </marker>
-      </pattern>
-      <message>Pontuação final em falta.</message>
-        <suggestion>\4.</suggestion>
-        <suggestion>\4?</suggestion>
-        <suggestion>\4!</suggestion>
-        <suggestion>\4:</suggestion>
-      <example correction="casa.|casa?|casa!|casa:">Vou em direção a <marker>casa</marker></example>
-      <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
     </rule>
 
   <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação interrogações: Porquê?">
