@@ -38,7 +38,8 @@
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
-    <!ENTITY art_detecao_paronimos "(d|n|pel)?(outr)?[ao]s?|de|em|(alg|d|n)?(um(a|as)?|uns)">
+    <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
+    <!ENTITY requer_crase "(?:a(?:cesso|(?:cessíve|gradáve)(l|is)|comodadad[ao]|costumad[ao]|nálog[ao])|benéfic[ao]|c(?:ontrári|ontígu[ao])|d(?:aqui|estinad[ao])|e(?:quivalente|xpost[ao])|f(ace|avoráv|i(?:el|éis))|h(?:abituad[ao]|omenage(m|ns)|orror)|i(?:dêntic[ao]|(?:gua|nsens[ií]ve)(l|is)|nferior(es)?)|n(?:ecessári[ao]|ociv[ao])|o(?:bediência|bediente)|p(?:(?:aralel|ropíci|róxim)[ao]|(?:refer[ií]ve|rejudicia)(l|is)|restes)|r(?:(?:elativ|estrit)[ao])|s(?:emelhante|ens[ií]ve(l|is)|entad[ao]|uperior(es)?)|visita)s?">
 
     <!ENTITY verbos_auxiliares_part_passado "ser|estar|ter|haver|ficar">
 
@@ -1357,7 +1358,8 @@
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
-            <exception>nos</exception></token>
+            <exception postag='SPS00'/><!-- XXX because it is disambiguated by S_V -->
+            <exception regexp='yes'>à|[ao]s?|nos</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes">
@@ -1388,10 +1390,10 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="A_PREPOSIÇÂO" name="Verbo + a (preposição)">
     <!-- Verbo + Preposição: p.ex. 'a' como preposição depois do verbo	-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
     <!-- https://pt.wikipedia.org/wiki/A_(preposi%C3%A7%C3%A3o)		-->
-  <rulegroup id="A_PREPOSIÇÂO" name="Verbo + a (preposição)">
     <rule>
       <pattern>
         <marker>
@@ -1433,7 +1435,7 @@
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>restrit[ao]s?|próximo|daqui</token>
+          <token regexp='yes'>&requer_crase;</token>
         <marker>
           <token>a</token>
         </marker>
@@ -1524,24 +1526,6 @@
       </pattern>
       <disambig action='remove' postag="V.+"/>
     </rule>
-
-    <!--rule id="SD_V" name="Contração + Verbo"
-        XXX Made redundant by AV rule improvements. Remove after 3.9 release -->
-    <!-- 		Created by Tiago F. Santos, 2017-07-15		>
-      <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;
-            <exception>nos</exception></token>
-        <marker>
-        <and>
-          <token postag="V.+" postag_regexp="yes"/>
-          <token postag="N.+" postag_regexp="yes"/>
-        </and>
-        </marker>
-      </pattern>
-      <disambig action="remove" postag="V.+"/>
-      <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">Pelo <marker>impacto</marker> ecológico que tem, é relevante.</example>
-      <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
-    </rule-->
 
     <!-- D_N Quando está diante de um nome, trata-se de um determinante.-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
