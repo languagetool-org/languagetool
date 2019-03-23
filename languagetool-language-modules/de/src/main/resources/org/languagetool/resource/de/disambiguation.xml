@@ -967,6 +967,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS,abstehen/VER:1:SIN:PRT:NON:NEB,abstehen/VER:3:SIN:PRT:NON:NEB]" outputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS]">Ich habe Verständnis und halte <marker>Abstand</marker>.</example>
         </rule>
     </rulegroup>
+    <rulegroup id="PA2_PRT_VERB" name="Entferne Präteritum von Partizip">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">ein|der</token>
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">[a-zäöü].+</token>
+                    </and>
+                </marker>
+                <token postag="SUB:.+" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="RARE_PRT" name="Entferne Präteritum">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token><exception>ihr</exception></token>
+                <marker>
+                    <token>schlicht</token>
+                </marker>
+                <token><exception>ihr</exception></token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 

@@ -37,8 +37,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="MISC" name="Leichte Sprache">
 
         <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum">
-            <pattern>
-                <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/></token>
+            <antipattern>
+                <token postag='PA2:.+' postag_regexp='yes'/>
+                <token postag='SUB:.+|UNKNOWN' postag_regexp='yes'/>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token postag='VER:.*PRT.*' postag_regexp='yes'>
+                    <exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/>
+                    <exception regexp='yes'>[A-ZÄÖÜ].+</exception>
+                </token>
             </pattern>
             <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit (Perfekt).</message>
             <short>1. Vergangenheit vermeiden</short>
@@ -46,6 +53,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ich bin einkaufen gegangen.</example>
             <example>Er musste gestern kommen.</example>
             <example>Er behauptet, dass sie die Tat verschwiegen hat.</example>
+            <example>Das über sie in den Medien verbreitete Kompromat...</example>
         </rule>
 
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
