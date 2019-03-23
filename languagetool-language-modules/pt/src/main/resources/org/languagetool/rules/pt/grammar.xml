@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Furadouro|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verify -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY requer_crase "(?:a(?:cesso|cessíve(l|is)|comodadad[ao]|costumad[ao])|destinad[ao]|e(?:quivalente|xpost[ao])|f(ace|iel|iéis)|homenage(m|ns)|i(?:gua(l|is)|nferior(es)?)|o(?:bediência|bediente)|s(?:entad[ao]|uperior(es)?)|visita)s?">
+    <!ENTITY requer_crase "(?:a(?:cesso|(?:cessíve|gradáve)(l|is)|comodadad[ao]|costumad[ao]|nálog[ao])|benéfic[ao]|c(?:ontrári|ontígu[ao])|d(?:aqui|estinad[ao])|e(?:quivalente|xpost[ao])|f(ace|avoráv|i(?:el|éis))|h(?:abituad[ao]|omenage(m|ns)|orror)|i(?:dêntic[ao]|(?:gua|nsens[ií]ve)(l|is)|nferior(es)?)|n(?:ecessári[ao]|ociv[ao])|o(?:bediência|bediente)|p(?:(?:aralel|ropíci|róxim)[ao]|(?:refer[ií]ve|rejudicia)(l|is)|restes)|r(?:(?:elativ|estrit)[ao])|s(?:emelhante|ens[ií]ve(l|is)|entad[ao]|uperior(es)?)|visita)s?">
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
@@ -744,9 +744,9 @@ title="Easy editing stylesheet" ?>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-            <!--exception regexp='yes'>quer|fora</exception--></token>
+    <!--exception regexp='yes'>quer|fora</exception--></token>
           <token postag="V.+" postag_regexp='yes'>
-            <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes" />
+            <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
       </pattern>
       <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio.</message>
@@ -758,7 +758,7 @@ title="Easy editing stylesheet" ?>
       <example correction="continua dormir|continua a dormir|continua dormindo|continua, dormi">Ele <marker>continua dormi</marker> na cama.</example>
       <example>Podemos acompanhá-lo em sua caminhada?</example>
       <example>É claro que isso foi há muito tempo atrás.</example>
-      <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o...</example>
+      <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
       <example>Ela tentou persuadi-lo a ir com ela.</example>
     </rule>
     <rule>
@@ -766,7 +766,7 @@ title="Easy editing stylesheet" ?>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-            <!--exception regexp='yes'>quer|fora</exception--></token>
+    <!--exception regexp='yes'>quer|fora</exception--></token>
           <token regexp='yes'>de|a</token>
           <token postag="V.+" postag_regexp='yes'>
             <exception postag="VMN0000"/>
@@ -776,19 +776,29 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
       <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
-      <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
+    <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
     </rule>
   </rulegroup>
 
-    <rule id='A_APRENDIZ' name="Concordância de género: A aprendiza">
+  <rulegroup id='A_APRENDIZ' name="Concordância de género: A aprendiza">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
       <pattern>
           <token>a</token>
-          <token>aprendiz</token>
+          <token regexp='yes'>andaluz|aprendiz|petiz</token>
       </pattern>
-      <message>Linguagem informal. Substitua por <suggestion>a aprendiza</suggestion>.</message>
+      <message>Linguagem informal. Substitua por <suggestion>a \2a</suggestion>.</message>
       <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>a</token>
+          <token>juiz</token>
+      </pattern>
+      <message>Linguagem informal. Substitua por <suggestion>a juíza</suggestion>.</message>
+      <example correction="a juíza">Vamos ver <marker>a juiz</marker>.</example>
+    </rule>
+  </rulegroup>
 
     <!-- Specific gender concordance errors - A/AO > Ponto de    -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
@@ -2812,7 +2822,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> \5 \3</suggestion>
       <example correction='Quem lhe contou'><marker>Quem contou-lhe</marker> essa notícia?</example>
       <example correction='que ela lhe tenha'>É natural <marker>que ela tenha-lhe</marker> dado notícia.</example>
-      <example>...l durante seu governo) e um dos pontos utilizados para atraí-los era, evidentemente, o apoio à construção de rodov...</example>
+      <example>…l durante seu governo) e um dos pontos utilizados para atraí-los era, evidentemente, o apoio à construção de rodov…</example>
     </rule>
     <rule>
       <pattern>
@@ -3320,7 +3330,7 @@ title="Easy editing stylesheet" ?>
       <example correction='Pertence provavelmente à'><marker>Pertence provavelmente a</marker> equipa dos seus amigos.</example>
       <example>A causa de sua morte foi a pneumonia.</example>
       <example>Os 6% restantes pertencem a outras nacionalidades.</example>
-      <example>...terminada esta seguir-se-ia a construção...</example>
+      <example>…terminada esta seguir-se-ia a construção…</example>
     </rule>
     <rule>
       <pattern>
@@ -6765,7 +6775,7 @@ title="Easy editing stylesheet" ?>
       <example>O cão pôs-se a rosnar pouco antes de uma rapariga ter aparecido.</example>
       <example>O problema está em o homem não querer pagar impostos.</example>
       <example>Esperou por o João chegar.</example>
-      <example>Depois das várias aplicações que tem sido instaladas para impedir malware...</example>
+      <example>Depois das várias aplicações que tem sido instaladas para impedir malware…</example>
     </rule>
   </rulegroup>
 
@@ -6815,7 +6825,7 @@ title="Easy editing stylesheet" ?>
       <example correction='ao'><marker>a o</marker>.</example>
       <example correction='aos'><marker>a os</marker>.</example>
       <example correction='adiante'><marker>a diante</marker>.</example>
-      <example>...resolveu-a o autor.</example>
+      <example>…resolveu-a o autor.</example>
     </rule>
     <rule>
       <antipattern>
@@ -8236,7 +8246,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='FINAL_STOPS' name="Pontuação final em falta" default='on'>
+  <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, -->
     <rule>
       <antipattern>
@@ -8246,19 +8256,28 @@ title="Easy editing stylesheet" ?>
           <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
         </marker>
       </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token max="20"/>
+          <token postag="SENT_END"/>
+      </antipattern>
       <pattern>
           <token postag="SENT_START"/>
           <token regexp="yes">\p{Lu}.*</token>
-          <token min="20" skip="-1"/>
+          <token skip="-1"/>
         <marker>
           <token postag="SENT_END">
             <exception regexp="yes">[.!?:;…]</exception></token>
         </marker>
       </pattern>
       <message>Se não é um título, falta um ponto no final da frase.</message>
-      <short>Falta de pontuação final</short>
-      <example correction="">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
-      <example correction="">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
+        <suggestion>\4.</suggestion>
+        <suggestion>\4?</suggestion>
+        <suggestion>\4!</suggestion>
+        <suggestion>\4:</suggestion>
+      <short>Pontuação final em falta.</short>
+      <example correction="nela.|nela?|nela!|nela:">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
+      <example correction="erro.|erro?|erro!|erro:">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
       <example>Esta é uma frase curta, que poderia ser um título</example>
       <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
       <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
@@ -8416,11 +8435,12 @@ title="Easy editing stylesheet" ?>
           <token postag="SENT_END" regexp="yes">\p{L}\p{Ll}+</token>
         </marker>
       </pattern>
-      <message>Pontuação final em falta.</message>
+      <message>Se não é um título, falta um ponto no final da frase.</message>
         <suggestion>\4.</suggestion>
         <suggestion>\4?</suggestion>
         <suggestion>\4!</suggestion>
         <suggestion>\4:</suggestion>
+      <short>Pontuação final em falta.</short>
       <example correction="casa.|casa?|casa!|casa:">Vou em direção a <marker>casa</marker></example>
       <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
     </rule>
@@ -23171,7 +23191,7 @@ TODO Write better examples
 
   <rulegroup id='DOSE_DOZE' name="Confusão: dose - doze">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-09 -->
-    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/utilizacao-de-s-ou-z/7335</url>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/utilizacao-de-s-ou-z/7335</url>
     <rule>
       <pattern>
           <token regexp='yes'>meia|duas|&art_detecao_F;|&contracoes_FS;
@@ -23180,7 +23200,7 @@ TODO Write better examples
       </pattern>
       <message>\2 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
       <example correction="Uma dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
-      <example>...a, a segunda maior de toda a América e também uma das doze forças armadas mais bem preparadas do mundo.</example>
+      <example>…a, a segunda maior de toda a América e também uma das doze forças armadas mais bem preparadas do mundo.</example>
       <example>Veja abaixo as doze macro bacias hidrográficas brasileiras:</example>
     </rule>
     <rule>
@@ -23195,7 +23215,7 @@ TODO Write better examples
 
   <rulegroup id='AONDE_ONDE' name="Confusão: aonde - onde">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-10 -->
-    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/onde-e-aonde/548</url> 
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/onde-e-aonde/548</url>
     <rule>
       <pattern>
           <token>aonde</token>
@@ -23224,7 +23244,7 @@ TODO Write better examples
       </pattern>
       <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
       <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
-      <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas...</example>
+      <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas…</example>
     </rule>
     <rule>
       <antipattern>
