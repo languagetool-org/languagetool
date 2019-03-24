@@ -77,6 +77,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|lh?[aeo]s?|vos)">
 
     <!ENTITY conjuncoes_coordenativas "(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|contudo|logo|todavia)"><!-- XXX do not readd 'assim' -->
+    <!ENTITY introduz_conjuntivo "(?:caso|conquanto|embora|que|quando|se|talvez|tomara)">
 
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY verbos_auxiliares_aspectuais "(?:andar|ir|vir|começar|continuar|tornar|voltar|costumar|acabar|deixar)">
@@ -1676,7 +1677,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token postag='SENT_START' skip='-1'>
             <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>que|se|embora|quando</exception></token>
+            <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception></token>
         <marker>
           <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
             <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
@@ -1690,7 +1691,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes' skip='-1'>&separadores_de_oracoes;
             <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>que|se|embora|quando</exception></token>
+            <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception></token>
         <marker>
           <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
             <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
@@ -6850,6 +6851,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token postag_regexp='yes' postag='[LR].+' regexp='yes'>[ao]s?
             <exception negate_pos='yes' postag_regexp='yes' postag='[LR].+'/></token>
+      </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes' case_sensitive='yes' skip='-1'>[ao]s?</token>
+          <token postag='V.N.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token>de</token>
