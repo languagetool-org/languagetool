@@ -874,6 +874,12 @@ title="Easy editing stylesheet" ?>
           <token>quais</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+          <token>o</token>
+          <token regexp='yes'>mais|menor|maior|pior|melhor</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token>possível</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
@@ -903,6 +909,7 @@ title="Easy editing stylesheet" ?>
       <example>Calças, as mais rasgadas possível!</example>
       <example>Os montes Evereste, K2 e Kanchenjunga são os mais altos do mundo.</example>
       <example>As cores são: Ás de Copas vermelho, Ás de Ouros vermelho, Ás de Paus preto e Ás de Espadas preto.</example>
+      <example>Os entendimentos têm de ser o mais amplos possível para serem efectivos.</example>
     </rule>
     <rule>
       <antipattern>
@@ -939,7 +946,8 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>o</token>
           <token regexp='yes'>mais|menor|maior|pior|melhor</token>
-          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token>possível</token>
       </antipattern>
       <antipattern>
           <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
@@ -974,6 +982,7 @@ title="Easy editing stylesheet" ?>
       <example>O número nove.</example>
       <example>Lá fora estão zero graus.</example>
       <example>O escritor francês gostava de comer croissants na cama.</example>
+      <example>Os entendimentos têm de ser o mais amplos possível para serem efectivos.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1087,6 +1096,12 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='N..P.+'/><!-- XXX if this noun is part of a nominal group assume 'era' as a VERB-->
           <token>era</token>
       </antipattern>
+      <antipattern>
+          <token>o</token>
+          <token regexp='yes'>mais|menor|maior|pior|melhor</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token>possível</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|&hifen;</token>
         <marker>
@@ -1112,6 +1127,7 @@ title="Easy editing stylesheet" ?>
       <example correction="situação mais preocupante|situações mais preocupantes|situações mais, preocupante">A <marker>situações mais preocupante</marker> é esta.</example>
       <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
       <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
+      <example>As respostas têm de ser o mais amplas possível para serem efectivos.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1421,6 +1437,10 @@ title="Easy editing stylesheet" ?>
           <token postag="SENT_START"/>
           <token postag="SENT_END"/>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='D..F.+'/>
+          <token postag_regexp='yes' postag='N.F.+'/>
+      </antipattern>
     <rule>
       <pattern>
           <token postag="SPS00"/><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
@@ -1438,6 +1458,7 @@ title="Easy editing stylesheet" ?>
       <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
       <example>A ilha de Honshū, Japão.</example>
       <example>A ilha de Honshū (Japão).</example>
+      <example>A China é um país emergente.</example>
     </rule>
     <rule>
       <antipattern case_sensitive="yes">
