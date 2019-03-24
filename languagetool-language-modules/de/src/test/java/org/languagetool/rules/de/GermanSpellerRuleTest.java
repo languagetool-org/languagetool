@@ -346,6 +346,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("deutsprachiger", "deutschsprachiger", rule, lt);
     assertFirstSuggestion("gehäckelten", "gehäkelten", rule, lt);
     assertFirstSuggestion("Alterego", "Alter Ego", rule, lt);
+    assertFirstSuggestion("Makeupstylistin", "Make-up-Stylistin", rule, lt);
+    assertFirstSuggestion("islamophobische", "islamophobe", rule, lt);
+    assertFirstSuggestion("Fedbäck", "Feedback", rule, lt);
+    assertFirstSuggestion("desöfterem", "des Öfteren", rule, lt);
+    assertFirstSuggestion("momentmal", "Moment mal", rule, lt);
   }
 
   @Test
