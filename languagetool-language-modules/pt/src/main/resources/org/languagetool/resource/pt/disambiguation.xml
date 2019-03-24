@@ -38,7 +38,7 @@
     <!ENTITY pronomes_retos "eu|tu|el[ea]s?|nós|vós">
     <!ENTITY pronomes_nao_ambiguos "ma|me|mo|mos|ta|te|to|tas|tes|tos|lha|lhe|lho|lhas|lhes|lhos|vos">
     <!ENTITY pronomes_ambiguos "[ao]s?|mas|nos|se">
-    <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
+    <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
     <!ENTITY requer_crase "(?:a(?:cesso|(?:cessíve|gradáve)(l|is)|comodadad[ao]|costumad[ao]|nálog[ao])|benéfic[ao]|c(?:ontrári|ontígu[ao])|d(?:aqui|estinad[ao])|e(?:quivalente|xpost[ao])|f(ace|avoráv|i(?:el|éis))|h(?:abituad[ao]|omenage(m|ns)|orror)|i(?:dêntic[ao]|(?:gua|nsens[ií]ve)(l|is)|nferior(es)?)|n(?:ecessári[ao]|ociv[ao])|o(?:bediência|bediente)|p(?:(?:aralel|ropíci|róxim)[ao]|(?:refer[ií]ve|rejudicia)(l|is)|restes)|r(?:(?:elativ|estrit)[ao])|s(?:emelhante|ens[ií]ve(l|is)|entad[ao]|uperior(es)?)|visita)s?">
 
     <!ENTITY verbos_auxiliares_part_passado "ser|estar|ter|haver|ficar">
@@ -1309,8 +1309,8 @@
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes">
-            <exception postag="[DC].+" postag_regexp="yes"/>
-            <exception regexp="yes">de|era|são</exception></token>
+            <exception postag="[DC].+|SPS00" postag_regexp="yes"/>
+            <exception regexp="yes">era|são</exception></token>
           </unify>
         </marker>
       </pattern>
