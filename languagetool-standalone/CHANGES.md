@@ -39,6 +39,7 @@
   * added and improved rules
   * disambiguation improvements
   * added many words without "yo" letter to POS dictionary
+  * added new words to spell dictionary
 
 #### Ukrainian
   * dictionary update
