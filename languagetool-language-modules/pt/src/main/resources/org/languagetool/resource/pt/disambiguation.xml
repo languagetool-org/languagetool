@@ -926,7 +926,8 @@
           <token postag="_PUNCT|SENT_START" postag_regexp="yes"/>
           <token skip='-1' regexp='yes'>&introduz_conjuntivo;</token>
         <marker>
-          <token postag="V.S.+" postag_regexp="yes"/>
+          <token postag="V.S.+" postag_regexp="yes">
+            <exception scope='previous' postag='V.+' postag_regexp='yes'/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.S.+"/>
