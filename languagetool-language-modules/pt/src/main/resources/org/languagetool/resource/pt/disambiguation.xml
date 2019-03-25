@@ -919,20 +919,21 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
-  <rulegroup id="SUBJUNCTIVES" name="Verbos no conjuntivo">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-24  -->
+  <!--rulegroup id="SUBJUNCTIVES" name="Verbos no conjuntivo"-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-24  >
     <rule>
       <pattern>
           <token postag="_PUNCT|SENT_START" postag_regexp="yes"/>
           <token skip='-1' regexp='yes'>&introduz_conjuntivo;</token>
         <marker>
           <token postag="V.S.+" postag_regexp="yes">
+            <exception postag='NP.+' postag_regexp='yes'/>
             <exception scope='previous' postag='V.+' postag_regexp='yes'/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.S.+"/>
     </rule>
-    <!--rule>< TODO fix bug in synthesizer. some odd results in 'matched' suggestions >
+    <rule>< TODO fix bug in synthesizer. some odd results in 'matched' suggestions >
       <antipattern>
           <token skip='-1' regexp='yes'>&introduz_conjuntivo;</token>
           <token postag="V.S.+" postag_regexp="yes"/>
@@ -971,8 +972,8 @@
         </marker>
       </pattern>
       <disambig action="remove" postag="V.S.+"/>
-    </rule-->
-  </rulegroup>
+    </rule>
+  </rulegroup-->
 
   <rulegroup id="PAST_PARTICIPLE" name="Filtrar particípio passado">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-02  -->
