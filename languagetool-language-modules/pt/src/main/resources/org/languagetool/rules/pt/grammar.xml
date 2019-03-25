@@ -1154,6 +1154,34 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id='TODOS_NUMBER_AGREEMENT' name='Concordância de determinantes: Todos os'>
+    <!-- Created by Tiago F. Santos, 2019-03-24 -->
+    <rule>
+      <pattern>
+          <token>todo</token>
+          <token regexp='yes'>[ao]s</token>
+      </pattern>
+      <message>&MSG_ECN;</message>
+        <suggestion>\1 o</suggestion>
+        <suggestion>\1s os</suggestion>
+      <example correction="Todo o|Todos os"><marker>Todo os</marker> erros têm solução.</example>
+      <example>Todos o dizem.</example>
+      <example>Todos a querem.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>toda</token>
+          <token regexp='yes'>[ao]s</token>
+      </pattern>
+      <message>&MSG_ECN;</message>
+        <suggestion>\1 a</suggestion>
+        <suggestion>\1s as</suggestion>
+      <example correction="Toda a|Todas as"><marker>Toda as</marker> soluções já existem.</example>
+      <example>Todas o querem.</example>
+      <example>Todas a querem.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
     <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
