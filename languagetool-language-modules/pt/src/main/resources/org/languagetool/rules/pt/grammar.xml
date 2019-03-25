@@ -3505,7 +3505,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token regexp='yes'>&requer_crase;
-            <exception regexp='yes'>necessári[ao]s?|preferíve(?:l|is)|restrit[ao]s?</token>
+            <exception regexp='yes'>necessári[ao]s?|preferíve(?:l|is)|restrit[ao]s?</exception></token>
           <token>a</token>
         </marker>
           <token postag_regexp='yes' postag='(?:N.|A..)FS.+'>
@@ -3520,7 +3520,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token regexp='yes'>&requer_crase;
-            <exception regexp='yes'>necessári[ao]s?|preferíve(?:l|is)</token>
+            <exception regexp='yes'>necessári[ao]s?|preferíve(?:l|is)|restrit[ao]s?</exception></token>
           <token>as</token>
         </marker>
           <token postag_regexp='yes' postag='(?:N.|A..)FP.+'>
@@ -28448,12 +28448,13 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>cavaleiras?</token>
+          <token regexp='yes' spacebefore='yes'>cavaleiras?</token>
       </pattern>
       <message>O feminino de cavaleiro é <suggestion>amazona<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
         <suggestion>cavaleiro<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wiktionary.com/wiki/amazona</url>
-      <example correction='amazona|cavaleiro'><marker>cavaleira</marker></example>
+      <example correction='amazona|cavaleiro'>A <marker>cavaleira</marker> monta o cavalo.</example>
+      <example>Maria-cavaleira-pequena</example>
     </rule>
     <rule>
       <pattern>
