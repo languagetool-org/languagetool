@@ -6558,6 +6558,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         <rulegroup default="on" id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>
+                <antipattern>
+                    <token postag="PREP"/>
+                    <token chunk="MayMissingYO"></token> 
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">о|обо|об|в|во|при|по|на|и|или|но|да|О|Обо|Об|В|Во|При|По|На|И|Или|Но|Да|метрах|шагах|километрах|саженях</exception></token>
                     <marker>
@@ -6572,6 +6576,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="о доме|в доме|при доме|по доме|на доме">Они думали <marker>доме</marker>.</example>
             </rule>
             <rule>
+                 <antipattern>
+                    <token postag="SENT_START"></token>
+                    <token chunk="MayMissingYO"></token> 
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"></token>
                     <marker>
@@ -8476,7 +8484,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
          <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
-            <pattern case_sensitive="no">
+             <antipattern>
+                 <token postag="PREP"/>
+                 <token chunk="MayMissingYO"></token> 
+             </antipattern>
+             <pattern case_sensitive="no">
                 <!--              PREP VB:.*    -->
                 <!--              excluded prep "по" for another rule    -->
                 <or>
@@ -8496,6 +8508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B3</url>
             <short>Предлог перед глаголом не употребляется.</short>
             <example>Он пошёл в лес.</example>
+            <example>Он лёгок на подъем.</example>
             <example>Как насчет поиграть в теннис сегодня после обеда?</example>
             <example correction="пошёл|пошёл в">Он <marker>в пошёл</marker> лес.</example>
         </rule>
@@ -8973,7 +8986,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP в -> NN:.*:.*:V или NN:.*:P NN:.*:2R    исключение для "в учителя,... -->
                 <token>в<exception postag="&lt;ADV&gt;"/></token>
-                <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2"></token> 
+                <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2"><exception postag="PT:.*" postag_regexp="yes"></exception></token> 
                 <marker>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception regexp="yes">тысяча|миллион</exception>
@@ -8987,6 +9000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Предлог «в» предполагает употребление существительного в винительном или предложном падеже: <suggestion><match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется винительный или предложный падеж.</short>
             <example>Он смотрел в новое окно.</example>
+            <example>В предусмотренных конституцией случаях.</example>
             <example>Он всегда смотрит в будущее.</example>
             <example>Это наблюдается в одной такой группе</example>
             <example correction="группе">Это наблюдается в одной такой <marker>группой</marker></example>
