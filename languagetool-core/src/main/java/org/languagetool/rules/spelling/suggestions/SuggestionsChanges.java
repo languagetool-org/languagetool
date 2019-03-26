@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Helper class for SuggestionChangesTest, tracks experiment configuration and results
- * Rules should use getInstance() != null -> getInstance().getCurrentExperiment() in constructors to fetch relevant parameters
+ * Rules should use getInstance() != null -&gt; getInstance().getCurrentExperiment() in constructors to fetch relevant parameters
  * Use isRunningExperiment if no parameters are needed
  */
 public class SuggestionsChanges {
