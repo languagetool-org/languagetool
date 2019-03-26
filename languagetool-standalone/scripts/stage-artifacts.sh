@@ -4,9 +4,9 @@
 # Written because the automatic process didn't work: https://issues.sonatype.org/browse/OSSRH-7363
 
 # set to 1 to list what will be signed and uploaded, set to 0 to actually sign and upload:
-DRY_RUN=1
+DRY_RUN=0
 # set this to the version you want to release:
-VERSION=fixme
+VERSION=4.5
 
 CURRENT_DIR=`pwd`
 CURRENT_BASE=`basename $CURRENT_DIR`
