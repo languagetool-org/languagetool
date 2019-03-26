@@ -194,7 +194,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("desweitere?[nm]", "des Weiteren");
     put("handzuhaben", "zu handhaben");
     put("nachvollzuziehe?n", "nachzuvollziehen");
-    put("[bB]ischen", "bisschen");
     put("Porto?folien", "Portfolios");
     put("[sS]chwie?ri?chkeiten", "Schwierigkeiten");
     put("[üÜ]bergrifflichkeiten", "Übergriffigkeiten");
@@ -339,7 +338,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Nabend", "'n Abend");
     put("gie?bts", "gibt's");
     put("vs", "vs.");
-    put("bissien", "bisschen");
     put("[kK]affeeteria", "Cafeteria");
     put("[kK]affeeterien", "Cafeterien");
     put("berücksicht", "berücksichtigt");
@@ -584,6 +582,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[hH]ats", "ats", "at es");
     putRepl("wieviele?", "wieviel", "wie viel");
     put("As", "Ass");
+    put("[bB]i[sß](s?[ij]|ch)en", "bisschen");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -951,8 +950,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches("bi[sß][ij]en")) {
-      return Collections.singletonList("bisschen");
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
     } else if (word.equals("dh") || word.equals("dh.")) {
