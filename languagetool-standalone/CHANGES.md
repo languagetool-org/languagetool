@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 4.6 (2019-06-26)
+
+...
+
+
 ## 4.5 (2019-03-26)
 
 #### Catalan
