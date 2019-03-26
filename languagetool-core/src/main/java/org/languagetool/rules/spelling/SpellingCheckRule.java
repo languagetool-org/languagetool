@@ -124,7 +124,6 @@ public abstract class SpellingCheckRule extends Rule {
    * @param candidates candidates from default dictionary
    * @param orderer model to rank suggestions / extract features, or null
    * @param match rule match to add suggestions to
-   * @return modified match with suggestions and (possibly) extracted features
    */
   protected static void addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
                                                   @Nullable SuggestionsOrderer orderer, RuleMatch match) {

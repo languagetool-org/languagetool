@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 4.5-SNAPSHOT(release planned for 2019-03-26)
+## 4.5 (2019-03-26)
 
 #### Catalan
   * added and improved rules
@@ -15,17 +15,17 @@
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.70 - 2019-03-01)
   * spell check ignores single characters (e.g., 'α')
   
+#### Galician
+  * added and improved rules
+  * disambiguation improvements
+  * foreign names recognition
+
 #### German
   * added and improved rules
   * Simple German: added and improved rules
   * improved suggestions for typos that end with a dot (typically at the end of
     the sentence) - the dot is not included anymore
   * spell check ignores single characters (e.g., 'α') and hyphenated compounds (e.g., 'α-Strahler')
-
-#### Galician
-  * added and improved rules
-  * disambiguation improvements
-  * foreign names recognition
 
 #### Portuguese
   * added and significantly improved rules accuracy
