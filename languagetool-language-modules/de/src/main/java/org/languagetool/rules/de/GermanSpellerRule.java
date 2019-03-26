@@ -583,6 +583,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Sa-So", "Sa.–So.");
     putRepl("[hH]ats", "ats", "at es");
     putRepl("wieviele?", "wieviel", "wie viel");
+    put("As", "Ass");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -712,7 +713,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   public List<String> getSuggestions(String word) throws IOException {
     List<String> suggestions = super.getSuggestions(word);
-    //System.out.printf("Suggestions for %s: %s%n", word, suggestions);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
     if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
@@ -790,7 +790,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           Probability split = languageModel.getPseudoProbability(Arrays.asList(words));
           //System.out.printf("Probability - %s vs %s: %.12f (%d) vs %.12f (%d)%n",
           //  words[0] + words[1], suggestion,
-          //  nonSplit.getProb(), nonSplit.getOccurrences(), split.getProb(), split.getOccurrences());
           if (nonSplit.getProb() > split.getProb() || split.getProb() == 0) {
             result.add(suggestion);
           } else {
@@ -1099,7 +1098,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         if (stopAt < words.length-1) {
           suggestionLists.add(Collections.singletonList(partialWord));
         }
-        if (suggestionLists.size() <= 3) {  // avoid OOM on words like "free-and-open-source-and-cross-platform"
+        if (suggestionLists.size() <= 3) {  // avoid OutOfMemory on words like "free-and-open-source-and-cross-platform"
           List<String> additionalSuggestions = suggestionLists.get(0);
           for (int idx = 1; idx < suggestionLists.size(); idx++) {
             List<String> suggestionList = suggestionLists.get(idx);
@@ -1146,7 +1145,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String baseForThirdPersonSingularVerb(String word) throws IOException {
     List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
     for (AnalyzedTokenReadings reading : readings) {
-      if (reading.hasPosTagStartingWith("VER:3:SIN:")) {
+      if (reading.hasPosTagStartingWith("VER:3:SIN")) {
         return reading.getReadings().get(0).getLemma();
       }
     }
@@ -1186,7 +1185,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.length() < 5) {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
       for (AnalyzedTokenReadings reading : readings) {
-        if (reading.hasPosTagStartingWith("ABK:")) {
+        if (reading.hasPosTagStartingWith("ABK")) {
           return word+".";
         }
       }
