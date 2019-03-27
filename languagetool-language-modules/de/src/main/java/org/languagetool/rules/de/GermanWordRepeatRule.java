@@ -71,7 +71,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       }
       if (tokens.length-1 > position
         && ((tokens[position - 2].hasPosTagStartingWith("VER:3:") && tokens[position + 1].hasPosTag("ZUS")) // "Dann warfen sie sie weg."
-            || (tokens[position - 2].hasPosTagStartingWith("VER:MOD:3:") && tokens[position + 1].hasPosTag("VER:INF:NON")))) {// "Dann konnte sie sie sehen."
+            || (tokens[position - 2].hasPosTagStartingWith("VER:MOD:3") && tokens[position + 1].hasPosTag("VER:INF:NON")))) {// "Dann konnte sie sie sehen."
           return true;
       }
     }
