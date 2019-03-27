@@ -18,15 +18,15 @@
  */
 package org.languagetool.dev.dumpcheck;
 
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 
 /**
  * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
@@ -43,7 +43,7 @@ class WikipediaSentenceExtractor {
       } else if (xmlDumpPath.endsWith(".xml")) {
         input = bis;
       } else {
-        throw new RuntimeException("Unknown file name, expected '.xml' or '.bz2': " + xmlDumpPath);
+        throw new IllegalArgumentException("Unknown file name, expected '.xml' or '.bz2': " + xmlDumpPath);
       }
       int sentenceCount = 0;
       WikipediaSentenceSource source = new WikipediaSentenceSource(input, language);

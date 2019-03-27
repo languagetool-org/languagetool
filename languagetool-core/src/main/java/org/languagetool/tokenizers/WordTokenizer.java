@@ -190,28 +190,21 @@ public class WordTokenizer implements Tokenizer {
         return true;
       }
     }
-    if (l.size() > i + 3) {
-      // e.g. mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
-      if (l.get(i + 1).equals(".") &&   // use this order so the regex only gets matched if needed
-          l.get(i + 3).equals("/") &&
-          DOMAIN_CHARS.matcher(token).matches() &&
-          DOMAIN_CHARS.matcher(l.get(i + 2)).matches()) {
-        return true;
-      }
+    if (l.size() > i + 3 && // e.g. mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
+        l.get(i + 1).equals(".") &&   // use this order so the regex only gets matched if needed
+        l.get(i + 3).equals("/") &&
+        DOMAIN_CHARS.matcher(token).matches() &&
+        DOMAIN_CHARS.matcher(l.get(i + 2)).matches()) {
+      return true;
     }
-    if (l.size() > i + 5) {
-      // e.g. sub.mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
-      if (l.get(i + 1).equals(".") &&   // use this order so the regex only gets matched if needed
-          l.get(i + 3).equals(".") &&
-          l.get(i + 5).equals("/") &&
-          DOMAIN_CHARS.matcher(token).matches() &&
-          DOMAIN_CHARS.matcher(l.get(i + 2)).matches() &&
-          DOMAIN_CHARS.matcher(l.get(i + 4)).matches()
-          ) {
-        return true;
-      }
-    }
-    return false;
+    return (l.size() > i + 5 &&          // e.g. sub.mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
+        l.get(i + 1).equals(".") &&  // use this order so the regex only gets matched if needed
+        l.get(i + 3).equals(".") &&
+        l.get(i + 5).equals("/") &&
+        DOMAIN_CHARS.matcher(token).matches() &&
+        DOMAIN_CHARS.matcher(l.get(i + 2)).matches() &&
+        DOMAIN_CHARS.matcher(l.get(i + 4)).matches()
+       );
   }
 
   private boolean isProtocol(String token) {

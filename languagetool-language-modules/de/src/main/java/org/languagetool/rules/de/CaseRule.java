@@ -106,41 +106,8 @@ public class CaseRule extends Rule {
       token("Jahr(s|es)?|Linken?")
     ),
     Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Roten?"),
-      csToken("Grütze")
-    ),
-    Arrays.asList(
-      regex("Vereinigte[ns]?"),
-      regex("Staaten|Königreiche?s?|Bühnen")
-    ),
-    Arrays.asList(
-      csToken("Den"),
-      csToken("Haag")
-    ),
-    Arrays.asList(
       token("Neues"),
       token("\\?")
-    ),
-    Arrays.asList(
-      csToken("Hin"),
-      csToken("und"),
-      csToken("Her")
-    ),
-    Arrays.asList(
-      csToken("Bares"),
-      csToken("ist"),
-      csToken("Wahres")
-    ),
-    Arrays.asList(
-      csToken("Auf"),
-      csToken("und"),
-      csToken("Ab")
-    ),
-    Arrays.asList(
-      csToken("Lug"),
-      csToken("und"),
-      csToken("Trug")
     ),
     Arrays.asList(
         token("Zahl"),
@@ -190,21 +157,6 @@ public class CaseRule extends Rule {
         regex("und|oder")
     ),
     Arrays.asList(
-      csToken("Treu"),
-      csToken("und"),
-      csToken("Glauben")
-    ),
-    Arrays.asList(
-      csToken("Speis"),
-      csToken("und"),
-      csToken("Trank")
-    ),
-    Arrays.asList(
-      csToken("Sang"),
-      csToken("und"),
-      csToken("Klang")
-    ),
-    Arrays.asList(
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
@@ -216,12 +168,12 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // "... wie ich das prüfen sollte."
-      posRegex("VER:INF.*"),
-      posRegex("VER:MOD:.*")
+      posRegex("VER:INF.+"),
+      posRegex("VER:MOD:.+")
     ),
     Arrays.asList(
         // "... wie ich das prüfen würde."
-        posRegex("VER:INF.*"),
+        posRegex("VER:INF.+"),
         posRegex("VER:AUX:.:(SIN|PLU)(:KJ2)?")
     ),
     Arrays.asList(
@@ -272,11 +224,6 @@ public class CaseRule extends Rule {
        csToken("Die")
      ),
      Arrays.asList(
-       // "Öffentlicher Dienst"
-       regex("Öffentlich(e[nmr]?)?"),
-       new PatternTokenBuilder().csToken("Dienst").matchInflectedForms().build()
-     ),
-     Arrays.asList(
        // https://de.wikipedia.org/wiki/Neue_Mittelschule
        regex("Neue[nrs]?"),
        new PatternTokenBuilder().tokenRegex("Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
@@ -291,15 +238,6 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().tokenRegex("[tT]ausende?").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.+").build(), 
       new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_END_TAGNAME+"|VER:[1-3]:.+").build()
-   ),
-    Arrays.asList(
-      csToken("Fair"),
-      csToken("Trade")
-   ),
-    Arrays.asList(
-      csToken("Virtual"),
-      csToken("Private"),
-      csToken("Network")
    ),
     Arrays.asList( // "Er befürchtete Schlimmeres."
       regex("Schlimm(er)?es"), 
@@ -896,7 +834,7 @@ public class CaseRule extends Rule {
     if ("zu".equals(tokens[pos-1].getToken()) &&
       !tokens[pos].matchesPosTagRegex(".*(NEU|MAS|FEM)$") &&
       lowercaseReadings != null &&
-      lowercaseReadings.hasPosTagStartingWith("VER:INF:")) {
+      lowercaseReadings.hasPosTagStartingWith("VER:INF")) {
       return true;
     }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
@@ -938,18 +876,13 @@ public class CaseRule extends Rule {
   }
 
   private boolean isSalutation(String token) {
-    if (token.length() == 4) {
-      return "Herr".equals(token) || "Frau".equals(token);
-    } else if (token.length() == 5) {
-      return "Herrn".equals(token);
-    }
-    return false;
+    return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau");
   }
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
     if (readings != null) {
       // Anmeldung bis Fr. 1.12. (Fr. as abbreviation of Freitag is has a noun reading!)
-      if (readings.hasPosTagStartingWith("ABK:") && readings.hasPartialPosTag("SUB")) {
+      if (readings.hasPosTagStartingWith("ABK") && readings.hasPartialPosTag("SUB")) {
         return true;
       }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:

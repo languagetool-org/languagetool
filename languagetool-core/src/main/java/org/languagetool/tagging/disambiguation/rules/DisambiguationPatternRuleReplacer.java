@@ -164,15 +164,11 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       PatternRule disambigRule = new PatternRule("fake-disambig-id", rule.getLanguage(), antiPattern.getPatternTokens(), "desc", "msg", "short");
       RuleMatch[] matches = disambigRule.match(sentence);
       if (matches != null) {
-        //System.out.println(matches.length + " matches");
         for (RuleMatch disMatch : matches) {
-          //System.out.println("disambig match: " + disMatch.getFromPos() + " - " + disMatch.getToPos());
-          //System.out.println("rule match    : " + ruleMatchFromPos + " - " + ruleMatchToPos);
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
               (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end
               (disMatch.getFromPos() >= ruleMatchFromPos && disMatch.getToPos() <= ruleMatchToPos)  // inside longer rule match
           ) {
-            //System.out.println("skipping!");
             return false;
           }
         }

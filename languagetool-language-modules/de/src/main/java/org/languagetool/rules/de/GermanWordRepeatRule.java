@@ -79,7 +79,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
   }
 
   private boolean isPreposition(AnalyzedTokenReadings token) {
-    return token.hasPosTagStartingWith("PRP:");
+    return token.hasPosTagStartingWith("PRP");
   }
 
 }
