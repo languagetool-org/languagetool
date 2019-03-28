@@ -38,7 +38,6 @@ import com.sun.star.uno.XComponentContext;
  */
 class ConfigThread extends Thread {
 
-//  private final JLanguageTool langTool;
   private Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
@@ -65,7 +64,7 @@ class ConfigThread extends Thread {
       }
       JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
           new UserConfig(config.getConfigurableValues(), linguServices));
-            List<Rule> allRules = langTool.getAllRules();
+      List<Rule> allRules = langTool.getAllRules();
       for (Rule rule : allRules) {
         if (rule.isOfficeDefaultOn()) {
           rule.setDefaultOn();
