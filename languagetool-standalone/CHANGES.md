@@ -5,6 +5,15 @@
 ...
 
 
+
+## 4.5.1 (2019-03-28)
+
+#### LibreOffice / Apache OpenOffice Integration
+ 
+ * Fixed a bug that caused the rules in the options dialog to not appear in the text language 
+
+
+
 ## 4.5 (2019-03-26)
 
 #### Catalan
