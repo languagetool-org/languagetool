@@ -182,6 +182,13 @@ public class Main extends WeakBase implements XJobExecutor,
   public final boolean isSpellChecker() {
     return false;
   }
+  
+  /**
+   * Returns xContext
+   */
+  public XComponentContext getContext() {
+    return xContext;
+  }
 
   /**
    * Runs LT options dialog box.
@@ -195,7 +202,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (lang == null) {
       return;
     }
-    ConfigThread configThread = new ConfigThread(documents.getLanguageTool(), lang, config, this);
+    ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
   }
 

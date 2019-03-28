@@ -217,9 +217,6 @@ public class MultiDocumentsHandler {
    */
   @Nullable
   public Language getLanguage() {
-    if(docLanguage != null) {
-      return docLanguage;
-    }
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     Locale charLocale;
     XPropertySet xCursorProps;
