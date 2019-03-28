@@ -62,6 +62,18 @@ class ResultCache {
   }
   
   /**
+   *  Remove all cache entries between firstParagraph and lastParagraph
+   */
+  void removeRange(int firstParagraph, int lastParagraph) {
+    for(int i = 0; i < entries.size(); i++) {
+      if(entries.get(i).numberOfParagraph >= firstParagraph && entries.get(i).numberOfParagraph <= lastParagraph) {
+        entries.remove(i);
+        i--;
+      }
+    }
+  }
+  
+  /**
    *  Remove all cache entries between firstPara (included) and lastPara (included)
    *  shift all numberOfParagraph by 'shift'
    */
