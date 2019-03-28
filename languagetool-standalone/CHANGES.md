@@ -2,7 +2,8 @@
 
 ## 4.6 (2019-06-26)
 
-...
+#### Spanish
+  * Updated spell dictionary from 2.1 to 2.4
 
 
 
