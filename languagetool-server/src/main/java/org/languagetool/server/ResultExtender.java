@@ -100,10 +100,12 @@ class ResultExtender {
     try {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
-        String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() +
-                "&text=" + encode(plainText);
+        String urlParameters = "&text=" + encode(plainText);
         for (Map.Entry<String, String> entry : params.entrySet()) {
-          if (!StringUtils.containsAny(entry.getKey(), "text", "language", "enableHiddenRules")) {
+          // We could set 'language' to the language already detected, so the queried server
+          // wouldn't need to guess the language again. But then we'd run into cases where
+          // we get an error because e.g. 'noopLanguages' can only be used with 'language=auto' 
+          if (!StringUtils.containsAny(entry.getKey(), "text", "enableHiddenRules")) {
             urlParameters += "&" +  encode(entry.getKey()) + "=" + encode(entry.getValue());
           }
         }
