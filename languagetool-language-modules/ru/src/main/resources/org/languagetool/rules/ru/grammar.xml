@@ -6559,8 +6559,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>
                 <antipattern>
-                    <token postag="PREP" skip="-1"/>
-                    <token chunk="MayMissingYO"></token> 
+                    <marker>
+                        <token chunk="MayMissingYO"></token>
+                    </marker>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">о|обо|об|в|во|при|по|на|и|или|но|да|О|Обо|Об|В|Во|При|По|На|И|Или|Но|Да|метрах|шагах|километрах|саженях</exception></token>
@@ -6572,6 +6573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D0%B9_%D0%BF%D0%B0%D0%B4%D0%B5%D0%B6</url>
                 <short>Пропущен предлог.</short>
                 <example>Они думали о доме.</example>
+                <example>Не только в Москве и России, но и во всем мире.</example>
                 <example>Рабочие красили забор метрах в пятидесяти от меня.</example>
                 <example correction="о доме|в доме|при доме|по доме|на доме">Они думали <marker>доме</marker>.</example>
             </rule>
