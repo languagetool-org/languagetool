@@ -19,11 +19,9 @@
 package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -33,6 +31,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -82,12 +81,12 @@ class ResultExtender {
   }
 
   @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang) throws IOException, XMLStreamException {
-    return executor.submit(() -> getExtensionMatches(plainText, lang));
+  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang, Map<String, String> params) throws IOException, XMLStreamException {
+    return executor.submit(() -> getExtensionMatches(plainText, lang, params));
   }  
   
   @NotNull
-  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang) throws IOException, XMLStreamException {
+  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang, Map<String, String> params) throws IOException, XMLStreamException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(connectTimeoutMillis);
@@ -98,7 +97,12 @@ class ResultExtender {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
         String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() +
-                "&text=" + URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());
+                "&text=" + encode(plainText);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+          if (!StringUtils.containsAny(entry.getKey(), "text", "language", "enableHiddenRules")) {
+            urlParameters += "&" +  encode(entry.getKey()) + "=" + encode(entry.getValue());
+          }
+        }
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
         wr.write(postData);
       }
@@ -107,6 +111,10 @@ class ResultExtender {
     } finally {
       huc.disconnect();
     }
+  }
+
+  private String encode(String plainText) throws UnsupportedEncodingException {
+    return URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());
   }
 
   @NotNull
