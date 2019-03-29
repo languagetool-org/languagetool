@@ -937,6 +937,7 @@
     </rule>
     <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
         <pattern>
+            <token><exception regexp="yes">I|you|we|they|he|she|it</exception></token>
             <marker>
                 <and>
                 <token postag="VBZ"/>
@@ -947,6 +948,8 @@
         </pattern>
         <disambig postag="NNS"/>
         <example type="untouched">These tests of <marker>Peters</marker> are interesting. Incorrect grammar: missing apostrophe in a double genitive (www.merriam-webster.com/dictionary/double%20genitive).</example>
+        <example type="untouched">The things he <marker>says</marker> are entirely inconsequential.</example>
+        <example type="untouched">First, the premises on which it <marker>rests</marker> may not be correct.</example>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
                  outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
     </rule>
