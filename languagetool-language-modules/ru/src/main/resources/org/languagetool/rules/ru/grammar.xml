@@ -2305,7 +2305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup id="ROST" name="«Рост»" default="off">
+        <rulegroup id="ROST" name="«Рост»" default="on">
             <rule>
                 <pattern>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception></token>
@@ -11641,6 +11641,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Правильно «поставить подпись»</short>
                 <example correction="поставить подпись">Здесь нужно <marker>поставить роспись</marker>.</example>
                 <example>Здесь нужно поставить подпись.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <token inflected="yes">вздохнуть</token>
+                    <token inflected="yes">воздух</token>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion><match no="1" regexp_match="([Вв]здох)(.*)" regexp_replace="вдох$2"></match> <match no="2"></match></suggestion>?</message>
+                <short>Правильно «вдохнуть воздух»</short>
+                <example correction="вдохнул воздух">Он <marker>вздохнул воздух</marker>.</example>
+                <example>Он вдохнул воздух.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <token inflected="yes">вздыхать</token>
+                    <token inflected="yes">воздух</token>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду «вдохнуть воздух»?</message>
+                <short>Правильно «вдохнуть воздух»</short>
+                <example correction="">Он <marker>вздыхал воздух</marker>.</example>
+                <example>Он вдохнул воздух.</example>
             </rule>   
 
             <rule>   
