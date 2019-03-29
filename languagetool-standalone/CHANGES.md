@@ -5,6 +5,9 @@
 #### Spanish
   * Updated spell dictionary from 2.1 to 2.4
 
+#### HTTP API / LT server
+  * `altLanguages` will only be considered for words with >= 3 characters
+
 
 
 ## 4.5.1 (2019-03-28)
