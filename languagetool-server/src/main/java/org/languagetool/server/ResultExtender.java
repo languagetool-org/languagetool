@@ -27,21 +27,25 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
 
-import javax.xml.stream.XMLStreamException;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static org.languagetool.server.ServerTools.print;
 
 /**
  * Extend results by adding rules matches from a different API server.
@@ -81,12 +85,12 @@ class ResultExtender {
   }
 
   @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang, Map<String, String> params) throws IOException, XMLStreamException {
+  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang, Map<String, String> params) {
     return executor.submit(() -> getExtensionMatches(plainText, lang, params));
   }  
   
   @NotNull
-  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang, Map<String, String> params) throws IOException, XMLStreamException {
+  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang, Map<String, String> params) throws IOException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(connectTimeoutMillis);
@@ -108,6 +112,14 @@ class ResultExtender {
       }
       InputStream input = huc.getInputStream();
       return parseJson(input);
+    } catch (SSLHandshakeException | SocketTimeoutException e) {
+      // "hard" errors that will probably not resolve themselves easily:
+      throw e;
+    } catch (Exception e) {
+      // These are issue that can be request-specific, like wrong parameters. We don't throw an
+      // exception, as the calling code would otherwise assume this is a persistent error:
+      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage());
+      return Collections.emptyList();
     } finally {
       huc.disconnect();
     }
@@ -118,7 +130,7 @@ class ResultExtender {
   }
 
   @NotNull
-  private List<RemoteRuleMatch> parseJson(InputStream inputStream) throws XMLStreamException, IOException {
+  private List<RemoteRuleMatch> parseJson(InputStream inputStream) throws IOException {
     Map map = mapper.readValue(inputStream, Map.class);
     List matches = (ArrayList) map.get("matches");
     List<RemoteRuleMatch> result = new ArrayList<>();
@@ -204,7 +216,7 @@ class ResultExtender {
       return "(description hidden)";
     }
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       throw new RuntimeException("not implemented");
     }
   }
