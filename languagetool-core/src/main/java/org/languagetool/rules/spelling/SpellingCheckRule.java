@@ -469,6 +469,10 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   protected Language acceptedInAlternativeLanguage(String word) throws IOException {
+    if (word.length() <= 2) {
+      // it's strange if single characters are suddenly considered English
+      return null;
+    }
     for (RuleWithLanguage altRule : altRules) {
       AnalyzedToken token = new AnalyzedToken(word, null, null);
       AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
