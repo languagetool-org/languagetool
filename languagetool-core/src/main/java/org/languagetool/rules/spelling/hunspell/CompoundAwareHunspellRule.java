@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -153,7 +154,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         }
         boolean appendS = false;
         if (doUpperCase && part.endsWith("s")) {  // maybe infix-s as in "Dampfschiffahrtskapitän" -> "Dampfschifffahrtskapitän"
-          suggestions.addAll(morfoSpeller.getSuggestions(part.replaceFirst("s$", "")));
+          suggestions.addAll(morfoSpeller.getSuggestions(StringUtils.removeEnd(part, "s")));
           appendS = true;
         }
         for (String suggestion : suggestions) {

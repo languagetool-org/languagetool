@@ -105,13 +105,13 @@ public class CompoundRuleData {
   private void validateLine(String path, String line) throws IOException {
     String[] parts = line.split(" ");
     if (parts.length == 1) {
-      throw new RuntimeException("Not a compound in file " + path + ": " + line);
+      throw new IllegalArgumentException("Not a compound in file " + path + ": " + line);
     }
     if (parts.length > AbstractCompoundRule.MAX_TERMS) {
-      throw new RuntimeException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
+      throw new IllegalArgumentException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
     }
     if (incorrectCompounds.contains(line.toLowerCase())) {
-      throw new RuntimeException("Duplicated word in file " + path + ": " + line);
+      throw new IllegalArgumentException("Duplicated word in file " + path + ": " + line);
     }
   }
 
