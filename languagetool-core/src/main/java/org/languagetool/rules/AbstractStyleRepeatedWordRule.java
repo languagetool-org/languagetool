@@ -203,7 +203,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
         }
       }
     }
-    if(synonyms.size() == 0) {
+    if(synonyms.isEmpty()) {
       List<String> rawSynonyms = linguServices.getSynonyms(token.getToken(), lang);
       for (String synonym : rawSynonyms) {
         synonym = synonym.replaceAll("\\(.*\\)", "").trim();

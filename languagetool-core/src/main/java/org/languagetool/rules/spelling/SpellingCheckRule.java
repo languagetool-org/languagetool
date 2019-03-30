@@ -140,7 +140,7 @@ public abstract class SpellingCheckRule extends Rule {
         if (defaultSuggestions.isEmpty()) {
           // could not rank for some reason
         } else {
-          if (userCandidates.size() == 0) {
+          if (userCandidates.isEmpty()) {
             match.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
             match.setSuggestedReplacementObjects(defaultSuggestions);
           } else {
@@ -290,17 +290,6 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     return ignoreWord(words.get(idx));
-  }
-
-  /**
-   * Used to check whether the dictionary will use case conversions for
-   * spell checking.
-   * @return true if the dictionary converts case
-   * @since 2.5
-   * @deprecated deprecated as there's no internal use in LT, complain and describe your use case if you need this (deprecated since 3.9)
-   */
-  public boolean isConvertsCase() {
-    return convertsCase;
   }
 
   /**

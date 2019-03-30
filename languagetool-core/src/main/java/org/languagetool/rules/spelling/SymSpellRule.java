@@ -159,7 +159,7 @@ public class SymSpellRule extends SpellingCheckRule {
     });
     AtomicInteger dictWords = new AtomicInteger(0);
     forEachLineInResources(dict, line -> {
-      int split = line.lastIndexOf("+");
+      int split = line.lastIndexOf('+');
       if (split == -1 || line.length() <= split + 1) {
         throw new RuntimeException(String.format("Could not parse frequency dictionary line '%s'.", line));
       }
@@ -239,7 +239,7 @@ public class SymSpellRule extends SpellingCheckRule {
       List<String> userCandidates = getSpellerMatches(word, userDictSpeller);
       // TODO: messages
       RuleMatch match = null;
-      if (candidates.size() + userCandidates.size() == 0) {
+      if (candidates.isEmpty() && userCandidates.isEmpty()) {
         match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
       } else if (!(candidates.size() > 0 && candidates.get(0).equals(word) ||
         userCandidates.size() > 0 && userCandidates.get(0).equals(word))) {
@@ -275,7 +275,7 @@ public class SymSpellRule extends SpellingCheckRule {
 
   public static void main(String[] args) throws IOException, ClassNotFoundException {
     Language lang = Languages.getLanguageForShortCode("en-US");
-    JLanguageTool lt = new JLanguageTool(lang);
+    //JLanguageTool lt = new JLanguageTool(lang);
     SymSpellRule r = new SymSpellRule(JLanguageTool.getMessageBundle(), lang, new UserConfig());
 
     SymSpell speller = r.defaultDictSpeller;

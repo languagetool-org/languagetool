@@ -25,12 +25,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.synthesis.BaseSynthesizer;
+
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
-import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Catalan word form synthesizer.
@@ -106,11 +105,11 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }       
     
     // if not found, try verbs from any regional variant
-    if ((results.size() == 0) && posTag.startsWith("V")) {
+    if (results.isEmpty() && posTag.startsWith("V")) {
       if (!posTag.endsWith("0")) {
             lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
       }
-      if (results.size() == 0) { // another try
+      if (results.isEmpty()) { // another try
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
@@ -138,7 +137,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         }
       }
       // if not found, try verbs from any regional variant
-      if ((results.size() == 0)) {
+      if (results.isEmpty()) {
         final Matcher mVerb = pVerb.matcher(posTag);
         if (mVerb.matches()) {
           if (!posTag.endsWith("0")) {
@@ -151,7 +150,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
               }
             }
           }
-          if (results.size() == 0) { // another try
+          if (results.isEmpty()) { // another try
             p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
                 .concat("."));
             for (final String tag : possibleTags) {

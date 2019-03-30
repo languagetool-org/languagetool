@@ -32,7 +32,7 @@ class LineExpander {
     if (!line.startsWith("#") && line.contains("/")) {
       String[] parts = cleanTags(line).split("/");
       if (parts.length != 2) {
-        throw new RuntimeException("Unexpected line format, expected at most one slash: " + line);
+        throw new IllegalArgumentException("Unexpected line format, expected at most one slash: " + line);
       }
       String word = parts[0];
       String suffix = parts[1];

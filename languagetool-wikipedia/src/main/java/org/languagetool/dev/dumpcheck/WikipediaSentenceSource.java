@@ -93,7 +93,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   public Sentence next() {
     try {
       fillSentences();
-      if (sentences.size() == 0) {
+      if (sentences.isEmpty()) {
         throw new NoSuchElementException();
       }
       WikipediaSentence wikiSentence = sentences.remove(0);
@@ -112,7 +112,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   private void fillSentences() throws XMLStreamException {
     String title = null;
     String namespace = null;
-    while (sentences.size() == 0 && reader.hasNext()) {
+    while (sentences.isEmpty() && reader.hasNext()) {
       XMLEvent event = reader.nextEvent();
       if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
         String elementName = event.asStartElement().getName().getLocalPart();

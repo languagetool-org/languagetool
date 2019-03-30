@@ -161,7 +161,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
     List<SuggestedReplacement> candidates = candidatesAndFeatures.getLeft();
     SortedMap<String, Float> matchFeatures = candidatesAndFeatures.getRight();
     List<SortedMap<String, Float>> suggestionFeatures = candidates.stream().map(SuggestedReplacement::getFeatures).collect(Collectors.toList());
-    if (candidates.size() == 0) {
+    if (candidates.isEmpty()) {
       return Collections.emptyList();
     }
     if (candidates.size() != suggestionFeatures.size()) {
@@ -252,7 +252,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
 
   @Override
   public boolean shouldAutoCorrect(List<SuggestedReplacement> rankedSuggestions) {
-    if (rankedSuggestions.size() == 0 || rankedSuggestions.stream().anyMatch(s -> s.getConfidence() == null)) {
+    if (rankedSuggestions.isEmpty() || rankedSuggestions.stream().anyMatch(s -> s.getConfidence() == null)) {
       return false;
     }
     float threshold = autoCorrectThreshold.getOrDefault(language.getShortCodeWithCountryAndVariant(), Float.MAX_VALUE);

@@ -37,7 +37,7 @@ public class CommonWords {
   private final static Pattern numberPattern = Pattern.compile("[0-9-.,]+");
 
   public CommonWords() throws IOException {
-    if (word2langs.size() == 0) {
+    if (word2langs.isEmpty()) {
       for (Language lang : Languages.get()) {
         if (lang.isVariant()) {
           continue;

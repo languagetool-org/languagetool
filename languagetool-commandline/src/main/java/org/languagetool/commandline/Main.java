@@ -429,7 +429,7 @@ class Main {
         prg.lt.addRule(ffRule);
       }
     }
-    if (prg.lt.getAllActiveRules().size() == 0) {
+    if (prg.lt.getAllActiveRules().isEmpty()) {
       List<String> catIds = options.getEnabledCategories().stream().map(i -> i.toString()).collect(Collectors.toList());
       throw new RuntimeException("No rules are active. Please make sure your rule ids " +
               "(" + options.getEnabledRules() + ") and " +

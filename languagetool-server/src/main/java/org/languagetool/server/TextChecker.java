@@ -246,7 +246,7 @@ abstract class TextChecker {
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=true");
     }
-    if (enabledRules.size() == 0 && enabledCategories.size() == 0 && useEnabledOnly) {
+    if (enabledRules.isEmpty() && enabledCategories.isEmpty() && useEnabledOnly) {
       throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 

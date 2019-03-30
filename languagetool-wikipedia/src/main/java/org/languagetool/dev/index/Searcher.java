@@ -377,7 +377,7 @@ public class Searcher {
         System.out.println("===== " + rule.getFullId() + " =========================================================");
         SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
         int i = 1;
-        if (searcherResult.getMatchingSentences().size() == 0) {
+        if (searcherResult.getMatchingSentences().isEmpty()) {
           System.out.println("[no matches]");
         }
         for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {

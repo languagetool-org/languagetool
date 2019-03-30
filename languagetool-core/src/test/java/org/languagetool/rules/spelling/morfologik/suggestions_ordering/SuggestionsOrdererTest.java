@@ -170,7 +170,7 @@ public class SuggestionsOrdererTest {
           List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos());
           totalReorderingComputationTime.addAndGet(System.currentTimeMillis() - startTime);
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
-          if (original.size() == 0 || reordered.size() == 0) {
+          if (original.isEmpty() || reordered.isEmpty()) {
             continue;
           }
           String firstOriginal = original.get(0);

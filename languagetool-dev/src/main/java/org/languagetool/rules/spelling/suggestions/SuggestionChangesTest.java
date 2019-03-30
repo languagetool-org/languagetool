@@ -235,7 +235,7 @@ public class SuggestionChangesTest {
           }
           List<String> suggestions = match.getSuggestedReplacements();
           gatheredSuggestions.add(match);
-          if (suggestions.size() == 0) { // TODO should be tracked as well
+          if (suggestions.isEmpty()) { // TODO should be tracked as well
             continue;
           }
           int position = suggestions.indexOf(entry.getReplacement());
@@ -337,7 +337,7 @@ public class SuggestionChangesTest {
             int datasetId = 1 + config.datasets.indexOf(result.getInput().getDataset());
             if (result != null && result.getSuggestions() != null &&
               !result.getSuggestions().isEmpty() && result.getSuggestions().stream()
-              .noneMatch(m -> m.getSuggestedReplacements() == null || m.getSuggestedReplacements().size() == 0)) {
+              .noneMatch(m -> m.getSuggestedReplacements() == null || m.getSuggestedReplacements().isEmpty())) {
 
               List<Object> record = new ArrayList<>(Arrays.asList(
                 result.getInput().getSentence(), result.getInput().getCorrection(),

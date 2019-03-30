@@ -300,7 +300,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
     }
     sortByNaturalness(conversions);
-    if (conversions.size() == 0) {
+    if (conversions.isEmpty()) {
       return null;
     } else {
       return conversions;
@@ -314,7 +314,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       return null;
     }
     List<String> formatted = getFormattedConversions(equivalents);
-    if (formatted.size() == 0) {
+    if (formatted.isEmpty()) {
       return null;
     }
     return formatted;
@@ -483,7 +483,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
           }
         } else { // found conversion to metric, check for accuracy
           List<Map.Entry<Unit, Double>> metricEquivalents = getMetricEquivalent(value, unit);
-          if (metricEquivalents == null || metricEquivalents.size() == 0) {
+          if (metricEquivalents == null || metricEquivalents.isEmpty()) {
             return;
           }
           Map.Entry<Unit, Double> metricEquivalent = metricEquivalents.get(0);

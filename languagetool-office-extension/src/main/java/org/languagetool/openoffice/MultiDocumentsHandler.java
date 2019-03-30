@@ -196,7 +196,7 @@ public class MultiDocumentsHandler {
    * Do a reset to check document again
    */
   boolean doResetCheck() {
-    if(documents.size() == 0 || (documents.size() > 1 && noMultiReset)) {
+    if(documents.isEmpty() || (documents.size() > 1 && noMultiReset)) {
       return false;
     }
     return documents.get(docNum).doresetCheck();

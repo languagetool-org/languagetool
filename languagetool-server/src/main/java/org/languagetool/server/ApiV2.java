@@ -159,7 +159,7 @@ class ApiV2 {
         foundRules.add(rule);
       }
     }
-    if (foundRules.size() == 0) {
+    if (foundRules.isEmpty()) {
       throw new RuntimeException("Rule '" + params.get("ruleId") + "' not found for language " + lang +
               " (LanguageTool version/date: " + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ", total rules of language: " + rules.size() + ")");
     }
