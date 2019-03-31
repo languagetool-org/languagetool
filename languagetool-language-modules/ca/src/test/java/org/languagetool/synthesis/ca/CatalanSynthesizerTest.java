@@ -35,6 +35,11 @@ public class CatalanSynthesizerTest {
   public final void testSynthesizeStringString() throws IOException {
     assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
 
+    assertEquals("[sento]", synth("sentir", "VMIP1S0C"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0Z"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0V"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0B"));
+    assertEquals("[senta]", synth("sentir", "VMSP3S0V"));
     assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
     assertEquals("[presidents]", synth("president", "NCMP000"));
     assertEquals("[comprovat]", synth("comprovar", "VMP00SM.?"));

@@ -20,6 +20,7 @@ package org.languagetool.synthesis.ca;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,7 +107,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     
     // if not found, try verbs from any regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
-      if (!posTag.endsWith("0")) {
+      if (posTag.endsWith("V") || posTag.endsWith("B")) {
+        lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z"), results);
+      }
+      if (results.isEmpty() && !posTag.endsWith("0")) {
             lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
       }
       if (results.isEmpty()) { // another try
