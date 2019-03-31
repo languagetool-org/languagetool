@@ -100,7 +100,7 @@ public class WordRepeatRule extends Rule {
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;
-    if (token.isEmpty() || StringUtils.isNumeric(token)) {
+    if (StringUtils.isNumericSpace(token)) {
       isWord = false;
     } else if (token.length() == 1) {
       char c = token.charAt(0);

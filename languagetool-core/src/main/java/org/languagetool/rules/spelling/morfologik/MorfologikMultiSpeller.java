@@ -88,10 +88,10 @@ public class MorfologikMultiSpeller {
          languageVariantPlainTextPath,
          userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(),
          maxEditDistance);
-    if (plainTextPath != null) {
-      if (!plainTextPath.endsWith(".txt") || (languageVariantPlainTextPath != null && !languageVariantPlainTextPath.endsWith(".txt"))) {
-        throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
-      }
+    if (plainTextPath != null &&
+        (!plainTextPath.endsWith(".txt") ||
+          (languageVariantPlainTextPath != null && !languageVariantPlainTextPath.endsWith(".txt")))) {
+      throw new IllegalArgumentException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
     }
   }
 
@@ -270,8 +270,11 @@ public class MorfologikMultiSpeller {
 
     @Override
     public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (this == o) {
+        return true;
+      } else if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
       BufferedReaderWithSource that = (BufferedReaderWithSource) o;
       return Objects.equals(readerPath, that.readerPath) && Objects.equals(languageVariantPath, that.languageVariantPath);
     }
