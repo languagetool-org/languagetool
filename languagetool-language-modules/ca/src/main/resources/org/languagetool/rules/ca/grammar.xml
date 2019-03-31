@@ -35408,7 +35408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Freqüenta Sitges.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESCOLTAR_DIR" name="escoltar/dir">
+        <rulegroup id="ESCOLTAR_SENTIR" name="escoltar/sentir">
             <url>http://esadir.cat/entrades/fitxa/node/escoltar</url>
             <rule>
                 <pattern>
@@ -35426,20 +35426,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">escoltar</token>
                     </marker>
-                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
-                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token min="0" max="8" postag="[ANDSR].*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/><!--<exception postag="C.*|_PUNCT.*" postag_regexp="yes"/> <exception scope="previous" inflected="yes">anar</exception>-->
                 </pattern>
                 <message>Probablement cal usar el verb 'sentir'.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="Sentia"><marker>Escoltava</marker> ploure.</example>
                 <example correction="sentit">No li he <marker>escoltat</marker> mai alçar la veu.</example>
+                <example correction="sentir">És difícil <marker>escoltar</marker> gent parlar valencià.</example>
+                <example correction="sentir">Acabe d'<marker>escoltar</marker> un home de Foios de 71 anys cantar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AO.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes" skip="3">vegada|volta|cop</token>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar el verb 'sentir'.</message>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="sento">És la primera vegada que ho <marker>escolto</marker>.</example>
+                <example correction="senta">És la tercera vegada que ho <marker>escolte</marker>.</example> <!--TODO: improve suggestions-->
+                <example correction="sentia">Per primera vegada ho <marker>escoltava</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">escoltar</token>
                     <token>que</token>
                 </pattern>
-                <message>Ús probablement incorrecte.</message>
+                <message>Probablement cal usar el verb 'sentir'.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> que</suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a dir que</suggestion>
                 <example correction="sentia que|sentia a dir que">Sovint <marker>escoltava que</marker> deien coses.</example>
