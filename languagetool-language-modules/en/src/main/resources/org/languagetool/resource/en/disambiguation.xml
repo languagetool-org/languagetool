@@ -3348,6 +3348,11 @@
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
+      <antipattern><!-- Fix for chunker: staves off hunger -->
+        <token postag="VBZ"/>
+        <token postag="RP"/>
+        <token postag="NN(:UN)?" postag_regexp="yes"/>
+      </antipattern>
       <pattern>
         <and>
           <token chunk="E-NP-plural"/>
@@ -3369,6 +3374,7 @@
       <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
       <example type="untouched">My young son <marker>can</marker> neither read nor write yet. [Chunker gives E-NP-plural to 'son'. 'Can' is MD not VBP.]</example>
       <example type="untouched">... has written songs about <marker>love</marker> and sex with women and men.</example>
+      <example type="untouched">... for bears and mainly staves off <marker>hunger</marker> and starvation until more nutritious food is... [Chunker gives E-NP-plural to 'staves'.]</example>
     </rule>
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
