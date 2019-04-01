@@ -16269,31 +16269,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ESSEN_GEHEN" name="'essen gehen'">
             <antipattern>
                 <token postag="SENT_START"/>
-                <token>Essen</token>
-                <token>gehen</token>
+                <token postag="SUB:.+:INF" postag_regexp="yes"></token>
+                <token regexp="yes">ge(gang|h)en</token>
             </antipattern>
             <antipattern>
                 <token postag="ADJ:.*|PA[12]:.*" postag_regexp="yes"/>
-                <token>Essen</token>
-                <token>gehen</token>
+                <token postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en</token>
+                <token regexp="yes">ge(gang|h)en</token>
             </antipattern>
             <antipattern>
                 <token postag="ART:DEF:.*|PRO:DEM:.*" postag_regexp="yes" skip="1"/>
-                <token>Essen</token>
-                <token>gehen</token>
+                <token postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en</token>
+                <token regexp="yes">ge(gang|h)en</token>
             </antipattern>
-            <antipattern>
-                <token regexp="yes">ein(em)?|dem|mit|nach|vor|zum|durch|beim?|in</token>
-                <token>Essen</token>
-                <token>gehen</token>
-            </antipattern>
-            <pattern case_sensitive='yes'>
+            <pattern>
+                <token><exception postag="ART:.+|PRP:.+|PRO:POS:DAT:.+" postag_regexp="yes"/></token>
                 <marker>
-                    <token>Essen</token>
+                    <token postag="SUB:.+:INF" postag_regexp="yes" regexp="yes" case_sensitive='yes'>[A-Z].+en</token>
                 </marker>
-                <token>gehen</token>
+                <token regexp="yes">ge(gang|h)en</token>
             </pattern>
-            <message>&inwend;'essen gehen' wird <suggestion><match no="1" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <message>&inwend;'<match no="2" case_conversion="startlower"/> gehen' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <url>http://www.canoo.net/spelling/gehen:V:sein</url>
             <short>&prgk;.</short>
             <example correction="essen">Wir wollen <marker>Essen</marker> gehen.</example>
             <example correction="essen">Lass uns <marker>Essen</marker> gehen!</example>
