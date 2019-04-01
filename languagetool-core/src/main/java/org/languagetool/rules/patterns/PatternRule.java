@@ -171,7 +171,7 @@ public class PatternRule extends AbstractPatternRule {
     }
     //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
     if (infinity) {
-      return Integer.MAX_VALUE;
+      return -1;
     } else {
       return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
     }
