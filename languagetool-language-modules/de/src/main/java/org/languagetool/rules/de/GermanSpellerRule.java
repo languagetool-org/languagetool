@@ -439,6 +439,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Makeupstylist(in(nen)?|en)?", "Makeups", "Make-up-S");
     putRepl("Fee?dbäcks?", "Fee?dbäck", "Feedback");
     put("Rollade", w -> Arrays.asList("Rollladen", "Roulade"));
+    put("garnichtmehr", "gar nicht mehr");
     put("aufgewägt", "aufgewogen");
     put("[rR]eflektion", "Reflexion");
     put("momentmal", "Moment mal");
@@ -488,6 +489,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geklabt", "geklappt");
     put("angefangt", "angefangen");
     put("beinhält", "beinhaltet");
+    put("beinhielt", "beinhaltete");
+    put("beinhielten", "beinhalteten");
     put("einhaltest", "einhältst");
     put("übersäht", "übersät");
     put("staats?angehoe?rigkeit", "Staatsangehörigkeit");
