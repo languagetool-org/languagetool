@@ -188,6 +188,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("legen[td]lich", "lediglich");
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    put("Mysql", "MySQL");
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("[pP][qQ]-Formel", "p-q-Formel");
@@ -209,6 +210,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("([uU]n)?proff?esionn?ell?(e[mnrs]?)?", "proff?esionn?ell?", "professionell");
     putRepl("[kK]inderlich(e[mnrs]?)?", "inder", "ind");
     putRepl("[wW]iedersprichs?t", "ieder", "ider");
+    putRepl("[wW]iederstand", "ieder", "ider");
     putRepl("[kK]önntes", "es$", "est");
     putRepl("[aA]ssess?oare?s?", "[aA]ssess?oare?", "Accessoire");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
@@ -405,6 +407,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
+    put("zuschafen", "zu schaffen");
     putRepl("[hH]ofen?", "of", "off");
     putRepl("[sS]ommerverien?", "[sS]ommerverien?", "Sommerferien");
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
