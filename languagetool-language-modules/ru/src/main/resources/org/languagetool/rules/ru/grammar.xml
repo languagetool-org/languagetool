@@ -4333,10 +4333,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ни</token>
-                    <token regexp="yes">свет|рыба|жив|дать</token>
+                    <token regexp="yes">свет|рыба|жив|дать|кафтан</token>
                     <token>,</token>
                     <token>ни</token>
-                    <token regexp="yes">заря|мясо|мертв|мёртв|взять</token>
+                    <token regexp="yes">заря|мясо|мертв|мёртв|взять|ряса</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
                 <short>Запятая не нужна.</short>
@@ -6299,6 +6299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ошибка в согласовании по числу.</short>
                 <example>Коты грелись на солнышке.</example>
                 <example>Блюдо готовилось на сковородке.</example>
+                <!-- <example>около 75% объёма поставляемой воды приходится на компанию X.</example> -->
                 <example>Сыр и сливочное масло делаются из молока.</example>
                 <example>Учащиеся всё время сидели неподвижно.</example>
                 <example>Эти легенды следует передать нашим потомкам.</example> 
@@ -7579,6 +7580,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <token>как</token>
                   </marker>
               </antipattern>
+              <antipattern>
+                  <token>,</token>
+                  <token regexp="yes">включая|исключая</token>
+                  <marker>
+                      <token regexp="yes">такой|такая|такие|такое|таких</token>
+                      <token>как</token>
+                  </marker>
+              </antipattern>
               <pattern>
                   <marker>
                       <token regexp="yes">такой|такая|такие|такое|таких</token>
@@ -7591,6 +7600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="такой, как">Но не <marker>такой как</marker> обычно.</example>
             <example>Но не такой, как обычно.</example>
             <example>Туристы посетили старинные города, такие как Новгород и Владимир.</example>
+            <example>Туристы посетили старинные города, включая такие как Новгород и Владимир.</example>
             <example>Погода дождливая, такая как в Лондоне.</example>
           </rule>
           <rule>
