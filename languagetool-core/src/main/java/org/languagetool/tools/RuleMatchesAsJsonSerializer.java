@@ -150,8 +150,12 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStringField("typeName", match.getType().toString());
       g.writeEndObject();
       writeRule(g, match);
-      g.writeBooleanField("ignoreForIncompleteSentence", RuleInformation.ignoreForIncompleteSentences(match.getRule().getId(), lang));
-      g.writeNumberField("contextForSureMatch", match.getRule().estimateContextForSureMatch());
+      // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
+      // now that we have 'contextForSureMatch':
+      int contextEstimate = match.getRule().estimateContextForSureMatch();
+      g.writeBooleanField("ignoreForIncompleteSentence",
+              RuleInformation.ignoreForIncompleteSentences(match.getRule().getId(), lang) || contextEstimate == -1 || contextEstimate > 3);
+      g.writeNumberField("contextForSureMatch", contextEstimate);
       g.writeEndObject();
     }
     g.writeEndArray();
