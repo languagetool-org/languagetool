@@ -275,6 +275,7 @@ public class SymSpellRule extends SpellingCheckRule {
 
   public static void main(String[] args) throws IOException, ClassNotFoundException {
     Language lang = Languages.getLanguageForShortCode("en-US");
+
     JLanguageTool lt = new JLanguageTool(lang);
     SymSpellRule r = new SymSpellRule(JLanguageTool.getMessageBundle(), lang, new UserConfig());
 
