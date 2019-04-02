@@ -1772,6 +1772,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es gibt auch so <marker>seltene</marker> wie der Seeadler.</example>
             <example>Er beschreibt Guevara als so <marker>ineffektiven</marker> wie brutalen Taktiker</example>
         </rule>
+        <rule id="JE_SCHNELL_DESTO" name="'je schnell (schneller), desto besser'">
+            <pattern>
+                <token>je</token>
+                <marker>
+                    <token postag="ADJ:PRD:GRU" skip="-1"/>
+                </marker>
+                <token>desto</token>
+            </pattern>
+            <message>Meinten Sie die Komparativform <suggestion><match no="2" postag="ADJ:PRD:GRU" postag_replace="ADJ:PRD:KOM" postag_regexp="yes"/></suggestion>?</message>
+            <short>Möglicher Tippfehler</short>
+            <example correction="größer">Je <marker>groß</marker>, desto besser.</example>
+            <example correction="schneller">Je <marker>schnell</marker>, desto besser.</example>
+        </rule>
         <rule id="DANK_DANKE" name="'Ich dank (danke) schön'">
             <pattern>
                 <marker>
