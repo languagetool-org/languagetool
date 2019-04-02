@@ -79,6 +79,23 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("Li", tokens, position)) {
       return true;   // "Li Li", Chinese name
     }
+    //addition by ahsen on 17.03.19 
+    if (wordRepetitionOf("tut", tokens, position)) {
+        return true;   // "tut tut"
+      }
+    if (wordRepetitionOf("now", tokens, position)) {
+        return true;   // "now now"
+      }
+    if (wordRepetitionOf("knock", tokens, position)) {
+        return true;   // "knock knock"
+      }
+    if (wordRepetitionOf("chop", tokens, position)) {
+        return true;   // "chop chop"
+      }
+    if (wordRepetitionOf("aye", tokens, position)) {
+        return true;   // "aye aye"
+      }
+    //end of the addition
     if (tokens[position].getToken().endsWith("ay")) {
       if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
         return true;   // "may May"

@@ -51,6 +51,18 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("We can produce <marker>drapes</marker> of any size or shape from a choice of over 500 different fabrics."),
                    Example.fixed("We can produce <marker>curtains</marker> of any size or shape from a choice of over 500 different fabrics."));
+    //to be reviewed addition by ahsen on 18.03.19
+    addExamplePair(Example.wrong("<marker>theater</marker>"),
+            Example.fixed("<marker>theatre</marker>"));
+    addExamplePair(Example.wrong("<marker>gray</marker>"),
+            Example.fixed("<marker>grey</marker>"));
+    addExamplePair(Example.wrong("<marker>apartment</marker>"),
+            Example.fixed("<marker>flat</marker>"));
+    addExamplePair(Example.wrong("<marker>subway</marker>"),
+            Example.fixed("<marker>underground</marker>"));
+    addExamplePair(Example.wrong("<marker>line</marker>"),
+            Example.fixed("<marker>queue</marker>"));
+  //end of the addition
   }
 
   @Override
