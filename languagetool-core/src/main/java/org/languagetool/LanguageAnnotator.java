@@ -38,7 +38,34 @@ class LanguageAnnotator {
     this.secondLang = Objects.requireNonNull(secondLang);
   }
 
+  // assign language on sentence level
+  // TODO: what if the languages use different tokenizers?
   void annotateWithLanguage(List<AnalyzedSentence> analyzedSentences) {
+    SpellingCheckRule mainSpeller = getSpellerRule(mainLang);
+    SpellingCheckRule secondSpeller = getSpellerRule(secondLang);
+    Language prevLang = null;
+    for (AnalyzedSentence sentence : analyzedSentences) {
+      
+      for (AnalyzedTokenReadings tokens : sentence.getTokens()) {
+        String word = tokens.getToken();
+        if (prevLang != null && (tokens.isWhitespace() || tokens.isNonWord())) {
+          tokens.setLanguage(prevLang);
+        } else {
+          if (mainSpeller.isMisspelled(word)) {
+            if (!secondSpeller.isMisspelled(word)) {
+              tokens.setLanguage(secondLang);
+              prevLang = secondLang;
+            }
+          } else {
+            tokens.setLanguage(mainLang);
+            prevLang = mainLang;
+          }
+        }
+      }
+    }
+  }
+
+  void annotateWithLanguageOnTokenLevel(List<AnalyzedSentence> analyzedSentences) {
     SpellingCheckRule mainSpeller = getSpellerRule(mainLang);
     SpellingCheckRule secondSpeller = getSpellerRule(secondLang);
     // TODO: what if the languages use different tokenizers?
