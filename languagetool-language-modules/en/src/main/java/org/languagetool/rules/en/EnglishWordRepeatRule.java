@@ -96,6 +96,17 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
         return true;   // "aye aye"
       }
     //end of the addition
+    //Additions by Lumpus99
+    if (wordRepetitionOf("do", tokens, position)) {
+      return true;   // "That's not what you do. What you do do is this."
+    }
+    if (wordRepetitionOf("this", tokens, position)) {
+      return true;   // "I received this this morning."
+    }
+    if (wordRepetitionOf("clap", tokens, position)) {
+      return true;   // "Clap clap"
+    }
+    //End of editions by Lumpus99
     if (tokens[position].getToken().endsWith("ay")) {
       if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
         return true;   // "may May"
