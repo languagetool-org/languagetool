@@ -65,6 +65,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   //end of the addition
   }
 
+
   @Override
   public final String getId() {
     return BRITISH_SIMPLE_REPLACE_RULE;

@@ -79,8 +79,20 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("She walked to the deep end, then she <marker>dove</marker> in."),
       Example.fixed("She walked to the deep end, then she <marker>dived</marker> in."));
     //end of by Lumpus99
-    addExamplePair(Example.wrong("Book starts with a <marker>dialog</marker>."),
-      Example.fixed("Book starts with a <marker>dialogue</marker>."));
+    //by Grisworld
+    addExamplePair(Example.wrong("My uncle’s<marker>plow</marker> has a great effect on soil(s) and multiple blades that he sharpens once a month."),
+      Example.fixed("My uncle’s<marker>plough</marker> has a great effect on soil(s) and multiple blades that he sharpens once a month."));
+    addExamplePair(Example.wrong("A computer<marker> program</marker> is written by students and teachers to aim important jobs in real life."),
+      Example.fixed("A computer<marker> programme</marker> is written by students and teachers to aim important jobs in real life."));
+    addExamplePair(Example.wrong("You should <marker>staunch</marker> a wounded person's blood flow while he/she is bleeding."),
+      Example.fixed("You should <marker>stanch</marker> a wounded person's blood flow while he/she is bleeding."));
+    addExamplePair(Example.wrong("Nothing is found after earthquake in this bulding,expect it's upper <marker>story</marker>"),
+      Example.fixed("Nothing is found after earthquake in this bulding,expect it's upper <marker>storey</marker>"));
+    addExamplePair(Example.wrong("A curious <marker>traveler</marker> always notes every place where he/she goes around the world."),
+      Example.fixed("A curious <marker>traveller</marker> always notes every place where he/she goes around the world."));
+    addExamplePair(Example.wrong("He forgot the <marker>labeled</marker> paper on gift.There his friend may learn its prize!"),
+      Example.fixed("He forgot the <marker>labelled</marker> paper on gift.There his friend may learn its prize!\""));
+    //end of by Grisworld
   }
 
   @Override
