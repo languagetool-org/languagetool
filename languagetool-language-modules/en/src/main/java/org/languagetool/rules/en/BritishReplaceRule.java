@@ -64,16 +64,16 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
             Example.fixed("<marker>queue</marker>"));
   //end of the addition
     //by Grisworld
-    addExamplePair(Example.wrong("<marker>theater</marker>"),
-      Example.fixed("<marker>theatre</marker>"));
-    addExamplePair(Example.wrong("<marker>gray</marker>"),
-      Example.fixed("<marker>grey</marker>"));
-    addExamplePair(Example.wrong("<marker>apartment</marker>"),
-      Example.fixed("<marker>flat</marker>"));
-    addExamplePair(Example.wrong("<marker>subway</marker>"),
-      Example.fixed("<marker>underground</marker>"));
-    addExamplePair(Example.wrong("<marker>line</marker>"),
-      Example.fixed("<marker>queue</marker>"));
+    addExamplePair(Example.wrong("<marker>sandbox</marker>"),
+      Example.fixed("<marker>sandpit</marker>"));
+    addExamplePair(Example.wrong("<marker>shopping cart</marker>"),
+      Example.fixed("<marker>trolley</marker>"));
+    addExamplePair(Example.wrong("<marker>closet</marker>"),
+      Example.fixed("<marker>wardrobe</marker>"));
+    addExamplePair(Example.wrong("<marker>diaper</marker>"),
+      Example.fixed("<marker>nappy</marker>"));
+    addExamplePair(Example.wrong("<marker>lollipop</marker>"),
+      Example.fixed("<marker>lolly</marker>"));
     //end of by Grisworld
   }
 
