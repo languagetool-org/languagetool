@@ -79,7 +79,6 @@ public class CompoundRule extends AbstractCompoundRule {
       Example.fixed("30 minutes left and still I did not get this topic's <marker>landmark</marker>,please explain me the crucial part of this topic."));
     addExamplePair(Example.wrong("Unfortunately, forty five corpses have been found after this <marker>land-slip</marker>,since one hundred house is uprooted."),
       Example.fixed("Unfortunately, forty five corpses have been found after this <marker>landslip</marker>,since one hundred house is uprooted."));
-
     //end of by Grisworld
   }
 
