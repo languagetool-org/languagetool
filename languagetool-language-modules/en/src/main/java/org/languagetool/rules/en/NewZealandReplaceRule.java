@@ -90,8 +90,8 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
       Example.fixed("Nothing is found after earthquake in this bulding,expect it's upper <marker>storey</marker>"));
     addExamplePair(Example.wrong("A curious <marker>traveler</marker> always notes every place where he/she goes around the world."),
       Example.fixed("A curious <marker>traveller</marker> always notes every place where he/she goes around the world."));
-    addExamplePair(Example.wrong("He forgot the <marker>labeled</marker> paper on gift.There his friend may learn its prize!"),
-      Example.fixed("He forgot the <marker>labelled</marker> paper on gift.There his friend may learn its prize!\""));
+    addExamplePair(Example.wrong("He forgot the <marker>labeled</marker> paper on gift.Therefore, his friend may learn its prize!"),
+      Example.fixed("He forgot the <marker>labelled</marker> paper on gift.Therefore, his friend may learn its prize!"));
     //end of by Grisworld
   }
 
