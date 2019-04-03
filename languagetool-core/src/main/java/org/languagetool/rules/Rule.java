@@ -202,7 +202,7 @@ public abstract class Rule {
    */
   public boolean supportsLanguage(Language language) {
     try {
-      language.
+
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       UserConfig config = new UserConfig();
       List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
