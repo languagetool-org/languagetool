@@ -34,6 +34,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     super(messages, language);
     addExamplePair(Example.wrong("This <marker>is is</marker> just an example sentence."),
                    Example.fixed("This <marker>is</marker> just an example sentence."));
+
   }
 
   @Override
