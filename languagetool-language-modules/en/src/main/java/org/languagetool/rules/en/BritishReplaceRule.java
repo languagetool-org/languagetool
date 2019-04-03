@@ -63,6 +63,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("<marker>line</marker>"),
             Example.fixed("<marker>queue</marker>"));
   //end of the addition
+
     //by Grisworld
     addExamplePair(Example.wrong("<marker>sandbox</marker>"),
       Example.fixed("<marker>sandpit</marker>"));
@@ -75,6 +76,20 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("<marker>lollipop</marker>"),
       Example.fixed("<marker>lolly</marker>"));
      //end of by Grisworld
+
+    //Added by Lumpus99
+    addExamplePair(Example.wrong("<marker>cracker</marker>"),
+      Example.fixed("<marker>biscuit</marker>"));
+    addExamplePair(Example.wrong("<marker>parking lot</marker>"),
+      Example.fixed("<marker>car park</marker>"));
+    addExamplePair(Example.wrong("<marker>math</marker>"),
+      Example.fixed("<marker>maths</marker>"));
+    addExamplePair(Example.wrong("<marker>zip code</marker>"),
+      Example.fixed("<marker>postcode</marker>"));
+    addExamplePair(Example.wrong("<marker>mailbox</marker>"),
+      Example.fixed("<marker>postbox</marker>"));
+    //end of addition
+
   }
 
 

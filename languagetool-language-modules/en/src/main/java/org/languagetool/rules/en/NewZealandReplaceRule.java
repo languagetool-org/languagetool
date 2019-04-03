@@ -79,6 +79,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("She walked to the deep end, then she <marker>dove</marker> in."),
       Example.fixed("She walked to the deep end, then she <marker>dived</marker> in."));
     //end of by Lumpus99
+
     //by Grisworld
     addExamplePair(Example.wrong("My uncle’s<marker>plow</marker> has a great effect on soil(s) and multiple blades that he sharpens once a month."),
       Example.fixed("My uncle’s<marker>plough</marker> has a great effect on soil(s) and multiple blades that he sharpens once a month."));
@@ -93,6 +94,9 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("He forgot the <marker>labeled</marker> paper on gift.Therefore, his friend may learn its prize!"),
       Example.fixed("He forgot the <marker>labelled</marker> paper on gift.Therefore, his friend may learn its prize!"));
     //end of by Grisworld
+
+
+
   }
 
   @Override

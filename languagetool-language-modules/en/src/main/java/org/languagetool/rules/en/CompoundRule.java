@@ -70,6 +70,7 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("He is a <marker>zoo-keeper</marker>."),
       Example.fixed("He is a <marker>zookeeper</marker>."));
     //end of by ahsen
+
     //by Grisworld
     addExamplePair(Example.wrong("Why did you <marker>man-handle</marker> those people? They're innocent!"),
       Example.fixed("Why did you <marker>manhandle</marker> those people? They're innocent!."));
@@ -84,6 +85,22 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("When you all graduate from university, you all will have <marker>year-book</marker> to see yourself in that book!"),
       Example.fixed("When you all graduate from university, you all will have <marker>year-book</marker> to see yourself in that book!"));
     //end of by Grisworld
+
+    //by Lumpus99
+    addExamplePair(Example.wrong("The bear dropped down on all fours and growled at her <marker>off-spring</marker>."),
+      Example.fixed("The bear dropped down on all fours and growled at her <marker>offspring</marker>."));
+    addExamplePair(Example.wrong("His gaze went to the <marker>in-coming</marker> storm."),
+      Example.fixed("His gaze went to the <marker>incoming</marker> storm."));
+    addExamplePair(Example.wrong("If the <marker>net-work</marker> doesn't work, there's a radio in your car."),
+      Example.fixed("If the <marker>network</marker> doesn't work, there's a radio in your car."));
+    addExamplePair(Example.wrong("She folded the <marker>news-paper</marker>"),
+      Example.fixed("She folded the <marker>newspaper</marker>"));
+    addExamplePair(Example.wrong("She started typing on her <marker>key-board</marker>"),
+      Example.fixed("She started typing on her <marker>keyboard</marker>"));
+    addExamplePair(Example.wrong("He moved the <marker>joy-stick</marker> that was controlling the helicopter."),
+      Example.fixed("He moved the <marker>joystick</marker> that was controlling the helicopter."));
+    //end of by Lumpus99
+
   }
 
   @Override
