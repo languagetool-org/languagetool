@@ -74,7 +74,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
       Example.fixed("<marker>nappy</marker>"));
     addExamplePair(Example.wrong("<marker>lollipop</marker>"),
       Example.fixed("<marker>lolly</marker>"));
-    //end of by Grisworld
+     //end of by Grisworld
   }
 
 
