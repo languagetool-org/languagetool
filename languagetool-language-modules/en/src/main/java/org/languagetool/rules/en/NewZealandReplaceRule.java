@@ -51,6 +51,21 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),
                    Example.fixed("A <marker>footpath</marker> is a path along the side of a road."));
+  //by ahsen
+    addExamplePair(Example.wrong("Book starts with a <marker>dialog</marker>."),
+      Example.fixed("Book starts with a <marker>dialogue</marker>."));
+    addExamplePair(Example.wrong("She was <marker>focused</marker>."),
+      Example.fixed("She was <marker>focussed</marker>."));
+    addExamplePair(Example.wrong("Buildings were <marker>gray</marker>."),
+      Example.fixed("Buildings were <marker>grey</marker>."));
+    addExamplePair(Example.wrong("The <marker>judgment</marker> was harsh."),
+      Example.fixed("The <marker>judgement</marker> was harsh."));
+    addExamplePair(Example.wrong("He used to love <marker>math</marker>."),
+      Example.fixed("He used to love <marker>maths</marker>."));
+    addExamplePair(Example.wrong("He has <marker>mustache</marker>."),
+      Example.fixed("He has <marker>moustache</marker>."));
+
+    //end of by ahsen
   }
 
   @Override
