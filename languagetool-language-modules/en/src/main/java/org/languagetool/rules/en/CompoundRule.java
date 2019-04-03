@@ -56,6 +56,20 @@ public class CompoundRule extends AbstractCompoundRule {
             "Hyphenation problem");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
+    //by ahsen new compound rules
+    addExamplePair(Example.wrong("It is written on the <marker>note-book</marker>."),
+      Example.fixed("It is written on the <marker>notebook</marker>."));
+    addExamplePair(Example.wrong("This <marker>waist-coat</marker> is green."),
+      Example.fixed("This <marker>waistcoat</marker> is green."));
+    addExamplePair(Example.wrong("I gotta go to <marker>book-store</marker>."),
+      Example.fixed("I gotta go to <marker>bookstore</marker>."));
+    addExamplePair(Example.wrong("This <marker>fire-man</marker> saved the baby."),
+      Example.fixed("This <marker>fireman</marker> saved the baby."));
+    addExamplePair(Example.wrong("The <marker>moon-light</marker> is bright."),
+      Example.fixed("The <marker>moonlight</marker> is bright."));
+    addExamplePair(Example.wrong("He is a <marker>zoo-keeper</marker>."),
+      Example.fixed("He is a <marker>zookeeper</marker>."));
+    //end of by ahsen
   }
 
   @Override
