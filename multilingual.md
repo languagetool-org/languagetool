@@ -16,6 +16,18 @@ Das ist echt very nice von dir.
 I'm not going to do that, sagte der Kapitän.
 "I'm not going to do that", sagte der Kapitän.
 
+This is a test, sagte der Engländer.  
+Tricky cases: what if a typo is at the language boundary?
+ 
+This is a testx, sagte der Engländer.  
+This is a test, sagtex der Engländer.
+
+- Use both languages for suggestion corrections at that location?
+- Use the languages that has a closer suggestion? (Would also require getting suggestions for both languages)
+
+To simplify, what if we assign the same language to:
+1. all tokens of a sentence?
+2. all tokens up to a delimiter like `[;,.:?!"\n]`
 
 ## Evaluation
 
