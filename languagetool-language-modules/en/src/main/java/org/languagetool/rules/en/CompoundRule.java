@@ -70,6 +70,7 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("He is a <marker>zoo-keeper</marker>."),
       Example.fixed("He is a <marker>zookeeper</marker>."));
     //end of by ahsen
+
   }
 
   @Override

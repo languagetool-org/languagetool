@@ -86,8 +86,8 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
       Example.fixed("A computer<marker> programme</marker> is written by students and teachers to aim important jobs in real life."));
     addExamplePair(Example.wrong("You should <marker>staunch</marker> a wounded person's blood flow while he/she is bleeding."),
       Example.fixed("You should <marker>stanch</marker> a wounded person's blood flow while he/she is bleeding."));
-    addExamplePair(Example.wrong("Nothing is found after earthquake in this bulding,expect it's upper <marker>story</marker>"),
-      Example.fixed("Nothing is found after earthquake in this bulding,expect it's upper <marker>storey</marker>"));
+    addExamplePair(Example.wrong("Nothing is found after earthquake in this building,expect it's upper <marker>story</marker>"),
+      Example.fixed("Nothing is found after earthquake in this building,expect it's upper <marker>storey</marker>"));
     addExamplePair(Example.wrong("A curious <marker>traveler</marker> always notes every place where he/she goes around the world."),
       Example.fixed("A curious <marker>traveller</marker> always notes every place where he/she goes around the world."));
     addExamplePair(Example.wrong("He forgot the <marker>labeled</marker> paper on gift.Therefore, his friend may learn its prize!"),

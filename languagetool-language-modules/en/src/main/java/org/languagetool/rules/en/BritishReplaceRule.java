@@ -63,6 +63,18 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("<marker>line</marker>"),
             Example.fixed("<marker>queue</marker>"));
   //end of the addition
+    //by Grisworld
+    addExamplePair(Example.wrong("<marker>theater</marker>"),
+      Example.fixed("<marker>theatre</marker>"));
+    addExamplePair(Example.wrong("<marker>gray</marker>"),
+      Example.fixed("<marker>grey</marker>"));
+    addExamplePair(Example.wrong("<marker>apartment</marker>"),
+      Example.fixed("<marker>flat</marker>"));
+    addExamplePair(Example.wrong("<marker>subway</marker>"),
+      Example.fixed("<marker>underground</marker>"));
+    addExamplePair(Example.wrong("<marker>line</marker>"),
+      Example.fixed("<marker>queue</marker>"));
+    //end of by Grisworld
   }
 
 
