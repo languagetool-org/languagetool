@@ -63,6 +63,20 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("<marker>line</marker>"),
             Example.fixed("<marker>queue</marker>"));
   //end of the addition
+
+    //by Grisworld
+    addExamplePair(Example.wrong("<marker>sandbox</marker>"),
+      Example.fixed("<marker>sandpit</marker>"));
+    addExamplePair(Example.wrong("<marker>shopping cart</marker>"),
+      Example.fixed("<marker>trolley</marker>"));
+    addExamplePair(Example.wrong("<marker>closet</marker>"),
+      Example.fixed("<marker>wardrobe</marker>"));
+    addExamplePair(Example.wrong("<marker>diaper</marker>"),
+      Example.fixed("<marker>nappy</marker>"));
+    addExamplePair(Example.wrong("<marker>lollipop</marker>"),
+      Example.fixed("<marker>lolly</marker>"));
+     //end of by Grisworld
+
     //Added by Lumpus99
     addExamplePair(Example.wrong("<marker>cracker</marker>"),
       Example.fixed("<marker>biscuit</marker>"));
@@ -75,7 +89,9 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("<marker>mailbox</marker>"),
       Example.fixed("<marker>postbox</marker>"));
     //end of addition
+
   }
+
 
   @Override
   public final String getId() {

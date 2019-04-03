@@ -54,7 +54,6 @@ public abstract class Rule {
   private boolean defaultOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
-
   public Rule() {
     this(null);
   }
@@ -203,6 +202,7 @@ public abstract class Rule {
    */
   public boolean supportsLanguage(Language language) {
     try {
+
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       UserConfig config = new UserConfig();
       List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),

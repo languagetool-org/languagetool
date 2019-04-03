@@ -70,6 +70,22 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("He is a <marker>zoo-keeper</marker>."),
       Example.fixed("He is a <marker>zookeeper</marker>."));
     //end of by ahsen
+
+    //by Grisworld
+    addExamplePair(Example.wrong("Why did you <marker>man-handle</marker> those people? They're innocent!"),
+      Example.fixed("Why did you <marker>manhandle</marker> those people? They're innocent!."));
+    addExamplePair(Example.wrong("We cannot this pipe's quality by looking its <marker>man-hole</marker>,it's very small to control."),
+      Example.fixed("We cannot this pipe's quality by looking its <marker>manhole</marker>,it's very small to control."));
+    addExamplePair(Example.wrong("30 minutes left and still I did not get this topic's <marker>land-mark</marker>,please explain me the crucial part of this topic."),
+      Example.fixed("30 minutes left and still I did not get this topic's <marker>landmark</marker>,please explain me the crucial part of this topic."));
+    addExamplePair(Example.wrong("Unfortunately, forty five corpses have been found after this <marker>land-slip</marker>,since one hundred house is uprooted."),
+      Example.fixed("Unfortunately, forty five corpses have been found after this <marker>landslip</marker>,since one hundred house is uprooted."));
+    addExamplePair(Example.wrong("We can not help you this time.They expect from a student such as <marker>your-self</marker>."),
+      Example.fixed("We can not help you this time.They expect from a student such as <marker>your-self</marker>."));
+    addExamplePair(Example.wrong("When you all graduate from university, you all will have <marker>year-book</marker> to see yourself in that book!"),
+      Example.fixed("When you all graduate from university, you all will have <marker>year-book</marker> to see yourself in that book!"));
+    //end of by Grisworld
+
     //by Lumpus99
     addExamplePair(Example.wrong("The bear dropped down on all fours and growled at her <marker>off-spring</marker>."),
       Example.fixed("The bear dropped down on all fours and growled at her <marker>offspring</marker>."));
@@ -84,6 +100,7 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("He moved the <marker>joy-stick</marker> that was controlling the helicopter."),
       Example.fixed("He moved the <marker>joystick</marker> that was controlling the helicopter."));
     //end of by Lumpus99
+
   }
 
   @Override
