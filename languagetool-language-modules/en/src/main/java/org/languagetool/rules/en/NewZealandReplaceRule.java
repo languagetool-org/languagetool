@@ -79,8 +79,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     addExamplePair(Example.wrong("She walked to the deep end, then she <marker>dove</marker> in."),
       Example.fixed("She walked to the deep end, then she <marker>dived</marker> in."));
     //end of by Lumpus99
-    addExamplePair(Example.wrong("Book starts with a <marker>dialog</marker>."),
-      Example.fixed("Book starts with a <marker>dialogue</marker>."));
+
   }
 
   @Override
