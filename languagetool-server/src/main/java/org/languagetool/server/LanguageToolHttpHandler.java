@@ -182,6 +182,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
+      } else if (e instanceof PathNotFoundException || rootCause instanceof PathNotFoundException) {
+        errorCode = HttpURLConnection.HTTP_NOT_FOUND;
+        response = e.getMessage();
       } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +

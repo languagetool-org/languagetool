@@ -76,7 +76,7 @@ class ApiV2 {
       // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);
     } else {
-      throw new RuntimeException("Unsupported action: '" + path + "'");
+      throw new PathNotFoundException("Unsupported action: '" + path + "'");
     }
   }
 
@@ -91,7 +91,7 @@ class ApiV2 {
     AnnotatedText aText;
     int paramCount = (parameters.containsKey("text") ? 1 : 0) + (parameters.containsKey("data") ? 1 : 0);
     if (paramCount > 1) {
-      throw new RuntimeException("Set only 'text' or 'data' parameters, not both");
+      throw new IllegalArgumentException("Set only 'text' or 'data' parameters, not both");
     }
     if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
@@ -99,16 +99,16 @@ class ApiV2 {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode data = mapper.readTree(parameters.get("data"));
       if (data.get("text") != null && data.get("annotation") != null) {
-        throw new RuntimeException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
+        throw new IllegalArgumentException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
       } else if (data.get("text") != null) {
         aText = getAnnotatedTextFromString(data, data.get("text").asText());
       } else if (data.get("annotation") != null) {
         aText = getAnnotatedTextFromJson(data);
       } else {
-        throw new RuntimeException("'data' key in JSON requires 'text' or 'annotation' key");
+        throw new IllegalArgumentException("'data' key in JSON requires 'text' or 'annotation' key");
       }
     } else {
-      throw new RuntimeException("Missing 'text' or 'data' parameter");
+      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
@@ -142,10 +142,10 @@ class ApiV2 {
   private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
     if (params.get("lang") == null) {
-      throw new RuntimeException("'lang' parameter missing");
+      throw new IllegalArgumentException("'lang' parameter missing");
     }
     if (params.get("ruleId") == null) {
-      throw new RuntimeException("'ruleId' parameter missing");
+      throw new IllegalArgumentException("'ruleId' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(params.get("lang"));
     JLanguageTool lt = new JLanguageTool(lang);
@@ -160,7 +160,7 @@ class ApiV2 {
       }
     }
     if (foundRules.isEmpty()) {
-      throw new RuntimeException("Rule '" + params.get("ruleId") + "' not found for language " + lang +
+      throw new PathNotFoundException("Rule '" + params.get("ruleId") + "' not found for language " + lang +
               " (LanguageTool version/date: " + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ", total rules of language: " + rules.size() + ")");
     }
     StringWriter sw = new StringWriter();
@@ -290,9 +290,9 @@ class ApiV2 {
     //
     for (JsonNode node : data.get("annotation")) {
       if (node.get("text") != null && node.get("markup") != null) {
-        throw new RuntimeException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
+        throw new IllegalArgumentException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
       } else if (node.get("text") != null && node.get("interpretAs") != null) {
-        throw new RuntimeException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
+        throw new IllegalArgumentException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
       } else if (node.get("text") != null) {
         atb.addText(node.get("text").asText());
       } else if (node.get("markup") != null) {
@@ -302,7 +302,7 @@ class ApiV2 {
           atb.addMarkup(node.get("markup").asText());
         }
       } else {
-        throw new RuntimeException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
+        throw new IllegalArgumentException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
       }
     }
     return atb.build();

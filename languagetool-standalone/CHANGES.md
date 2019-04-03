@@ -7,7 +7,8 @@
 
 #### HTTP API / LT server
   * `altLanguages` will only be considered for words with >= 3 characters
-
+  * Cleaned up error handling: invalid parameters will now return an HTTP error 400
+    instead of 500.
 
 
 ## 4.5.1 (2019-03-28)

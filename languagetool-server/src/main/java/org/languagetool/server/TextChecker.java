@@ -446,7 +446,7 @@ abstract class TextChecker {
 
     if (parameters.get("sourceText") != null) {
       if (parameters.get("sourceLanguage") == null) {
-        throw new RuntimeException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
+        throw new IllegalArgumentException("'sourceLanguage' parameter missing - must be set when 'sourceText' is set");
       }
       Language sourceLanguage = Languages.getLanguageForShortCode(parameters.get("sourceLanguage"));
       JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);
