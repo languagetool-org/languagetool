@@ -64,8 +64,23 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
       Example.fixed("He used to love <marker>maths</marker>."));
     addExamplePair(Example.wrong("He has <marker>mustache</marker>."),
       Example.fixed("He has <marker>moustache</marker>."));
-
     //end of by ahsen
+    //by Lumpus99
+    addExamplePair(Example.wrong("<marker>Aluminum</marker> is a chemical element with symbol Al"),
+      Example.fixed("<marker>Aluminium</marker> is a chemical element with symbol Al"));
+    addExamplePair(Example.wrong("Got to the <marker>center</marker> of the room."),
+      Example.fixed("Got to the <marker>centre</marker> of the room."));
+    addExamplePair(Example.wrong("The wall is 1 <marker>meter</marker> high."),
+      Example.fixed("The wall is 1 <marker>metre</marker> high."));
+    addExamplePair(Example.wrong("I will sign the <marker>check</marker>"),
+      Example.fixed("I will sign the <marker>cheque</marker>"));
+    addExamplePair(Example.wrong("Red is my favorite <marker>color</marker>"),
+      Example.fixed("Red is my favorite <marker>colour</marker>"));
+    addExamplePair(Example.wrong("She walked to the deep end, then she <marker>dove</marker> in."),
+      Example.fixed("She walked to the deep end, then she <marker>dived</marker> in."));
+    //end of by Lumpus99
+    addExamplePair(Example.wrong("Book starts with a <marker>dialog</marker>."),
+      Example.fixed("Book starts with a <marker>dialogue</marker>."));
   }
 
   @Override
