@@ -414,7 +414,7 @@ public class VerbAgreementRule extends TextLevelRule {
   private boolean hasUnambiguouslyPersonAndNumber(AnalyzedTokenReadings tokenReadings, String person, String number) {
     if (tokenReadings.getToken().length() == 0
         || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && tokenReadings.getStartPos() != 0)
-        || !tokenReadings.hasPartialPosTag("VER")) {
+        || !tokenReadings.hasPosTagStartingWith("VER")) {
       return false;
     }
     for (AnalyzedToken analyzedToken : tokenReadings) {
@@ -435,7 +435,7 @@ public class VerbAgreementRule extends TextLevelRule {
   private boolean isFiniteVerb(AnalyzedTokenReadings token) {
     if (token.getToken().length() == 0
         || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
-        || !token.hasPartialPosTag("VER")
+        || !token.hasPosTagStartingWith("VER")
         || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
         || "einst".equals(token.getToken())) {
       return false;
