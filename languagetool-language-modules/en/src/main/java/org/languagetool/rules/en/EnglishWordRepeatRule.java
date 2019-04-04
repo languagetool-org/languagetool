@@ -108,6 +108,21 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "Clap clap"
     }
     //End of editions by Lumpus99
+    //Additions by Grisworld
+    if (wordRepetitionOf("that", tokens, position)) {
+      return true;   // "There was a problem with my code. I fixed that that night."
+    }
+    if (wordRepetitionOf("bang", tokens, position)) {
+      return true;   // bang bang
+    }
+    if (wordRepetitionOf("for", tokens, position)) {
+      return true;   // You wrote these for if statements.You must write them all for for loops.
+    }
+    if (wordRepetitionOf("had", tokens, position)) {
+      return true;   // When her father was not at house at that night,she had had one telescope to watch her father coming.
+    }
+
+    //End of additions by Grisworld
     if (tokens[position].getToken().endsWith("ay")) {
       if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
         return true;   // "may May"
