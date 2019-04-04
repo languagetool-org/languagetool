@@ -334,8 +334,8 @@ public class MatchState {
           posTags.add(targetPosTag);
         }
       }
-
-      if (pPosRegexMatch != null && posTagReplace != null) {
+      
+      if (pPosRegexMatch != null && posTagReplace != null && !posTags.isEmpty()) {
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
             posTagReplace);
       }
