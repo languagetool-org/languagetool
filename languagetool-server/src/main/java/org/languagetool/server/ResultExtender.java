@@ -86,12 +86,12 @@ class ResultExtender {
   }
 
   @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang, Map<String, String> params) {
-    return executor.submit(() -> getExtensionMatches(plainText, lang, params));
+  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Map<String, String> params) {
+    return executor.submit(() -> getExtensionMatches(plainText, params));
   }  
   
   @NotNull
-  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang, Map<String, String> params) throws IOException {
+  List<RemoteRuleMatch> getExtensionMatches(String plainText, Map<String, String> params) throws IOException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(connectTimeoutMillis);
