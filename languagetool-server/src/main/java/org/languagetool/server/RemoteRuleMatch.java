@@ -39,6 +39,7 @@ class RemoteRuleMatch {
   private final int contextOffset;
   private final int offset;
   private final int errorLength;
+  private final int estimatedContextForSureMatch;
 
   private String subId;
   private String shortMsg;
@@ -49,12 +50,18 @@ class RemoteRuleMatch {
   private String locQualityIssueType;
 
   RemoteRuleMatch(String ruleId, String msg, String context, int contextOffset, int offset, int errorLength) {
+    this(ruleId, msg, context, contextOffset, offset, errorLength, 0);
+  }
+  
+  RemoteRuleMatch(String ruleId, String msg, String context, int contextOffset, int offset, int errorLength,
+                  int estimatedContextForSureMatch) {
     this.ruleId = Objects.requireNonNull(ruleId);
     this.msg = Objects.requireNonNull(msg);
     this.context = Objects.requireNonNull(context);
     this.contextOffset = contextOffset;
     this.offset = offset;
     this.errorLength = errorLength;
+    this.estimatedContextForSureMatch = estimatedContextForSureMatch;
   }
 
   boolean isTouchedByOneOf(List<RuleMatch> matches) {
@@ -163,6 +170,11 @@ class RemoteRuleMatch {
 
   void setLocQualityIssueType(String locQualityIssueType) {
     this.locQualityIssueType = locQualityIssueType;
+  }
+
+  @Experimental
+  int estimatedContextForSureMatch() {
+    return estimatedContextForSureMatch;
   }
 
   @Override

@@ -76,7 +76,8 @@ class ResultExtender {
     for (RemoteRuleMatch extensionMatch : extensionMatches) {
       if (!extensionMatch.isTouchedByOneOf(matches)) {
         AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[]{});
-        RuleMatch hiddenRuleMatch = new RuleMatch(new HiddenRule(extensionMatch.getLocQualityIssueType().orElse(null)), sentence, extensionMatch.getErrorOffset(),
+        HiddenRule hiddenRule = new HiddenRule(extensionMatch.getLocQualityIssueType().orElse(null), extensionMatch.estimatedContextForSureMatch());
+        RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence, extensionMatch.getErrorOffset(),
                 extensionMatch.getErrorOffset()+extensionMatch.getErrorLength(), "(hidden message)");
         filteredExtMatches.add(hiddenRuleMatch);
       }
@@ -151,8 +152,9 @@ class ResultExtender {
 
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
+    int contextForSureMatch = match.get("contextForSureMatch") != null ? (int) match.get("contextForSureMatch") : 0;
     RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
-            getRequiredString(context, "text"), contextOffset, offset, errorLength);
+            getRequiredString(context, "text"), contextOffset, offset, errorLength, contextForSureMatch);
     remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
     remoteMatch.setRuleSubId(getOrNull(rule, "subId"));
     remoteMatch.setLocQualityIssueType(getOrNull(rule, "issueType"));
@@ -202,8 +204,10 @@ class ResultExtender {
   
   class HiddenRule extends Rule {
     final ITSIssueType itsType;
-    HiddenRule(String type) {
+    final int estimatedContextForSureMatch;
+    HiddenRule(String type, int estimatedContextForSureMatch) {
       itsType = type != null ? ITSIssueType.getIssueType(type) : ITSIssueType.Uncategorized;
+      this.estimatedContextForSureMatch = estimatedContextForSureMatch;
     }
     @Override
     public String getId() {
@@ -220,6 +224,10 @@ class ResultExtender {
     @Override
     public RuleMatch[] match(AnalyzedSentence sentence) {
       throw new RuntimeException("not implemented");
+    }
+    @Override
+    public int estimateContextForSureMatch() {
+      return estimatedContextForSureMatch;
     }
   }
 }
