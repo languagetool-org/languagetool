@@ -94,7 +94,6 @@ public class SentenceSourceChecker {
     }
   }
 
-  @SuppressWarnings("AccessStaticViaInstance")
   private static CommandLine ensureCorrectUsageOrExit(String[] args) {
     Options options = new Options();
     options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
@@ -135,7 +134,7 @@ public class SentenceSourceChecker {
             .desc("Consider only sentences that contain this regular expression (for speed up)")
             .build());
     try {
-      CommandLineParser parser = new GnuParser();
+      CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
     } catch (ParseException e) {
       System.err.println("Error: " + e.getMessage());
