@@ -3848,6 +3848,12 @@
         
         
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
+          <antipattern><!-- https://en.oxforddictionaries.com/definition/with_one's_head_in_the_clouds-->
+            <token>head</token>
+            <token>in</token>
+            <token>the</token>
+            <token>clouds</token>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -3866,7 +3872,7 @@
           <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
           <example type="untouched">The <marker>voices</marker> all die down slowly.</example>
           <example type="untouched">...of black pants with purple jersey made the <marker>Ravens</marker> the first NFL team to wear dark colors.</example>
-<!-- No easy fix to prevent this sentence from being touched          <example type="untouched">Gordon had his head in the <marker>clouds</marker> all week.</example> -->
+          <example type="untouched">Gordon had his head in the <marker>clouds</marker> all week.</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
         
