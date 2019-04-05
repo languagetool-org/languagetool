@@ -3871,6 +3871,12 @@
         </rule>
         
         <rule id="VBZNNS_NNS" name="verb singular/noun + noun plural or uncountable => verb">
+          <antipattern><!-- arts and crafts industry/industries -->
+            <token postag="NNS"/>
+            <token>and</token>
+            <token postag="NNS"/>
+            <token postag_regexp="yes" postag="NN(S|:UN?)"/>
+          </antipattern>
           <pattern>
             <marker>
               <and>
@@ -3890,6 +3896,8 @@
           <example type="untouched">In days past some used to color the <marker>eggs</marker> red, so as to show the kind of death by...</example>
           <example type="untouched">... because otherwise an <marker>arms race</marker> in this new technology would ...</example>
           <example type="untouched">These days more young <marker>husbands</marker> help their wives with housework.</example>
+          <example type="untouched">There is also an <marker>arts and crafts industry</marker> that produces...</example>
+          <example type="untouched">... if <marker>arts and crafts industries</marker> are thriving in that part of the country.</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
         </rule>
         
