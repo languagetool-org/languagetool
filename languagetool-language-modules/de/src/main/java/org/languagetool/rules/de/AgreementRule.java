@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -716,7 +717,7 @@ public class AgreementRule extends Rule {
     }
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
-    if (set == null || set.isEmpty()) {
+    if (set.isEmpty()) {
       // TODO: more detailed error message:
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
@@ -747,22 +748,22 @@ public class AgreementRule extends Rule {
     return set1.size() > 0;
   }
 
-  @Nullable
+  @NotNull
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
     Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
-      return null;  // word not known, assume it's correct
+      return Collections.emptySet();  // word not known, assume it's correct
     }
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
     Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     if (set2 == null) {
-      return null;
+      return Collections.emptySet();
     }
     Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
     if (set3 == null) {
-      return null;
+      return Collections.emptySet();
     }
     set1.retainAll(set2);
     set1.retainAll(set3);

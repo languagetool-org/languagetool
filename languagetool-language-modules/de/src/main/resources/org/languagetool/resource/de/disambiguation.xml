@@ -729,7 +729,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token>,</token>
                 <marker>
-                    <token skip="5">um</token>
+                    <token skip="7">um<exception scope="next">,</exception></token>
                 </marker>
                 <token>zu</token>
                 <token postag="VER:INF:.+" postag_regexp="yes"/>
@@ -931,9 +931,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern case_sensitive="yes">
                 <token>Ich</token>
-                <marker><token>liebe</token></marker>
+                <marker><token regexp="yes">liebe|vertraute</token></marker>
             </pattern>
-            <disambig action="remove" postag="ADJ:.+"/>
+            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
         </rule>
     </rulegroup>
     <rulegroup id="RETTUNGSWAGEN" name="Rettungswagen keine Verbform">
