@@ -10523,6 +10523,14 @@ USA
                 <example correction="prevent">This infrared radiation rises into the atmosphere where gases, such as carbon dioxide, <marker>prevents</marker> the infrared radiation from escaping into space.</example>
             </rule>
             <rule>
+                <antipattern><!-- MFU 2019/03/06 fix for 'bachelors and masters programs' probably caused by MFU disambiguation changes on 2019/03/06. -->
+                    <token regexp="yes">wh(ich|o)</token>
+                    <token postag="VBZ"/>
+                    <token postag="NNS"/>
+                    <token regexp="yes">and|or</token>
+                    <token postag="NNS"/>
+                    <token postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="SENT_START"/></token>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
@@ -10532,6 +10540,8 @@ USA
                 <message>Possible agreement error. You should probably use: <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="prevent">This infrared radiation rises into the atmosphere where gases <marker>prevents</marker> the infrared radiation from escaping into space.</example>
+                <example>This infrared radiation rises into the atmosphere where gases <marker>prevent</marker> the infrared radiation from escaping into space.</example>
+                <example>... University of Aruba (UA) which offers <marker>bachelors</marker> and masters programs in law, finance and economic...</example>
             </rule>
             <!--rule>
                 <pattern>
