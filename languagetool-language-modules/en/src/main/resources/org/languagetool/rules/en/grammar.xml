@@ -7326,6 +7326,20 @@ USA
             <message>Did you mean <suggestion><match no="2" postag="VB"/></suggestion>?</message>
             <example correction="answer">Please <marker>answers</marker> quickly!</example>
         </rule>
+        <rule id="BE_IS" name="inflected form of 'be'">
+            <antipattern>
+                <token postag="VB.?" postag_regexp="yes" skip="-1"/>
+                <token postag="VBG"></token>
+                <token>be</token>
+            </antipattern>
+            <pattern>
+                <token postag="VBG"></token>
+                <marker><token>be</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>is</suggestion> or <suggestion>can be</suggestion>?</message>
+            <example correction="is|can be">Grammar checking <marker>be</marker> difficult.</example>
+            <example>Can the meeting be finished within two hours?</example>
+        </rule>
         <rule id="BE_WILL" name="will follows be ('he is would')">
             <antipattern>
                 <token>those</token>
@@ -22466,12 +22480,12 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">is|w(?:as|ere)|are|be(en)?|s|re|['´]</token>
+                    <token regexp="yes" inflected="yes">be|['´]</token>
                     <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ?" postag_regexp="yes"><exception postag="NNPS?|VB" postag_regexp="yes"/></token>
+                    <token postag="JJ.?" postag_regexp="yes"><exception postag="NNPS?|VB" postag_regexp="yes"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
@@ -22810,7 +22824,7 @@ USA
             <url>https://www.grammar-monster.com/easily_confused/advice_advise.htm</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">given?|gave</token>
+                    <token inflexted="yes">give</token>
                     <token min="0" max="1" postag="PRP"/>
                     <marker>
                         <token>advise</token>
@@ -22953,17 +22967,18 @@ USA
             </rule>
         </rulegroup>
         <rule id="HEAR_HERE" name="hear (here)">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <marker>
                     <token postag="SENT_START"/>
-                    <token>hear</token>
+                    <token regexp="yes">Hea?r</token>
                 </marker>
                 <token inflected="yes">be</token>
             </pattern>
-            <message>Did you mean <suggestion>here</suggestion>?</message>
+            <message>Did you mean <suggestion>Here</suggestion>?</message>
             <url>https://en.wiktionary.org/wiki/hear</url>
             <short>Possible typo</short>
             <example correction="Here"><marker>Hear</marker> is an entertainment fit for giants.</example>
+            <example correction="Here"><marker>Her</marker> is my room.</example>
         </rule>
         <rule id="WITCH_HAUNT" name="witch haunt (witch hunt)">
             <pattern>
