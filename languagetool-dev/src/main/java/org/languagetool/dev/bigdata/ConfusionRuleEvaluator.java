@@ -153,7 +153,7 @@ class ConfusionRuleEvaluator {
 
   private Map<Long, RuleEvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir,
                                                     String token, String homophoneToken) {
-    Map<Long, RuleEvalResult> results = new HashMap<>();
+    Map<Long, RuleEvalResult> results = new LinkedHashMap<>();
     int sentences = allTokenSentences.size() + allHomophoneSentences.size();
     System.out.println("\nEvaluation results for " + token + "/" + homophoneToken
             + " with " + sentences + " sentences as of " + new Date() + ":");

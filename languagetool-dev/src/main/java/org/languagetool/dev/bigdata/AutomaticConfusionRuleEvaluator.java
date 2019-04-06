@@ -138,7 +138,7 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private Map<Long, RuleEvalResult> findBestFactor(Map<Long, RuleEvalResult> results) {
-    Map<Long, RuleEvalResult> filteredResults = new HashMap<>();
+    Map<Long, RuleEvalResult> filteredResults = new LinkedHashMap<>();
     for (Map.Entry<Long, RuleEvalResult> entry : results.entrySet()) {
       RuleEvalResult result = entry.getValue();
       boolean candidate = result.getPrecision() >= MIN_PRECISION && result.getRecall() >= MIN_RECALL;
