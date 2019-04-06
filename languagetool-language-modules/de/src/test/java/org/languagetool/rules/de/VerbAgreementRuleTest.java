@@ -115,6 +115,8 @@ public class VerbAgreementRuleTest {
     assertBad("„Du muss gehen.“");
     assertBad("Du weiß es doch.");
     assertBad("Sie sagte zu mir: „Du muss gehen.“");
+    assertBad("„Ich müsst alles machen.“");
+    assertBad("„Ich könnt mich sowieso nicht verstehen.“");
   }
 
   @Test
