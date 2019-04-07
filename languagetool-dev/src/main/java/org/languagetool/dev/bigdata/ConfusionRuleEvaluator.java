@@ -25,6 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
+import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
@@ -182,8 +183,10 @@ class ConfusionRuleEvaluator {
           word2 = temp;
         }
       }
-      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
-              word1, delimiter, word2, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+      float fMeasureBeta = 0.5f;
+      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, %d+%d, %dgrams, %s",
+              word1, delimiter, word2, factor, spaces, precision, recall, fMeasureBeta, FMeasure.getFMeasure(precision, recall, fMeasureBeta),
+              allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
       results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
