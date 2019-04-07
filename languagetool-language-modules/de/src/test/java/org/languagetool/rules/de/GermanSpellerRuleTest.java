@@ -351,6 +351,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Fedbäck", "Feedback", rule, lt);
     assertFirstSuggestion("desöfterem", "des Öfteren", rule, lt);
     assertFirstSuggestion("momentmal", "Moment mal", rule, lt);
+    assertFirstSuggestion("eingängliche", "eingängige", rule, lt);
   }
 
   @Test

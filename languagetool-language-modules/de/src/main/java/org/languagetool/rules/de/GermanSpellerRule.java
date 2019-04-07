@@ -397,6 +397,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[bB]erreichs?", "^[bB]er", "Be");
     putRepl("[fF]uscher[ns]?", "^[fF]u", "Pfu");
     putRepl("[uU]nausweichbar(e[mnrs]?)?", "bar", "lich");
+    putRepl("[uU]nabdinglich(e[mnrs]?)?", "lich", "bar");
+    putRepl("[eE]ingänglich(e[mnrs]?)?", "lich", "ig");
     putRepl("ausgewöh?nlich(e[mnrs]?)?", "^ausgewöh?n", "außergewöhn");
     putRepl("achsial(e[mnrs]?)?", "^achs", "ax");
     putRepl("famielen?", "^famiel", "Famili");
