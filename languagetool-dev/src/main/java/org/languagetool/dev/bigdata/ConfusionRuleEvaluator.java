@@ -122,7 +122,7 @@ class ConfusionRuleEvaluator {
   @SuppressWarnings("ConstantConditions")
   private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
     println("======================");
-    printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
+    printf("Starting evaluation on " + sentences.size() + " " + (isCorrect ? "correct" : "incorrect") + " sentences with %s/%s:\n", token, homophoneToken);
     JLanguageTool lt = new JLanguageTool(language);
     List<Rule> allActiveRules = lt.getAllActiveRules();
     for (Rule activeRule : allActiveRules) {
@@ -135,10 +135,11 @@ class ConfusionRuleEvaluator {
       String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
       AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
       for (Long factor : evalFactors) {
-        rule.setConfusionPair(new ConfusionPair(homophoneToken, token, factor, bothDirections));
+        rule.setConfusionPair(new ConfusionPair(token, homophoneToken, factor, bothDirections));
         RuleMatch[] matches = rule.match(analyzedSentence);
         boolean consideredCorrect = matches.length == 0;
         String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
+        //System.out.println("consideredCorrect=" + consideredCorrect + ", correct=" + isCorrect + ": " + replacedTokenSentence);
         if (consideredCorrect && isCorrect) {
           evalValues.get(factor).trueNegatives++;
         } else if (!consideredCorrect && isCorrect) {

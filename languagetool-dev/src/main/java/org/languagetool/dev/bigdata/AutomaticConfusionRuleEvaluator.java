@@ -70,6 +70,9 @@ class AutomaticConfusionRuleEvaluator {
     int lineCount = 0;
     for (String line : lines) {
       lineCount++;
+      if (line.isEmpty()) {
+        continue;
+      }
       if (line.contains("#")) {
         System.out.println("Ignoring: " + line);
         continue;
@@ -196,7 +199,8 @@ class AutomaticConfusionRuleEvaluator {
     long t3 = System.currentTimeMillis();
     long searchTime = t2 - t1;
     long iterateTime = t3 - t2;
-    System.out.println("Found " + count + " examples for " + word + " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive);
+    System.out.println("Found " + count + " examples for " + word +
+            " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive + ", totalHits: " + topDocs.totalHits);
     return count;
   }
 
