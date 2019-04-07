@@ -5689,7 +5689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>va<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">abillat|acompanyat|acoblat|adreçat|afaitat|afegit|afermat|amarrat|aparellat|armat|associat|calçat|carregat|cedit|cenyit|classificat|combinat|col·locat|connectat|collat|datat|decidit|decorat|dedicat|descordat|desesperat|despentinat|despullat|destinat|desvestit|dirigit|disfressat|disposat|dotat|drogat|embolicat|encaixonat|encaminat|encapçalat|encolat|endollat|enfadat|enferit|enfocat|enfurit|enfurismat|enganxat|ensellat|enutjat|envergat|enviat|equipat|equivocat|errat|esgarriat|espentolat|esverat|fermat|fixat|guarnit|igualat|inclinat|incorporat|indicat|indignat|inscrit|inserit|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|ornat|posposat|precedit|proveït|regit|reforçat|relacionat|representat|seguit|servit|situat|sobrat|soldat|sopreposat|subjectat|timbrat|unit|vestit|vinculat</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">abillat|acompanyat|acoblat|adreçat|afaitat|afegit|afermat|amarrat|aparellat|armat|associat|calçat|carregat|cedit|cenyit|classificat|combinat|col·locat|connectat|collat|datat|decidit|decorat|dedicat|descordat|desencaminat|desesperat|despentinat|despullat|destinat|desvestit|dirigit|disfressat|disposat|dotat|drogat|embolicat|encaixonat|encaminat|encapçalat|encolat|endollat|enfadat|enferit|enfocat|enfurit|enfurismat|enganxat|ensellat|enutjat|envergat|enviat|equipat|equivocat|errat|esgarriat|espentolat|esverat|fermat|fixat|guarnit|igualat|inclinat|incorporat|indicat|indignat|inscrit|inserit|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|ornat|posposat|precedit|proveït|regit|reforçat|relacionat|representat|seguit|servit|situat|sobrat|soldat|sopreposat|subjectat|timbrat|unit|vestit|vinculat</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -5702,7 +5702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">vaig|vas<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|afaitat|armat|calçat|col·locat|decidit|descordat|desesperat|despullat|destinat|desvestit|dirigit|disfressat|embolicat|encaminat|enviat|equivocat|errat|esgarriat|esverat|igualat|inclinat|integrat|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|servit|situat|unit|vestit</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|afaitat|armat|calçat|col·locat|decidit|descordat|desencaminat|desesperat|despullat|destinat|desvestit|dirigit|disfressat|embolicat|encaminat|enviat|equivocat|errat|esgarriat|esverat|igualat|inclinat|integrat|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|servit|situat|unit|vestit</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -17823,7 +17823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P.*" postag_regexp="yes"/><exception>contribuent</exception></token>
+                    <token><exception postag="P.*|RG" postag_regexp="yes"/><exception>contribuent</exception></token>
                     <marker>
                         <token regexp="yes">tributari(a|es)</token>
                     </marker>
@@ -17832,6 +17832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(?iu)(.*)ari(a|es)" regexp_replace="$1àri$2"/></suggestion>
                 <example correction="tributària">En matèria <marker>tributaria</marker>.</example>
                 <example>li tributaria un culte semblant</example>
+                <example>Només tributaria per l'impost de societats.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18909,8 +18910,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>fixaren la mirada en Esteve</example>
             </rule>
             <rule>
-                <pattern>
-                    <token><exception postag="mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                <pattern> <!--|NP..000-->
+                    <token><exception postag="mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
@@ -18922,6 +18923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>de l'<match no="4"/><match no="5"></match></suggestion>
                 <example correction="de l'home"><marker>del home</marker></example>
                 <example correction="de l'&#34;home"><marker>del "home</marker>"</example>
+                <example correction="de l'imant">pel pol S <marker>del imant</marker> terrestre</example>
                 <example>de l'home</example>
                 <example>del Hubble</example>
                 <example>del atletismo</example>
@@ -30187,7 +30189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
-                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*|V.N.*" postag_regexp="yes"/><exception scope="next" regexp="yes">col·laboració|milionari</exception></token>
+                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*|V.N.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" regexp="yes">col·laboració|milionari</exception></token>
                         <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous" regexp="yes">a|de</exception></token>

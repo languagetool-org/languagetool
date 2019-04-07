@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra">
+    <!ENTITY nom_o_verb "mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra|roba">
     <!ENTITY nom_seguitde_nompropi "copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -1498,6 +1498,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">.</token>
             </pattern>
             <disambig action="add"><wd pos="NCFN000" lemma="pàgina"/></disambig>
+        </rule>
+        <rule> <!-- 1a ed. -->
+            <pattern>
+                <token regexp="yes">\d+a</token>
+                <marker>
+                    <token>ed</token>
+                </marker>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="add"><wd pos="NCFS000" lemma="edició"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -5446,31 +5456,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <marker>
                         <token inflected="yes">un</token>
-                        <token postag="DN.*" postag_regexp="yes"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
                         <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|grau|octava|dia|any</token>
                     </marker>
                 </unify>
-                <token regexp="yes">més|menys</token>
+                <token regexp="yes">més|menys|manco</token>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
-        <!-- <rule>
-            <pattern>
-            <unify>
-            <feature id="genere"></feature>
-            <feature id="nombre"></feature>
-            <marker>
-            <token inflected="yes">un</token>
-            <token regexp="yes">[\d]+</token>
-            <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|grau|octava|dia|any</token>
-            </marker>
-            </unify>
-            <token regexp="yes">més|menys</token>
-            <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
-            </rule> -->
         <rule>
             <pattern>
                 <unify>
@@ -5481,7 +5475,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|grau|octava|dia|any</token>
                     </marker>
                 </unify>
-                <token regexp="yes">més|menys</token>
+                <token regexp="yes">més|menys|manco</token>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
@@ -5492,7 +5486,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">[\d]+</token>
                     <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|grau|octava|dia|any</token>
                 </marker>
-                <token regexp="yes">més|menys</token>
+                <token regexp="yes">més|menys|manco</token>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
