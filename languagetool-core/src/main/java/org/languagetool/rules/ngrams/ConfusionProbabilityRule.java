@@ -29,7 +29,6 @@ import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -57,20 +56,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private static final boolean DEBUG = false;
 
   // Speed up the server use case, where rules get initialized for every call:
-  private static final LoadingCache<String, Map<String, List<ConfusionSet>>> confSetCache = CacheBuilder.newBuilder()
+  private static final LoadingCache<String, Map<String, List<ConfusionPair>>> confSetCache = CacheBuilder.newBuilder()
       .expireAfterWrite(10, TimeUnit.MINUTES)
-      .build(new CacheLoader<String, Map<String, List<ConfusionSet>>>() {
+      .build(new CacheLoader<String, Map<String, List<ConfusionPair>>>() {
         @Override
-        public Map<String, List<ConfusionSet>> load(@NotNull String fileInClassPath) throws IOException {
+        public Map<String, List<ConfusionPair>> load(@NotNull String fileInClassPath) throws IOException {
           ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
           ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
           try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(fileInClassPath)) {
-            return confusionSetLoader.loadConfusionSet(confusionSetStream);
+            return confusionSetLoader.loadConfusionPairs(confusionSetStream);
           }
         }
       });
 
-  private final Map<String,List<ConfusionSet>> wordToSets = new HashMap<>();
+  private final Map<String,List<ConfusionPair>> wordToPairs = new HashMap<>();
   private final LanguageModel lm;
   private final int grams;
   private final Language language;
@@ -85,7 +84,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     setLocQualityIssueType(ITSIssueType.NonConformance);
     for (String filename : getFilenames()) {
       String path = "/" + language.getShortCode() + "/" + filename;
-      this.wordToSets.putAll(confSetCache.getUnchecked(path));
+      this.wordToPairs.putAll(confSetCache.getUnchecked(path));
     }
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);
@@ -118,20 +117,24 @@ public abstract class ConfusionProbabilityRule extends Rule {
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
       String token = googleToken.token;
-      List<ConfusionSet> confusionSets = wordToSets.get(token);
+      List<ConfusionPair> confusionPairs = wordToPairs.get(token);
       boolean uppercase = false;
-      if (confusionSets == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
-        confusionSets = wordToSets.get(StringTools.lowercaseFirstChar(token));
+      if (confusionPairs == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
+        confusionPairs = wordToPairs.get(StringTools.lowercaseFirstChar(token));
         uppercase = true;
       }
-      if (confusionSets != null) {
-        for (ConfusionSet confusionSet : confusionSets) {
-          boolean isEasilyConfused = confusionSet != null;
+      if (confusionPairs != null) {
+        for (ConfusionPair confusionPair : confusionPairs) {
+          boolean isEasilyConfused = confusionPair != null;
           if (isEasilyConfused) {
-            Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
-            ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
+            List<ConfusionString> pairs = uppercase ? confusionPair.getUppercaseFirstCharTerms() : confusionPair.getTerms();
+            ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, pairs, confusionPair.getFactor());
             if (betterAlternative != null && !isException(text)) {
-              ConfusionString stringFromText = getConfusionString(set, tokens.get(pos));
+              if (!confusionPair.isBidirectional() && betterAlternative.getString().equals(pairs.get(0).getString())) {
+                // only direction A -> B is possible, i.e. if A is used incorrectly, B is suggested - not vice versa
+                continue;
+              }
+              ConfusionString stringFromText = getConfusionString(pairs, tokens.get(pos));
               String message = getMessage(stringFromText, betterAlternative);
               RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
               match.setSuggestedReplacement(betterAlternative.getString());
@@ -169,10 +172,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
   
   /** @deprecated used only for tests */
-  public void setConfusionSet(ConfusionSet set) {
-    wordToSets.clear();
-    for (ConfusionString word : set.getSet()) {
-      wordToSets.put(word.getString(), Collections.singletonList(set));
+  public void setConfusionPair(ConfusionPair pair) {
+    wordToPairs.clear();
+    for (ConfusionString word : pair.getTerms()) {
+      wordToPairs.put(word.getString(), Collections.singletonList(pair));
     }
   }
 
@@ -185,7 +188,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   @Nullable
-  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, Set<ConfusionString> confusionSet, long factor) {
+  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, List<ConfusionString> confusionSet, long factor) {
     if (confusionSet.size() != 2) {
       throw new RuntimeException("Confusion set must be of size 2: " + confusionSet);
     }
@@ -193,7 +196,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return getBetterAlternativeOrNull(token, tokens, other, factor);
   }
 
-  private ConfusionString getAlternativeTerm(Set<ConfusionString> confusionSet, GoogleToken token) {
+  private ConfusionString getAlternativeTerm(List<ConfusionString> confusionSet, GoogleToken token) {
     for (ConfusionString s : confusionSet) {
       if (!s.getString().equals(token.token)) {
         return s;
@@ -202,7 +205,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     throw new RuntimeException("No alternative found for: " + token);
   }
 
-  private ConfusionString getConfusionString(Set<ConfusionString> confusionSet, GoogleToken token) {
+  private ConfusionString getConfusionString(List<ConfusionString> confusionSet, GoogleToken token) {
     for (ConfusionString s : confusionSet) {
       if (s.getString().equalsIgnoreCase(token.token)) {
         return s;

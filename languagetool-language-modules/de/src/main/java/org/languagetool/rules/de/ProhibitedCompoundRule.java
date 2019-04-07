@@ -112,12 +112,12 @@ public class ProhibitedCompoundRule extends Rule {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
         ConfusionSetLoader loader = new ConfusionSetLoader();
-        Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(confusionSetStream);
-        for (Map.Entry<String, List<ConfusionSet>> entry : confusionSet.entrySet()) {
-          for (ConfusionSet set : entry.getValue()) {
-            boolean allUpper = set.getSet().stream().allMatch(k -> startsWithUppercase(k.getString()) && !ignoreWords.contains(k.getString()));
+        Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
+        for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
+          for (ConfusionPair pair : entry.getValue()) {
+            boolean allUpper = pair.getTerms().stream().allMatch(k -> startsWithUppercase(k.getString()) && !ignoreWords.contains(k.getString()));
             if (allUpper || !isUpperCase) {
-              Set<ConfusionString> cSet = set.getSet();
+              List<ConfusionString> cSet = pair.getTerms();
               if (cSet.size() != 2) {
                 throw new RuntimeException("Got confusion set with != 2 items: " + cSet);
               }

@@ -28,7 +28,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
@@ -49,7 +49,7 @@ class AutomaticConfusionRuleEvaluator {
   private static final float MIN_RECALL = 0.1f;
 
   private final IndexSearcher searcher;
-  private final Map<String, List<ConfusionSet>> knownSets;
+  private final Map<String, List<ConfusionPair>> knownSets;
   private final Set<String> finishedPairs = new HashSet<>();
   private final String fieldName;
   private final boolean caseInsensitive;
@@ -62,12 +62,11 @@ class AutomaticConfusionRuleEvaluator {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
-    knownSets = new ConfusionSetLoader().loadConfusionSet(confusionSetStream);
+    knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
   }
 
   private void run(List<String> lines, File indexDir, Language lang) throws IOException {
     LanguageModel lm = new LuceneLanguageModel(indexDir);
-    ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(lang, lm, caseInsensitive);
     int lineCount = 0;
     for (String line : lines) {
       lineCount++;
@@ -76,10 +75,12 @@ class AutomaticConfusionRuleEvaluator {
         continue;
       }
       System.out.printf(Locale.ENGLISH, "Line " + lineCount + " of " + lines.size() + " (%.2f%%)\n", ((float)lineCount/lines.size())*100.f);
-      String[] parts = line.split(";\\s*");
+      String[] parts = line.split("\\s*(;|->)\\s*");
       if (parts.length != 2) {
-        throw new IOException("Expected semicolon-separated input: " + line);
+        throw new IOException("Expected input to be separated by '->' or ';': " + line);
       }
+      boolean bothDirections = !removeComment(line).contains("->");
+      ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(lang, lm, caseInsensitive, bothDirections);
       try {
         int i = 1;
         for (String part : parts) {
@@ -105,11 +106,11 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
     }
-    for (Map.Entry<String, List<ConfusionSet>> entry : knownSets.entrySet()) {
+    for (Map.Entry<String, List<ConfusionPair>> entry : knownSets.entrySet()) {
       if (entry.getKey().equals(part1)) {
-        List<ConfusionSet> confusionSet = entry.getValue();
-        for (ConfusionSet set : confusionSet) {
-          Set<String> stringSet = set.getSet().stream().map(l -> l.getString()).collect(Collectors.toSet());
+        List<ConfusionPair> confusionPairs = entry.getValue();
+        for (ConfusionPair pair : confusionPairs) {
+          Set<String> stringSet = pair.getTerms().stream().map(l -> l.getString()).collect(Collectors.toSet());
           if (stringSet.containsAll(Arrays.asList(part1, part2))) {
             System.out.println("Ignoring: " + part1 + "/" + part2 + ", in active confusion sets already");
             ignored++;

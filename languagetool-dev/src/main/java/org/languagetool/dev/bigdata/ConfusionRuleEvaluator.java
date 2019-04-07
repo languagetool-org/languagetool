@@ -28,10 +28,8 @@ import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
-import org.languagetool.rules.ConfusionSet;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
@@ -63,14 +61,16 @@ class ConfusionRuleEvaluator {
 
   private final Language language;
   private final boolean caseSensitive;
+  private final boolean bothDirections;  // replace A by B and vice versa?
   private final ConfusionProbabilityRule rule;
   private final Map<Long, RuleEvalValues> evalValues = new HashMap<>();
 
   private boolean verbose = true;
 
-  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, boolean caseSensitive) {
+  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, boolean caseSensitive, boolean bothDirections) {
     this.language = language;
     this.caseSensitive = caseSensitive;
+    this.bothDirections = bothDirections;
     try {
       List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
       if (rules == null) {
@@ -109,9 +109,13 @@ class ConfusionRuleEvaluator {
     //  return null;
     //}
     evaluate(allTokenSentences, true, token, homophoneToken, evalFactors);
-    evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);
+    if (bothDirections) {
+      evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);
+    }
     evaluate(allHomophoneSentences, false, token, homophoneToken, evalFactors);
-    evaluate(allHomophoneSentences, true, homophoneToken, token, evalFactors);
+    if (bothDirections) {
+      evaluate(allHomophoneSentences, true, homophoneToken, token, evalFactors);
+    }
     return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, token, homophoneToken);
   }
 
@@ -131,7 +135,7 @@ class ConfusionRuleEvaluator {
       String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
       AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
       for (Long factor : evalFactors) {
-        rule.setConfusionSet(new ConfusionSet(factor, homophoneToken, token));
+        rule.setConfusionPair(new ConfusionPair(homophoneToken, token, factor, bothDirections));
         RuleMatch[] matches = rule.match(analyzedSentence);
         boolean consideredCorrect = matches.length == 0;
         String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
@@ -168,13 +172,17 @@ class ConfusionRuleEvaluator {
       String spaces = StringUtils.repeat(" ", 82-Long.toString(factor).length());
       String word1 = token;
       String word2 = homophoneToken;
-      if (word1.compareTo(word2) > 0) {
-        String temp = word1;
-        word1 = word2;
-        word2 = temp;
+      String delimiter = " -> ";
+      if (bothDirections) {
+        delimiter = "; ";
+        if (word1.compareTo(word2) > 0) {
+          String temp = word1;
+          word1 = word2;
+          word2 = temp;
+        }
       }
-      String summary = String.format(ENGLISH, "%s; %s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
-              word1, word2, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+      String summary = String.format(ENGLISH, "%s%s%s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
+              word1, delimiter, word2, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
       results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
@@ -276,7 +284,9 @@ class ConfusionRuleEvaluator {
     if (args.length >= 6) {
       inputsFiles.add(args[5]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, CASE_SENSITIVE);
+    boolean bothDirections = true;
+    System.out.println("NOTE: assuming pair works in both directions (A -> B and B -> A)");
+    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, CASE_SENSITIVE, bothDirections);
     generator.run(inputsFiles, token, homophoneToken, MAX_SENTENCES, EVAL_FACTORS);
     long endTime = System.currentTimeMillis();
     System.out.println("\nTime: " + (endTime-startTime)+"ms");
