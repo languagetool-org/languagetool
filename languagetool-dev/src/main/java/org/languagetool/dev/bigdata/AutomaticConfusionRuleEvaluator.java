@@ -89,7 +89,7 @@ class AutomaticConfusionRuleEvaluator {
         for (String part : parts) {
           // compare pair-wise - maybe we should compare every item with every other item?
           if (i < parts.length) {
-            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]));
+            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]), bothDirections);
           }
           i++;
         }
@@ -104,8 +104,11 @@ class AutomaticConfusionRuleEvaluator {
     return str.replaceFirst("\\|.*", "");
   }
 
-  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
-    if (finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1)) {
+  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2, boolean bothDirections) throws IOException {
+    boolean finishedBefore = bothDirections ?
+                             finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1) :
+                             finishedPairs.contains(part1 + "/" + part2);
+    if (finishedBefore) {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
     }
