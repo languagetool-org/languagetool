@@ -438,7 +438,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]slamophobisch(e[mnrs]?)?", "isch", "");
     putRepl("[vV]erharkt(e[mnrs]?)?", "ar", "a");
     putRepl("[dD]esöfterer?[nm]", "öfterer?[nm]", " Öfteren");
-    putRepl("[dD]esweitere?[mn]", "weitere?[mn]", " Weiteren");
+    putRepl("[dD]eswei[dt]ere?[mn]", "wei[dt]ere?[mn]", " Weiteren");
     putRepl("Einkaufstachen?", "ch", "sch");
     putRepl("Bortmesser[ns]?", "Bor", "Bro");
     putRepl("Makeupstylist(in(nen)?|en)?", "Makeups", "Make-up-S");
