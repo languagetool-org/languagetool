@@ -2,8 +2,14 @@
 
 ## 4.6 (2019-06-26)
 
+#### Galician
+  * added verbal agreement rules
+
 #### German
   * added and improved rules
+
+#### Portuguese
+  * POS and spelling improvements
 
 #### Spanish
   * Updated spell dictionary from 2.1 to 2.4
