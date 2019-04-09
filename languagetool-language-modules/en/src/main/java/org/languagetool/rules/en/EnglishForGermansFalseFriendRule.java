@@ -40,16 +40,20 @@ import java.util.ResourceBundle;
  */
 public class EnglishForGermansFalseFriendRule extends ConfusionProbabilityRule {
 
-  private List<AbstractPatternRule> rules;
+  private static List<AbstractPatternRule> rules;
   
   public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
     super(messages, languageModel, language, 3);
-    FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
-    String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + JLanguageTool.FALSE_FRIEND_FILE;
-    try (InputStream is = this.getClass().getResourceAsStream(ffFilename)) {
-      rules = loader.getRules(is, language, motherTongue);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    synchronized (this) {
+      if (rules == null) {
+        FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
+        String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + JLanguageTool.FALSE_FRIEND_FILE;
+        try (InputStream is = this.getClass().getResourceAsStream(ffFilename)) {
+          rules = loader.getRules(is, language, motherTongue);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
     addExamplePair(Example.wrong("My <marker>handy</marker> is broken."),
                    Example.fixed("My <marker>phone</marker> is broken."));
