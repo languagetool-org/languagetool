@@ -107,7 +107,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
       return;
     } else if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
       xgboostNotSupported = true;
-      logger.warn("At the moment, your platform (Windows) is not supported by the official XGBoost maven package;" +
+      System.err.println("Warning: At the moment, your platform (Windows) is not supported by the official XGBoost maven package;" +
         " ML-based suggestion reordering is disabled.");
       return;
     }
