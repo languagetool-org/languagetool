@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
@@ -136,8 +138,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
               }
               ConfusionString stringFromText = getConfusionString(pairs, tokens.get(pos));
               String message = getMessage(stringFromText, betterAlternative);
+              List<String> suggestions = new ArrayList<>(getSuggestions(message));
+              if (!suggestions.contains(betterAlternative.getString())) {
+                suggestions.add(betterAlternative.getString());
+              }
               RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
-              match.setSuggestedReplacement(betterAlternative.getString());
+              match.setSuggestedReplacements(suggestions);
               matches.add(match);
             }
           }
@@ -146,6 +152,15 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  private List<String> getSuggestions(String message) {
+    Matcher matcher = Pattern.compile("<suggestion>(.*?)</suggestion>").matcher(message);
+    List<String> result = new ArrayList<>();
+    while (matcher.find()) {
+      result.add(matcher.group(1));
+    }
+    return result;
   }
 
   /**
@@ -159,9 +174,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
   public String getDescription() {
     return Tools.i18n(messages, "statistics_rule_description");
   }
-
-
-  private String getMessage(ConfusionString textString, ConfusionString suggestion) {
+  
+  protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
     if (textString.getDescription() != null && suggestion.getDescription() != null) {
       return Tools.i18n(messages, "statistics_suggest1", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
     } else if (suggestion.getDescription() != null) {

@@ -19,11 +19,17 @@
 package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.FalseFriendRuleLoader;
+import org.languagetool.rules.patterns.PatternToken;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,13 +39,22 @@ import java.util.ResourceBundle;
  */
 public class EnglishForGermansFalseFriendRule extends ConfusionProbabilityRule {
 
+  private List<AbstractPatternRule> rules;
+  
+  public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
+    this(messages, languageModel, language, 3);
+    FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
+    String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + JLanguageTool.FALSE_FRIEND_FILE;
+    try (InputStream is = this.getClass().getResourceAsStream(ffFilename)) {
+      rules = loader.getRules(is, language, motherTongue);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public String getId() {
     return "EN_FOR_DE_SPEAKERS_FALSE_FRIENDS";
-  }
-
-  public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    this(messages, languageModel, language, 3);
   }
 
   public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
@@ -54,4 +69,16 @@ public class EnglishForGermansFalseFriendRule extends ConfusionProbabilityRule {
     return Collections.singletonList("confusion_sets_l2_de.txt");
   }
 
+  @Override
+  protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
+    for (AbstractPatternRule rule : rules) {
+      List<PatternToken> patternTokens = rule.getPatternTokens();
+      for (PatternToken patternToken : patternTokens) {
+        if (textString.getString().equals(patternToken.getString())) {
+          return rule.getMessage();
+        }
+      }
+    }
+    return super.getMessage(textString, suggestion);
+  }
 }

@@ -214,7 +214,7 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     if (languageModel != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
       return Arrays.asList(
-          new EnglishForGermansFalseFriendRule(messages, languageModel, this)
+          new EnglishForGermansFalseFriendRule(messages, languageModel, motherTongue, this)
       );
     }
     return Arrays.asList();

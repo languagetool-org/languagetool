@@ -436,7 +436,7 @@ public class JLanguageTool {
     if (motherTongue == null) {
       return Collections.emptyList();
     }
-    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(motherTongue);
     try (InputStream is = this.getClass().getResourceAsStream(filename)) {
       if (is == null) {
         return ruleLoader.getRules(new File(filename), language, motherTongue);

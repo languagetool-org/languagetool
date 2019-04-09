@@ -46,7 +46,7 @@ public class FalseFriendsAsBitextLoader {
           String filename, Language motherTongue,
           Language language) throws ParserConfigurationException,
           SAXException, IOException {
-    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(motherTongue);
     List<BitextPatternRule> bRules = new ArrayList<>();
     List<AbstractPatternRule> rules1 = ruleLoader.getRules(
             JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),
