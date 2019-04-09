@@ -37,8 +37,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
-  
+
+  // NOTE: deleted data on 2019-04-09 (kept in Git history), needs to be manually included
   private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model";
   private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model";
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
