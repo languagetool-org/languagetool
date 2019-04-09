@@ -243,6 +243,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[nN]i[vw]os?", "[nN]i[vw]o", "Niveau");
     putRepl("[dD]illetant(en)?", "[dD]ille", "Dilet");
     putRepl("Makeups?", "up", "-up");
+    putRepl("Frauenhofer-(Institut|Gesellschaft)", "Frauen", "Fraun");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Addons?", "on", "-on");
     putRepl("Internetkaffees?", "kaffee", "café");
@@ -445,6 +446,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Fee?dbäcks?", "Fee?dbäck", "Feedback");
     put("Rollade", w -> Arrays.asList("Rollladen", "Roulade"));
     put("garnichtmehr", "gar nicht mehr");
+    put("vileich", "vielleicht");
+    put("vll?t", "vielleicht");
     put("aufgewägt", "aufgewogen");
     put("[rR]eflektion", "Reflexion");
     put("momentmal", "Moment mal");
@@ -497,6 +500,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("beinhielt", "beinhaltete");
     put("beinhielten", "beinhalteten");
     put("einhaltest", "einhältst");
+    put("angeruft", "angerufen");
+    put("erhaltete", "erhielt");
     put("übersäht", "übersät");
     put("staats?angehoe?rigkeit", "Staatsangehörigkeit");
     put("[uU]nangeneh?mheiten", "Unannehmlichkeiten");
