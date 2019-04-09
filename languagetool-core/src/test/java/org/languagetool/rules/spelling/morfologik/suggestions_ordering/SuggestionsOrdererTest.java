@@ -23,6 +23,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -44,6 +45,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.Assert.assertTrue;
 
+@Ignore("Deleted data, test can't run")
 public class SuggestionsOrdererTest {
   
   private String originalConfigNgramsPathValue;

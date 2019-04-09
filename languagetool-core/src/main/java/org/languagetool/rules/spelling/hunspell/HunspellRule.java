@@ -27,7 +27,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
@@ -99,9 +98,6 @@ public class HunspellRule extends SpellingCheckRule {
 
      if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
        suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-       runningExperiment = true;
-     } else if (SuggestionsChanges.isRunningExperiment("SuggestionsOrdererGSOC")){
-       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
        runningExperiment = true;
      } else {
        suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
