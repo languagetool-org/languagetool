@@ -276,7 +276,7 @@ public final class RuleOverview {
     List<Rule> rules = new ArrayList<>(lang.getRelevantRules(JLanguageTool.getMessageBundle(),
       null, Collections.emptyList()));
     rules.addAll(lang.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null, null,
-      Collections.emptyList()));
+            null, Collections.emptyList()));
     for (Rule rule : rules) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {

@@ -170,7 +170,7 @@ public abstract class Language {
    * @param languageModel null if no language model is available
    */
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
-                                                         UserConfig userConfig, List<Language> altLanguages) throws IOException {
+                                                         UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
   }
 
@@ -528,6 +528,14 @@ public abstract class Language {
    * @since 4.5
    */
   public boolean isSpellcheckOnlyLanguage() {
+    return false;
+  }
+
+  /**
+   * Return true if language has ngram-based false friend rule returned by {@link #getRelevantLanguageModelCapableRules}.
+   * @since 4.6
+   */
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
     return false;
   }
 

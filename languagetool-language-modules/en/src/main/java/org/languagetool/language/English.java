@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
@@ -210,8 +211,23 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    if (languageModel != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
+      return Arrays.asList(
+          new EnglishForGermansFalseFriendRule(messages, languageModel, this)
+      );
+    }
+    return Arrays.asList();
+  }
+
+  @Override
   public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
     return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
+  }
+
+  @Override
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+    return motherTongue != null && "de".equals(motherTongue.getShortCode());
   }
 
   /**

@@ -275,7 +275,10 @@ public class JLanguageTool {
     this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
-      activateDefaultFalseFriendRules();
+      if (!language.hasNGramFalseFriendRule(motherTongue)) {
+        // use the old false friends, which always match, not depending on context
+        activateDefaultFalseFriendRules();
+      }
       updateOptionalLanguageModelRules(null); // start out with rules without language model
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
@@ -450,7 +453,7 @@ public class JLanguageTool {
   private void updateOptionalLanguageModelRules(@Nullable LanguageModel lm) {
     ResourceBundle messages = getMessageBundle(language);
     try {
-      List<Rule> rules = language.getRelevantLanguageModelCapableRules(messages, lm, userConfig, altLanguages);
+      List<Rule> rules = language.getRelevantLanguageModelCapableRules(messages, lm, userConfig, motherTongue, altLanguages);
       userRules.removeIf(rule -> optionalLanguageModelRules.contains(rule.getId()));
       optionalLanguageModelRules.clear();
       rules.stream().map(Rule::getId).forEach(optionalLanguageModelRules::add);

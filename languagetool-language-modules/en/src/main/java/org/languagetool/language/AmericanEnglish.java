@@ -54,8 +54,8 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
     if (SuggestionsChanges.isRunningExperiment("SymSpell") || SuggestionsChanges.isRunningExperiment("SymSpell+NewSuggestionsOrderer")) {
       rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, languageModel));
     } else {
