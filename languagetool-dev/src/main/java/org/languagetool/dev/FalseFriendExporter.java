@@ -40,7 +40,7 @@ public class FalseFriendExporter {
   }
   
   private static void listRuleMessages(Language l1, Language l2) throws IOException {
-    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(null);
     List<AbstractPatternRule> rules = ruleLoader.getRules(new File(filename), l1, l2);
     int i = 1;
     for (AbstractPatternRule rule : rules) {

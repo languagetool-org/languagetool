@@ -114,8 +114,9 @@ public class HTTPServerTest {
     // tests for "&" character
     English english = new English();
     assertTrue(checkV2(english, "Me & you you").contains("&"));
-    // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
-    assertTrue(checkV2(english, german, "We will berate you").contains("BERATE"));
+    // tests for mother tongue (copy from link {@link FalseFriendRuleTest})
+    //assertTrue(checkV2(english, german, "My handy is broken.").contains("EN_FOR_DE_SPEAKERS_FALSE_FRIENDS"));  // only works with ngrams
+    assertFalse(checkV2(english, german, "We will berate you").contains("BERATE"));  // not active anymore now that we have EN_FOR_DE_SPEAKERS_FALSE_FRIENDS
     assertTrue(checkV2(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
     assertTrue(checkV2(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
       
@@ -134,31 +135,31 @@ public class HTTPServerTest {
             english, german, "This is an test", disableAvsAn, nothing, false).contains("an test"));
     //should also mean _NOT_ disabling all other rules...
     assertTrue(checkWithOptionsV2(
-            english, german, "We will berate you", disableAvsAn, nothing, false).contains("BERATE"));
+            english, german, "We will will do so", disableAvsAn, nothing, false).contains("ENGLISH_WORD_REPEAT_RULE"));
     //..unless explicitly stated.
     assertTrue(!checkWithOptionsV2(
         english, german, "We will berate you", disableAvsAn, nothing, true).contains("BERATE"));
     
     
     //test if two rules get enabled as well
-    String[] twoRules = {"EN_A_VS_AN", "BERATE"};
+    String[] twoRules = {"EN_A_VS_AN", "ENGLISH_WORD_REPEAT_RULE"};
     
     String resultEn = checkWithOptionsV2(
-            english, german, "This is an test. We will berate you.", twoRules, nothing, false);
+            english, german, "This is an test. We will will do so.", twoRules, nothing, false);
     assertTrue("Result: " + resultEn, resultEn.contains("EN_A_VS_AN"));
-    assertTrue("Result: " + resultEn, resultEn.contains("BERATE"));
+    assertTrue("Result: " + resultEn, resultEn.contains("ENGLISH_WORD_REPEAT_RULE"));
 
     //check two disabled options
     String result3 = checkWithOptionsV2(
-            english, german, "This is an test. We will berate you.", nothing, twoRules, false);
+            english, german, "This is an test. We will will do so.", nothing, twoRules, false);
     assertFalse("Result: " + result3, result3.contains("EN_A_VS_AN"));
-    assertFalse("Result: " + result3, result3.contains("BERATE"));
+    assertFalse("Result: " + result3, result3.contains("ENGLISH_WORD_REPEAT_RULE"));
     
     //two disabled, one enabled, so enabled wins
     String result4 = checkWithOptionsV2(
-            english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
+            english, german, "This is an test. We will will do so.", disableAvsAn, twoRules, false);
     assertTrue("Result: " + result4, result4.contains("EN_A_VS_AN"));
-    assertFalse("Result: " + result4, result4.contains("BERATE"));
+    assertFalse("Result: " + result4, result4.contains("ENGLISH_WORD_REPEAT_RULE"));
 
     String result5 = checkV2(null, "This is a test of the language detection.");
     assertTrue("Result: " + result5, result5.contains("\"en-US\""));

@@ -7,6 +7,12 @@
 
 #### German
   * added and improved rules
+  * The false friend rule has been modified to use ngrams: Now false friends
+    cause error messages if they are used in a wrong context, according to ngram statistics.
+    Note that some pairs from `false-friends.xml` are not supported anymore because
+    their precision isn't good enough. See `confusion_sets_l2_de.txt` for active DE/EN pairs.
+    Use `My handy is broken.` to test the rule. As before, this will only create
+    an error if `motherTongue` is set to a German language code.
 
 #### Portuguese
   * POS and spelling improvements

@@ -36,13 +36,14 @@ import java.util.ResourceBundle;
 
 /**
  * False friends for German native speaker who write English text, based on ngrams.
+ * @since 4.6
  */
 public class EnglishForGermansFalseFriendRule extends ConfusionProbabilityRule {
 
   private List<AbstractPatternRule> rules;
   
   public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
-    this(messages, languageModel, language, 3);
+    super(messages, languageModel, language, 3);
     FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
     String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + JLanguageTool.FALSE_FRIEND_FILE;
     try (InputStream is = this.getClass().getResourceAsStream(ffFilename)) {
@@ -50,17 +51,13 @@ public class EnglishForGermansFalseFriendRule extends ConfusionProbabilityRule {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+    addExamplePair(Example.wrong("My <marker>handy</marker> is broken."),
+                   Example.fixed("My <marker>phone</marker> is broken."));
   }
 
   @Override
   public String getId() {
     return "EN_FOR_DE_SPEAKERS_FALSE_FRIENDS";
-  }
-
-  public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams);
-    addExamplePair(Example.wrong("My <marker>handy</marker> is broken."),
-                   Example.fixed("My <marker>phone</marker> is broken."));
   }
 
   @NotNull
