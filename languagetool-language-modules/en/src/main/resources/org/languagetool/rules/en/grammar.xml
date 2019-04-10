@@ -221,7 +221,7 @@ USA
           <rule>
             <pattern>
               <marker>
-                <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn<exception regexp="yes">\p{Lu}+</exception></token>
+                <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn|haven<exception regexp="yes">\p{Lu}+</exception></token>
                 <token regexp="yes">['’]</token>
                 <token case_sensitive="yes">T</token>
               </marker>
@@ -235,7 +235,7 @@ USA
           <rule>
             <pattern case_sensitive="yes">
               <marker>
-                <token postag_regexp="yes" postag="PRP|NN(:UN?)?"><exception regexp="yes">\p{Lu}+</exception></token>
+                <token postag_regexp="yes" postag="PRP|NN(:UN?)?|WP|WDT"><exception regexp="yes">\p{Lu}+</exception></token>
                 <token regexp="yes">['’]</token>
                 <token>S</token>
               </marker>
@@ -245,6 +245,7 @@ USA
             <example correction='it&apos;s'>… because <marker>it'S</marker> an example.</example>
             <example correction='document&apos;s'>If the <marker>document'S</marker> too long, people won't read it.</example>
             <example correction='Example&apos;s'>This <marker>Example'S</marker> not correct.</example>
+            <example correction='that&apos;s'>... and <marker>that'S</marker> not correct.</example>
             <example>… because <marker>it's</marker> an example.</example>
             <example>… but <marker>IT'S</marker> AN EXAMPLE!</example>
           </rule>
