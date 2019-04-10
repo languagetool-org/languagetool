@@ -21233,7 +21233,7 @@ USA
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
-                    <token negate="yes" regexp="yes">[,!\.\?]</token>
+                    <token negate="yes" regexp="yes">[,!\.\?\(]</token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\2,</suggestion>
@@ -21257,8 +21257,10 @@ USA
                 <example><marker>However we go</marker>, we must get there by seven.</example>
                 <example><marker>However you do it</marker>, the result will be the same.</example>
                 <example><marker>Indeed</marker>. He is young, but smart for his age.</example>
+                <example><marker>Currently (2000 census)</marker> 57.71% of Alaska's area has this...</example>
                 <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
+                <example type="triggers_error"><marker>Currently under construction in Edmonton</marker> is the new...</example>
             </rule>
             <rule>
                 <pattern>
