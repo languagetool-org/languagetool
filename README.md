@@ -22,10 +22,13 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 To install or build using a script, simply type:
 ```
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
-sudo bash install.sh <options>
 ```
 
+If you wish to have more options, download the install.sh script. Usage options follow:
+
 ```
+sudo bash install.sh <options>
+
 Usage: install.sh <option> <package>
 Options:
    -h --help                   Show help
