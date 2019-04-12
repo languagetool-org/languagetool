@@ -314,11 +314,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[äÄaAeE]rtzten?", "[äÄaAeE]rt", "Är");
     putRepl("pdf-Datei(en)?", "pdf", "PDF");
     putRepl("rumänern?", "rumäner", "Rumäne");
+    putRepl("[cCKk]o?usengs?", "[cCKk]o?useng", "Cousin");
+    putRepl("Influenzer(in(nen)?|[ns])?", "zer", "cer");
     putRepl("[vV]ersantdienstleister[ns]?", "[vV]ersant", "Versand");
     putRepl("[pP]atrolier(s?t|t?en?)", "atrolier", "atrouillier");
     putRepl("[pP]ropagandiert(e[mnrs]?)?", "and", "");
     putRepl("[pP]ropagandier(en|st)", "and", "");
     putRepl("känzel(n|s?t)", "känzel", "cancel");
+    put("w[eä]hret", "wäret");
+    put("mahte", "Mathe");
+    put("letzdenendes", "letzten Endes");
     put("gekänzelt", "gecancelt");
     put("aufgesteht", "aufgestanden");
     put("ganichts", "gar nichts");
