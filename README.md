@@ -24,7 +24,7 @@ To install or build using a script, simply type:
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 ```
 
-If you wish to have more options, download the install.sh script. Usage option follow:
+If you wish to have more options, download the install.sh script. Usage options follow:
 
 ```
 sudo bash install.sh <options>
