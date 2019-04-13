@@ -102,6 +102,12 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().pos("KON:UNT").build(),
       new PatternTokenBuilder().csToken("sie").setSkip(3).build(),
       new PatternTokenBuilder().tokenRegex("sind|waren").build()
+    ),
+    Arrays.asList( //Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.
+      new PatternTokenBuilder().pos("SENT_START").build(),
+      new PatternTokenBuilder().posRegex("PRP:.+").setSkip(4).build(),
+      new PatternTokenBuilder().tokenRegex("ist|war").build(),
+      new PatternTokenBuilder().tokenRegex("d(as|er)|eine?").build()
     )
   );
 

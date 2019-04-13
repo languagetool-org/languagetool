@@ -300,7 +300,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft.",
         "Knapp acht Monate ist die Niederlage nun her.",
         "Vier Monate ist die Niederlage nun her.",
-        "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen."
+        "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
+        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
