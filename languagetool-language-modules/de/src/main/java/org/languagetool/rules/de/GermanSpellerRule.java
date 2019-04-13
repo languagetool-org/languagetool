@@ -113,7 +113,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
     putRepl("[vV]orallendingen", "orallendingen", "or allen Dingen");
-    putRepl("[aA]ufjedenfall", "jedenfall$", " jeden Fall");
+    putRepl("[aA]ufjede[nm]fall", "jede[nm]fall$", " jeden Fall");
     putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
     putRepl("[wW]öruber", "öru", "orü");
     putRepl("[lL]einensamens?", "[lL]einen", "Lein");
