@@ -168,8 +168,8 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
     ),
     Arrays.asList(
-      new PatternTokenBuilder().posRegex("ART:.*").build(), // "Das wenige Kilometer breite Tal"
-      new PatternTokenBuilder().posRegex("ADJ:.*").build(),
+      new PatternTokenBuilder().posRegex("ART:.+").build(), // "Das wenige Kilometer breite Tal"
+      new PatternTokenBuilder().posRegex("ADJ:.+").build(),
       new PatternTokenBuilder().tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden").build()
     ),
     Arrays.asList(
@@ -199,9 +199,9 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
     Arrays.asList( // "Bei mir löste das Panik aus."
-      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build(),
+      new PatternTokenBuilder().posRegex("VER:3:SIN:.+").build(),
       new PatternTokenBuilder().token("das").build(),
-      new PatternTokenBuilder().posRegex("SUB:AKK:.*").build(),
+      new PatternTokenBuilder().posRegex("SUB:AKK:.+").build(),
       new PatternTokenBuilder().pos("ZUS").build(),
       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_END_TAGNAME).build()
     ),
@@ -220,15 +220,15 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("Contest").build()
     ),
     Arrays.asList( // "Das Holocaust Memorial Museum."
-      new PatternTokenBuilder().posRegex("ART:.*").build(),
-      new PatternTokenBuilder().posRegex("SUB:.*").build(),
+      new PatternTokenBuilder().posRegex("ART:.+").build(),
+      new PatternTokenBuilder().posRegex("SUB:.+").build(),
       new PatternTokenBuilder().pos("UNKNOWN").build()
     ),
     Arrays.asList( // "Er fragte, ob das Spaß macht."
       new PatternTokenBuilder().csToken(",").build(),
       new PatternTokenBuilder().posRegex("KON:UNT|ADV:INR").build(),
       new PatternTokenBuilder().csToken("das").build(),
-      new PatternTokenBuilder().posRegex("SUB:.*").build(),
+      new PatternTokenBuilder().posRegex("SUB:.+").build(),
       new PatternTokenBuilder().posRegex("VER:3:SIN.*").build()
     ),
     Arrays.asList( // "Es gibt viele solcher Bilder"
@@ -596,7 +596,7 @@ public class AgreementRule extends Rule {
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
       String posTag = reading.getPOSTag();
-      if (posTag != null && posTag.startsWith("ADJ:") && !posTag.contains("PRD")) {
+      if (posTag != null && posTag.startsWith("ADJ") && !posTag.contains("PRD")) {
         return true;
       }
     }
