@@ -62,6 +62,9 @@
     <!ENTITY alfabeto_grego "[ΑαΝνΒβΞξΓγΟοΔδΠπΕεΡρΖζΣσςΗηΤτΘθΥυΙιΦφΚκΧχΛλΨψΜμΩω]">
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|bpm|ton|kWh|GWa|MWd|MWh|mAh|min)">
 
+    <!ENTITY cores_invariáveis "bege|cinza|laranja|vinho|rosa|ultravioleta">
+    <!ENTITY cores "amarel[ao]|azul|verde|vermelh[ao]|laranja|lilás|rox[ao]|violeta|turquesa|branc[ao]|pret[ao]|castanh[ao]|bege|bordô|cinzent[ao]|carmim|ciano|magenta|marrom|ocre|cor">
+
     <!ENTITY extensoes_de_ficheiros "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
     <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
 ]>
@@ -789,6 +792,35 @@
           <token regexp="yes">[™®]</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCN000_"/><wd pos="NPCN000_"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="INVARIABLE_COLORS" name="Nomes de cores como adjetivos invariáveis">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-04-13  -->
+    <!-- TODO make grammar rules reflecting this -->
+    <!-- https://www.recantodasletras.com.br/gramatica/5110636 -->
+    <rule>
+      <pattern>
+          <token postag="N..P.+" postag_regexp="yes"/>
+        <marker>
+          <token regexp='yes'>&cores_invariáveis;</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="AQ0CN0"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="N..P.+" postag_regexp="yes"/>
+        <marker>
+          <token regexp='yes'>&cores;</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <or>
+          <token postag_regexp="yes" spacebefore='no' postag="N.+"/>
+          <token regexp='yes' spacebefore='no'>celeste|marinho|de</token>
+        </or>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="AQ0CN0"/><wd pos="AQ0CN0"/><wd pos="AQ0CN0"/></disambig> 
     </rule>
   </rulegroup>
 
