@@ -108,6 +108,11 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("PRP:.+").setSkip(4).build(),
       new PatternTokenBuilder().tokenRegex("ist|war").build(),
       new PatternTokenBuilder().tokenRegex("d(as|er)|eine?").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("zu").build(),
+      new PatternTokenBuilder().csToken("Fuß").build(),
+      new PatternTokenBuilder().tokenRegex("sind|waren").build()
     )
   );
 
@@ -274,7 +279,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private boolean hasVerbToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i > 0; i--) {
-      if (tokens[i].matchesPosTagRegex("VER:[1-3]:.*")) {
+      if (tokens[i].matchesPosTagRegex("VER:[1-3]:.+")) {
         return true;
       }
     }

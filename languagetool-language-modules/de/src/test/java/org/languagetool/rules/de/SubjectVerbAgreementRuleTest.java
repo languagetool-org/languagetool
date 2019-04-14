@@ -412,7 +412,8 @@ public class SubjectVerbAgreementRuleTest {
         "Der See und das Marschland sind ein Naturschutzgebiet",
         "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
         "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
-        "Sie sind so erfolgreich, weil sie eine Einheit sind."
+        "Sie sind so erfolgreich, weil sie eine Einheit sind.",
+        "Auch Polizisten zu Fuß sind unterwegs."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
