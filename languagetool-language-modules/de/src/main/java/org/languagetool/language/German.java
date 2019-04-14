@@ -297,6 +297,7 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
+      case "KOMMA_VOR_RELATIVSATZ" : return -10;
     }
     return super.getPriorityForId(id);
   }

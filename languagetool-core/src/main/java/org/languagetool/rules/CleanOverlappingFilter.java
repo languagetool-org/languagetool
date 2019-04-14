@@ -49,7 +49,7 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // check sorting
       if (ruleMatch.getFromPos() < prevRuleMatch.getFromPos()) {
-        throw new RuntimeException(
+        throw new IllegalArgumentException(
             "The list of rule matches is not ordered. Make sure it is sorted by start position.");
       }
       // no overlapping (juxtaposed errors are not removed)
