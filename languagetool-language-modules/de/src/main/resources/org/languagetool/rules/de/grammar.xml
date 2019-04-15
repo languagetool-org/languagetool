@@ -6317,6 +6317,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Lied">Das war das Ende vom <marker>Lid</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AUFGEWASCHEN" name="aufgewaschen (aufgewachsen)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token skip="4">in<exception scope="next">,</exception></token>
+                    <marker><token>aufgewaschen</token></marker>
+                </pattern>
+                <message>Meinten <suggestion>aufgewachsen</suggestion> (= die Kindheit verbracht)?</message>
+                <short>&verw;</short>
+                <example correction="aufgewachsen">Ich bin in Berlin und Potsdam <marker>aufgewaschen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>wusch</token></marker>
+                    <token skip="4">in<exception scope="next">,</exception></token>
+                    <token>auf</token>
+                </pattern>
+                <message>Meinten <suggestion>wuchs</suggestion> (= die Kindheit verbracht)?</message>
+                <short>&verw;</short>
+                <example correction="wuchs">Ich <marker>wusch</marker> in Berlin und Potsdam auf.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ETHISCH_ETHNISCH" name="ethisch/ethnisch">
             <rule>
                 <pattern>
