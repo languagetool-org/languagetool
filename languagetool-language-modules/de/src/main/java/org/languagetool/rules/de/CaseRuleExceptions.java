@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +32,9 @@ import java.util.regex.Pattern;
  */
 final class CaseRuleExceptions {
 
-  private static final Set<String> exceptions = loadExceptions("/de/case_rule_exceptions.txt");
+  private static final Set<String> exceptions = loadExceptions(
+    "/de/case_rule_exceptions.txt"
+  );
 
   private CaseRuleExceptions() {
   }
@@ -53,25 +56,27 @@ final class CaseRuleExceptions {
     return Collections.unmodifiableSet(exceptionPatterns);
   }
 
-  private static Set<String> loadExceptions(String path) {
+  private static Set<String> loadExceptions(String... paths) {
     Set<String> result = new HashSet<>();
-    try (
-      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-      InputStreamReader reader = new InputStreamReader(stream, "utf-8");
-      BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.isEmpty() || line.startsWith("#")) {
-          continue;
+    for (String path : paths) {
+      try (
+        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(reader)
+      ) {
+        String line;
+        while ((line = br.readLine()) != null) {
+          if (line.isEmpty() || line.startsWith("#")) {
+            continue;
+          }
+          if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
+            throw new RuntimeException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
+          }
+          result.add(line);
         }
-        if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
-          throw new RuntimeException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
-        }
-        result.add(line);
+      } catch (Exception e) {
+        throw new RuntimeException("Could not load case rule exceptions from " + path, e);
       }
-    } catch (Exception e) {
-      throw new RuntimeException("Could not load case rule exceptions from " + path, e);
     }
     return Collections.unmodifiableSet(result);
   }
