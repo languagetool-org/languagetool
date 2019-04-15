@@ -1698,6 +1698,10 @@
     </rule>
 
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
+        <antipattern>
+            <token regexp="yes">I|you|we|they|he|she|it</token>
+            <token>last</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -1714,6 +1718,8 @@
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
+        <example type="untouched">When did he last <marker>talk</marker> to them?</example>
+        <example type="untouched">When did you last <marker>wipe</marker> someone's tears away?</example>
     </rule>
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
         <pattern>
