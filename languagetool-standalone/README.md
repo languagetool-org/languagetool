@@ -71,6 +71,15 @@ To check plain text files from the command line, use
 with `xx` being the code for your language, e.g. `en-US` for American English
 or just `en` for English without spell checking activated.
 
+### Java API
+
+See http://wiki.languagetool.org/java-api
+
+### HTTP API
+
+See http://wiki.languagetool.org/public-http-api and
+https://languagetool.org/http-api/swagger-ui/#/default
+
 
 ## Source code history
 
