@@ -13845,6 +13845,19 @@ USA
                 <token>use</token>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">do|did</token>
+                <token regexp="yes">I|you|we|they|he|she|it</token>
+                <token>use</token>
+                <token>to</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">do|did</token>
+                <token regexp="yes">you|we</token>
+                <token postag="CD"/>
+                <token>use</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="MD"/></token>
                 <marker>
@@ -13860,6 +13873,9 @@ USA
             <example correction="used">He <marker>use</marker> to believe this.</example>
             <example correction="used">Aethera <marker>use</marker> to use this.</example>
             <example>This could set a dangerous precedent that they would surely use to target other journalists.</example>
+            <example>What language did you use to communicate?</example>
+            <example>Did you use to drink a lot?</example>
+            <example>What language do you two use to communicate?</example>
         </rule>
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
