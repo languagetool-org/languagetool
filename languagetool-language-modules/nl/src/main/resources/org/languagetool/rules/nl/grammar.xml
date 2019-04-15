@@ -30887,6 +30887,19 @@ steenwijk;Steenwijk
                 <example correction="Hij belooft"><marker>Hij beloofd</marker> iets te doen.</example>
             </rule>
         </rulegroup>
+<rulegroup id="GIJ_LIEPT" name="Gij liept">
+	<rule>
+		<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">gij|ge</token></antipattern>
+		<pattern>
+			<token postag="SENT_START" skip="-1"/>
+			<marker>
+				<token postag="WKW:VLT:GIJ"><exception negate_pos="yes" postag="WKW:VLT:GIJ"/></token>
+			</marker>
+		</pattern>
+		<message>Mogelijke fout: \2 hoort bij 'gij' of 'ge'</message>
+		<example type="incorrect">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
+	</rule>
+</rulegroup>		
         <!--
         <rule id="WORDT_BESCHULDIGT_VAN" name="beschuldigt → beschuldigd">
         <antipattern>
