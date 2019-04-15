@@ -15153,6 +15153,12 @@ USA
             <token regexp="yes">&apos;</token>
             <token>s</token>
             </antipattern>
+            <antipattern><!-- Fix for chunker: Where did you two first meet each other? -->
+                <token regexp="yes">we|you</token>
+                <token postag="CD"/>
+                <token postag="RB"/><!-- Is not E-NP-singular -->
+                <token postag_regexp="yes" postag="VBP?"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -15229,6 +15235,7 @@ USA
             <example>The price of rice rose by three percent.</example>
             <example>The MOS Technology 6502 processor is an 8-bit microprocessor.</example>
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
+            <example>Where did you two <marker>first</marker> meet each other?</example>
         </rule>        
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
