@@ -7107,6 +7107,11 @@ USA
             <example>although it's <marker>event horizon</marker> is more than...</example><!-- TODO. Not correct English, but out of scope. -->
         </rule>
         <rule id="WORD_CONTAINS_UNDERSCORE" name="A word contains an underscore"><!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
+            <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
+                <token regexp="yes" spacebefore="no">[a-z-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+            </antipattern>
             <pattern>
                 <token regexp="yes">[a-z-]+</token>
                 <token spacebefore="no" min="1" max="-1">_<exception postag="NNP"/></token>
@@ -7122,6 +7127,7 @@ USA
             <example type="correct">Language Tests<marker>______________________</marker> 37</example>
             <example type="correct">Some More Language Tests <marker>_</marker> Appendix B</example>
             <example type="correct">Do only <marker>_this_</marker> test.</example>
+            <example type="correct">Check out the attached file <marker>country_codes.csv</marker> before…</example>
             <example type="correct">But <marker>these_</marker> unlike other tests...</example><!-- TODO -->
             <example type="correct">Refer to <marker>_TESTS</marker>' on page 33.</example><!-- TODO -->
         </rule>
