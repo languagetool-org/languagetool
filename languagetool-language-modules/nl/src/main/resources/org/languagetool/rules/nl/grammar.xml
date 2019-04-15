@@ -30887,19 +30887,19 @@ steenwijk;Steenwijk
                 <example correction="Hij belooft"><marker>Hij beloofd</marker> iets te doen.</example>
             </rule>
         </rulegroup>
-<rulegroup id="GIJ_LIEPT" name="Gij liept">
-	<rule>
-		<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">gij|ge</token></antipattern>
-		<pattern>
-			<token postag="SENT_START" skip="-1"/>
-			<marker>
-				<token postag="WKW:VLT:GIJ"><exception negate_pos="yes" postag="WKW:VLT:GIJ"/></token>
-			</marker>
-		</pattern>
-		<message>Mogelijke fout: \2 hoort bij 'gij' of 'ge'</message>
-		<example type="incorrect">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
-	</rule>
-</rulegroup>		
+		<rulegroup id="GIJ_LIEPT" name="Gij liept">
+			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">gij|ge</token></antipattern>
+				<pattern>
+					<token postag="SENT_START" skip="-1"/>
+					<marker>
+						<token postag="WKW:VLT:GIJ"><exception negate_pos="yes" postag="WKW:VLT:GIJ"/></token>
+					</marker>
+				</pattern>
+				<message>Mogelijke fout: \2 hoort bij 'gij' of 'ge'</message>
+				<example type="incorrect">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
+			</rule>
+		</rulegroup>		
         <!--
         <rule id="WORDT_BESCHULDIGT_VAN" name="beschuldigt → beschuldigd">
         <antipattern>
@@ -31573,6 +31573,19 @@ steenwijk;Steenwijk
                 <message>U bedoelt vast <suggestion>à <match no="2"/></suggestion>.</message>
                 <example correction="à charge">Het schilderij Officer of the Chasseurs commanding <marker>a charge</marker> is nog volledig classicistisch te noemen.</example>
                 <example correction="À propos"><marker>A propos</marker>, waarom is de vinnige discussie naar aanleiding van artikel 39006 van de site gewist?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NA_AANLEIDING" name="naar aanleiding van">
+            <rule>
+                <pattern>
+					<marker>
+						<token>na</token>
+					</marker>
+                    <token>aanleiding</token>
+                    <token>van</token>
+                </pattern>
+                <message>U bedoelt vast <suggestion>naar</suggestion> \2 \3.</message>
+				<example correction="Naar"><marker>Na</marker> aanleiding van de fout wil ik stoppen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FULL_COLOR" name="full color">
