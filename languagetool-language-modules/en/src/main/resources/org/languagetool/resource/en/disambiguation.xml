@@ -2440,6 +2440,11 @@
         <disambig action="filterall"/>
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
+        <antipattern>
+            <token regexp="yes">I|you|we|they</token>
+            <token postag_regexp="yes" postag="RB"/>
+            <token postag_regexp="yes" postag="VBP"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"/></token>
             <marker>
@@ -2452,6 +2457,7 @@
         </pattern>
         <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
+        <example type="untouched">When did you first <marker>meet</marker> Tom?</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
