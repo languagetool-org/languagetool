@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.tools.StringTools;
 
 /**
  * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
@@ -152,7 +153,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
     if (StringUtils.isNumeric(monthStr)) {
       month = Integer.parseInt(monthStr);
     } else {
-      month = getMonth(monthStr);
+      month = getMonth(StringTools.trimSpecialCharacters(monthStr));
     }
     return month - 1;
   }
