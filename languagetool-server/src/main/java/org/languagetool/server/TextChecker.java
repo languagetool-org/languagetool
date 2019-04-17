@@ -192,6 +192,7 @@ abstract class TextChecker {
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
       String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
       logger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
+      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
@@ -208,6 +209,7 @@ abstract class TextChecker {
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
     if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
+      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
       throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
     }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
@@ -233,6 +235,7 @@ abstract class TextChecker {
         Language altLang = Languages.getLanguageForShortCode(langCode);
         altLanguages.add(altLang);
         if (altLang.hasVariant() && !altLang.isVariant()) {
+          ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
           throw new IllegalArgumentException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
         }
       }
@@ -244,9 +247,11 @@ abstract class TextChecker {
     List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
+      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
       throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=true");
     }
     if (enabledRules.isEmpty() && enabledCategories.isEmpty() && useEnabledOnly) {
+      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
       throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
@@ -312,6 +317,7 @@ abstract class TextChecker {
     } catch (ExecutionException e) {
       future.cancel(true);
       if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
         logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
       }
       if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
@@ -344,6 +350,7 @@ abstract class TextChecker {
         incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
       } else {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
         logger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
           logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
         throw new RuntimeException(message, e);
@@ -385,6 +392,7 @@ abstract class TextChecker {
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+      ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
     } catch (IOException exception) {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
@@ -404,6 +412,8 @@ abstract class TextChecker {
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
             + ", m:" + mode.toString().toLowerCase());
+
+    ServerMetricsCollector.getInstance().logCheck(computationTime, textSize);
 
     int matchCount = matches.size();
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,

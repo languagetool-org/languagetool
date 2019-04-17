@@ -91,6 +91,7 @@ public class HTTPServerConfig {
   protected String dbUsername = null;
   protected String dbPassword = null;
   protected boolean dbLogging;
+  protected boolean prometheusMonitoring = false;
   protected boolean skipLoggingRuleMatches = false;
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
@@ -255,6 +256,7 @@ public class HTTPServerConfig {
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
+        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false"));
         skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
@@ -812,6 +814,16 @@ public class HTTPServerConfig {
   boolean getDatabaseLogging() {
     return this.dbLogging;
   }
+
+
+  /**
+   * @since 4.6
+   * @return
+   */
+  public boolean isPrometheusMonitoring() {
+    return prometheusMonitoring;
+  }
+
 
   /**
    * @since 4.5

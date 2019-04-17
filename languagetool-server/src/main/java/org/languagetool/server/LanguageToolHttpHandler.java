@@ -70,6 +70,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     int reqId = reqCounter.incrementRequestCount();
+    ServerMetricsCollector.getInstance().logRequest();
     boolean incrementHandleCount = false;
     try {
       URI requestedUri = httpExchange.getRequestURI();
@@ -78,12 +79,14 @@ class LanguageToolHttpHandler implements HttpHandler {
         String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
           if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
+            ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
             String ok = "OK";
             httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
             httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
             return;
           }
         }
@@ -102,6 +105,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (errorMessage != null) {
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
+          ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_FORBIDDEN);
           return;
         }
       }
@@ -138,6 +142,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (workQueueFull(httpExchange, parameters, "Error: There are currently too many parallel requests. Please try again later.")) {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.QUEUE_FULL);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -363,6 +368,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());
     httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(httpReturnCode);
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
