@@ -6352,11 +6352,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es wehen ganzjährig frische Winde aus Nord bis Nordost</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUCHT_SICHT" name="Sucht (Sicht)">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">auf|in|frei|klar|medizinisch|lang|ökonimsch</token>
+                    <marker><token>Sucht</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Sicht</suggestion>?</message>
+                <short>&verw;</short>
+                <example correction="Sicht">Auf lange <marker>Sucht</marker> rechnet sich die Anschaffung.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ETHISCH_ETHNISCH" name="ethisch/ethnisch">
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ethische[nr]?</token>
+                        <token inflected="yes">ethisch</token>
                     </marker>
                     <token inflected="yes" regexp="yes" case_sensitive="yes">Säuberung|Minderheit|Minorität|Gruppe|Untergruppe|Bevölkerungsgruppe|Gruppierung|Gemeinschaft|Zugehörigkeit|Zuordnung|Herkunft|Abstammung|Homogenität|Zusammensetzung|Proporz|Identifikation|Selbstidentifikation</token>
                 </pattern>
