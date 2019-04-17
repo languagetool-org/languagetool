@@ -2304,12 +2304,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/beliebte_fehler/email.shtml</url>
             <rule>
                 <pattern>
-                    <token>Email</token>
+                    <token regexp="yes">Emails?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="Email" regexp_replace="E-Mail"/></suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail">Er schickt mir eine <marker>Email</marker>.</example>
                 <example correction="E-Mail">Schicke mir eine <marker>Email</marker>.</example>
+                <example correction="E-Mails">Schick mir <marker>Emails</marker>.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)s?\b</regexp>
