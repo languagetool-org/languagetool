@@ -2,6 +2,14 @@ The dictionary was created from scratch by TaalTik.
 
 We are aware that this list contains some errors as well as very rare words.
 
+The best way to add or delte words and tags for Dutch is now:
+
+- NOT to have words that are only valid in a fixed word group (like stante, pede, bene from nota bene) in the dictionary
+  Those have a much better place in spelling.txt, since these will be checked as a group.
+  It is also of little use and hard to give those words a postag.
+- Other words are best placed in the binary dictionary. But they could also be added temporarily added to spelling.txt.
+
+
 License:
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
