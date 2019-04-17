@@ -16205,12 +16205,12 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
         <rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig">
-			<antipattern case_sensitive="yes"><token>de</token><token>Rijn</token></antipattern>
+			<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token case_sensitive="yes" regexp="yes">[a-z].*</token>
+                    <token case_sensitive="yes" regexp="yes">[a-z].+</token>
                     <marker>
-						<token case_sensitive="yes" regexp="yes">[A-Z].*<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/></token>
+						<token case_sensitive="yes" regexp="yes">[A-Z].+<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/></token>
                     </marker>
                     <token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
                 </pattern>
