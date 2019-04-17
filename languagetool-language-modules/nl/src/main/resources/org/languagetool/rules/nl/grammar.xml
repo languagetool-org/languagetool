@@ -16206,11 +16206,12 @@ steenwijk;Steenwijk
 		</rulegroup>
         <rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig">
 			<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
+			<antipattern case_sensitive="yes"><token postag="SENT_START"/><token>"</token></antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token case_sensitive="yes" regexp="yes">[a-z].+</token>
                     <marker>
-						<token case_sensitive="yes" regexp="yes">[A-Z].+<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/></token>
+						<token case_sensitive="yes" regexp="yes">[A-Z].+<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/><exception regexp="yes">Engels|Latijn</exception></token>
                     </marker>
                     <token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
                 </pattern>
@@ -16220,6 +16221,8 @@ steenwijk;Steenwijk
                 <example type="correct">Hij komt in de <marker>Europese</marker> organisaties.</example>
             </rule>
             <rule>
+				<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
+				<antipattern case_sensitive="yes"><token postag="SENT_START"/><token>"</token></antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
 					<token/>
@@ -17471,6 +17474,7 @@ steenwijk;Steenwijk
 				<antipattern><token>is</token><token>denk</token><token>ik</token></antipattern>
                 <antipattern><token>op</token><token>zoek</token><token inflected="yes">gaan</token></antipattern>
                 <antipattern><token>schuil</token><token inflected="yes">gaan</token></antipattern>
+                <antipattern><token>zal</token><token>jou</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
@@ -29519,6 +29523,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WAT_BETREFT" name="wat betreft">
             <rule>
+				<antipattern><token>wat</token><token regexp="yes">mij|hem|u</token><token>betreft</token></antipattern>
                 <pattern>
                     <token skip="5">wat</token><token>betreft</token>
                 </pattern>
@@ -30297,7 +30302,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">doorgaans|meestal|waarschijnlijk|vaak|vermoedelijk|mogelijk|misschien|onzeker|twijfelachtig|soms|onwaarschijnlijk</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>doorgaans</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30305,7 +30310,7 @@ steenwijk;Steenwijk
                     <token>bijna</token>
                     <token regexp="yes">zeker|altijd</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30313,7 +30318,7 @@ steenwijk;Steenwijk
                     <token>zeer</token>
                     <token>waarschijnlijk</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30321,7 +30326,7 @@ steenwijk;Steenwijk
                     <token>heel</token>
                     <token>vaak</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>heel vaak</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30329,7 +30334,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">grote|kleine</token>
                     <token>kans</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>grote kans</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30337,7 +30342,7 @@ steenwijk;Steenwijk
                     <token>te</token>
                     <token>verwachten</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>te verwachten</marker>.</example>
             </rule>
             <rule>
@@ -30345,7 +30350,7 @@ steenwijk;Steenwijk
                     <token inflected="yes">kunnen</token>
                     <token>gebeuren</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
             </rule>
 			
@@ -30851,7 +30856,7 @@ steenwijk;Steenwijk
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">jij|hij|ze|zij|u</token>
-                        <token postag="WKW:TGW:1EP"><exception postag="WKW:TGW:3EP"/><exception regexp="yes">in|wil|zal|eigen|kan|kunt</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><exception regexp="yes">in|wil|zal|eigen|kan|kunt</exception></token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion></message>
