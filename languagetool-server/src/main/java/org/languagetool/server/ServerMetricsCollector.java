@@ -44,9 +44,9 @@ public class ServerMetricsCollector {
     .build("languagetool_failed_healthchecks_total", "Failed healthchecks").register();
 
 
-  public static void init() throws IOException {
+  public static void init(int port) throws IOException {
     DefaultExports.initialize();
-    server = new HTTPServer(9300, true);
+    server = new HTTPServer(port, true);
   }
 
   public static void stop() {
