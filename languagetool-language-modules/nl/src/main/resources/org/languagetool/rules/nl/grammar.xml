@@ -16215,7 +16215,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
                 </pattern>
-                <message>Er is vast geen hoofdletter nodig: <suggestion><match no="2" case_conversion="startlower"/></suggestion> (behalve bij een eigennaam of bij uitzonderlijk respect).</message>
+                <message>Er is misschien geen hoofdletter nodig: <suggestion><match no="2" case_conversion="startlower"/></suggestion> (behalve bij een naam, taal of uitzonderlijk respect).</message>
                 <example correction="bisdom">Een cursus bij een van de broeders in het <marker>Bisdom</marker>.</example>
                 <example type="correct">Het gaat in het <marker>Vlaams</marker>.</example>
                 <example type="correct">Hij komt in de <marker>Europese</marker> organisaties.</example>
@@ -17414,14 +17414,16 @@ steenwijk;Steenwijk
         </rule>
         -->
         <rulegroup id="KOMMA_DAT" name=", dat → dat">
-            <!-- 2014-09-24 Nieuwe regel (uit 'hoe bereidt je een paard' -->
+			
             <rule>
                 <antipattern><token postag="SENT_START"/><token>,</token><token>dat</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token>Dank</token><token>je</token><token>,</token><token>dat</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="1"/><token regexp="yes">Bedankt|Ja|Nee|Welnee|Welja</token><token>,</token><token>dat</token></antipattern>
                 <pattern>
                     <token>,</token>
                     <token>dat</token>
                 </pattern>
-                <message>Voor 'dat' lees je meestal geen pauze; dan hoort er ook geen komma: <suggestion>\2</suggestion></message>
+                <message>Gebruik voor 'dat' alleen een komma als je ook een pauze hoort: <suggestion>\2</suggestion></message>
                 <example correction="dat">Ik wist niet<marker>, dat</marker> het fout was.</example>
                 <example>Ik wist niet <marker>dat</marker> het goed was.</example>
             </rule>
@@ -30856,12 +30858,16 @@ steenwijk;Steenwijk
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">jij|hij|ze|zij|u</token>
-                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><exception regexp="yes">in|wil|zal|eigen|kan|kunt</exception></token>
+                        <token postag="WKW:TGW:1EP">
+							<exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+							<exception regexp="yes">in|wil|zal|eigen|kan|kunt</exception>
+						</token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion></message>
                 <example correction="U leest"><marker>U lees</marker> verkeerd.</example>
                 <example correction="Ze houdt"><marker>Ze houd</marker> van een thuis.</example>
+                <example><marker>Hij koos</marker> iets anders.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOOPT_JIJ" name="loopt jij">
@@ -34707,6 +34713,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me">
             <rule>
+				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
                 <pattern>
 					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
