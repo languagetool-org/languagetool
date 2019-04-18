@@ -1,4 +1,4 @@
-LanguageTool is an Open Source proofreading software for English, French, German,
+**LanguageTool** is an Open Source proofreading software for English, French, German,
 Polish, Russian, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
@@ -12,6 +12,10 @@ and [CHANGES](https://github.com/languagetool-org/languagetool/blob/master/langu
 * Full Javadoc: https://languagetool.org/development/api/index.html?org/languagetool/JLanguageTool.html
 
 LanguageTool is freely available under the LGPL 2.1 or later.
+
+#### Docker
+
+Try https://github.com/silvio/docker-languagetool for a community-contributed Docker file.
 
 #### Contributions
 
