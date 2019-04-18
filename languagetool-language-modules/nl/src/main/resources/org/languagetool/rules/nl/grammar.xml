@@ -16211,7 +16211,7 @@ steenwijk;Steenwijk
                 <pattern case_sensitive="yes">
                     <token case_sensitive="yes" regexp="yes">[a-z].+</token>
                     <marker>
-						<token case_sensitive="yes" regexp="yes">[A-Z].+<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/><exception regexp="yes">Engels|Latijn</exception></token>
+						<token case_sensitive="yes" regexp="yes">[A-Z].+<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/><exception regexp="yes">Engels|Latijn|Indiaans(e)</exception></token>
                     </marker>
                     <token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
                 </pattern>
@@ -16227,11 +16227,11 @@ steenwijk;Steenwijk
                     <token postag="SENT_START"/>
 					<token/>
                     <marker>
-						<token case_sensitive="yes" regexp="yes">[A-Z].*<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/></token>
+						<token case_sensitive="yes" regexp="yes">[A-Z].*<exception postag_regexp="yes" postag="ENM.*|UNKNOWN|VLG:BHL"/><exception regexp="yes">Engels|Latijn|Indiaans(e)</exception></token>
                     </marker>
                     <token case_sensitive="yes" regexp="yes">[a-z].*|[.?!]</token>
                 </pattern>
-                <message>Er is vast geen hoofdletter nodig: <suggestion><match no="3" case_conversion="startlower"/></suggestion> (behalve bij een eigennaam of bij uitzonderlijk respect).</message>
+                <message>Er is vast geen hoofdletter nodig: <suggestion><match no="3" case_conversion="startlower"/></suggestion> (behalve bij een naam, taal of uitzonderlijk respect).</message>
                 <example correction="bisdom">Het <marker>Bisdom</marker> is gegroeid.</example>
             </rule>
         </rulegroup>
