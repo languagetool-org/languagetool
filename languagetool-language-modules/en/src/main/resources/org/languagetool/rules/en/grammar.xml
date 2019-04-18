@@ -22605,16 +22605,20 @@ USA
                 </antipattern>
                 <pattern>
                     <marker><token>to</token></marker>
-                    <token postag="RB"><exception postag="JJR"/></token>
+                    <token postag="RB">
+                      <exception regexp="yes">anyhow|outside</exception><!-- 'too X' is not standard English. -->
+                      <exception postag="JJR"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">She returned <marker>to</marker> quickly.</example>
+                <example correction="too">... but it did what we wanted <marker>to</marker> slowly.</example>
                 <example>The nights were cool <marker>to</marker> chilly.</example>
                 <example>You might be staring at a long list of potential fixes which typically get postponed to later.</example>
                 <example>It is an hour's drive from <marker>here to there</marker>.</example>
                 <example>What was he <marker>up to</marker> then?</example>
-                <example type="triggers_error">... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
+                <example>... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
+                <example>[https://en.wikipedia.org/wiki/Outside_(Alaska)]: The Alaska Rail network is not connected to Outside.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
