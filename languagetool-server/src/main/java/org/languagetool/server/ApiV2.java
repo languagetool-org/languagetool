@@ -38,7 +38,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.*;
 
-import static org.languagetool.server.ServerTools.print;
+import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 
 /**
  * Handle requests to {@code /v2/} of the HTTP API. 
@@ -76,7 +76,7 @@ class ApiV2 {
       // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);
     } else {
-      throw new PathNotFoundException("Unsupported action: '" + path + "'");
+      throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
   }
 
