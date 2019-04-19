@@ -28,7 +28,7 @@ public class PatternTokenBuilder {
 
   private String token;
   private String posTag;
-  private boolean marker;
+  private boolean marker = true;
   private boolean matchInflectedForms = false;
   private boolean caseSensitive;
   private boolean regexp;
@@ -74,8 +74,8 @@ public class PatternTokenBuilder {
    * can be more tokens with a mark, but then must all be adjacent.
    * @since 4.6
    */
-  public PatternTokenBuilder mark() {
-    this.marker = true;
+  public PatternTokenBuilder mark(boolean isMarked) {
+    this.marker = isMarked;
     return this;
   }
 
