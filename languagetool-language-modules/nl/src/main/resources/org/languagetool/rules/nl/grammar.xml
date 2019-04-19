@@ -25720,6 +25720,23 @@ steenwijk;Steenwijk
                 <example type="incorrect">De discussie <marker>naar aanleiding van</marker> het interview van aartsbisschop Léonard.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SOCIAL_MEDIA_DINGES" name=" social media training / socialmediatraining">
+            <rule>
+                <pattern>
+                    <token>social</token><token>media</token><token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Correct is <suggestion>\1\2\3</suggestion>.</message>
+                <example correction="socialmediatraining">Ik volg een<marker>social media training</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>social</token><token regexp="yes" postag_regexp="yes" postag="ZNW.*">media.*</token>
+                </pattern>
+				<message>Correct is <suggestion>\1\2</suggestion>.</message>
+                <example correction="socialmediatraining">Ik volg een<marker>social mediatraining</marker>.</example>
+            </rule>
+			
+        </rulegroup>
         <rulegroup id="NAAR_BEHOREN" name="naar behoren">
             <rule>
                 <pattern>
