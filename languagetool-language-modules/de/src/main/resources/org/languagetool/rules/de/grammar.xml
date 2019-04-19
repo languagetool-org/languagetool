@@ -1671,7 +1671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>gegen</token>
+                        <token regexp="yes">ge[bg]en</token>
                     </marker>
                     <token inflected="yes" skip="-1">haben</token>
                     <token postag="SENT_END"/>
@@ -1693,7 +1693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>gegen</token>
+                        <token regexp="yes">ge[bg]en</token>
                     </marker>
                     <token>worden</token>
                     <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
@@ -10716,12 +10716,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">los|unter|weg|fehl|wider|vorbei|her(an)?|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                        <token regexp="yes" case_sensitive="yes">los|nieder|unter|weg|fehl|wider|vorbei|her(an)?|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token>zu</token>
                         <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern</exception>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
-                            <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei).*|null|genügend</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -10729,6 +10729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\2\3</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="unterzugehen">Er hat nicht vor <marker>unter zu gehen</marker>.</example>
+                <example correction="niederzulegen">Er plante, das Amt <marker>nieder zu legen</marker>.</example>
                 <example>Zu allem Übel fing es an zu schneien.</example>
             </rule>
             <rule>
@@ -11171,7 +11172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">;|:</token>
                 <token/>
                 <token>dazu</token>
-                <token postag="VER:.*" postag_regexp="yes"></token>
+                <token postag="VER:.+" postag_regexp="yes"></token>
             </antipattern>
             <pattern>
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
@@ -11197,7 +11198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">;|:</token>
                     <token/>
                     <token>hinterher</token>
-                    <token postag="VER:.*" postag_regexp="yes"></token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
                 </antipattern>
                 <pattern>
                     <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
