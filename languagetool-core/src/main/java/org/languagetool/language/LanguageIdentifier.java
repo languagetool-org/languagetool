@@ -200,6 +200,7 @@ public class LanguageIdentifier {
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = textObjectFactory.forText(shortText).toString();
+    shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
