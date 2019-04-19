@@ -1072,6 +1072,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es steht etwa 750 Meter <marker>auf</marker> dem vom Ufer entfernten Direktweg.</example>
             <example><marker>Auf</marker> der zwei Kilometer entfernten Weg steht eine Bank.</example>
         </rule>
+        <rule id="AU_AUS" name="au (aus)">
+            <antipattern>
+                <token postag="UNKNOWN"></token>
+                <token>au</token>
+            </antipattern>
+            <antipattern>
+                <token>Mousse</token>
+                <token>au</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>au</token>
+                </marker>
+                <token>
+                    <exception postag="PKT|ADJ:.+|UNKNOWN" postag_regexp="yes"/>
+                    <exception>ja</exception>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>aus</suggestion> oder <suggestion>auf</suggestion>?</message>
+            <example correction="aus|auf">Er kommt <marker>au</marker> München.</example>
+            <example correction="aus|auf">Ich stehe <marker>au</marker> der Markierung.</example>
+        </rule>
         <rule id="WAS_WAR" name="'ich was (war) ein' etc.">
             <pattern>
                 <token postag_regexp="yes" postag="(EIG|SUB:NOM|PRO:PER:NOM).*SIN.*"/>
