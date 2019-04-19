@@ -1273,7 +1273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Harre</token>
                     </marker>
-                    <token regexp="yes">schneiden|wachsen|waschen|föhnen|(ab)?geschnitten</token>
+                    <token inflected="yes" regexp="yes">(ab)?schneiden|wachsen|waschen|föhnen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Haare</suggestion>?</message>
                 <example>Ich ließ mir die <marker>Haare</marker> schneiden.</example>
@@ -1314,20 +1314,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>etwas</token>
                     </marker>
-                    <token regexp="yes">[1-9][0-9]*</token>
+                    <token regexp="yes">[1-9][0-9]*|einem</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
                 <example correction="etwa">Vor <marker>etwas</marker> 20 Jahren war ich da.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">vor|nach|in|seit|nur</token>
-                    <marker>
-                        <token>etwas</token>
-                    </marker>
-                    <token>einem</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
                 <example correction="etwa">Vor <marker>etwas</marker> einem Jahr war ich da.</example>
             </rule>
         </rulegroup>
@@ -1592,7 +1582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">er|sie|es|ich</token>
+                    <token regexp="yes">sie|e[rs]|ich</token>
                     <marker>
                         <token>starte</token>
                     </marker>
@@ -1605,7 +1595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">er|sie|es|ich</token>
+                    <token regexp="yes">sie|e[rs]|ich</token>
                     <marker>
                         <token>starte</token>
                     </marker>
@@ -1670,7 +1660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" skip="-1">haben</token>
                     <marker>
-                        <token>gegen</token>
+                        <token regexp="yes">ge[bg]en</token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
