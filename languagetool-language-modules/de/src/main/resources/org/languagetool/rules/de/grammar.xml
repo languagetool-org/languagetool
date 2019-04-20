@@ -4968,6 +4968,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von Bayern und <marker>Sachen</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STRICKTE" name="strickte (strikte)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token regexp="yes">strickte?</token></marker>
+                    <token regexp="yes" inflected="yes">Bettruhe|Diät|einhalten|Gegenteil|Geheimhaltung|Prinzip|Regel|Verbot|ver(bieten|meiden)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ick" regexp_replace="ik"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="strikte">Er benötigt <marker>strickte</marker> Bettruhe.</example>
+                <example correction="strikt">Das Gesetz ist <marker>strickt</marker> einzuhalten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_WUSCH" name="auf Wusch (Wunsch)">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker><token case_sensitive="yes">Wusch</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Wunsch</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Wunsch">Sie bekommen das Auto auf <marker>Wusch</marker> mit Naviationssystem.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NAJA_NA_JA" name="Naja/Na ja">
             <rule>
                 <pattern>
@@ -5038,6 +5061,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="schloss">Er <marker>schoss</marker> die Tür und setzte sich an den Tisch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sich</token>
+                    <marker><token inflected="yes">zusammenschießen</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="schi" regexp_replace="schli"/></suggestion>?</message>
+                <example correction="zusammenzuschließen">Um sich <marker>zusammenzuschießen</marker>, sind lange Verhandlungen vonnöten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes" skip="1">schießen</token></marker>
+                    <token>sich</token>
+                    <token>zusammen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
+                <example correction="schlossen">Nach langen Verhandlungen <marker>schossen</marker> sie sich zusammen.</example>
             </rule>
         </rulegroup>
         <rule id="HINTERS_ICH" name="hinters ich/hinter sich">
@@ -11811,6 +11851,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Semantischer Fehler</short>
                 <example correction="">Wie lange <marker>dauert ein Lichtjahr</marker>?</example>
                 <example correction="">Unser Universum ist viele <marker>Lichtjahre alt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FLIESEND" name="fliesend (fließend)">
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes">fliesend</token></marker>
+                    <token regexp="yes">Wasser|&sprachadj1;</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="liese" regexp_replace="ließe"/></suggestion> im Sinne von 'flüssig'?</message>
+                <short>Semantischer Fehler</short>
+                <example correction="fließend">Er spricht <marker>fliesend</marker> Französisch.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUADRATWURZEL" name="Quadratwurzel (2 Lösungen)">
