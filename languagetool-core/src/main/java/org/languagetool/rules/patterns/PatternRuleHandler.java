@@ -72,6 +72,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
 
+  private String idPrefix;
   private final String sourceFile;
 
   public PatternRuleHandler() {
@@ -113,6 +114,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
+        idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
         break;
       case "regexp":
@@ -128,7 +130,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         message = new StringBuilder();
         suggestionsOutMsg = new StringBuilder();
         url = new StringBuilder();
-        id = attrs.getValue(ID);
+        id = idPrefix != null ? idPrefix + attrs.getValue(ID) : attrs.getValue(ID);
         name = attrs.getValue(NAME);
         if (inRuleGroup) {
           subId++;
