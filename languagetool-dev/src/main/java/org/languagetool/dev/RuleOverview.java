@@ -257,8 +257,7 @@ public final class RuleOverview {
     }
     return count;
   }
-
-
+  
   private SpellcheckSupport spellcheckSupport(Language lang, List<Language> allLanguages) throws IOException {
     if (spellcheckSupport(lang) != SpellcheckSupport.None) {
       return spellcheckSupport(lang);
@@ -274,7 +273,7 @@ public final class RuleOverview {
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
     List<Rule> rules = new ArrayList<>(lang.getRelevantRules(JLanguageTool.getMessageBundle(),
-      null, Collections.emptyList()));
+      null, null, Collections.emptyList()));
     rules.addAll(lang.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null, null,
             null, Collections.emptyList()));
     for (Rule rule : rules) {

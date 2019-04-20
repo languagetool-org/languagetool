@@ -385,7 +385,7 @@ public class JLanguageTool {
   
   private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig) {
     try {
-      List<Rule> rules = new ArrayList<>(language.getRelevantRules(messages, userConfig, altLanguages));
+      List<Rule> rules = new ArrayList<>(language.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
       return rules;
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);

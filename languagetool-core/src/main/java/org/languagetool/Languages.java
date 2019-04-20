@@ -87,7 +87,7 @@ public final class Languages {
         return true;
       }
       @Override
-      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
         MorfologikSpellerRule r = new MorfologikSpellerRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en-US")), this) {
           @Override
           public String getFileName() {

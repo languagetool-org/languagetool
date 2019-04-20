@@ -99,7 +99,7 @@ public abstract class Language {
    * Get the rules classes that should run for texts in this language.
    * @since 4.3
    */
-  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException;
+  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException;
 
   // -------------------------------------------------------------------------
 

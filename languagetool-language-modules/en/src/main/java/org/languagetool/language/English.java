@@ -18,6 +18,10 @@
  */
 package org.languagetool.language;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -30,6 +34,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
+import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -43,9 +48,9 @@ import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.io.InputStream;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -55,6 +60,19 @@ import java.util.ResourceBundle;
  */
 public class English extends Language implements AutoCloseable {
 
+  private static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
+      .expireAfterWrite(30, TimeUnit.MINUTES)
+      .build(new CacheLoader<String, List<Rule>>() {
+        @Override
+        public List<Rule> load(@NotNull String path) throws IOException {
+          List<Rule> rules = new ArrayList<>();
+          PatternRuleLoader loader = new PatternRuleLoader();
+          try (InputStream is = this.getClass().getResourceAsStream(path)) {
+            rules.addAll(loader.getRules(is, path));
+          }
+          return rules;
+        }
+      });
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
   private Tagger tagger;
@@ -168,8 +186,12 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    return Arrays.asList(
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> allRules = new ArrayList<>();
+    if (motherTongue != null && "de".equals(motherTongue.getShortCode())) {
+      allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-de.xml"));
+    }
+    allRules.addAll(Arrays.asList(
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
                 Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
@@ -199,12 +221,13 @@ public class English extends Language implements AutoCloseable {
         new WordCoherencyRule(messages),
         new ReadabilityRule(messages, this, userConfig, false),
         new ReadabilityRule(messages, this, userConfig, true)
-    );
+    ));
+    return allRules;
   }
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
