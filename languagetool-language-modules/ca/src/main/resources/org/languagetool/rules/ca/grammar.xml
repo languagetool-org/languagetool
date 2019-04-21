@@ -23215,6 +23215,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
+        <rulegroup id="TENIR_PROU_AMB" name="(en) té prou amb">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">en</token>
+                    <token>hi</token>
+                    <token inflected="yes">haver</token>
+                </marker>
+            </antipattern>
+                <antipattern>
+                <marker>
+                    <token inflected="yes">en</token>
+                    <token>hi</token>
+                    <token regexp="yes" inflected="yes">anar|haver</token>
+                    <token inflected="yes" postag="V.[NP].*" postag_regexp="yes">haver</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">en</token>
+                    <token min="0" regexp="yes" inflected="yes">anar|haver</token>
+                    <token inflected="yes">tenir</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>hi</token>
+                    <token inflected="yes">haver</token>
+                    <token>prou</token>
+                    <token>amb</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'.</message>
+                <example correction=""><marker>Hi ha prou amb</marker> això.</example>
+                <example>N'hi ha prou amb això.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hi</token>
+                    <token regexp="yes" inflected="yes">anar|haver</token>
+                    <token inflected="yes" postag="V.[NP].*" postag_regexp="yes">haver</token>
+                    <token>prou</token>
+                    <token>amb</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'.</message>
+                <example correction="">No <marker>hi ha hagut prou amb</marker> això.</example>
+                <example>N'hi ha hagut prou amb això.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">anar|haver</token>
+                    <token inflected="yes" postag="V.[NP].*" postag_regexp="yes">tenir</token>
+                    <token>prou</token>
+                    <token>amb</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'.</message>
+                <example correction="">No <marker>ha tingut prou amb</marker> això.</example>
+                <example correction="">No <marker>vam tindre prou amb</marker> això.</example>
+                <example>En vam tenir prou amb això.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tenir</token>
+                    <token>prou</token>
+                    <token>amb</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'.</message>
+                <example correction="">No <marker>té prou amb</marker> això.</example>
+                <example>En tingué prou amb això.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_DUPLICATS" name="pronoms febles duplicats">
             <!-- s'hauria de generalitzar en una regla Java-->
             <rule>
