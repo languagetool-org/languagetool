@@ -12505,7 +12505,7 @@ onwaarschijnlijk
                         <token regexp="yes" postag="SENT_END">[\p{L}]+</token>
                     </marker>
                 </pattern>
-                <message>Onverwacht einde. Voeg toe een leesteken toe of koppel de teksten.</message>
+                <message>Onverwacht einde. Voeg een leesteken toe of koppel de teksten.</message>
                 <short>Geen einde</short>
                 <example type="incorrect">Deze wat langere zin is <marker>fout</marker></example>
                 <example>Dit is correct.</example>
@@ -16191,7 +16191,7 @@ steenwijk;Steenwijk
 						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
 					</marker>
                 </pattern>
-                <message>Na een komma hoeft geen hoofdletter (behalve bij een eigennaam); bedoelt u: <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <message>Na een komma hoeft meestal geen hoofdletter (behalve bij een eigennaam); bedoelt u: <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
                 <example correction="is">Dit, <marker>Is</marker> een fout.</example>
                 <example>Dit <marker>is</marker> wel goed.</example>
             </rule>
@@ -16204,6 +16204,7 @@ steenwijk;Steenwijk
                 <example>Dit is een <marker>concept</marker>.</example>
 			</rule>
 		</rulegroup>
+		<!-- uitgeschakeld vanwege te veel false positives
         <rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig">
 			<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
 			<antipattern case_sensitive="yes"><token postag="SENT_START"/><token>"</token></antipattern>
@@ -16237,6 +16238,7 @@ steenwijk;Steenwijk
                 <example correction="bisdom">Het <marker>Bisdom</marker> is gegroeid.</example>
             </rule>
         </rulegroup>
+		-->
         <rulegroup id="PAMPUS" name="Pampus of pampus">
             <!-- 2014-08-23 TaalTik -->
             <rule>
@@ -34889,7 +34891,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">ge|gij</token>
                 </pattern>
-                <message>'\1' is niet gebruikelijk meer in dagelijks Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>
+                <message>'\1' is niet gebruikelijk meer in geschreven Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>
                 <example correction="Je|U"><marker>Ge</marker> weet wel.</example>
             </rule>
         </rulegroup>
