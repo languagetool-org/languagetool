@@ -4959,13 +4959,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Baden-Württemberg|Bayern|Berlin|Brandenburg|Bremen|Hamburg|Hessen|Mecklenburg-Vorpommern|Niedersachsen|Nordrhein-Westfalen|Rheinland-Pfalz|Saarland|Sachsen-Anhalt|Schleswig-Holstein|Thüringen</token>
-                    <token regexp="yes">und|oder|,</token>
+                    <token regexp="yes">Baden-Württemberg|Bayern|Berlin|Brandenburg|Bremen|Hamburg|Hessen|Mecklenburg-Vorpommern|Niedersachsen|Nordrhein-Westfalen|Rheinland-Pfalz|Saarland|Sachsen-Anhalt|Schleswig-Holstein|Thüringen|Ministerpräsident(en)?</token>
+                    <token regexp="yes">und|oder|,|von</token>
                     <marker><token>Sachen</token></marker>
                 </pattern>
                 <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von Bayern und <marker>Sachen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">Bundesland</token>
+                    <marker><token>Sachen</token></marker>
+                </pattern>
+                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Sachsen">Im Bundesland <marker>Sachen</marker> heißt man Sie herzlich willkommen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="STRICKTE" name="strickte (strikte)">

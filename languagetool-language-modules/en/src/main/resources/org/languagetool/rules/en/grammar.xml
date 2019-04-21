@@ -22898,7 +22898,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">of|from|my|your|his|her|our|their</token>
+                    <token regexp="yes">of|from|my|your|his|her|our|their|detailed|legal|medical|financial|professional|bad</token>
                     <marker>
                         <token>advise</token>
                     </marker>
@@ -23649,8 +23649,20 @@ USA
                 <token regexp='yes'>polyps?|reefs?|islands?|necklaces?|lipsticks?|bleaching|sea|springs?|atolls?|bay|ecosystems?|red|populations?</token>
             </pattern>
             <message>Did you mean <suggestion>coral</suggestion>?</message>
+            <short>Possible typo</short>
             <example correction="Coral"><marker>Corral</marker> reefs are diverse underwater ecosystems.</example>
             <example correction="coral">She likes <marker>corral</marker> lipsticks.</example>
+        </rule>
+        <rule id="ANUS_ANGUS" name="anus (angus)">
+            <pattern>
+                <marker>
+                    <token>anus</token>
+                </marker>
+                <token regexp="yes">beef|bulls?|burgers?|cattle|council|cows?|steaks?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="nu" regexp_replace="ngu"/></suggestion> (verb) instead of <match no="2"/> (noun)?</message>
+            <short>Possible typo</short>
+            <example correction="Angus"><marker>Anus</marker> beef, lettuce, tomatoes,...</example>
         </rule>
         <rule id="CONFUSION_OF_MARSHAL_MARTIAL" name="marshal/marital (martial)">
             <pattern>
@@ -23661,6 +23673,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>martial</suggestion> (relating to war or a warrior)?</message>
             <url>https://grammarist.com/spelling/marshal-martial/</url>
+            <short>Possible typo</short>
             <example correction="martial">He is an experienced <marker>marshal</marker> artist.</example>
             <example correction="martial">He is an experienced <marker>marital</marker> artist.</example>
         </rule>
