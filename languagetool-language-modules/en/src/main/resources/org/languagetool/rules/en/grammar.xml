@@ -23677,6 +23677,29 @@ USA
             <example correction="martial">He is an experienced <marker>marshal</marker> artist.</example>
             <example correction="martial">He is an experienced <marker>marital</marker> artist.</example>
         </rule>
+        <rulegroup id="CONFUSION_OF_SATE_STATE" name="sate (state)">
+            <rule>
+                <pattern>
+                    <token postag='JJ'></token>
+                    <marker>
+                        <token>sate</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>state</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="state">He is a whole new <marker>sate</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sate</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>state</suggestion>?</message>
+                <example correction="state">In a <marker>sate</marker> of anxiety.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_OF_GOLD_GOLF" name="gold (golf)">
             <rule>
                 <pattern>
