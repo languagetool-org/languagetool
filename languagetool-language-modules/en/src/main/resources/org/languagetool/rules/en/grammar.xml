@@ -23641,6 +23641,30 @@ USA
             <example correction="Public"><marker>Pubic</marker> Affairs is a term for the formal offices of the branches of the US Department of Defense.</example>
             <example><marker>Pubic</marker> hair is the hair in the frontal genital area of adolescent and adult humans.</example>
         </rule>
+        <rulegroup id="WAR_WART" name="war (wart)">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">flat|genital|plantar|remove</token>
+                    <marker>
+                        <token regexp="yes">wars?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="r" regexp_replace="rt"/></suggestion>?</message>
+                <example correction="warts">Genital <marker>wars</marker> may occur singly but are more often found in clusters.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <token>wars</token>
+                    </marker>
+                    <token>and</token>
+                    <token>all</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="r" regexp_replace="rt"/></suggestion>?</message>
+                <example correction="warts">Tom has just released a <marker>wars</marker> and all autobiography of his life with Mary.</example>
+            </rule>
+        </rulegrou>
         <rule id="CONFUSION_OF_CORRAL_CORAL" name="corral (coral)">
             <pattern>
                 <marker>
