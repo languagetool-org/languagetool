@@ -5,7 +5,7 @@
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
 Copyright (C) 2010-2018 Dominique Pellé <dominique.pelle@gmail.com>
-Copyright (C) 2018 Robin van der Vliet <info@robinvandervliet.com>
+Copyright (C) 2018-2019 Robin van der Vliet <info@robinvandervliet.com>
 
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
 de ĝia verkisto Bertilo Wennergren.
@@ -2005,18 +2005,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <message>Preferu skribi <suggestion><match no="1" regexp_match="^...(.*)" regexp_replace="mal$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match="^...(.*)(i|[aio]s)$" regexp_replace="sen$1ig$2"/></suggestion>. La ofta verbo «desinfekti» povas tamen esti akceptabla, se oni rigardas «desinfekt-» kiel propra radiko.</message>
       <url>https://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/prefiksoj/des.html</url>
       <example correction="malinfektis|seninfektigis">Li tuj <marker>desinfektis</marker> la vundon.</example>
-    </rule>
-    <rule id="NEOF_SUF_ICX" name="katiĉo → virkato (ktp.)">
-      <pattern>
-        <!-- The exception to the rule takes into account the few regular words that
-             end in -iĉo without being the sufix -iĉ-. I hope I did not forget any. -->
-        <token regexp="yes" inflected="yes">.*iĉo<exception inflected="yes" regexp="yes">.*(?:[knpr]|akron|Av|ded|fel|fet|Grenv|kond|kr|platd|past|post|sandv|suf|superst)iĉo</exception></token>
-      </pattern>
-      <message>«-iĉ» estas neoficiala sufikso. Konsideru uzi la adjektivon «vira» aŭ la prefikson «vir-» se taŭgas.</message>
-      <url>https://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ich.html</url>
-      <example correction="">Mi havas tri <marker>katiĉojn</marker>.</example>
-      <example correction="">Mi amas tiun <marker>esperantisticxon</marker>.</example>
-      <example>Li rakontis la kondiĉojn de sia malfeliĉo dum mi manĝis sandviĉojn.</example>
     </rule>
     <rule id="NEOF_SUF_OZ" name="ventoza → venta (ktp.)">
       <pattern>
@@ -4669,6 +4657,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Merkredon la dudek-duan de Oktobro 2014.</example>
       </rule>
     </rulegroup>
+    <rule id="VIRAJ_RADIKOJ_VIR" name="vir- ĉe viraj radikoj">
+      <pattern>
+        <token regexp="yes" inflected="yes">vir(?:abat|av|baron|begard|bok|bub|car|duk|edz|emir|fianĉ|fil|frat|fraŭl|graf|ĝentleman|ĝigol|inkub|kapon|kavalir|knab|kuz|markiz|maskl|mona[ĥk]|nep|nev|oks|onkl|patr|patriar[ĥk]|princ|reĝ|sinjor|stalon|ŝah|ŝogun|taŭr|vidv|vir)[oa]</token>
+      </pattern>
+      <message>Oni ne uzas la prefikson «vir-» en tiuj vortoj, kies radiko jam estas vira.</message>
+      <suggestion><match no="1" regexp_match="^..." regexp_replace=""/></suggestion>
+      <url>https://bertilow.com/pmeg/gramatiko/o-vortoj/seksa_signifo.html#i-jam</url>
+      <example correction="fratoj">Miaj <marker>virfratoj</marker> ne ĉeestis la eventon.</example>
+      <example correction="patro">Li estas mia <marker>virpatro</marker>.</example>
+    </rule>
+    <rule id="VIRAJ_RADIKOJ_ICX" name="-iĉ ĉe viraj radikoj">
+      <pattern>
+        <token regexp="yes" inflected="yes">(?:abat|av|baron|begard|bok|bub|car|duk|edz|emir|fianĉ|fil|frat|fraŭl|graf|ĝentleman|ĝigol|inkub|kapon|kavalir|knab|kuz|markiz|maskl|mona[ĥk]|nep|nev|oks|onkl|patr|patriar[ĥk]|princ|reĝ|sinjor|stalon|ŝah|ŝogun|taŭr|vidv|vir)iĉ[oa]</token>
+      </pattern>
+      <message>Oni ne uzas la sufikson «-iĉ» en tiuj vortoj, kies radiko jam estas vira.</message>
+      <suggestion><match no="1" regexp_match="(?iu)iĉ([oa]j?n?)$" regexp_replace="$1"/></suggestion>
+      <url>https://bertilow.com/pmeg/gramatiko/o-vortoj/seksa_signifo.html#i-jam</url>
+      <example correction="sinjoro">Kiu estas tiu <marker>sinjoriĉo</marker>?</example>
+      <example correction="nevon">Mi vizitis mian <marker>neviĉon</marker>.</example>
+      <example correction="patran">Fremduloj loĝis en lia <marker>patriĉan</marker> domo.</example>
+    </rule>
     <rule id="INAJ_RADIKOJ" name="inaj radikoj">
       <pattern>
         <token regexp="yes" inflected="yes">(?:alme|amazon|bajader|begin|dam|femal|femin|furi|gejŝ|gun|hetajr|lesb|madon|matriar[ĥk]|matron|meger|meretric|muz|nimf|primadon|pulard|putin|siren|subret|sukub)in[oa]</token>
