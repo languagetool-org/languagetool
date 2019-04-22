@@ -188,7 +188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="AKCENTO_AKCXENTO" name="ankcento kaj akĉento">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="1">[lmnŝv]ian|[mvlŝn]ia|afrikansa|albana|angla|araba|armena|baŝkira|bela|bosna|bretona|bulgara|ĉarma|ĉeĉena|ĉeĥa|ĉina|ĉuvaŝa|dana|diversa|ekstremadura|estona|eŭska|finna|franca|fremda|fremdlanda|frisa|friula|galega|germana|greka|gronlanda|hebrea|hinda|hindia|hispana|hungara|indonezia|inguŝa|irlanda|islanda|itala|japana|jida|kartvela|kataluna|kimra|korea|kroata|latina|latva|litova|loka|luksemburga|nederlanda|norvega|okcitana|oseta|persa|pola|portugala|rumana|rusa|serba|skota|slovaka|slovena|svahila|sveda|taja|tatara|terura|turka|udmurta|ukraina|urdua|usona|vjetnama</token>
+          <token inflected="yes" regexp="yes" skip="1">[clmnrŝv]ian|[clmnrŝv]ia|afrikansa|albana|angla|araba|armena|baŝkira|bela|bosna|bretona|bulgara|ĉarma|ĉeĉena|ĉeĥa|ĉina|ĉuvaŝa|dana|diversa|ekstremadura|estona|eŭska|finna|franca|fremda|fremdlanda|frisa|friula|galega|germana|greka|gronlanda|hebrea|hinda|hindia|hispana|hungara|indonezia|inguŝa|irlanda|islanda|itala|japana|jida|kartvela|kataluna|kimra|korea|kroata|latina|latva|litova|loka|luksemburga|nederlanda|norvega|okcitana|oseta|persa|pola|portugala|rumana|rusa|serba|skota|slovaka|slovena|svahila|sveda|taja|tatara|terura|turka|udmurta|ukraina|urdua|usona|vjetnama</token>
           <marker>
             <token inflected="yes">akcento</token>
           </marker>
@@ -1875,19 +1875,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="NEOFIC_SING_PRON" name="neoficialaj singularaj pronomoj">
       <pattern>
-        <token regexp="yes">([gr]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
+        <token regexp="yes">([gz]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
       </pattern>
-      <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
-      <url>https://eo.wikipedia.org/wiki/Riismo</url>
-      <example correction="Ĝi|Li|Ŝi"><marker>Ri</marker> estas bela.</example>
-      <example correction="ĝin|lin|ŝin">Mi amas <marker>ŝlin</marker>.</example>
-      <example correction="ĝia|lia|ŝia">Mi estas <marker>gia</marker> edzino.</example>
+      <message>«\1» estas neoficiala kaj malmulte konata pronomo. Preferu skribi la pli konatan neoficialan pronomon <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ri$1"/></suggestion> aŭ skribi unu el la oficialaj pronomoj <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
+      <url>https://bertilow.com/pmeg/gramatiko/pronomoj/tria.html#j-5tb</url>
+      <example correction="Ri|Ĝi|Li|Ŝi"><marker>Zi</marker> estas bela.</example>
+      <example correction="rin|ĝin|lin|ŝin">Mi amas <marker>ŝlin</marker>.</example>
+      <example correction="ria|ĝia|lia|ŝia">Mi estas <marker>gia</marker> edzino.</example>
     </rule>
     <rule id="NEOFIC_PLUR_PRON" name="neoficialaj pluralaj pronomoj">
       <pattern>
         <token regexp="yes">iŝi(?:n|aj?n?)?</token>
       </pattern>
-      <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ili$1"/></suggestion>.</message>
+      <message>«\1» estas neoficiala kaj malmulte konata pronomo. Preferu skribi <suggestion><match no="1" regexp_match="(?iu).*i(.*)" regexp_replace="ili$1"/></suggestion>. Tiu pronomo ne montras sekson.</message>
+      <url>https://eo.wikipedia.org/wiki/I%C5%9Di</url>
       <example correction="Ili"><marker>Iŝi</marker> estas miaj fratinoj.</example>
       <example correction="ilin">Mi amis <marker>iŝin</marker>.</example>
       <example correction="Iliajn"><marker>Iŝiajn</marker> kukojn mi tre ŝatas.</example>
@@ -1902,9 +1903,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="NEOFIC_MIES" name="neoficiala vorto mies, vies, lies, etc.">
       <pattern>
-        <token regexp="yes">[mvlŝn]ies|ilies|onies</token>
+        <token regexp="yes">[cĝlmnrsŝv]ies|ilies|onies</token>
       </pattern>
-      <message>Tiu poseda pronoformo «\1» estas neregula kaj evitinda.</message>
+      <message>Tiu poseda pronomformo «\1» estas neregula kaj evitinda.</message>
       <suggestion><match no="1" regexp_match="(?iu)es$" regexp_replace="a"/></suggestion>
       <url>https://bertilow.com/pmeg/gramatiko/pronomoj/posedaj.html</url>
       <example correction="mia">Tiu aŭto estas <marker>mies</marker>.</example>
@@ -2845,7 +2846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes" inflected="yes">(?:[mcvlŝĝn]|il)ia</token>
+          <token regexp="yes" inflected="yes">(?:[cĝlmnrŝv]|il)ia</token>
         </marker>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
@@ -2858,7 +2859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="LA_MI" name="La + pronomo">
       <pattern>
         <token>la</token>
-        <token regexp="yes">(?:[mcvlŝĝn]|il)i</token>
+        <token regexp="yes">(?:[cĝlmnrŝv]|il)i</token>
       </pattern>
       <message>«\1» ne povas stari kune kun pronomo «\2».</message>
       <example correction="">Ĉu <marker>la vi</marker> estas multekosta?</example>
@@ -2868,7 +2869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag="SENT_START|K" postag_regexp="yes"/>
         <marker>
-          <token regexp="yes">(?:[mcvlŝĝn]|il)i</token>
+          <token regexp="yes">(?:[cĝlmnrŝv]|il)i</token>
         </marker>
         <token postag="O nak .*" postag_regexp="yes"/>
         <token>
