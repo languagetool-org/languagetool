@@ -5195,6 +5195,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Понимая, что его дни сочтены, он пытался решить проблему.</example>
             <example>Наше резервирование ещё раз подтвердили в администрации здания, оно продолжает действовать.</example>
         </rule>
+        <rule id="grammar_vse_li_noun" name="Склонение (число) «все ли + существительное»">
+            <pattern>
+                <token>все</token>
+                <token>ли</token>
+                <token postag="NN:.*:.*:Sin:.*" postag_regexp="yes"><exception  postag="NN:.*:.*:PL:Nom" postag_regexp="yes"/><exception negate_pos="yes"  postag="NN:.*:.*:Sin:.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Грамматическая ошибка, требуется множественное число: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):Sin:.*" postag_replace="NN:$1:$2:PL:Nom" /></suggestion>.</message>
+            
+            <short>Требуется множественное число.</short>
+            <example correction="все ли ошибки">А <marker>все ли ошибка</marker> найдены?</example>
+            <example>А все ли ошибки найдены?</example>
+        </rule>
        
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
