@@ -1865,12 +1865,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <category id="KAT_NE_OFICIALAJ_VORTOJ" name="Ne oficialaj vortoj">
     <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
       <pattern>
-        <token regexp="yes">na|far|cis|fri</token>
+        <token regexp="yes">cis|fri|na</token>
       </pattern>
-      <message>«\1» estas neoficiala rolvorteto, kaj do evitinda.</message>
+      <message>«\1» estas neoficiala kaj malmulte konata rolvorteto.</message>
       <url>https://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html</url>
-      <example correction="">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
-      <example>La libro estis verkita fare de fama aŭtoro.</example>
+      <example correction="">Ili loĝas <marker>cis</marker> tiuj montoj.</example>
+      <example correction="">La prezo estas mil dolaroj <marker>fri</marker> haveno.</example>
       <example correction="">Ŝi ŝategas <marker>na</marker> ambaŭ.</example>
     </rule>
     <rule id="NEOFIC_SING_PRON" name="neoficialaj singularaj pronomoj">
@@ -1925,11 +1925,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>https://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
       <example correction="Malpli"><marker>Men</marker> vinon, mi petas.</example>
     </rule>
+    <rule id="NEOFIC_FAR" name="neoficiala vorto far">
+      <pattern>
+        <token>far</token>
+      </pattern>
+      <message>«\1» estas neoficiala kaj malmulte konata rolvorteto. Uzu <suggestion>de</suggestion> aŭ <suggestion>fare de</suggestion>.</message>
+      <url>https://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-z97</url>
+      <example correction="de|fare de">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
+    </rule>
     <rule id="NEOFIC_GRAUX" name="neoficiala vorto graŭ">
       <pattern>
         <token inflected="yes">graŭ</token>
       </pattern>
-      <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>dank’ al</suggestion>.</message>
+      <message>«\1» estas neoficiala kaj malmulte konata rolvorteto. Uzu <suggestion>dank’ al</suggestion>.</message>
       <url>https://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
       <example correction="dank’ al">Mi sukcesis <marker>graŭ</marker> ŝia helpo.</example>
     </rule>
