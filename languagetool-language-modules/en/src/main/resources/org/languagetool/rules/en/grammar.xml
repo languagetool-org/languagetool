@@ -8012,6 +8012,13 @@ USA
                 <token postag="DT" min="0"/>
                 <token>people</token>
             </antipattern>
+            <antipattern><!-- My advice to people is -->
+                <token postag="PRP$"/>
+                <token postag="JJ" min="0" max="1"/>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                <token>to</token>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people</token>
                 <token min="0">who</token>
@@ -8030,6 +8037,7 @@ USA
             <example>Naming these people <marker>does</marker> not imply their agreement.</example>
             <example>Helping people <marker>is</marker> our duty.</example>
             <example correction="am|are|aren">Our people <marker>is</marker> being encouraged to find any way to avoid the tax.</example>
+            <example>My usual advice to people is just be focused on the problem, learn about the...</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
