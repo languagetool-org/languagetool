@@ -65,6 +65,10 @@ class LineExpander {
 
   // ignore "#..." so it can be used as a tag:
   private String cleanTags(String s) {
-    return s.replaceFirst("\\s+#.*", "").trim();
+    int idx = s.indexOf("#");
+    if (idx != -1) {
+      s = s.substring(0, idx);
+    }
+    return s.trim();
   }
 }
