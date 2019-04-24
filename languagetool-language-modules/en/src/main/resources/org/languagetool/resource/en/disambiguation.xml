@@ -1577,6 +1577,12 @@
     
     <rulegroup name="was/is + verb/NN -> NN" id="was_is_VB_NN">
     <rule>
+      <antipattern>
+        <token regexp="yes">you|we|they</token>
+        <token>are</token>
+        <token postag_regexp="yes" postag="VBP?"/>
+        <token postag="IN"/>
+      </antipattern>
       <pattern>
         <token regexp="yes">are|is|was|been</token>
             <marker>
@@ -1588,7 +1594,10 @@
       </pattern>
       <disambig action="filter" postag="NN.*"/>
       <example type="untouched">He was fine.</example>
+      <example type="untouched">Incorrect grammar. They are build from wood.</example>
+      <example type="untouched">Incorrect grammar. We are drive to London.</example>
       <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+      <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]" outputform="book[book/NN]">They are <marker>book</marker> salesmen, aren't they?</example>
     </rule>
     <!-- rule>
       <pattern>
@@ -3363,7 +3372,10 @@
       <pattern>
         <marker>
           <and>
-            <token postag="NN:UN"><exception scope="previous" postag="NNP?S|CD" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se|that</exception><exception scope="previous" inflected="yes">have</exception></token>
+            <token postag="NN:UN">
+              <exception scope="previous" postag="NNP?S|CD" postag_regexp="yes"/>
+              <exception scope="previous" regexp="yes">wed|th[oe]se|that|are</exception>
+              <exception scope="previous" inflected="yes">have</exception></token>
             <token chunk="E-NP-singular"/>
             <token postag="VBP"/>
           </and>
@@ -3383,6 +3395,7 @@
       <example type="untouched">Neurons there show activity levels that rise and <marker>fall</marker> with a period of about 24 hours.</example>
       <example type="untouched">If all 5 <marker>call</marker> at 10:00, we will be busy.</example>
       <example type="untouched">When did he last <marker>talk</marker> to them?</example>
+      <example type="untouched">Incorrect grammar. We are drive to London.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
@@ -3683,6 +3696,12 @@
     </rule>
 
 		<rule id="VBP_NN_VBZ" name="company -> noun">
+			<antipattern>
+				<token regexp="yes">you|we|they</token>
+				<token>are</token>
+				<token postag="VB[ZP]?" postag_regexp="yes"/>
+				<token postag="IN"/>
+			</antipattern>
 			<pattern>
 				<token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
 				<marker>
@@ -3699,6 +3718,8 @@
 			<example type="untouched">Incorrect grammar. The technician has <marker>make</marker> about 20 errors this year.</example>
 			<example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
 			<example type="untouched">Incorrect grammar. I have <marker>start</marker> he tomorrow.</example>
+			<example type="untouched">Incorrect grammar. They are build from wood.</example>
+			<example type="untouched">Incorrect grammar. We are drive to London.</example>
 			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
 		</rule>
 
