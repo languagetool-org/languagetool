@@ -26114,15 +26114,27 @@ USA
             <example correction="and|also">Typical English Food <marker>and also</marker> Welsh and Scottish too</example>
             <example>Typical English Food, and Welsh and Scottish too</example>
         </rule>
-        <rule id="AND_ETC" name="and etc. (etc.)">
-            <pattern>
+        <rule id="AND_ETC" name="and (etc)">
+            <antipattern case_sensitive="yes">
                 <token>and</token>
-                <token>etc</token>
-                <token>.</token>
+                <token>ETC</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>and</token>
+                    <token>etc</token><!-- A full stop is not necessary: https://www.collinsdictionary.com/dictionary/english/etc -->
+                </marker>
+                <token>
+                    <exception spacebefore="no">/</exception></token>
             </pattern>
-            <message>Consider using <suggestion>\2\3</suggestion>.</message>
+            <message>Write the name of the item after '\1' or use only <suggestion>\2</suggestion>.</message>
+            <url>https://en.oxforddictionaries.com/definition/etc.</url>
             <short>Redundant phrase</short>
-            <example correction="etc.">E-Commerce <marker>and etc.</marker></example>
+            <example correction="etc">… pens, pencils, rulers, paper clips, rulers, <marker>and etc</marker>.</example>
+            <example correction="etc">E-Commerce <marker>and etc</marker> is usually...</example>
+            <example>… pens, pencils, rulers, paper clips, rulers, <marker>etc</marker>.</example>
+            <example>IEM member and ETC director John Brunsden said…</example>
+            <example>… and etc/somepath/file.txt is also…</example>
         </rule>
         <rule id="ANNUAL_ANNIVERSARY" name="annual anniversary (anniversary)">
             <pattern>
