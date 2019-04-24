@@ -31,8 +31,7 @@ public class RuleCheckTimeMessage extends RuleLoggerMessage {
 
     executionTime = System.currentTimeMillis() - startTime;
     this.textSize = textSize;
-    setMessage(String.format("Rule checked %d chars in %d ms (%f chars/ms)",
-      textSize, executionTime, (float) textSize / executionTime));
+    setMessage("Rule checked " + textSize + " chars in " + executionTime + " ms (" + ((float) textSize / executionTime) + " chars/ms)");
   }
 
   public long getExecutionTime() {
