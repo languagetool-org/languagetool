@@ -21,6 +21,7 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.rules.AbstractUnitConversionRule;
+import org.languagetool.rules.Example;
 
 import java.math.RoundingMode;
 import java.text.NumberFormat;
@@ -41,6 +42,8 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     format = NumberFormat.getNumberInstance(Locale.GERMANY);
     format.setMaximumFractionDigits(2);
     format.setRoundingMode(RoundingMode.HALF_UP);
+    addExamplePair(Example.wrong("Ich bin <marker>6 Fuß</marker> groß."),
+                   Example.fixed("Ich bin <marker>6 Fuß (1,83 m)</marker> groß."));
 
     addUnit("Kilo(gramm)?", KILOGRAM, "Kilogramm", 1, true);
     addUnit("Gramm", KILOGRAM, "Gramm", 1e-3, true);
