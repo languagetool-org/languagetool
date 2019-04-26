@@ -309,7 +309,7 @@ public class HTTPServerConfig {
     }
   }
 
-  void setLanguageModelDirectory(String langModelDir) {
+  public void setLanguageModelDirectory(String langModelDir) {
     SuggestionsOrdererConfig.setNgramsPath(langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {

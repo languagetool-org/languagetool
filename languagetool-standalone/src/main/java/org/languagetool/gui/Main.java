@@ -908,6 +908,9 @@ public final class Main {
       try {
         HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         serverConfig.setAllowOriginUrl("*");    // needed for Firefox so this server can be used from the add-on
+        if (config.getNgramDirectory() != null) {
+          serverConfig.setLanguageModelDirectory(config.getNgramDirectory().getAbsolutePath());
+        }
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {
