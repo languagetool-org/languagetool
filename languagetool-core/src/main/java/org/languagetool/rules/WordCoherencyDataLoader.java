@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.JLanguageTool;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +25,11 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.languagetool.JLanguageTool;
 
 /**
  * Loads word variations words from a UTF-8 file. One entry per line,
@@ -35,9 +38,9 @@ import java.util.Map;
  */
 public class WordCoherencyDataLoader {
 
-  public Map<String, String> loadWords(String path) {
+  public Map<String, Set<String>> loadWords(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    Map<String, String> map = new HashMap<>();
+    Map<String, Set<String>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, "utf-8");
       BufferedReader br = new BufferedReader(reader)
@@ -51,8 +54,16 @@ public class WordCoherencyDataLoader {
         if (parts.length != 2) {
           throw new IOException("Format error in file " + path + ", line: " + line);
         }
-        map.put(parts[0], parts[1]);
-        map.put(parts[1], parts[0]);
+        if(map.containsKey(parts[0])) {
+          map.get(parts[0]).add(parts[1]);
+        } else {
+          map.put(parts[0], Stream.of(parts[1]).collect(Collectors.toSet()));
+        }
+        if(map.containsKey(parts[1])) {
+          map.get(parts[1]).add(parts[0]);
+        } else {
+          map.put(parts[1], Stream.of(parts[0]).collect(Collectors.toSet()));
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load coherency data from " + path, e);

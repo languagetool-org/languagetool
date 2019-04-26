@@ -43,7 +43,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
    * Maps words in both directions, e.g. "aufwendig -&gt; aufwändig" and "aufwändig -&gt; aufwendig".
    * @since 3.0
    */
-  protected abstract Map<String, String> getWordMap();
+  protected abstract Map<String, Set<String>> getWordMap();
 
   /**
    * Get the message shown to the user if the rule matches.
@@ -79,9 +79,11 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
               ruleMatches.add(ruleMatch);
               break;
             } else if (getWordMap().containsKey(token)) {
-              String shouldNotAppear = getWordMap().get(token);
-              RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
-              shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
+              Set<String> shouldNotAppearSet = getWordMap().get(token);
+              for(String shouldNotAppear : shouldNotAppearSet) {
+                RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
+                shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
+              }
             }
           }
         }
