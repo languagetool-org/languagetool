@@ -88,6 +88,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
         && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*")
         && !token.getToken().equals("sicher")
+        && !token.getToken().equals("weit")
         && !token.getToken().equals("Sie")
         && !token.getToken().equals("Ich"))
         || isUnknownWord(token);
