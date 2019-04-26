@@ -3366,6 +3366,11 @@
          <token postag="RB"/>
          <token postag_regexp="yes" postag="VBP?"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker: passive: were ground -->
+        <token chunk="E-NP-plural"/>
+        <token regexp="yes">are|were</token>
+        <token postag="VBN"/>
+      </antipattern>
       <antipattern><!-- that rise and fall -->
          <token>that</token>
          <token postag_regexp="yes" postag="VBP?"/>
@@ -3399,6 +3404,7 @@
       <example type="untouched">If all 5 <marker>call</marker> at 10:00, we will be busy.</example>
       <example type="untouched">When did he last <marker>talk</marker> to them?</example>
       <example type="untouched">Incorrect grammar. We are drive to London.</example>
+      <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
