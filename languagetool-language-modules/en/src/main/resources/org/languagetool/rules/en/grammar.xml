@@ -2340,7 +2340,7 @@ USA
             <message>Did you mean <suggestion>known</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="known">This is a <marker>know</marker> problem.</example>
-        </rule>
+        </rule>        
         <rule id="MY_BE" name="my (may) be">
             <pattern>
                 <token>my</token>
@@ -21360,7 +21360,7 @@ USA
                     <token regexp="yes">an?|the</token>
                     <marker>
                         <token postag="CD"/>
-                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|story|storey</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
@@ -21375,7 +21375,7 @@ USA
                 <pattern>
                     <token regexp="yes">an?|the</token>
                     <marker>
-                        <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|story|storey)</token>
+                        <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y)</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
                     <token postag="NN.*|SENT_END" postag_regexp="yes"/>
@@ -21392,7 +21392,7 @@ USA
                     <token postag="JJ" min="0"/>
                     <marker>
                         <token postag="CD"></token>
-                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|story|storey</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"/>
                 </pattern>
@@ -21409,7 +21409,7 @@ USA
                     <token postag="V.+" postag_regexp='yes'/>
                     <marker>
                         <token postag="CD"></token>
-                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|story|storey</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                     </marker>
                     <token postag="NNP?S" postag_regexp="yes"/>
                 </pattern>
@@ -24030,6 +24030,16 @@ USA
                 <short>Possible typo</short>
                 <example correction="where">The troops had been taken to southern Libya from <marker>were</marker> they were rescued on Monday.</example>
                 <example correction="where">Go back to <marker>were</marker> you came from.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>were</token>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="JJ.?" postag_regexp="yes"/></token>
+                    <token inflected="yes">be<exception>being</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>where \2 \3</suggestion>?</message>
+                <example correction="where people are">I guess you are getting a lot of mails <marker>were people are</marker> asking the same.</example>
+                <example>Those who were present were glad at the news.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALTER_BOY" name="alter (altar)">
