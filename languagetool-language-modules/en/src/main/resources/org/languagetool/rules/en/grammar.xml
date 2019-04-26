@@ -11138,6 +11138,28 @@ USA
                     <token>brand</token>
                     <token>new</token>
                 </antipattern>
+                <antipattern><!-- Their opponents were club president Cesar de Zulueta and Valentin Barr… -->
+                    <token regexp="yes">are|were</token>
+                    <token skip="-1" chunk="B-NP-singular"/>
+                    <token>and</token>
+                    <token chunk="B-NP-singular"/>
+                </antipattern>
+                <antipattern><!--  ... visited the islands (of whom 443,987 were cruise ship passengers). -->
+                    <token regexp="yes">are|were</token>
+                    <token chunk="B-NP-plural"/>
+                </antipattern>
+                <antipattern><!--  the question is can you -->
+                    <token chunk="E-NP-singular"/>
+                    <token regexp="yes">is|was</token>
+                    <token postag="MD"/>
+                    <token postag="PRP"/>
+                </antipattern>
+                <antipattern><!--  the question is did she -->
+                    <token chunk="E-NP-singular"/>
+                    <token regexp="yes">is|was</token>
+                    <token regexp="yes">do|does|did</token>
+                    <token postag="PRP"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -11170,9 +11192,12 @@ USA
                 <example>The Anchorage <marker>art exhibit</marker> is to raise awareness about autism.</example>
                 <example>Your idea cannot be <marker>brand new</marker>. I heard about it from another source last year.</example>
                 <example type="triggers_error">What we are trying to do with Ridley now is go through the painstaking process of trying to...</example>
-                <example type="triggers_error">Their opponents were club president Cesar de Zulueta and Valentin Barr.</example>
+                <example>Their opponents were club president Cesar de Zulueta and Valentin Barr.</example>
                 <example type="triggers_error">...in question of this school was whether Being came before Not-Being (in Chinese, 'ming' and ...</example>
                 <example type="triggers_error">A 10-day-old pup can die from being host to as few as 25 'A. caninum' worms.</example>
+                <example>... visited the islands (of whom 443,987 <marker>were cruise ship passengers</marker>).</example>
+                <example>The question is can you do everything we've asked...</example>
+                <example>The question is did she know about the...</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
