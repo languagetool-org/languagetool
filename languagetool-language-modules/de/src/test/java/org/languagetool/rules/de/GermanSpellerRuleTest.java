@@ -354,6 +354,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("eingängliche", "eingängige", rule, lt);
     assertFirstSuggestion("kusengs", "Cousins", rule, lt);
     assertFirstSuggestion("Influenzer", "Influencer", rule, lt);
+    assertFirstSuggestion("kaperzität", "Kapazität", rule, lt);
   }
 
   @Test
