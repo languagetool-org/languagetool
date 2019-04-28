@@ -38168,7 +38168,7 @@ Andere Projekte</example>
                 <antipattern><!-- Komma optional: http://www.neue-rechtschreibung.net/2010/06/15/wussten-sie-dass/ -->
                     <token>je</token>
                     <token case_sensitive="yes">nachdem</token>
-                    <token case_sensitive="yes" regexp="yes">ob|wie</token>
+                    <token case_sensitive="yes" regexp="yes">ob|w[a-z]+</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -38209,7 +38209,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>so</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
                     <token>wie</token>
                 </antipattern>
                 <antipattern>
@@ -38220,7 +38220,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token skip="-1">mehr
                         <exception regexp="yes" scope="next">,|:|;|-|–|\)|\(|und|oder</exception>
-                        <exception postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
+                        <exception postag="VER.*:[1-3]:.+" postag_regexp="yes"/>
                     </token>
                     <token>als</token>
                 </antipattern>
@@ -38315,7 +38315,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.+|PA[12]:.+|SUB:.+|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.+|ZUS|ZAL" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
                        </token>
                     <token>als</token>
