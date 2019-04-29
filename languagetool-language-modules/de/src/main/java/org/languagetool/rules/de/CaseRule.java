@@ -229,8 +229,7 @@ public class CaseRule extends Rule {
        new PatternTokenBuilder().tokenRegex("Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
      ),
      Arrays.asList( // "Das schließen Forscher aus ..."
-       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
-       new PatternTokenBuilder().csToken("Das").build(),
+       new PatternTokenBuilder().token("das").build(),
        new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
        new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
     ),
