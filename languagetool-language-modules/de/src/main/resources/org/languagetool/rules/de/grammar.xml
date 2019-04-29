@@ -3504,22 +3504,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(ein)?mal</token>
-                    <marker>
-                        <token regexp="yes">wider|Widder</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
-                <example correction="wieder">Ich möchte mal <marker>wider</marker> richtig feiern.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">bald|morgen|schon</token>
+                    <token regexp="yes">(ein)?mal|bald|morgen|schon</token>
                     <marker>
                         <token>wider</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+                <example correction="wieder">Ich möchte mal <marker>wider</marker> richtig feiern.</example>
                 <example correction="wieder">Ich möchte morgen <marker>wider</marker> richtig feiern.</example>
             </rule>
         </rulegroup>
@@ -3697,21 +3688,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>seid</token>
                     </marker>
-                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes" min="0">[0-9]+</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> 13 Tagen wieder besser.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">schon|bereits|erst</token>
-                    <marker>
-                        <token>seid</token>
-                    </marker>
-                    <token regexp="yes">&zeiteinheiten;</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
                 <example>Mir geht es schon <marker>seit</marker> Tagen wieder besser.</example>
                 <example correction="seit">Mir geht es schon <marker>seid</marker> Jahren nicht so gut.</example>
             </rule>
