@@ -30845,6 +30845,18 @@ steenwijk;Steenwijk
                 <example correction="Ik vind"><marker>Ik vindt</marker> het onvolwassen gedrag.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HIJ_WILT" name="hij wilt">
+            <rule>
+                <pattern><token skip="5">hij</token><marker><token>wilt</token></marker></pattern>
+                <message>U bedoelt vast <suggestion>wil</suggestion></message>
+                <example correction="wil">Als hij het niet <marker>wilt</marker>, gaat het mis.</example>
+            </rule>
+            <rule>
+                <pattern><token skip="5">wilt</token><marker><token>hij</token></marker></pattern>
+                <message>U bedoelt vast <suggestion>wil</suggestion></message>
+                <example correction="Wil"><marker>Wilt</marker> hij het niet, gaat het mis.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEPAALD_JE" name="voltooid deelwoord / 3e persoon">
             <rule>
 				<antipattern><token postag="WKW:VTD:ONV" regexp="yes" skip="10">.*[^kfsp]d</token><token inflected="yes" regexp="yes">zijn|hebben</token></antipattern>
