@@ -19,11 +19,13 @@
 package org.languagetool.language;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.io.IOException;
 
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
@@ -125,6 +127,15 @@ public class French extends Language implements AutoCloseable {
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this)
     );
+  }
+
+  @Override
+  public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    if (globalConfig != null && globalConfig.getGrammalecteServer() != null) {
+      rules.add(new GrammalecteRule(messages, globalConfig));
+    }
+    return rules;
   }
 
   /** @since 3.1 */

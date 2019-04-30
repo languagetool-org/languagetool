@@ -21,10 +21,7 @@ package org.languagetool.server;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Experimental;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 import java.io.File;
@@ -93,6 +90,7 @@ public class HTTPServerConfig {
   protected boolean dbLogging;
   protected boolean prometheusMonitoring = false;
   protected int prometheusPort = 9301;
+  protected GlobalConfig globalConfig = new GlobalConfig();
 
   protected boolean skipLoggingRuleMatches = false;
 
@@ -266,6 +264,7 @@ public class HTTPServerConfig {
         }
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
           "slowRuleLoggingThreshold", "-1"));
+        globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));

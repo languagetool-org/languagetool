@@ -27,10 +27,7 @@ import com.google.common.cache.LoadingCache;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.ResultCache;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.tools.Tools;
 
@@ -54,12 +51,14 @@ class PipelinePool {
     private final Language motherTongue;
     private final TextChecker.QueryParams query;
     private final UserConfig user;
-
-    PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, UserConfig userConfig) {
+    private final GlobalConfig globalConfig;
+    
+    PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
       this.lang = lang;
       this.motherTongue = motherTongue;
       this.query = params;
       this.user = userConfig;
+      this.globalConfig = globalConfig;
     }
 
     @Override
@@ -68,6 +67,7 @@ class PipelinePool {
         .append(lang)
         .append(motherTongue)
         .append(query)
+        .append(globalConfig)
         .append(user)
         .toHashCode();
     }
@@ -83,6 +83,7 @@ class PipelinePool {
         .append(lang, other.lang)
         .append(motherTongue, other.motherTongue)
         .append(query, other.query)
+        .append(globalConfig, other.globalConfig)
         .append(user, other.user)
         .isEquals();
     }
@@ -93,6 +94,7 @@ class PipelinePool {
         .append("lang", lang)
         .append("motherTongue", motherTongue)
         .append("query", query)
+        .append("globalConfig", globalConfig)
         .append("user", user)
         .build();
     }
@@ -157,14 +159,14 @@ class PipelinePool {
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
         //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.user);
+        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user);
       } else {
         pipelinesUsed++;
         //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
-      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.user);
+      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user);
     }
   }
 
@@ -182,9 +184,9 @@ class PipelinePool {
    * @param lang the language to be used
    * @param motherTongue the user's mother tongue or {@code null}
    */
-  Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, UserConfig userConfig)
+  Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig)
     throws Exception { // package-private for mocking
-    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, userConfig);
+    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());

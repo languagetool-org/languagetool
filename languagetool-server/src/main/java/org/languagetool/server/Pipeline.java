@@ -76,8 +76,8 @@ class Pipeline extends JLanguageTool {
     return delta > PipelinePool.PIPELINE_EXPIRE_TIME;
   }
 
-  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, UserConfig userConfig) {
-    super(language, altLanguages, motherTongue, cache, userConfig);
+  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig) {
+    super(language, altLanguages, motherTongue, cache, globalConfig, userConfig);
     lastUsedTimestamp = System.currentTimeMillis();
   }
 
