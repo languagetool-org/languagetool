@@ -19,9 +19,10 @@
 package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -37,10 +38,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -102,11 +100,12 @@ class ResultExtender {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
         String urlParameters = "";
+        List<String> ignoredParameters = Arrays.asList("enableHiddenRules", "username", "password", "token", "apiKey");
         for (Map.Entry<String, String> entry : params.entrySet()) {
           // We could set 'language' to the language already detected, so the queried server
           // wouldn't need to guess the language again. But then we'd run into cases where
-          // we get an error because e.g. 'noopLanguages' can only be used with 'language=auto' 
-          if (!"enableHiddenRules".equals(entry.getKey())) {
+          // we get an error because e.g. 'noopLanguages' can only be used with 'language=auto'
+          if (!ignoredParameters.contains(entry.getKey())) {
             urlParameters += "&" + encode(entry.getKey()) + "=" + encode(entry.getValue());
           }
         }
