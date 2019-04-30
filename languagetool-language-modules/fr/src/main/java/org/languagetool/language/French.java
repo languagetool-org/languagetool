@@ -122,6 +122,7 @@ public class French extends Language implements AutoCloseable {
             new SentenceWhitespaceRule(messages),
             // specific to French:
             new CompoundRule(messages),
+            new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this)
     );
   }
@@ -138,7 +139,7 @@ public class French extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new FrenchConfusionProbabilityRule(messages, languageModel, this)
     );
   }
@@ -157,6 +158,15 @@ public class French extends Language implements AutoCloseable {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
+      case "FRENCH_WHITESPACE": return 0;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

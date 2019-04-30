@@ -5,6 +5,14 @@
 #### Galician
   * added verbal agreement rules
 
+#### French
+  * Rule `FRENCH_WHITESPACE` has been split into `FRENCH_WHITESPACE` (on
+    by default) and `FRENCH_WHITESPACE_STRICT` (off by default).
+    `FRENCH_WHITESPACE` only complains if there's no space at all before
+    `?`, `!`, `;`, `:`, or `»`. `FRENCH_WHITESPACE_STRICT` complains
+    if there's no space or a common space instead of a non-breaking space
+    before these characters.
+
 #### German
   * added and improved rules
   * The false friend rule has been modified to use ngrams: Now false friends
