@@ -90,9 +90,9 @@ public class QuestionWhitespaceRule extends Rule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokens();
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
-    	if (tokens[i].isImmunized()) {
+      if (tokens[i].isImmunized()) {
         continue;
-    	}
+      }
       String token = tokens[i].getToken();
       boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
       String msg = null;
