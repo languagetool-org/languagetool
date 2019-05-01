@@ -607,7 +607,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Fr-So", "Fr.–So.");
     put("Sa-So", "Sa.–So.");
     putRepl("[hH]ats", "ats", "at es");
-    putRepl("wieviele?", "wieviel", "wie viel");
+    putRepl("[Ww]ieviele?", "ieviel", "ie viel");
     put("As", "Ass");
     put("[bB]i[sß](s?[ij]|ch)en", "bisschen");
   }
