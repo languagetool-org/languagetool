@@ -982,6 +982,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER:.+"/>
         </rule>
     </rulegroup>
+    <rulegroup id="PA2_WERDEN" name="Entferne Adjektiv von Partizip">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"></token>
+                    </and>
+                </marker>
+                <token regexp="yes">w[eo]rden</token>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="3">werden<exception scope="next" postag="PKT"/></token>
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"></token>
+                    </and>
+                </marker>
+                <token postag="PKT"></token>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="RARE_PRT" name="Entferne Präteritum">
         <rule>
             <pattern case_sensitive="yes">
