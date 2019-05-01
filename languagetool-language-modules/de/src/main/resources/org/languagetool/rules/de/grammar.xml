@@ -16196,6 +16196,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="teil">Ich nehme an seiner Verabschiedung nicht <marker>Teil</marker>.</example>
                 <example correction="teil">Ich nehme an der Zeremonie <marker>Teil</marker>.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="VER:.+" postag_regexp="yes" skip="-1"/>
+                    <token>teil</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">teil</token>
+                    </marker>
+                    <token><exception postag="PKT"/></token>
+                </pattern>
+                <message>Ist hier die Substantivform gemeint?</message>
+                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+                <example correction="Teil">Dieser <marker>teil</marker> ist ziemlich schwierig.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUBSTANTIVIERTES_PARTIZIP" name="substantiviertes Partizip">
             <rule>
