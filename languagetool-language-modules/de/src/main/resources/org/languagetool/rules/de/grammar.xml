@@ -19440,7 +19440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
                     <token postag="VER:3:PLU:.*" postag_regexp="yes" regexp="yes">[a-zäöü]+
-                        <exception regexp="yes">einen|deutschen|langen|längen</exception>
+                        <exception regexp="yes">einen|deutschen|l[aä]ngen</exception>
                     </token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -19921,6 +19921,21 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Alter">Sein hohes <marker>alter</marker> muss in Rechnung gestellt werden.</example>
                 <example>Das neue <marker>Gerät</marker> war noch nicht einsatzbereit.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">die(sen?)?|jenen?</token>
+                    <marker>
+                        <token regexp="yes">&subkleinplural;</token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:[A-Z]+" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Aufgaben">Er kommt, um uns die <marker>aufgaben</marker> zu erklären.</example>
+                <example correction="Aufgaben">Er kommt, um uns bei diesen <marker>aufgaben</marker> zu helfen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KEIN_ZUTRITT" name="'kein zutritt (Zutritt) für Erwachsene'">
