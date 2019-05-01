@@ -57,12 +57,6 @@ public class Persian extends Language {
   }
 
   @Override
-  public String getCommonWordsPath() {
-    // TODO: provide common words file
-    return null;
-  }
-
-  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
