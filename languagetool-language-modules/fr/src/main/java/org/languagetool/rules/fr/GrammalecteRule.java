@@ -82,6 +82,11 @@ public class GrammalecteRule extends Rule {
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(TIMEOUT_MILLIS);
     huc.setReadTimeout(TIMEOUT_MILLIS*2);
+    if (globalConfig.getGrammalecteUser() != null && globalConfig.getGrammalectePassword() != null) {
+      String authString = globalConfig.getGrammalecteUser() + ":" + globalConfig.getGrammalectePassword();
+      String encoded = Base64.getEncoder().encodeToString(authString.getBytes());
+      huc.setRequestProperty("Authorization", "Basic " + encoded);
+    }
     huc.setRequestMethod("POST");
     huc.setDoOutput(true);
     try {

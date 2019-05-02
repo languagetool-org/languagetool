@@ -28,14 +28,34 @@ import java.util.Objects;
 public class GlobalConfig {
   
   private String grammalecteServer;
+  private String grammalecteUser;
+  private String grammalectePassword;
 
   public void setGrammalecteServer(String serverUrl) {
     grammalecteServer = serverUrl;
+  }
+  
+  public void setGrammalecteUser(String user) {
+    grammalecteUser = user;
+  }
+  
+  public void setGrammalectePassword(String password) {
+    grammalectePassword = password;
   }
 
   @Nullable
   public String getGrammalecteServer() {
     return grammalecteServer;
+  }
+
+  @Nullable
+  public String getGrammalecteUser() {
+    return grammalecteUser;
+  }
+
+  @Nullable
+  public String getGrammalectePassword() {
+    return grammalectePassword;
   }
 
   @Override

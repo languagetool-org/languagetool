@@ -265,6 +265,8 @@ public class HTTPServerConfig {
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
           "slowRuleLoggingThreshold", "-1"));
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
+        globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
+        globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
