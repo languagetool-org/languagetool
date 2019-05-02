@@ -63,6 +63,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
           new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
+          new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
