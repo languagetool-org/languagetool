@@ -177,6 +177,9 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
       case "FRENCH_WHITESPACE": return 0;
     }
+    if (id.startsWith("grammalecte_")) {
+      return -1;
+    }
     return super.getPriorityForId(id);
   }
 

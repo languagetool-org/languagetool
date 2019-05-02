@@ -36,7 +36,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -142,10 +141,10 @@ public class GrammalecteRule extends Rule {
         continue;
       }
       String message = pairs.get("sMessage") + " [Grammalecte]";
-      GrammalecteInternalRule rule = new GrammalecteInternalRule(id, message);
+      GrammalecteInternalRule rule = new GrammalecteInternalRule("grammalecte_" + id, message);
       RuleMatch extMatch = new RuleMatch(rule, null, offset, endOffset, message);
       List<String> suggestions = (List<String>) pairs.get("aSuggestions");
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ");
+      //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ");
       //System.out.println(sdf.format(new Date()) + " Grammalecte: " + pairs.get("sRuleId") + "; " + pairs.get("sMessage") + " => " + suggestions);
       extMatch.setSuggestedReplacements(suggestions);
       remoteMatches.add(extMatch);
