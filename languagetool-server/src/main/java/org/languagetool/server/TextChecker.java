@@ -101,6 +101,13 @@ abstract class TextChecker {
       this.logServerId = null;
     }
 
+    ServerMetricsCollector.getInstance().logHiddenServerConfiguration(config.getHiddenMatchesServer() != null);
+
+    if (cache != null) {
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_sentences_cache", cache.getSentenceCache());
+    }
+
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
       ServerTools.print("Prewarming pipelines...");
@@ -363,6 +370,7 @@ abstract class TextChecker {
       config.getHiddenMatchesLanguages().contains(lang)) {
       if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
+        ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
         print("Warn: Skipped querying hidden matches server at " +
           config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
       } else {
@@ -373,8 +381,10 @@ abstract class TextChecker {
           hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
           long end = System.currentTimeMillis();
           print("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms");
+          ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
           lastHiddenMatchesServerTimeout = -1;
         } catch (Exception e) {
+          ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
           print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
           lastHiddenMatchesServerTimeout = System.currentTimeMillis();
         }
@@ -412,19 +422,20 @@ abstract class TextChecker {
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
             + ", m:" + mode.toString().toLowerCase());
 
-    ServerMetricsCollector.getInstance().logCheck(computationTime, textSize);
-
     int matchCount = matches.size();
+    Map<String, Integer> ruleMatchCount = new HashMap<>();
+    for (RuleMatch match : matches) {
+      String ruleId = match.getRule().getId();
+      ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+    }
+
+    ServerMetricsCollector.getInstance().logCheck(
+      lang, computationTime, textSize, matchCount, mode, agent, ruleMatchCount);
+
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
       lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-    Map<String, Integer> ruleMatchCount = new HashMap<>();
-    if (!config.isSkipLoggingRuleMatches()) {
-      for (RuleMatch match : matches) {
-        String ruleId = match.getRule().getId();
-        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
-      }
-    }
-    logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(ruleMatchCount));
+    logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
+      config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
     logger.log(logEntry);
   }
 

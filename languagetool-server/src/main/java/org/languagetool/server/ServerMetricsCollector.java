@@ -18,11 +18,18 @@
  */
 package org.languagetool.server;
 
+import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
+import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.DefaultExports;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ServerMetricsCollector {
 
@@ -39,11 +46,21 @@ public class ServerMetricsCollector {
   private static HTTPServer server;
 
   private final Counter checkCounter = Counter
-    .build("languagetool_checks_total", "Total text checks").register();
+    .build("languagetool_checks_total", "Total text checks")
+    .labelNames("language", "client", "mode").register();
   private final Counter charactersCounter = Counter
-    .build("languagetool_characters_total", "Total processed characters").register();
+    .build("languagetool_characters_total", "Total processed characters")
+    .labelNames("language", "client", "mode").register();
+  private final Counter matchCounter = Counter
+    .build("languagetool_check_matches_total", "Total amount of rule matches")
+    .labelNames("language", "client", "mode").register();
   private final Counter computationTimeCounter = Counter
-    .build("languagetool_computation_time_seconds_total", "Total computation time, in seconds").register();
+    .build("languagetool_computation_time_seconds_total", "Total computation time, in seconds")
+    .labelNames("language", "client", "mode").register();
+
+  private final Counter ruleMatchCounter = Counter
+    .build("languagetool_rule_matches_total", "Total amount of matches of a given rule")
+    .labelNames("language", "rule_id").register();
 
   private final Counter requestErrorCounter = Counter
     .build("languagetool_request_errors_total", "Various request errors")
@@ -60,6 +77,13 @@ public class ServerMetricsCollector {
   private final Counter failedHealthcheckCounter = Counter
     .build("languagetool_failed_healthchecks_total", "Failed healthchecks").register();
 
+  private final Gauge hiddenMatchesServerEnabled = Gauge
+    .build("languagetool_hidden_matches_server_enabled", "Configuration of hidden matches server").register();
+  private final Gauge hiddenMatchesServerStatus = Gauge
+    .build("languagetool_hidden_matches_server_up", "Status of hidden matches server").register();
+
+  private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();
+
 
   public static void init(int port) throws IOException {
     DefaultExports.initialize();
@@ -74,10 +98,32 @@ public class ServerMetricsCollector {
     return collector;
   }
 
-  public void logCheck(long milliseconds, int textSize) {
-    checkCounter.inc();
-    charactersCounter.inc(textSize);
-    computationTimeCounter.inc((double) milliseconds / 1000.0);
+  public void monitorCache(String name, Cache cache) {
+    cacheMetrics.addCache(name, cache);
+  }
+
+  public void logHiddenServerConfiguration(boolean enabled) {
+    hiddenMatchesServerEnabled.set(enabled ? 1.0 : 0.0);
+  }
+
+  public void logHiddenServerStatus(boolean up) {
+    hiddenMatchesServerStatus.set(up ? 1.0 : 0.0);
+  }
+
+  public void logCheck(Language language, long milliseconds, int textSize, int matchCount,
+                       JLanguageTool.Mode mode, @Nullable String client, Map<String, Integer> ruleMatches) {
+    String clientLabel = client != null ? client : "unknown";
+    String langLabel = language != null ? language.getShortCode() : "unknown";
+    String modeLabel = mode != null ? mode.name() : "unknown";
+
+    checkCounter.labels(langLabel, clientLabel, modeLabel).inc();
+    matchCounter.labels(langLabel, clientLabel, modeLabel).inc(matchCount);
+    charactersCounter.labels(langLabel, clientLabel, modeLabel).inc(textSize);
+    computationTimeCounter.labels(langLabel, clientLabel, modeLabel).inc((double) milliseconds / 1000.0);
+
+    ruleMatches.forEach((ruleId, ruleMatchCount) -> {
+      ruleMatchCounter.labels(langLabel, ruleId).inc(ruleMatchCount);
+    });
   }
 
   public void logRequestError(RequestErrorType type) {
