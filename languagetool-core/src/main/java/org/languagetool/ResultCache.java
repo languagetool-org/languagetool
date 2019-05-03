@@ -115,12 +115,12 @@ public class ResultCache {
   }
 
   /** @since 4.1 */
-  protected Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
+  public Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
     return matchesCache;
   }
 
   /** @since 4.1 */
-  protected Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
+  public Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
     return sentenceCache;
   }
 }
