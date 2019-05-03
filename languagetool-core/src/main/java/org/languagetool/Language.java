@@ -203,6 +203,14 @@ public abstract class Language {
   }
 
   /**
+   * Get the rules classes that should run for texts in this language.
+   * @since 4.6
+   */
+  public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+  /**
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {

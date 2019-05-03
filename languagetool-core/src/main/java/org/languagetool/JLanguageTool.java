@@ -261,7 +261,8 @@ public class JLanguageTool {
    * @since 4.3
    */
   @Experimental
-  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
+                       GlobalConfig globalConfig, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
@@ -271,7 +272,7 @@ public class JLanguageTool {
       this.userConfig = userConfig;
     }
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages, this.userConfig);
+    builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
     this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
@@ -300,7 +301,7 @@ public class JLanguageTool {
    */
   @Experimental
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
-    this(language, Collections.emptyList(), motherTongue, cache, userConfig);
+    this(language, Collections.emptyList(), motherTongue, cache, null, userConfig);
   }
   
   /**
@@ -383,9 +384,10 @@ public class JLanguageTool {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   
-  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig) {
+  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig, GlobalConfig globalConfig) {
     try {
       List<Rule> rules = new ArrayList<>(language.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+      rules.addAll(language.getRelevantRulesGlobalConfig(messages, globalConfig, userConfig, motherTongue, altLanguages));
       return rules;
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);

@@ -52,7 +52,6 @@ import static org.languagetool.server.ServerTools.print;
  */
 abstract class TextChecker {
 
-
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
@@ -137,12 +136,12 @@ abstract class TextChecker {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
           false, false, mode, null);
-        PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, user);
+        PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
-        PipelinePool.PipelineSettings settingsMotherTongueEqual = new PipelinePool.PipelineSettings(language, language, params, user);
+        PipelinePool.PipelineSettings settingsMotherTongueEqual = new PipelinePool.PipelineSettings(language, language, params, config.globalConfig, user);
         PipelinePool.PipelineSettings settingsMotherTongueEnglish = new PipelinePool.PipelineSettings(language,
-          Languages.getLanguageForName("English"), params, user);
+          Languages.getLanguageForName("English"), params, config.globalConfig, user);
         prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
         prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
       }
@@ -466,7 +465,7 @@ abstract class TextChecker {
     } else {
       Pipeline lt = null;
       try {
-        settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, userConfig);
+        settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
         lt = pipelinePool.getPipeline(settings);
         return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
       } finally {
