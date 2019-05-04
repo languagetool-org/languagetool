@@ -54,6 +54,7 @@ public class GrammalecteRule extends Rule {
     "tab_fin_ligne",
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
+    "nbsp_avant_double_ponctuation",
     "typo_guillemets_typographiques_doubles_fermants"
   ));
 
