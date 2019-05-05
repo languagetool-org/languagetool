@@ -4885,21 +4885,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example correction="druckste">Er <marker>druckte</marker> nur so herum.</example>
         </rule>
-        <rule id="WAHREN_WAREN" name="wahren (waren)">
-            <antipattern>
-                <token>zu</token>
-                <token>wahren</token>
-            </antipattern>
-            <pattern>
-                <marker><token regexp="yes">wahr(en|st)?</token></marker>
-                <token postag="ADJ:PRD:GRU"><exception>geworden</exception></token>
-                <token postag="PKT"/>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="ah" regexp_replace="a"/></suggestion> (von 'sein')?</message>
-            <short>Mögliche Wortverwechslung</short>
-            <example correction="war">Er <marker>wahr</marker> glücklich.</example>
-            <example>Derjenige, der die Einheit seines Ichs zu wahren weiß, dessen Persönlichkeit...</example>
-        </rule>
+        <rulegroup id="WAHREN_WAREN" name="wahren (waren)">
+            <rule>
+                <antipattern>
+                    <token>zu</token>
+                    <token>wahren</token>
+                </antipattern>
+                <pattern>
+                    <marker><token regexp="yes">wahr(en|st)?</token></marker>
+                    <token postag="ADJ:PRD:GRU"><exception>geworden</exception></token>
+                    <token postag="PKT"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ah" regexp_replace="a"/></suggestion> (von 'sein')?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="war">Er <marker>wahr</marker> glücklich.</example>
+                <example>Derjenige, der die Einheit seines Ichs zu wahren weiß, dessen Persönlichkeit...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fragewoerter;</token>
+                    <marker><token regexp="yes">wahr(en|st)</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ah" regexp_replace="a"/></suggestion> (von 'sein')?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="waren">Was <marker>wahren</marker> wir glücklich...</example>
+                <example correction="warst">Wo <marker>wahrst</marker> du gestern?</example>
+            </rule>
+        </rulegroup>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
                 <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|vor|zu</token>
@@ -7951,7 +7963,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="2">.</token>
                     <token regexp="yes">Klässler([ns]|in(nen))?</token>
                 </pattern>
-                <message><suggestion>\1\.\3</suggestion> wird mit Bindestrich geschrieben.</message>
+                <message><suggestion>\1.-\3</suggestion> wird mit Bindestrich geschrieben.</message>
                 <example correction='4.-Klässlern'>Ich war mit 24 <marker>4. Klässlern</marker> unterwegs.</example>
                 <example correction='4.-Klässlerinnen'>Ich war mit einigen <marker>4 Klässlerinnen</marker> unterwegs.</example>
             </rule>
