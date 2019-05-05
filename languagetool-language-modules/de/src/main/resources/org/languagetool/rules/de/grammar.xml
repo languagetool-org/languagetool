@@ -19515,6 +19515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
+                    <token postag_regexp="yes" postag="ADJ:(AKK|NOM):PLU.+" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]+</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
@@ -19524,10 +19525,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">einen|deutschen|langen|längen</exception>
                     </token>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Aussagen">Die <marker>aussagen</marker> des Mädchens sind falsch.</example>
                 <example correction="Lumpen">Die <marker>lumpen</marker> des Bettlers stanken erbärmlich.</example>
+                <example correction="Schritte">Die ersten <marker>schritte</marker> sind die schwierigsten.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19556,6 +19558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="VER(:MOD)?:3:PLU:.*" postag_regexp="yes"/>
                     <token regexp="yes">die|diese|jene</token>
+                    <token postag_regexp="yes" postag="ADJ:(AKK|NOM):PLU.+" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]+</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
@@ -19563,7 +19566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:GEN:SIN:FEM"/>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Grenzen">Die Grenzen meiner Sprache sind die <marker>grenzen</marker> meiner Welt.</example>
                 <example correction="Feinde">Das sind die <marker>feinde</marker> der Revolution.</example>
