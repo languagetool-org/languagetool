@@ -7944,6 +7944,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="zweieinhalb">Wir haben noch <marker>zwei einhalb</marker> Liter Sprit.</example>
         </rule>
+        <rulegroup id="NT_KLAESSLER" name="fünft Klässler (Fünftklässler) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token min="0" max="2">.</token>
+                    <token regexp="yes">Klässler([ns]|in(nen))?</token>
+                </pattern>
+                <message><suggestion>\1\.\3</suggestion> wird mit Bindestrich geschrieben.</message>
+                <example correction='4.-Klässlern'>Ich war mit 24 <marker>4. Klässlern</marker> unterwegs.</example>
+                <example correction='4.-Klässlerinnen'>Ich war mit einigen <marker>4 Klässlerinnen</marker> unterwegs.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZAHL_ER" name="100 er (100er)">
             <rule>
                 <pattern>
