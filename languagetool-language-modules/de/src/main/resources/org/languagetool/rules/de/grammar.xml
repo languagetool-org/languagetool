@@ -522,6 +522,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Aufführung, in der beide Hauptfiguren am Ende sterben, wurde heftig kritisiert.</example>
         </rule>
         <rule id="BEI_VERB" name="bei + Verb">
+            <antipattern><!-- covered by rule HIER_BEI -->
+                <token>hier</token>
+                <token>bei</token>
+                <token postag_regexp="yes" postag="VER:.*"/>
+            </antipattern>
             <pattern>
                 <token>bei</token>
                 <token min="0" postag="ADJ:DAT:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+em</token>
