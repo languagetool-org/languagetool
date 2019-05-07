@@ -20271,12 +20271,13 @@ USA
                     <token regexp="yes">&weekdays;</token>
                 </marker>
                 <token regexp="yes">&months;</token>
-                <token regexp="yes">[0123]?[0-9]</token>
+                <token regexp="yes">[0123]?[0-9](st|nd|rd|th)?</token>
             </pattern>
             <message>Commas set off the month in a weekday-month-day date: <suggestion>\1,</suggestion>.</message>
             <url>https://www.thepunctuationguide.com/comma.html#dates</url>
             <short>Missing comma</short>
             <example correction="Friday,">We will meet <marker>Friday</marker> July 15.</example>
+            <example correction="Monday,">I will be back by <marker>Monday</marker> April 1st.</example>
             <example>He was born on Friday, August 12, 2016.</example>
         </rule>
     <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
@@ -26475,6 +26476,14 @@ USA
             <short>Possible typo</short>
             <example correction="CD-ROM">I ordered a <marker>Cdrom</marker> with their software.</example>
             <example>I ordered a <marker>CD-ROM</marker> with their software.</example>
+        </rule>
+        <rule id="EVER_EVERY" name="confusion of ever/every">
+            <pattern case_sensitive="yes">
+                <marker><token>ever</token></marker>
+                <token postag="NN"><exception negate_pos="yes" postag="NN"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>every</suggestion>?</message>
+            <example correction="every">Then, <marker>ever</marker> girl received an apple.</example>
         </rule>
         <rulegroup id="TREE_THREE" name="tree (three)">
             <rule>
