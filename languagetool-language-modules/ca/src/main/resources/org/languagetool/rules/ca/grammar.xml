@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|judicial|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
-    <!ENTITY context_FER_SE_AMB "soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
+    <!ENTITY context_FER_SE_AMB "regne|soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_OSCAR "nominar|nominació|guanyar|guanyador|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar|premiar|guió|guionista|coguionista|cinematogràfic|obtenir|interpretació|reconeixement|carrera|dramàtic">
     <!ENTITY context_PERJUDICI "accedir|accés|acord|acordar|actuació|actualització|actualitzar|addicional|adjudicació|administració|administratiu|alienar|alteració|annex|apartar|aplicable|aprovació|aprovar|article|aspirant|assegurança|atorgar|autorització|avaria|benefici|cancel·lació|cancel·lar|captació|causant|causar|certificar|clàusula|col·legiar|comerç|compensació|compensar|competència|competent|compliment|comportar|comptabilitat|cònjuge|conseqüència|contenciós|contracte|contractar|contractual|control|convocar|convocatòria|correspondre|cost|creditor|dany|declinar|decret|delegació|demandant|departament|derivar|devolució|disciplinari|disposició|documentació|dret|econòmic|efectuar|elèctric|emissió|emprendre|enllaçar|enunciatiu|escaure|especialitat|estabilitat|establiment|establir|estatut|euro|exclusiu|execució|exercici|eximir|expedient|extingir|extracció|fallada|finca|funcionament|greu|horari|il·legítim|il·lícit|immoble|import|impugnar|imputable|incompliment|incomplir|incórrer|indemnització|indemnitzar|indirecte|inexacte|informació|infracció|infringir|ingrés|inspecció|instal·lació|interposar|interrupció|irreparable|jurídic|lamentar|legal|legislació|lesió|lesiu|llei|llicència|municipal|municipi|navegador|negligent|normatiu|notificació|notificar|obligació|obtenir|ocasionar|operatiu|oportú|ordenació|òrgan|organisme|pagament|pagar|patrimonial|pèrdua|petició|planejament|prestació|procediment|processal|produir|propietari|propietat|protecció|proveïdor|reclamació|reclamar|refondre|reglament|regular|reial|reparació|reparar|reposició|resolució|responsabilitat|responsable|retard|retribució|sanció|sectorial|seguretat|servei|sofrir|sòl|sol·licitar|subministrar|subvenció|suposar|suspensió|tabac|tercer|termini|titular|titularitat|tramitar|transferència|trànsit|treballador|tributari|urbanització|vulnerar">
@@ -17880,6 +17880,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Històries"><marker>Histories</marker>.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">acid(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar. Correcte si és del verb 'acidar'</message>
+                <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="àcid$1"/></suggestion>
+                <example correction="àcida">Solució <marker>acida</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token regexp="yes">ultim(a|es)</token>
@@ -19501,6 +19511,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
             <example>prêt-à-porter</example>
         </rule>
+        <rule id="MENAGE_A_TROIS" name="ménage à trois">
+            <antipattern>
+                <token>ménage</token>
+                <token>à</token>
+                <token>trois</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">m[éèêe]nag[éèêe]</token>
+                <token min="0">-</token>
+                <token regexp="yes">[áàâa]</token>
+                <token min="0">-</token>
+                <token regexp="yes">tr[oóòô]is</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>ménage à trois</suggestion>
+            <example correction="ménage à trois"><marker>menage a trois</marker>.</example>
+            <example correction="ménage à trois"><marker>ménage a tróis</marker>.</example>
+            <example correction="ménage à trois"><marker>ménagé-â-trois</marker>.</example>
+            <example>ménage à trois</example>
+        </rule>
         <rule id="DEJA_VU" name="déjà-vu">
             <pattern>
                 <token regexp="yes">d[eèé]j[aàá]</token>
@@ -20318,6 +20348,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cal"><marker>ca el</marker> mecànic</example>
                 <example correction="cals"><marker>ca els</marker> amics</example>
                 <example>A ca l'amic</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|de|per</token>
+                        <token>el</token>
+                    </marker>
+                    <token regexp="NP..G.." postag_regexp="yes"/>
+                </pattern>
+                <message>Cal fer una contracció.</message>
+                <suggestion><match no="1" regexp_match="(a|de|pe)r?" regexp_replace="$1l"/></suggestion>
+                <example correction="al">Visc <marker>a El</marker> Prat.</example>
+                <example correction="al">Visc <marker>a El</marker> Caire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>el</token>
+                    </marker>
+                    <token regexp="NP..G.." postag_regexp="yes"/>
+                </pattern>
+                <message>Cal fer una contracció.</message>
+                <suggestion>del</suggestion>
+                <example correction="del">Sóc <marker>d'El</marker> Prat.</example>
+                <example correction="del">Sóc <marker>d'El</marker> Caire.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ERRORS_FREQUENTS" name="errors freqüents: *culé/culer">
@@ -35557,6 +35613,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentia que|sentia a dir que">Sovint <marker>escoltava que</marker> deien coses.</example>
                 <example correction="Sentim que|Sentim a dir que"><marker>Escoltem que</marker>.</example>
                 <example>Escolta què diuen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                    <token min="1" max="3" postag="[DANP].*" postag_regexp="yes"/>
+                    <token regexp="yes">dient|parlant</token>
+                </pattern>
+                <message>Probablement cal usar el verb 'sentir'.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="sentit">He <marker>escoltat</marker> polítics dient coses falses.</example>
             </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
