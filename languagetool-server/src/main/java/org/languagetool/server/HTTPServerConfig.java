@@ -93,6 +93,7 @@ public class HTTPServerConfig {
   protected GlobalConfig globalConfig = new GlobalConfig();
 
   protected boolean skipLoggingRuleMatches = false;
+  protected boolean skipLoggingChecks = false;
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
@@ -259,6 +260,7 @@ public class HTTPServerConfig {
         prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false"));
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
         skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
+        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false"));
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
@@ -848,11 +850,17 @@ public class HTTPServerConfig {
   /**
    * @since 4.5
    */
-  @Experimental
   boolean isSkipLoggingRuleMatches() {
     return this.skipLoggingRuleMatches;
   }
 
+
+  /**
+   * @since 4.6
+   */
+  public boolean isSkipLoggingChecks() {
+    return skipLoggingChecks;
+  }
 
   /**
    * @since 4.4

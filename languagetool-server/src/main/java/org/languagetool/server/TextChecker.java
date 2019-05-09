@@ -432,11 +432,13 @@ abstract class TextChecker {
     ServerMetricsCollector.getInstance().logCheck(
       lang, computationTime, textSize, matchCount, mode, agent, ruleMatchCount);
 
-    DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-      lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-    logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
-      config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
-    logger.log(logEntry);
+    if (!config.isSkipLoggingChecks()) {
+      DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+        lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
+      logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
+        config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
+      logger.log(logEntry);
+    }
   }
 
   private List<String> getUserDictWords(Long userId) {
