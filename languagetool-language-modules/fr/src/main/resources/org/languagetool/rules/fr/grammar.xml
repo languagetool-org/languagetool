@@ -13684,6 +13684,15 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="SUBJ_SUBOR" name="subjonctif dans la proposition subordonnée">
       <rule>
+        <antipattern>
+          <token postag="[ZR].*" postag_regexp="yes"/>
+          <and>
+            <token postag="V.*ind.*" postag_regexp="yes"/>
+            <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+          </and>
+          <token skip="-1">que</token>
+          <token postag="V .*sub .*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token postag="[ZR].*" postag_regexp="yes"/>
           <and>
