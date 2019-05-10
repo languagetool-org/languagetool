@@ -24,6 +24,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.Objects;
@@ -31,21 +32,28 @@ import java.util.Objects;
 /**
  * @since 4.3
  */
-class SpellingRuleWithSuggestion {
+class SpellingRuleWithSuggestions {
 
   private final Rule rule;
   private final String alternative;
-  private final String suggestion;
+  private final List<String> suggestions;
 
-  SpellingRuleWithSuggestion(Rule rule, String alternative, String suggestion) {
+  SpellingRuleWithSuggestions(Rule rule, String alternative, String suggestion) {
+    this(rule, alternative, Collections.singletonList(suggestion));
+  }
+
+  /**
+   * @since 4.6
+   */
+  SpellingRuleWithSuggestions(Rule rule, String alternative, List<String> suggestions) {
     this.rule = Objects.requireNonNull(rule);
     this.alternative = Objects.requireNonNull(alternative);
-    this.suggestion = Objects.requireNonNull(suggestion);
+    this.suggestions = Objects.requireNonNull(suggestions);
   }
 
   static List<RuleMatch> computeMatches(AnalyzedSentence sentence, SpellingData data, String[] exceptions) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    for (SpellingRuleWithSuggestion ruleWithSuggestion : data.get()) {
+    for (SpellingRuleWithSuggestions ruleWithSuggestion : data.get()) {
       Rule rule = ruleWithSuggestion.rule;
       RuleMatch[] matches = rule.match(sentence);
       for (RuleMatch match : matches) {
@@ -61,9 +69,15 @@ class SpellingRuleWithSuggestion {
         if (isException) {
           continue;
         }
-        String suggestion = matchedText.replace(ruleWithSuggestion.alternative, ruleWithSuggestion.suggestion);
-        if (!suggestion.equals(matchedText)) {   // "Schlüsse" etc. is otherwise considered incorrect (inflected form of "Schluß")
-          match.setSuggestedReplacement(suggestion);
+        List<String> suggestions = new ArrayList<>();
+        for (String s : ruleWithSuggestion.suggestions) {
+          String suggestion = matchedText.replace(ruleWithSuggestion.alternative, s);
+          if (!suggestion.equals(matchedText)) {   // "Schlüsse" etc. is otherwise considered incorrect (inflected form of "Schluß")
+            suggestions.add(suggestion);
+          }
+        }
+        if (suggestions.size() > 0) {
+          match.setSuggestedReplacements(suggestions);
           ruleMatches.add(match);
         }
       }

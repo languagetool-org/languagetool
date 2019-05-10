@@ -41,7 +41,7 @@ import java.util.Scanner;
  */
 class SpellingData {
 
-  private final List<SpellingRuleWithSuggestion> spellingRules = new ArrayList<>();
+  private final List<SpellingRuleWithSuggestions> spellingRules = new ArrayList<>();
   
   SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType) {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
@@ -61,7 +61,7 @@ class SpellingData {
         List<PatternToken> patternTokens = getTokens(alternative, german);
         PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
         rule.setLocQualityIssueType(issueType);
-        spellingRules.add(new SpellingRuleWithSuggestion(rule, alternative, suggestion));
+        spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestion));
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -97,7 +97,7 @@ class SpellingData {
     }
   }
 
-  public List<SpellingRuleWithSuggestion> get() {
+  public List<SpellingRuleWithSuggestions> get() {
     return spellingRules;
   }
 
