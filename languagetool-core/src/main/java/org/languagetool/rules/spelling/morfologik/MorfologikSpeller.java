@@ -135,4 +135,8 @@ public class MorfologikSpeller {
     return speller.convertsCase();
   }
 
+  @Override
+  public String toString() {
+    return "dist=" + maxEditDistance;
+  }
 }
