@@ -217,10 +217,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("the");
     } else if ("todays".equals(word)) {
       return Arrays.asList("today's");
-    } else if ("heres".equals(word)) {
-    	return Arrays.asList("here's");
+    } else if ("heres".equals(word)) { 
+      return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
+    } else if ("Everytime".equals(word)) {
+      return Arrays.asList("Every time");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
