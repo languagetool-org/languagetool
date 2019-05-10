@@ -14563,6 +14563,11 @@ USA
         </rulegroup>
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">get|let|make</token>
+                    <token>it</token>
+                    <token postag="VBN"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception><exception postag="MD" scope="next">haven</exception></token>
                     <token regexp="yes">I|you|s?he|it|we|they</token>
@@ -14574,8 +14579,10 @@ USA
                 <example correction="did">He <marker>done</marker> it.</example>
                 <example correction="began">... and then it <marker>begun</marker> to rain.</example>
                 <example>It was done by him.</example>
-            		<example>"Haven't you seen it?"</example>
-		            <example>“Haven't you seen it?”</example>
+                <example>"Haven't you seen it?"</example>
+                <example>“Haven't you seen it?”</example>
+                <example>Push the job and get it done this week.</example>
+                <example>The prince made it known all over the land that he would ...</example>
             </rule>
             <rule>
                 <pattern>
