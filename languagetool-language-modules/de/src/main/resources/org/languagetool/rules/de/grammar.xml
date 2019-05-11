@@ -11897,6 +11897,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Unser Universum ist viele <marker>Lichtjahre alt</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NEURON_NEUTRON" name="neuron (neutron)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">Fermion|Proton|Atom|Elektron|Spin|Hadron|thermisch|gebunden|frei</token>
+                    <marker><token inflected="yes">Neuron</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="eur" regexp_replace="eutr"/></suggestion> (=subatomares Teilchen)?</message>
+                <url>https://de.wikipedia.org/wiki/Neutron</url>
+                <short>möglicher Tippfehler</short>
+                <example correction="Neutron">Proton und <marker>Neuron</marker> gehören als Baryonen zu den Fermionen und den Hadronen. </example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token inflected="yes" skip="2">Neuron</token></marker>
+                    <token inflected="yes" regexp="yes">Fermion|Proton|Atom|Elektron|Spin|Hadron|thermisch</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="eur" regexp_replace="eutr"/></suggestion> (=subatomares Teilchen)?</message>
+                <url>https://de.wikipedia.org/wiki/Neutron</url>
+                <short>möglicher Tippfehler</short>
+                <example correction="Neutron"><marker>Neuron</marker> und Proton gehören als Baryonen zu den Fermionen und den Hadronen. </example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FLIESEND" name="fliesend (fließend)">
             <rule>
                 <pattern>
@@ -16237,8 +16259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="PKT"/></token>
                 </pattern>
-                <message>Ist hier die Substantivform gemeint?</message>
-                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+                <message>Ist hier die Substantivform <suggestion><match no="1" case_conversion="startupper"/></suggestion> gemeint?</message>
                 <example correction="Teil">Dieser <marker>teil</marker> ist ziemlich schwierig.</example>
             </rule>
         </rulegroup>

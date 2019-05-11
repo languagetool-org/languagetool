@@ -28796,6 +28796,28 @@ USA
                 <example>A light-year is how astronomers measure distance in space.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NEURON_NEUTRON" name="neuron (neutron)">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">fermion(ic)?|free|proton|atom|electron|nucle(ar|us)|spin|hadron|thermal|bound</token>
+                    <marker><token inflected="yes">neuron</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="eur" regexp_replace="eutr"/></suggestion> (=subatomic particle)?</message>
+                <url>https://en.wikipedia.org/wiki/Neutron</url>
+                <short>Semantic error</short>
+                <example correction="neutrons">Within the nucleus, protons and <marker>neurons</marker> are bound together through the nuclear force.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes" skip="2">neuron</token></marker>
+                    <token inflected="yes" regexp="yes">fermion(ic)?|proton|atom|electron|nucle(ar|us)|spin|hadron|thermal|decay</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="eur" regexp_replace="eutr"/></suggestion> (=subatomic particle)?</message>
+                <url>https://en.wikipedia.org/wiki/Neutron</url>
+                <short>Semantic error</short>
+                <example correction="neutrons">Within the nucleus, <marker>neurons</marker> and protons are bound together through the nuclear force.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SQUARE_ROOT" name="square roots (2 solutions)">
             <rule>
                 <pattern case_sensitive="yes">
