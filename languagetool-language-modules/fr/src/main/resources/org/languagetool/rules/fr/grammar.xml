@@ -8013,10 +8013,11 @@ though, and has since been slightly modified)-->
         <token negate="yes" regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|dix[-‑‐].*|vingt[-‑‐].*|trente[-‑‐].*|quarante[-‑‐].*|cinquante[-‑‐].*|soixante[-‑‐].*|quatre[-‑‐].*|octante[-‑‐].*|huitante[-‑‐].*|nonante[-‑‐].*</token>
       </pattern>
       <message>Le numéral cardinal cent prend un « s » au pluriel lorsqu’il représente des centaines entières.</message>
-      <example correction="">J’ai trois <marker>cent</marker> timbres.</example>
+	  <suggestion>cents</suggestion>
+      <example correction="cents">J’ai trois <marker>cent</marker> timbres.</example>
       <example>J’ai trois <marker>cent</marker> cinquante timbres.</example>
       <example>Deux <marker>cent</marker> mille étoiles.</example>
-      <example correction="">Deux <marker>cent</marker> milliards d’étoiles.</example>
+      <example correction="cents">Deux <marker>cent</marker> milliards d’étoiles.</example>
       <example>J’ai cinq <marker>cent</marker> soixante-et-un euros.</example>
       <example>J’ai mille cent timbres.</example>
     </rule>
@@ -8029,11 +8030,12 @@ though, and has since been slightly modified)-->
         <token regexp="yes">un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|dix[-‑‐].*|vingt[-‑‐].*|trente[-‑‐].*|quarante[-‑‐].*|cinquante[-‑‐].*|soixante[-‑‐].*|quatre[-‑‐].*|octante[-‑‐].*|huitante[-‑‐].*|nonante[-‑‐].*</token>
       </pattern>
       <message>Le numéral cardinal cent ne prend pas de « s » lorsqu’il ne représente pas des centaines entières.</message>
-      <example correction="">J’ai trois <marker>cents</marker> cinquante timbres.</example>
+	  <suggestion>cent</suggestion>
+      <example correction="cent">J’ai trois <marker>cents</marker> cinquante timbres.</example>
       <example>J’ai trois cents timbres.</example>
-      <example correction="">Deux <marker>cents</marker> mille étoiles.</example>
+      <example correction="cent">Deux <marker>cents</marker> mille étoiles.</example>
       <example>Deux cents milliards d’étoiles.</example>
-      <example correction="">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
+      <example correction="cent">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
     </rule>
     <rulegroup id="MILLES" name="nombre mille invariable">
       <rule>
@@ -8076,11 +8078,14 @@ though, and has since been slightly modified)-->
       <rule name="nombre singulier suivi du pluriel">
         <pattern>
           <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou</exception></token>
+		  <marker>
           <token postag="[JN] . p" postag_regexp="yes"><exception postag="[JN] . sp?" postag_regexp="yes"/></token>
+		  </marker>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
+		<suggestion><match no="2" postag="(J|N) (.) p" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
         <example>J’ai 1 enfant.</example>
-        <example correction="">J’ai <marker>1 enfants</marker>.</example>
+        <example correction="enfant">J’ai 1 <marker>enfants</marker>.</example>
         <example>Cela coûte 2,1 Euros.</example>
         <example>Ils sont âgés de 4 et 1 ans.</example>
         <example>1 fois.</example>
