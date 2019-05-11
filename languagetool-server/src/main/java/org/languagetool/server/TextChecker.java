@@ -380,7 +380,7 @@ abstract class TextChecker {
           List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), parameters);
           hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
           long end = System.currentTimeMillis();
-          print("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms");
+          print("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
           ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
           lastHiddenMatchesServerTimeout = -1;
         } catch (Exception e) {
