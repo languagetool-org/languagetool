@@ -41,8 +41,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
 
   private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?!-–—’'\"„“”»«‚‘›‹()\\[\\]]");
   
-  final boolean behind;   // TODO: do final test of rule to check also for a missing comma behind relative clause
-
+  final private boolean behind;
+  
   public MissingCommaRelativeClauseRule(ResourceBundle messages) {
     this(messages, false);
   }
@@ -501,9 +501,9 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-  /**
-   * gives back position where a comma is missed
-   */
+/**
+ * gives back position where a comma is missed
+ */
   static int getCommaBehind(AnalyzedTokenReadings[] tokens, List<Integer> verbs, int start, int end) {
     if(verbs.size() == 1) {
       if(isSeparator(tokens[verbs.get(0) + 1].getToken())) {

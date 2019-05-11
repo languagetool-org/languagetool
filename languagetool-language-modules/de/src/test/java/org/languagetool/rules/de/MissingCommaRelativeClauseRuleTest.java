@@ -42,10 +42,23 @@ public class MissingCommaRelativeClauseRuleTest {
     assertMatch("Das Auto in dem der Mann sitzt parkt im Halteverbot.", 4, 15, rule, lt);
     assertMatch("Die Frau die vor dem Auto steht hat schwarze Haare.", 4, 12, rule, lt);
     assertMatch("Die Frau die vor dem Auto steht, hat schwarze Haare.", 4, 12, rule, lt);
+    assertMatch("Alles was ich habe, ist ein Buch.", 0, 9, rule, lt);
+    
 
     assertNoMatch("Computer machen die Leute dumm.", rule, lt);
     assertNoMatch("Die Unstimmigkeit zwischen den Geschichten der zwei Unfallbeteiligten war groß.", rule, lt);
     assertNoMatch("Ebenso darf keine schwerere Strafe als die zum Zeitpunkt der Begehung der strafbaren Handlung angedrohte Strafe verhängt werden.", rule, lt);
+    
+    rule = new MissingCommaRelativeClauseRule(TestTools.getMessages("de"), true);
+    
+    assertMatch("Das Auto, das am Straßenrand steht parkt im Halteverbot.", 29, 40, rule, lt);
+    assertMatch("Das Auto, in dem der Mann sitzt parkt im Halteverbot.", 26, 37, rule, lt);
+    assertMatch("Die Frau, die vor dem Auto steht hat schwarze Haare.", 27, 36, rule, lt);
+    assertMatch("Alles, was ich habe ist ein Buch.", 15, 23, rule, lt);
+
+    assertNoMatch("Ich habe einige Fehler begangen, die ich vermeiden hätte können sollen.", rule, lt);
+    assertNoMatch("Wenn du alles, was du meinst nicht zu können, von anderen erledigen lässt, wirst du es niemals selbst lernen.", rule, lt);
+    assertNoMatch("Er hat einen Zeitraum durchlebt, in dem seine Gedanken verträumt auf den weiten Feldern der Mysterien umherirrten.", rule, lt);
     
   
   }
