@@ -28,7 +28,7 @@ import org.languagetool.rules.Example;
 
 /**
  * Checks that compounds are not written as separate words. The supported compounds are loaded
- * from {@code /de/compounds.txt} in the resource directory.
+ * from {@code /de/compounds.txt} and {@code /de/compounds-cities.txt} in the resource directory.
  * 
  * @author Daniel Naber
  */

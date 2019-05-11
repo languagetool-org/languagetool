@@ -224,7 +224,7 @@ public class VerbAgreementRule extends TextLevelRule {
   
   @Override
   public String getDescription() {
-    return "Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Pers. od. m. Personalpronomen), z.B. 'Er bist (ist)'";
+    return "Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person oder m. Personalpronomen), z.B. 'Er bist (ist)'";
   }
   
   @Override
