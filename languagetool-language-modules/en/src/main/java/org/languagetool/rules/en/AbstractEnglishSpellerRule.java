@@ -220,8 +220,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
-    } else if ("Everytime".equals(word)) {
-      return Arrays.asList("Every time");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
