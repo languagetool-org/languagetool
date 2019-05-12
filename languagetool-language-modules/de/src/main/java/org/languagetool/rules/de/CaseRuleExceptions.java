@@ -70,7 +70,7 @@ final class CaseRuleExceptions {
             continue;
           }
           if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
-            throw new RuntimeException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
+            throw new IllegalArgumentException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
           }
           result.add(line);
         }
