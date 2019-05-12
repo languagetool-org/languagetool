@@ -556,6 +556,12 @@ public class MissingCommaRelativeClauseRule extends Rule {
           return -1;
         }
         return verbs.get(2);
+      } else if(tokens[verbs.get(2)].hasPosTagStartingWith("VER:MOD:") 
+          && isSpecialPair(tokens, verbs.get(0), verbs.get(1))) {
+        if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {
+          return -1;
+        }
+        return verbs.get(2);
       }
       if(isPerfect(tokens, verbs.get(0), verbs.get(1), verbs.get(2))) {
         if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {
