@@ -462,7 +462,7 @@ abstract class TextChecker {
       //print("Matches    : " + cache.getMatchesCache().stats().hitRate() + " hit rate");
       //print("Sentences  : " + cache.getSentenceCache().stats().hitRate() + " hit rate");
       //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
-      logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
+      //logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
     PipelinePool.PipelineSettings settings = null;
 
