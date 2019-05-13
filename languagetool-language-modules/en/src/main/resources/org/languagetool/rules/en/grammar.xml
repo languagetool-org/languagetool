@@ -7827,7 +7827,7 @@ USA
            </rule>
         </rulegroup>
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
-    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10 and 2019-01-28 -->
+    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10, 2019-01-28, 2019-05-13  -->
             <rule>
                 <antipattern><!--  and those that owe this are called subditus natus; -->
                     <token>those</token>
@@ -7878,7 +7878,12 @@ USA
                     </and>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>th(?:is|at)<exception scope="previous" postag='IN'/><exception postag='W.+' postag_regexp='yes'/><exception scope="previous">let</exception></token>
+                    <token regexp='yes'>th(?:is|at)
+                        <exception scope="previous" postag='IN'/>
+                        <exception postag='W.+' postag_regexp='yes'/>
+                        <exception postag='MD' scope='previous' regexp='yes'>will|would|shall|should|may|might|can|could|must</exception><!-- https://www.englishgrammar.org/bare-infinitive-2/ -->
+                        <exception postag='VB.*' postag_regexp='yes' scope='previous' regexp='yes' inflected='yes'>let|make|see|hear|need</exception>
+                        </token>
                     <token min='0' postag_regexp='yes' postag='NN(:U|P)?'><exception regexp='yes'>can|one</exception></token>
                     <token postag='VBP?' postag_regexp='yes'><exception negate_pos='yes' postag='VBP?' postag_regexp='yes'/><exception>be</exception></token>
                 </pattern>
@@ -7949,6 +7954,10 @@ USA
                 <example>Does this extend to the test?</example>
                 <example>What does all this add up to?</example>
                 <example>"Will this do now?", she asked.</example>
+                <example>I don't see this happen anymore.</example>
+                <example>... but would this happen if the ...</example>
+                <example>... but letting this occur was not my intention.</example>
+                <example>... by making this disambiguate correctly.</example>
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
