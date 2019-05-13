@@ -5046,14 +5046,27 @@ USA
         </rule>
         <!-- take the reigns::word=take the reins::pivots=reigns,reins::options=reigns,reins -->
         <rule id="TAKE_THE_REIGNS" name="take the reigns (reins)">
-            <pattern>
-                <token>take</token>
+            <antipattern>
                 <token>the</token>
-                <token>reigns</token>
+                <token skip="-1">reigns</token>
+                <token regexp="yes">(king|queen|ruler|sovereign)s?</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">take</token>
+                <token min="0" max="1">over</token>
+                <token>the</token>
+                <marker>
+                    <token>reigns</token>
+                </marker>
             </pattern>
-            <message>Did you mean <suggestion>take the reins</suggestion>?</message>
-            <example correction="Take the reins"><marker>Take the reigns</marker> cried the bandit.</example>
-            <example>Take the reins! cried the bandit.</example>
+            <message>Did you mean <suggestion>reins</suggestion>?</message>
+            <url>https://blog.oxforddictionaries.com/2012/03/26/rein-or-reign/</url>
+            <example correction="reins">Take the <marker>reigns</marker> cried the bandit.</example>
+            <example correction="reins">It's time to take the <marker>reigns</marker> of leadership.</example>
+            <example correction="reins">Before he took over the <marker>reigns</marker>, he was mild and unassuming...</example>
+            <example>Take the <marker>reins</marker> cried the bandit.</example>
+            <example>It's time to take the <marker>reins</marker> of power.</example>
+            <example>... but take the <marker>reigns</marker> of these kings as examples:</example>
         </rule>
         <!-- free reign::word=free rein::pivots=reign,rein::options=reign,rein -->
         <rule id="FREE_REIGN" name="free reign (rein)">
