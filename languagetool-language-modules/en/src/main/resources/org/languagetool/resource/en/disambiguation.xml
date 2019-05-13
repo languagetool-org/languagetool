@@ -3788,6 +3788,12 @@
         </rule>
             
         <rule id="RBNN_RB" name="adv/noun + verb -> adv">
+          <antipattern><!-- This set back is annoying -->
+              <token postag="DT"/>
+              <token postag_regexp="yes" postag="NN.*"/>
+              <token postag="RB"/>
+              <token postag="VBZ"/>
+          </antipattern>
           <pattern>
             <marker>
               <and>
@@ -3800,6 +3806,7 @@
           <disambig postag="RB"/>
           <example type="untouched">It took them forever.</example>
           <example type="untouched">We <marker>supply</marker> parts to the auto manufacturer.[Adverb variant of 'supplely': https://en.oxforddictionaries.com/definition/supplely]</example>
+          <example type="untouched">Incorrect. Should be 'setback', but 'back' is not an adverb in this context. This set <marker>back</marker> is annoying.</example>
           <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
         </rule>  
         
