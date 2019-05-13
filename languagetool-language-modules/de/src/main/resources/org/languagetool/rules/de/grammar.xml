@@ -4316,6 +4316,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="2" regexp_match="(&wochentage;)e" regexp_replace="$1"/></suggestion>?</message>
             <example correction="Dienstag">Fangen wir doch ab <marker>Dienstage</marker> damit an.</example>
         </rule>
+        <rule id="OH_MAN" name="'Oh man' statt 'oh Mann'">
+            <pattern>
+                <token regexp="yes">oh?</token>
+                <token>man</token>
+            </pattern>
+            <message>Meinten Sie die Interjektion <suggestion>\1 Mann</suggestion>? Siehe Bedeutung [4] im Wiktionary.</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="Oh Mann"><marker>Oh man</marker>, das nervt total.</example>
+            <url>https://de.wiktionary.org/wiki/Mann</url>
+        </rule>
         <rule id="VERZINNST" name="'verzinnst' statt 'verzinst'">
             <pattern>
                 <token>verzinnst</token>
