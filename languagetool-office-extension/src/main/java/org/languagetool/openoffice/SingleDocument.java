@@ -375,7 +375,7 @@ class SingleDocument {
     nParas -= divNum;
     numLastFlPara = nParas;
     
-    if (!chPara.equals(allParas.get(nParas))) {
+    if (nParas >= 0 && nParas < allParas.size() && !chPara.equals(allParas.get(nParas))) {
       if (isReset || isParallelThread) {
         return -1;
       } else {
