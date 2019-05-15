@@ -235,7 +235,7 @@ public class JLanguageToolTest {
     String sentence = "And one two three.";
     AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
     List<Rule> bothRules = new ArrayList<>(Arrays.asList(rule1, rule2));
-    List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence);
+    List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence, true);
     assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
     assertEquals("msg1", ruleMatches2.get(0).getMessage());
   }

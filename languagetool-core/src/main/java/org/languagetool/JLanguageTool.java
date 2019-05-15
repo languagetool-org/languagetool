@@ -498,6 +498,17 @@ public class JLanguageTool {
     }
   }
 
+  public void activateRemoteRules(List<RemoteRuleConfig> configs) {
+    try {
+      // TODO: read from options
+      configs = Arrays.asList();
+      List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs);
+      userRules.addAll(rules);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load remote rules: " + e);
+    }
+  }
+
   /**
    * Activate rules that depend on a word2vec language model.
    * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
@@ -810,7 +821,8 @@ public class JLanguageTool {
    */
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode);
+    // check remote rules in their own thread
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, false);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -826,11 +838,14 @@ public class JLanguageTool {
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
-        List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
+                                               List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     RuleLoggerManager logger = RuleLoggerManager.getInstance();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
+        continue;
+      }
+      if (!checkRemoteRules && rule instanceof RemoteRule) {
         continue;
       }
       if (ignoreRule(rule)) {
@@ -1208,6 +1223,7 @@ public class JLanguageTool {
   class TextCheckCallable implements Callable<List<RuleMatch>> {
 
     private final List<Rule> rules;
+    private final boolean checkRemoteRules;
     private final ParagraphHandling paraMode;
     private final AnnotatedText annotatedText;
     private final List<String> sentences;
@@ -1221,8 +1237,9 @@ public class JLanguageTool {
 
     TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
                       ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount,
-                      RuleMatchListener listener, Mode mode) {
+                      RuleMatchListener listener, Mode mode, boolean checkRemoteRules) {
       this.rules = rules;
+      this.checkRemoteRules = checkRemoteRules;
       if (sentences.size() != analyzedSentences.size()) {
         throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
       }
@@ -1310,7 +1327,7 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules, analyzedSentence);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, analyzedSentence, checkRemoteRules);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
