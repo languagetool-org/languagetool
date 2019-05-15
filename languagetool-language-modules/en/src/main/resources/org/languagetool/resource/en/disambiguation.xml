@@ -2458,7 +2458,8 @@
             <token postag_regexp="yes" postag="VBP"/>
         </antipattern>
         <pattern>
-            <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"/></token>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$">
+                <exception postag_regexp="yes" postag="WDT|RB"/></token>
             <marker>
                 <and>
                     <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/></token>
@@ -2470,6 +2471,8 @@
         <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
         <example type="untouched">When did you first <marker>meet</marker> Tom?</example>
+        <example type="untouched">Verb. She will soon <marker>clear</marker> away these dishes.</example>
+        <example type="untouched">Phrasal verb. ...being a supply teacher; students would often <marker>cut up</marker> and play baffling tricks.</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
