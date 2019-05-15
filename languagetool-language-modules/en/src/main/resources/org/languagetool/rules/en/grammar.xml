@@ -27933,6 +27933,26 @@ USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
+                    <token>New</token>
+                    <token>Year</token>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token>s</token>
+                    <token regexp="yes">Day|Eve</token>
+                </antipattern>
+                <pattern>
+                    <token>New</token>
+                    <token>Year</token>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token>s</token>
+                    <token regexp="yes">day|eve</token>
+                </pattern>
+                <message>Capitalize holidays.</message>
+                <suggestion>New Year\3s <match no="5" case_conversion="startupper"/></suggestion>
+                <example correction="New Year's Eve">What did you do on <marker>New Year's eve</marker>?</example>
+                <example correction="New Year's Eve">What did you do on <marker>New year's eve</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
                     <token>Veterans</token>
                     <token>Day</token>
                 </antipattern>
@@ -30987,7 +31007,7 @@ USA
             <example correction='1990s'>Where were you in the <marker>1990’s</marker>?</example>
             <example>Disc wheels replaced the <marker>Alvis 12/70</marker>'s wire wheels and are fitted with larger tyres.</example>
         </rule>
-        <rulegroup id="APOSTROPHE_IN_DAYS" name="Apostrophe in days (Mother's Day)">
+        <rulegroup id="APOSTROPHE_IN_DAYS" name="Apostrophe in holidays (Mother's Day)">
             <url>https://www.latimes.com/tn-gnp-a-word-please-a-guide-on-how-to-write-names-of-holidays-20141227-story.html</url>
             <rule>
                 <pattern>
@@ -30997,6 +31017,16 @@ USA
                 </pattern>
                 <message>The official / recommended spelling of this holiday is: <suggestion><match no="1" case_conversion="startupper" regexp_match="s$" regexp_replace="'s"/> Day</suggestion></message>
                 <example correction="Valentine's Day">What did you do on <marker>Valentines day</marker> last year?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>New</token>
+                    <token>Years</token>
+                    <token regexp="yes" min="0" spacebefore="no">['’`´‘]</token>
+                    <token regexp="yes">Day|Eve</token>
+                </pattern>
+                <message>The official / recommended spelling of this holiday is: <suggestion>New Year\3s <match no="5" case_conversion="startupper"/></suggestion></message>
+                <example correction="New Year's Day">What did you do on <marker>New Years' Day</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup id="CAPITALIZATION_NNP_DERIVED" name="Capitalization of words derived from proper nouns"><!-- 1) AmE and BrE have different capitalization, but for simplicity, put all the terms in one general rule. If necessary, move the rule to the locale-specific directory and edit as necessary. 2) Cannot use <or> in the pattern; a rulegroup is necessary. -->
