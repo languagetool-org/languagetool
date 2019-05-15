@@ -24,6 +24,7 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
@@ -576,5 +577,9 @@ public abstract class Language {
   @Override
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
+  }
+
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs) throws IOException {
+    return Collections.emptyList();
   }
 }

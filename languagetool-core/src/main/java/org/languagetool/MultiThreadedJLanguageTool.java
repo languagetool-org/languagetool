@@ -185,8 +185,9 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
  
     for (Rule rule: allRules) {
+      // less need for special treatment of remote rules when execution is already parallel
       callables.add(new TextCheckCallable(Arrays.asList(rule), sentences, analyzedSentences, paraMode, 
-          annotatedText, charCount, lineCount, columnCount, listener, mode));
+          annotatedText, charCount, lineCount, columnCount, listener, mode, true));
     }
 
     return callables;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /* LanguageTool, a natural language style checker
+  ~  * Copyright (C) 2018 Fabian Richter
+  ~  *
+  ~  * This library is free software; you can redistribute it and/or
+  ~  * modify it under the terms of the GNU Lesser General Public
+  ~  * License as published by the Free Software Foundation; either
+  ~  * version 2.1 of the License, or (at your option) any later version.
+  ~  *
+  ~  * This library is distributed in the hope that it will be useful,
+  ~  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  * Lesser General Public License for more details.
+  ~  *
+  ~  * You should have received a copy of the GNU Lesser General Public
+  ~  * License along with this library; if not, write to the Free Software
+  ~  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  * USA
+  ~  */
+  -->
+
+<!-- without this file, logback-classic's BasicConfigurator is used; this causes a huge amount
+of logs when using gRPC because of Netty's Http2FrameLogger; thus we need to change logging from DEBUG level -->
+
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss ZZZZ} %-5level %logger{10} %msg%n</pattern>
+    </encoder>
+<!--
+    Uncomment if you want detailed information about the message
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n</pattern>
+    </encoder>
+-->
+  </appender>
+
+<!--
+  <logger name="org.languagetool" level="DEBUG"/>
+-->
+
+  <root level="warn">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
