@@ -83,9 +83,11 @@ public class SentenceSourceChecker {
             new File(commandLine.getOptionValue("word2vecmodel")) : null;
     File neuralNetworkModelDir = commandLine.hasOption("neuralnetworkmodel") ?
       new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
+    File remoteRules = commandLine.hasOption("remoterules") ?
+      new File(commandLine.getOptionValue("remoterules")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
     prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
-      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, filter);
+      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, remoteRules, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -135,6 +137,9 @@ public class SentenceSourceChecker {
     options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
             .desc("base directory for saved neural network models")
             .build());
+    options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
+      .desc("JSON file with configuration of remote rules")
+      .build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
             .desc("Consider only sentences that contain this regular expression (for speed up)")
             .build());
@@ -154,7 +159,7 @@ public class SentenceSourceChecker {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, int contextSize,
-                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
+                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, File remoteRules, Pattern filter) throws IOException {
     long startTime = System.currentTimeMillis();
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
@@ -177,6 +182,9 @@ public class SentenceSourceChecker {
         }
         lt.enableRule(rule.getId());
       }
+    }
+    if (remoteRules != null) {
+      lt.activateRemoteRules(remoteRules);
     }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, lt);

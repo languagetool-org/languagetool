@@ -45,6 +45,7 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
   private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
     .setNameFormat("remote-rule-pool-{}").setDaemon(true).build();
+  // needed to run callables with timeout
   private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
 

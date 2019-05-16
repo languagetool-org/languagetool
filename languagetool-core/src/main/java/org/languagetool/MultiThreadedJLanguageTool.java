@@ -155,8 +155,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   @Override
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-       List<Rule> allRules, ParagraphHandling paraMode, 
-       AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) {
+                                         List<Rule> allRules, ParagraphHandling paraMode,
+                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, boolean checkRemoteRules) {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;

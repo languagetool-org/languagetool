@@ -83,8 +83,9 @@ class Main {
     if (options.getNeuralNetworkModel() != null) {
       lt.activateNeuralNetworkRules(options.getNeuralNetworkModel());
     }
-    // TODO: add configuration options
-    lt.activateRemoteRules(Collections.emptyList());
+    if (options.getRemoteRulesFile() != null) {
+      lt.activateRemoteRules(new File(options.getRemoteRulesFile()));
+    }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
             new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
   }

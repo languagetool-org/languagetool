@@ -33,21 +33,25 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.FutureTask;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The main class used for checking text against different rules:
@@ -66,6 +70,7 @@ import java.util.regex.Pattern;
  * @see MultiThreadedJLanguageTool
  */
 public class JLanguageTool {
+  private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
   public static final String VERSION = "4.9-SNAPSHOT";
@@ -498,14 +503,13 @@ public class JLanguageTool {
     }
   }
 
-  public void activateRemoteRules(List<RemoteRuleConfig> configs) {
-    try {
-      // TODO: read from options
-      configs = Arrays.asList();
+  public void activateRemoteRules(File configFile) throws IOException {
+    try (FileInputStream input = new FileInputStream(configFile)) {
+      List<RemoteRuleConfig> configs = RemoteRuleConfig.parse(input);
       List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs);
       userRules.addAll(rules);
     } catch (IOException e) {
-      throw new RuntimeException("Could not load remote rules: " + e);
+      throw new IOException("Could not load remote rules.", e);
     }
   }
 
@@ -741,13 +745,23 @@ public class JLanguageTool {
     }
     return check(annotatedText, tokenizeText, paraMode, listener, mode);
   }
-  
+
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules depending on {@code mode}.
    * @since 4.3
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode) throws IOException {
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, null);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules depending on {@code mode}.
+   * @param remoteRulesThreadPool TODO
+   * @since 4.6
+   */
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
     List<String> sentences;
     if (tokenizeText) { 
       sentences = sentenceTokenize(annotatedText.getPlainText());
@@ -762,8 +776,33 @@ public class JLanguageTool {
 
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-    
-    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, listener, mode);
+
+    List<RuleMatch> remoteMatches = Collections.emptyList();
+    List<FutureTask<List<RuleMatch>>> remoteRuleTasks = null;
+    if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
+      remoteRuleTasks = allRules.stream()
+        .filter(rule -> rule instanceof RemoteRule)
+        .map(rule -> ((RemoteRule) rule).run(analyzedSentences))
+        .collect(Collectors.toList());
+      remoteRuleTasks.forEach(remoteRulesThreadPool::submit);
+    }
+
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
+      paraMode, annotatedText, listener, mode, remoteRulesThreadPool == null);
+
+    if (remoteRuleTasks != null) {
+      remoteMatches = remoteRuleTasks.stream()
+        .flatMap(task -> {
+          try {
+            return task.get().stream();
+          } catch (InterruptedException | ExecutionException e) {
+            logger.warn("Failed to fetch result from remote rule.", e);
+            return Stream.empty();
+          }
+        }).collect(Collectors.toList());
+    }
+
+    ruleMatches.addAll(remoteMatches);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
@@ -813,16 +852,15 @@ public class JLanguageTool {
   
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode) throws IOException {
-    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode);
+    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode, true);
   }
 
   /**
    * @since 3.7
    */
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) throws IOException {
-    // check remote rules in their own thread
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, false);
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, boolean checkRemoteRules) throws IOException {
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode, checkRemoteRules);
     try {
       return matcher.call();
     } catch (IOException e) {
