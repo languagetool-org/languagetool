@@ -79,6 +79,7 @@ public class HTTPServerConfig {
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
+  protected File remoteRulesConfigFile = null;
   protected int cacheSize = 0;
   protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
@@ -243,6 +244,13 @@ public class HTTPServerConfig {
           rulesConfigFile = new File(rulesConfigFilePath);
           if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
             throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
+          }
+        }
+        String remoteRulesConfigFilePath = getOptionalProperty(props, "remoteRulesFile", null);
+        if (remoteRulesConfigFilePath != null) {
+          remoteRulesConfigFile = new File(remoteRulesConfigFilePath);
+          if (!remoteRulesConfigFile.exists() || !remoteRulesConfigFile.isFile()) {
+            throw new RuntimeException("Remote rules configuration file can not be found: " + remoteRulesConfigFile);
           }
         }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
@@ -784,6 +792,16 @@ public class HTTPServerConfig {
   File getRulesConfigFile() {
     return rulesConfigFile;
   }
+
+  /**
+   * @return the file from which remote rules should be configured, or {@code null}
+   * @since 4.6
+   */
+  @Nullable
+  File getRemoteRulesConfigFile() {
+    return remoteRulesConfigFile;
+  }
+
 
   /**
    * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}

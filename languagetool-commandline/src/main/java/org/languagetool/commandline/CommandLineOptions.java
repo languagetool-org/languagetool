@@ -83,6 +83,9 @@ public class CommandLineOptions {
   @Nullable
   private String ruleFile = null;
   @Nullable
+  private String remoteRulesFile;
+
+  @Nullable
   private String falseFriendFile = null;
   @Nullable
   private String bitextRuleFile = null;
@@ -324,6 +327,18 @@ public class CommandLineOptions {
   public void setRuleFile(String ruleFile) {
     this.ruleFile = ruleFile;
   }
+
+
+  @Nullable
+  public String getRemoteRulesFile() {
+    return remoteRulesFile;
+  }
+
+  public void setRemoteRulesFile(String remoteRulesFile) {
+    this.remoteRulesFile = remoteRulesFile;
+  }
+
+
 
   @Nullable
   public String getEncoding() {

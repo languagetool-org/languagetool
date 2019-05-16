@@ -139,6 +139,14 @@ class Pipeline extends JLanguageTool {
   }
 
   @Override
+  public void activateRemoteRules(File configFile) throws IOException {
+    if (setup) {
+      throw new IllegalPipelineMutationException();
+    }
+    super.activateRemoteRules(configFile);
+  }
+
+  @Override
   public void addMatchFilter(@NotNull RuleMatchFilter filter) {
     if (setup) {
       throw new IllegalPipelineMutationException();
