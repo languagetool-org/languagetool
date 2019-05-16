@@ -4891,10 +4891,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
+        <rule id="ANSCHIESSEND" name="anschießend / anschließend">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">anschießend</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="h" regexp_replace="hl"/></suggestion>?</message>
+            <example correction="anschließend">Er ging <marker>anschießend</marker> ins Büro.</example>
+        </rule>
+        <rule id="AUSGESCHOSSEN" name="ausgeschossen / ausgeschlossen">
+            <pattern case_sensitive="yes">
+                <token>ausgeschossen</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="h" regexp_replace="hl"/></suggestion>?</message>
+            <example correction="ausgeschlossen">Das ist <marker>ausgeschossen</marker>.</example>
+        </rule>
         <rule id="DRUCKEN_DRUCKSEN" name="druck(s)en">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <marker><token inflected="yes" skip="2">drucken</token></marker>
-                <token>herum</token>
+                <token regexp="yes">(he)?rum</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="ck" regexp_replace="cks"/></suggestion>?</message>
             <short>Mögliche Wortverwechslung</short>
@@ -4919,7 +4933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&fragewoerter;</token>
-                    <marker><token regexp="yes">wahr(en|st)</token></marker>
+                    <marker><token regexp="yes" case_sensitive="yes">wahr(en|st)</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="ah" regexp_replace="a"/></suggestion> (von 'sein')?</message>
                 <short>Mögliche Wortverwechslung</short>
@@ -5000,7 +5014,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">Bundesland</token>
+                    <token inflected="yes" regexp="yes">Bundesland|Freistaat</token>
                     <marker><token>Sachen</token></marker>
                 </pattern>
                 <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>?</message>
@@ -5214,7 +5228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">Brief</token>
                     <token case_sensitive="yes">und</token>
                     <marker>
-                        <token>Segel</token>
+                        <token regexp="yes">Segel|Siege</token>
                     </marker>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion>Siegel</suggestion>?</message>
