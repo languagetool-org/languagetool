@@ -136,6 +136,12 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("*Оренбург");
     assertEquals(Arrays.asList("*", "Оренбург"), testList);
 
+    testList = w.tokenize("▶Трансформація");
+    assertEquals(Arrays.asList("▶", "Трансформація"), testList);
+
+    testList = w.tokenize("усмішку😁");
+    assertEquals(Arrays.asList("усмішку", "😁"), testList);
+
     testList = w.tokenize("з*ясував");
     assertEquals(Arrays.asList("з*ясував"), testList);
   }
@@ -170,6 +176,15 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("450 тис. 297 грн");
     assertEquals(Arrays.asList("450", " ", "тис.", " ", "297", " ", "грн"), testList);
+
+    testList = w.tokenize("297 грн...");
+    assertEquals(Arrays.asList("297", " ", "грн", "..."), testList);
+
+//    testList = w.tokenize("297 грн.!!!");
+//    assertEquals(Arrays.asList("297", " ", "грн.", "!!!"), testList);
+
+//    testList = w.tokenize("297 грн.??");
+//    assertEquals(Arrays.asList("297", " ", "грн.", "??"), testList);
 
     testList = w.tokenize("450 тис.");
     assertEquals(Arrays.asList("450", " ", "тис."), testList);
@@ -314,6 +329,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("30.04.2010р.");
     assertEquals(Arrays.asList("30.04.2010", "р."), testList);
+
+    testList = w.tokenize("ні могили 6в. ");
+    assertEquals(Arrays.asList("ні", " ", "могили", " ", "6в", ".", " "), testList);
 
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");

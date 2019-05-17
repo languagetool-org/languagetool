@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.StringTokenizer;
 
 import org.languagetool.tokenizers.Tokenizer;
 
@@ -36,13 +35,18 @@ import org.languagetool.tokenizers.Tokenizer;
  * @author Andriy Rysin
  */
 public class UkrainianWordTokenizer implements Tokenizer {
-  private static final String SPLIT_CHARS = "\u0020\u00A0" 
-        + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
-        + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
-        + "\u201A\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-        + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
-        + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + ",.;()[]{}<>!?:/|\\\"«»„”“…¿¡=\t\n\r\uE100\uE101\uE102\uE110";
+
+  private static final String SPLIT_CHARS =
+            "!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}|[\u0020\u00A0\\n\\r\\t"
+            + ",.;!?:\"()\\[\\]{}<>/|\\\\«»„”“…=¿¡"
+            + "\u2000-\u200F"
+            + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
+            + "\u2400-\u27FF"                                                       // Control Pictures
+            + String.valueOf(Character.toChars(0x1F600)) + "-" + String.valueOf(Character.toChars(0x1F64F))          // Emojis
+            + "\ufeff\uffa0\ufff9\ufffa\ufffb"
+            + "\uE110]";
+
+  private static final Pattern SPLIT_CHARS_REGEX = Pattern.compile(SPLIT_CHARS);
 
 
   // for handling exceptions
@@ -118,7 +122,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц|яп)\\.(?!$)");
+      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц|яп)\\.(?!\\.* *$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
@@ -133,13 +137,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
   private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
   
-  // ellipsis
-  private static final String ELLIPSIS = "...";
-  private static final String ELLIPSIS_SUBST = "\uE100";
-  private static final String ELLIPSIS2 = "!..";
-  private static final String ELLIPSIS2_SUBST = "\uE101";
-  private static final String ELLIPSIS3 = "?..";
-  private static final String ELLIPSIS3_SUBST = "\uE102";
   private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
   private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";
   // url
@@ -197,16 +194,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
         || (dotIndex == text.length()-1
             && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис.
 
-      if( text.contains(ELLIPSIS) ) {
-        text = text.replace(ELLIPSIS, ELLIPSIS_SUBST);
-      }
-      if( text.contains(ELLIPSIS2) ) {
-        text = text.replace(ELLIPSIS2, ELLIPSIS2_SUBST);
-      }
-      if( text.contains(ELLIPSIS3) ) {
-        text = text.replace(ELLIPSIS3, ELLIPSIS3_SUBST);
-      }
-      
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
 
@@ -274,33 +261,27 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = text.replace(SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);
     }
 
-    
-    List<String> tokenList = new ArrayList<>();
-    StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
 
-    while (st.hasMoreElements()) {
-      String token = st.nextToken();
-      
+    List<String> tokenList = new ArrayList<>();
+
+    List<String> tokens = splitWithDelimiters(text, SPLIT_CHARS_REGEX);
+
+    for(String token: tokens) {
+
       if( token.equals(BREAKING_PLACEHOLDER) )
         continue;
-      
+
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
 
       token = token.replace(NON_BREAKING_SLASH_SUBST, '/');
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
-      
+
       token = token.replace(LEFT_BRACE_SUBST, '(');
       token = token.replace(RIGHT_BRACE_SUBST, ')');
 
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
-
-      if( dotInsideSentence ){
-        token = token.replace(ELLIPSIS_SUBST, ELLIPSIS);
-        token = token.replace(ELLIPSIS2_SUBST, ELLIPSIS2);
-        token = token.replace(ELLIPSIS3_SUBST, ELLIPSIS3);
-      }
 
       token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);
 
@@ -329,6 +310,34 @@ public class UkrainianWordTokenizer implements Tokenizer {
     text = WEIRD_APOSTROPH_PATTERN.matcher(text).replaceAll("$1'$2");
 
     return text;
+  }
+
+  private static List<String> splitWithDelimiters(String str, Pattern delimPattern) {
+    List<String> parts = new ArrayList<String>();
+
+    Matcher matcher = delimPattern.matcher(str);
+
+    int lastEnd = 0;
+    while (matcher.find()) {
+      int start = matcher.start();
+
+      if (lastEnd != start) {
+        String nonDelim = str.substring(lastEnd, start);
+        parts.add(nonDelim);
+      }
+
+      String delim = matcher.group();
+      parts.add(delim);
+
+      lastEnd = matcher.end();
+    }
+
+    if (lastEnd != str.length()) {
+      String nonDelim = str.substring(lastEnd);
+      parts.add(nonDelim);
+    }
+
+    return parts;
   }
 
 }
