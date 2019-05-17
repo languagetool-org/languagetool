@@ -325,7 +325,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       "/[null]SENT_START"
       +  " у/[у]prep"
       + "  /[null]null"
-      + " XIX/[XIX]number"
+      + " XIX/[XIX]number:latin"
       + "  /[null]null"
       + " ст./[ст.]noun:inanim:n:v_dav:nv:abbr|ст./[ст.]noun:inanim:n:v_mis:nv:abbr|ст./[ст.]noun:inanim:n:v_naz:nv:abbr|ст./[ст.]noun:inanim:n:v_oru:nv:abbr|ст./[ст.]noun:inanim:n:v_rod:nv:abbr|ст./[ст.]noun:inanim:n:v_zna:nv:abbr",
       tokenizer, sentenceTokenizer, tagger, disambiguator);

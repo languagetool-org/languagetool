@@ -1653,6 +1653,8 @@
     <example type="untouched">Ото завше так — як сперва дуже весело, то після будеш плакать</example>
   </rule>
 
+
+  <!-- TODO: need to handle rare поруч[поруччя/noun:inanim:p:v_rod] -->
   <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_1">
     <pattern>
       <marker>
@@ -1664,7 +1666,7 @@
     </pattern>
     <disambig action="filter" postag="prep.*"/>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep]"
+        inputform="поруч[поруч/adv,поруч/prep,поруччя/noun:inanim:p:v_rod]"
         outputform="поруч[поруч/prep]"
             >пливти <marker>поруч</marker> із судном</example>
     <example type="untouched">пливти поруч</example>
@@ -1680,7 +1682,7 @@
     </pattern>
     <disambig action="filter" postag="prep.*"/>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep]"
+        inputform="поруч[поруч/adv,поруч/prep,поруччя/noun:inanim:p:v_rod]"
         outputform="поруч[поруч/prep]"
             >поставив відро <marker>поруч</marker> стільця</example>
     <example type="untouched">пливти поруч</example>
@@ -1849,6 +1851,35 @@
     <example type="untouched">Всі проголосували за.</example>
     <example type="untouched">Тетяна розуміла, чому Малий не виступає ні за, ні проти.</example>
     <example type="untouched">Зважити, обдумати всі за і всі проти.</example>
+  </rule>
+
+  <rule name="Дієслово та частка 'дер'" id="VERB_OR_PART_DER_1">
+    <pattern>
+      <token regexp="yes">ван|фон</token>
+      <marker>
+        <token>дер</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="part:pers"/>
+    <example type="ambiguous"
+        inputform="дер[дер/part:pers,дерти/verb:imperf:past:m]"
+        outputform="дер[дер/part:pers]"
+            >для ван <marker>дер</marker> Вала</example>
+    <example type="untouched">В Ван приїхав султан.</example>
+  </rule>
+
+  <rule name="Дієслово та частка 'дер'" id="VERB_OR_PART_DER_2">
+    <pattern>
+      <marker>
+        <token>дер</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="verb:imperf:past:m"/>
+    <example type="ambiguous"
+        inputform="дер[дер/part:pers,дерти/verb:imperf:past:m]"
+        outputform="дер[дерти/verb:imperf:past:m]"
+            >і <marker>дер</marker> Галі в горлі</example>
+    <example type="untouched">В Ван приїхав султан.</example>
   </rule>
 
   <rule name="Іменник та частка 'ван'" id="NOUN_OR_PART_VAN">
@@ -2347,8 +2378,8 @@
     </pattern>
     <disambig action="remove"><wd lemma="рівня"/></disambig>
     <example type="ambiguous"
-        inputform="рівня[рівень/noun:inanim:m:v_rod,рівня/noun:anim:f:v_naz:xp1,рівня/noun:anim:m:v_naz:xp1,рівня/noun:inanim:f:v_naz:xp2]"
-        outputform="рівня[рівень/noun:inanim:m:v_rod]"
+        inputform="рівня[рівень/noun:inanim:m:v_rod,рівень/noun:inanim:m:v_zna:var,рівня/noun:anim:f:v_naz:xp1,рівня/noun:anim:m:v_naz:xp1,рівня/noun:inanim:f:v_naz:xp2]"
+        outputform="рівня[рівень/noun:inanim:m:v_rod,рівень/noun:inanim:m:v_zna:var]"
             >досягти такого <marker>рівня</marker>.</example>
     <example type="untouched">і він не рівня брату</example>
     <example type="untouched">тут він рівня всім боярам</example>
