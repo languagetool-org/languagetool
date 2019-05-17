@@ -32138,94 +32138,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>cansa molt estar tant de temps dret.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DIFERENT_A" name="diferent a">
-            <antipattern>
-                <marker>
-                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
-                    <token postag=".*LOC_.*" postag_regexp="yes">a</token>
-                </marker>
-            </antipattern>
-            <antipattern>
-                <marker>
-                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
-                    <token skip="3">a</token>
-                    <token regexp="yes" inflected="yes">voltant|territori|nord|sud|banda|lloc|si|país|localitat|ciutat|regió</token>
-                </marker>
-            </antipattern>
-            <antipattern>
-                <marker>
-                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
-                    <token>a</token>
-                    <token regexp="yes">més|causa|nivell|banda|part</token>
-                </marker>
-            </antipattern>
-            <antipattern>
-                <marker>
-                    <token>de</token>
-                    <token regexp="yes">manera|forma</token>
-                    <token regexp="yes">diferent|distinta</token>
-                </marker>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">diferents?</token>
-                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                    <token spacebefore="no">l</token>
-                </pattern>
-                <message>Incorrecte si equival a <suggestion>\1 del</suggestion>.</message>
-                <short>Possible error</short>
-                <example correction="diferent del">un resultat <marker>diferent al</marker> d'abans</example>
-                <example>És diferent al nord i al sud del Loira.</example>
-                <example>la llum viatja a velocitats diferents al llarg d’una mateixa direcció</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">diferents?</token>
-                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                    <token spacebefore="no">ls</token>
-                </pattern>
-                <message>Incorrecte si equival a <suggestion>\1 dels</suggestion>.</message>
-                <short>Possible error</short>
-                <example correction="diferent dels">un resultat <marker>diferent als</marker> d'abans</example>
-                <example>Calia ensenyar el rus de manera diferent als pobles que parlen llengües indoeuropees.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">diferents?</token>
-                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception><exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Incorrecte si equival a <suggestion>\1 de <match no="3"></match></suggestion>.</message>
-                <short>Possible error</short>
-                <example correction="diferent de mi">un resultat <marker>diferent a mi</marker></example>
-                <example>Un de diferent a cada lloc</example>
-                <example>Hi ha més de 200 espècies diferents a Cuba.</example>
-                <example>diferent a la banda de Tramuntana</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">diferents?</token>
-                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">[aeiouhàéèíòóú].*<exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Incorrecte si equival a <suggestion>\1 d'<match no="3"></match></suggestion>.</message>
-                <short>Possible error</short>
-                <example correction="diferent d'aquest">un resultat <marker>diferent a aquest</marker></example>
-            </rule>
-            <rule id="DISTINT_A_DIFERENT_DE" name="*distint a / diferent de">
-                <!--  Falses alarmes? -->
-                <pattern>
-                    <token inflected="yes">distint</token>
-                    <token regexp="yes">(?-i)a</token>
-                </pattern>
-                <message>Amb valor comparatiu val més dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. Correcte si equival a "<match no="1"/> en".</message>
-                <example correction="diferent de">un entorn <marker>distint a</marker> l'actual</example>
-                <example correction="diferents de">Sostenien postures polítiques <marker>distintes a</marker> les de Marx.</example>
-                <example>un entorn diferent de l'actual</example>
-                <example correction="diferent de">l'existència de la ment com a realitat <marker>distinta a</marker>l cervell.</example> <!-- dubtós -->
-                <example>l'existència de la ment com a realitat distinta en el cervell.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="A_DIFERENCIA_AMB_DE" name="a diferència *amb/de">
             <rule>
                 <pattern>
@@ -40066,6 +39978,95 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="DIFERENT_A" name="diferent a">
+            <url>http://esadir.cat/entrades/fitxa/node/diferent</url>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
+                    <token postag=".*LOC_.*" postag_regexp="yes">a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
+                    <token skip="3">a</token>
+                    <token regexp="yes" inflected="yes">voltant|territori|nord|sud|banda|lloc|si|país|localitat|ciutat|regió</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
+                    <token>a</token>
+                    <token regexp="yes">més|causa|nivell|banda|part</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">manera|forma</token>
+                    <token regexp="yes">diferent|distinta</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">diferents?</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token spacebefore="no">l</token>
+                </pattern>
+                <message>Probablement és preferible usar la preposició 'de'.</message> 
+                <suggestion>\1 del</suggestion>
+                <example correction="diferent del">un resultat <marker>diferent al</marker> d'abans</example>
+                <example>És diferent al nord i al sud del Loira.</example>
+                <example>la llum viatja a velocitats diferents al llarg d’una mateixa direcció</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">diferents?</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token spacebefore="no">ls</token>
+                </pattern>
+                <message>Probablement és preferible usar la preposició 'de'.</message> 
+                <suggestion>\1 dels</suggestion>
+                <example correction="diferent dels">un resultat <marker>diferent als</marker> d'abans</example>
+                <example>Calia ensenyar el rus de manera diferent als pobles que parlen llengües indoeuropees.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">diferents?</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception><exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Probablement és preferible usar la preposició 'de'.</message> 
+                <suggestion>\1 de <match no="3"></match></suggestion>
+                <example correction="diferent de mi">un resultat <marker>diferent a mi</marker></example>
+                <example>Un de diferent a cada lloc</example>
+                <example>Hi ha més de 200 espècies diferents a Cuba.</example>
+                <example>diferent a la banda de Tramuntana</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">diferents?</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">[aeiouhàéèíòóú].*<exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Probablement és preferible usar la preposició 'de'.</message>
+                <suggestion>\1 d'<match no="3"></match></suggestion>
+                <example correction="diferent d'aquest">un resultat <marker>diferent a aquest</marker></example>
+            </rule>
+            <rule id="DISTINT_A_DIFERENT_DE" name="*distint a / diferent de">
+                <!--  Falses alarmes? -->
+                <pattern>
+                    <token inflected="yes">distint</token>
+                    <token regexp="yes">(?-i)a</token>
+                </pattern>
+                <message>Amb valor comparatiu val més dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. Correcte si equival a "<match no="1"/> en".</message>
+                <example correction="diferent de">un entorn <marker>distint a</marker> l'actual</example>
+                <example correction="diferents de">Sostenien postures polítiques <marker>distintes a</marker> les de Marx.</example>
+                <example>un entorn diferent de l'actual</example>
+                <example correction="diferent de">l'existència de la ment com a realitat <marker>distinta a</marker>l cervell.</example> <!-- dubtós -->
+                <example>l'existència de la ment com a realitat distinta en el cervell.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_CIENCIA_CERTA" name="a ciència certa">
             <pattern>
                 <token>a</token>
