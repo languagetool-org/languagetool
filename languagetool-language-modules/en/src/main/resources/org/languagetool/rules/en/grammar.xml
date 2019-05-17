@@ -2016,6 +2016,12 @@ USA
             <example correction="sea|seeing">The lion roared in anger at <marker>see</marker> the hyenas approaching to rob him of his food.</example>
         </rule>
         <rule id="I_IF" name="I (if)">
+            <antipattern><!-- https://en.oxforddictionaries.com/definition/no_longer -->
+                <token postag="SENT_START"/>
+                <marker><token>I</token></marker>
+                <token>no</token>
+                <token>longer</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker><token>I</token></marker>
@@ -2025,7 +2031,9 @@ USA
             <short>Possible typo</short>
             <example correction="If|I,"><marker>I</marker> the data confirm my theory, I will be famous.</example>
             <example correction="If|I,"><marker>I</marker> the president, will make America great.</example>
+            <example correction="If|I,"><marker>I</marker> no want do to that.</example><!-- The rule finds a problem, but gives an incorrect suggestion. -->
             <example>I neither drink nor smoke.</example>
+            <example>I no longer need to do that.</example>
         </rule>
         <rulegroup id="STATIONARY_STATIONERY" name="stationary (stationery)">
             <rule>
