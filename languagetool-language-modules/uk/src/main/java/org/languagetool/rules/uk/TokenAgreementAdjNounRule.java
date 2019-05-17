@@ -313,7 +313,7 @@ public class TokenAgreementAdjNounRule extends Rule {
       }
       String caseStr = PosTagHelper.VIDMINKY_MAP.get(inflection._case);
       if( adj && inflection.animTag != null ) {
-        caseStr += " (" + (inflection.animTag.equals("ranim") ? "іст." : "неіст.") + ")";
+        caseStr += " (" + (inflection.animTag.equals("anim") ? "іст." : "неіст.") + ")";
       }
       map.get(inflection.gender).add(caseStr);
     }
