@@ -78,7 +78,8 @@ public class MissingHyphenRule extends Rule {
       
       boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
       
-      if (isInPrefixes(tokenReadings, isCapitalized)
+      if ((isInPrefixes(tokenReadings, isCapitalized)
+            || (tokenReadings.getToken().toLowerCase().equals("тайм") && LemmaHelper.hasLemma(tokens[i+1], "аут")))
           && PosTagHelper.hasPosTagPart(nextTokenReadings, "noun")
 //          && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
           && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {

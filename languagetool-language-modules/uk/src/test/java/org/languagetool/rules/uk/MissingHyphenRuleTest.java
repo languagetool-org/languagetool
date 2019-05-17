@@ -54,6 +54,10 @@ public class MissingHyphenRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Арт-проект"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(langTool.getAnalyzedSentence("Роблю «тайм аут»"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("тайм-аут"), matches[0].getSuggestedReplacements());
+
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Тут все гаразд."));
     assertEquals(0, matches.length);
