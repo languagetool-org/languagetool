@@ -368,7 +368,7 @@ class SingleDocument {
 
     nParas = flatPara.getCurNumFlatParagraphs();
 
-    if (nParas < divNum || nParas >= allParas.size()) {
+    if (nParas < divNum || nParas >= divNum + allParas.size()) {
       return -1; //  nParas < divNum: Proof footnote etc.  /  nParas >= allParas.size():  document was changed while checking
     }
 
