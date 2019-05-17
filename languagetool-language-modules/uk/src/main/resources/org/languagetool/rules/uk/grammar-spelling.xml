@@ -325,7 +325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*[.²³]?
               <exception case_sensitive="yes">1С</exception>
-              <exception regexp="yes">[0-9]+'</exception>
+              <exception regexp="yes">[0-9]+'|[0-9]+к</exception>
               <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>  <!-- both lat and cyr o and C, taken care by rule below -->
             </token>
           </marker>
@@ -901,6 +901,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Потенційна помилка: українські літери замість латинських</message>
         <suggestion><match no="1" regexp_match="рН(.*)" regexp_replace="pH$1"/></suggestion>
         <example correction="pH">врахували рівень <marker>рН</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">АІ-[а-яіїєґ].*</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion><match no="1" regexp_match="АІ-(.*)" regexp_replace="AI-$1"/></suggestion>
+        <example correction="AI-сканування">таке собі <marker>АІ-сканування</marker>.</example>
       </rule>
     </rulegroup>
 
