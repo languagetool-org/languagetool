@@ -28104,6 +28104,19 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Wohl">Es ist zum <marker>wohl</marker> der Bevölkerung.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">das|[mds]ein|ihr</token>
+                    <token regexp="yes">(allgemeine|leibliche|öffentliche|eigene)s?</token>
+                    <marker>
+                        <token case_sensitive="yes">wohl</token>
+                    </marker>
+                </pattern>
+                <message>subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>subende;</message>
+                <short>prgk;.</short>
+                <example correction="Wohl">Für das leibliche <marker>wohl</marker> ist gesorgt.</example>
+                <example correction="Wohl">Ich war um mein eigenes <marker>wohl</marker> besorgt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WOHL_UND_WEHE" name="'das wohl und wehe (Wohl und Wehe)'">
             <url>https://de.wiktionary.org/wiki/Wohl_und_Wehe</url>
