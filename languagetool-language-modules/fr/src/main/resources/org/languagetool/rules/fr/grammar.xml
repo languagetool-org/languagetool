@@ -6944,7 +6944,8 @@ though, and has since been slightly modified)-->
           <marker><token inflected="yes">exhausser</token></marker>
         </pattern>
         <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
-        <example correction="">Ses prières furent <marker>exhaussées</marker>.</example>
+          <suggestion><match no="2" regexp_match="exhauss(ées)" regexp_replace="exauc$1"/></suggestion>
+        <example correction="exaucées">Ses prières furent <marker>exhaussées</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -6952,7 +6953,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">désirs?|prières?|requêtes?|souhaits?|vœux?|voeux?</token>
         </pattern>
         <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
-        <example correction="">Il <marker>exhaussait</marker> le plus cher désir de sa femme.</example>
+          <suggestion><match no="1" regexp_match="exhauss(.*)" regexp_replace="exauc$1"/></suggestion>
+        <example correction="exaucait">Il <marker>exhaussait</marker> le plus cher désir de sa femme.</example>
       </rule>
     </rulegroup>
     <rulegroup id="TAULE_TOLE" name="taule et tôle">
@@ -8353,7 +8355,7 @@ though, and has since been slightly modified)-->
             <token postag="N m .*" postag_regexp="yes"><exception postag="&lt;/DE&gt;" scope="previous"/><exception regexp="yes" scope="previous">des?|du|aux?</exception><exception postag="[NJ] [fe] .*|V .*" postag_regexp="yes"/><exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception><exception regexp="yes">non|air|car|pas</exception></token>
             <token max="1" min="0" postag="A"/>
 			<marker>
-            <token postag="[J|V ppa] f .*" postag_regexp="yes"><exception postag="[JNZ] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/></token>
+            <token postag="(J|V ppa) f .*" postag_regexp="yes"><exception postag="[JNZ] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/></token>
 			</marker>
         </pattern>
         <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
@@ -8479,7 +8481,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">mais|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</exception>
           </token>
 		  <marker>
-          <token postag="[J|V ppa] m .*" postag_regexp="yes">
+          <token postag="(J|V ppa) m .*" postag_regexp="yes">
             <exception postag="[JNZ] [fe] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
             <exception>amateur</exception>
           </token>
@@ -8528,7 +8530,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>de</token>
-          <marker><token postag="[N|J|V ppa] . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
+          <marker><token postag="(N|J|V ppa) . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Le mot « \3 » devrait être au pluriel.</message>
 		<suggestion><match no="3" postag_regexp="yes" postag="(N|J|V ppa) (.) s" postag_replace="$1 $2 p"/></suggestion>
@@ -8549,7 +8551,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>d</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <marker><token postag="[N|J|V ppa] . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
+          <marker><token postag="(N|J|V ppa) . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Le mot « \4 » devrait être au pluriel.</message>
 		<suggestion><match no="4" postag="(N|J|V ppa) (.) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
@@ -8601,6 +8603,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
+          <!-- <suggestion><match no="3" regexp_match="(.*)[es]" regexp_replace="$1"/><match no="4" regexp_match="(.*)s" regexp_replace="$"/></suggestion> -->
         <example correction="">Des yeux <marker>verts clairs</marker>.</example>
         <example>Des yeux <marker>vert clair</marker>.</example>
       </rule>
@@ -8642,8 +8645,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>« \2 » et « \4 » ne semblent pas bien accordés en genre.</message>
-		<!-- <suggestion><match no="4" postag="(R rel) e (s|p|sp)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion> -->
-        <example correction="">L’homme avec <marker>laquelle</marker> tu parles</example>
+		<suggestion><match no="4" postag="(R rel) f (s|p|sp)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <example correction="lequel">L’homme avec <marker>laquelle</marker> tu parles</example>
         <example>La <marker>femme avec laquelle</marker> tu parles</example>
         <example>La faux avec laquelle on fauche.</example>
         <example>Une distance au-delà de laquelle il devient difficile de voir.</example>
@@ -8763,6 +8766,7 @@ though, and has since been slightly modified)-->
         </and>
       </pattern>
       <message>« \1 » ne peut pas être suivi du nom féminin « \2 ». Utilisez un déterminant féminin à la place de « \1 ».</message>
+	 <!-- <suggestion><match no="1" /></suggestion> -->
       <example>Mon chien</example>
       <example>Ton histoire</example>
       <example>Mon œuvre</example>
@@ -8968,7 +8972,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Incohérence entre le verbe « \2 » et « \1 ».</message>
-        <example correction="">Je veux te <marker>préparé</marker></example>
+		<suggestion><match no="2" postag="V.* ppa.*" postag_regexp="yes" postag_replace="V inf"/></suggestion>
+        <example correction="préparer">Je veux te <marker>préparé</marker></example>
         <example>Je veux te préparer</example>
         <example>Luc est quant à lui condamné.</example>
       </rule>
@@ -9082,7 +9087,9 @@ though, and has since been slightly modified)-->
         <token><exception regexp="yes">que?</exception></token>
       </pattern>
       <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
-      <example correction="">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
+	  <suggestion>parce que</suggestion>
+	  <suggestion>parce qu'</suggestion>
+      <example correction="parce que|parce qu'">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
       <example>Je suis en retard parce que j’ai raté mon bus.</example>
     </rule>
     <rule id="A_LE" name="à la nom">
@@ -9094,7 +9101,9 @@ though, and has since been slightly modified)-->
         <token><exception postag="V inf|UNKNOWN" postag_regexp="yes"/></token>
       </pattern>
       <message>Incohérence : « à \2 » ne peut se trouver que devant un infinitif.</message>
-      <example correction="">Il a gagné <marker>à le</marker> championnat.</example>
+	  <suggestion>au</suggestion>
+	  <suggestion>aux</suggestion>
+      <example correction="au|aux">Il a gagné <marker>à le</marker> championnat.</example>
       <example>Je n’arrive pas à le déplacer.</example>
     </rule>
     <rule id="DU_LE" name="du le">
@@ -9183,7 +9192,7 @@ though, and has since been slightly modified)-->
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
           <marker>
-            <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
+            <token postag="V ppa f .*|J f .*" postag_regexp="yes">
               <exception>même</exception>
               <exception postag="[JN] [me].*|V ppa [me].*" postag_regexp="yes"/>
 			  <exception>partie</exception>
@@ -9191,23 +9200,24 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Ce soir, un orage est <marker>annoncée</marker>.</example>
+		<suggestion><match no="5" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <example correction="annoncé">Ce soir, un orage est <marker>annoncée</marker>.</example>
         <example>Ce soir, un orage est <marker>annoncé</marker>.</example>
-        <example correction="">Un orage semble <marker>annoncée</marker>.</example>
+        <example correction="annoncé">Un orage semble <marker>annoncée</marker>.</example>
         <example>Un orage semble <marker>annoncé</marker>.</example>
-        <example correction="">Antoine est <marker>mariée</marker>.</example>
+        <example correction="marié">Antoine est <marker>mariée</marker>.</example>
         <example>Antoine est <marker>marié</marker>.</example>
         <example>Ils sont même restés ici.</example>
-        <example correction="">Celui-ci est <marker>restée</marker>.</example>
+        <example correction="resté">Celui-ci est <marker>restée</marker>.</example>
         <example>Celui-ci est resté.</example>
         <example>Il est <marker>torse</marker> nu.</example>
         <example>On est fatigués.</example>
-        <example correction="">Antoine est peut-être <marker>fatiguée</marker>.</example>
+        <example correction="fatigué">Antoine est peut-être <marker>fatiguée</marker>.</example>
         <example>Antoine est peut-être <marker>fatigué</marker>.</example>
         <example>Dominique est peut-être <marker>fatiguée</marker>.</example>
         <example>Dominique est peut-être <marker>fatigué</marker>.</example>
         <example>Ils sont très <marker>avares</marker>.</example>
-        <example correction="">Ils restent <marker>dernières</marker>.</example>
+        <!-- <example correction="derniers">Ils restent <marker>dernières</marker>.</example> -->
         <example>Ils restent <marker>derniers</marker>.</example>
         <example>Le département est <marker>partie</marker> constituante de cet ensemble topographique.</example>
         <example>L'une dédiée au fret est <marker>longue</marker> de cinquante mètres.</example>
@@ -9231,9 +9241,10 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Pourtant, un orage a été <marker>annoncée</marker>.</example>
+          <suggestion><match no="5" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <example correction="annoncé">Pourtant, un orage a été <marker>annoncée</marker>.</example>
         <example>Pourtant, un orage a été <marker>annoncé</marker>.</example>
-        <example correction="">Les camions ont été <marker>inventées</marker>.</example>
+        <example correction="inventés">Les camions ont été <marker>inventées</marker>.</example>
         <example>Les camions ont été inventés.</example>
       </rule>
       <rule>
@@ -9256,9 +9267,10 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot féminin « \7 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Antoine n’est pas <marker>mariée</marker>.</example>
+          <suggestion><match no="7" postag="(V ppa) f (.*)|(J) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <example correction="marié">Antoine n’est pas <marker>mariée</marker>.</example>
         <example>Antoine n’est pas <marker>marié</marker>.</example>
-        <example correction="">Ce soir, Antoine n’est pas très <marker>fatiguée</marker>.</example>
+        <example correction="fatigué">Ce soir, Antoine n’est pas très <marker>fatiguée</marker>.</example>
         <example>Ce soir, Antoine n’est pas très fatigué.</example>
         <example>Mon oncle n’est pas <marker>avare</marker> de son argent.</example>
       </rule>
@@ -9278,28 +9290,29 @@ though, and has since been slightly modified)-->
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|être|devenir|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
           <marker>
-            <token postag="V.* ppa m .*|J m .*" postag_regexp="yes">
+            <token postag="(V ppa|J) m .*" postag_regexp="yes">
               <exception>pendant</exception>
               <exception postag="V.* ppa [fe] .*|J [fe] .*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
         <message>Le mot masculin « \5 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
-        <example correction="">Une averse est <marker>annoncé</marker>.</example>
+          <suggestion><match no="5" postag="(V ppa|J) m (.*)" postag_regexp="yes" postag_replace="$1 f $2"/></suggestion>
+        <example correction="annoncée">Une averse est <marker>annoncé</marker>.</example>
         <example>Une averse est <marker>annoncée</marker>.</example>
-        <example correction="">Martine est <marker>marié</marker>.</example>
+        <example correction="mariée">Martine est <marker>marié</marker>.</example>
         <example>Martine est <marker>mariée</marker>.</example>
         <example>Gravir cette montagne est dangereux</example>
-        <example correction="">Martine est très <marker>joli</marker>.</example>
+        <example correction="jolie">Martine est très <marker>joli</marker>.</example>
         <example>Martine est très <marker>jolie</marker>.</example>
         <example>L’Autriche est pendant tout le Moyen Âge une des nombreuses principautés.</example>
         <example>Cette voiture était suffisamment bon marché.</example>
         <example>Cette caméra est dernier cri.</example>
         <example>La sortie est droit devant.</example>
-        <example correction="">Dans la cuisine, elles sont bien entendu <marker>placés</marker> en hauteur.</example>
+        <example correction="placées">Dans la cuisine, elles sont bien entendu <marker>placés</marker> en hauteur.</example>
         <example>Dans la cuisine, elles sont bien entendu <marker>placées</marker> en hauteur.</example>
         <example>Produit avec un budget en effet très limité, Psychose est <marker>tourné</marker> avec l'équipe de télévision d'Alfred Hitchcock.</example>
-        <example correction="">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
+        <example correction="entretenue">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
         <example >Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
       </rule>
       <rule>
