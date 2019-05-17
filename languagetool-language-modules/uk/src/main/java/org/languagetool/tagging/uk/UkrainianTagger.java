@@ -24,6 +24,8 @@ import java.util.Locale;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
@@ -39,16 +41,18 @@ import org.languagetool.tools.StringTools;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
-  
+
+  private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
-  static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
-  
+  private static final Pattern LATIN_NUMBER = Pattern.compile("(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
+  private static final Pattern LATIN_NUMBER_CYR = Pattern.compile("[IXІХ]|[IІ]V|V?[IІ]{0,3}");
+
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern NAPIV_ALLOWED_TAGS_REGEX = Pattern.compile("(noun|ad(j|v(?!p))(?!.*?:comp[cs])).*");
   private static final Pattern NAPIV_REMOVE_TAGS_REGEX = Pattern.compile(":comp.|:&adjp(:(actv|pasv|perf|imperf))*");
-  
+
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
 
@@ -66,6 +70,18 @@ public class UkrainianTagger extends BaseTagger {
     if ( NUMBER.matcher(word).matches() ) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText(), word));
+      return additionalTaggedTokens;
+    }
+
+    if ( LATIN_NUMBER.matcher(word).matches() ) {
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText()+":latin", word));
+      return additionalTaggedTokens;
+    }
+
+    if ( LATIN_NUMBER_CYR.matcher(word).matches() ) {
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText()+":latin:bad", word));
       return additionalTaggedTokens;
     }
 
@@ -195,12 +211,40 @@ public class UkrainianTagger extends BaseTagger {
         }
     }
 
-
-//    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
-//      debug_tagged_write(tkns, taggedDebugWriter);
-//    }
+    // Івано-Франківська as adj from івано-франківський
+    if( word.indexOf('-') > 1 && ! word.endsWith("-") ) {
+      String[] parts = word.split("-");
+      if( isAllCapitalized(parts) ) {
+        String lowerCasedWord = Stream.of(parts).map(String::toLowerCase).collect(Collectors.joining("-"));
+        List<TaggedWord> wdList = wordTagger.tag(lowerCasedWord);
+        if( PosTagHelper.hasPosTagPart2(wdList, "adj") ) {
+          List<AnalyzedToken> analyzedTokens = asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+          analyzedTokens = PosTagHelper.filter(analyzedTokens, Pattern.compile("adj.*"));
+          if( tokens.get(0).hasNoTag() ) {
+            tokens = analyzedTokens;
+          }
+          else {
+            // compound tagging has already been performed and may have added tokens
+            for(AnalyzedToken token: analyzedTokens) {
+              if( ! tokens.contains(token) ) {
+                tokens.add(token);
+              }
+            }
+          }
+        }
+      }
+    }
 
     return tokens;
+  }
+
+
+  private static boolean isAllCapitalized(String[] parts) {
+    for (String string : parts) {
+      if( ! StringTools.isCapitalizedWord(string) )
+        return false;
+    }
+    return true;
   }
 
   private List<AnalyzedToken> convertTokens(List<AnalyzedToken> origTokens, String word, String str, String dictStr, String additionalTag) {

@@ -38,6 +38,7 @@ import org.languagetool.rules.uk.ExtraDictionaryLoader;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * Allows to tag compound words with hyphen dynamically by analyzing each part
@@ -318,7 +319,20 @@ class CompoundTagger {
         return newAnalyzedTokens;
       }
       else {
-        // we don't want Нью-Париж
+        // we don't want Нью-Париж but want Австрійсько-Карпатський
+        if( StringTools.isCapitalizedWord(rightWord)
+            || leftWord.endsWith("о")
+            || PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile("adj.*")) ) {
+
+          // tag Чорноморське/noun і чорноморське adj
+          List<TaggedWord> rightWdList2 = tagAsIsAndWithLowerCase(rightWord);
+          List<AnalyzedToken> rightAnalyzedTokens2 = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList2);
+
+          List<AnalyzedToken> match = tryOWithAdj(word, leftWord, rightAnalyzedTokens2);
+          if( match != null )
+            return match;
+        }
+
         return null;
       }
     }
@@ -371,7 +385,6 @@ class CompoundTagger {
     
     return null;
   }
-
 
   private List<TaggedWord> tagEitherCase(String rightWord) {
     List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
@@ -1141,15 +1154,20 @@ class CompoundTagger {
   @Nullable
   private static List<AnalyzedToken> getNvPrefixNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
-    
+
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag.startsWith(IPOSTag.noun.getText() )
           && ! posTag.contains("v_kly") ) {
+
+        if( Arrays.asList("В2В", "АІ").contains(leftWord) ) {
+            posTag = PosTagHelper.addIfNotContains(posTag, ":bad");
+        }
+
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
       }
     }
-    
+
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
 
