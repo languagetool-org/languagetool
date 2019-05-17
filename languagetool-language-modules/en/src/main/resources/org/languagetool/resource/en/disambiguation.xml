@@ -2534,6 +2534,10 @@
         </rule>
     </rulegroup>
     <rule name="DT|JJ + JJ + end of phrase -&gt; NN" id="DT_JJ_NN">
+    <antipattern><!-- ... barking outside. https://en.oxforddictionaries.com/definition/outside -->
+        <token postag="RB"/>
+        <token postag="SENT_END"/>
+    </antipattern>
     <pattern>
         <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
         <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -2552,6 +2556,7 @@
         <example type="ambiguous" inputform="English[English/JJ,English/NNP]" outputform="English[English/NNP]">Excuse my bad <marker>English</marker>.</example>
         <example type="untouched">These real English are nice.</example>
         <example type="untouched">You are just being stupid.</example>
+        <example type="untouched">Adverb. The dog was still barking <marker>outside</marker>.</example>
     </rule>
     <rule name="those + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
         <pattern>
