@@ -34398,6 +34398,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="EN_CARA" name="en cara/encara">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">tirar|llançar|llençar</token>
+                    <token min="0" max="4" postag="[DPN].*" postag_regexp="yes"/>
+                    <token>en</token>
+                    <token>cara</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>en</token>
+                <token>cara</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>encara</suggestion>?</message>
+            <example correction="encara">No ha vingut <marker>en cara</marker>.</example>
+            <example>No hem de tirar-li-ho en cara.</example>
+            <example>No vull tirar-li això en cara.</example>
+            <example>No vull tirar-li aquestes coses en cara.</example>
+        </rule>
         <rule id="RATONERA" name="*ratonera/ratera">
             <pattern>
                 <token regexp="yes">ratonera|ratoneres</token>
