@@ -44,7 +44,7 @@ public class GermanChunkerTest {
     assertFullChunks("Julia/NPP und/NPP Karsten/NPP sind alt");
     assertFullChunks("Es ist die/NPS älteste/NPS und/NPS bekannteste/NPS Maßnahme/NPS");
     assertFullChunks("Das ist eine/NPS Masseeinheit/NPS und/NPS keine/NPS Gewichtseinheit/NPS");
-    assertFullChunks("Sie/B fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
+    assertFullChunks("Sie fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
     assertFullChunks("Da sind er/NPP und/NPP seine/NPP Schwester/NPP");
 
     //assertFullChunks("Sowohl/NPP sein/NPP Vater/NPP als/NPP auch/NPP seine/NPP Mutter/NPP sind da");  //?
@@ -77,7 +77,7 @@ public class GermanChunkerTest {
     assertFullChunks("Die/NPS Krankheit/NPS unserer/NPS heutigen/NPS Städte/NPS und/NPS Siedlungen/NPS ist der/NPS Verkehr/NPS");
     assertFullChunks("Der/B Nil/I ist der/NPS letzte/NPS der/NPS vier/NPS großen/NPS Flüsse/NPS");
     assertFullChunks("Der/NPS letzte/NPS der/NPS vier/NPS großen/NPS Flüsse/NPS ist der/B Nil/I");
-    assertFullChunks("Sie/B kennt eine/NPP Menge/NPP englischer/NPP Wörter/NPP");
+    assertFullChunks("Sie kennt eine/NPP Menge/NPP englischer/NPP Wörter/NPP");
     assertFullChunks("Eine/NPP Menge/NPP englischer/NPP Wörter/NPP sind aus/PP dem/NPS Lateinischen/NPS abgeleitet.");
     assertFullChunks("Laut/PP den/PP meisten/PP Quellen/PP ist er 35 Jahre/B alt.");
     assertFullChunks("Bei/PP den/PP sehr/PP niedrigen/PP Oberflächentemperaturen/PP verbrennt nichts");
