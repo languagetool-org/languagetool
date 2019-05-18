@@ -79,6 +79,12 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("складний рік на фондовим ринку")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("є найкращий засобом для очистки")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("має вчену ступінь з хімії")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("розкішні чорні коси й, засукавши широкі рукава своєї сорочки,")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("то коло стола її вишивані рукава мають, то коло печі")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("валялись одірвані рукава кунтушів та поли жупанів")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("вчинили страшенний диплома тичний галас")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Раймон Бенжамен і керівник європейського філії")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("обвинувачення у вчинені злочину, передбаченого")).length);
 
     // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
@@ -198,7 +204,7 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що робить її найвищою будівля")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
     
-
+    
     // adj not noun
     assertEmptyMatch("у могутні Максимові обійми");
 
@@ -364,54 +370,11 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("на вул. Рубчака, 17-а Тарас Стецьків");
     assertEmptyMatch("вулиці Володимира Великого, 35-а Юрій Борсук");
 
-    /////////// plurals /////////
-    
-    // plural + пів...
-    assertEmptyMatch("на довгих півстоліття");
-    assertEmptyMatch("цілих півмісяця");
-    assertEmptyMatch("на довгих чверть століття");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на довгих місяця")).length);
-
-    // plural
-    assertEmptyMatch("щоб моїх маму й сестер");
-    assertEmptyMatch("власними потом i кров’ю");        // latin i -  we want AlphabetMixedRule to take care of this
-    assertEmptyMatch("директори навчальної та середньої шкіл");
-    assertEmptyMatch("Перші тиждень чи два");
-    assertEmptyMatch("зазначені ім'я, прізвище та місто");
-    assertEmptyMatch("Житомирська, Кіровоградська області");
-    assertEmptyMatch("ані судова, ані правоохоронна системи");
-    assertEmptyMatch("а також курдську частини");
-    assertEmptyMatch("Чорного і Азовського морів");
-    assertEmptyMatch("коринфський з іонійським ордери");
-    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
-    //TODO:
-    //assertEmptyMatch("практично відсутні транспорт, гомінкі базари");
-
-    assertEmptyMatch("протягом минулих травня – липня");
-    
-
-    
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У львівській та київський Книгарнях")).length);
-    
-    assertEmptyMatch("зв'язаних ченця з черницею");
-    assertEmptyMatch("на зарубаних матір з двома синами");
-    assertEmptyMatch("повоєнні Австрія з Фінляндією");
-
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("повоєнні Австрія з Фінляндію")).length);
-
-    //TODO: conflicts with the case when plural is spread out across the sentence 
-    //  assertEquals(1, rule.match(langTool.getAnalyzedSentence("директор та середньої шкіл")).length);
-
-    // "long" plural
-    assertEmptyMatch("так і на центральному рівнях");
-    assertEmptyMatch("і з першим, і з другим чоловіками");
-    assertEmptyMatch("молодші Олександр Ірванець, Оксана Луцишина, Євгенія Кононенко");
-    assertEmptyMatch("230 вчилися за старшинською і 120 за підстаршинською програмами");
-
+    // case government
     assertEmptyMatch("Завдяки останнім бізнес");
-    
-    
+
+
     // reverse order
     assertEmptyMatch("порядок денний парламенту");
     assertEmptyMatch("зокрема статтю 6-ту закону");
@@ -438,9 +401,12 @@ public class TokenAgreementAdjNounRuleTest {
     // станом на
     assertEmptyMatch("чинних станом на 4 червня");
 
+    assertEmptyMatch("а старший групи");
+
     // stable multiword
     assertEmptyMatch("Не пасли задніх міліціонери");
     assertEmptyMatch("сильних світу цього");
+    assertEmptyMatch("найвпливовіших світу сього");
     assertEmptyMatch("усіх до єдиного");
     assertEmptyMatch("усі до єдиного депутати");
     assertEmptyMatch("Вольному воля");
@@ -743,6 +709,75 @@ public class TokenAgreementAdjNounRuleTest {
     //TODO: turn back on when we can handle pron
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+  }
+
+  @Test
+  public void testPluralExceptions() throws IOException {
+    /////////// plurals /////////
+    
+    // plural + пів...
+    assertEmptyMatch("на довгих півстоліття");
+    assertEmptyMatch("цілих півмісяця");
+    assertEmptyMatch("на довгих чверть століття");
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на довгих місяця")).length);
+
+    // plural
+    
+    // adj:.:p + multiple nouns
+    assertEmptyMatch("щоб моїх маму й сестер");
+    assertEmptyMatch("власними потом i кров’ю");        // latin i -  we want AlphabetMixedRule to take care of this
+    assertEmptyMatch("Перші тиждень чи два");
+    assertEmptyMatch("зазначені ім'я, прізвище та місто");
+    assertEmptyMatch("Житомирська, Кіровоградська області");
+    assertEmptyMatch("ані судова, ані правоохоронна системи");
+    assertEmptyMatch("а також курдську частини");
+    assertEmptyMatch("Чорного і Азовського морів");
+    assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
+    assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
+    assertEmptyMatch("коринфський з іонійським ордери");
+    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
+    assertEmptyMatch("зв'язаних ченця з черницею");
+    assertEmptyMatch("на зарубаних матір з двома синами");
+    assertEmptyMatch("повоєнні Австрія з Фінляндією");
+    assertEmptyMatch("Опозиційні Андрієвський і Черников");
+    assertEmptyMatch("директори навчальної та середньої шкіл");
+    assertEmptyMatch("протягом минулих травня – липня");
+    assertEmptyMatch("практично відсутні транспорт, гомінкі базари");
+    assertEmptyMatch("ВАЖЛИВІ МОТОРИКА І ВІДЧУТТЯ РІВНОВАГИ");
+    assertEmptyMatch("канонізовані Іоанн XXIII і Іван Павло II");
+    assertEmptyMatch("у дво- й тривимірному форматах");
+    assertEmptyMatch("Однак ні паровий, ні електричний двигуни не могли");
+    assertEmptyMatch("сміттєпереробного і/або сміттєспалювального заводів");
+    assertEmptyMatch("130-те (мінус вісім позицій порівняно з 2009-м) та 145-те місця");
+    assertEmptyMatch("ні у методологічному, ні у практичному аспектах.");
+    // unknown words
+    assertEmptyMatch("Большого та Маріїнського театрів");
+    assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");
+    
+    //TODO: comma + і/a
+    assertEmptyMatch("уражені штаб ІДІЛ, а також збройний завод.");
+//    assertEmptyMatch("уражені штаб ІДІЛ, а з іншого боку збройний завод.");
+//    assertEmptyMatch("канонізованих царя Давида, і князя Володимира");
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У львівській та київський Книгарнях")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("повоєнні Австрія з Фінляндію")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("«Старий паразите...» І кокетлива інтонації ведучої не замасковує зовсім невиправдану")).length);
+
+//TODO:    
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Судячи з січневих продаж, 2009-й може стати")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("які наполягали на введені санкцій, будуть продовжуватися.")).length);
+    
+    // multiple adj + noun:.*:p
+//    assertEmptyMatch("символізують творчий, оберігальний та руйнівний аспекти Вищої Сили");
+    assertEmptyMatch("так і на центральному рівнях");
+    assertEmptyMatch("передався повоєнним Відню та Парижу");
+
+    // "long" plural
+    assertEmptyMatch("найхарактерніші лояльність до влади й відданість місцевим лідерам.");
+    assertEmptyMatch("і з першим, і з другим чоловіками");
+    assertEmptyMatch("молодші Олександр Ірванець, Оксана Луцишина, Євгенія Кононенко");
+    assertEmptyMatch("230 вчилися за старшинською і 120 за підстаршинською програмами");
   }
   
   @Test

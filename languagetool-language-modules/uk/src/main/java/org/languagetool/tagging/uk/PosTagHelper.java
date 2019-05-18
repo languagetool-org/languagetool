@@ -245,6 +245,12 @@ public final class PosTagHelper {
         .collect(Collectors.toList());
    }
 
+  private static Pattern WORD_PATTERN = Pattern.compile("[а-яіїєґa-z'-]+", Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);
+  public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
+    return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()
+        && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
+  }
+
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
 //  if( pos4matcher.matches() ) {

@@ -121,8 +121,9 @@ public final class TokenAgreementNounVerbExceptionHelper {
         // моя мама й сестра мешкали
         // каналізація і навіть охорона пропонувалися
         // Ґорбачов і його дружина виглядали
-        int pos0 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLULAR_PATTERN, 
-            Pattern.compile("(noun|adj:.:v_naz|adv|part).*"), Dir.REVERSE);
+        int pos0 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, 
+            TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLULAR_PATTERN, 
+            Pattern.compile("(noun.*?v_naz|adj:.:v_naz|adv|part).*"), Dir.REVERSE);
         
         if( pos0 > 1 ) {
           if( pos0 > 2 ) {
@@ -163,13 +164,16 @@ public final class TokenAgreementNounVerbExceptionHelper {
             }
           }
           
-          if( PosTagHelper.hasPosTag(tokens[pos0-1], "noun.*") 
-              || isCapitalized(tokens[pos0-1].getToken()) ) {
+        // моя мама й сестра мешкали
+        // noun.*?v_naz is too strict: "єднання з Римом та королівська адміністрація закручували гайки"
+          if( PosTagHelper.hasPosTag(tokens[pos0-1], "noun.*")
+              || (tokens[pos0-1].getAnalyzedToken(0).hasNoTag() && isCapitalized(tokens[pos0-1].getToken())) ) {
             logException();
             return true;
           }
           // біологічна і ядерна зброя стають товаром
-          else if( PosTagHelper.hasPosTag(tokens[pos0-1], "adj:.:v_naz.*") ) {
+          else 
+          if( PosTagHelper.hasPosTag(tokens[pos0-1], "adj:.:v_naz.*") ) {
             logException();
             return true;
           }
