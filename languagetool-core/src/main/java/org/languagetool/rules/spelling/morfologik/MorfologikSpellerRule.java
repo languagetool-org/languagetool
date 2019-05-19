@@ -116,9 +116,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     //lazy init
     if (speller1 == null) {
       String binaryDict = null;
-      if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        binaryDict = getFileName();
-      } else if (Files.exists(Paths.get(getFileName()))) {
+      if (JLanguageTool.getDataBroker().resourceExists(getFileName()) || Files.exists(Paths.get(getFileName()))) {
         binaryDict = getFileName();
       }
       if (binaryDict != null) {

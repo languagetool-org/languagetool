@@ -260,10 +260,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private String removeTrailingDot(String word) {
-    if (word.endsWith(".")) {
-      return word.substring(0, word.length()-1);
-    }
-    return word;
+    return StringUtils.removeEnd(word, ".");
   }
 
   public List<String> getSuggestions(String word) throws IOException {
