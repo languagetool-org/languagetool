@@ -54,7 +54,7 @@ public class TokenAgreementAdjNounRule extends Rule {
   private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
 
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
-  static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
+  static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("((?:[iu]n)?anim):([mfnps]):(v_...)");
 
   private final Ukrainian ukrainian = new Ukrainian();
 
