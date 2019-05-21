@@ -24858,9 +24858,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>us</suggestion>
                 <example correction="Ens|Us"><marker>Es</marker> podem posar.</example>
                 <example correction="Ens|Us"><marker>Es</marker> penso dir jo.</example>
-                <example correction="Ens|Us"><marker>Es</marker> feu per la via correcta.</example>
                 <example correction="ens|us">que <marker>se</marker> n'ocupem.</example>
                 <example>Es féu per la via correcta.</example>
+                <example>Es feu per la via correcta.</example>
                 <example>es pot fer correctament</example>
             </rule>
             <rule id="FEM_ME" name="fem-m'ho">
@@ -25377,6 +25377,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">[.:)]</token>
                 </marker>
             </antipattern>
+            <antipattern> <!-- Enumeració a principi de frase -->
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token spacebefore="yes"></token>
+                </marker>
+            </antipattern>
             <antipattern> <!-- hores -->
                 <marker>
                     <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
@@ -25397,14 +25404,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern> <!-- taules, etc  -->
                 <marker>
-                    <token inflected="yes" regexp="yes">revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
                     <token min="0" regexp="yes" inflected="yes">actual|anterior|antiga|nova</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token inflected="yes" regexp="yes">epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
                     <token regexp="yes">\d+\.\d+</token>
                     <token regexp="yes">i|o|,</token>
                     <token regexp="yes">\d+\.\d+</token>
@@ -25439,10 +25446,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Per a separar els decimals, useu una coma.</message>
                 <suggestion><match no="1" regexp_match="(.+)\.(.+)" regexp_replace="$1,$2"/></suggestion>
-                <example correction="9,5"><marker>9.5</marker></example>
                 <example correction="9,5">És de <marker>9.5</marker>.</example>
                 <example correction="9349,5"><marker>9349.5</marker></example>
                 <example correction="1 999 349,56"><marker>1 999 349.56</marker></example>
+                <example>9.5 El futur de les pensions</example>
                 <example>1.231</example>
                 <example>1.231.437</example>
                 <example>Les taules 5.7 i 5.8.</example>
