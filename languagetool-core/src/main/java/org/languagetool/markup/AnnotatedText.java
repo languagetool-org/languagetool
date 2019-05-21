@@ -101,7 +101,7 @@ public class AnnotatedText {
    */
   public int getOriginalTextPositionFor(int plainTextPosition) {
     if (plainTextPosition < 0) {
-      throw new RuntimeException("plainTextPosition must be >= 0: " + plainTextPosition);
+      throw new IllegalArgumentException("plainTextPosition must be >= 0: " + plainTextPosition);
     }
     Integer origPosition = mapping.get(plainTextPosition);
     if (origPosition != null) {

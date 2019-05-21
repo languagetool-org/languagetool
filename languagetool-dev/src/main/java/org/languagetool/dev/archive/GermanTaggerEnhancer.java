@@ -62,15 +62,17 @@ public class GermanTaggerEnhancer {
     String prev = null;
     for (WordData wd : dl) {
       String word = wd.getWord().toString();
-      if (word.endsWith("er") && StringTools.startsWithUppercase(word)) {
-        if (!hasAdjReading(tagger, word) && isEigenname(tagger, word.substring(0, word.length()-2)) && !word.equals(prev)) {
-          for (String newTags : ADJ_READINGS) {
-            System.out.println(word + "\t" + word + "\t" + newTags + ":DEF");
-            System.out.println(word + "\t" + word + "\t" + newTags + ":IND");
-            System.out.println(word + "\t" + word + "\t" + newTags + ":SOL");
-          }
-          prev = word;
+      if (word.endsWith("er")
+          && StringTools.startsWithUppercase(word)
+          && !hasAdjReading(tagger, word)
+          && isEigenname(tagger, word.substring(0, word.length()-2))
+          && !word.equals(prev)) {
+        for (String newTags : ADJ_READINGS) {
+          System.out.println(word + "\t" + word + "\t" + newTags + ":DEF\n"+
+                             word + "\t" + word + "\t" + newTags + ":IND\n"+
+                             word + "\t" + word + "\t" + newTags + ":SOL");
         }
+        prev = word;
       }
     }
   }

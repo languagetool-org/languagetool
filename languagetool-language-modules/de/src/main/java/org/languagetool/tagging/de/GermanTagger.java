@@ -169,9 +169,9 @@ public class GermanTagger extends BaseTagger {
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
             List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens, pos);
-            if (imperativeFormList != null && imperativeFormList.size() > 0) {
+            if (imperativeFormList.size() > 0) {
               readings.addAll(imperativeFormList);
-            } else if (substantivatedFormsList != null && substantivatedFormsList.size() > 0) {
+            } else if (substantivatedFormsList.size() > 0) {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
@@ -265,7 +265,7 @@ public class GermanTagger extends BaseTagger {
       break;
     }
     if (!(pos == 0 && sentenceTokens.size() > 1) && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie")) {
-      return null;
+      return Collections.emptyList();
     }
     String w = pos == 0 ? word.toLowerCase() : word;
     List<TaggedWord> taggedWithE = getWordTagger().tag(w.concat("e"));
@@ -278,7 +278,7 @@ public class GermanTagger extends BaseTagger {
         break;
       }
     }
-    return null;
+    return Collections.emptyList();
   }
 
   /*
@@ -291,7 +291,7 @@ public class GermanTagger extends BaseTagger {
       List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
       // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
       if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
-        return null;
+        return Collections.emptyList();
       }
       int idx = sentenceTokens.indexOf(word);
       // is followed by an uppercase word? If 'yes', the word is probably not substantivated
@@ -301,7 +301,7 @@ public class GermanTagger extends BaseTagger {
           continue;
         }
         if (nextWord.length() > 0 && (Character.isUpperCase(nextWord.charAt(0)) || "als".equals(nextWord))) {
-          return null;
+          return Collections.emptyList();
         }
         break;
       }
@@ -316,7 +316,7 @@ public class GermanTagger extends BaseTagger {
         return list;
       }
     }
-    return null;
+    return Collections.emptyList();
   }
 
   private synchronized void initializeIfRequired() throws IOException {

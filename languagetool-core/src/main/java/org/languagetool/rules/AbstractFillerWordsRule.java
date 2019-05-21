@@ -106,6 +106,10 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     return 100;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.Rule#getConfigureText()
+   */
+  @Override
   public String getConfigureText() {
     return messages.getString("filler_words_rule_opt_text");
   }
@@ -118,6 +122,9 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.TextLevelRule#match(java.util.List)
+   */
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
