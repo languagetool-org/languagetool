@@ -64,8 +64,8 @@ public class GermanTaggerEnhancer {
       String word = wd.getWord().toString();
       if (word.endsWith("er")
           && StringTools.startsWithUppercase(word)
-          && !hasAdjReading(tagger, word)
-          && isEigenname(tagger, word.substring(0, word.length()-2))
+          && !hasAnyPosTagStartingWith(tagger, word, "ADJ:NOM")
+          && hasAnyPosTagStartingWith(tagger, word.substring(0, word.length()-2), "EIG")
           && !word.equals(prev)) {
         for (String newTags : ADJ_READINGS) {
           System.out.println(word + "\t" + word + "\t" + newTags + ":DEF\n"+
@@ -77,24 +77,9 @@ public class GermanTaggerEnhancer {
     }
   }
 
-  private boolean isEigenname(Tagger tagger, String word) throws IOException {
+  private boolean hasAnyPosTagStartingWith(Tagger tagger, String word, String initialPosTag) throws IOException {
     List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
-    for (AnalyzedTokenReadings reading : readings) {
-      if (reading.hasPartialPosTag("EIG")) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private boolean hasAdjReading(Tagger tagger, String word) throws IOException {
-    List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
-    for (AnalyzedTokenReadings reading : readings) {
-      if (reading.hasPartialPosTag("ADJ:NOM")) {
-        return true;
-      }
-    }
-    return false;
+    return readings.stream().anyMatch(atr -> atr.hasPosTagStartingWith(initialPosTag));
   }
 
   public static void main(String[] args) throws IOException {
