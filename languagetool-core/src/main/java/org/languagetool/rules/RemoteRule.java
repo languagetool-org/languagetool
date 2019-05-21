@@ -67,10 +67,13 @@ public abstract class RemoteRule extends Rule {
       if (consecutiveFailures.get(rule).get() >= serviceConfiguration.getFall()) {
         long failureInterval = System.currentTimeMillis() - lastFailure.get(rule);
         if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
+          RemoteRuleMetrics.request(rule, 0, 0, RemoteRuleMetrics.RequestResult.DOWN);
           return Collections.emptyList();
         }
       }
+      RemoteRuleMetrics.up(rule, true);
 
+      long startTime = System.currentTimeMillis();
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
         Callable<List<RuleMatch>> task = fetchMatches(sentences);
         try {
@@ -84,16 +87,30 @@ public abstract class RemoteRule extends Rule {
           }
           future.cancel(true);
           consecutiveFailures.get(rule).set(0);
+          RemoteRuleMetrics.failures(rule, 0);
+          RemoteRuleMetrics.request(rule, i, System.currentTimeMillis() - startTime,
+            RemoteRuleMetrics.RequestResult.SUCCESS);
           return result;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
           logger.warn("Error while fetching results for remote rule " + rule + ", tried " + (i + 1) + " times" , e);
+
+          RemoteRuleMetrics.RequestResult result;
+          if (e instanceof TimeoutException || e instanceof InterruptedException) {
+            result = RemoteRuleMetrics.RequestResult.TIMEOUT;
+          } else {
+            result = RemoteRuleMetrics.RequestResult.ERROR;
+          }
+
+          RemoteRuleMetrics.request(rule, i, System.currentTimeMillis() - startTime, result);
         }
       }
-      consecutiveFailures.get(rule).incrementAndGet();
+      RemoteRuleMetrics.failures(rule, consecutiveFailures.get(rule).incrementAndGet());
       logger.warn("Fetching results for remote rule " + rule + " failed " + "");
       if (consecutiveFailures.get(rule).get() >= serviceConfiguration.getFall()) {
         lastFailure.put(rule, System.currentTimeMillis());
         logger.warn("Remote rule " + rule + " marked as DOWN.");
+        RemoteRuleMetrics.downtime(rule, serviceConfiguration.getDownMilliseconds());
+        RemoteRuleMetrics.up(rule, false);
       }
       return Collections.emptyList();
     });

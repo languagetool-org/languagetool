@@ -53,7 +53,7 @@ public class RemoteRuleConfig {
 
   private final Map<String, String> options;
 
-  // TODO configure error handling, health checks, timeouts, ...
+  // TODO configure health checks, load balancing, ...?
 
   @JsonCreator
   public RemoteRuleConfig(@JsonProperty("ruleId") String ruleId,
