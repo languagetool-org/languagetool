@@ -1896,7 +1896,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">au|le|du|un|bande|même</token>
-          <marker><token>son<exception postag="N m s"/></token></marker>
+          <marker><token>son</token></marker>
           <token postag="[VR].*|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>sont</suggestion> ?</message>
@@ -8603,8 +8603,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
-          <!-- <suggestion><match no="3" regexp_match="(.*)[es]" regexp_replace="$1"/><match no="4" regexp_match="(.*)s" regexp_replace="$"/></suggestion> -->
-        <example correction="">Des yeux <marker>verts clairs</marker>.</example>
+          <suggestion><match no="3" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="4" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/></suggestion>
+        <example correction="vert clair">Des yeux <marker>verts clairs</marker>.</example>
         <example>Des yeux <marker>vert clair</marker>.</example>
       </rule>
       <rule>
@@ -8617,7 +8617,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
-        <example correction="">Une jupe <marker>bleue foncée</marker>.</example>
+          <suggestion><match no="3" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/> <match no="4" postag="([NJ]) [mfe] [sp]" postag_regexp="yes" postag_replace="$1 m s"/></suggestion>
+        <example correction="bleu foncé">Une jupe <marker>bleue foncée</marker>.</example>
         <example>Une jupe bleu foncé.</example>
       </rule>
       <rule>
@@ -8654,90 +8655,95 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N m.*" postag_regexp="yes"/>
+          <marker>
             <token regexp="yes">desquelles|auxquelles</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
-        <example correction="">Les <marker>hommes auxquelles</marker> tu parles</example>
+        <suggestion><match no="3" postag="(R rel) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <example correction="auxquels">Les hommes <marker>auxquelles</marker> tu parles.</example>
         <example>Les <marker>femmes auxquelles</marker> tu parles</example>
         <example><marker>Un dans</marker> chaque bras.</example>
       </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="2"/>
+                    <token postag="N f.*" postag_regexp="yes"/>
+                    <token postag="P"/>
+                <marker>
+                    <token regexp="yes">lequel|lesquels</token>
+                </marker>
+            </pattern>
+            <message>« \2 » et « \4 » ne semblent pas bien accordés en genre.</message>
+            <suggestion><match no="4" postag="(R rel) m ([sp])" postag_regexp="yes" postag_replace="$1 f $2"/></suggestion>
+            <example correction="laquelle">La femme à <marker>lequel</marker> tu parles</example>
+            <example>La <marker>femme à laquelle</marker> tu parles</example>
+        </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N f.*" postag_regexp="yes"/>
-            <token postag="P"/>
-            <token regexp="yes">lequel|lesquels</token>
-          </marker>
-        </pattern>
-        <message>« \2 » et « \4 » ne semblent pas bien accordés en genre.</message>
-        <example correction="">La <marker>femme à lequel</marker> tu parles</example>
-        <example>La <marker>femme à laquelle</marker> tu parles</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="SENT_START" skip="2"/>
           <marker>
-            <token postag="N f.*" postag_regexp="yes"/>
             <token regexp="yes">duquel|auquel|auxquels|desquels</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
-        <example correction="">La <marker>femme auquel</marker> tu parles</example>
+        <example correction="">La femme <marker>auquel</marker> tu parles</example>
         <example>L’<marker>homme auquel</marker> tu parles</example>
       </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N . p" postag_regexp="yes"/>
             <token postag="P"/>
+          <marker>
             <token regexp="yes">laquelle|lequel</token>
           </marker>
         </pattern>
         <message>« \2 » et « \4 » ne semblent pas bien accordés en nombre.</message>
-        <example correction="">Les <marker>hommes avec lequel</marker> tu parles</example>
-        <example>L’<marker>homme avec lequel</marker> tu parles</example>
-        <example>Les <marker>hommes avec lesquels</marker> tu parles</example>
+          <suggestion><match no="4" postag="(R rel) (.) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
+        <example correction="lesquels">Les hommes avec <marker>lequel</marker> tu parles</example>
+        <example>L’homme avec <marker>lequel</marker> tu parles</example>
+        <example>Les hommes avec <marker>lesquels</marker> tu parles</example>
       </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N . p" postag_regexp="yes"/>
+          <marker>
             <token regexp="yes">duquel|auquel</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
-        <example correction="">Les <marker>hommes auquel</marker> tu parles</example>
+        <example correction="">Les hommes <marker>auquel</marker> tu parles</example>
         <example>Les <marker>hommes auxquels</marker> tu parles</example>
       </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N . s" postag_regexp="yes"/>
             <token postag="P"/>
+          <marker>
             <token regexp="yes">lesquels|lesquelles</token>
           </marker>
         </pattern>
         <message>« \2 » et « \4 » ne semblent pas bien accordés en nombre.</message>
-        <example correction="">L’<marker>homme avec lesquels</marker> tu parles</example>
+          <suggestion><match no="4" postag="(R rel) ([mf]) p" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
+        <example correction="lequel">L’homme avec <marker>lesquels</marker> tu parles</example>
         <example>Les <marker>hommes avec lesquels</marker> tu parles</example>
       </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <marker>
             <token postag="N . s" postag_regexp="yes"/>
+          <marker>
             <token regexp="yes">auxquels|auxquelles|desquelles</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
-        <example correction="">L’<marker>homme auxquels</marker> tu parles</example>
+          <suggestion><match no="3" postag="(R rel) ([mf]) p" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
+        <example correction="auquel">L’homme <marker>auxquels</marker> tu parles</example>
         <example>Les <marker>hommes auxquels</marker> tu parles</example>
       </rule>
     </rulegroup>
