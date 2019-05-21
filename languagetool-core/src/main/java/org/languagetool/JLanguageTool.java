@@ -758,7 +758,8 @@ public class JLanguageTool {
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules depending on {@code mode}.
-   * @param remoteRulesThreadPool TODO
+   * @param remoteRulesThreadPool when given, starts evaluating remote rules asynchronously before checking other rules,
+   *                              then waits on result afterwards
    * @since 4.6
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
@@ -794,7 +795,7 @@ public class JLanguageTool {
       remoteMatches = remoteRuleTasks.stream()
         .flatMap(task -> {
           try {
-            return task.get().stream();
+            return task.get().stream(); // can wait without timeout here, implemented in RemoteRule and TextChecker
           } catch (InterruptedException | ExecutionException e) {
             logger.warn("Failed to fetch result from remote rule.", e);
             return Stream.empty();
