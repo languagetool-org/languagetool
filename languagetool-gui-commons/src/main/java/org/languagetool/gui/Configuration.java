@@ -87,6 +87,7 @@ public class Configuration {
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
+  private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -131,6 +132,7 @@ public class Configuration {
   private String lookAndFeelName;
   private boolean switchOff = false;
   private boolean useDocLanguage = true;
+  private boolean isMultiThreadLO = false;
 
   /**
    * Uses the configuration file from the default location.
@@ -194,6 +196,7 @@ public class Configuration {
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
     this.noMultiReset = configuration.noMultiReset;
+    this.isMultiThreadLO = configuration.isMultiThreadLO;
     this.useDocLanguage = configuration.useDocLanguage;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
@@ -402,6 +405,22 @@ public class Configuration {
    */
   public void setNoMultiReset(boolean noMultiReset) {
     this.noMultiReset = noMultiReset;
+  }
+
+  /**
+   * run LO in multi thread mode
+   * @since 4.6
+   */
+  public void setMultiThreadLO(boolean isMultiThread) {
+    this.isMultiThreadLO = isMultiThread;
+  }
+
+  /**
+   * shall LO run in multi thread mode 
+   * @since 4.6
+   */
+  public boolean isMultiThread() {
+    return isMultiThreadLO;
   }
 
   /**
@@ -772,6 +791,11 @@ public class Configuration {
         switchOff = Boolean.parseBoolean(switchOffString);
       }
 
+      String isMultiThreadString = (String) props.get(IS_MULTI_THREAD_LO_KEY);
+      if (isMultiThreadString != null) {
+        isMultiThreadLO = Boolean.parseBoolean(isMultiThreadString);
+      }
+      
       String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
@@ -904,6 +928,9 @@ public class Configuration {
     }
     if(switchOff) {
       props.setProperty(LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
+    }
+    if(isMultiThreadLO) {
+      props.setProperty(IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
     }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);

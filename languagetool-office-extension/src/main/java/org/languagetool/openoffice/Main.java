@@ -445,7 +445,7 @@ public class Main extends WeakBase implements XJobExecutor,
     disabledRulesUI.add(ruleId);
     config.setDisabledRuleIds(disabledRulesUI);
     try {
-      JLanguageTool langTool = documents.getLanguageTool();
+      SwJLanguageTool langTool = documents.getLanguageTool();
       documents.initCheck();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {
@@ -465,7 +465,7 @@ public class Main extends WeakBase implements XJobExecutor,
     Configuration config = documents.getConfiguration();
     config.setDisabledRuleIds(disabledRules);
     try {
-      JLanguageTool langTool = documents.getLanguageTool();
+      SwJLanguageTool langTool = documents.getLanguageTool();
       documents.initCheck();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {

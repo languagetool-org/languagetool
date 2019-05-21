@@ -28,7 +28,6 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.UserConfig;
@@ -69,7 +68,7 @@ public class MultiDocumentsHandler {
   
   private static final boolean debugMode = false;   //  should be false except for testing
   
-  private JLanguageTool langTool = null;
+  private SwJLanguageTool langTool = null;
   private Language docLanguage = null;
   private Language fixedLanguage = null;
   private Language langForShortName;
@@ -83,7 +82,7 @@ public class MultiDocumentsHandler {
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
   private boolean proofIsRunning = false;   //  true if a check is almost running
-  private boolean isParallelThread;         //  is parallel thread (right mouse click, while iteration)
+  private boolean isParallelThread = false; //  is parallel thread (right mouse click, while iteration)
   private XComponent goneContext = null;    //  save component of closed document
   private boolean recheck = true;
   private int docNum;                       //  number of the current document
@@ -160,7 +159,7 @@ public class MultiDocumentsHandler {
   /**
    *  get LanguageTool
    */
-  JLanguageTool getLanguageTool() {
+  SwJLanguageTool getLanguageTool() {
     return langTool;
   }
   
@@ -302,7 +301,7 @@ public class MultiDocumentsHandler {
   /**
    *  Set config Values for all documents
    */
-  private void setConfigValues(Configuration config, JLanguageTool langTool) {
+  private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
     this.noMultiReset = config.isNoMultiReset();
@@ -419,9 +418,9 @@ public class MultiDocumentsHandler {
         docLanguage = fixedLanguage;
       }
       switchOff = config.isSwitchedOff();
-      // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
-          new UserConfig(config.getConfigurableValues(), linguServices));
+      // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
+      langTool = new SwJLanguageTool(docLanguage, config.getMotherTongue(),
+          new UserConfig(config.getConfigurableValues(), linguServices), config.isMultiThread());
       config.initStyleCategories(langTool.getAllRules());
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
       File ngramDirectory = config.getNgramDirectory();

@@ -611,7 +611,21 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noMultiResetbox, cons);
     
-    
+    JCheckBox isMultiThreadBox = new JCheckBox(Tools.getLabel(messages.getString("guiIsMultiThread")));
+    isMultiThreadBox.setSelected(config.isMultiThread());
+    isMultiThreadBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setMultiThreadLO(isMultiThreadBox.isSelected());
+      }
+    });
+    cons.insets = new Insets(0, 4, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    JLabel dummyLabel2 = new JLabel(" ");
+    portPanel.add(dummyLabel2, cons);
+    cons.gridy++;
+    portPanel.add(isMultiThreadBox, cons);
     
   }
 

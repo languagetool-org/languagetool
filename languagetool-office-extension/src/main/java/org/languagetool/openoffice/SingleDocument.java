@@ -118,7 +118,7 @@ class SingleDocument {
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
+      int[] footnotePositions, boolean isParallelThread, SwJLanguageTool langTool) {
     try {
       SingleProofreadingError[] sErrors = null;
       paraNum = getParaPos(paraText, isParallelThread);
@@ -575,7 +575,7 @@ class SingleDocument {
 
   @Nullable
   private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, boolean isParallelThread, JLanguageTool langTool) {
+      int startSentencePos, int endSentencePos, boolean isParallelThread, SwJLanguageTool langTool) {
 
     List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
@@ -691,7 +691,7 @@ class SingleDocument {
   }
   
   private SingleProofreadingError[] checkSentence(String sentence, int startPos, int nextPos, 
-      int numCurPara, int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
+      int numCurPara, int[] footnotePositions, boolean isParallelThread, SwJLanguageTool langTool) {
     try {
       SingleProofreadingError[] errorArray;
       if (StringTools.isEmpty(sentence)) {
@@ -804,7 +804,7 @@ class SingleDocument {
     private int position;
     private String str;
 
-    SentenceFromPara(String paraText, int startPos, JLanguageTool langTool) {
+    SentenceFromPara(String paraText, int startPos, SwJLanguageTool langTool) {
       List<String> tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
       if (!tokenizedSentences.isEmpty()) {
         int i = 0;
