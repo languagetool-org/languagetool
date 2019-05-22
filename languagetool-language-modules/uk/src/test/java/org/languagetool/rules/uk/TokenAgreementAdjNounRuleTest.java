@@ -203,8 +203,10 @@ public class TokenAgreementAdjNounRuleTest {
     //FIXME: FN due to ignoring adj.v_oru + noun.*v_naz/zna
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що робить її найвищою будівля")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
-    
-    
+  }
+  
+  @Test
+  public void testExceptions() throws IOException {
     // adj not noun
     assertEmptyMatch("у могутні Максимові обійми");
 
@@ -268,8 +270,11 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Суд визнав неконституційними низку положень");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("від наступних пари")).length);
-    
-    
+  }
+  
+  @Test
+  public void testExceptionsNumbers() throws IOException {
+
     // два/три/чотири чоловіки
     assertEmptyMatch("33 народних обранці");
     assertEmptyMatch("ще троє автокефальних єпископи");
@@ -293,15 +298,6 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві високих дівчині")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("83,7 квадратних кілометра")).length);
 
-    
-    // adj:p: + риска
-    assertEmptyMatch("Найближчі півроку-рік");
-    assertEmptyMatch("найближчих тиждень-два");
-    assertEmptyMatch("протягом минулих травня-липня");
-    assertEmptyMatch("Перші рік-два влада відбивалася");
-    assertEmptyMatch("суперкризовими січнем–лютим");
-
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("найближчі тиждень")).length);
 
     
     // 1–3-й класи
@@ -369,11 +365,13 @@ public class TokenAgreementAdjNounRuleTest {
 
     assertEmptyMatch("на вул. Рубчака, 17-а Тарас Стецьків");
     assertEmptyMatch("вулиці Володимира Великого, 35-а Юрій Борсук");
-
+  }
+  
+  @Test
+  public void testExceptionsOther() throws IOException {
 
     // case government
     assertEmptyMatch("Завдяки останнім бізнес");
-
 
     // reverse order
     assertEmptyMatch("порядок денний парламенту");
@@ -428,9 +426,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("В середньому тривалість курсів для отримання");
     assertEmptyMatch("в цілому результатом задоволені");
 
-    
     assertEmptyMatch("на червень поточного року $29,3 млрд");
-    
 
     // перший
     assertEmptyMatch("Одним із перших бажання придбати");
@@ -471,7 +467,10 @@ public class TokenAgreementAdjNounRuleTest {
     
     assertEmptyMatch("не перевищував кількох десятих відсотка");
 
-
+  }
+  
+  @Test
+  public void testExceptionsAdjp() throws IOException {
     
     //////// adjp ////////////
 
@@ -511,6 +510,31 @@ public class TokenAgreementAdjNounRuleTest {
     // adjp + тисячу
     assertEmptyMatch("повторена тисячу разів");
     
+    // adjp + a:v_oru + noun: (case from adjp)
+    assertEmptyMatch("підсвічений синім діамант");
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("підсвічений синім діамантів")).length);
+
+
+    // adjp + noun (case government)
+    assertEmptyMatch("Нав’язаний Австрії нейтралітет");
+    assertEmptyMatch("Нав’язаний Австрії коаліцією");
+    assertEmptyMatch("Наймилішою українцеві залишається бронза");
+    assertEmptyMatch("на цих загальновідомих американцям зразках");
+    assertEmptyMatch("слід бути свідомими необхідності");
+    assertEmptyMatch("влаштованою Мазепі Петром");
+    assertEmptyMatch("будуть вдячні державі Україна");
+    assertEmptyMatch("мають бути підпорядковані служінню чоловікові");
+    assertEmptyMatch("більше відомої загалу як");   //TODO: теоретично має бути кома перед «як»
+    
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Нав’язаний Австрії нейтралітеті")).length);
+    //TODO:
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("змучений тягарем життю")).length);
+    
+  }
+  
+  @Test
+  public void testExceptionsVerb() throws IOException {
 
     // бути/стати/лишитися + adj:v_oru + noun:v_dav (gender matches adj)
     assertEmptyMatch("слід бути обережними туристам у горах");
@@ -572,29 +596,22 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнають регіональною облради")).length);
 
     
-    // adjp + a:v_oru + noun: (case from adjp)
-    assertEmptyMatch("підсвічений синім діамант");
+    // ння + adj:v_oru + noun:v_rod
+    assertEmptyMatch("визнання неконституційним закону");
+    assertEmptyMatch("визнання недійсним рішення");
+    assertEmptyMatch("через визнання тут шкідливою орієнтацію на народну мову");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("підсвічений синім діамантів")).length);
-
-
-    // adjp + noun (case government)
-    assertEmptyMatch("Нав’язаний Австрії нейтралітет");
-    assertEmptyMatch("Нав’язаний Австрії коаліцією");
-    assertEmptyMatch("Наймилішою українцеві залишається бронза");
-    assertEmptyMatch("на цих загальновідомих американцям зразках");
-    assertEmptyMatch("слід бути свідомими необхідності");
-    assertEmptyMatch("влаштованою Мазепі Петром");
-    assertEmptyMatch("будуть вдячні державі Україна");
-    assertEmptyMatch("мають бути підпорядковані служінню чоловікові");
-    assertEmptyMatch("більше відомої загалу як");   //TODO: теоретично має бути кома перед «як»
-    
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Нав’язаний Австрії нейтралітеті")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційними закону")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання недійсним рішенню")).length);
+    //TODO: FN due to ignoring adj.v_oru + noun.*v_naz/zna
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційним закон")).length);
     //TODO:
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("змучений тягарем життю")).length);
-    
-    
-    
+//  assertEmptyMatch("визнання легітимними президента і прем'єра");        // v_rod??
+
+  }
+  
+  @Test
+  public void testExceptionsAdj() throws IOException {
     //////////// adj ///////////////
     
     // adj + noun (case government)
@@ -638,7 +655,19 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Вагомим експерти називають той факт");
     assertEmptyMatch("таким піднесеним президента не бачили давно");
 
+    
+    // adj:p: + риска
+    assertEmptyMatch("Найближчі півроку-рік");
+    assertEmptyMatch("найближчих тиждень-два");
+    assertEmptyMatch("протягом минулих травня-липня");
+    assertEmptyMatch("Перші рік-два влада відбивалася");
+    assertEmptyMatch("суперкризовими січнем–лютим");
 
+    assertHasError("найближчі тиждень");
+  }
+  
+  @Test
+  public void testExceptionsPrepAdj() throws IOException {
     // пропустити оборот prep+adj
     
     assertEmptyMatch("діє подібний до попереднього закон");
@@ -650,7 +679,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("відрізнялася від нинішньої ситуація");
     assertEmptyMatch("відрізнялася б від нинішньої ситуація");
     assertEmptyMatch("відрізнялося від російського способом");
-    //TODO: ігнорує "асоціюється в нас із сучасною цивілізацію"
+    
+    assertHasError("асоціюється в нас із сучасною цивілізацію");
+    
     assertEmptyMatch("На відміну від європейських санкції США");
     assertEmptyMatch("поряд з енергетичними Москва висувала");
     assertEmptyMatch("тотожні із загальносоюзними герб і прапор");
@@ -668,51 +699,11 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("вдалися до збройної боротьбі")).length);
 
 //  assertEmptyMatch("її острови відрізняються від Південної природою");
-
-    // ння + adj:v_oru + noun:v_rod
-    assertEmptyMatch("визнання неконституційним закону");
-    assertEmptyMatch("визнання недійсним рішення");
-    assertEmptyMatch("через визнання тут шкідливою орієнтацію на народну мову");
-
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційними закону")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання недійсним рішенню")).length);
-    //TODO: FN due to ignoring adj.v_oru + noun.*v_naz/zna
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційним закон")).length);
-    //TODO:
-//  assertEmptyMatch("визнання легітимними президента і прем'єра");        // v_rod??
   }
 
 
   @Test
-  // we ignore all pronouns now but this may be useful in the future
-  public void testPronouns() throws IOException {
-    // pron
-    assertEmptyMatch("усі решта");
-    assertEmptyMatch("єдину для всіх схему");
-    
-    assertEmptyMatch("без таких документів");
-    assertEmptyMatch("згідно з якими африканцям");
-    assertEmptyMatch("чиновників, яким доступ");
-    
-    assertEmptyMatch("так само");
-    assertEmptyMatch("перед тим гарант");
-    assertEmptyMatch("усього місяць тому");
-    
-    // this, that...
-    assertEmptyMatch("це мова сото");
-    assertEmptyMatch("без якої сім’я не проживе");
-   
-    assertEmptyMatch("ВО «Свобода», лідер котрої Олег Тягрибок");
-    
-    assertEmptyMatch("стільки само свідків");
-
-    //TODO: turn back on when we can handle pron
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
-  }
-
-  @Test
-  public void testPluralExceptions() throws IOException {
+  public void testExceptionsPlural() throws IOException {
     /////////// plurals /////////
     
     // plural + пів...
@@ -754,22 +745,16 @@ public class TokenAgreementAdjNounRuleTest {
     // unknown words
     assertEmptyMatch("Большого та Маріїнського театрів");
     assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");
-    
-    //TODO: comma + і/a
-    assertEmptyMatch("уражені штаб ІДІЛ, а також збройний завод.");
-//    assertEmptyMatch("уражені штаб ІДІЛ, а з іншого боку збройний завод.");
-//    assertEmptyMatch("канонізованих царя Давида, і князя Володимира");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У львівській та київський Книгарнях")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("повоєнні Австрія з Фінляндію")).length);
+    assertHasError("У львівській та київський Книгарнях");
+    assertHasError("повоєнні Австрія з Фінляндію");
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("«Старий паразите...» І кокетлива інтонації ведучої не замасковує зовсім невиправдану")).length);
 
-//TODO:    
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Судячи з січневих продаж, 2009-й може стати")).length);
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("які наполягали на введені санкцій, будуть продовжуватися.")).length);
+    assertHasError("Судячи з січневих продаж, 2009-й може стати");
+    assertHasError("які наполягали на введені санкцій, будуть продовжуватися.");
     
     // multiple adj + noun:.*:p
-//    assertEmptyMatch("символізують творчий, оберігальний та руйнівний аспекти Вищої Сили");
+    assertEmptyMatch("символізують творчий, оберігальний та руйнівний аспекти Вищої Сили");
     assertEmptyMatch("так і на центральному рівнях");
     assertEmptyMatch("передався повоєнним Відню та Парижу");
 
@@ -779,20 +764,73 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("молодші Олександр Ірванець, Оксана Луцишина, Євгенія Кононенко");
     assertEmptyMatch("230 вчилися за старшинською і 120 за підстаршинською програмами");
   }
+
+  @Test
+  public void testExceptionsPlural2() throws IOException {
+    
+    assertEmptyMatch("уражені штаб ІДІЛ, а також збройний завод.");
+    //TODO:
+//    assertEmptyMatch("уражені штаб ІДІЛ, а з іншого боку збройний завод.");
+//  assertEmptyMatch("в соціальному, а згодом і в економічному аспектах");
+//  assertEmptyMatch("парламентської, а згодом і президентської кампаній");
+//  assertEmptyMatch("навчався в реальному, потім у землемірному училищах");
+//  assertEmptyMatch("на західноєвропейському, а потім і на американському ринках");
+//  assertEmptyMatch("У переносному та навіть у прямому сенсах слова");
+//  assertEmptyMatch("в Чернівецькій і частково у Закарпатській областях");
+
+//    assertEmptyMatch("канонізованих царя Давида, і князя Володимира");    // unnecessary comma
+  }
+
+  @Test
+  // we ignore all pronouns now but this may be useful in the future
+  public void testPronouns() throws IOException {
+    // pron
+    assertEmptyMatch("усі решта");
+    assertEmptyMatch("єдину для всіх схему");
+    
+    assertEmptyMatch("без таких документів");
+    assertEmptyMatch("згідно з якими африканцям");
+    assertEmptyMatch("чиновників, яким доступ");
+    
+    assertEmptyMatch("так само");
+    assertEmptyMatch("перед тим гарант");
+    assertEmptyMatch("усього місяць тому");
+    
+    // this, that...
+    assertEmptyMatch("це мова сото");
+    assertEmptyMatch("без якої сім’я не проживе");
+   
+    assertEmptyMatch("ВО «Свобода», лідер котрої Олег Тягрибок");
+    
+    assertEmptyMatch("стільки само свідків");
+
+    //TODO: turn back on when we can handle pron
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+  }
   
   @Test
   public void testSpecialChars() throws IOException {
     assertEmptyMatch("зелений поді\u00ADум");
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("зелений по\u00ADділка."));
-    assertEquals(1, matches.length);
+    assertHasError("зелений по\u00ADділка.");
 
-    matches = rule.match(langTool.getAnalyzedSentence("зе\u00ADлений поділка."));
-    assertEquals(1, matches.length);
+    assertHasError("зе\u00ADлений поділка.");
   }
   
-  private void assertEmptyMatch(String text) throws IOException {
-    assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+  private void assertEmptyMatch(String text) {
+    try {
+      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
-  
+
+  private void assertHasError(String text) {
+    try {
+      assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
