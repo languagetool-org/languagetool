@@ -6030,19 +6030,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
     <!-- hi haver + nom/verb   Hi ha alzines-->
-    <rule id="haver_nom" name="haver + nom">
-        <pattern>
-            <token>hi</token>
-            <token inflected="yes">haver</token>
-            <marker>
-                <and>
-                    <token postag="V.*" postag_regexp="yes"></token>
-                    <token postag="N.*" postag_regexp="yes"><exception>era</exception></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="[^V].*"></disambig>
-    </rule>
+    <rulegroup id="haver_nom" name="haver + nom">
+        <rule>
+            <pattern>
+                <token>hi</token>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes"></token>
+                        <token postag="N.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+        <rule> <!-- no hi haurà mai poder-->
+            <pattern>
+                <token>hi</token>
+                <token inflected="yes">haver</token>
+                <token postag="RG"/>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes"></token>
+                        <token postag="N.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="tens" name="tens (verb/adjectiu)">
         <rule>
             <pattern>
