@@ -1374,7 +1374,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   @Override
   protected boolean isAcceptedWordFromLanguage(Language language, String word) {
-    // probably an abbreviation, e.g. "DOE" -> "Department of Defense"
+    // probably an abbreviation, e.g. "DOE" -> "Department of Energy"
     return "en".equals(language.getShortCode()) && StringUtils.isAllUpperCase(word);
   }
 }
