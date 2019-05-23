@@ -46,6 +46,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
 import org.languagetool.languagemodel.LanguageModel;
@@ -1368,4 +1369,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.spelling.hunspell.HunspellRule#isAcceptedWordFromLanguage(org.languagetool.Language, java.lang.String)
+   */
+  @Override
+  protected boolean isAcceptedWordFromLanguage(Language language, String word) {
+    // probably an abbreviation, e.g. "DOE" -> "Department of Defense"
+    return "en".equals(language.getShortCode()) && StringUtils.isAllUpperCase(word);
+  }
 }

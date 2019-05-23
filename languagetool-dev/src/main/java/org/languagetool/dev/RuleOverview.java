@@ -49,7 +49,7 @@ import static java.util.Comparator.comparing;
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
 
-  private final static List<String> langSpecificWebsites = Arrays.asList(
+  private static final List<String> langSpecificWebsites = Arrays.asList(
           "br", "ca", "zh", "da", "nl", "eo", "fr", "gl", "de", "it", "pl", "pt", "ru", "es", "uk"
   );
 
