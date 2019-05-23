@@ -20,8 +20,6 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
-import org.languagetool.RuleLoggerManager;
-import org.languagetool.SlowRuleLogger;
 import org.languagetool.tools.Tools;
 
 import javax.management.ObjectName;
@@ -29,7 +27,8 @@ import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
