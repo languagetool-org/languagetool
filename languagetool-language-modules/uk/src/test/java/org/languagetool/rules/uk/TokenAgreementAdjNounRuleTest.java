@@ -722,7 +722,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("зазначені ім'я, прізвище та місто");
     assertEmptyMatch("Житомирська, Кіровоградська області");
     assertEmptyMatch("ані судова, ані правоохоронна системи");
-    assertEmptyMatch("а також курдську частини");
+    assertEmptyMatch("шиїтську та сунітську, а також курдську частини");
     assertEmptyMatch("Чорного і Азовського морів");
     assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
     assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
@@ -742,6 +742,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("сміттєпереробного і/або сміттєспалювального заводів");
     assertEmptyMatch("130-те (мінус вісім позицій порівняно з 2009-м) та 145-те місця");
     assertEmptyMatch("ні у методологічному, ні у практичному аспектах.");
+    assertEmptyMatch("Хоч в англомовній, хоч в україномовній версіях");
+    
     // unknown words
     assertEmptyMatch("Большого та Маріїнського театрів");
     assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");
@@ -755,7 +757,7 @@ public class TokenAgreementAdjNounRuleTest {
     
     // multiple adj + noun:.*:p
     assertEmptyMatch("символізують творчий, оберігальний та руйнівний аспекти Вищої Сили");
-    assertEmptyMatch("так і на центральному рівнях");
+    assertEmptyMatch("на місцевому, так і на центральному рівнях");
     assertEmptyMatch("передався повоєнним Відню та Парижу");
 
     // "long" plural
@@ -766,19 +768,52 @@ public class TokenAgreementAdjNounRuleTest {
   }
 
   @Test
-  public void testExceptionsPlural2() throws IOException {
-    
+  public void testExceptionsPluralConjAdv() throws IOException {
+
     assertEmptyMatch("уражені штаб ІДІЛ, а також збройний завод.");
+
+    assertEmptyMatch("в соціальному, а згодом і в економічному аспектах");
+    assertEmptyMatch("до апеляційного, а відтак і до конституційного судів");
+    assertEmptyMatch("У переносному та навіть у прямому сенсах слова");
+    assertEmptyMatch("в Чернівецькій і частково у Закарпатській областях");
+    assertEmptyMatch("парламентської, а згодом і президентської кампаній");
+    assertEmptyMatch("на західноєвропейському, а потім і на американському ринках");
     //TODO:
-//    assertEmptyMatch("уражені штаб ІДІЛ, а з іншого боку збройний завод.");
-//  assertEmptyMatch("в соціальному, а згодом і в економічному аспектах");
-//  assertEmptyMatch("парламентської, а згодом і президентської кампаній");
-//  assertEmptyMatch("навчався в реальному, потім у землемірному училищах");
-//  assertEmptyMatch("на західноєвропейському, а потім і на американському ринках");
-//  assertEmptyMatch("У переносному та навіть у прямому сенсах слова");
-//  assertEmptyMatch("в Чернівецькій і частково у Закарпатській областях");
+//    assertEmptyMatch("Дохідна, а за нею й видаткова частини держбюджету");
+    assertEmptyMatch("навчався в реальному, потім у землемірному училищах");
+
+    assertHasError("для того, щоб пожвавити культурне середовища села");
 
 //    assertEmptyMatch("канонізованих царя Давида, і князя Володимира");    // unnecessary comma
+  }
+
+  @Test
+  public void testExceptionsInsertPhrase() throws IOException {
+    assertEmptyMatch("трагедію російського й, особливо, українського народів");
+    assertEmptyMatch("Китай і, певною мірою, Росія зуміли поставити");
+
+    assertHasError("що, однак, не змінюють загальної картин");
+
+    //TODO: here single gender for plural would help, but we don't have that in POS tag
+    // alternatively we could try to use synthesizer to guess singular gender
+//    assertHasError("історичне рішення, доки у виборчий кампанії");
+//    assertHasError("На останньому відрізку, вже на український землі");
+//    assertHasError("почувався в ньому не гірше, ніж у парламентський президії");
+//    assertHasError("у сільському господарстві (як, зокрема, сербська компанії «МК груп»)");
+    assertHasError("про те, що в різних міста");
+    assertHasError("Він додав, що у комунальних підприємства");
+    assertHasError("наставник сказав, що на світовий першості");
+    assertHasError("Аль-Каїда, і чи не найстрашніше терористичний об’єднання");
+    assertHasError("буде очікувати, коли нова редакції");
+    assertHasError("вважає Порошенко, одночасно закликаючи європейську коаліції");
+    assertHasError("пішли вперед, хай і міліметровим кроками");
+    assertHasError("Словом, у проблематиці подвійного громадянств");
+    assertHasError("Правоохоронцями, зокрема, проведена масштабна операції");
+    assertHasError("Він так і не прийняв односторонню капітуляції");
+    assertHasError("Так, наприклад, косівським аматорами");
+    assertHasError("Якщо третина чи навіть половинна населення");
+    assertHasError("Думаю, це фейковий вкидання");
+    assertHasError("Сьогодні, наприклад, часта машинобудування");
   }
 
   @Test
