@@ -31,6 +31,7 @@ import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
@@ -180,6 +181,7 @@ abstract class TextChecker {
 
   void shutdownNow() {
     executorService.shutdownNow();
+    RemoteRule.shutdown();
   }
   
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,

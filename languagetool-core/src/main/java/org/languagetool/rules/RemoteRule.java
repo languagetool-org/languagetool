@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
@@ -45,6 +46,9 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
   private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
     .setNameFormat("remote-rule-pool-{}").setDaemon(true).build();
+
+  protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
+
   // needed to run callables with timeout
   private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
@@ -57,6 +61,10 @@ public abstract class RemoteRule extends Rule {
     consecutiveFailures.putIfAbsent(rule, new AtomicInteger());
     // TODO maybe use fixed pool, take number of concurrent requests from configuration?
     executors.putIfAbsent(rule, Executors.newCachedThreadPool(threadFactory));
+  }
+
+  public static void shutdown() {
+    shutdownRoutines.forEach(Runnable::run);
   }
 
   protected abstract Callable<List<RuleMatch>> fetchMatches(List<AnalyzedSentence> sentences);
