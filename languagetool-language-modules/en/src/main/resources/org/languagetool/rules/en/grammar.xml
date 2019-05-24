@@ -5401,7 +5401,9 @@ USA
             <rule>
                 <pattern>
                     <marker><token>your</token></marker>
-                    <token postag="JJ"><exception>own</exception><exception postag="VBG"/></token>
+                    <token postag="JJ">
+                        <exception>own</exception>
+                        <exception postag_regexp="yes" postag="VBG|NN(:UN?)?"/></token>
                     <token postag="SENT_END" regexp="yes">[\.\?!]</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" regexp_match="r" regexp_replace=""/>'re</suggestion>?</message>
@@ -5409,6 +5411,8 @@ USA
                 <example correction="you're">Did you know that <marker>your</marker> beautiful?</example>
                 <example>Did you do this on <marker>your</marker> own?</example>
                 <example>I'm tired of <marker>your</marker> nagging.</example>
+                <example>I have written the testimonial using the link you provided in <marker>your</marker> e-mail.</example>
+                <example>Unfortunately, we don't sell it in <marker>your</marker> colour.</example>
             </rule>
             <rule>
                 <pattern>
