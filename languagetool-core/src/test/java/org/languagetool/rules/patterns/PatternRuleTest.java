@@ -49,7 +49,6 @@ import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.XMLValidator;
-import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
@@ -62,7 +61,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 /**
  * @author Daniel Naber
  */
-public class PatternRuleTest extends AbstractPatternRuleTest{
+public class PatternRuleTest extends AbstractPatternRuleTest {
 
   // A test sentence should only be a single sentence - if that's not the case it can
   // happen that rules are checked as being correct that in reality will never match.
@@ -125,7 +124,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest{
     }
   }
 
-  private void runGrammarRuleForLanguage(Language lang) throws IOException {
+  protected void runGrammarRuleForLanguage(Language lang) throws IOException {
     if (skipCountryVariant(lang)) {
       System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
       return;
