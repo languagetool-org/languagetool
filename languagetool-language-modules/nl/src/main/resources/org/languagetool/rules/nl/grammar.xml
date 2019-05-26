@@ -17418,10 +17418,9 @@ steenwijk;Steenwijk
         -->
         <rulegroup id="KOMMA_HOEWEL" name=", hoewel">
             <rule>
-				<antipattern><token negate="yes">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
                 <pattern>
-                    <token/>
-					<token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl<exception postag="SENT_START"/></token>
+					<token><exception postag="SENT_START"/></token>
+                    <token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
                 </pattern>
                 <message>Voor '\2' komt meestal een komma: <suggestion>\1, \2</suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
