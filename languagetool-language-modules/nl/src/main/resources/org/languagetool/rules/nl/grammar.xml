@@ -17420,7 +17420,7 @@ steenwijk;Steenwijk
             <rule>
 				<antipattern><token negate="yes">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
                 <pattern>
-                    <token negate="YES" postag="SENT_START"/>
+                    <token negate="yes" postag="SENT_START"/>
                     <token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
                 </pattern>
                 <message>Voor '\2' komt meestal een komma: <suggestion>\1, \2</suggestion></message>
@@ -17429,12 +17429,13 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_MAAR" name=", hoewel">
+			<antipattern><token postag_regexp="yes" postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="WKW:.*"/>
+					<token postag_regexp="yes" postag="WKW:.*"><exception regexp="yes">toe</exception></token>
                     <token>maar</token>
                 </pattern>
-                <message>Voor deze '\2' hoort wellicht een komma: <suggestion>\1, \2</suggestion></message>
+                <message>Voor deze '\2' hoort mogelijk een komma: <suggestion>\1, \2</suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
                 <example correction="gestoord, maar">Zij was <marker>gestoord maar</marker> je merkte het niet.</example>
             </rule>
