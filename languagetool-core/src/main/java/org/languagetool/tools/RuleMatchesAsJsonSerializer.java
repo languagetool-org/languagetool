@@ -43,8 +43,7 @@ public class RuleMatchesAsJsonSerializer {
   private static final String STATUS = "";
   private static final String PREMIUM_HINT = "You might be missing errors only the Premium version can find. Contact us at support<at>languagetoolplus.com.";
   private static final String START_MARKER = "__languagetool_start_marker";
-
-  private final JsonFactory factory = new JsonFactory();
+  private static final JsonFactory factory = new JsonFactory();
 
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, DetectedLanguage detectedLang) {
     return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, detectedLang, null);
