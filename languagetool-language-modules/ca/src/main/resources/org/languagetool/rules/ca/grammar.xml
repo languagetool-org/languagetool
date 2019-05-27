@@ -20212,7 +20212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>ex</token>
-                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\d.*|\p{Lu}.*|primer(a|s|es)?|alts?|x.+</exception></token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\d.*|\p{Lu}.*|primer(a|s|es)?|alts?|x.+|número</exception></token>
                 </pattern>
                 <message>Normalment s'escriu junt.</message>
                 <suggestion><match no="1"/><match no="3"/></suggestion>
@@ -20224,14 +20224,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ex</token>
-                    <token postag="[NA].*|V.P.*|RG" postag_regexp="yes" regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+</token>
+                    <token postag="[NA].*|V.P.*|RG" postag_regexp="yes" regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+|número<exception regexp="yes">\d.*</exception></token>
                 </pattern>
-                <message>Normalment s'escriu amb guionet o junt.</message>
+                <message>Normalment s'escriu amb guionet.</message>
                 <suggestion><match no="1"/>-<match no="3"/></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/guionet</url>
                 <example correction="ex-primer">És l'<marker>ex primer</marker> ministre.</example>
                 <example correction="ex-Iugoslàvia">És de l'<marker>ex Iugoslàvia</marker>.</example>
+                <example correction="ex-primer">És de l'<marker>ex primer</marker> ministre.</example>
                 <example>És l'ex-xicot.</example>
+                <example>Ex 15, 1-20; 19, 3-7;</example>
             </rule>
             <rule>
                 <pattern>
