@@ -26556,6 +26556,20 @@ USA
                 <example correction="three">I've lived in Barcelona for <marker>tree</marker> years.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WORD_WORLD" name="word (world)">
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <marker><token>word</token></marker>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token>s</token>
+                    <token postag="JJS"></token>
+                    <token postag="NN.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="r" regexp_replace="rl"/></suggestion>?</message>
+                <example correction="world">This is the <marker>word</marker>'s largest cat.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NEEDLES_NEEDLESS" name="needles (needless)">
             <rule>
                 <pattern>
