@@ -17427,16 +17427,18 @@ steenwijk;Steenwijk
                 <example correction="iedereen, hoewel">Zij vertelde het aan <marker>iedereen hoewel</marker> dat niet de bedoeling was.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KOMMA_MAAR" name=", hoewel">
-			<antipattern><token postag_regexp="yes" postag="WKW:TGW:1EP"/><token>maar</token></antipattern>
+        <rulegroup id="KOMMA_MAAR" name=", maar">
             <rule>
+                <antipattern><token regexp="yes">,|toch</token><token>maar</token></antipattern>
+                <antipattern><token>toe</token><token>maar</token><token>!</token></antipattern>
+                <antipattern><token>het</token><token regexp="yes">je|zich|me</token><token>maar</token></antipattern>
                 <pattern>
-					<token postag_regexp="yes" postag="WKW:.*"><exception regexp="yes">toe</exception></token>
+					<token><exception postag="SENT_START"/></token>
                     <token>maar</token>
                 </pattern>
-                <message>Voor deze '\2' hoort mogelijk een komma: <suggestion>\1, \2</suggestion></message>
+                <message>Voor '\2' komt vaak een komma: <suggestion>\1, \2</suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/komma-algemene-regels</url>
-                <example correction="gestoord, maar">Zij was <marker>gestoord maar</marker> je merkte het niet.</example>
+                <example correction="iedereen, maar">Zij vertelde het aan <marker>iedereen maar</marker> toch was dat niet de bedoeling.</example>
             </rule>
         </rulegroup>
 		
