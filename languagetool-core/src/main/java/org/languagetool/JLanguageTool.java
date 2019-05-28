@@ -704,7 +704,15 @@ public class JLanguageTool {
    * @since 3.7
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
-    return check(annotatedText, tokenizeText, paraMode, listener, Mode.ALL);
+    Mode mode;
+    if(paraMode == ParagraphHandling.ONLYNONPARA) {
+      mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
+    } else if(paraMode == ParagraphHandling.ONLYPARA) {
+      mode = Mode.TEXTLEVEL_ONLY;
+    } else {
+      mode = Mode.ALL;
+    }
+    return check(annotatedText, tokenizeText, paraMode, listener, mode);
   }
   
   /**
