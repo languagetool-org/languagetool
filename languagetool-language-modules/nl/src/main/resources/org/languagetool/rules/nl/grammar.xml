@@ -13228,6 +13228,7 @@ onwaarschijnlijk
                 <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
                 <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
                 </antipattern>
+				<antipattern><token regexp="yes">[0-9]{1,2}</token><token>:</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
@@ -17419,13 +17420,12 @@ steenwijk;Steenwijk
         <rulegroup id="SPATIE_NA" name="spatie na ; of :">
             <rule>
 				<antipattern> <!-- e.g. 15:00 -->
-					<token regexp="yes">[0-9]</token>
-					<token spacebefore="no" regexp="yes">[:;]</token>
-					<token spacebefore="no" regexp="yes">[0-9]</token>
+					<token regexp="yes">[0-9]{1,2}</token>
+					<token spacebefore="no">:</token>
+					<token spacebefore="no" regexp="yes">[0-9]{1,2}</token>
 				</antipattern>
 				<antipattern>  <!-- e.g. &nbsp; -->
-					<token>&amp;</token>
-					<token spacebefore="no" regexp="yes">[a-zA-Z#0-9]+</token>
+					<token regexp="yes">&amp;[a-zA-Z#0-9]+</token>
 					<token spacebefore="no">;</token>
 				</antipattern>
                 <pattern>
@@ -17434,6 +17434,8 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Na '\1' hoort een spatie: <suggestion>\1 \2</suggestion></message>
 				<example correction=": ik">Er waren er twee<marker>:ik</marker> en hij.</example>
+				<example>Om <marker>08:10</marker> gaat de wekker.</example>
+				<example>De code voor een spatie is niet <marker>&amp;nbsp;</marker>.</example>
             </rule>
         </rulegroup>
 		
@@ -17453,7 +17455,13 @@ steenwijk;Steenwijk
                 <antipattern><token regexp="yes">,|toch</token><token>maar</token></antipattern>
                 <antipattern><token>toe</token><token>maar</token><token>!</token></antipattern>
                 <antipattern><token>het</token><token regexp="yes">je|zich|me</token><token>maar</token></antipattern>
-                <pattern>
+                <antipattern><token postag_regexp="yes" postag="WKW:.*"/><token>alleen</token><token>maar</token></antipattern>
+				<antipattern><token inflected="yes">kunnen</token><token>maar</token><token>beter</token></antipattern>
+				<antipattern><token>ook</token><token>maar</token><token regexp="yes">een|één</token></antipattern>
+				<antipattern><token regexp="yes">WKW:.*</token><token>maar</token><token regexp="yes">een|de|het</token></antipattern>
+				<antipattern><token regexp="yes">je|ik|hij|zij|u</token><token regexp="yes">je|me|zich|u</token><token>maar</token></antipattern>
+				<antipattern><token regexp="yes">het|dit</token><token>maar</token></antipattern>
+				<pattern>
 					<token><exception postag="SENT_START"/></token>
                     <token>maar</token>
                 </pattern>
