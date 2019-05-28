@@ -163,6 +163,8 @@ public final class TokenAgreementNounVerbExceptionHelper {
               pos0 -= 1;
             }
           }
+
+
           
         // моя мама й сестра мешкали
         // noun.*?v_naz is too strict: "єднання з Римом та королівська адміністрація закручували гайки"
@@ -172,7 +174,6 @@ public final class TokenAgreementNounVerbExceptionHelper {
             return true;
           }
           // біологічна і ядерна зброя стають товаром
-          else 
           if( PosTagHelper.hasPosTag(tokens[pos0-1], "adj:.:v_naz.*") ) {
             logException();
             return true;
@@ -186,6 +187,22 @@ public final class TokenAgreementNounVerbExceptionHelper {
           logException();
           return true;
         }
+
+
+        // що пачка цигарок, що ковбаса коштують
+        if( i > 6 ) {
+          if( LemmaHelper.hasLemma(tokens[i-2], "що")
+              && LemmaHelper.tokenSearch(tokens, i-4, (String)null, Pattern.compile("(?iu)що"), Pattern.compile("(noun|adj).*"), Dir.REVERSE) > i-8 ) {
+            logException();
+            return true;
+          }
+          if( LemmaHelper.hasLemma(tokens[i-2], "не")
+              && LemmaHelper.tokenSearch(tokens, i-4, (String)null, Pattern.compile("(?iu)не"), Pattern.compile("(noun|adj).*"), Dir.REVERSE) > i-8 ) {
+            logException();
+            return true;
+          }
+        }
+
 
         // Бразилія, Мексика, Індія збувають
         int pos1 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, Pattern.compile(","), Pattern.compile("adj.*"), Dir.REVERSE);

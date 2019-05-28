@@ -29,6 +29,7 @@ final class TokenAgreementAdjNounExceptionHelper {
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
   static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
+  private static final Pattern VERB_NOT_INSERT_PATTERN = Pattern.compile("verb(?!.*insert)");
 
 
   private TokenAgreementAdjNounExceptionHelper() {
@@ -358,15 +359,16 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
-    // на проурядову і, умовно кажучи, пропрезидентську частини
-    if( i > 7
+    // на проурядову і, здається, пропрезидентську частини
+    if( i > 6
         && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
         && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*")
         && tokens[i-2].getToken().equals(",")
         && ( (tokens[i-4].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-5].getToken().toLowerCase())
-                && ! PosTagHelper.hasPosTagPart(tokens[i-3], "verb"))
+                && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN))
             || (tokens[i-5].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-6].getToken().toLowerCase())
-                            && ! PosTagHelper.hasPosTagPart(tokens[i-3], "verb")&& ! PosTagHelper.hasPosTagPart(tokens[i-4], "verb")) )
+                            && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN)
+                            && ! PosTagHelper.hasPosTag(tokens[i-4], VERB_NOT_INSERT_PATTERN)) )
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;

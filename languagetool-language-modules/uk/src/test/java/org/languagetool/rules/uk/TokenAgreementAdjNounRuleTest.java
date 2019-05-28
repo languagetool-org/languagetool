@@ -814,6 +814,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertHasError("Якщо третина чи навіть половинна населення");
     assertHasError("Думаю, це фейковий вкидання");
     assertHasError("Сьогодні, наприклад, часта машинобудування");
+    //TODO:
+    assertEmptyMatch("латиську і, здається, молдавську поезії");
+    assertEmptyMatch("в Житомирській чи, скажімо, Миколаївській областях");
   }
 
   @Test

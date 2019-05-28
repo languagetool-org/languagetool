@@ -319,6 +319,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("понад сотня отримали поранення");
     //TODO:
 //    assertEmptyMatch("Троє пілотів і 31 глядач загинули миттєво.");
+
+    assertEmptyMatch("Що пачка цигарок, що ковбаса коштують");
+    assertEmptyMatch("не вулична злочинність, не корупція відлякували");
   }
 
   @Test
