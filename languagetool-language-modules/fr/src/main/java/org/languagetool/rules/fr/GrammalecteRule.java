@@ -45,7 +45,11 @@ import java.util.*;
 @Experimental
 public class GrammalecteRule extends Rule {
 
-  private final static int TIMEOUT_MILLIS = 500;
+  private static final int TIMEOUT_MILLIS = 500;
+  private static final long DOWN_INTERVAL_MILLISECONDS = 5000;
+
+  private static long lastRequestError = 0;
+
   private final ObjectMapper mapper = new ObjectMapper();
   private final GlobalConfig globalConfig;
 
@@ -55,7 +59,18 @@ public class GrammalecteRule extends Rule {
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
     "nbsp_avant_double_ponctuation",
-    "typo_guillemets_typographiques_doubles_fermants"
+    "typo_guillemets_typographiques_doubles_fermants",
+    // for discussion, see https://github.com/languagetooler-gmbh/languagetool-premium/issues/229:
+    "nbsp_avant_deux_points",  // Useful only if we decide to have the rest of the non-breakable space rules.
+    "nbsp_ajout_avant_double_ponctuation",  // Useful only if we decide to have the rest of the non-breakable space rules.
+    "apostrophe_typographique_après_t",  // Not useful. While being the technically correct character, it does not matter much.
+    "unit_nbsp_avant_unités1",
+    "typo_tiret_début_ligne",  // Arguably the same as 50671 and 17342 ; the french special character for lists is a 'tiret cadratin' ; so it should be that instead of a dash. Having it count as a mistake is giving access to the otherwise unaccessible special character. However, lists are a common occurrence, and the special character does not make a real difference. Not really useful but debatable
+    "typo_guillemets_typographiques_simples_fermants",
+    "typo_apostrophe_incorrecte",
+    "unit_nbsp_avant_unités3",
+    "nbsp_après_double_ponctuation",
+    "typo_guillemets_typographiques_simples_ouvrants"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
@@ -77,6 +92,12 @@ public class GrammalecteRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    // very basic health check -> mark server as down after an error for given interval
+    if (System.currentTimeMillis() - lastRequestError < DOWN_INTERVAL_MILLISECONDS) {
+      System.err.println("Warn: Temporarily disabled Grammalecte server because of recent error.");
+      return new RuleMatch[0];
+    }
+
     URL serverUrl = new URL(globalConfig.getGrammalecteServer());
     HttpURLConnection huc = (HttpURLConnection) serverUrl.openConnection();
     HttpURLConnection.setFollowRedirects(false);
@@ -101,8 +122,13 @@ public class GrammalecteRule extends Rule {
       return toRuleMatchArray(ruleMatches);
     } catch (SSLHandshakeException | SocketTimeoutException e) {
       // "hard" errors that will probably not resolve themselves easily:
-      throw e;
+      lastRequestError = System.currentTimeMillis();
+      // still fail silently, better to return partial results than an error
+      //throw e;
+      System.err.println("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
+      e.printStackTrace();
     } catch (Exception e) {
+      lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
       System.err.println("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
@@ -141,7 +167,7 @@ public class GrammalecteRule extends Rule {
       if (ignoreRules.contains(id)) {
         continue;
       }
-      String message = pairs.get("sMessage") + " [Grammalecte]";
+      String message = pairs.get("sMessage").toString();
       GrammalecteInternalRule rule = new GrammalecteInternalRule("grammalecte_" + id, message);
       RuleMatch extMatch = new RuleMatch(rule, null, offset, endOffset, message);
       List<String> suggestions = (List<String>) pairs.get("aSuggestions");
@@ -177,5 +203,5 @@ public class GrammalecteRule extends Rule {
       throw new RuntimeException("Not implemented");
     }
   }
-  
+
 }
