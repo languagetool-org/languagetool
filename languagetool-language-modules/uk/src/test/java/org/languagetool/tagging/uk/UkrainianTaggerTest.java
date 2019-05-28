@@ -274,7 +274,7 @@ public class UkrainianTaggerTest {
 
     // nouns are too complicated
     //    TestTools.myAssert("фолк-рок-групу", "фолк-рок-групу/[фолк-рок-група]noun:inanim:f:v_zna", tokenizer, tagger);
-    assertNotTagged("етно-джаз-рок");
+//    assertNotTagged("етно-джаз-рок");
     
     // dash-prefix2
     TestTools.myAssert("он-лайн-навчання", "он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_naz|он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_rod|он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_zna|он-лайн-навчання/[он-лайн-навчання]noun:inanim:p:v_naz|он-лайн-навчання/[он-лайн-навчання]noun:inanim:p:v_zna", tokenizer, tagger);

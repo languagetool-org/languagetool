@@ -72,6 +72,11 @@ public class MixedAlphabetsRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(langTool.getAnalyzedSentence("VIIІ-го")); // latin VII and cyrillic І
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("VIII-го"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("ХІ")); // cyrillic both X and I used for latin number
 
     assertEquals(1, matches.length);
