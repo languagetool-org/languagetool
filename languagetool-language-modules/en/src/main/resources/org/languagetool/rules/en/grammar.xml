@@ -19736,23 +19736,27 @@ USA
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
-       <url>https://7esl.com/collocations/</url>
-      <short>Collocation error</short>
+    <url>https://7esl.com/collocations/</url>
+    <short>Collocation error</short>
     <rule>
+      <antipattern>
+        <token>charge</token>
+        <token skip="-1">for</token>
+        <token regexp="yes">(second|minute|hour|day|week|month|year|moment|time)s?</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>in</token>
           <token>charge</token>
-          <token>for</token>
+          <token skip='-1'>for</token>
         </marker>
-          <token/>
-          <token>
-            <exception regexp="yes">moment|time</exception></token>
       </pattern>
       <message>The usual collocation for "in charge" is "of" not "for". Did you mean <suggestion>in charge of</suggestion>.</message>
       <example correction='in charge of'>Who is <marker>in charge for</marker> this shop?</example>
+      <example>Who is <marker>in charge of</marker> this shop?</example>
+      <example>The manager was <marker>in charge for</marker> only three days when...</example>
     </rule>
-    <rule>
+<!--    <rule>
       <pattern>
           <token>
             <exception regexp='yes' inflected='yes'>in|be</exception></token>
@@ -19766,7 +19770,8 @@ USA
       <message>The usual collocation for "\2" is "with" not "\3". Did you mean <suggestion>\2 with</suggestion>.</message>
       <example correction='charge with'><marker>charge for</marker>.</example>
       <example>Brevity is essential because you will be charged for every word.</example>
-    </rule>
+      <example>The usual charge for this item is £3.30.</example>
+    </rule>-->
   </rulegroup>
 
   <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
