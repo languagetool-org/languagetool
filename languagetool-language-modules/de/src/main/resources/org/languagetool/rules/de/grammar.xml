@@ -4214,6 +4214,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="werden">Er soll bestraft <marker>erden</marker>.</example>
                 <example correction="werde">Falls ich dazu gezwungen <marker>erde</marker>, werde ich mich beschweren.</example>
             </rule>
+             <rule>
+                <pattern>
+                    <marker><token regexp="yes" case_sensitive="yes">erde[nt]?</token></marker>
+                    <token postag_regexp="yes" postag="PA2:PRD:GRU:VER|VER:INF:.+"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>w\1</suggestion> (Hilfsverb für Futur / Passiv) statt '\1' &odkomma;?</message>
+                <example correction="werden">Wir <marker>erden</marker> gezwungen, dies zu tun.</example>
+                <example correction="werde">Ich <marker>erde</marker> sagen, dass man mich gezwungen hat.</example>
+            </rule>
         </rulegroup>
         <rule id="GEROCHEN_GEBROCHEN" name="gerochen (gebrochen)">
             <pattern>
