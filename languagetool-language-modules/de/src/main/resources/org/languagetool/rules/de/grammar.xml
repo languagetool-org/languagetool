@@ -31128,7 +31128,7 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag='SUB:NOM:PLU:(MAS|FEM|NEU)' postag_regexp='yes'><exception postag_regexp="yes" postag="SUB:NOM:SIN:(MAS|FEM|NEU)"/></token>
+                <token postag='SUB:NOM:PLU:(MAS|FEM|NEU)' postag_regexp='yes'><exception postag_regexp="yes" postag="(SUB|EIG):NOM:SIN:(MAS|FEM|NEU).*"/></token>
                 <marker>
                     <token postag='VER:1:SIN:PRÄ.*' postag_regexp='yes'><exception regexp="yes">sind|bitte|eine</exception></token>
                 </marker>
@@ -31138,6 +31138,7 @@ Andere Projekte</example>
             <example correction=''>Systeme <marker>nutze</marker> Verfahren wie diese.</example>
             <example>Brüder habe ich keine.</example>
             <example>Links eine, rechts zwei.</example>
+            <example>Preußen werde von Königen regiert.</example>
         </rule>
         <rule id="MICH_DENKEN_DASS" name="mich (mir) denken, dass">
             <pattern case_sensitive="yes">
