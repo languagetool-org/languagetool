@@ -21,7 +21,6 @@ package org.languagetool.tagging.uk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -197,7 +196,9 @@ class CompoundTagger {
 
     // стривай-бо, чекай-но, прийшов-таки, такий-от, такий-то
 
-    if( rightPartsWithLeftTagMap.containsKey(rightWord) ) {
+    if( rightPartsWithLeftTagMap.containsKey(rightWord) 
+        && ! PosTagHelper.hasPosTagPart2(leftWdList, "abbr") ) {
+
       if( leftWdList.isEmpty() )
         return null;
 
@@ -396,6 +397,14 @@ class CompoundTagger {
     return rightWdList;
   }
 
+//  private List<TaggedWord> tagBothCases(String rightWord) {
+//    List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
+//    if( Character.isUpperCase(rightWord.charAt(0)) ) {
+//      rightWdList = wordTagger.tag(rightWord.toLowerCase());
+//    }
+//    return rightWdList;
+//  }
+
 
   private List<AnalyzedToken> tryOWithAdj(String word, String leftWord, List<AnalyzedToken> rightAnalyzedTokens) {
     if( leftWord.length() < 3 )
@@ -405,7 +414,7 @@ class CompoundTagger {
     if( LEFT_O_ADJ_INVALID.contains(leftWord.toLowerCase()) )
       return null;
 
-    // яскраво-барвистий...
+    // дво-триметровий...
     if( NUMR_ADJ_PATTERN.matcher(leftWord).matches() ) {
       return numrAdjMatch(word, rightAnalyzedTokens, leftWord);
     }
@@ -422,10 +431,12 @@ class CompoundTagger {
     String lowerWord = word.toLowerCase();
 
     String[] parts = lowerWord.split("-");
-    HashSet<String> set = new LinkedHashSet<>(Arrays.asList(parts));
+    LinkedHashSet<String> set = new LinkedHashSet<>(Arrays.asList(parts));
 
+    // try intj
+    String leftWd = parts[0];
     if( set.size() == 2 ) {
-      List<TaggedWord> leftWdList = tagEitherCase(parts[0]);
+      List<TaggedWord> leftWdList = tagEitherCase(leftWd);
       List<TaggedWord> rightWdList = tagEitherCase(new ArrayList<>(set).get(1));
 
       if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)
@@ -438,9 +449,29 @@ class CompoundTagger {
         return Arrays.asList(new AnalyzedToken(word, "intj", lowerWord));
       }
 
-      List<TaggedWord> rightWdList = tagEitherCase(parts[0]);
+      List<TaggedWord> rightWdList = tagEitherCase(leftWd);
       if( PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
         return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
+      }
+    } 
+//      Pattern stretch = Pattern.compile("[а-яіїєґ]+([а-яіїєґ])(-$1)+-[а-яіїєґ]+");
+//      Matcher matcher = stretch.matcher(word);
+    // ду-у-у-же
+    if( parts.length >= 3 
+        && (set.size() == 3 || set.size() == 2) 
+        && parts[1].length() == 1 ) {
+
+      String rightWd = parts[parts.length-1];
+      List<TaggedWord> wdList = tagEitherCase(leftWd+rightWd);
+
+      if( wdList.isEmpty() 
+          && leftWd.charAt(leftWd.length()-1) == rightWd.charAt(0)
+          && rightWd.charAt(0) == parts[1].charAt(0) ) {
+        // ду-у-у-уже
+        wdList = tagEitherCase(leftWd+rightWd.substring(1));
+      }
+      if( ! wdList.isEmpty() ) {
+        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(wdList, ":coll"));
       }
     }
 

@@ -232,10 +232,15 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static String addIfNotContains(@NotNull String tag, @NotNull String part) {
-    if( ! tag.contains(part) )
-      return tag + part;
+  public static String addIfNotContains(@NotNull String tag, @NotNull String addTag) {
+    if( ! tag.contains(addTag) )
+      return tag + addTag;
     return tag;
+  }
+
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag) {
+    return taggedWords.stream().map(w -> new TaggedWord(w.getLemma(), addIfNotContains(w.getPosTag(), addTag))).collect(Collectors.toList());
   }
 
   public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {

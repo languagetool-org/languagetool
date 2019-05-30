@@ -281,6 +281,18 @@ public class UkrainianTaggerTest {
 
     assertNotTagged("р--електронами");
   }
+
+  @Test
+  public void testHypenStretch() throws IOException {
+    TestTools.myAssert("ду-у-у-же", "ду-у-у-же/[дуже]adv:compb:coll|ду-у-у-же/[дужий]adj:n:v_kly:compb:coll|ду-у-у-же/[дужий]adj:n:v_naz:compb:coll|ду-у-у-же/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
+    TestTools.myAssert("ду-у-у-уже", "ду-у-у-уже/[дуже]adv:compb:coll|ду-у-у-уже/[дужий]adj:n:v_kly:compb:coll|ду-у-у-уже/[дужий]adj:n:v_naz:compb:coll|ду-у-у-уже/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
+    TestTools.myAssert("Та-а-ак", "Та-а-ак/[так]adv:&pron:dem:coll|Та-а-ак/[так]conj:coord:subord:coll|Та-а-ак/[так]part:coll", tokenizer, tagger);
+    TestTools.myAssert("Му-у-у", "Му-у-у/[му]intj:coll", tokenizer, tagger);
+    TestTools.myAssert("С-с-с-лава", "С-с-с-лава/[слава]noun:inanim:f:v_naz:coll", tokenizer, tagger);
+    //TODO: should technically tag both lowercase and uppercase to get :fname as well
+//    TestTools.myAssert("Да-а-ри", "", tokenizer, tagger);
+    TestTools.myAssert("т-то", "т-то/[null]null", tokenizer, tagger);
+  }
   
   @Test
   public void testDynamicTaggingFullTagMatch() throws IOException {
