@@ -4207,7 +4207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ERDEN_WERDEN" name="'erden (werden)'">
              <rule>
                 <pattern>
-                    <token postag="PA2:PRD:GRU:VER"></token>
+                    <token postag_regexp="yes" postag="PA2:PRD:GRU:VER|VER:INF:.+"></token>
                     <marker><token regexp="yes" case_sensitive="yes">erde[nt]?</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>w\2</suggestion> (Hilfsverb für das Perfekt / Passiv) statt '\2' &odkomma;?</message>
@@ -4477,7 +4477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>selbst</token>
+                    <token regexp="yes">auch|selbst</token>
                     <marker><token case_sensitive="yes">wen</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
