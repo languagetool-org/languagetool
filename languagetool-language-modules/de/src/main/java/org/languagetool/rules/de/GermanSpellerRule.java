@@ -996,8 +996,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("angepriesen");
     } else if (word.equals("halo")) {
       return Collections.singletonList("hallo");
-    } else if (word.equals("zumindestens")) {
-      return Collections.singletonList("zumindest");
+    } else if (word.equalsIgnoreCase("zumindestens")) {
+      return Collections.singletonList(word.replace("ens", ""));
     } else if (word.equals("ca")) {
       return Collections.singletonList("ca.");
     } else if (word.equals("Jezt")) {
