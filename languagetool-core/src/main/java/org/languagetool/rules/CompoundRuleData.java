@@ -102,7 +102,7 @@ public class CompoundRuleData {
     }
   }
 
-  private void validateLine(String path, String line) throws IOException {
+  private void validateLine(String path, String line) {
     String[] parts = line.split(" ");
     if (parts.length == 1) {
       throw new IllegalArgumentException("Not a compound in file " + path + ": " + line);

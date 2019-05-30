@@ -312,7 +312,6 @@ public class GermanTagger extends BaseTagger {
         List<AnalyzedToken> list = new ArrayList<>();
         list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
         list.add(new AnalyzedToken(word, "SUB:GEN:PLU:MAS:ADJ", word));
-        //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));
         return list;
       }
     }
