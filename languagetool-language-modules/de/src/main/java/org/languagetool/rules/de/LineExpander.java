@@ -47,14 +47,14 @@ class LineExpander {
           result.add(word + "e");
         } else if (c == 'F') {
           result.add(word + "in"); // (m/f)
-        } else if (c == 'A') {  // Adjektiv
+        } else if (c == 'A') { // Adjektiv
           result.add(word + "e");
           result.add(word + "er");
           result.add(word + "es");
           result.add(word + "en");
           result.add(word + "em");
         } else {
-          throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
+          throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
         }
       }
     } else {
@@ -65,7 +65,7 @@ class LineExpander {
 
   // ignore "#..." so it can be used as a tag:
   private String cleanTags(String s) {
-    int idx = s.indexOf("#");
+    int idx = s.indexOf('#');
     if (idx != -1) {
       s = s.substring(0, idx);
     }

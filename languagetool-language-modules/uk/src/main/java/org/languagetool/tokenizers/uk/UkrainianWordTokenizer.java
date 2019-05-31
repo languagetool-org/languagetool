@@ -187,7 +187,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     // if period is not the last character in the sentence
-    int dotIndex = text.indexOf(".");
+    int dotIndex = text.indexOf('.');
     boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
 
     if( dotInsideSentence 

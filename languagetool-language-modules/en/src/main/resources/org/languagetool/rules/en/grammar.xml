@@ -15312,11 +15312,9 @@ USA
             </antipattern>
             <antipattern>
                 <token>be</token>
-                <marker>
-                    <token postag="CD"/>
-                    <token>next</token>
-                    <token regexp="yes">month|year|birthday|week</token>
-                </marker>
+                <token postag="CD"/>
+                <token>next</token>
+                <token regexp="yes">month|year|birthday|week</token>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -15345,12 +15343,10 @@ USA
                 <token postag="NN.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern> <!-- another mistake -->
-            <marker>
-            <token postag="CD"/>            
-            <token postag="NNP"/>
-            </marker>
-            <token regexp="yes">&apos;</token>
-            <token>s</token>
+                <token postag="CD"/>            
+                <token postag="NNP"/>
+                <token regexp="yes">&apos;</token>
+                <token>s</token>
             </antipattern>
             <antipattern><!-- Fix for chunker: Where did you two first meet each other? -->
                 <token regexp="yes">we|you</token>
@@ -15456,7 +15452,7 @@ USA
           <token postag="NNS"></token>
         </antipattern>
          <pattern>
-          <token spacebefore="yes" postag="CD">
+              <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
@@ -15464,12 +15460,12 @@ USA
                     <exception regexp="yes" scope="previous">&months;|season|category|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
                     <exception scope="previous">×</exception>
-                </token>
-          <marker>
-          <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/><exception regexp="yes">^[\p{L}&amp;&amp;[^aeiuo]]+$</exception></token>
-          <token regexp="yes">&apos;</token>
-          <token>s</token>
-          </marker>
+              </token>
+              <marker>
+                  <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/><exception regexp="yes">^[\p{L}&amp;&amp;[^aeiuo]]+$</exception></token>
+                  <token regexp="yes">&apos;</token>
+                  <token>s</token>
+              </marker>
          </pattern>
          <message>Incorrect singular possessive form after the number (\1). Did you mean <suggestion><match no="2"/>s</suggestion> or <suggestion><match no="2"/>s'</suggestion>?</message>
          <short>Agreement error</short>
