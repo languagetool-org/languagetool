@@ -151,6 +151,11 @@ public final class PosTagHelper {
     return posTag != null && posTagRegex.matcher(posTag).matches();
   }
 
+  public static boolean hasPosTag(TaggedWord analyzedToken, Pattern posTagRegex) {
+    String posTag = analyzedToken.getPosTag();
+    return posTag != null && posTagRegex.matcher(posTag).matches();
+  }
+
   public static boolean hasPosTagPart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
     return hasPosTagPart(analyzedTokenReadings.getReadings(), posTagPart);
   }
@@ -240,7 +245,14 @@ public final class PosTagHelper {
 
   @NotNull
   public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag) {
-    return taggedWords.stream().map(w -> new TaggedWord(w.getLemma(), addIfNotContains(w.getPosTag(), addTag))).collect(Collectors.toList());
+    return addIfNotContains(taggedWords, addTag, null);
+  }
+  
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag, @Nullable String lemma) {
+    return taggedWords.stream()
+        .map(w -> new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))
+        .collect(Collectors.toList());
   }
 
   public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {
@@ -248,7 +260,14 @@ public final class PosTagHelper {
         analyzedTokens.stream()
         .filter(token -> hasPosTag(token, posTag) )
         .collect(Collectors.toList());
-   }
+  }
+
+  public static List<TaggedWord> filter2(List<TaggedWord> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
 
   private static Pattern WORD_PATTERN = Pattern.compile("[а-яіїєґa-z'-]+", Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);
   public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {

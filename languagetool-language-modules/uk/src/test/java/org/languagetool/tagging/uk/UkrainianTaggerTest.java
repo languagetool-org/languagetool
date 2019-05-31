@@ -365,13 +365,8 @@ public class UkrainianTaggerTest {
     //TODO:
 //    TestTools.myAssert("ненависть-шоу", "", tokenizer, tagger);
 
-    assertNotTagged("авто-салон");
-    assertNotTagged("квазі-держави");
-    assertNotTagged("мульти-візу");
     // handled by different logic
 //    assertNotTagged("напів-люкс");
-    assertNotTagged("контр-міри");
-    assertNotTagged("кіно-критика");
     assertNotTagged("пів–качана");
     assertNotTagged("Малишко-це");
     assertNotTagged("відносини-коли");
@@ -381,7 +376,6 @@ public class UkrainianTaggerTest {
     assertNotTagged("кохання-найщиріше"); // - мало би бути тире
     assertNotTagged("Донець-кий");
     assertNotTagged("мас-штаби");
-    assertNotTagged("відео-навчання");
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
     assertNotTagged("юре-юре");
@@ -442,12 +436,47 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("Алієва-старшого", "Алієва-старшого/[Алієв-старший]noun:anim:m:v_rod:prop:lname|Алієва-старшого/[Алієв-старший]noun:anim:m:v_zna:prop:lname", tokenizer, tagger);
     // test ranim/rinanim
-//    TestTools.myAssert("Алієва-старший", "Алієва-старший/[Алієва-старший]", tokenizer, tagger);
-//    TestTools.myAssert("Алієв-старшого", "Алієва-старшого/[Алієва-старшого]", tokenizer, tagger);
+//    assertNotTagged("Алієва-старший");
+//    assertNotTagged("Алієв-старшого");
     
     assertNotTagged("дер-жав");
   }
+  
+  @Test
+  public void testDynamicTaggingInvalidLeft() throws IOException {
+    assertTagged("авіа-переліт", "авіа-переліт/[авіа-переліт]noun:inanim:m:v_naz:bad|авіа-переліт/[авіа-переліт]noun:inanim:m:v_zna:bad");
+    assertTagged("авто-салон", "авто-салон/[авто-салон]noun:inanim:m:v_naz:bad|авто-салон/[авто-салон]noun:inanim:m:v_zna:bad");
+    assertTagged("квазі-держави", "квазі-держави/[квазі-держава]noun:inanim:f:v_rod:bad|квазі-держави/[квазі-держава]noun:inanim:p:v_kly:bad|квазі-держави/[квазі-держава]noun:inanim:p:v_naz:bad|квазі-держави/[квазі-держава]noun:inanim:p:v_zna:bad");
+    assertTagged("мульти-візу", "мульти-візу/[мульти-віза]noun:inanim:f:v_zna:bad");
+    assertTagged("контр-міри", "контр-міри/[контр-міра]noun:inanim:f:v_rod:bad|контр-міри/[контр-міра]noun:inanim:p:v_kly:bad|контр-міри/[контр-міра]noun:inanim:p:v_naz:bad|контр-міри/[контр-міра]noun:inanim:p:v_zna:bad");
+    assertTagged("кіно-критика", "кіно-критика/[кіно-критика]noun:anim:m:v_rod:bad|кіно-критика/[кіно-критика]noun:anim:m:v_zna:bad|кіно-критика/[кіно-критика]noun:inanim:f:v_naz:bad");
+    assertTagged("древньо-римський", "древньо-римський/[древньо-римський]adj:m:v_kly:bad|древньо-римський/[древньо-римський]adj:m:v_naz:bad|древньо-римський/[древньо-римський]adj:m:v_zna:rinanim:bad");
+    assertTagged("давньо-римський", "давньо-римський/[давньо-римський]adj:m:v_kly:bad|давньо-римський/[давньо-римський]adj:m:v_naz:bad|давньо-римський/[давньо-римський]adj:m:v_zna:rinanim:bad");
+    // має бути "максимально можливу"
+    assertTagged("максимально-можливу", "максимально-можливу/[максимально-можливий]adj:f:v_zna:bad");
+    assertTagged("відео-навчання", "відео-навчання/[відео-навчання]noun:inanim:n:v_kly:bad|відео-навчання/[відео-навчання]noun:inanim:n:v_naz:bad|відео-навчання/[відео-навчання]noun:inanim:n:v_rod:bad|відео-навчання/[відео-навчання]noun:inanim:n:v_zna:bad|відео-навчання/[відео-навчання]noun:inanim:p:v_kly:bad|відео-навчання/[відео-навчання]noun:inanim:p:v_naz:bad|відео-навчання/[відео-навчання]noun:inanim:p:v_zna:bad");
+    
+    assertTagged("кіно-Європа", "кіно-Європа/[кіно-Європа]noun:inanim:f:v_naz:prop:geo");
+    assertNotTagged("теле-та");
+    assertNotTagged("квазі-я");
+    assertNotTagged("макро-і");
+  }
 
+  @Test
+  public void testNapiv() throws IOException {
+    TestTools.myAssert("напів'японка", "напів'японка/[напів'японка]noun:anim:f:v_naz", tokenizer, tagger);
+    TestTools.myAssert("напівяпонка", "напівяпонка/[напівяпонка]noun:anim:f:v_naz:bad", tokenizer, tagger);
+    TestTools.myAssert("напів-японка", "напів-японка/[напів-японка]noun:anim:f:v_naz:bad", tokenizer, tagger);
+    TestTools.myAssert("напів-Європа", "напів-Європа/[напів-Європа]noun:inanim:f:v_naz:prop:geo", tokenizer, tagger);
+    TestTools.myAssert("напівсправедливий", "напівсправедливий/[напівсправедливий]adj:m:v_kly|напівсправедливий/[напівсправедливий]adj:m:v_naz|напівсправедливий/[напівсправедливий]adj:m:v_zna:rinanim", tokenizer, tagger);
+    TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:n:v_rod:&&adjp:pasv:perf", tokenizer, tagger);
+    TestTools.myAssert("напів\u2013фантастичних", "напів–фантастичних/[напів-фантастичний]adj:p:v_mis:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_rod:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_zna:ranim:bad", tokenizer, tagger);
+    //TODO:
+    TestTools.myAssert("напівпольської-напіванглійської", "напівпольської-напіванглійської/[польська-англійська]noun:inanim:f:v_rod|напівпольської-напіванглійської/[польський-англійський]adj:f:v_rod", tokenizer, tagger);
+//    TestTools.myAssert("красунями-напівптахами", "", tokenizer, tagger);
+    assertNotTagged("напіврозслабеному");   // typo
+    assertNotTagged("напіви");
+  }
   
   @Test
   public void testDynamicTaggingOWithAdj() throws IOException {
@@ -490,16 +519,11 @@ public class UkrainianTaggerTest {
 
 //    TestTools.myAssert("американо-блакитний", "американо-блакитний/[null]null", tokenizer, tagger);
 
-    assertNotTagged("древньо-римський");
-    assertNotTagged("давньо-римський");
-
     // don't allow dash when the words spelled together
     assertNotTagged("зовнішньо-економічний");
     assertNotTagged("високо-релевантною");
     assertNotTagged("всесвітньо-відомі");
 
-    assertNotTagged("максимально-можливу"); // має бути "максимально можливу"
-    
 //  assertNotTagged("льотно-посадкова"); - загубилося початкове "з". Але це не спинило тегувальника - чому?
 
 
@@ -576,22 +600,6 @@ public class UkrainianTaggerTest {
     assertNotTagged("австріях");
   }
 
-  @Test
-  public void testNapiv() throws IOException {
-    TestTools.myAssert("напів'японка", "напів'японка/[напів'японка]noun:anim:f:v_naz", tokenizer, tagger);
-    TestTools.myAssert("напівяпонка", "напівяпонка/[напівяпонка]noun:anim:f:v_naz:bad", tokenizer, tagger);
-    TestTools.myAssert("напів-японка", "напів-японка/[напів-японка]noun:anim:f:v_naz:bad", tokenizer, tagger);
-    TestTools.myAssert("напів-Європа", "напів-Європа/[напів-Європа]noun:inanim:f:v_naz:prop:geo", tokenizer, tagger);
-    TestTools.myAssert("напівсправедливий", "напівсправедливий/[напівсправедливий]adj:m:v_kly|напівсправедливий/[напівсправедливий]adj:m:v_naz|напівсправедливий/[напівсправедливий]adj:m:v_zna:rinanim", tokenizer, tagger);
-    TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:n:v_rod:&&adjp:pasv:perf", tokenizer, tagger);
-    TestTools.myAssert("напів\u2013фантастичних", "напів–фантастичних/[напів-фантастичний]adj:p:v_mis:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_rod:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_zna:ranim:bad", tokenizer, tagger);
-    //TODO:
-    TestTools.myAssert("напівпольської-напіванглійської", "напівпольської-напіванглійської/[польська-англійська]noun:inanim:f:v_rod|напівпольської-напіванглійської/[польський-англійський]adj:f:v_rod", tokenizer, tagger);
-//    TestTools.myAssert("красунями-напівптахами", "", tokenizer, tagger);
-    assertNotTagged("напіврозслабеному");   // typo
-    assertNotTagged("напіви");
-  }
-
 //  @Test
 //  public void testSpecialChars() throws IOException {
 //    AnalyzedSentence analyzedSentence = new JLanguageTool(new Ukrainian()).getAnalyzedSentence("і карт\u00ADками.");
@@ -603,6 +611,14 @@ public class UkrainianTaggerTest {
   
   private void assertNotTagged(String word) throws IOException {
   	TestTools.myAssert(word, word+"/[null]null", tokenizer, tagger);
+  }
+
+  private void assertTagged(String word, String tagged) {
+    try {
+      TestTools.myAssert(word, tagged, tokenizer, tagger);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

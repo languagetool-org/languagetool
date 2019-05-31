@@ -182,8 +182,20 @@ class CompoundTagger {
 
 
     // авіа..., авто... пишуться разом
-    if( LEFT_INVALID.contains(leftWord.toLowerCase()) )
-      return null;
+    //TODO: але може бути: авто-пенсіонер
+    if( LEFT_INVALID.contains(leftWord.toLowerCase()) ) {
+      List<TaggedWord> rightWdList = tagEitherCase(rightWord);
+      
+      rightWdList = PosTagHelper.filter2(rightWdList, Pattern.compile("(noun|adj)(?!.*pron).*"));
+      
+      if( rightWdList.isEmpty() )
+        return null;
+
+      String lemma = leftWord + "-" + rightWdList.get(0).getLemma();
+      String extraTag = StringTools.isCapitalizedWord(rightWord) ? "" : ":bad";
+      rightWdList = PosTagHelper.addIfNotContains(rightWdList, extraTag, lemma);
+      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
+    }
 
 
     // wrong: пів-качана
