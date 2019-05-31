@@ -145,7 +145,7 @@ USA
                 <message>Did you mean <suggestion><match no="1" regexp_match="pe" regexp_replace="pa"/></suggestion> (compare = view in relation) instead of 'compere' (act as a compere)?</message>
                 <short>Possible typo</short>
                 <example correction="compared">She is tall <marker>compered</marker> to him.</example>
-                <example>This year's show will be compered for by the famous actress Sharon.</example> 
+                <example>This year's show will be compered for by the famous actress Sharon.</example>
             </rule>
         </rulegroup>
         <rule id="SHOULD_VS_SHOULDER" name="looked over her should (shoulder)">
@@ -226,8 +226,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
             <short>Possible typo</short>
-            <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
-            <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
+            <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>
+            <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>
             <example correction='WE&apos;re'><marker>WE'Re</marker> here!</example><!-- The correction is not correct -->
             <example><marker>We're</marker> looking forward to our meeting.</example>
             <example>He's sad, but <marker>WE'RE</marker> happy.</example>
@@ -274,7 +274,7 @@ USA
          </pattern>
          <message>Did you mean <suggestion>as follows</suggestion>?</message>
          <short>Possible typo</short>
-         <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>         
+         <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>
         </rule>
         <rule id="BY_PASSIVE_PARTICIPLE_BE" name="'by' + passive participle (be)">
          <pattern>
@@ -319,13 +319,32 @@ USA
                 <example correction="been">She has not <marker>bee</marker> injured in the accident.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SEE_SEEN" name="see (seen)">
+            <rule>
+                <antipattern>
+                    <token>to</token>
+                    <token postag="VB"/>
+                    <token regexp="yes">is|was</token>
+                    <token regexp="yes">(after|be|fore|over)?seem?</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0">not</token>
+                    <marker><token regexp="yes">(after|be|fore|over)?see</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="see" regexp_replace="seen"/></suggestion>?</message>
+                <example correction="seen">In this video, an armored vehicle can be <marker>see</marker> driving into a group of demonstrators.</example>
+                <example correction="seen">Riverdance has since been <marker>see</marker> by over 25 million people.</example>
+                <example>The last thing Tom wants to do is see Mary.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WORD_WORLD" name="word (world)">
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Word</token>
-                    <token>War</token>
+                    <token regexp="yes">Cup|War</token>
                 </pattern>
-                <message>Possible spelling error: Did you mean <suggestion>World War</suggestion></message>
+                <message>Possible spelling error: Did you mean <suggestion>World \2</suggestion></message>
                 <short>Possible typo</short>
                 <example correction="World War">He was a member of the anti-aircraft artillery during <marker>Word War</marker> II</example>
             </rule>
@@ -1541,7 +1560,7 @@ USA
             <message>Did you mean <suggestion>otherwise</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="Otherwise"><marker>Other wise</marker> it's not true.</example>
-            <example> The fact that Jesus' status as a wise man among other wise men is not unique tells against this being a Christian interpolation.</example>
+            <example>The fact that Jesus' status as a wise man among other wise men is not unique tells against this being a Christian interpolation.</example>
         </rule>
         <rule id="PER_SE" name="per say (per se)">
             <pattern>
@@ -1713,7 +1732,7 @@ USA
          <message>Incorrect plural form; it does not need any apostrophe. Did you mean <suggestion><match no="2"/>s</suggestion>?</message>
          <url>https://onlinewritingtraining.com.au/apostrophe-usage-use/</url>
          <short>Spurious apostrophe</short>
-         <example correction="CDs">I have many <marker>CD's</marker>.</example>        
+         <example correction="CDs">I have many <marker>CD's</marker>.</example>
          <example>And several days ago, we all went to this gorgeous ranch where some millionaire's going to build a golf course.</example>
          <example>Any technology that deals in meta-meta-models is going to be a hard sell, no matter how many analyst's reports have been written.</example>
          <example>Some guy's probably making money on this.</example>
@@ -2405,7 +2424,7 @@ USA
             <message>Did you mean <suggestion>known</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="known">This is a <marker>know</marker> problem.</example>
-        </rule>        
+        </rule>
         <rule id="MY_BE" name="my (may) be">
             <pattern>
                 <token>my</token>
@@ -2776,7 +2795,7 @@ USA
                 <example>It's nice.</example>
                 <example>I think it's still valid.</example>
                 <example>I think it's fast enough.</example>
-                <example> With DMA disabled it's possible to output with a high sampling frequency.</example>
+                <example>With DMA disabled it's possible to output with a high sampling frequency.</example>
                 <example>I know it's cliche but time really does go faster and faster the older you get.</example>
                 <example>I think it's PMS time.</example>
                 <example>I can't believe it's birthday time again already!</example>
@@ -9055,7 +9074,7 @@ USA
                 <example>Present-day students are more or less religious.</example>
                 <example>These are more or less plants.</example>
                 <example>85% less bananas</example>
-                <example> What the country needs is less taxes rather than more expenses.</example>
+                <example>What the country needs is less taxes rather than more expenses.</example>
                 <example>Revenue less expenses</example>
             </rule>
         </rulegroup>
@@ -15416,7 +15435,7 @@ USA
             <example>The MOS Technology 6502 processor is an 8-bit microprocessor.</example>
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
             <example>Where did you two <marker>first</marker> meet each other?</example>
-        </rule>        
+        </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
                <token postag="CD"><exception regexp="yes">one|1</exception></token>
@@ -15454,7 +15473,7 @@ USA
          </pattern>
          <message>Incorrect singular possessive form after the number (\1). Did you mean <suggestion><match no="2"/>s</suggestion> or <suggestion><match no="2"/>s'</suggestion>?</message>
          <short>Agreement error</short>
-         <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>         
+         <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>
          <example>1933 World's Fair</example>
          <example>He is puzzled as to why three women's names were there.</example>
          <example>A total of 387 schools, 7 teacher's houses, and several vocational buildings had been built.</example>
@@ -20359,7 +20378,7 @@ USA
          <message>When specifying a month and year, the comma is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
          <url>https://www.thepunctuationguide.com/comma.html#dates</url>
          <short>Spurious comma</short>
-         <example correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example> 
+         <example correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example>
         </rule>
         <rule id="MISSING_COMMA_BETWEEN_DAY_AND_YEAR" name="Missing comma between day of month and year">
             <pattern>
@@ -25581,7 +25600,7 @@ USA
        </pattern>
        <message>When specifying a month and year, 'of' is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
        <short>Nonstandard date</short>
-       <example correction='February 1995'><marker>February of 1995</marker></example>       
+       <example correction='February 1995'><marker>February of 1995</marker></example>
     </rule>
       <rule id="THE_QUESTION_WH" name="the question what (the question of what)">
       <pattern>
@@ -25885,7 +25904,7 @@ USA
      </pattern>
      <message>This phrase is redundant. Consider writing <suggestion>an <match no="3"/></suggestion>.</message>
      <short>Redundant phrase</short>
-     <example correction='an alumnus'>As the wife of <marker>a former alumnus</marker> of UCLA, I am appalled at recent events that have occurred and seemingly encouraged by the administration.</example>    
+     <example correction='an alumnus'>As the wife of <marker>a former alumnus</marker> of UCLA, I am appalled at recent events that have occurred and seemingly encouraged by the administration.</example>
     </rule>
     <rule>
      <pattern>
@@ -25897,7 +25916,7 @@ USA
      </pattern>
      <message>This phrase is redundant. Consider writing <suggestion><match no="3"/></suggestion>.</message>
      <short>Redundant phrase</short>
-     <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>     
+     <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>
     </rule>
     </rulegroup>
         <rulegroup id="SWORN_AFFIDAVIT" name="sworn affidavit (affidavit)">
@@ -25910,7 +25929,7 @@ USA
          <message>This phrase is redundant. Consider using <suggestion>an <match no="3"/></suggestion></message>
          <url>http://wordinfo.info/unit/4246/page:21</url>
          <short>Redundant phrase</short>
-         <example correction='An affidavit'><marker>A sworn affidavit</marker> is a written statement made by someone under oath to tell the truth about something.</example>         
+         <example correction='An affidavit'><marker>A sworn affidavit</marker> is a written statement made by someone under oath to tell the truth about something.</example>
         </rule>
         <rule>
          <pattern>
@@ -25923,7 +25942,7 @@ USA
          <message>This phrase is redundant. Consider using <suggestion><match no="3"/></suggestion></message>
          <url>http://wordinfo.info/unit/4246/page:21</url>
          <short>Redundant phrase</short>
-         <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>         
+         <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>
         </rule>
         </rulegroup>
         <rule id="DIRECTLY_ANTITHETICAL" name="directly antithetical (antithetical)">
@@ -26363,7 +26382,7 @@ USA
         <url>https://www.dailywritingtips.com/adequate-is-adequate/</url>
         <short>Redundant phrase</short>
         <example correction="adequate">The Allen test is not <marker>adequate enough</marker> for the screening of hand circulation.</example>
-        </rule>      
+        </rule>
         <rule default="off" id="ARE_ABLE_TO" name="are able to (can)">
             <pattern>
                 <token>are</token>
@@ -26476,7 +26495,7 @@ USA
          </pattern>
          <message>This phrase may be redundant. Consider writing <suggestion><match no="2"/></suggestion>.</message>
          <short>Redundant phrase</short>
-         <example correction='bivouac'>In <marker>temporary bivouac</marker> areas (1 to 3 days), the straddle trench latrine is used unless more permanent facilities are provided for the unit.</example>         
+         <example correction='bivouac'>In <marker>temporary bivouac</marker> areas (1 to 3 days), the straddle trench latrine is used unless more permanent facilities are provided for the unit.</example>
         </rule>
         <rule id="BIVOUAC_CAMP_BIVOUAC" name="bivouac camp (bivouac)">
          <pattern>
@@ -26654,7 +26673,7 @@ USA
          </pattern>
          <message>This phrase is redundant. Consider writing <suggestion><match no="1"/> of</suggestion>.</message>
          <short>Redundant phrase</short>
-         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>         
+         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>
         </rule>
         <rulegroup id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
         <rule>
@@ -26668,7 +26687,7 @@ USA
         <short>Redundant phrase</short>
         <example correction="close to">The majority of Jannali's enterprises are located <marker>within close proximity to</marker> the suburb's railway station.</example>
         </rule>
-        <rule>            
+        <rule>
             <pattern>
                 <token>close</token>
                 <token regexp="yes">scrutiny|proximity</token>
@@ -28611,7 +28630,7 @@ USA
                 <example>IGD Convention 2014 - <marker>2014-10-31</marker></example>
                 <example>IGD Convention 2014 - <marker>2018-10-31</marker></example>
                 <example>IGD Convention 2014 - <marker>2012-10-31</marker></example>
-            </rule>             
+            </rule>
         </rulegroup>
 
         <rulegroup id="DATE_WEEKDAY" name="Weekday doesn't match date">
@@ -31772,7 +31791,7 @@ USA
             <short>EU English: budget line</short>
             <example type="incorrect" correction="budget heading|budget item|budget title">These are DG and Culture (DG EAC) for <marker>budget line</marker> 15, …</example>
             <example>These are DG and Culture (DG EAC) for <marker>budget item</marker> 15, …</example>
-            <example type="incorrect" correction="Budget headings|Budget items|Budget titles"><marker>Budget lines</marker>:</example> 
+            <example type="incorrect" correction="Budget headings|Budget items|Budget titles"><marker>Budget lines</marker>:</example>
             <example>Use these <marker>budget headings</marker>:</example>
         </rule>
         <rule id="EUPUB_CABINET" name="cabinet">
