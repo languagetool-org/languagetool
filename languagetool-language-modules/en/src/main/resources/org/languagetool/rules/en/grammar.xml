@@ -302,7 +302,24 @@ USA
                 <example>I did not miss using an Android phone.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WORD_WAR" name="Word War (World War)">
+        <rulegroup id="BEE_BEEN" name="bee (been)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">have</token>
+                    <token min="0">not</token>
+                    <marker><token>bee</token></marker>
+                    <token postag="RB" min="0"></token>
+                    <token postag="JJ|VBN" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion>\3n</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="been">She has <marker>bee</marker> severely injured in the accident.</example>
+                <example correction="been">She has not <marker>bee</marker> severely injured in the accident.</example>
+                <example correction="been">She has <marker>bee</marker> injured in the accident.</example>
+                <example correction="been">She has not <marker>bee</marker> injured in the accident.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WORD_WORLD" name="word (world)">
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Word</token>
@@ -311,6 +328,32 @@ USA
                 <message>Possible spelling error: Did you mean <suggestion>World War</suggestion></message>
                 <short>Possible typo</short>
                 <example correction="World War">He was a member of the anti-aircraft artillery during <marker>Word War</marker> II</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <marker><token case_sensitive="yes">word</token></marker>
+                    <token regexp="yes">['’`´‘]</token>
+                    <token case_sensitive="yes">s</token>
+                    <token postag="JJS"><exception>truest</exception></token>
+                    <token postag="NN.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="r" regexp_replace="rl"/></suggestion>?</message>
+                <example correction="world">This is the <marker>word</marker>'s largest cat.</example>
+                <example>That's stupid in the word's truest sense.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="JJS"></token>
+                    <token postag="NN.*" postag_regexp="yes"></token>
+                    <token>in</token>
+                    <token>the</token>
+                    <token regexp="yes" min="0">entire|whole</token>
+                    <marker><token>word</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="6" regexp_match="r" regexp_replace="rl"/></suggestion>?</message>
+                <example correction="world">This is the best cake in the <marker>word</marker>.</example>
+                <example correction="world">This is the best game in the entire <marker>word</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="WONT_CONTRACTION" name="wont (won't)">
@@ -329,7 +372,7 @@ USA
         <!-- Created by Tiago F. Santos, 2018-11-25 -->
           <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
           <rule>
-            <regexp>\b((ai|am|are|ca|could|dare|dares|das|did|does|do|has|have|is|ought|sha|should|was|wo)(['’]n?t|n['’][^t])|(?:I|you|s?he|it|we|they)([ds]['’]|l['’]l|l?l['’]|v['’]e|ve['’])|(oc['’]lock))\b</regexp>
+            <regexp>\b((a[im]|are|ca|could|dares?|das|did|do(es)?|has|have|is|ought|sha|should|was|wo)(['’]n?t|n['’][^t])|(?:I|you|s?he|it|we|they)([ds]['’]|l['’]l|l?l['’]|v['’]e|ve['’])|(oc['’]lock))\b</regexp>
             <message>This contractions is incorrect. Please, check the apostrophe position.</message>
             <example type='incorrect'>...it <marker>did'nt</marker> work.</example>
             <example>... it didn't work.</example>
@@ -6829,9 +6872,13 @@ USA
             <example correction="complimented">She was <marker>complemented</marker> on her beautiful eyes.</example>
         </rule>
         <rule id="HART_HEART" name="confusion of hart/heart">
+            <antipattern>
+                <token>heat</token>
+                <token regexp="yes">problems?</token>
+            </antipattern>
             <pattern>
-                <marker><token regexp="yes">hart|heard?</token></marker>
-                <token regexp="yes">diseases?|attacks?|failures?|surger(y|ies)|problems?|conditions?|transplants?|muscles?|beats?|valves?|rhythm</token>
+                <marker><token regexp="yes">h(art|eard?|eat)</token></marker>
+                <token regexp="yes">diseases?|attacks?|failures?|surger(y|ies)|problems?|conditions?|transplants?|muscles?|beats?|valves?|rhythms?</token>
             </pattern>
             <message>Did you mean <suggestion>heart</suggestion> (=muscular organ)?</message>
             <short>Possible typo</short>
@@ -26574,21 +26621,6 @@ USA
                 <message>Did you mean <suggestion>three</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="three">I've lived in Barcelona for <marker>tree</marker> years.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="WORD_WORLD" name="word (world)">
-            <rule>
-                <pattern>
-                    <token>the</token>
-                    <marker><token>word</token></marker>
-                    <token regexp="yes">['’`´‘]</token>
-                    <token>s</token>
-                    <token postag="JJS"><exception>truest</exception></token>
-                    <token postag="NN.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="r" regexp_replace="rl"/></suggestion>?</message>
-                <example correction="world">This is the <marker>word</marker>'s largest cat.</example>
-                <example>That's stupid in the word's truest sense.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NEEDLES_NEEDLESS" name="needles (needless)">
