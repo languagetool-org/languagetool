@@ -33893,6 +33893,23 @@ Andere Projekte</example>
                 <example correction="Nötigsten">Es fehlte ihr am <marker>nötigsten</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FASSUNGSLOS" name="kein Substantiv: .*ungslos">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>
+                        <exception postag="SENT_START"/>
+                        <exception regexp="yes">\W</exception>
+                    </token>
+                    <marker>
+                        <token postag="ADJ:PRD:GRU" regexp="yes">[A-Z][a-zäöüß]+ungslose?</token>
+                    </marker>
+                </pattern>
+                <message>Handelt es sich bei '\2' um ein Adjektiv, dann wird es kleingeschrieben.</message>
+                <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+                <example>„Fassungslos bestieg sie das Schiff.“</example>
+                <example correction="fassungslos">Ein bisschen <marker>Fassungslos</marker> waren die beiden schon.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_BAUCH_UND_BOGEN" name="'in Bauch (Bausch) und Bogen'">
             <regexp case_sensitive='yes'>[iI]n (B(au?(ch|m)|usch)) und Bogen</regexp>
             <message>Meinten Sie die Redewendung <suggestion>in Bausch und Bogen</suggestion>?</message>

@@ -777,6 +777,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="FASSUNGSLOS" name="kein Substantiv: Fassungslos">
+        <pattern case_sensitive="yes">
+            <token>
+                <exception postag="SENT_START"/>
+                <exception regexp="yes">\W</exception>
+            </token>
+            <marker>
+                <token postag="SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-zäöüß]+ungslose?</token>
+            </marker>
+        </pattern>
+        <disambig postag="ADJ:PRD:GRU"/>
+        <example type="untouched">„Fassungslos bestieg sie das Schiff.“</example>
+        <example type="untouched">Erbarmungslos bestieg sie das Schiff.</example>
+    </rule>
     <rule id="RECHTSCHAFFEN" name="kein Verb: rechtschaffen">
         <pattern case_sensitive="yes">
             <marker>
