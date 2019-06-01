@@ -77,6 +77,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
+  private final Set<String> wordEndingsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("abschiednehmen", "Abschied nehmen");
@@ -710,7 +711,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean isProhibited(String word) {
-    return super.isProhibited(word) || wordStartsToBeProhibited.stream().anyMatch(w -> word.startsWith(w));
+    return super.isProhibited(word) ||
+      wordStartsToBeProhibited.stream().anyMatch(w -> word.startsWith(w)) ||
+      wordEndingsToBeProhibited.stream().anyMatch(w -> word.endsWith(w));
   }
 
   @Override
@@ -1362,8 +1365,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   @Override
   protected void addProhibitedWords(List<String> words) {
-    if(words.size() == 1 && words.get(0).endsWith(".*")) {
-      wordStartsToBeProhibited.add(words.get(0).substring(0, words.get(0).length()-2));
+    if (words.size() == 1) {
+      if (words.get(0).endsWith(".*")) {
+        wordStartsToBeProhibited.add(words.get(0).substring(0, words.get(0).length()-2));
+      } else if (words.get(0).startsWith(".*")) {
+      	wordEndingsToBeProhibited.add(words.get(0).substring(2));
+      }
     } else {
       super.addProhibitedWords(words);
     }
