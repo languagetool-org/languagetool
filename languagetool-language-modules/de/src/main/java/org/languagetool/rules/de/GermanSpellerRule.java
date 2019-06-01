@@ -46,7 +46,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
 import org.languagetool.languagemodel.LanguageModel;
@@ -756,7 +755,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig,
                                                    String languageVariantPlainTextDict) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
-      throw new RuntimeException("Language is not a variant of German: " + language);
+      throw new IllegalArgumentException("Language is not a variant of German: " + language);
     }
     try {
       String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";

@@ -161,7 +161,7 @@ public class SymSpellRule extends SpellingCheckRule {
     forEachLineInResources(dict, line -> {
       int split = line.lastIndexOf('+');
       if (split == -1 || line.length() <= split + 1) {
-        throw new RuntimeException(String.format("Could not parse frequency dictionary line '%s'.", line));
+        throw new IllegalArgumentException(String.format("Could not parse frequency dictionary line '%s'.", line));
       }
       String word = line.substring(0, split);
       char freqClass = line.charAt(split + 1);

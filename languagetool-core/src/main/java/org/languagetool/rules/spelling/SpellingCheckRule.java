@@ -181,8 +181,8 @@ public abstract class SpellingCheckRule extends Rule {
       combinedSuggestions.addAll(candidates);
       match.setSuggestedReplacements(combinedSuggestions);
     }
-    long timeDelta = System.currentTimeMillis() - startTime;
-    //System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);
+    /*long timeDelta = System.currentTimeMillis() - startTime;
+    System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/
   }
 
   @Override
@@ -472,9 +472,9 @@ public abstract class SpellingCheckRule extends Rule {
         return altRule.getLanguage();
       } else {
         if (word.endsWith(".")) {
-          Language language = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
-          if (language != null) {
-            return language;
+          Language altLanguage = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
+          if (altLanguage != null) {
+            return altLanguage;
           }
         }
       }
