@@ -74,7 +74,7 @@ OOo Issue 63541 — remove *dessicated
 2018-05-01 — Andrew Ziem suggested a list of 328 names of famous people on Kevin's GitHub:
              "These 328 name tokens were derived from the top 100 lists in Google Trends via
 			 this repository (https://github.com/az0/google-trend-names). The geography was
-			 set to US, and it spanned dates from 2004 to 2018."			 
+			 set to US, and it spanned dates from 2004 to 2018."
 2018-08-01 — Slightly higher quality icon
 		   — Added tons of drugs names supplied by the user Andrew Ziem on Kevin's GitHub
 		   — Fixed/improved flag "5": "women's" was missing
@@ -105,7 +105,7 @@ to
              This list was supplied by Michael Holroyd on Kevin Atkinson's GitHub.
            — Added tons of possessives to nouns, thanks to Jörg Knobloch.
 2018-12-01 — Added the cities from Canada:
-			  — https://en.wikipedia.org/wiki/List_of_cities_in_Canada	   	 
+			  — https://en.wikipedia.org/wiki/List_of_cities_in_Canada
 2019-02-01 — Improved flag "5" thanks to the GitHub user Ding-adong:
              Some "swomen's" and "women's" entries were missing.
 		   — Fixed flag "3": -ists, -ists, -ist's → -ist, -ists, -ist's.
@@ -113,7 +113,9 @@ to
 2019-03-01 — Added the LGPL_V3 License .txt into the Extension.
 		   — Ding-adong added a flag "=" for suffixes:  -lessness, -lessnesses, -lessness's.
 		   — Ding-adong changed the prefix flag "O" to "^" since "O" was both prefix and suffix.
-		   — Small fixes and enhancements on flags "z" and "O" by Ding-adong.		   
+		   — Small fixes and enhancements on flags "z" and "O" by Ding-adong.
+2019-04-01 — Improved flag "P" thanks to the GitHub user Ding-adong, giving also -nesses which
+			 increased the wordlist in about 1800 valid words.
 -------
 
 MARCO A.G.PINTO:
@@ -128,9 +130,11 @@ The sources used to verify the spelling of the words I included in the dictionar
  1) Oxford Dictionaries;
  2) Collins Dictionary;
  3) Macmillan Dictionary;
- 4) Wiktionary (used with caution ⚠);
- 5) Wikipedia (used with caution ⚠);
- 6) Physical dictionaries.
+ 4) Cambridge Dictionary;
+ 5) Merriam-Webster Dictionary (used with caution ⚠); 
+ 6) Wiktionary (used with caution ⚠);
+ 7) Wikipedia (used with caution ⚠);
+ 8) Physical dictionaries.
 
 Main difficulties developing this dictionary:
  1) Proper names;
