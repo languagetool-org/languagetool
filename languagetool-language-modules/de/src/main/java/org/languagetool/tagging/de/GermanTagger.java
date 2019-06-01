@@ -251,7 +251,8 @@ public class GermanTagger extends BaseTagger {
    * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
    * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
    * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
-   * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+   * [b1] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+   * [b2] words preceded by aber/nun/jetzt (e.g., "Bitte geh!", "Jetzt sag schon!" etc.)
    * @param word to be checked
    */
   private List<AnalyzedToken> getImperativeForm(String word, List<String> sentenceTokens, int pos) {
@@ -259,12 +260,12 @@ public class GermanTagger extends BaseTagger {
     String previousWord = "";
     while (--idx > -1) {
       previousWord = sentenceTokens.get(idx);
-      if (StringUtils.isWhitespace(previousWord)) {
-        continue;
+      if (!StringUtils.isWhitespace(previousWord)) {
+        break;
       }
-      break;
     }
-    if (!(pos == 0 && sentenceTokens.size() > 1) && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie")) {
+    if (!(pos == 0 && sentenceTokens.size() > 1)
+        && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie", "bitte", "aber", "nun", "jetzt", "„")) {
       return Collections.emptyList();
     }
     String w = pos == 0 ? word.toLowerCase() : word;

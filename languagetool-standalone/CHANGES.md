@@ -34,6 +34,8 @@
     their precision isn't good enough. See `confusion_sets_l2_de.txt` for active DE/EN pairs.
     Use `My handy is broken.` to test the rule. As before, this will only create
     an error if `motherTongue` is set to a German language code.
+  * `prohibit.txt`: lines starting with ".*" will prohibit all words ending with
+    the subsequent string (e.g., '.*artigel' will prohibit 'Versandartigel')
 
 #### Italian
   * added popular names to dictionary
