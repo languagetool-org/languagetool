@@ -110,7 +110,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
       boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = Objects.requireNonNull(rule);
     if (toPos <= fromPos) {
-      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+      throw new IllegalArgumentException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
     this.offsetPosition = new OffsetPosition(fromPos, toPos);
     this.message = Objects.requireNonNull(message);

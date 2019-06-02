@@ -791,6 +791,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="untouched">„Fassungslos bestieg sie das Schiff.“</example>
         <example type="untouched">Erbarmungslos bestieg sie das Schiff.</example>
     </rule>
+    <rule id="BITTE" name="kein Verb: 'bitte' am Satzende">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>bitte</token>
+            </marker>
+            <token postag="PKT" regexp="yes">[\.!]</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+        <example type="untouched">Und wenn ich dich ganz lieb bitte?</example>
+    </rule>
     <rule id="RECHTSCHAFFEN" name="kein Verb: rechtschaffen">
         <pattern case_sensitive="yes">
             <marker>

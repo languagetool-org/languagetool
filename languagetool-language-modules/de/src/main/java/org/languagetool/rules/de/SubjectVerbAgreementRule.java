@@ -317,7 +317,7 @@ public class SubjectVerbAgreementRule extends Rule {
     for (int i = startPos; i < tokens.length; i++) {
       AnalyzedTokenReadings token = tokens[i];
       if (token.hasAnyPartialPosTag("SUB", "PRO")
-      		&& (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(new ChunkTag("NPP")))) {  // NPP catches 'und' phrases
+          && (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(NPP))) {  // NPP catches 'und' phrases
         return true;
       }
     }

@@ -268,7 +268,7 @@ public class GermanTagger extends BaseTagger {
         && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie", "bitte", "aber", "nun", "jetzt", "„")) {
       return Collections.emptyList();
     }
-    String w = pos == 0 ? word.toLowerCase() : word;
+    String w = pos == 0 || "„".equals(previousWord) ? word.toLowerCase() : word;
     List<TaggedWord> taggedWithE = getWordTagger().tag(w.concat("e"));
     for (TaggedWord tagged : taggedWithE) {
       if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
