@@ -112,6 +112,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
     put("Germanistiker[ns]", "Germanisten");
     putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
+    putRepl("[iI]ns?z[ie]nie?rung(en)?", "[iI]ns?z[ie]nie?", "Inszenie");
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
     putRepl("[vV]orallendingen", "orallendingen", "or allen Dingen");
     putRepl("[aA]ufjede[nm]fall", "jede[nm]fall$", " jeden Fall");
@@ -120,6 +121,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]öruber", "öru", "orü");
     putRepl("[lL]einensamens?", "[lL]einen", "Lein");
     putRepl("Feinleiner[ns]?", "Feinlei", "Fineli");
+    putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("Oldheimer[ns]?", "he", "t");
     putRepl("[tT]räner[ns]?", "[tT]rä", "Trai");
     putRepl("[tT]eimings?", "[tT]e", "T");
@@ -400,7 +402,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[gG]ebrauchss?puhren", "Gebrauchsspuren");
     put("[pP]reisnachlassung", "Preisnachlass");
     put("[mM]edikamentation", "Medikation");
-    put("n[ei]gliche", "Negligé");
+    put("[nN][ei]gliche", "Negligé");
     put("palletten?", w -> Arrays.asList(w.replaceFirst("pall", "Pal"), w.replaceFirst("pa", "Pai")));
     put("Geräuch", w -> Arrays.asList("Geräusch", "Gesträuch"));
     put("[sS]chull?igung", "Entschuldigung");
@@ -432,7 +434,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("besig(t(e[mnrs]?)?|en?)", "sig", "sieg");
     putRepl("[vV]erziehr(t(e[mnrs]?)?|en?)", "ieh", "ie");
     putRepl("^[pP]iek(s?t|en?)", "iek", "ik");
-    putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
     put("zuschafen", "zu schaffen");

@@ -358,6 +358,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ausversehendlich", "aus Versehen", rule, lt);
     assertFirstSuggestion("tränern", "Trainern", rule, lt);
     assertFirstSuggestion("Teiming", "Timing", rule, lt);
+    assertFirstSuggestion("inzinierung", "Inszenierung", rule, lt);
   }
 
   @Test
