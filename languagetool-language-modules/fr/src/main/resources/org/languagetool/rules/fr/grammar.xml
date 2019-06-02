@@ -4256,6 +4256,32 @@ though, and has since been slightly modified)-->
         <example correction="Ingrid Betancourt"><marker>Ingride Betancourt</marker> est née en 1961.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Edmond</token>
+          <token>Rostand</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]dmon[dt]</token>
+          <token regexp="yes">Rostan[dt]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Edmond Rostand</suggestion> s’il s’agit de l'écrivain français.</message>
+        <url>https://fr.wikipedia.org/wiki/Edmond_Rostand</url>
+        <example correction="Edmond Rostand"><marker>Edmond Rostant</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Georges</token>
+          <token>Wolinski</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Georges?</token>
+          <token regexp="yes">Wolink?sk[iy]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Georges Wolinski</suggestion> s’il s’agit du dessinateur de presse.</message>
+        <url>https://fr.wikipedia.org/wiki/Georges_Wolinski</url>
+        <example correction="Georges Wolinski"><marker>Georges Wolinsky</marker></example>
+      </rule>
+      <rule>
         <pattern>
           <token>Arnold</token>
           <token regexp="yes">Sc?hwarzenn?egg?er<exception>Schwarzenegger</exception></token>
