@@ -18,11 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.language.Dutch;
-import org.languagetool.rules.nl.MorfologikDutchSpellerRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,31 +31,27 @@ public class DutchWordSplitter {
     // exported as documented at http://wiki.languagetool.org/developing-a-tagger-dictionary#toc2,
     // then taking only the full form: awk '{print $1}' dictionary-nl.dump
     String filename = "/home/dnaber/lt/dictionary-nl.dump";
-    Language dutch = new Dutch();
-    JLanguageTool lt = new JLanguageTool(dutch);
+    MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", "/nl/spelling/spelling.txt", null, null, 1);
     List<String> lines = Files.readAllLines(Paths.get(filename));
-    MorfologikDutchSpellerRule spellerRule = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
     int lineCount = 0;
+    long lineTime = System.currentTimeMillis();
     for (String line : lines) {
-      if (isValidSpelling(line, spellerRule, lt)) {
+      if (!speller.isMisspelled(line)) {
         for (int i = 1; i < line.length(); i++) {
           String part1 = line.substring(0, i);
-          String part2 = line.substring( i);
-          if (isValidSpelling(part1, spellerRule, lt) && isValidSpelling(part2, spellerRule, lt)) {
+          String part2 = line.substring(i);
+          if (!speller.isMisspelled(part1) && !speller.isMisspelled(part2)) {
             System.out.println(line + " => " + part1 + " " + part2);
           }
         }
       }
       lineCount++;
-      if (lineCount % 100 == 0) {
-        System.out.println("lineCount: " + lineCount);
+      if (lineCount % 1000 == 0) {
+        long runTime = System.currentTimeMillis() - lineTime;
+        lineTime = System.currentTimeMillis();
+        System.out.printf("lineCount: " + lineCount + " (%.2fs)\n", runTime/1000.0f);
       }
     }
-  }
-
-  private static boolean isValidSpelling(String word, MorfologikDutchSpellerRule spellerRule, JLanguageTool lt) throws IOException {
-    AnalyzedSentence as = lt.getAnalyzedSentence(word);
-    return spellerRule.match(as).length <= 0;
   }
 
 }
