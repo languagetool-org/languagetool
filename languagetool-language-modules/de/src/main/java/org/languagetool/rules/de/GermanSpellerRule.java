@@ -115,11 +115,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
     putRepl("[vV]orallendingen", "orallendingen", "or allen Dingen");
     putRepl("[aA]ufjede[nm]fall", "jede[nm]fall$", " jeden Fall");
+    putRepl("[aA]usversehen[dt]lich", "versehen[dt]lich", " Versehen");
     putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
     putRepl("[wW]öruber", "öru", "orü");
     putRepl("[lL]einensamens?", "[lL]einen", "Lein");
     putRepl("Feinleiner[ns]?", "Feinlei", "Fineli");
     putRepl("Oldheimer[ns]?", "he", "t");
+    putRepl("[tT]räner[ns]?", "[tT]rä", "Trai");
+    putRepl("[tT]eimings?", "[tT]e", "T");
     putRepl("unternehmensl[uü]stig(e[mnrs]?)?", "mensl[uü]st", "mungslust"); // "unternehmenslüstig" -> "unternehmungslustig"
     putRepl("proff?ess?ional(e[mnrs]?)?", "ff?ess?ional", "fessionell");
     putRepl("zuverlässlich(e[mnrs]?)?", "lich", "ig");
@@ -128,7 +131,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("verhäuft(e[mnrs]?)?", "^ver", "ge");
     putRepl("stürmig(e[mnrs]?)?", "mig", "misch");
     putRepl("größeste[mnrs]?", "ßes", "ß");
-    putRepl("naheste[mnrs]?", "nahe", "näch");
+    putRepl("n[aä]heste[mnrs]?", "n[aä]he", "näch");
     putRepl("gesundlich(e[mnrs]?)?", "lich", "heitlich");
     putRepl("eckel(e|t(en?)?|st)?", "^eck", "ek");
     putRepl("unhervorgesehen(e[mnrs]?)?", "hervor", "vorher");
@@ -147,6 +150,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
     put("Kreativlosigkeit", "Unkreativität");
     put("hinund?her", "hin und her");
+    put("[lL]ymph?trie?nasche", "Lymphdrainage");
+    put("Interdeterminismus", "Indeterminismus");
+    put("elektrität", "Elektrizität");
+    put("ausgeboten", "ausgebootet");
+    put("nocheinmall", "noch einmal");
+    put("aüßerst", "äußerst");
+    put("Grrösse", "Größe");
     put("misverständniss", "Missverständnis");
     put("warheit", "Wahrheit");
     put("[pP]okemon", "Pokémon");

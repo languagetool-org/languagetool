@@ -355,6 +355,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("kusengs", "Cousins", rule, lt);
     assertFirstSuggestion("Influenzer", "Influencer", rule, lt);
     assertFirstSuggestion("kaperzität", "Kapazität", rule, lt);
+    assertFirstSuggestion("ausversehendlich", "aus Versehen", rule, lt);
+    assertFirstSuggestion("tränern", "Trainern", rule, lt);
+    assertFirstSuggestion("Teiming", "Timing", rule, lt);
   }
 
   @Test
