@@ -32273,6 +32273,20 @@ Andere Projekte</example>
                 <example correction="ernstem">Mit <marker>ernsten</marker> Blick starrte er sie an.</example>
                 <example>Er hatte ein Gewicht von <marker>wenigen</marker> Kilogramm.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>seit</token>
+                    <token regexp="yes" skip="-1">[dms]eine|d(ie|as)|unsere|ihre|eure</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token>seit</token>
+                    <marker><token regexp="yes">[dms]?eine|d(ie|as)|unsere|ihre|eure</token></marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" postag="(.+)AKK(.*)" postag_regexp="yes" postag_replace="$1DAT$2"/></suggestion></message>
+                <example correction="deiner|ihrer|meiner|seiner|unserer">Sie ist seit <marker>ihre</marker> Kindheit sehr schüchtern.</example>
+                <example>Er ist sehr glücklich, seit <marker>seine</marker> Mutter zurück ist.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
