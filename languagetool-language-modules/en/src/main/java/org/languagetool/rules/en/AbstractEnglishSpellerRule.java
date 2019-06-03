@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
@@ -108,7 +109,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
           String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
-          replaceFormsOfFirstMatch(message, sentence, ruleMatches, Collections.singletonList(variantInfo.otherVariant()));
+          replaceFormsOfFirstMatch(message, sentence, ruleMatches, variantInfo.otherVariant());
         }
       }
     }
@@ -138,12 +139,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     ruleMatches.set(0, newMatch);
   }
 
-  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> suggestions) {
+  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, String suggestion) {
     // recreating match, might overwrite information by SuggestionsRanker;
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
-    newMatch.setSuggestedReplacements(suggestions);
+    SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
+    sugg.setShortDescription(language.getName());
+    newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));
     ruleMatches.set(0, newMatch);
   }
 
