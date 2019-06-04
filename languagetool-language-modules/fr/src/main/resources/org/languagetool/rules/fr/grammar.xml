@@ -4257,6 +4257,19 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <antipattern>
+          <token>Roland</token>
+          <token>Garros</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Roll?an[dt]?</token>
+          <token regexp="yes">Garr?os</token>
+        </pattern>
+        <message>Écrivez <suggestion>Roland Garros</suggestion> s’il s’agit de l'aviateur français.</message>
+        <url>https://fr.wikipedia.org/wiki/Rolland_Garros</url>
+        <example correction="Roland Garros"><marker>Rolland Garros</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
           <token>Edmond</token>
           <token>Rostand</token>
         </antipattern>
@@ -7878,7 +7891,7 @@ though, and has since been slightly modified)-->
     <rule id="PIZZA_MARGARITA" name="pizza margarita → pizza Margherita">
       <pattern>
         <token inflected="yes">pizza</token>
-        <marker><token regexp="yes">margaritas?</token></marker>
+        <marker><token regexp="yes">margh?[ae]ritas?<exception>Margherita</exception></token></marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion>Margherita</suggestion>?</message>
       <url>https://fr.wikipedia.org/wiki/Pizza_Margherita</url>
