@@ -350,6 +350,7 @@ class CompoundTagger {
       }
     }
 
+    // TODO: ua_2019
     // майстер-класу
     
     if( dashPrefixMatch ) {

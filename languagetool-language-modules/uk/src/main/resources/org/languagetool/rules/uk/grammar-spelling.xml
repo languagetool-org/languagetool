@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Снігопади паралізували пів-Європи.</example>
     </rule>
 
-    <rule id="PIV_BEFORE_IOTIZED" name="пів' перед йотованими">
+    <rule id="piv_before_iotized_1992" name="пів' перед йотованими">
       <pattern>
         <marker>
           <token>пів</token>
@@ -82,6 +82,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Вартість квитка – пів'юаня.</example>
       <example>об'їздив пів Європи</example>
     </rule>
+
+    <rulegroup id="piv_okremo_2019" name="пів пишемо окремо">
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">пів['-][а-яіїєґ].*</token>
+        </pattern>
+        <message> За правописом 2019 пів із загальними назвами пишемо окремо</message>
+        <suggestion><match no="1" regexp_match="(пів)['-]([а-яіїєґ].*)" regexp_replace="$1 $2" /></suggestion>
+        <example correction="пів яблука">з'їв <marker>пів-яблука</marker>.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">
       <rule>
@@ -106,6 +117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
         <example>анти-Забужко</example>
         <example>мета-2013</example>
+        <example>контр-адмірал</example>
         <example>на «Супер-нова»</example>
         <example>не багато-не мало</example>
       </rule>
@@ -222,10 +234,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Слово, написане не за чинним правописом</message>
-        <example correction=""><marker>проєкту</marker></example>
-        <example correction=""><marker>хемія</marker></example>
+        <example correction=""><marker>диференціялу</marker></example>
+        <example correction=""><marker>ґрантовий</marker></example>
         <example>проекту</example>
-        <example correction=""><marker>хе́мія</marker></example>
+        <example>проєкту</example>
+        <example correction=""><marker>ґра́нтовий</marker></example>
         <example>хоче прорости</example>
         <example>проекту</example>
       </rule>
@@ -1021,6 +1034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="зими —|зими-"><marker>зими—</marker> літа</example>
       </rule>
     </rulegroup>
+
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf

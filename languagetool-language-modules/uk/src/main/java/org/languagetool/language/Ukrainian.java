@@ -30,6 +30,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
@@ -40,6 +41,8 @@ import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
+import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
+import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
 import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
 import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
 import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
@@ -64,6 +67,7 @@ public class Ukrainian extends Language {
       "grammar-punctuation.xml"
       );
 
+  private static final Ukrainian UKRAINIAN_1992 = new Ukrainian();
   private Tagger tagger;
   private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
@@ -96,6 +100,16 @@ public class Ukrainian extends Language {
   @Override
   public String[] getCountries() {
     return new String[]{"UA"};
+  }
+
+  @Override
+  public String getVariant() {
+    return "1992";
+  }
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return UKRAINIAN_1992;
   }
 
   @Override
@@ -172,10 +186,15 @@ public class Ukrainian extends Language {
 
         new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
+        getSpellingReplacementRule(messages),
         new SimpleReplaceRule(messages),
 
         new HiddenCharacterRule(messages)
     );
+  }
+
+  protected Rule getSpellingReplacementRule(ResourceBundle messages) throws IOException {
+    return new SimpleReplaceSpelling1992Rule(messages);
   }
 
   @Override
@@ -192,6 +211,11 @@ public class Ukrainian extends Language {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public List<String> getDefaultDisabledRulesForVariant() {
+    return Arrays.asList("piv_okremo_2019");
   }
 
 }
