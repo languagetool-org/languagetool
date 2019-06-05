@@ -157,7 +157,7 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private File writeExampleSentencesToTempFile(String[] words) throws IOException {
-    File tempFile = new File("/tmp/example-sentences.txt");
+    File tempFile = new File(System.getProperty("java.io.tmpdir"), "example-sentences.txt");
     int count = 0;
     try (FileWriter fw = new FileWriter(tempFile)) {
       for (String word : words) {
