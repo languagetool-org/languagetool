@@ -180,13 +180,21 @@ USA
             <example correction="180-degree">She made a <marker>360-degree</marker> change in her life.</example>
         </rule>
         <rule id="TOW_THE_LINE" name="tow (toe) the line">
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token>towed</token>
+            </antipattern>
             <pattern>
-                <marker><token>tow</token></marker>
+                <marker><token inflected="yes">tow</token></marker>
                 <token>the</token>
                 <token>line</token>
             </pattern>
-            <message>Did you mean <suggestion>toe</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" postag="VB.*">toe</match></suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/definition/toe_the_line</url>
             <example correction="toe">We'll <marker>tow</marker> the line.</example>
+            <example correction="toes">Make sure everyone <marker>tows</marker> the line!</example>
+            <example>We'll <marker>toe</marker> the line.</example>
+            <example>Missing comma. While the boat was <marker>towed</marker> the line broke.</example>
         </rule>
         <rule id="RACK_BRAIN" name="wrack (rack) one's brain about">
             <pattern>
