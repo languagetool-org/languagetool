@@ -4348,7 +4348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern case_sensitive="yes">
         <!-- See https://eo.wikipedia.org/wiki/Vikipedio:Landonomoj_kun_flageto for a list of countries.
 
-             Be careful not to list country names which are identical to words which are 
+             Be careful not to list country names which are identical to words which are
              synonymous to words that are not proper names such as "grenado", "kubo",
              "malto" (etc) to avoid false positives.
         -->
@@ -4688,6 +4688,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>https://bertilow.com/pmeg/gramatiko/o-vortoj/seksa_signifo.html#i-jam</url>
       <example correction="amazonoj">Oni pensas, ke ŝi devenas de <marker>amazoninoj</marker>.</example>
       <example correction="muzo">Ŝi estas mia <marker>muzino</marker>.</example>
+    </rule>
+    <rule id="SUPERFLUA_UL" name="konatulo → konato (ktp.)">
+      <antipattern>
+        <token regexp="yes">(?:(?:arog|celak|eleg|gal|tar)an|(?:hipokr|kap|kokol|spr)i|(?:fl|fr|ser)a)tuloj?n?</token>
+      </antipattern>
+      <pattern>
+        <token regexp="yes">.{2,}(?:a|o|i)n?tuloj?n?</token>
+      </pattern>
+      <message>O-participo per si mem montras personon, kaj tial aldono de UL normale estas eraro.</message>
+      <suggestion><match no="1" regexp_match="(.*)tulo" regexp_replace="$1to"/></suggestion>
+      <url>https://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ul.html#i-aou</url>
+      <example correction="konatoj">Ĉu estos <marker>konatuloj</marker> tie?</example>
+      <example correction="parolanto">Ŝi estas <marker>parolantulo</marker> de tiu lingvo.</example>
+      <example correction="kurintoj">Estis multaj <marker>kurintuloj</marker> ĉe tiu evento.</example>
+      <example>Tie estis multaj arogantuloj kaj sprituloj.</example>
     </rule>
     <rulegroup id="URL" name="Neĝustaj URL-oj">
       <url>https://eo.wikipedia.org/wiki/URL</url>
