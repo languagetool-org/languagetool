@@ -67,7 +67,7 @@ class SingleDocument {
   private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
-  private static final int PARA_CHECK_FACTOR = 10;  //  Factor for parameter checked at once at iteration (no text change)
+  private static final int PARA_CHECK_FACTOR = 500;  //  Factor for parameter checked at once at iteration (no text change)
   private static final int MAX_SUGGESTIONS = 15;
 
 
@@ -203,13 +203,17 @@ class SingleDocument {
       return false;
     }
     if(resetCheck) {
-      loadIsChecked();
-      paragraphsCache.removeRange(resetFrom, resetTo);
+      if(numParasToCheck > 0) {
+        loadIsChecked();
+        paragraphsCache.removeRange(resetFrom, resetTo);
+      }
     } else if(resetParaNum >= 0 && resetParaNum != paraNum) {
       resetCheck = true;
       resetParaNum = -1;
-      loadIsChecked();
-      paragraphsCache.removeRange(resetFrom, resetTo);
+      if(numParasToCheck > 0) {
+        loadIsChecked();
+        paragraphsCache.removeRange(resetFrom, resetTo);
+      }
     }
     return resetCheck;
   }
@@ -218,8 +222,10 @@ class SingleDocument {
    * Reset only changed paragraphs
    */
   void optimizeReset() {
-    FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
-    flatPara.markFlatParasAsChecked(resetFrom + divNum, resetTo + divNum, isChecked);
+    if(numParasToCheck > 0) {
+      FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
+      flatPara.markFlatParasAsChecked(resetFrom + divNum, resetTo + divNum, isChecked);
+    }
     resetCheck = false;
   }
   
@@ -316,7 +322,11 @@ class SingleDocument {
       }
       to = allParas.size() + numParasToCheck - to;
       resetTo = to;
-      paragraphsCache.removeAndShift(from, to, allParas.size() - oldParas.size());
+      if (numParasToCheck > 0) {
+        paragraphsCache.removeAndShift(from, to, allParas.size() - oldParas.size());
+      } else {
+        paragraphsCache.removeAll();
+      }
       isReset = true;
       if(doResetCheck) {
         from += numParasToCheck;
@@ -608,8 +618,8 @@ class SingleDocument {
           List<SingleProofreadingError> errorList = new ArrayList<>();
           for (RuleMatch myRuleMatch : paragraphMatches) {
             int toPos = myRuleMatch.getToPos();
-            if(toPos > textToCheck.length()) {
-              toPos = textToCheck.length();
+            if(toPos > paraText.length()) {
+              toPos = paraText.length();
             }
             errorList.add(createOOoError(myRuleMatch, 0, toPos, paraText.charAt(toPos-1)));
           }
