@@ -12829,6 +12829,13 @@ USA
                     <token>to</token>
                     <token postag="VBP"><exception postag="NNS"/></token>
                 </antipattern>
+                <antipattern><!-- 'allow to do' [assume that quoted text is not an error] -->
+                    <token regexp="yes">['‘"“]</token>
+                    <token spacebefore="no"/>
+                    <token>to</token>
+                    <token/>
+                   <token spacebefore="no" regexp="yes">['’"”]</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.?">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ|VBN" postag_regexp="yes"/></token>
                     <marker>
@@ -12844,6 +12851,7 @@ USA
                 <example>He was allowed to build an ambitious garden.</example>
                 <example>General Don Carlos Buell likewise refused orders to move the Army of the Ohio against rebel forces.</example>
                 <example>That is what it tries to teach to <marker>people</marker> like me.</example>
+                <example>... a non-interventionist policy (literally ‘<marker>allow to do</marker>’).</example>
             </rule>
             <rule>
                 <pattern>
