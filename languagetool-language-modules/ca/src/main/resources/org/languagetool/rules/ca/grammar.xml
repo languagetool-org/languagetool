@@ -40835,14 +40835,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
             <pattern>
-                <token regexp="yes">el|lo</token>
-                <token regexp="yes">suficientment|bastant</token>
+                <token regexp="yes">el|lo|l</token>
+                <token regexp="yes">suficientment|bastant|suficient</token>
             </pattern>
             <message>Probablement val més dir <suggestion>prou</suggestion>.</message>
-            <url>http://esadir.cat/entrades/fitxa/id/2312</url>
+            <url>http://esadir.cat/gramatica/sintaxi/advermanera</url>
             <short>Expressió preferible</short>
             <example correction="prou">No és <marker>el suficientment</marker> bo.</example>
-            <example>prou</example>
+        </rule>
+        <rule id="SUFICIENT_PER" name="suficient per">
+            <pattern>
+                <marker>
+                    <token regexp="yes">suficientment|suficient</token>
+                </marker>
+                <token min="0" postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                <token regexp="yes">per|amb</token>
+            </pattern>
+            <message>Probablement val més dir <suggestion>prou</suggestion>.</message>
+            <url>http://esadir.cat/gramatica/sintaxi/advermanera</url>
+            <short>Expressió preferible</short>
+            <example correction="prou">Disfruto <marker>suficient</marker> per a oblidar-me'n.</example>
+            <example correction="prou">N'hi ha <marker>suficient</marker> amb això.</example>
+            <example correction="prou">Arriba <marker>suficientment</marker> preparat per a aprovar.</example>
         </rule>
         <rule id="DONAR_LESQUENA" name="donar l'esquena/girar l'esquena">
             <pattern>
