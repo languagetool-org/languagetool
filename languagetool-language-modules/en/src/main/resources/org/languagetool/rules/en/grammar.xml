@@ -7198,12 +7198,16 @@ USA
         </rule>
         <rule id="AU" name="au [astonomical unit] (Au=gold)">
             <pattern case_sensitive="yes">
-                <token>au</token>
+                <token>au
+                    <exception scope="next" regexp="yes">beurre|courant|contraire|fait|fond|gratin|jus|naturel|revoir</exception><!-- French terms that are used in English -->
+                    </token>
             </pattern>
             <message>Make sure that '\1' means 'astronomical unit'. If you mean the chemical symbol for gold, use <suggestion>Au</suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Astronomical_unit</url>
             <short>Possible typo</short>
             <example correction="Au">The chemical symbol for gold is <marker>au</marker>.</example>
+            <example>The chemical symbol for gold is <marker>Au</marker>.</example>
+            <example>Are you <marker>au fait</marker> the LanguageTool?</example>
         </rule>
         <rule id="IT_S_EVENT_JJ" name="it's event (even) possible">
             <pattern>
