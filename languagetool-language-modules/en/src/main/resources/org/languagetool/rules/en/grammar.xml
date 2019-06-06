@@ -8634,6 +8634,17 @@ USA
                     <token>as</token>
                     <token postag="CD"/>
                 </antipattern>
+                <antipattern><!-- an 8:00 a.m. meeting -->
+                    <token>an</token>
+                    <token postag="CD"/>
+                    <token regexp="yes" min="0">.</token>
+                    <token postag="CD" min="0"/>
+                    <token regexp="yes">[ap]</token>
+                    <token>.</token>
+                    <token>m</token>
+                    <token>.</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a[dns]|i[nt]|on</token>
@@ -8649,8 +8660,17 @@ USA
                 <example correction="at">She came <marker>on</marker> 7:30 p.m.</example>
                 <example correction="at">She came <marker>on</marker> 7 p.m.</example>
                 <example>1,500 workers are on the job, starting as early as 5 a.m. to avoid the 110-degree afternoon heat.</example>
+                <example>I have an 8:00 a.m. meeting tomorrow.</example>
             </rule>
             <rule>
+                <antipattern><!-- an 11 o'clock meeting -->
+                    <token>an</token>
+                    <token/>
+                    <token/>
+                    <token/>
+                    <token>clock</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a[dns]|i[nt]|on</token>
@@ -8662,6 +8682,8 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>at</suggestion>?</message>
                 <example correction="at">She came <marker>on</marker> 7 o'clock.</example>
+                <example>She came <marker>at</marker> 7 o'clock.</example>
+                <example>She has an 11 o'clock meeting, so she cannot see you.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAPPEN_TO" name="wrong preposition: 'happen with' (happen to)">
