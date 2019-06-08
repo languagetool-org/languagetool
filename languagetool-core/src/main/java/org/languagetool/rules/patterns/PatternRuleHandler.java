@@ -130,7 +130,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         message = new StringBuilder();
         suggestionsOutMsg = new StringBuilder();
         url = new StringBuilder();
-        id = idPrefix != null ? idPrefix + attrs.getValue(ID) : attrs.getValue(ID);
+        id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
         if (inRuleGroup) {
           subId++;
@@ -141,6 +141,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
             name = ruleGroupDescription;
           }
         }
+        if (id == null) {
+          throw new RuntimeException("id is null for rule with name '" + name + "'");
+        }
+        id = idPrefix != null ? idPrefix + id : id;
 
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
           throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
