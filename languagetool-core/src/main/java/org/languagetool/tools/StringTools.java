@@ -23,15 +23,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import com.google.common.xml.XmlEscapers;
@@ -480,4 +477,30 @@ public final class StringTools {
     }
     return isParaEnd;
   }
+
+  /**
+   * Loads file, ignoring comments (lines starting with {@code #}).
+   * @param path path in resource dir
+   * @since 4.6
+   */
+  public static List<String> loadLines(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+    List<String> l = new ArrayList<>();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.isEmpty() || line.charAt(0) == '#') {   // ignore comments
+          continue;
+        }
+        l.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load coherency data from " + path, e);
+    }
+    return Collections.unmodifiableList(l);
+  }
+
 }
