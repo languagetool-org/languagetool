@@ -2926,6 +2926,21 @@
         <disambig postag="DT"/>
     </rule>
     <rule name="PRP + VBZ/NNS -&gt; VBZ" id="PRP_VBZ">
+        <antipattern><!-- Incorrect grammar: ... has more than one windows. -->
+            <token inflected="yes">have</token>
+            <token regexp="yes">more|less</token>
+            <token>than</token>
+            <token>one</token>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <antipattern><!-- Incorrect grammar: more than one tests is -->
+            <token regexp="yes">more|less</token>
+            <token>than</token>
+            <token>one</token>
+            <token postag_regexp="yes" postag="NN.*" inflected="yes" regexp="yes">fly|test</token><!-- Semantics seems to be important. To prevent errors, specify the words that cannot be verbs. Compare with the 'dreams' example. -->
+            <token inflected="yes" regexp="yes">be|become</token>
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="PRP|WP" postag_regexp="yes">it|he|she|(some)?one|nobody|who</token>
             <marker>
@@ -2937,7 +2952,13 @@
         </pattern>
         <disambig><match no="2" postag="VBZ" postag_regexp="yes"/></disambig>
         <example type="untouched">He was determined to be someone.</example>
+        <example type="untouched">Incorrect grammar. The front panel has more than one <marker>windows</marker>.</example>
+        <example type="untouched">Incorrect grammar. More than one <marker>tests</marker> is necessary.</example>
+        <example type="untouched">Incorrect grammar. When you are fishing, more than one <marker>flies</marker> is necessary, I think.</example>
         <example type="ambiguous" inputform="trusts[trust/NNS,trust/VBZ]" outputform="trusts[trust/VBZ]">No one <marker>trusts</marker> him any more.</example>
+        <example type="ambiguous" inputform="dreams[dream/NNS,dream/VBZ]" outputform="dreams[dream/VBZ]">It has more options than one <marker>dreams</marker> is necessary.</example><!-- dreams/E-NP-plural thus cannot use the chunker. -->
+       <example type="ambiguous" inputform="samples[sample/NNS,sample/VBZ]" outputform="samples[sample/VBZ]">... and more than one <marker>samples</marker> the data. The results of the analyses are then compared...</example>
+       <example type="ambiguous" inputform="flies[fly/NNS,fly/VBZ]" outputform="flies[fly/VBZ]">I made many model aircraft, and more than one <marker>flies</marker>!</example>
     </rule>
     <rule name="PRP + MD/NN -&gt; MD" id="PRP_MD">
         <pattern>
