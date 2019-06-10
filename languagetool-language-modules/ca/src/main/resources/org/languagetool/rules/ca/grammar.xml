@@ -5734,6 +5734,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ell ho va preferir així.</example>
             </rule>
         </rulegroup>
+        <rule id="ANAR_INFINITIU" name="anar *deslligar/deslligat">
+            <pattern>
+                <token>anar</token>
+                <marker>
+                    <token postag="VMN00000"/>
+                </marker>
+            </pattern>
+            <message>Potser falta un gerundi o un participi.</message>
+            <suggestion><match no="2" postag="VMN00000" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
+            <suggestion><match no="2" postag="VMN00000" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+            <example correction="deslligant|deslligat">Va anar <marker>deslligar</marker>.</example>
+        </rule>
         <rule id="HAVER_DE_PARTICIPI" name="haver de *participat/participar">
             <pattern>
                 <token><exception>hi</exception></token>
@@ -19980,6 +19992,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>S'escriu junt.</message>
                 <suggestion>en<match no="2"/></suggestion>
                 <example correction="endavant">Tireu <marker>en davant</marker></example>
+                <example>Anem endarrere</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>rere</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>en<match no="2"/></suggestion>
+                <suggestion>arrere</suggestion>
+                <suggestion>endarrere</suggestion>
+                <example correction="enrere|arrere|endarrere">Tireu <marker>en rere</marker></example>
                 <example>Anem endarrere</example>
             </rule>
             <rule>
