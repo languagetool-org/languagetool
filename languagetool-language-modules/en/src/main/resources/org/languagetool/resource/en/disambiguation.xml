@@ -1827,6 +1827,20 @@
     </rule>
     
     <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
+      <antipattern><!-- a simple as we -->
+        <token skip="-1" postag="SENT_START">
+          <exception scope="next">as</exception></token>
+        <token regexp="yes">an?</token>
+        <token postag="JJ"/>
+        <token>as</token>
+        <token regexp="yes">I|you|we|they|s?he|it</token>
+      </antipattern>
+      <antipattern><!-- a small as! -->
+        <token regexp="yes">an?</token>
+        <token postag="JJ"/>
+        <token>as</token>
+        <token regexp="yes">[\.\?!;:]</token>
+      </antipattern>
       <pattern>
         <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
         <marker>
@@ -1840,8 +1854,12 @@
       <disambig action="filter" postag="NN.*"/>      
       <example type="untouched">It's no fun.</example>
       <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">It's no <marker>business</marker> of mine.</example>
+      <example type="ambiguous" inputform="monarch[monarch/JJ,monarch/NN]" outputform="monarch[monarch/NN]">... and a <marker>monarch</marker> as an impartial element able to practise justice.</example>
+      <example type="ambiguous" inputform="model[model/JJ,model/NN,model/VB,model/VBP]" outputform="model[model/NN]">She is as beautiful a <marker>model</marker> as I have ever photographed.</example>
       <example type="untouched">A short while later, Anders also went to sleep.</example>
       <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
+      <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>
+      <example type="untouched">Incorrect grammar. It's not a large sheep, it's <marker>a small as</marker>!</example>
     </rule>
     
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
