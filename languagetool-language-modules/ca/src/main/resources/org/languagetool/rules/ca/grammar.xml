@@ -18815,6 +18815,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Informació en l'XTEC.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DE_EL_NOMBRE_APOSTROFEN" name="apostrofació: de, el + nombre">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">&nombres_que_apostrofen;</token>
+                    <token postag="decimal_comma"/>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">&nombres_que_apostrofen;|últim(s|a|es)?</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>d'<match no="2"></match></suggestion>
+                <example correction="d'1"><marker>de 1</marker> a 3</example>
+                <example correction="d'1"><marker>de 1</marker>, de 3</example>
+                <example correction="d'1%"><marker>de 1%</marker>.</example>
+                <example correction="d'11°C">Per damunt <marker>de 11°C</marker>.</example>
+                <example correction="d'última"><marker>de última</marker> generació</example>
+                <example>de 1.400 habitants</example>
+                <example>a una distància de 1 630 anys llum.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>l'<match no="2"></match></suggestion>
+                <example correction="l'1"><marker>el 1</marker> de febrer</example>
+                <example correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
+                <example correction="L'11%"><marker>El 11%</marker> dels assistents.</example>
+                <example correction="L'11è"><marker>El 11è</marker> dels assistents.</example>
+                <example correction="l'XI">Va participar en <marker>el XI</marker> Congrés.</example>
+                <example correction="l'últim"><marker>el últim</marker></example>
+                <example>el 1.400</example>
+                <example>El 1900 hi havia 731 h i el 1991 263 h.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|de</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1"/> l'<match no="3"></match></suggestion>
+                <example correction="a l'1">fins <marker>al 1</marker> de febrer</example>
+                <example correction="a l'1">fins <marker>al 1</marker>, al 2 i al 3 de febrer</example>
+                <example correction="a l'1%">fins <marker>al 1%</marker>.</example>
+                <example>del 1.400 al 1.500</example>
+                <example>tributari del Xi Jiang</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pe</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>per l'<match no="3"></match></suggestion>
+                <example correction="per l'1"><marker>pel 1</marker> de febrer</example>
+                <example>anem pel 1.400</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
             <antipattern>
                 <marker>
@@ -18839,72 +18911,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">tribune|sun|tour|on|square|news</token>
                 </marker>
             </antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>de</token>
-                        <token regexp="yes">&nombres_que_apostrofen;</token>
-                    </marker>
-                    <token><exception postag="decimal_comma"/></token>
-                </pattern>
-                <message>Cal apostrofar.</message>
-                <suggestion>d'<match no="2"></match></suggestion>
-                <example correction="d'1"><marker>de 1</marker> a 3</example>
-                <example correction="d'1"><marker>de 1</marker>, de 3</example>
-                <example correction="d'1%"><marker>de 1%</marker>.</example>
-                <example correction="d'11°C">Per damunt <marker>de 11°C</marker>.</example>
-                <example>de 1.400 habitants</example>
-                <example>a una distància de 1 630 anys llum.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                        <token regexp="yes">&nombres_que_apostrofen;</token>
-                    </marker>
-                    <token><exception postag="decimal_comma"/></token>
-                </pattern>
-                <message>Cal apostrofar.</message>
-                <suggestion>l'<match no="2"></match></suggestion>
-                <example correction="l'1"><marker>el 1</marker> de febrer</example>
-                <example correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
-                <example correction="L'11%"><marker>El 11%</marker> dels assistents.</example>
-                <example correction="L'11è"><marker>El 11è</marker> dels assistents.</example>
-                <example correction="l'XI">Va participar en <marker>el XI</marker> Congrés.</example>
-                <example>el 1.400</example>
-                <example>El 1900 hi havia 731 h i el 1991 263 h.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">a|de</token>
-                        <token spacebefore="no">l</token>
-                        <token regexp="yes">&nombres_que_apostrofen;</token>
-                    </marker>
-                    <token><exception postag="decimal_comma"/></token>
-                </pattern>
-                <message>Cal apostrofar.</message>
-                <suggestion><match no="1"/> l'<match no="3"></match></suggestion>
-                <example correction="a l'1">fins <marker>al 1</marker> de febrer</example>
-                <example correction="a l'1">fins <marker>al 1</marker>, al 2 i al 3 de febrer</example>
-                <example correction="a l'1%">fins <marker>al 1%</marker>.</example>
-                <example>del 1.400 al 1.500</example>
-                <example>tributari del Xi Jiang</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>pe</token>
-                        <token spacebefore="no">l</token>
-                        <token regexp="yes">&nombres_que_apostrofen;</token>
-                    </marker>
-                    <token><exception postag="decimal_comma"/></token>
-                </pattern>
-                <message>Cal apostrofar.</message>
-                <suggestion>per l'<match no="3"></match></suggestion>
-                <example correction="per l'1"><marker>pel 1</marker> de febrer</example>
-                <example>anem pel 1.400</example>
-            </rule>
             <rule>
                 <pattern>
                     <token>de</token>
@@ -19015,12 +19021,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">de|el</token>
-                    <token regexp="yes">Uixó|uixer.+|Huixar</token>
+                    <token regexp="yes">Uixó|uixer|Huixar</token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion><match no="1" regexp_match=".*([dl]).*" regexp_replace="$1'"/><match no="2"/></suggestion>
                 <example correction="d'Uixó">la Vall <marker>de Uixó</marker></example>
                 <example>l'uixer</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|de</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">Uixó|uixer|Huixar</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1"/> l'<match no="3"></match></suggestion>
+                <example correction="a l'uixer">fins <marker>al uixer</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pe</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">Uixó|Huixar</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>per l'<match no="3"></match></suggestion>
+                <example correction="per l'Uixó"><marker>pel Uixó</marker></example>
             </rule>
         </rulegroup>
         <rule id="APOSTROFACIO_MOT_DESCONEGUT" name="apostrofació de paraula desconeguda">
