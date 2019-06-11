@@ -40,10 +40,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
- * Romanian implementations. Loads the list of words from
- * <code>/xx/replace.txt</code>.
+ * Loads the list of words from <code>/xx/replace.txt</code>.
  *
- * <p>Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" -&gt; "acvaforte").
+ * <p>Unlike AbstractSimpleReplaceRule, supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
  *
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
