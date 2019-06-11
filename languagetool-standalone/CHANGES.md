@@ -38,6 +38,9 @@
   * `prohibit.txt`: lines starting with ".*" will prohibit all words ending with
     the subsequent string (e.g., '.*artigel' will prohibit 'Versandartigel')
 
+#### Greek
+  * added rules
+
 #### Italian
   * added popular names to dictionary
 
