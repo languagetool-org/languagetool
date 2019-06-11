@@ -20,18 +20,28 @@ package org.languagetool.openoffice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XIndexContainer;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
+import com.sun.star.ui.ActionTriggerSeparatorType;
+import com.sun.star.ui.ContextMenuExecuteEvent;
+import com.sun.star.ui.ContextMenuInterceptorAction;
+import com.sun.star.ui.XContextMenuInterception;
+import com.sun.star.ui.XContextMenuInterceptor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -43,12 +53,16 @@ import com.sun.star.uno.XComponentContext;
  */
 class DocumentCursorTools {
   
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private final XParagraphCursor xPCursor;
   private final XTextViewCursor xVCursor;
+  @SuppressWarnings("unused") 
+  private final ContextMenuInterceptor contextMenuInterceptor;
   
   DocumentCursorTools(XComponentContext xContext) {
     xPCursor = getParagraphCursor(xContext);
     xVCursor = getViewCursor(xContext);
+    contextMenuInterceptor = new ContextMenuInterceptor(xContext);
   }
 
   /**
@@ -215,6 +229,108 @@ class DocumentCursorTools {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -5;             // Return negative value as method failed
     }
+  }
+  
+  /** 
+   * Class to add a LanguageTool Options item to the context menu
+   * since 4.6
+   */
+  class ContextMenuInterceptor implements XContextMenuInterceptor{
+    
+//    private final static String IGNORE_ONCE_URL = "slot:201";
+    private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
+
+    public ContextMenuInterceptor() {};
+    
+    public ContextMenuInterceptor(XComponentContext xContext)
+    {
+      try {
+        XTextDocument xTextDocument = getCurrentDocument(xContext);
+        if (xTextDocument == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xTextDocument == null");
+          return;
+        }
+        xTextDocument.getCurrentController();
+        XController xController = xTextDocument.getCurrentController();
+        if (xController == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xController == null");
+          return;
+        }
+        XContextMenuInterception xContextMenuInterception = UnoRuntime.queryInterface(XContextMenuInterception.class, xController);
+        if (xContextMenuInterception == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterception == null");
+          return;
+        }
+        ContextMenuInterceptor aContextMenuInterceptor = new ContextMenuInterceptor();
+        XContextMenuInterceptor xContextMenuInterceptor = 
+            UnoRuntime.queryInterface(XContextMenuInterceptor.class, aContextMenuInterceptor);
+        if (xContextMenuInterceptor == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterceptor == null");
+          return;
+        }
+        xContextMenuInterception.registerContextMenuInterceptor(xContextMenuInterceptor);
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+    }
+  
+    @Override
+    public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
+      try {
+        XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
+        int count = xContextMenu.getCount();
+        
+        //  This will add LT Options Item for every context menu 
+        XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+        XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
+        xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
+        xContextMenu.insertByIndex(count, xSeparator);
+
+        XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
+        xContextMenu.insertByIndex(count + 1, xNewMenuEntry);
+
+        return ContextMenuInterceptorAction.CONTINUE_MODIFIED;
+        
+/*
+        //  Version to add LT Options Item only if a Grammar or Spell error was detected
+        //  TODO: delete or activate after practice test
+        for (int i = 0; i < count; i++) {
+          Any a = (Any) xContextMenu.getByIndex(i);
+          XPropertySet props = (XPropertySet) a.getObject();
+          try {
+            String str = props.getPropertyValue("CommandURL").toString();
+            if(str != null && IGNORE_ONCE_URL.equals(str)) {
+              
+              XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+              XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
+              xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
+              xContextMenu.insertByIndex(count, xSeparator);
+
+              XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
+              xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
+              xContextMenu.insertByIndex(count + 1, xNewMenuEntry);
+
+              return ContextMenuInterceptorAction.CONTINUE_MODIFIED;
+            }
+          } catch (Throwable t) {
+            MessageHandler.printException(t);
+          }
+        }
+*/
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+      MessageHandler.printToLogFile("no change in Menu");
+      return ContextMenuInterceptorAction.IGNORED;
+    }
+
   }
   
 }
