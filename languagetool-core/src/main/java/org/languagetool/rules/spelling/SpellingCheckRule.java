@@ -129,7 +129,7 @@ public abstract class SpellingCheckRule extends Rule {
                                                   @Nullable SuggestionsOrderer orderer, RuleMatch match) {
     AnalyzedSentence sentence = match.getSentence();
     int startPos = match.getFromPos();
-    long startTime = System.currentTimeMillis();
+    //long startTime = System.currentTimeMillis();
     if (orderer != null && orderer.isMlAvailable()) {
       if (orderer instanceof SuggestionsRanker) {
         // don't rank words form user dictionary, assign confidence 0.0, but add at start
