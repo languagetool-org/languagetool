@@ -5438,4 +5438,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rule id="THE_BLESSED" name="the blessed"><!-- www.lexico.com/en/definition/blessed -->
+        <pattern>
+            <token>the</token>
+            <marker>
+                <token>blessed</token>
+            </marker>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </pattern>
+        <disambig action="replace"><wd pos="NNS"/></disambig>
+        <example type="untouched">Oh, the <marker>blessed</marker> fool really annoys me.</example>
+        <example type="ambiguous" inputform="blessed[bless/VBD,bless/VBN,blessed/JJ,blessed/NN]" outputform="blessed[blessed/NNS]">He also states that the <marker>blessed</marker> are called in Greek...</example>
+    </rule>
+
 </rules>
