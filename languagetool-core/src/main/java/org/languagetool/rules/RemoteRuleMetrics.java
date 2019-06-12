@@ -33,6 +33,7 @@ public final class RemoteRuleMetrics {
 
   public enum RequestResult {
     SUCCESS,
+    SKIPPED,
     TIMEOUT,
     INTERRUPTED,
     DOWN,
