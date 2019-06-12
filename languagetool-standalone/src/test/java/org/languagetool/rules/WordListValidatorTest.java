@@ -51,6 +51,8 @@ public class WordListValidatorTest {
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Mondelēz",
+          "chef-d’œuvre",
+          "chefs-d’œuvre",
           "Brač",
           "Djuveč",
           "Djuvečreis",
