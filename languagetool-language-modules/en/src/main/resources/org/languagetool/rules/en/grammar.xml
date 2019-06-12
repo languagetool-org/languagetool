@@ -10025,6 +10025,10 @@ USA
         <rulegroup id="SINGULAR_AGREEMENT_SENT_START" name="Possible agreement error: singular noun + plural verb">
     <!-- Created by Tiago F. Santos, 2018-07-17	-->
             <rule><!-- TODO overly strict. expand with other rules or improve disambiguation significantly-->
+                <antipattern><!-- https://www.lexico.com/en/definition/former, www.ldoceonline.com/dictionary/remainder -->
+                    <token>the</token>
+                    <token regexp="yes">following|former|latter|remainder</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
@@ -10058,7 +10062,7 @@ USA
                 <example>The Syndic General then notifies the Co-princes who in turn appoint ...</example>
                 <example>His official title at the company is Assistant to the President.</example>
                 <example>The greenhouse frog (Eleutherodactylus planirostris) lays eggs in sma...</example>
-                <!--example>The remainder are scattered throughout Alaska, both within organize...</example   TODO fix remainder POS and/or disambiguation -->
+                <example>The remainder are scattered throughout Alaska, both within organize...</example>
                 <example>The official state song of Alaska is "Alaska's Flag", which was adop...</example>
                 <example>Our yacht club has ten members.</example>
                 <example>Our team beat the Lions 3 to 0.</example>
