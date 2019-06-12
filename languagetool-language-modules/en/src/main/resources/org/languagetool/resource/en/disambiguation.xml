@@ -3432,6 +3432,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
          <token regexp="yes">and|or</token>
          <token postag_regexp="yes" postag="VBP?"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. Incorrect grammar: the dog bark loudly. -->
+        <token>
+          <exception postag_regexp="yes" postag="VB.*"/></token>
+        <token postag_regexp="yes" postag="DT|PRP\$"/>
+        <token postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
+        <token postag="VBP"/>
+        <token postag="RB"/>
+        <token postag="SENT_END"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -3460,7 +3469,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">When did he last <marker>talk</marker> to them?</example>
       <example type="untouched">Incorrect grammar. We are drive to London.</example>
       <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
+      <example type="untouched">Incorrect grammar. I am irritated when the dog <marker>bark</marker> loudly.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
+      <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <antipattern><!-- Fix for chunker: staves off hunger -->
