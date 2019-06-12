@@ -4695,6 +4695,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule name="Proper noun: The Monkees" id="THE_MONKEES"><!-- https://en.wikipedia.org/wiki/The_Monkees_(TV_series) -->
+      <pattern case_sensitive="yes">
+          <token regexp="yes">[Tt]he</token>
+          <token>Monkees</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
         <pattern>
             <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
