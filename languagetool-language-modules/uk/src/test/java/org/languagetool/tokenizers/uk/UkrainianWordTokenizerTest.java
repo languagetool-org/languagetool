@@ -285,6 +285,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("до т. зв. сальону");
     assertEquals(Arrays.asList("до", " ", "т.", " ", "зв.", " ", "сальону"), testList);
 
+    testList = w.tokenize(" і под.");
+    assertEquals(Arrays.asList(" ", "і", " ", "под."), testList);
+
     testList = w.tokenize("Інститут ім. акад. Вернадського.");
     assertEquals(Arrays.asList("Інститут", " ", "ім.", " ", "акад.", " ", "Вернадського", "."), testList);
 

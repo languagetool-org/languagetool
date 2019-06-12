@@ -125,7 +125,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.* *$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й) ін|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
+  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(д|п|ін))\\.");
   private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(зв))\\.");
 
