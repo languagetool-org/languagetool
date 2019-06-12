@@ -70,7 +70,8 @@ public class GrammalecteRule extends Rule {
     "typo_apostrophe_incorrecte",
     "unit_nbsp_avant_unités3",
     "nbsp_après_double_ponctuation",
-    "typo_guillemets_typographiques_simples_ouvrants"
+    "typo_guillemets_typographiques_simples_ouvrants",
+    "num_grand_nombre_avec_espaces"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
