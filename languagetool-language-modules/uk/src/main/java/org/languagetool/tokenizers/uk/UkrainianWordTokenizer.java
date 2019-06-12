@@ -92,7 +92,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\s\u00A0\u202F]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\s\u00A0\u202F]+[а-яіїєґ0-9])");
-  private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]лат)\\.([\\s\u00A0\u202F]+[a-zA-Z])");
+  private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\s\u00A0\u202F]+[a-zA-Z])");
   private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|вул|о|р|ім|упоряд)\\.([\\s\u00A0\u202F]+[А-ЯІЇЄҐ])");
 
   // tokenize initials with dot before last name, e.g. "А.", "Ковальчук"
@@ -119,17 +119,17 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
   // скорочення що не можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
+  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
       + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.* *$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
+  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й) ін|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(д|п|ін))\\.");
   private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(зв))\\.");
 
-  private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ])(тис|[А-ЯІЇЄҐ])\\.$");
+  private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ\u0301])(тис|[А-ЯІЇЄҐ])\\.$");
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
