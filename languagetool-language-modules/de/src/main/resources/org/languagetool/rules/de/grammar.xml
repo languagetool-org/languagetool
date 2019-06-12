@@ -30199,6 +30199,20 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Blau und Rot">Er mischte <marker>blau und rot</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">tragen</token>
+                    <marker>
+                        <token regexp="yes">&farbadj;</token>
+                    </marker>
+                    <token><exception postag="PA.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>In dieser Wendung '\2' als Substantiv gebraucht zu werden und ist deshalb großzuschreiben.</message>
+                <suggestion><match case_conversion="startupper" no="2"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Weiß">Sie trug <marker>weiß</marker>.</example>
+                <example>Sie trug <marker>weiß</marker> gepunktete Socken.</example>
+            </rule>
         </rulegroup>
         <rule id="DAS_FARBE_GENITIV" name="das + 'Farbe' + Genitiv ('das Weiß ihres Kleides')">
             <pattern>
