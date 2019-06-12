@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="PIV_WITH_PROPER_NOUN" name="пів- з власними назвами">
+    <rule id="piv_with_proper_noun_1992" name="пів- з власними назвами">
       <pattern>
         <marker>
           <token>пів</token>
@@ -86,7 +86,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="piv_okremo_2019" name="пів пишемо окремо">
       <rule>
         <pattern>
-          <token case_sensitive="yes" regexp="yes">пів['-][а-яіїєґ].*</token>
+          <token case_sensitive="yes" regexp="yes">пів['-][а-яіїєґ].*
+            <exception>пів-на-пів</exception>
+          </token>
         </pattern>
         <message> За правописом 2019 пів із загальними назвами пишемо окремо</message>
         <suggestion><match no="1" regexp_match="(пів)['-]([а-яіїєґ].*)" regexp_replace="$1 $2" /></suggestion>
@@ -104,6 +106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|геліо|гео|гідро|гіпер|давньо|древньо|екзо|екстра|електро|зоо|ізо|квазі|кіно|космо|контр|лже|макро|мета|метео|мікро|мілі|моно|мото|мульти|нео|псевдо|пост|радіо|рентгено|стерео|супер|теле|транс|турбо|ультра|фоно|фото)[-–][а-яіїєґ][^-]{2,}
             <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
+            <!-- will be handled by 2019 spelling rule -->
             <exception regexp="yes">контр[-–]адмір.*</exception>
             <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
           </token>
@@ -123,6 +126,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
       <rule>
+
+        <pattern>
+          <token regexp="yes">анти|віце|екс|квазі|лже|супер|ультра</token>
+          <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,}
+            <exception>Нова</exception>
+          </token>
+        </pattern>
+        <message>Із власною назвою компонента <match no="1"/> пишеться через дефіс</message>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="екс-Югославія"><marker>екс Югославія</marker>.</example>
+        <example>супер Нова</example>
+        <!-- handled by rule above -->
+        <example>екс капітан</example>
+      </rule>
+
+      <rule>
         <pattern>
           <token case_sensitive="yes" regexp="yes">еко-[а-яіїєґ].+
             <exception postag_regexp="yes" postag="adj.*"/>
@@ -132,7 +153,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://www.pravopys.net/#search=25-33</url>
         <short>Правильно писати разом</short>
         <example correction="екопоселення"><marker>еко-поселення</marker></example>
+        <!--
         <example>еко-соціальний</example>
+        -->
       </rule>
 
       <rule>
@@ -667,6 +690,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Правильно: <suggestion>безвісти</suggestion></message>
         <example correction="безвісти"><marker>безвісті</marker> зникли.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">зник.*|пропа[вл].*</token>
+          <marker>
+            <token>без</token>
+            <token regexp="yes">віст[іи]</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>безвісти</suggestion></message>
+        <example correction="безвісти">зниклих <marker>без вісті</marker>.</example>
+        <example correction="безвісти">пропали <marker>без вісти</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>без</token>
+            <token regexp="yes">віст[іи]</token>
+          </marker>
+          <token regexp="yes">зник.*|пропа[вл].*</token>
+        </pattern>
+        <message>Правильно: <suggestion>безвісти</suggestion></message>
+        <example correction="безвісти"><marker>без вісті</marker> зникли.</example>
+        <example correction="безвісти"><marker>без вісти</marker> зникли.</example>
       </rule>
     </rulegroup>
 
