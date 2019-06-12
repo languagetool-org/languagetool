@@ -97,13 +97,13 @@
           <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/RB]">He checked <marker>so</marker> carefully.</example>
         </rule>
 
-    <rule id="AULD_LANG_SYNE" name="Auld Lang Syne - title of a famous song">
+    <rule id="AULD_LANG_SYNE" name="auld lang syne"><!-- www.lexico.com/en/definition/auld_lang_syne -->
         <pattern>
             <token>auld</token>
             <token>lang</token>
             <token>syne</token>
         </pattern>
-        <disambig action="immunize"/>
+        <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
     </rule>
     
     <rule id="GOD_SAVE_THE_QUEEN" name="God save the queen">
@@ -116,14 +116,13 @@
       <disambig action="immunize"/>
     </rule>
     
-    <!-- officially not written with the apostrophe -->
-    <rule id="HUMAN_RIGHTS_COUNCIL" name="Human Rights Council">
+    <rule id="HUMAN_RIGHTS_COUNCIL" name="Human Rights Council"><!-- www.ohchr.org/EN/HRBodies/HRC/Pages/Home.aspx -->
       <pattern case_sensitive="yes">
         <token>Human</token>
         <token>Rights</token>
         <token>Council</token>
       </pattern>
-      <disambig action="immunize"/>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="SIDE_TO_SIDE" name="side to side"> <!-- PHRASE_REPETITION false alarm: side to side to avoid... -->
@@ -4426,10 +4425,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         
         <rule id="I_CHING" name="I Ching">
           <pattern case_sensitive="yes">
-            <marker><token>I</token></marker>
+            <token>I</token>
             <token>Ching</token>
           </pattern>
-          <disambig postag="NNP"/>
+          <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
           <example type="untouched">I am glad!</example>
           <example type="ambiguous" inputform="I[I/PRP]" outputform="I[I/NNP]">But a tossing of coins, with perhaps the added safeguard of reference to the oracles of the <marker>I</marker> Ching, the Chinese Book Of Changes, dictates the handling of the chosen materials.</example>
         </rule>
@@ -4733,13 +4732,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
-    <rule name="Ignore spelling of Ho Chi Minh" id="IGNORE_SPELLING_OF_HO_CHI_MINH">
+    <rule name="Proper noun: Ho Chi Minh" id="HO_CHI_MINH"><!-- www.lexico.com/en/definition/ho_chi_minh -->
         <pattern case_sensitive="yes">
             <token>Ho</token>
             <token>Chi</token>
             <token>Minh</token>
         </pattern>
-        <disambig action="ignore_spelling"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
     <rule name="alter ego" id="ALTER_EGO">
       <pattern>
@@ -4748,13 +4747,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NN"/>
     </rule>
-    <rule name="lingua franca" id="LINGUA_FRANCA">
-      <pattern>
-          <token>lingua</token><!-- Is NN = a medical/biological term -->
-          <marker><token regexp="yes">francas?</token></marker>
-      </pattern>
-      <disambig postag="NN"/>
-    </rule>
+    <rulegroup name="lingua franca" id="LINGUA_FRANCA"><!-- www.lexico.com/en/definition/lingua_franca -->
+      <rule>
+        <pattern>
+          <token>lingua</token>
+          <token>franca</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <token>lingua</token>
+          <token>francas</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+      </rule>
+    </rulegroup>
     
       <rulegroup name="Adverbial phrases/locutions" id="ADVERBIAL_PHRASES">
         <!-- Created by Tiago F. Santos, 2018-11-13 -->
