@@ -5033,23 +5033,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
     </rule>
 
-    <rulegroup id="DOUBLE_ENTENDRE" name="double entendre"><!-- https://en.oxforddictionaries.com/definition/double_entendre -->
-        <rule>
-            <pattern>
-                <token>double</token>
-                <token>entendre</token>
-            </pattern>
-            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>double</token>
-                <token>entendres</token>
-            </pattern>
-            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
-        </rule>
-    </rulegroup>
-
     <rulegroup id="AB_INITIO" name="ab initio"><!-- https://en.oxforddictionaries.com/definition/ab_initio -->
         <rule>
             <pattern>
@@ -5458,5 +5441,427 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Oh, the <marker>blessed</marker> fool really annoys me.</example>
         <example type="ambiguous" inputform="blessed[bless/VBD,bless/VBN,blessed/JJ,blessed/NN]" outputform="blessed[blessed/NNS]">He also states that the <marker>blessed</marker> are called in Greek...</example>
     </rule>
+
+    <rulegroup id="FOREIGN_TERMS_FRENCH" name="French terms used in English">
+    <!-- MFU verified with www.lexico.com and/or www.merriam-webster.com unless otherwise noted. --> 
+
+        <rule id="À_DEUX" name="à deux">
+            <pattern>
+                <token>à</token>
+                <token>deux</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+<!--
+        <rule id="À_HUIS_CLOS" name="à huis clos"> www.merriam-webster.com/dictionary/%C3%A0%20huis%20clos -
+            <pattern>
+                <token>à</token>
+                <token>huis</token>
+                <token>clos</token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="À_LA_CARTE" name="à la carte">
+            <pattern>
+                <token>à</token>
+                <token>la</token>
+                <token>carte</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="AMOUR_PROPRE" name="amour propre">
+            <pattern>
+                <token>amour</token>
+                <token>propre</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="AU_ADJECTIVE" name="au + ADJECTIVE">
+            <pattern>
+                <token>au</token>
+                <token regexp="yes">beurre|courant|fait|gratin|jus|naturel</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+<!--
+        <rule id="AU_CONTRAIRE" name="au contraire">
+            <pattern>
+                <token>au</token>
+                <token>contraire</token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="AU_FOND" name="au fond">
+            <pattern>
+                <token>au</token>
+                <token>fond</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+<!--
+        <rule id="AUTREFOIS_ACQUIT" name="autrefois acquit">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+
+        <rule id="AUTREFOIS_CONVICT" name="autrefois convict">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="AVANT_GARDE_JJ" name="avant-garde">
+            <pattern>
+                <token>avant-garde</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="AVANT_GARDE_NN" name="avant-garde">
+            <pattern>
+                <token>avant-garde</token>
+            </pattern>
+            <disambig action="add"><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="BEAU_NOUN_SINGULAR" name="beau + NOUN SINGULAR">
+            <pattern>
+                <token>beau</token>
+                <token regexp="yes">geste|idéal</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="BEAUX_NOUN_PLURAL" name="beaux + NOUN PLURAL">
+            <pattern>
+                <token>beaux</token>
+                <token regexp="yes">arts|gestes|idéals</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="BEAU_MONDE" name="beau monde">
+            <pattern>
+                <token>beau</token>
+                <token>monde</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="BELLES-LETTRES" name="belles-lettres">
+            <pattern>
+                <token>belles-lettres</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="BÊTE_NOIRE" name="bête noire">
+            <pattern>
+                <token>bête</token>
+                <token>noire</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="BÊTES_NOIRES" name="bêtes noires">
+            <pattern>
+                <token>bêtes</token>
+                <token>noires</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="BILLET-DOUX" name="billet-doux">
+            <pattern>
+                <token>billet-doux</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="BILLETS-DOUX" name="billets-doux">
+            <pattern>
+                <token>billets-doux</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/></disambig>
+        </rule>
+<!--
+        <rule id="BON_APPÉTIT" name="bon appétit">
+            <pattern>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="BON_NOUN_SINGULAR" name="bon + NOUN SINGULAR">
+            <pattern>
+                <token>bon</token>
+                <token regexp="yes">mot|vivant</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="BONS_NOUN_PLURAL" name="bons + NOUN PLURAL">
+            <pattern>
+                <token regexp="yes">bons?</token>
+                <token regexp="yes">mots|vivants</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+<!--
+        <rule id="BON_VOYAGE" name="bon voyage">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+<!--
+        <rule id="C_EST_LA_GUERRE" name="c'est la guerre">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="CARTE_BLANCHE" name="carte blanche">
+            <pattern>
+                <token>carte</token>
+                <token>blanche</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="CAUSE_CÉLÈBRE" name="cause célèbre">
+            <pattern>
+                <token>cause</token>
+                <token>célèbre</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="CAUSES_CÉLÈBRES" name="causes célèbres">
+            <pattern>
+                <token>causes</token>
+                <token>célèbres</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+<!--
+        <rule id="CE_DE_RÉSISTANCE" name="ce de résistance">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+<!--
+        <rule id="CHACUN_À_SON_GOUT" name="chacun à son gout">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="CHEF_D_ŒUVRE" name="chef-d'œuvre">
+            <pattern>
+                <token>chef-d</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">œuvre</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="CHEFS_D_ŒUVRE" name="chefs-d'œuvre">
+            <pattern>
+                <token>chefs-d</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">œuvre</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+<!--
+        <rule id="CHERCHEZ_LA_FEMME" name="cherchez la femme">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="COMME_CI_COMME_ÇA_JJ" name="comme ci, comme ça">
+            <pattern>
+                <token>comme</token>
+                <token>ci</token>
+                <token>,</token>
+                <token>comme</token>
+                <token>ça</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="COMME_CI_COMME_ÇA_RB" name="comme ci, comme ça">
+            <pattern>
+                <token>comme</token>
+                <token>ci</token>
+                <token>,</token>
+                <token>comme</token>
+                <token>ça</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="COMME_IL_FAUT" name="comme il faut">
+            <pattern>
+                <token>comme</token>
+                <token>il</token>
+                <token>faut</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+<!--
+        <rule id="CORDON_BLEU" name="cordon bleu">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+<!--
+        <rule id="CORDON_SANITAIRE" name="cordon sanitaire">
+            <pattern>
+                <token></token>
+                <token></token>
+            </pattern>
+            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+        </rule>
+-->
+        <rule id="COUP_D_ÉTAT" name="coup d'état">
+            <pattern>
+                <token>coup</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">état</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="COUPS_D_ÉTAT" name="coups d'état">
+            <pattern>
+                <token>coups</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">état</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="COUP_DE_FOUDRE" name="coup de foudre">
+            <pattern>
+                <token>coup</token>
+                <token>de</token>
+                <token regexp="yes">foudre|grâce|main</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="COUPS_DE_FOUDRE" name="coups de foudre">
+            <pattern>
+                <token>coups</token>
+                <token>de</token>
+                <token regexp="yes">foudre|grâce|main</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="CRI_DE_CŒUR" name="cri de cœur">
+            <pattern>
+                <token>cri</token>
+                <token>de</token>
+                <token regexp="yes">cœur|coeur</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="CRIS_DE_CŒUR" name="cris de cœur">
+            <pattern>
+                <token>cris</token>
+                <token>de</token>
+                <token regexp="yes">cœur|coeur</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="DE_NOS_JOURS" name="de nos jours">
+            <pattern>
+                <token>de</token>
+                <token>nos</token>
+                <token>jours</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="DE_RIGUEUR" name="de rigueur">
+            <pattern>
+                <token>de</token>
+                <token regexp="yes">rigueur|trop</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="DÉJÀ_VU" name="déjà vu">
+            <pattern>
+                <token>déjà</token>
+                <token>vu</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="DERNIER_CRI" name="dernier cri">
+            <pattern>
+                <token>dernier</token>
+                <token>cri</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="DOUBLE_ENTENDRE" name="double entendre">
+            <pattern>
+                <token>double</token>
+                <token>entendre</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="DOUBLE_ENTENDRES" name="double entendres">
+            <pattern>
+                <token>double</token>
+                <token>entendres</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+<!-- Missing to add -->
+
+        <rule id="OBJET_D_ART" name="objet d'art">
+            <pattern>
+                <token>objet</token>
+                <token>d</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">art</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="OBJETS_D_ART" name="objet d'art">
+            <pattern>
+                <token>objets</token>
+                <token>d</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">art</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+<!-- Missing to add -->
+    </rulegroup>
 
 </rules>
