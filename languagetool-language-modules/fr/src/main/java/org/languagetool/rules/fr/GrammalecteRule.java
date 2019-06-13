@@ -48,7 +48,7 @@ import java.util.*;
 public class GrammalecteRule extends Rule {
 
   private static Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);
-  private static final int TIMEOUT_MILLIS = 1;
+  private static final int TIMEOUT_MILLIS = 500;
   private static final long DOWN_INTERVAL_MILLISECONDS = 5000;
 
   private static long lastRequestError = 0;
