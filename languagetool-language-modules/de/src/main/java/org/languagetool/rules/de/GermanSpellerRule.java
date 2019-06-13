@@ -478,7 +478,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]nbequemlich(st)?e[nmrs]?", "lich", "");
     putRepl("[uU][nm]bekweh?m(e[nmrs]?)?", "[nm]bekweh?m", "nbequem");
     putRepl("[dD]esatör(s|en?)?", "satör", "serteur");
-    put("Panelen?", w -> Arrays.asList(w.replaceFirst("Panel", "Paneel")), "Panels");
+    put("Panelen?", w -> Arrays.asList(w.replaceFirst("Panel", "Paneel"), "Panels"));
     put("D[eèé]ja-?[vV]o?ue?", "Déjà-vu");
     put("Cr[eèé]me-?fra[iî]che", "Crème fraîche");
     put("[aA]rr?an?gemont", "Arrangement");
