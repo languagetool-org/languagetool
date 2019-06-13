@@ -15689,7 +15689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sehr</token>
                     <token regexp="yes">geehrter?</token>
                     <token regexp="yes">Frau|Herr</token>
-                    <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+<exception regexp="yes">Dr|Prof|Mag</exception></token>
+                    <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+<exception regexp="yes">Dr|Prof|Mag|Dipl.*</exception></token>
                     <token regexp="yes">\-|\.|:|\!|;</token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
@@ -15702,7 +15702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sehr</token>
                     <token regexp="yes">geehrter?</token>
                     <token regexp="yes">Frau|Herr</token>
-                    <token regexp="yes" min="0">Prof|Dr</token>
+                    <token regexp="yes" min="0">Prof|Dr|Mag|Dipl.*</token>
                     <token min="0">.</token>
                     <marker>
                         <token regexp="yes" postag=".*SENT_END.*" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
@@ -15744,7 +15744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                        <exception postag="PKT"/>
-                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|zusammen|und|oder|ihr|du</exception>
+                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|zusammen|und|oder|ihr|du|@.*</exception>
                     </token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
