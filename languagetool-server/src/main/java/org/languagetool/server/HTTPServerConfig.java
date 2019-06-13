@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @since 2.0
@@ -106,6 +107,8 @@ public class HTTPServerConfig {
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
   protected String abTest = null;
+  protected Pattern abTestClients = null;
+  protected int abTestRollout = 100; // percentage [0,100]
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
    */
@@ -296,6 +299,8 @@ public class HTTPServerConfig {
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
+        setAbTestClients(getOptionalProperty(props, "abTestClients", null));
+        setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -961,11 +966,53 @@ public class HTTPServerConfig {
    */
   @Experimental
   public void setAbTest(@Nullable String abTest) {
-    List<String> values = Arrays.asList("SuggestionsOrderer", "SuggestionsRanker");
-    if (abTest != null && !values.contains(abTest)) {
-        throw new IllegalConfigurationException("Unknown value for 'abTest' property: Must be one of: " + values);
+    if (abTest != null && abTest.trim().isEmpty()) {
+      this.abTest = null;
+    } else {
+      this.abTest = abTest;
     }
-    this.abTest = abTest;
+  }
+
+  /**
+   * @since 4.6
+   * Clients that a A/B test runs on; null -> disabled
+   */
+  @Experimental
+  @Nullable
+  public Pattern getAbTestClients() {
+    return abTestClients;
+  }
+
+  /**
+   * @since 4.6
+   * Clients that a A/B test runs on; null -> disabled
+   * @param pattern
+   */
+  @Experimental
+  public void setAbTestClients(@Nullable String pattern) {
+    if (pattern == null) {
+      this.abTestClients = null;
+    } else {
+      this.abTestClients = Pattern.compile(pattern);
+    }
+  }
+
+  /**
+   * @since 4.6
+   * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+   */
+  @Experimental
+  public void setAbTestRollout(int abTestRollout) {
+    this.abTestRollout = abTestRollout;
+  }
+
+  /**
+   * @since 4.6
+   * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+   */
+  @Experimental
+  public int getAbTestRollout() {
+    return abTestRollout;
   }
 
   /**
