@@ -46,6 +46,8 @@ public class UserConfig {
   // provided to rules only for A/B tests ->
   private long textSessionId;
   private String abTest;
+  // don't do A/B tests in command line / GUI mode / tests, etc.; true when running as a server
+  private boolean abTestEnabled = false;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -148,6 +150,7 @@ public class UserConfig {
       // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
+      .append(abTestEnabled, other.abTestEnabled)
       .append(textSessionId % 2, other.textSessionId % 2)
       .isEquals();
   }
@@ -159,8 +162,9 @@ public class UserConfig {
       .append(maxSpellingSuggestions)
       .append(userDictName)
       .append(configurableRuleValues)
+      .append(abTestEnabled)
+      .append(abTest)
       .append(filterDictionaryMatches)
-      // skipping abTest and textSessionId on purpose - not relevant for caching
       .toHashCode();
   }
 
@@ -178,6 +182,14 @@ public class UserConfig {
 
   public void setAbTest(String abTest) {
     this.abTest = abTest;
+  }
+
+  public boolean isAbTestEnabled() {
+    return abTestEnabled;
+  }
+
+  public void setAbTestEnabled(boolean abTestEnabled) {
+    this.abTestEnabled = abTestEnabled;
   }
 
   public boolean filterDictionaryMatches() {

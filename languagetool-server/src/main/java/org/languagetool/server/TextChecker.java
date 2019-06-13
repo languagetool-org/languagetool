@@ -88,6 +88,7 @@ abstract class TextChecker {
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
   private final Long logServerId;
+  private final Random random = new Random();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -215,11 +216,6 @@ abstract class TextChecker {
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
             getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
 
-    // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
-    if (agent != null && agent.equals("ltorg")) {
-      userConfig.setAbTest(config.getAbTest());
-    }
-
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
@@ -308,6 +304,22 @@ abstract class TextChecker {
     } catch (NumberFormatException ex) {
       logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
+
+    userConfig.setAbTestEnabled(true);
+    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
+      boolean testRolledOut;
+      // partial rollout; deterministic if textSessionId given to make testing easier
+      if (textSessionId != null) {
+        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
+      } else {
+        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
+      }
+      if (testRolledOut) {
+        userConfig.setAbTest(config.getAbTest());
+      }
+    }
+
+
     int textSize = aText.getPlainText().length();
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
