@@ -359,6 +359,23 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("tränern", "Trainern", rule, lt);
     assertFirstSuggestion("Teiming", "Timing", rule, lt);
     assertFirstSuggestion("inzinierung", "Inszenierung", rule, lt);
+    assertFirstSuggestion("weireten", "weiteren", rule, lt);
+    assertFirstSuggestion("Nivoschalters", "Niveauschalters", rule, lt);
+    assertFirstSuggestion("exhibitionischer", "exhibitionistischer", rule, lt);
+    assertFirstSuggestion("geschalten", "geschaltet", rule, lt);
+    assertFirstSuggestion("unterschiebenes", "unterschriebenes", rule, lt);
+    assertFirstSuggestion("Umbekwehmer", "Unbequemer", rule, lt);
+    assertFirstSuggestion("Unbequemliche", "Unbequeme", rule, lt);
+    assertFirstSuggestion("unbequemlichstes", "unbequemstes", rule, lt);
+    assertFirstSuggestion("Desatören", "Deserteuren", rule, lt);
+    assertFirstSuggestion("Panelen", "Paneelen", rule, lt);
+    assertFirstSuggestion("Deja-Vue", "Déjà-vu", rule, lt);
+    assertFirstSuggestion("Dejavou", "Déjà-vu", rule, lt);
+    assertFirstSuggestion("Cremefraiche", "Crème fraîche", rule, lt);
+    assertFirstSuggestion("aragemont", "Arrangement", rule, lt);
+    assertFirstSuggestion("Diseing", "Design", rule, lt);
+    assertFirstSuggestion("Lieradresse", "Lieferadresse", rule, lt);
+    assertFirstSuggestion("Boykutierung", "Boykottierung", rule, lt);
   }
 
   @Test
