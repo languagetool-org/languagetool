@@ -25,6 +25,8 @@ import org.languagetool.Experimental;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
@@ -45,7 +47,8 @@ import java.util.*;
 @Experimental
 public class GrammalecteRule extends Rule {
 
-  private static final int TIMEOUT_MILLIS = 500;
+  private static Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);
+  private static final int TIMEOUT_MILLIS = 1;
   private static final long DOWN_INTERVAL_MILLISECONDS = 5000;
 
   private static long lastRequestError = 0;
@@ -95,7 +98,7 @@ public class GrammalecteRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     // very basic health check -> mark server as down after an error for given interval
     if (System.currentTimeMillis() - lastRequestError < DOWN_INTERVAL_MILLISECONDS) {
-      System.err.println("Warn: Temporarily disabled Grammalecte server because of recent error.");
+      logger.warn("Warn: Temporarily disabled Grammalecte server because of recent error.");
       return new RuleMatch[0];
     }
 
@@ -126,13 +129,13 @@ public class GrammalecteRule extends Rule {
       lastRequestError = System.currentTimeMillis();
       // still fail silently, better to return partial results than an error
       //throw e;
-      System.err.println("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
       e.printStackTrace();
     } catch (Exception e) {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      System.err.println("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
       e.printStackTrace();
     } finally {
       huc.disconnect();
