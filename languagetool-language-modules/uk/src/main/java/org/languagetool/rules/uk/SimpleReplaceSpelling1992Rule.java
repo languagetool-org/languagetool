@@ -19,19 +19,13 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * A rule that matches words that are written by 1992 spelling rules and suggests 2019 spelling instead.
@@ -39,14 +33,14 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * 
  * @author Andriy Rysin
  */
-public class SimpleReplaceSpelling1992Rule extends Rule {
+public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
 
-//  private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_spelling_2019.txt");
+  private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_spelling_2019.txt");
 
-//  @Override
-//  protected Map<String, List<String>> getWrongWords() {
-//    return WRONG_WORDS;
-//  }
+  @Override
+  protected Map<String, List<String>> getWrongWords() {
+    return WRONG_WORDS;
+  }
 
   public SimpleReplaceSpelling1992Rule(ResourceBundle messages) throws IOException {
     super(messages);
@@ -60,30 +54,24 @@ public class SimpleReplaceSpelling1992Rule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Пошук слів, написаних за правописом 2019";
-  }
-
-  private String getShort() {
-    return "Слово, написане за правописом 2019";
+    return "Пошук слів, написаних за правописом 1992";
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
-    for (int i = 1; i < tokens.length; i++) {
-      AnalyzedTokenReadings tokenReadings = tokens[i];
-
-      if( PosTagHelper.hasPosTagPart(tokenReadings, "ua_2019") ) {
-        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), 
-            "Слово, написане за правописом 2019.", getShort());
-//        potentialRuleMatch.setSuggestedReplacements(replacements);
-        ruleMatches.add(potentialRuleMatch);
-      }
-    }
-    
-    return toRuleMatchArray(ruleMatches);
+  public String getShort() {
+    return "Слово, написане за правописом 1992";
   }
+
+  @Override
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return tokenStr + " — написання не відповідає чинній версії правопису, виправлення: "
+        + StringUtils.join(replacements, ",") + ".";
+  }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+
 
 }

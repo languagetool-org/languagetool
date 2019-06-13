@@ -41,8 +41,8 @@ import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
-import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
 import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
+import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
 import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
 import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
 import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
@@ -67,12 +67,13 @@ public class Ukrainian extends Language {
       "grammar-punctuation.xml"
       );
 
-  private static final Ukrainian UKRAINIAN_1992 = new Ukrainian();
+  public static final Ukrainian DEFAULT_VARIANT = new Ukrainian();
   private Tagger tagger;
   private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
+
 
   public Ukrainian() {
   }
@@ -104,12 +105,12 @@ public class Ukrainian extends Language {
 
   @Override
   public String getVariant() {
-    return "1992";
+    return "2019";
   }
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return UKRAINIAN_1992;
+    return DEFAULT_VARIANT;
   }
 
   @Override
@@ -215,7 +216,7 @@ public class Ukrainian extends Language {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    return Arrays.asList("piv_okremo_2019");
+    return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
   }
 
 }

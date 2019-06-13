@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.Ukrainian1992;
 import org.languagetool.rules.RuleMatch;
 
 
@@ -34,10 +34,10 @@ public class SimpleReplaceSpelling1992RuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SimpleReplaceSpelling1992Rule rule = new SimpleReplaceSpelling1992Rule(TestTools.getEnglishMessages());
+    SimpleReplaceSpelling2019Rule rule = new SimpleReplaceSpelling2019Rule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian1992());
 
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Це — новий проект для фойє."));
