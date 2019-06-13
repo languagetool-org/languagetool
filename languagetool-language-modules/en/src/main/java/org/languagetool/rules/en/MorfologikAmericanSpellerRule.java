@@ -77,4 +77,19 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   public String getLanguageVariantSpellingFileName() {
     return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
   }
+
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+    if ("automize".equals(word)) {
+      return Arrays.asList("automate");
+    } else if ("automized".equals(word)) {
+      return Arrays.asList("automated");
+    } else if ("automizing".equals(word)) {
+      return Arrays.asList("automating");
+    } else if ("automizes".equals(word)) {
+      return Arrays.asList("automates");
+    }
+    return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
 }
