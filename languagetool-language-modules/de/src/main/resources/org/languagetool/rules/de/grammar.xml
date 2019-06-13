@@ -29131,7 +29131,7 @@ Andere Projekte</example>
                     <marker>
                         <token>fragen</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">haben|stellen</token>
+                    <token inflected="yes" regexp="yes">aufwerfen|bleiben|haben|stellen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Fragen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -29154,7 +29154,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">haben|stellen</token>
+                    <token inflected="yes" regexp="yes">bleiben|haben|stellen</token>
                     <token regexp="yes">k?eine</token>
                     <marker>
                         <token regexp="yes">fragen?</token>
@@ -29169,7 +29169,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">haben|stellen</token>
+                    <token inflected="yes" regexp="yes">bleibeb|haben|stellen</token>
                     <token>ein</token>
                     <token>paar</token>
                     <marker>
@@ -29182,7 +29182,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(drängende|entscheidende|kritische|heikle|schwierige|offene|strittige)n?</token>
+                    <token regexp="yes">(drängende|entscheidende|kritische|kurze|heikle|schwierige|offene|strittige)n?</token>
                     <marker>
                         <token regexp="yes">fragen?</token>
                     </marker>
@@ -29929,19 +29929,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
                     <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns|es|das</token>
-                    <marker>
-                        <token>Leid</token>
-                    </marker>
-                </pattern>
-                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="leid">Das tut mir <marker>Leid</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">tun</token>
-                    <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns|es|das</token>
-                    <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
+                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch</token>
                     <marker>
                         <token>Leid</token>
                     </marker>
@@ -29950,11 +29938,12 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="leid">Das tut mir sehr <marker>Leid</marker>.</example>
                 <example correction="leid">Das tut mir wirklich <marker>Leid</marker>.</example>
+                <example correction="leid">Das tut mir <marker>Leid</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">mir|ih[mr]|euch|[iI]hnen|uns</token>
-                    <token regexp="yes">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann</token>
+                    <token regexp="yes" min="0">wirklich|sehr|ausgesprochen|echt|voll|total|noch|irgendwann</token>
                     <marker>
                         <token regexp="yes">[lL]eid</token>
                         <token inflected="yes">tun</token>
