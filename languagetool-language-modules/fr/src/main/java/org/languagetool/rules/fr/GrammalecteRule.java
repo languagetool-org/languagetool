@@ -74,7 +74,8 @@ public class GrammalecteRule extends Rule {
     "unit_nbsp_avant_unités3",
     "nbsp_après_double_ponctuation",
     "typo_guillemets_typographiques_simples_ouvrants",
-    "num_grand_nombre_avec_espaces"
+    "num_grand_nombre_avec_espaces",
+    "num_grand_nombre_soudé"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
