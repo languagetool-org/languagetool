@@ -268,6 +268,7 @@ public class English extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "MISSING_HYPHEN":            return 5;
+      case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
       case "TWO_CONNECTED_MODAL_VERBS": return -5;
       case "CONFUSION_RULE":            return -10;
       case LongSentenceRule.RULE_ID:    return -997;

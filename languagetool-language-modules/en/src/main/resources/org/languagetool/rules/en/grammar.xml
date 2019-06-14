@@ -14398,6 +14398,19 @@ USA
             <message>Did you mean <suggestion>\1 no such thing as</suggestion>?</message>
             <example correction="is no such thing as">There <marker>is nothing such as</marker> as a free lunch.</example>
         </rule>
+        <rule id="DO_HE_VERB" name="do (does) he have">
+            <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
+            <pattern>
+                <marker>
+                    <token>do</token>
+                </marker>
+                <token regexp="yes">he|she|it</token>
+                <token postag="VB"><exception regexp="yes">well|even|better</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>does</suggestion>?</message>
+            <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
+            <example>If you do it at all, try to do it well.</example>
+        </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
