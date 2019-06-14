@@ -45,6 +45,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -988,17 +989,7 @@ public class JLanguageTool {
     if (language.getChunker() != null) {
       language.getChunker().addChunkTags(aTokens);
     }
-    int numTokens = aTokens.size();
-    int posFix = 0; 
-    for (int i = 1; i < numTokens; i++) {
-      aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
-      aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
-      if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
-        aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
-        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
-      }
-    }
-        
+
     AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
@@ -1011,6 +1002,22 @@ public class JLanguageTool {
       tokenArray[toArrayCount++] = posTag;
       startPos += posTag.getToken().length();
     }
+
+    int numTokens = aTokens.size();
+    int posFix = 0; 
+    for (int i = 0; i < numTokens; i++) {
+      if( i > 0 ) {
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
+        aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
+      }
+      if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
+        // addReading() modifies a readings.token if last token is longer - need to use it first
+        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
+        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
+        aTokens.get(i).addReading(newToken);
+      }
+    }
+        
 
     // add additional tags
     int lastToken = toArrayCount - 1;
@@ -1037,9 +1044,10 @@ public class JLanguageTool {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
-      if (ignoredCharacterRegex.matcher(tokens.get(i)).find()) {
+      Matcher matcher = ignoredCharacterRegex.matcher(tokens.get(i));
+      if (matcher.find()) {
         ignoredCharsTokens.put(i, tokens.get(i));
-        tokens.set(i, ignoredCharacterRegex.matcher(tokens.get(i)).replaceAll(""));
+        tokens.set(i, matcher.replaceAll(""));
       }
     }
     return ignoredCharsTokens;

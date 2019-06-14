@@ -19,8 +19,23 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -31,13 +46,6 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -135,6 +143,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
+      int newRuleIdx = ruleMatches.size();
       int startPos = token.getStartPos();
       if (tokenizingPattern() == null) {
         ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches));
@@ -152,7 +161,20 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches));
         }
       }
+
+      if( ruleMatches.size() > newRuleIdx ) {
+        // matches added for current token - need to adjust for hidden characters
+        int hiddenCharOffset = token.getToken().length() - word.length();
+        if( hiddenCharOffset > 0 ) {
+          for(int i=newRuleIdx; i<ruleMatches.size(); i++) {
+            RuleMatch ruleMatch = ruleMatches.get(i);
+            ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);
+          }
+        }
+      }
+
     }
+
     return toRuleMatchArray(ruleMatches);
   }
 
