@@ -42,6 +42,13 @@
       <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
     </rule>
 
+    <rule name=".,;:…!? UNKNOWN -> PCT" id="UNKNOWN_PCT">
+        <pattern>
+            <token regexp="yes">[\.,;:…!\?]</token>
+        </pattern>
+        <disambig action="add"><wd pos="PCT"/></disambig>
+    </rule>
+
     <rule id="number_JJ" name="Tag number-based adjectives">
         <pattern>
         <marker>

@@ -11,6 +11,7 @@
 
 #### English
   * added and improved rules
+  * introduced new part-of-speech tag `PCT` for punctuation marks (.,;:…!?) 
 
 #### Esperanto
   * added and improved rules
