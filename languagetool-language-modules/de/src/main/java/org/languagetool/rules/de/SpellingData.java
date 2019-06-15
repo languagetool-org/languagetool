@@ -45,6 +45,10 @@ class SpellingData {
   private final List<SpellingRuleWithSuggestions> spellingRules = new ArrayList<>();
   
   SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType) {
+    this(ruleDesc, filePath, message, shortMessage, ruleId, issueType, false);
+  }
+  
+  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType, boolean ignoreAfterQuote) {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       Language german = Languages.getLanguageForShortCode("de");
@@ -62,7 +66,7 @@ class SpellingData {
         List<PatternToken> patternTokens = getTokens(alternative, german);
         PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
         rule.setLocQualityIssueType(issueType);
-        spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestions));
+        spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestions, ignoreAfterQuote));
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

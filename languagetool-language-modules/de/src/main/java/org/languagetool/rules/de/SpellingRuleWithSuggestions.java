@@ -37,6 +37,7 @@ class SpellingRuleWithSuggestions {
   private final Rule rule;
   private final String alternative;
   private final List<String> suggestions;
+  private final boolean skipIfAfterQuote;
 
   SpellingRuleWithSuggestions(Rule rule, String alternative, String suggestion) {
     this(rule, alternative, Collections.singletonList(suggestion));
@@ -46,9 +47,17 @@ class SpellingRuleWithSuggestions {
    * @since 4.6
    */
   SpellingRuleWithSuggestions(Rule rule, String alternative, List<String> suggestions) {
+    this(rule, alternative, suggestions, false);
+  }
+
+  /**
+   * @since 4.6
+   */
+  SpellingRuleWithSuggestions(Rule rule, String alternative, List<String> suggestions, boolean skipIfAfterQuote) {
     this.rule = Objects.requireNonNull(rule);
     this.alternative = Objects.requireNonNull(alternative);
     this.suggestions = Objects.requireNonNull(suggestions);
+    this.skipIfAfterQuote = skipIfAfterQuote;
   }
 
   static List<RuleMatch> computeMatches(AnalyzedSentence sentence, SpellingData data, String[] exceptions) throws IOException {
@@ -78,6 +87,10 @@ class SpellingRuleWithSuggestions {
         }
         if (suggestions.size() > 0) {
           match.setSuggestedReplacements(suggestions);
+          if (ruleWithSuggestion.skipIfAfterQuote && match.getFromPos() > 0 && 
+              sentence.getText().substring(match.getFromPos()-1, match.getFromPos()).matches("['\"„«»]")) {
+            continue;
+          }
           ruleMatches.add(match);
         }
       }
