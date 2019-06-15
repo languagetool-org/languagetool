@@ -13529,15 +13529,16 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                     <marker>
-                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                         <token postag="JJS"><exception regexp="yes">most|least|best</exception></token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
-                <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
+                <message>A determiner is probably missing here: <suggestion>the \2</suggestion>.</message>
                 <short>Grammatical problem: missing determiner</short>
-                <example correction="is the funniest">The guy <marker>is funniest</marker> friend.</example>
+                <example correction="the funniest">The guy is <marker>funniest</marker> friend.</example>
+                <example correction="the biggest">Facebook (<marker>biggest</marker> social network)</example>
                 <example>The guy <marker>is the funniest</marker> friend.</example>
                 <example>He is my best friend.</example>
                 <example>Confucianism was particularly strong during the Han Dynasty, whose greatest thinker was Dong Zhongshu.</example>
@@ -13560,16 +13561,16 @@ USA
                     <token>action</token>
                 </antipattern>
                 <pattern>
+                    <token><exception postag="PRP\$|WP\$|DT|JJ|C[DC]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’]</exception><exception>at</exception></token>
                     <marker>
-                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[DC]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’]</exception><exception>at</exception></token>
                         <token>least</token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
-                <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
+                <message>A determiner is probably missing here: <suggestion>the \2</suggestion>.</message>
                 <short>Grammatical problem: missing determiner</short>
                 <example>He is at least my friend.</example>
-                <example correction="is the least">The guy <marker>is least</marker> funny friend.</example>
+                <example correction="the least">The guy is <marker>least</marker> funny friend.</example>
                 <example>The guy <marker>is the least</marker> funny friend.</example>
                 <example>He is least likely to come.</example>
             </rule>
