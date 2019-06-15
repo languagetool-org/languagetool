@@ -228,7 +228,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     String tagText = new String(this.err.toByteArray());
-    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test
@@ -498,7 +498,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
-    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test
