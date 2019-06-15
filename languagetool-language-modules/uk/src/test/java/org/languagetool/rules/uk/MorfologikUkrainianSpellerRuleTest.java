@@ -61,6 +61,9 @@ public class MorfologikUkrainianSpellerRuleTest {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Іва́н Петро́вич Котляре́вський"));
     assertEquals(0, matches.length);
 
+    matches = rule.match(langTool.getAnalyzedSentence("1998 ро́ку"));
+    assertEquals(0, matches.length);
+
     //incorrect sentences:
 
     matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));

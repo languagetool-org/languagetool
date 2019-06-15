@@ -125,8 +125,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>не багато-не мало</example>
       </rule>
 
-      <rule>
+      <rule id="habara_2019" name="Хабара і хабаря">
+        <pattern>
+          <token inflected="yes" postag_regexp="yes" postag=".*ua_1992.*">хабар
+            <exception postag_regexp="yes" postag=".*ua_2019.*"/>
+          </token>
+        </pattern>
+        <message>За правописом 2019 хабар відмінюється, як м'яка група</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(.*?)ua_1992(.*)" postag_replace="$1ua_2019$2" /></suggestion>
+        <example correction="хабаря">дав <marker>хабара</marker>.</example>
+        <example correction="хабарем"><marker>хабаром</marker>.</example>
+        <example>хабарі</example>
+      </rule>
 
+      <rule>
         <pattern>
           <token regexp="yes">анти|віце|екс|квазі|лже|супер|ультра</token>
           <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,}
@@ -870,10 +882,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="DASH_STREET" name="-стріт/-стрит">
       <pattern>
-        <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс]тр[иі]т</token>
+        <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс]трит</token>
       </pattern>
-      <message>Чинний правопис передбачає -стрит, однак в мовній практиці поширений також варіант -стріт, адже укр. літера і ближча до англ. звуку [i:] в слові street</message>
-      <example correction=""><marker>Бейкер-стріт</marker>.</example>
+      <message>Чинний правопис передбачає -стріт (також укр. літера і ближча до англ. звуку [i:] в слові street)</message>
       <example correction=""><marker>Бейкер-стрит</marker>.</example>
     </rule>
 
