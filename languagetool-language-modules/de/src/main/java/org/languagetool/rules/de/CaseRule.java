@@ -730,7 +730,7 @@ public class CaseRule extends Rule {
   
   @Override
   public URL getUrl() {
-    return Tools.getUrl("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
+    return Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Gross-klein/index.html");
   }
 
   @Override
