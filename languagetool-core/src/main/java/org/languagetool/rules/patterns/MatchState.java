@@ -108,7 +108,8 @@ public class MatchState {
     List<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
-        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getToken(),
+        // Note: we want the token without ignored characters so we can't use matchedToken.getToken()
+        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getReadings().get(0).getToken(),
                 match.getPosTag(), formattedToken.getToken()));
         formattedToken = matchedToken;
       }
