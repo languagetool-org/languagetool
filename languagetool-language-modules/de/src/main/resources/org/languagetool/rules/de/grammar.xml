@@ -31347,6 +31347,46 @@ Andere Projekte</example>
                 <example>Das ist so, weil hier drei dunkle Streifen aneinanderliegen.</example> <!-- used to fail because the verb isn't recognized -->
             </rule>
         </rulegroup>
+        <rulegroup id="VERBEN_MIT_GENITIV" name="Verben mit Genitiv">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">bed[aüu]rf(te(st)?|st|en)?|gedenken</token>
+                    <marker><token regexp="yes">([dms]?ein|d(ies)?|ihr|unser)e[mn]</token></marker>
+                </pattern>
+                <message>Beachten Sie, dass nach '\1' der Genitiv folgen muss!</message>
+                <suggestion><match no="2" regexp_match=".$" regexp_replace="r"/></suggestion>
+                <suggestion><match no="2" regexp_match=".$" regexp_replace="s"/></suggestion>
+                <example correction="einer|eines">Es bedarf <marker>einem</marker> guten Vorbild.</example>
+                <example correction="der|des">Er gedachte <marker>den</marker> gefallenen Kameraden.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">bemächtigen|ent(halten|ledigen)|rühmen</token>
+                    <token inflected="yes">sich</token>
+                    <marker><token regexp="yes">([dms]?ein|d(ies)?|ihr|unser)e[mn]</token></marker>
+                </pattern>
+                <message>Beachten Sie, dass nach '\1' der Genitiv folgen muss! Alternativ prüfen Sie, ob ein Komma nach '1' fehlt.</message>
+                <suggestion><match no="3" regexp_match=".$" regexp_replace="r"/></suggestion>
+                <suggestion><match no="3" regexp_match=".$" regexp_replace="s"/></suggestion>
+                <example correction="der|des">Ich enthielt mich <marker>den</marker> Abstimmungen.</example>
+                <example correction="einer|eines">Wir rühmen uns <marker>einem</marker> großen Erfolg.</example>
+                <example correction="ihrer|ihres">Sie entledigte sich <marker>ihren</marker> Kleidern.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sich</token>
+                    <marker><token regexp="yes">([dms]?ein|d(ies)?|ihr|unser)e[mn]</token></marker>
+                    <token/>
+                    <token regexp="yes" inflected="yes">bemächtigen|ent(halten|ledigen)|rühmen</token>
+                </pattern>
+                <message>Beachten Sie, dass nach '\1' der Genitiv folgen muss! Alternativ prüfen Sie, ob ein Komma nach '1' fehlt.</message>
+                <suggestion><match no="2" regexp_match=".$" regexp_replace="r"/></suggestion>
+                <suggestion><match no="2" regexp_match=".$" regexp_replace="s"/></suggestion>
+                <example correction="der|des">Ich habe mich <marker>den</marker> Abstimmungen enthalten.</example>
+                <example correction="einer|eines">Wir uns <marker>einem</marker> Erfolg gerühmt.</example>
+                <example correction="ihrer|ihres">Sie hat sich <marker>ihren</marker> Kleidern entledigt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRAEP_GEN" name="Präposition mit Genitiv (abzüglich, wegen etc.)">
             <url>http://www.canoonet.eu/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
             <antipattern>
