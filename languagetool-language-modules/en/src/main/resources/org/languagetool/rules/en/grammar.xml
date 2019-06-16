@@ -9268,7 +9268,7 @@ USA
                 <token min="0" max="1" postag="RB"/>
                 <marker>
                     <token postag="VBP?" postag_regexp="yes">
-                        <exception postag_regexp="yes" postag="VBD|R[BP]|IN|JJR"/>
+                        <exception postag_regexp="yes" postag="VBD|R[BP]|IN|JJ."/>
                         <exception>true</exception>
                     </token>
                 </marker>
@@ -13025,11 +13025,13 @@ USA
                     <marker>
                         <token postag="VBG"/>
                     </marker>
+                    <token><exception postag="NNS"/></token>
                 </pattern>
                 <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example>He reminded to stay calm.</example>
                 <example correction="to stay">He advised <marker>staying</marker> calm.</example>
+                <example>The A.A.P. advises nursing women to wait.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18187,6 +18189,12 @@ USA
           <token skip="-1" postag="VBG"/>
           <token>?</token>
       </antipattern>
+      <antipattern>
+          <token>what</token>
+          <token regexp="yes">do|does|did</token>
+          <token skip="-1" postag="VBG"/>
+          <token>?</token>
+      </antipattern>
       <pattern>
           <marker>
           <token regexp="yes" inflected="yes">do|play</token>
@@ -18204,6 +18212,7 @@ USA
       <example>Why does implementing or changing XYZ not satisfy the requirements?</example>
       <example>...and why did running quickly make me feel so good?</example>
       <example>...and how does jogging slowly stimulate the flow of blood?</example>
+      <example>What does holding on to grudges really get us?</example>
     </rule>
     <rule id='DAMAGE_OF_TO' name='Collocation: damage of/to'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
