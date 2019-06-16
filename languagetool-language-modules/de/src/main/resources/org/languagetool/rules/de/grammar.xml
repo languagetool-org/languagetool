@@ -11233,10 +11233,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|raus|rein|ru(nter|m)|rüber|umher</token>
+                    <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|raus|rein|ru(nter|m)|rüber|umh(er|in)</token>
                     <token postag="VER:.*" postag_regexp="yes">
                         <exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/>
-                        <exception regexp="yes">(an|auf|hin|unter).*</exception>
+                        <exception regexp="yes">(an|au[fs]|hin|unter|ein).+</exception>
                         <exception regexp="yes" inflected="yes">mögen|können|dürfen</exception>
                     </token>
                 </marker>
@@ -11247,12 +11247,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="rüberlassen">Kannst du ihn bitte <marker>rüber lassen</marker>?</example>
             <example correction="runterlassen">Kannst du ihn bitte <marker>runter lassen</marker>?</example>
             <example correction="herumgeschrien">Sie haben laut <marker>herum geschrien</marker>.</example>
+            <example correction="umhinkommen">Wir werden nicht <marker>umhin kommen</marker>, eine Erklärung abzugeben.</example>
             <example>Gleich die Straße rüber liegt ein kleines Cafe.</example>
             <example>Gleich die Straße runter liegt der kleine Laden.</example>
             <example>Um den Bauernhof herum bestellen sie die Felder.</example>
             <example>Er hat den Pullover verkehrt herum angezogen.</example>
             <example>Die chirurgischen Instrumente muss man absolut rein aufbewahren.</example>
             <example>Wir müssen die Luft rein halten.</example>
+            <example>Man kommt nicht umhin einzuräumen, dass dieser Ausspruch absurd ist.</example>
         </rule>
         <rule id="ZUSAMMENSCHREIBUNG_HIERHER" name="Zusammenschreibung von Verben mit dem Präfix 'hierher'">
             <antipattern>
