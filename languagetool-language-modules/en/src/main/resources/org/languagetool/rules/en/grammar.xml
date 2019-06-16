@@ -22908,6 +22908,18 @@ USA
                 <example>... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
                 <example>[https://en.wikipedia.org/wiki/Outside_(Alaska)]: The Alaska Rail network is not connected to Outside.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">["“'`]</token>
+                    <token inflected="yes" skip="-1">do<exception regexp="yes" scope="next">whom?</exception></token>
+                    <marker><token>to<exception scope="previous" postag="VB.?" postag_regexp="yes"/></token></marker>
+                    <token spacebefore="no">?</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">Did you have a great day <marker>to</marker>?</example>
+                <example>Do you know the guys Tom is talking to?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
             <url>https://en.wiktionary.org/wiki/your</url>
@@ -23047,7 +23059,7 @@ USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">How|Wh(at|ere|y)</token>
+                    <token regexp="yes">How|Wh(at|ere|o|y)</token>
                     <marker>
                         <token>shell</token>
                     </marker>
@@ -23078,7 +23090,7 @@ USA
                         <token>loose</token>
                     </marker>
                     <token postag="DT"/>
-                    <token regexp="yes">key|connection|password</token>
+                    <token regexp="yes">key|connection|password|weight</token>
                 </pattern>
                 <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
             <url>https://en.wiktionary.org/wiki/loose</url>
@@ -23330,7 +23342,7 @@ USA
         <rule id="TEEM_TEAM" name="football teem (football team)">
             <pattern>
                 <token regexp="yes">management|football|research|project|home|display|youth|cup|development|design|sales|rescue|cricket|production|care|action|hockey|rugby|league|campaign|inspection|support|soccer|mortar|test|specialist|negotiating|relay|buy-out|course|world|health|investigation|planning|school|treasury|inquiry|planting|service|styling|division|improvement|marketing|review|services|ward|policy|work|area|basketball|club|control|dream|hospital|insight|protection|sports|town|baseball|executive|touring|university|buyout</token>
-                <token>teem</token>
+                <token>te(a|em)</token>
             </pattern>
             <message>Did you mean <suggestion>\1 team</suggestion>?</message>
             <url>https://en.wiktionary.org/wiki/teem</url>
@@ -23437,7 +23449,7 @@ USA
                 <pattern>
                     <token>for</token>
                     <token>letting</token>
-                    <token regexp="yes">me|us</token>
+                    <token regexp="yes">me|us|them|her|him</token>
                     <marker>
                         <token>now</token>
                     </marker>
@@ -26659,7 +26671,7 @@ USA
             <pattern>
                 <token>biography</token>
                 <token>of</token>
-                <token regexp="yes">a|her|his</token>
+                <token regexp="yes">a|her|his|my|your</token>
                 <token>life</token>
             </pattern>
             <message>Consider using <suggestion>\1</suggestion> or <suggestion>story \2 \3 \4</suggestion> instead.</message>
