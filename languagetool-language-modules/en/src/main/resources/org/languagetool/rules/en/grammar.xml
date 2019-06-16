@@ -9068,7 +9068,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="CD"/>
-                    <token postag="NNS"><exception regexp="yes">years|months|days|hours|minutes|seconds</exception></token>
+                    <token postag="NNS"><exception regexp="yes">centuries|decades|years|months|days|hours|minutes|seconds</exception></token>
                     <token>or</token>
                     <marker>
                         <token>less</token>
@@ -9092,13 +9092,16 @@ USA
                     <marker>
                         <token postag="JJR|RBR" postag_regexp="yes">less<exception scope="previous" regexp="yes">\d+%</exception></token>
                     </marker>
+                    <!--
+                    Causes false alarms like: "Less dramatic improvements are possible"
                     <token min="0" postag="JJ"/>
+                    -->
                     <token postag="NNS"><exception postag="JJ"/><exception regexp="yes">brains|taxes|resources</exception></token>
                 </pattern>
-                <message>Did you mean <suggestion>fewer</suggestion>? The noun \3 is countable.</message>
+                <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
                 <short>Grammatical error</short>
                 <example correction="fewer">He has <marker>less</marker> items</example>
-                <example correction="fewer">He has <marker>less</marker> large items</example>
+                <!--<example correction="fewer">He has <marker>less</marker> large items</example>-->
                 <example>He has fewer items.</example>
                 <example>He has fewer large items.</example>
                 <example>Present-day students are more or less religious.</example>
