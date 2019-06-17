@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
 
+
+// Only for testing for now
 public class Ukrainian1992 extends Ukrainian {
   @Override
   public String getVariant() {

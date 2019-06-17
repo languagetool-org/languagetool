@@ -323,7 +323,7 @@ class CompoundTagger {
             for(String vid: PosTagHelper.VIDMINKY_MAP.keySet()) {
               if( vid.equals("v_kly") )
                 continue;
-              String posTag = rightPosTag.replace("v_rod", vid);
+              String posTag = rightPosTag.replace("v_rod", vid) + ":ua_1992";
               newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
             }
           }

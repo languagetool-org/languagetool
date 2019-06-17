@@ -67,7 +67,7 @@ public class UkrainianTaggerTest {
       "Майже/[майже]adv -- два/[два]numr:p:v_naz|два/[два]numr:p:v_zna -- роки/[рік]noun:inanim:p:v_kly|роки/[рік]noun:inanim:p:v_naz|роки/[рік]noun:inanim:p:v_zna"
     + " -- тому/[те]noun:inanim:n:v_dav:&pron:dem|тому/[те]noun:inanim:n:v_mis:&pron:dem|тому/[той]adj:m:v_dav:&pron:dem|тому/[той]adj:m:v_mis:&pron:dem|тому/[той]adj:n:v_dav:&pron:dem|тому/[той]adj:n:v_mis:&pron:dem|тому/[том]noun:inanim:m:v_dav|тому/[том]noun:inanim:m:v_mis|тому/[том]noun:inanim:m:v_rod|тому/[тому]adv|тому/[тому]conj:subord"
     + " -- Люба/[Люба]noun:anim:f:v_naz:prop:fname|Люба/[любий]adj:f:v_kly:compb|Люба/[любий]adj:f:v_naz:compb -- разом/[раз]noun:inanim:m:v_oru|разом/[разом]adv -- із/[із]prep"
-    + " -- чоловіком/[чоловік]noun:anim:m:v_oru:xp1|чоловіком/[чоловік]noun:anim:m:v_oru:xp2 -- Степаном/[Степан]noun:anim:m:v_oru:prop:fname -- виїхали/[виїхати]verb:perf:past:p -- туди/[туди]adv:&pron:dem"
+    + " -- чоловіком/[чоловік]noun:anim:m:v_oru -- Степаном/[Степан]noun:anim:m:v_oru:prop:fname -- виїхали/[виїхати]verb:perf:past:p -- туди/[туди]adv:&pron:dem"
     + " -- на/[на]intj|на/[на]part|на/[на]prep -- "
     + "проживання/[проживання]noun:inanim:n:v_kly|проживання/[проживання]noun:inanim:n:v_naz|проживання/[проживання]noun:inanim:n:v_rod|проживання/[проживання]noun:inanim:n:v_zna"
     + "|проживання/[проживання]noun:inanim:p:v_kly|проживання/[проживання]noun:inanim:p:v_naz|проживання/[проживання]noun:inanim:p:v_zna";
@@ -297,11 +297,16 @@ public class UkrainianTaggerTest {
   
   @Test
   public void testDynamicTaggingFullTagMatch() throws IOException {
-    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:f:v_dav:prop:geo|пів-України/[пів-України]noun:inanim:f:v_mis:prop:geo|пів-України/[пів-України]noun:inanim:f:v_naz:prop:geo"
-        +"|пів-України/[пів-України]noun:inanim:f:v_oru:prop:geo|пів-України/[пів-України]noun:inanim:f:v_rod:prop:geo|пів-України/[пів-України]noun:inanim:f:v_zna:prop:geo", tokenizer, tagger);
+    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:f:v_dav:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_mis:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_naz:prop:geo:ua_1992"
+        + "|пів-України/[пів-України]noun:inanim:f:v_oru:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_rod:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_zna:prop:geo:ua_1992"
+        , tokenizer, tagger);
 
-    TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_dav:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_mis:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_naz:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_oru:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_rod:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_zna:nv:prop", tokenizer, tagger);
-    TestTools.myAssert("Уолл-стрит", "Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_dav:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_mis:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_naz:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_oru:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_rod:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_zna:nv:prop", tokenizer, tagger);
+    TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_dav:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_mis:nv:prop"
+        + "|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_naz:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_oru:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_rod:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_zna:nv:prop"
+        , tokenizer, tagger);
+    TestTools.myAssert("Уолл-стрит", "Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_dav:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_mis:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_naz:nv:prop"
+        + "|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_oru:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_rod:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_zna:nv:prop"
+        , tokenizer, tagger);
     
 
     // full tag match

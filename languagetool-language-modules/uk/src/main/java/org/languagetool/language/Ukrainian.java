@@ -103,15 +103,15 @@ public class Ukrainian extends Language {
     return new String[]{"UA"};
   }
 
-  @Override
-  public String getVariant() {
-    return "2019";
-  }
-
-  @Override
-  public Language getDefaultLanguageVariant() {
-    return DEFAULT_VARIANT;
-  }
+//  @Override
+//  public String getVariant() {
+//    return "2019";
+//  }
+//
+//  @Override
+//  public Language getDefaultLanguageVariant() {
+//    return DEFAULT_VARIANT;
+//  }
 
   @Override
   public Tagger getTagger() {
@@ -168,7 +168,7 @@ public class Ukrainian extends Language {
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
 
-        // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
+        // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
         //            new UppercaseSentenceStartRule(messages),
         new MultipleWhitespaceRule(messages, this),
         new UkrainianWordRepeatRule(messages, this),
@@ -178,7 +178,7 @@ public class Ukrainian extends Language {
         new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages),
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
-        
+
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages),
         new TokenAgreementPrepNounRule(messages),

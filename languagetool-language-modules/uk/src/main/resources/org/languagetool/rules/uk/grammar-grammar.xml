@@ -722,25 +722,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Два білих горнятка</example>
       </rule>
 
-      <rule>
-        <pattern>
-          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|десять|.*надцять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд</token>
-          <token>з</token>
-          <token regexp="yes">половиною|третиною|чвертю</token>
-          <token postag_regexp="yes" postag="adj.*" min="0"/>
-          <marker>
-            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
-              <exception case_sensitive="yes">ВАТ</exception>
-            </token>
-          </marker>
-        </pattern>
-        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
-        <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
-        <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
-        <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
-        <example>п'ять з половиною <marker>разів</marker></example>
-        <example>тримали п'ять бейсбольних біт</example>
-      </rule>
 
 <!-- generates mostly FP
       <rule>
@@ -794,68 +775,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>18,5 тон сміття</example>
       </rule>
 
-      <rule>
-        <antipattern>
-          <token inflected="yes">бейсбольний</token>
-          <token inflected="yes">біта</token>
-        </antipattern>
-        <pattern>
-          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]*1[1-4])
-            <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-            <exception scope="previous" regexp="yes">[:./№]</exception>
-            <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-          </token>
-          <token postag_regexp="yes" postag="adj.*" min="0"/>
-          <marker>
-            <!--
-                <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
-                <exception scope="previous">хвилин за</exception>
-                <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|predic.*"/>
-                <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
-                <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
-                </token>
-            -->
-            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_(naz|rod).*" inflected="yes" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
-              <exception case_sensitive="yes">ВАТ</exception>
-            </token>
-          </marker>
-        </pattern>
-        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
-        <!--
-            <example correction="грамів">сто <marker>грам</marker></example>
-            <example correction="грамів">100 <marker>грам</marker></example>
-        -->
-        <example correction="байтів">10 <marker>байт</marker></example>
-        <example correction="мілібарів">10 <marker>мілібар</marker></example>
-        <example correction="солдатів">дві сотні <marker>солдат</marker></example>
-        <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
-        <example correction="солдатів">п'ять <marker>солдат</marker></example>
-        <example correction="мікронів">13 <marker>мікрон</marker></example>
-        <example correction="мікронів">13 <marker>мікрона</marker></example>
-        <example>п'ять <marker>раз</marker></example>
-        <example>хвилин за 10 спікер увійшов</example>
-        <example>до 16 вхід заборонено</example>
-        <example>в 40 став наймолодшим</example>
-        <example>50 тис. людей</example>
-        <example>сто грамів</example>
-        <example>100 грамів</example>
-        <example>10 разів</example>
-        <example>10 раз</example>
-        <example>10 номер</example>
-        <example>У 2008 президент</example>
-        <example>10 плюс 5</example>
-        <example>о 17.15 патріарх буде в місті</example>
-        <example>«5 канал»</example>
-        <example>у свої сімдесят два роки</example>
-        <example>на виборах-2007 Блок Литвина</example>
-        <example>127 Шевченко Євген Валерійович</example>
-        <example>керував сотнею німець</example>
-        <example>комендантом сотні став Віталій</example>
-        <example>ці мільйони слід шукати там</example>
-        <example>тримали 75 бейсбольних біт</example>
-        <!-- handled by another rule -->
-        <example>19 тис гривень</example>
-      </rule>
 
       <rule>
         <pattern>
@@ -912,6 +831,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>В 1999-2001 рр. він був секретарем.</example>
         <example>В 604-562 або 561 рр. до н.е.</example>
         <example>Про знеструмлення будинків 10 та 101 нас не повідомили.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="byte_plural_with_num" name="Одиниці виміру з числівниками">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|десять|.*надцять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд</token>
+          <token>з</token>
+          <token regexp="yes">половиною|третиною|чвертю</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+              <exception case_sensitive="yes">ВАТ</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod(?!.*ua_2019).*" postag_regexp="yes"/></suggestion></message>
+        <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
+        <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
+        <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
+        <example>п'ять з половиною <marker>разів</marker></example>
+        <example>тримали п'ять бейсбольних біт</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token inflected="yes">бейсбольний</token>
+          <token inflected="yes">біта</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]*1[1-4])
+            <exception postag_regexp="yes" postag=".*:v_oru.*"/>
+            <exception scope="previous" regexp="yes">[:./№]</exception>
+            <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+          </token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <!--
+                <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
+                <exception scope="previous">хвилин за</exception>
+                <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|predic.*"/>
+                <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
+                <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
+                </token>
+            -->
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_(naz|rod).*" inflected="yes" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+              <exception case_sensitive="yes">ВАТ</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod(?!.*ua_2019).*" postag_regexp="yes"/></suggestion></message>
+        <!--
+            <example correction="грамів">сто <marker>грам</marker></example>
+            <example correction="грамів">100 <marker>грам</marker></example>
+        -->
+        <example correction="байтів">10 <marker>байт</marker></example>
+        <example correction="мілібарів">10 <marker>мілібар</marker></example>
+        <example correction="солдатів">дві сотні <marker>солдат</marker></example>
+        <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
+        <example correction="солдатів">п'ять <marker>солдат</marker></example>
+        <example correction="мікронів">13 <marker>мікрон</marker></example>
+        <example correction="мікронів">13 <marker>мікрона</marker></example>
+        <example>п'ять <marker>раз</marker></example>
+        <example>хвилин за 10 спікер увійшов</example>
+        <example>до 16 вхід заборонено</example>
+        <example>в 40 став наймолодшим</example>
+        <example>50 тис. людей</example>
+        <example>сто грамів</example>
+        <example>100 грамів</example>
+        <example>10 разів</example>
+        <example>10 раз</example>
+        <example>10 номер</example>
+        <example>У 2008 президент</example>
+        <example>10 плюс 5</example>
+        <example>о 17.15 патріарх буде в місті</example>
+        <example>«5 канал»</example>
+        <example>у свої сімдесят два роки</example>
+        <example>на виборах-2007 Блок Литвина</example>
+        <example>127 Шевченко Євген Валерійович</example>
+        <example>керував сотнею німець</example>
+        <example>комендантом сотні став Віталій</example>
+        <example>ці мільйони слід шукати там</example>
+        <example>тримали 75 бейсбольних біт</example>
+        <!-- handled by another rule -->
+        <example>19 тис гривень</example>
       </rule>
     </rulegroup>
 
