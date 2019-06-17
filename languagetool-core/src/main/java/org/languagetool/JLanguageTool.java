@@ -743,6 +743,8 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
+    ruleMatches = new LanguageDependentFilter(language, this.enabledRules).filter(ruleMatches);
+    
     return ruleMatches;
   }
   
@@ -1106,7 +1108,7 @@ public class JLanguageTool {
   }
   
   /**
-   * Works like getAllActiveRules but overrides defaults by officeefaults
+   * Works like getAllActiveRules but overrides defaults by office defaults
    * @return a List of {@link Rule} objects
    * @since 4.0
    */

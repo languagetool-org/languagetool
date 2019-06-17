@@ -144,6 +144,20 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
   }
+  
+  //clone with new replacements
+  public RuleMatch(RuleMatch clone, List<String> replacements) {
+    this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setSuggestedReplacements(replacements);
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
+  }
 
   @NotNull
   public SortedMap<String, Float> getFeatures() {
