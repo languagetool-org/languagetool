@@ -64,7 +64,7 @@ public class KhmerWordRepeatRule extends Rule {
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(sentence, tokensWithWS, i)) {
         int prevPos = tokens[i - 1].getStartPos();
         int pos = tokens[i].getStartPos();
-        RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(),
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos+prevToken.length(),
                 messages.getString("repetition"),
                 messages.getString("desc_repetition_short"));
         List<String> replacements = new ArrayList<>();

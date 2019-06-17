@@ -112,7 +112,7 @@ public class BaseSynthesizer implements Synthesizer {
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);
-    return wordForms.toArray(new String[wordForms.size()]);
+    return wordForms.toArray(new String[0]);
   }
 
   @Override
@@ -128,7 +128,7 @@ public class BaseSynthesizer implements Synthesizer {
           lookup(token.getLemma(), tag, results);
         }
       }
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
     return synthesize(token, posTag);
   }

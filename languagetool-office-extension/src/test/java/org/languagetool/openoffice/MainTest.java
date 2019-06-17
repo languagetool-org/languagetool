@@ -31,7 +31,8 @@ public class MainTest {
   @Test
   public void testDoProofreading() {
     Main prog = new Main(null);
-    Main.setTestMode(true);
+//    Main.setTestMode(true);
+    prog.setTestMode(true);
     String testString = "To jest trudne zdanie. A to następne.  A to przedostatnie jest.\u0002 Test ostatniego.";
     Locale plLoc = new Locale("pl", "PL", "");
     PropertyValue[] prop = new PropertyValue[0];
@@ -59,7 +60,8 @@ public class MainTest {
   @Test
   public void testVariants() {
     Main prog = new Main(null);
-    Main.setTestMode(true);
+//    Main.setTestMode(true);
+    prog.setTestMode(true);
     String testString = "Sigui quina siga la teva intenció. Això és una prova.";
     // LibreOffice config for languages with variants
     Locale cavaLoc = new Locale("qlt", "ES", "ca-ES-valencia"); 
@@ -83,8 +85,9 @@ public class MainTest {
 
   @Test
   public void testCleanFootnotes() {
-    Main prog = new Main(null);
-    Main.setTestMode(true);
+    Main main = new Main(null);
+    main.setTestMode(true);
+    SingleDocument prog = new SingleDocument(null, null, null, null);
     assertEquals("A house.¹ Here comes more text.", prog.cleanFootnotes("A house.1 Here comes more text."));
     assertEquals("A road that's 3.4 miles long.", prog.cleanFootnotes("A road that's 3.4 miles long."));
     assertEquals("A house.1234 Here comes more text.", prog.cleanFootnotes("A house.1234 Here comes more text."));  // too many digits for a footnote

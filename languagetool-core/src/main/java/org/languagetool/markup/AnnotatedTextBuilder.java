@@ -48,12 +48,35 @@ import java.util.Map;
  * @since 2.3
  */
 public class AnnotatedTextBuilder {
-  
+
   private final List<TextPart> parts = new ArrayList<>();
+  private final Map<AnnotatedText.MetaDataKey, String> metaData = new HashMap<>();
+  private final Map<String, String> customMetaData = new HashMap<>();
 
   public AnnotatedTextBuilder() {
   }
 
+  /**
+   * Add global meta data like document title or receiver name (when writing an email).
+   * Some rules may use this information.
+   * @since 3.9
+   */
+  public AnnotatedTextBuilder addGlobalMetaData(AnnotatedText.MetaDataKey key, String value) {
+    metaData.put(key, value);
+    return this;
+  }
+  
+  /**
+   * Add any global meta data about the document to be checked. Some rules may use this information.
+   * Unless you're using your own rules for which you know useful keys, you probably want to
+   * use {@link #addGlobalMetaData(AnnotatedText.MetaDataKey, String)}.
+   * @since 3.9
+   */
+  public AnnotatedTextBuilder addGlobalMetaData(String key, String value) {
+    customMetaData.put(key, value);
+    return this;
+  }
+  
   /**
    * Add a plain text snippet, to be checked by LanguageTool when using
    * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
@@ -73,6 +96,18 @@ public class AnnotatedTextBuilder {
   }
 
   /**
+   * Add a markup text snippet like {@code <b attr='something'>} or {@code <div>}. These
+   * parts will be ignored by LanguageTool when using {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
+   * @param interpretAs A string that will be used by the checker instead of the markup. This is usually
+   *                    whitespace, e.g. {@code \n\n} for {@code <p>}
+   */
+  public AnnotatedTextBuilder addMarkup(String markup, String interpretAs) {
+    parts.add(new TextPart(markup, TextPart.Type.MARKUP));
+    parts.add(new TextPart(interpretAs, TextPart.Type.FAKE_CONTENT));
+    return this;
+  }
+
+  /**
    * Create the annotated text to be passed into {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
    */
   public AnnotatedText build() {
@@ -86,10 +121,12 @@ public class AnnotatedTextBuilder {
         totalPosition += part.getPart().length();
       } else if (part.getType() == TextPart.Type.MARKUP) {
         totalPosition += part.getPart().length();
+      } else if (part.getType() == TextPart.Type.FAKE_CONTENT) {
+        plainTextPosition += part.getPart().length();
       }
       mapping.put(plainTextPosition, totalPosition);
     }
-    return new AnnotatedText(parts, mapping);
+    return new AnnotatedText(parts, mapping, metaData, customMetaData);
   }
   
 }

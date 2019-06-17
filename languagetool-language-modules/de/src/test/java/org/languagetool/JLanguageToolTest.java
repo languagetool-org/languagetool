@@ -18,15 +18,15 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.RuleMatch;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest {
 
@@ -56,7 +56,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testPositionsWithGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new German());
+    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
     List<RuleMatch> matches = tool.check("Stundenkilometer");
     assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);

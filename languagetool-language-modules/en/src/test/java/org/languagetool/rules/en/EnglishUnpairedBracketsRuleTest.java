@@ -38,7 +38,7 @@ public class EnglishUnpairedBracketsRuleTest {
   private JLanguageTool langTool;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), new English());
     langTool = new JLanguageTool(new English());
   }
@@ -49,6 +49,9 @@ public class EnglishUnpairedBracketsRuleTest {
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
+    assertCorrect("This is no smiley: (some more text)");
+    assertCorrect("This is a sentence with a smiley :)");
+    assertCorrect("This is a sentence with a smiley :(");
     assertCorrect("This is a sentence with a smiley :-)");
     assertCorrect("This is a sentence with a smiley ;-) and so on...");
     assertCorrect("I don't know.");
@@ -116,13 +119,13 @@ public class EnglishUnpairedBracketsRuleTest {
     JLanguageTool lt = new JLanguageTool(new English());
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
-                             + "[This is bracket. With some text.] and this continues.\n", lt));
+                             + "[This is a bracket. With some text.] and this continues.\n", lt));
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket. "
-                             + "(This is bracket. \n\n With some text.) and this continues.", lt));
+                             + "(This is a bracket. \n\n With some text.) and this continues.", lt));
 
     assertEquals(1, getMatches("This is multiple sentence text that contains a bracket: "
-                             + "[This is bracket. With some text. And this continues.\n\n", lt));
+                             + "[This is a bracket. With some text. And this continues.\n\n", lt));
   }
 
   private int getMatches(String input, JLanguageTool lt) throws IOException {

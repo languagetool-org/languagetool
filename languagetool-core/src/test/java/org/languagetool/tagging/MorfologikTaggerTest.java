@@ -18,13 +18,22 @@
  */
 package org.languagetool.tagging;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.Demo;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public class MorfologikTaggerTest {
 
@@ -50,6 +59,18 @@ public class MorfologikTaggerTest {
 
     List<TaggedWord> noResult = tagger.tag("noSuchWord");
     assertThat(noResult.size(), is(0));
+  }
+
+  @Test
+  public void testPositionWithIgnoredChars() throws IOException {
+    Demo demoLanguage = new Demo();
+    JLanguageTool languageTool = new JLanguageTool(demoLanguage);
+    String text = "t\u00ADox te\u00ADstx";
+    AnalyzedSentence analyzedSent = languageTool.getRawAnalyzedSentence(text);
+    assertNotNull(analyzedSent.getTokens()[3].getToken());
+    assertEquals("SENT_END", analyzedSent.getTokens()[3].getAnalyzedToken(0).getPOSTag());
+    assertEquals(text.indexOf("te\u00ADst"), analyzedSent.getTokens()[3].getStartPos());
+    assertEquals(text.length(), analyzedSent.getTokens()[3].getEndPos());
   }
 
 }

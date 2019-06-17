@@ -30,9 +30,6 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class BretonWordTokenizer extends WordTokenizer {
 
-  public BretonWordTokenizer() {
-  }
-
   /**
    * Tokenizes just like WordTokenizer with the exception that "c’h"
    * is not split. "C’h" is considered as a letter in breton (trigraph)
@@ -49,8 +46,8 @@ public class BretonWordTokenizer extends WordTokenizer {
 
     // FIXME: this is a bit of a hacky way to tokenize.  It should work
     // but I should work on a more elegant way.
-    String replaced = text.replaceAll("([Cc])['’‘ʼ]([Hh])", "$1\u0001\u0001BR_APOS\u0001\u0001$2")
-        .replaceAll("(\\p{L})['’‘ʼ]", "$1\u0001\u0001BR_APOS\u0001\u0001 ");
+    String replaced = text.replaceAll("([Cc])['’‘ʼ]([Hh])", "$1\u0001\u0001BR@APOS\u0001\u0001$2")
+        .replaceAll("(\\p{L})['’‘ʼ]", "$1\u0001\u0001BR@APOS\u0001\u0001 ");
 
     List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
@@ -58,7 +55,7 @@ public class BretonWordTokenizer extends WordTokenizer {
     // Put back apostrophes and remove spurious spaces.
     Iterator<String> itr = tokenList.iterator();
     while (itr.hasNext()) {
-      String word = itr.next().replace("\u0001\u0001BR_APOS\u0001\u0001", "’");
+      String word = itr.next().replace("\u0001\u0001BR@APOS\u0001\u0001", "’");
       tokens.add(word);
       if (!word.equals("’") && word.endsWith("’")) {
         itr.next(); // Skip the next spurious white space.

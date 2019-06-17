@@ -27,18 +27,24 @@ import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.Map;
 
 final class HTTPTools {
 
   private HTTPTools() {
   }
 
+  /**
+   * Get default port, but considering property {@code lt.default.port}.
+   */
   public static int getDefaultPort() {
     String defaultPort = System.getProperty("lt.default.port");
     return defaultPort != null ? Integer.parseInt(defaultPort) : HTTPServerConfig.DEFAULT_PORT;
@@ -69,15 +75,26 @@ final class HTTPTools {
   }
 
   static String checkAtUrl(URL url) throws IOException {
-    InputStream stream = (InputStream)url.getContent();
-    return StringTools.streamToString(stream, "UTF-8");
+    try {
+      InputStream stream = (InputStream)url.getContent();
+      return StringTools.streamToString(stream, "UTF-8");
+    } catch (ConnectException e) {
+      throw new RuntimeException("Could not connect to " + url, e);
+    }
   }
 
   static String checkAtUrlByPost(URL url, String postData) throws IOException {
+    return checkAtUrlByPost(url, postData, new HashMap<>());
+  }
+  
+  static String checkAtUrlByPost(URL url, String postData, Map<String, String> properties) throws IOException {
     String keepAlive = System.getProperty("http.keepAlive");
     try {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
       URLConnection connection = url.openConnection();
+      for (Map.Entry<String, String> entry : properties.entrySet()) {
+        connection.setRequestProperty(entry.getKey(), entry.getValue());
+      }
       connection.setDoOutput(true);
       try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
         writer.write(postData);

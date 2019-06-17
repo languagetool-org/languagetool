@@ -18,21 +18,21 @@
  */
 package org.languagetool.chunking;
 
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
 
 public class GermanChunkerTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new German());
+  private final JLanguageTool lt = new JLanguageTool(new GermanyGerman());
   private final GermanChunker chunker = new GermanChunker();
 
   @Test

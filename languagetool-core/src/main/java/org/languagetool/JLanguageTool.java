@@ -22,10 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.language.CommonWords;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
@@ -33,7 +35,6 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +44,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
+import java.util.logging.Level;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -64,9 +67,14 @@ import java.util.regex.Pattern;
 public class JLanguageTool {
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "3.8-SNAPSHOT";
+  public static final String VERSION = "4.6-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
+  /** 
+   * Abbreviated git id or {@code null} if not available.
+   * @since 4.5
+   */
+  @Nullable public static final String GIT_SHORT_ID = getShortGitId();
 
   /** The name of the file with error patterns. */
   public static final String PATTERN_FILE = "grammar.xml";
@@ -82,6 +90,10 @@ public class JLanguageTool {
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
   private final ResultCache cache;
+  private final UserConfig userConfig;
+  private final ShortDescriptionProvider descProvider;
+
+  private float maxErrorsPerWordRate;
 
   /**
    * Returns the build date or {@code null} if not run from JAR.
@@ -106,16 +118,44 @@ public class JLanguageTool {
       throw new RuntimeException("Could not get build date from JAR", e);
     }
   }
+
+  /**
+   * Returns the abbreviated git id or {@code null}.
+   */
+  @Nullable
+  private static String getShortGitId() {
+    try {
+      InputStream in = JLanguageTool.class.getClassLoader().getResourceAsStream("git.properties");
+      if (in != null) {
+        Properties props = new Properties();
+        props.load(in);
+        return props.getProperty("git.commit.id.abbrev");
+      }
+      return null;
+    } catch (IOException e) {
+      throw new RuntimeException("Could not get git id from 'git.properties'", e);
+    }
+  }
+
+  /**
+   * @since 4.2
+   */
+  public static boolean isPremiumVersion() {
+    return false;
+  }
   
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
+  // rules fetched via getRelevantLanguageModelCapableRules()
+  private final Set<String> optionalLanguageModelRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final Language language;
+  private final List<Language> altLanguages;
   private final Language motherTongue;
 
   private PrintStream printStream;
@@ -140,6 +180,17 @@ public class JLanguageTool {
      */
     ONLYNONPARA
   }
+
+  public enum Mode {
+    // IMPORTANT: directly logged via toString into check_log database table.
+    // column is varchar(32), so take care to not exceed this length here
+    /** Use all active rules for checking. */
+    ALL,
+    /** Use only text-level rules for checking. This is typically much faster then using all rules or {@code ALL_BUT_TEXTLEVEL_ONLY}. */
+    TEXTLEVEL_ONLY,
+    /** Use all activate rules for checking except the text-level rules. */
+    ALL_BUT_TEXTLEVEL_ONLY
+  }
   
   private static final List<File> temporaryFiles = new ArrayList<>();
 
@@ -162,13 +213,13 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    */
   public JLanguageTool(Language language) {
-    this(language, null, null);
+    this(language, null, null, null);
   }
 
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
-   * 
+   *
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
@@ -176,20 +227,82 @@ public class JLanguageTool {
    *              e.g. when LT is running as a server and texts are re-checked due to changes
    * @since 3.7
    */
-  @Experimental
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache) {
+    this(language, motherTongue, cache, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   * 
+   * @param language the language of the text to be checked
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes. Use
+   *              {@code null} to deactivate the cache.
+   * @since 4.2
+   */
+  @Experimental
+  public JLanguageTool(Language language, ResultCache cache, UserConfig userConfig) {
+    this(language, null, cache, userConfig);
+  }
+  
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   * 
+   * @param language the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 4.3
+   */
+  @Experimental
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
+                       GlobalConfig globalConfig, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
+    this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
+    if(userConfig == null) {
+      this.userConfig = new UserConfig();
+    } else {
+      this.userConfig = userConfig;
+    }
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages);
+    builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
     this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
-      activateDefaultFalseFriendRules();
+      if (!language.hasNGramFalseFriendRule(motherTongue)) {
+        // use the old false friends, which always match, not depending on context
+        activateDefaultFalseFriendRules();
+      }
+      updateOptionalLanguageModelRules(null); // start out with rules without language model
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
+    descProvider = new ShortDescriptionProvider(language);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language the language of the text to be checked
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 4.2
+   */
+  @Experimental
+  public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+    this(language, Collections.emptyList(), motherTongue, cache, null, userConfig);
   }
   
   /**
@@ -246,6 +359,18 @@ public class JLanguageTool {
   }
 
   /**
+   * Maximum errors per word rate, checking will stop with an exception if the rate is higher.
+   * For example, with a rate of 0.33, the checking would stop if the user's
+   * text has so many errors that more than every 3rd word causes a rule match.
+   * Note that this may not apply for very short texts.
+   * @since 4.0
+   */
+  @Experimental
+  public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
+    this.maxErrorsPerWordRate = maxErrorsPerWordRate;
+  }
+  
+  /**
    * Gets the ResourceBundle (i18n strings) for the default language of the user's system.
    */
   public static ResourceBundle getMessageBundle() {
@@ -260,9 +385,11 @@ public class JLanguageTool {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   
-  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages) {
+  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig, GlobalConfig globalConfig) {
     try {
-      return language.getRelevantRules(messages);
+      List<Rule> rules = new ArrayList<>(language.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+      rules.addAll(language.getRelevantRulesGlobalConfig(messages, globalConfig, userConfig, motherTongue, altLanguages));
+      return rules;
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);
     }
@@ -286,8 +413,13 @@ public class JLanguageTool {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     try (InputStream is = this.getClass().getResourceAsStream(filename)) {
       if (is == null) {
-        // happens for external rules plugged in as an XML file:
-        return ruleLoader.getRules(new File(filename));
+        // happens for external rules plugged in as an XML file or testing files:
+        if (filename.contains("-test-")) {
+          // ignore, for testing
+          return Collections.emptyList();
+        } else {
+          return ruleLoader.getRules(new File(filename));
+        }
       } else {
         return ruleLoader.getRules(is, filename);
       }
@@ -307,7 +439,7 @@ public class JLanguageTool {
     if (motherTongue == null) {
       return Collections.emptyList();
     }
-    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(motherTongue);
     try (InputStream is = this.getClass().getResourceAsStream(filename)) {
       if (is == null) {
         return ruleLoader.getRules(new File(filename), language, motherTongue);
@@ -315,6 +447,34 @@ public class JLanguageTool {
         return ruleLoader.getRules(is, language, motherTongue);
       }
     }
+  }
+
+  /**
+   * Remove rules that can profit from a language model, recreate them with the given model and add them again
+   * @param lm the language model or null if none is available
+   */
+  private void updateOptionalLanguageModelRules(@Nullable LanguageModel lm) {
+    ResourceBundle messages = getMessageBundle(language);
+    try {
+      List<Rule> rules = language.getRelevantLanguageModelCapableRules(messages, lm, userConfig, motherTongue, altLanguages);
+      userRules.removeIf(rule -> optionalLanguageModelRules.contains(rule.getId()));
+      optionalLanguageModelRules.clear();
+      rules.stream().map(Rule::getId).forEach(optionalLanguageModelRules::add);
+      userRules.addAll(rules);
+    } catch(Exception e) {
+      throw new RuntimeException("Could not load language model capable rules.", e);
+    }
+  }
+
+  /**
+   * Activate rules that depend on pretrained neural network models.
+   * @param modelDir root dir of exported models
+   * @since 4.4
+   */
+  public void activateNeuralNetworkRules(File modelDir) throws IOException {
+    ResourceBundle messages = getMessageBundle(language);
+    List<Rule> rules = language.getRelevantNeuralNetworkModels(messages, modelDir);
+    userRules.addAll(rules);
   }
 
   /**
@@ -328,6 +488,21 @@ public class JLanguageTool {
     if (languageModel != null) {
       ResourceBundle messages = getMessageBundle(language);
       List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      userRules.addAll(rules);
+      updateOptionalLanguageModelRules(languageModel);
+    }
+  }
+
+  /**
+   * Activate rules that depend on a word2vec language model.
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @since 4.0
+   */
+  public void activateWord2VecModelRules(File indexDir) throws IOException {
+    Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
+    if (word2vecModel != null) {
+      ResourceBundle messages = getMessageBundle(language);
+      List<Rule> rules = language.getRelevantWord2VecModelRules(messages, word2vecModel);
       userRules.addAll(rules);
     }
   }
@@ -475,7 +650,6 @@ public class JLanguageTool {
    * @return a List of {@link RuleMatch} objects
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(String text, RuleMatchListener listener) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL, listener);
   }
@@ -487,7 +661,6 @@ public class JLanguageTool {
   /**
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
     return check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode, listener);
   }
@@ -500,6 +673,13 @@ public class JLanguageTool {
    */
   public List<RuleMatch> check(AnnotatedText text) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL);
+  }
+  
+  /**
+   * @since 3.9
+   */
+  public List<RuleMatch> check(AnnotatedText text, RuleMatchListener listener) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL, listener);
   }
   
   /**
@@ -524,8 +704,24 @@ public class JLanguageTool {
    * sentences against all currently active rules.
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+    Mode mode;
+    if(paraMode == ParagraphHandling.ONLYNONPARA) {
+      mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
+    } else if(paraMode == ParagraphHandling.ONLYPARA) {
+      mode = Mode.TEXTLEVEL_ONLY;
+    } else {
+      mode = Mode.ALL;
+    }
+    return check(annotatedText, tokenizeText, paraMode, listener, mode);
+  }
+  
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules depending on {@code mode}.
+   * @since 4.3
+   */
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode) throws IOException {
     List<String> sentences;
     if (tokenizeText) { 
       sentences = sentenceTokenize(annotatedText.getPlainText());
@@ -541,7 +737,7 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
-    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, listener);
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, listener, mode);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
@@ -586,17 +782,16 @@ public class JLanguageTool {
   }
   
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText) throws IOException {
-    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null);
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode) throws IOException {
+    return performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText, null, mode);
   }
 
   /**
    * @since 3.7
    */
-  @Experimental
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener);
+                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) throws IOException {
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener, mode);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -614,6 +809,7 @@ public class JLanguageTool {
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
         List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
+    RuleLoggerManager logger = RuleLoggerManager.getInstance();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
         continue;
@@ -628,7 +824,10 @@ public class JLanguageTool {
       if (paraMode == ParagraphHandling.ONLYPARA) {
         continue;
       }
+      long time = System.currentTimeMillis();
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
+      logger.log(new RuleCheckTimeMessage(rule.getId(), language.getShortCodeWithCountryAndVariant(),
+        time, analyzedSentence.getText().length()), Level.FINE);
       for (RuleMatch elem : thisMatches) {
         sentenceMatches.add(elem);
       }
@@ -668,9 +867,11 @@ public class JLanguageTool {
       fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
       toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
     }
-    RuleMatch thisMatch = new RuleMatch(match.getRule(),
-        fromPos, toPos, match.getMessage(), match.getShortMessage());
-    thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+    RuleMatch thisMatch = new RuleMatch(match);
+    thisMatch.setOffsetPosition(fromPos, toPos);
+    List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
+    thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
+
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
@@ -694,6 +895,20 @@ public class JLanguageTool {
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
     return thisMatch;
+
+  }
+
+  private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
+    List<SuggestedReplacement> extended = new ArrayList<>();
+    for (SuggestedReplacement replacement : replacements) {
+      SuggestedReplacement newReplacement = new SuggestedReplacement(replacement);
+      if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
+        String descOrNull = descProvider.getShortDescription(replacement.getReplacement());
+        newReplacement.setShortDescription(descOrNull);
+      }
+      extended.add(newReplacement);
+    }
+    return extended;
   }
 
   protected void rememberUnknownWords(AnalyzedSentence analyzedText) {
@@ -746,7 +961,9 @@ public class JLanguageTool {
     if (cachedSentence != null) {
       return cachedSentence;
     } else {
-      AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+      AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
+      AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw);
+      AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
       }
@@ -772,19 +989,7 @@ public class JLanguageTool {
     if (language.getChunker() != null) {
       language.getChunker().addChunkTags(aTokens);
     }
-    int numTokens = aTokens.size();
-    int posFix = 0; 
-    for (int i = 1; i < numTokens; i++) {
-      aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
-      aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
-      if (!softHyphenTokens.isEmpty()) {
-        if (softHyphenTokens.get(i) != null) {
-          aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
-          posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
-        }
-      }
-    }
-        
+
     AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
@@ -797,6 +1002,22 @@ public class JLanguageTool {
       tokenArray[toArrayCount++] = posTag;
       startPos += posTag.getToken().length();
     }
+
+    int numTokens = aTokens.size();
+    int posFix = 0; 
+    for (int i = 0; i < numTokens; i++) {
+      if( i > 0 ) {
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
+        aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
+      }
+      if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
+        // addReading() modifies a readings.token if last token is longer - need to use it first
+        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
+        AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
+        aTokens.get(i).addReading(newToken);
+      }
+    }
+        
 
     // add additional tags
     int lastToken = toArrayCount - 1;
@@ -823,9 +1044,10 @@ public class JLanguageTool {
       return ignoredCharsTokens;
     }
     for (int i = 0; i < tokens.size(); i++) {
-      if (ignoredCharacterRegex.matcher(tokens.get(i)).find()) {
+      Matcher matcher = ignoredCharacterRegex.matcher(tokens.get(i));
+      if (matcher.find()) {
         ignoredCharsTokens.put(i, tokens.get(i));
-        tokens.set(i, ignoredCharacterRegex.matcher(tokens.get(i)).replaceAll(""));
+        tokens.set(i, matcher.replaceAll(""));
       }
     }
     return ignoredCharsTokens;
@@ -884,6 +1106,29 @@ public class JLanguageTool {
   }
   
   /**
+   * Works like getAllActiveRules but overrides defaults by officeefaults
+   * @return a List of {@link Rule} objects
+   * @since 4.0
+   */
+  public List<Rule> getAllActiveOfficeRules() {
+    List<Rule> rules = new ArrayList<>();
+    List<Rule> rulesActive = new ArrayList<>();
+    rules.addAll(builtinRules);
+    rules.addAll(userRules);
+    for (Rule rule : rules) {
+      if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
+        rulesActive.add(rule);
+      } else if (rule.isOfficeDefaultOn()) {
+        rulesActive.add(rule);
+        enableRule(rule.getId());
+      } else if (!ignoreRule(rule) && rule.isOfficeDefaultOff()) {
+        disableRule(rule.getId());
+      }
+    }    
+    return rulesActive;
+  }
+  
+  /**
    * Get pattern rules by Id and SubId. This returns a list because rules that use {@code <or>...</or>}
    * are internally expanded into several rules.
    * @return a List of {@link Rule} objects
@@ -893,10 +1138,9 @@ public class JLanguageTool {
     List<Rule> rules = getAllRules();
     List<AbstractPatternRule> rulesById = new ArrayList<>();   
     for (Rule rule : rules) {
-      if (rule instanceof AbstractPatternRule) {
-        if (rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
-          rulesById.add((AbstractPatternRule) rule);
-        }
+      if (rule instanceof AbstractPatternRule &&
+          rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
+        rulesById.add((AbstractPatternRule) rule);
       }
     }    
     return rulesById;
@@ -934,13 +1178,15 @@ public class JLanguageTool {
     private final List<String> sentences;
     private final List<AnalyzedSentence> analyzedSentences;
     private final RuleMatchListener listener;
+    private final Mode mode;
     
     private int charCount;
     private int lineCount;
     private int columnCount;
 
     TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
-                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount, RuleMatchListener listener) {
+                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount,
+                      RuleMatchListener listener, Mode mode) {
       this.rules = rules;
       if (sentences.size() != analyzedSentences.size()) {
         throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
@@ -953,27 +1199,42 @@ public class JLanguageTool {
       this.lineCount = lineCount;
       this.columnCount = columnCount;
       this.listener = listener;
+      this.mode = Objects.requireNonNull(mode);
     }
 
     @Override
     public List<RuleMatch> call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      ruleMatches.addAll(getTextLevelRuleMatches());
-      ruleMatches.addAll(getOtherRuleMatches());
+      if (mode == Mode.ALL) {
+        ruleMatches.addAll(getTextLevelRuleMatches());
+        ruleMatches.addAll(getOtherRuleMatches());
+      } else if (mode == Mode.ALL_BUT_TEXTLEVEL_ONLY) {
+        ruleMatches.addAll(getOtherRuleMatches());
+      } else if (mode == Mode.TEXTLEVEL_ONLY) {
+        ruleMatches.addAll(getTextLevelRuleMatches());
+      } else {
+        throw new IllegalArgumentException("Unknown mode: " + mode);
+      }
       return ruleMatches;
     }
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
       List<RuleMatch> ruleMatches = new ArrayList<>();
+      RuleLoggerManager logger = RuleLoggerManager.getInstance();
+      String lang = language.getShortCodeWithCountryAndVariant();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
-          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          long time = System.currentTimeMillis();
+          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
+          logger.log(new RuleCheckTimeMessage(rule.getId(), lang,
+            time, annotatedText.getPlainText().length()), Level.FINE);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
-            RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            RuleMatch newMatch = new RuleMatch(match);
+            newMatch.setOffsetPosition(newFromPos, newToPos);
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
@@ -982,7 +1243,6 @@ public class JLanguageTool {
               newMatch.setColumn(range.from.column);
             }
             newMatch.setEndColumn(range.to.column);
-            newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
             adaptedMatches.add(newMatch);
           }
           ruleMatches.addAll(adaptedMatches);
@@ -999,15 +1259,17 @@ public class JLanguageTool {
     private List<RuleMatch> getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       int i = 0;
+      int wordCounter = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
+        wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
         try {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
           if (cache != null) {
             cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
                     disabledRules, disabledRuleCategories,
-                    enabledRules, enabledRuleCategories);
+                    enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
@@ -1018,14 +1280,21 @@ public class JLanguageTool {
           }
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch elem : sentenceMatches) {
-            RuleMatch thisMatch = adjustRuleMatchPos(elem,
-                    charCount, columnCount, lineCount, sentence, annotatedText);
+            RuleMatch thisMatch = adjustRuleMatchPos(elem, charCount, columnCount, lineCount, sentence, annotatedText);
             adaptedMatches.add(thisMatch);
             if (listener != null) {
               listener.matchFound(thisMatch);
             }
           }
           ruleMatches.addAll(adaptedMatches);
+          float errorsPerWord = ruleMatches.size() / (float)wordCounter;
+          //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
+          if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
+            CommonWords commonWords = new CommonWords();
+            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
+                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
+                    ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
+          }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
 
@@ -1043,9 +1312,11 @@ public class JLanguageTool {
               columnCount = sentence.length() - lineBreakPos;
             }
           }
+        } catch (ErrorRateTooHighException e) {
+          throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): '"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'", e);
         }
       }
       return ruleMatches;
@@ -1094,6 +1365,10 @@ public class JLanguageTool {
       }
     }
   
+  }
+  
+  public void setConfigValues(Map<String, Integer> v) {
+    userConfig.insertConfigValues(v);
   }
 
 }

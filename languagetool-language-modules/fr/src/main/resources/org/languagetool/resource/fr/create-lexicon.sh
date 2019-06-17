@@ -2,10 +2,9 @@
 #
 # How to create the POS tag 'french.dict' dictionary:
 #
-# 1) Download morfologik-stemming-1.4.0.zip from
-#    http://sourceforge.net/projects/morfologik/files/morfologik-stemming/1.4.0/
-#    $ unzip morfologik-stemming-1.4.0.zip
-#    This creates morfologik-stemming-nodict-1.4.0.jar
+# 1) Download morfologik-tools-1.7.1-standalone.jar.zip:
+#    $ wget morfologik-tools-1.7.1-standalone.jar.zip
+#    $ unzip morfologik-tools-1.7.1-standalone.jar.zip
 # 2) Run the script:
 #    $ ./create-lexicon.sh
 #    This creates the POS tag dictionary 'french.dict' ad the
@@ -14,7 +13,7 @@
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 #
 
-INPUT=lexique-dicollecte-fr-v6.0.2
+INPUT=lexique-dicollecte-fr-v6.1
 
 if [ ! -f $INPUT.txt ]; then
   wget http://www.dicollecte.org/download/fr/$INPUT.zip
@@ -24,20 +23,14 @@ fi
 ./dicollecte-to-lt.pl $INPUT.txt
 
 # POS tag dictionary...
-java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph \
+java -jar morfologik-tools-1.7.1-standalone.jar tab2morph \
      -i $INPUT.txt.LT.txt \
      -o output.txt
-java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build \
+java -jar morfologik-tools-1.7.1-standalone.jar fsa_build \
      -i output.txt \
      -o french.dict
 
-# Synthesizer dictionary:
-# The Java program outputs temporary files in /tmp which is not 
-# convenient (it would be better to indicate the location of output files).
-rm -f /tmp/SynthDictionaryBuilder*.txt_tags.txt
-rm -f /tmp/DictionaryBuilder*.dict
-
-java -cp ../../../../../../../../../languagetool-tools/target/languagetool-tools-3.7-SNAPSHOT-jar-with-dependencies.jar \
+java -cp ../../../../../../../../../languagetool-tools/target/languagetool-tools-3.9-SNAPSHOT-jar-with-dependencies.jar \
      org.languagetool.tools.SynthDictionaryBuilder \
      -i $INPUT.txt.LT.txt \
      -info french_synth.info \

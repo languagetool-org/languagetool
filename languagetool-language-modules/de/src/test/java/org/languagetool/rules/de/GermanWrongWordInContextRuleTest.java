@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
 
 /**
  * @author Markus Brenneis
@@ -37,7 +37,7 @@ public class GermanWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new German());
+    langTool = new JLanguageTool(new GermanyGerman());
     rule = new GermanWrongWordInContextRule(null);
   }
 
@@ -112,6 +112,14 @@ public class GermanWrongWordInContextRuleTest {
     assertBad("Die Seiten des Violoncellos sind kurz.");
     assertEquals("Saite", rule.match(langTool.getAnalyzedSentence("Die E-Gitarre hat eine sechste Seite."))[0].getSuggestedReplacements().get(0));
     assertEquals("Seiten", rule.match(langTool.getAnalyzedSentence("Dieses Buch hat sechs Saiten."))[0].getSuggestedReplacements().get(0));
+
+    // Neutron/Neuron
+    assertGood("Nervenzellen nennt man Neuronen");
+    assertGood("Das Neutron ist elektisch neutral");
+    assertBad("Atomkerne bestehen aus Protonen und Neuronen");
+    assertBad("Über eine Synapse wird das Neutron mit einer bestimmten Zelle verknüpft und nimmt mit der lokal zugeordneten postsynaptischen Membranregion eines Dendriten Signale auf.");
+    assertEquals("Neutronen", rule.match(langTool.getAnalyzedSentence("Protonen und Neuronen sind Bausteine des Atomkerns"))[0].getSuggestedReplacements().get(0));
+    assertEquals("Neurons", rule.match(langTool.getAnalyzedSentence("Das Axon des Neutrons ..."))[0].getSuggestedReplacements().get(0));
   }
 
   private void assertGood(String sentence) throws IOException {

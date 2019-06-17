@@ -9,4 +9,4 @@ Corrections: Marcin Miłkowski
 
 The frequency data is available on Apache License (see http://apache.org/licenses/LICENSE-2.0.html) 
 and comes from Mozilla Gaia project 
-(https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
+(https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries).

@@ -19,6 +19,7 @@
 package org.languagetool.commandline;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
@@ -119,7 +120,8 @@ public final class CommandLineTools {
       out.print(xml);
     } else if (isJsonFormat) {
       RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
-      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize, lt.getLanguage());      
+      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize,
+        new DetectedLanguage(lt.getLanguage(), lt.getLanguage()));
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(json);
     } else {
@@ -185,7 +187,9 @@ public final class CommandLineTools {
         System.out.println("Suggestion: " + String.join("; ", replacements));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
-      if (rule.getUrl() != null) {
+      if (match.getUrl() != null) {
+        System.out.println("More info: " + match.getUrl());
+      } else if (rule.getUrl() != null) {
         System.out.println("More info: " + rule.getUrl());
       }
       if (i < ruleMatches.size()) {

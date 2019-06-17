@@ -94,11 +94,6 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(result5.getLanguage(), is("German (Germany)"));
       assertThat(result5.getLanguageCode(), is("de-DE"));
 
-      CheckConfiguration config2 = new CheckConfigurationBuilder().build();
-      RemoteResult result6 = lt.check("x", config2);  // too short, fallback will be used
-      assertThat(result6.getLanguage(), is("English (US)"));
-      assertThat(result6.getLanguageCode(), is("en-US"));
-
       RemoteResult result7 = lt.check("Das Häuser ist schön.", "de");
       assertThat(result7.getMatches().size(), is(1));
       assertThat(result7.getMatches().get(0).getRuleId(), is("DE_AGREEMENT"));

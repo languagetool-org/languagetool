@@ -32,7 +32,7 @@ public class HunspellRuleTest {
   @Test
   public void testRuleWithFrench() throws Exception {
     final French french = new French();
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french);
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french, null);
     final JLanguageTool langTool = new JLanguageTool(french);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Un test simple.")).length);
@@ -56,7 +56,7 @@ public class HunspellRuleTest {
   @Test
   public void testImmunizedFrenchWord() throws Exception {
     final French french = new French();
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french);
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french, null);
     JLanguageTool langTool = new JLanguageTool(french);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);

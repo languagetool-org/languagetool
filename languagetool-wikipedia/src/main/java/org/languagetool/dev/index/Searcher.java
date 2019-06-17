@@ -52,6 +52,7 @@ import org.languagetool.tools.ContextTools;
  * index that runs the query on that index and prints all matches.
  * Will transparently handle rules that are not supported, i.e. run on the candidate matches
  * up to a limit.
+ * See {@link Indexer} for how to create the index.
  * 
  * @author Tao Lin
  * @author Daniel Naber
@@ -376,7 +377,7 @@ public class Searcher {
         System.out.println("===== " + rule.getFullId() + " =========================================================");
         SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
         int i = 1;
-        if (searcherResult.getMatchingSentences().size() == 0) {
+        if (searcherResult.getMatchingSentences().isEmpty()) {
           System.out.println("[no matches]");
         }
         for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {

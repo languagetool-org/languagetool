@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>languagetools.org: False Friends</title>
+  <script>
+    function getLangFromURL() {
+      var param = location.search.split("?lang=")[1];
+      return param ? param : "all";
+    }
+
+    function loadXMLDoc(filename) {
+      var xhttp;
+      if (window.ActiveXObject) {
+        xhttp = new ActiveXObject("Msxml2.XMLHTTP");
+      } else {
+        xhttp = new XMLHttpRequest();
+      }
+      xhttp.open("GET", filename, false);
+      try {
+        xhttp.responseType = "msxml-document"
+      } catch (err) {}  // helping IE11
+      xhttp.send("");
+      return xhttp.responseXML;
+    }
+
+    function displayResult() {
+      var lang = getLangFromURL();
+      var xml = loadXMLDoc("false-friends.xml");
+      var xsl = loadXMLDoc("print-ff.xsl");
+      // code for IE
+      if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        var ex = xml.transformNode(xsl);
+        document.getElementById("container").innerHTML = ex;
+      }
+      // code for Chrome, Firefox, Opera, etc.
+      else if (document.implementation && document.implementation.createDocument) {
+        var xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(xsl);
+        xsltProcessor.setParameter(null, "lang", lang);
+        var resultDocument = xsltProcessor.transformToFragment(xml, document);
+        document.getElementById("container").appendChild(resultDocument);
+      }
+    }
+  </script>
+</head>
+<body onload="displayResult()">
+
+<p>Filter false friends by a certain language,
+attaching a parameter to the URL in this way: ./false-friends.htm?lang=xx
+where "xx" is the code of the desired language. For example:
+<a href="?lang=de">./false-friends.htm?lang=de</a> for viewing all the false friends that have a German form.
+If there is no parameter provided, it shows all the elements: <a href="false-friends.html">show all false friends</a>
+
+  <div id="container" />
+</body>
+</html>

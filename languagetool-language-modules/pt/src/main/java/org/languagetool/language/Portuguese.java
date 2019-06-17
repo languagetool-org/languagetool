@@ -20,11 +20,16 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.pt.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
@@ -33,14 +38,12 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.io.File;
 
 /**
  * Post-spelling-reform Portuguese.
@@ -80,8 +83,8 @@ public class Portuguese extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
-            new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
-            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81")
+            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81"),
+            new Contributor("Matheus Poletto (pt-BR)", "https://github.com/MatheusPoletto")
     };
   }
 
@@ -132,34 +135,45 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
-                Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas")),
+                Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas.")),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this),
-            new LongSentenceRule(messages, 45, true),
+            new HunspellRule(messages, this, userConfig, altLanguages),
+            new LongSentenceRule(messages, userConfig, -1, true),
+            new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new EmptyLineRule(messages, this),
+            new ParagraphRepeatBeginningRule(messages, this),
+            new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
-            new PortugueseReplaceRule2(messages),
+            new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
+            new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
-            new PortugueseWordynessRule(messages),
+            new PortugueseWordinessRule(messages),
+            new PortugueseWeaselWordsRule(messages),
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
             new PortugueseWrongWordInContextRule(messages),
-            new PortugueseWordCoherencyRule(messages)
+            new PortugueseWordCoherencyRule(messages),
+            new PortugueseUnitConversionRule(messages),
+            new PortugueseReadabilityRule(messages, this, userConfig, true),
+            new PortugueseReadabilityRule(messages, this, userConfig, false)
     );
   }
 
@@ -185,6 +199,18 @@ public class Portuguese extends Language implements AutoCloseable {
     );
   }
 
+  /** @since 4.0 */
+  @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
+  }
+
   /** @since 3.6 */
   @Override
   public void close() throws Exception {
@@ -197,29 +223,43 @@ public class Portuguese extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":     return 50;
-      case "DEGREE_MINUTES_SECONDS":    return 20;
-      case "INTERJECTIONS_PUNTUATION":  return  5;
+      case "DEGREE_MINUTES_SECONDS":    return 30;
+      case "INTERJECTIONS_PUNTUATION":  return 20;
+      case "CONFUSION_POR":             return 10;
+      case "HOMOPHONE_AS_CARD":         return  5;
+      case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
+      case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
-      case "PT_MULTI_REPLACE":          return -10;
+      case "PT_BARBARISMS_REPLACE":     return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
-      case "PT_WORDYNESS_REPLACE":      return -13;
+      case "PT_WORDINESS_REPLACE":      return -13;
       case "PT_CLICHE_REPLACE":         return -17;
       case "CHILDISH_LANGUAGE":         return -25;
       case "ARCHAISMS":                 return -26;
       case "INFORMALITIES":             return -27;
+      case "PUFFERY":                   return -30;
+      case "BIASED_OPINION_WORDS":      return -31;
+      case "WEAK_WORDS":                return -32;
       case "PT_AGREEMENT_REPLACE":      return -35;
       case "HUNSPELL_RULE":             return -50;
+      case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
+      case "EU_NÓS_REMOVAL":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;
       case "REPEATED_WORDS_3X":         return -211;
-      case "WIKIPEDIA_COMMON_ERRORS":   return -500;
-      case "TOO_LONG_SENTENCE":         return -1000;
-      case "CACOPHONY":                 return -2000;
+      case "PT_WIKIPEDIA_COMMON_ERRORS":return -500;
+      case "FILLER_WORDS_PT":           return -990;
+      case LongSentenceRule.RULE_ID:    return -997;
+      case LongParagraphRule.RULE_ID:   return -998;
+      case "READABILITY_RULE_SIMPLE_PT":       return -1100;
+      case "READABILITY_RULE_DIFFICULT_PT":    return -1101;
+      case "CACOPHONY":                 return -1500;
+      case "UNKNOWN_WORD":              return -2000;
     }
     return 0;
   }

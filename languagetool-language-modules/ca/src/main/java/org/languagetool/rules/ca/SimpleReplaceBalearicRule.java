@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace_balearic.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_balearic.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
@@ -51,6 +51,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.setCheckLemmas(false);
     //this.setIgnoreTaggedWords();
   }  
 

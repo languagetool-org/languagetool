@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
@@ -39,21 +40,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Ignore("for interactive use; requires local Tatoeba data")
 public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
 
-  private static final String DATA_PATH = "/media/Data/tatoeba/";
-  private static final int MIN_TEXT_LENGTH = 1;
-  private static final int MAX_TEXT_LENGTH = 5_000;
-  private static final int MAX_SLEEP_MILLIS = 10;
+  private static final String DATA_PATH = "/home/fabian/Downloads/tatoeba";
+  static final int MIN_TEXT_LENGTH = 10;
+  static final int MAX_TEXT_LENGTH = 5_000;
+  static final int MAX_SLEEP_MILLIS = 1;
 
-  protected final Map<Language, String> langCodeToText = new HashMap<>();
-  protected final Random random = new Random(1234);
-  protected final AtomicInteger counter = new AtomicInteger();
+  long totalTimes = 0;
+  long totalChars = 0;
+  
+  final Map<Language, String> langCodeToText = new HashMap<>();
+  final Random random = new Random(1234);
+  final AtomicInteger counter = new AtomicInteger();
+
 
   @Test
   @Override
   public void testHTTPServer() throws Exception {
     File dir = new File(DATA_PATH);
     List<Language> languages = new ArrayList<>();
-    //languages.add(new German());
     languages.addAll(Languages.get());
     for (Language language : languages) {
       File file = new File(dir, "tatoeba-" + language.getShortCode() + ".txt");
@@ -65,7 +69,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
         System.err.println("Using " + content.length() + " bytes of data for " + language);
       }
     }
-    if (langCodeToText.size() == 0) {
+    if (langCodeToText.isEmpty()) {
       throw new RuntimeException("No input data found in " + dir);
     }
     System.out.println("Testing " + langCodeToText.keySet().size() + " languages and variants");
@@ -98,12 +102,25 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     }
     long startTime = System.currentTimeMillis();
     counter.incrementAndGet();
+
     checkByPOST(language, textSubstring);
-    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortCodeWithCountryAndVariant()
-            + ", Length: " + textSubstring.length() + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");
+    long runtime = System.currentTimeMillis() - startTime;
+    totalTimes += runtime;
+    totalChars += textSubstring.length();
+    float millisPer100Chars = (float)runtime / (float)textSubstring.length() * 100.0f;
+    float avgMillisPer100Chars = (float)totalTimes / (float)totalChars * 100.0f;
+    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms"
+            + ", Lang: " + padLeft(language.getShortCodeWithCountryAndVariant(), 5)
+            + ", Length: " + padLeft(textSubstring.length() + "", 5) + ", Time: " + padLeft(runtime + "", 6) + "ms"
+            + ", per100Chars: " + padLeft((int)millisPer100Chars + "", 4) + "ms" 
+            + ", per100Chars on avg.: " + padLeft((int)avgMillisPer100Chars + "", 3) + "ms");
   }
 
-  protected Language getRandomLanguage() {
+  static String padLeft(String s, int n) {
+    return String.format("%1$" + n + "s", s);
+  }
+
+  Language getRandomLanguage() {
     int randomNumber = random.nextInt(langCodeToText.size());
     int i = 0;
     for (Language lang : langCodeToText.keySet()) {

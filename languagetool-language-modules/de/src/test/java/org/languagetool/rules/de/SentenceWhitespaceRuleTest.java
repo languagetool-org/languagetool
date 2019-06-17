@@ -18,22 +18,22 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-
-import java.io.IOException;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
 
 public class SentenceWhitespaceRuleTest {
 
   @Test
   public void testMatch() throws Exception {
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
     TestTools.disableAllRulesExcept(lt, "DE_SENTENCE_WHITESPACE");
 
     assertGood("Das ist ein Satz. Und hier der nächste.", lt);

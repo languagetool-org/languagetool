@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -61,6 +62,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected RuleFilter filter;
   protected String filterArgs;
   protected String message;
+  protected String sourceFile = null;
 
   private final String id;
   private final String description;
@@ -138,12 +140,22 @@ public abstract class AbstractPatternRule extends Rule {
 
   @Override
   public String toString() {
-    return id + "[" + subId + "]:" + patternTokens + ":" + description;
+    return id + "[" + subId + "]" + (sourceFile != null ? "@" + sourceFile : "" ) + ":" + patternTokens + ":" + description;
   }
 
   @Override
   public String getDescription() {
     return description;
+  }
+
+
+  @Nullable
+  public String getSourceFile() {
+    return sourceFile;
+  }
+
+  public void setSourceFile(String sourceFile) {
+    this.sourceFile = sourceFile;
   }
 
   /**
@@ -328,4 +340,11 @@ public abstract class AbstractPatternRule extends Rule {
     return Collections.unmodifiableList(antiPatterns);
   }
 
+  /**
+   * @return String of short message as specified in &lt;short&gt;...&lt;/short&gt;
+   * @since 4.4
+   */
+  String getShortMessage() {
+  	return StringUtils.EMPTY;
+  }
 }

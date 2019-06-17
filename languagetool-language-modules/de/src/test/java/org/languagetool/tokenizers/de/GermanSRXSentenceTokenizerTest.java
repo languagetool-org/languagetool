@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.de;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 /**
@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class GermanSRXSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new German());
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new GermanyGerman());
 
   @Test
   public void testTokenize() {
@@ -98,6 +98,9 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("»Nun also, wie ist's?« ", "fragte Lushin und blickte sie fest an.");
     testSplit("»Nun also, wie ist es?« ", "fragte Lushin und blickte sie fest an.");
 //    testSplit(new String[] { "gezeigt hat.« ", "… ", "Hm! " });
+
+    testSplit("Dies ist ein Satz mit einer EMail.Addresse@example.com!");
+    testSplit("Sonderbarerweise sind auch Beispiel!Eins@example.com und Foo?Bar@example.com valide.");
   }
 
   private void testSplit(String... sentences) {

@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.de;
 
-import java.util.regex.Pattern;
-
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.de.GermanToken.Genus;
 import org.languagetool.tagging.de.GermanToken.Kasus;
@@ -41,12 +41,11 @@ public class AnalyzedGermanToken {
   private final Numerus numerus;
   private final Genus genus;
   private final Determination determination;
-  private final Pattern SPLIT_REGEX = Pattern.compile(":");
 
   public AnalyzedGermanToken(AnalyzedToken token) {
     String posTag = token.getPOSTag();
     String [] parts;
-    if (posTag == null || (parts = SPLIT_REGEX.split(posTag)).length < 3) {
+    if (posTag == null || (parts = StringUtils.split(posTag, ':')).length < 3) {
       type = null;
       casus = null;
       numerus = null;
@@ -102,30 +101,35 @@ public class AnalyzedGermanToken {
         tempDetermination = Determination.DEFINITE;
       }
     }
-    type = tempType != null ? tempType : null;
-    casus = tempCasus != null ? tempCasus : null;
-    numerus = tempNumerus != null ? tempNumerus : null;
-    genus = tempGenus != null ? tempGenus : null;
-    determination = tempDetermination != null ? tempDetermination : null;
+    type = tempType;
+    casus = tempCasus;
+    numerus = tempNumerus;
+    genus = tempGenus;
+    determination = tempDetermination;
   }
-
+  
+  @Nullable
   public POSType getType() {
     return type; 
   }
 
+  @Nullable
   public Kasus getCasus() {
     return casus; 
   }
 
+  @Nullable
   public Numerus getNumerus() {
     return numerus; 
   }
 
+  @Nullable
   public Genus getGenus() {
     return genus; 
   }
   
   /** @since 3.2 */
+  @Nullable
   public Determination getDetermination() {
     return determination;
   }

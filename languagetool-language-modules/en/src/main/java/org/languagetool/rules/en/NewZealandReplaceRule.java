@@ -38,7 +38,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String NEW_ZEALAND_SIMPLE_REPLACE_RULE = "EN_NZ_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/en/en-NZ/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-NZ/replace.txt");
   private static final Locale EN_NZ_LOCALE = new Locale("en-NZ");
 
   @Override

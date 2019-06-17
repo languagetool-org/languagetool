@@ -38,6 +38,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   public static final String TYPE = "type";
 
   static final String MARKER_TAG = "<marker>";
+  static final String RAW_TAG = "raw_pos";
   static final String PLEASE_SPELL_ME = "<pleasespellme/>";
 
   private static final String EXTERNAL = "external";
@@ -54,6 +55,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
 
   private int subId;
+  private boolean interpretPosTagsPreDisambiguation;
 
   private boolean defaultOff;
   private boolean ruleGroupDefaultOff;
@@ -69,6 +71,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
+
+  private String idPrefix;
+  private final String sourceFile;
+
+  public PatternRuleHandler() {
+    this.sourceFile = null;
+  }
+
+  public PatternRuleHandler(String sourceFile) {
+    this.sourceFile = sourceFile;
+  }
 
   /**
    * If set to true, don't throw an exception if id or name is not set.
@@ -93,13 +106,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
         boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
-        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault);
+        String tabName = attrs.getValue(TABNAME);
+        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault, tabName);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
+        idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
         break;
       case "regexp":
@@ -126,6 +141,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
             name = ruleGroupDescription;
           }
         }
+        if (id == null) {
+          throw new RuntimeException("id is null for rule with name '" + name + "'");
+        }
+        id = idPrefix != null ? idPrefix + id : id;
 
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
           throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
@@ -148,6 +167,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case PATTERN:
         startPattern(attrs);
         tokenCountForMarker = 0;
+        interpretPosTagsPreDisambiguation = YES.equals(attrs.getValue(RAW_TAG));
         break;
       case ANTIPATTERN:
         inAntiPattern = true;
@@ -539,7 +559,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (tmpPatternTokens.size() > 0) {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
-                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+        rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
@@ -550,7 +571,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
-        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
+        rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
@@ -560,14 +581,27 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else {
       PatternToken patternToken = elemList.get(numElement);
       if (patternToken.hasOrGroup()) {
+        // When creating a new rule, we finally clear the backed-up variables. All the elements in
+        // the OR group should share the values of backed-up variables. That's why these variables
+        // are backed-up.
+        List<Match> suggestionMatchesBackup = new ArrayList<>(suggestionMatches);
+        List<Match> suggestionMatchesOutMsgBackup =  new ArrayList<>(suggestionMatchesOutMsg);
+        int startPosBackup = startPos;
+        int endPosBackup = endPos;
+        List<DisambiguationPatternRule> ruleAntiPatternsBackup = new ArrayList<>(ruleAntiPatterns);
         for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
           List<PatternToken> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpPatternTokens);
-          tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
+          tmpElements2.add(ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
+          startPos = startPosBackup;
+          endPos = endPosBackup;
+          suggestionMatches = suggestionMatchesBackup;
+          suggestionMatchesOutMsg = suggestionMatchesOutMsgBackup;
+          ruleAntiPatterns.addAll(ruleAntiPatternsBackup);
         }
       }
-      tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));
+      tmpPatternTokens.add(ObjectUtils.clone(patternToken));
       createRules(elemList, tmpPatternTokens, numElement + 1);
     }
   }

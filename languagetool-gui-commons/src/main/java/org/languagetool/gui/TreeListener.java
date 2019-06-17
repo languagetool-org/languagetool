@@ -19,13 +19,18 @@
 package org.languagetool.gui;
 
 import java.awt.Dimension;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JCheckBox;
 import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
 /**
@@ -33,16 +38,17 @@ import javax.swing.tree.TreePath;
  * @author Panagiotis Minos
  * @since 2.6
  */
-class TreeListener implements KeyListener, MouseListener {
+class TreeListener implements KeyListener, MouseListener, TreeWillExpandListener {
 
   static void install(JTree tree) {
     TreeListener listener = new TreeListener(tree);
     tree.addMouseListener(listener);
     tree.addKeyListener(listener);
+    tree.addTreeWillExpandListener(listener);
   }
 
   private static final Dimension checkBoxDimension = new JCheckBox().getPreferredSize();
-  
+
   private final JTree tree;
 
   private TreeListener(JTree tree) {
@@ -75,13 +81,11 @@ class TreeListener implements KeyListener, MouseListener {
 
   @Override
   public void mousePressed(MouseEvent e) {
-    TreePath path = tree.getPathForLocation(e.getX(), e.getY());
-    if ((path != null) && (path.getPathCount() > 0)) {
-      if (isValidNode(path.getLastPathComponent())) {
-        if (isOverCheckBox(e.getX(), e.getY(), path)) {
-          handle(path);
-        }
-      }
+    int x = e.getX();
+    int y = e.getY();
+    TreePath path = tree.getPathForLocation(x, y);
+    if (isOverCheckBox(x, y, path)) {
+      handle(path);
     }
   }
 
@@ -131,6 +135,12 @@ class TreeListener implements KeyListener, MouseListener {
   }
 
   private boolean isOverCheckBox(int x, int y, TreePath path) {
+    if ((path == null) || (path.getPathCount() == 0)) {
+        return false;
+    }
+    if (!isValidNode(path.getLastPathComponent())) {
+      return false;
+    }
     //checkbox is east
     //int offset = tree.getPathBounds(path).x + tree.getPathBounds(path).width - checkBoxDimension.width;
     //if (x < offset) {
@@ -145,5 +155,22 @@ class TreeListener implements KeyListener, MouseListener {
 
   private boolean isValidNode(Object c) {
     return ((c instanceof CategoryNode) || (c instanceof RuleNode));
+  }
+
+  @Override
+  public void treeWillExpand(TreeExpansionEvent e) throws ExpandVetoException {
+    Point cursorPosition = MouseInfo.getPointerInfo().getLocation();
+    Point treePosition = tree.getLocationOnScreen();
+    int x = (int) (cursorPosition.getX() - treePosition.getX());
+    int y = (int) (cursorPosition.getY() - treePosition.getY());
+    TreePath path = tree.getPathForLocation(x, y);
+    if (isOverCheckBox(x, y, path)) {
+      throw new ExpandVetoException(e);
+    }
+  }
+
+  @Override
+  public void treeWillCollapse(TreeExpansionEvent e) throws ExpandVetoException {
+    treeWillExpand(e);
   }
 }

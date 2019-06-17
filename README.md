@@ -1,14 +1,23 @@
-LanguageTool is an Open Source proofreading software for English, French, German,
+**LanguageTool** is an Open Source proofreading software for English, French, German,
 Polish, Russian, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
-LanguageTool is freely available under the LGPL 2.1 or later.
+* [How to run your own LanguageTool server](http://wiki.languagetool.org/http-server)
+* [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
+* [How to use our public server via HTTP](http://wiki.languagetool.org/public-http-api)
+* [How to use LanguageTool from Java](http://wiki.languagetool.org/java-api) ([Javadoc](https://languagetool.org/development/api/index.html?org/languagetool/JLanguageTool.html))
 
 For more information, please see our homepage at https://languagetool.org,
 [this README](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/README.md),
 and [CHANGES](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md).
 
-#### Contributions
+LanguageTool is freely available under the LGPL 2.1 or later.
+
+## Docker
+
+Try https://github.com/silvio/docker-languagetool for a community-contributed Docker file.
+
+## Contributions
 
 [The development overview](http://wiki.languagetool.org/development-overview) describes
 how you can contribute error detection rules.
@@ -18,7 +27,42 @@ for issues to get started.
 
 For more technical details, see [our wiki](http://wiki.languagetool.org).
 
-#### How to build from source
+## Scripted installation and building
+To install or build using a script, simply type:
+```
+curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
+```
+
+If you wish to have more options, download the install.sh script. Usage options follow:
+
+```
+sudo bash install.sh <options>
+
+Usage: install.sh <option> <package>
+Options:
+   -h --help                   Show help
+   -b --build                  Builds packages from the bleeding edge development copy of LanguageTool
+   -c --command <command>      Specifies post-installation command to run (default gui when screen is detected)
+   -q --quiet                  Shut up LanguageTool installer! Only tell me important stuff!
+   -t --text <file>            Specifies what text to be spellchecked by LanguageTool command line (default spellcheck.txt)
+   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself (default 1).
+   -p --package <package>      Specifies package to install when building (default all)
+   -o --override <OS>          Override automatic OS detection with <OS>
+   -a --accept                 Accept the oracle license at http://java.com/license. Only run this if you have seen the license and agree to its terms!
+   -r --remove <all/partial>   Removes LanguageTool install. <all> uninstalls the dependencies that were auto-installed. (default partial)
+
+Packages(only if -b is specified):
+   standalone                  Installs standalone package
+   wikipedia                   Installs Wikipedia package
+   office-extension            Installs the LibreOffice/OpenOffice extension package
+
+Commands:
+   GUI                         Runs GUI version of LanguageTool
+   commandline                 Runs command line version of LanguageTool
+   server                      Runs server version of LanguageTool
+```
+
+## Alternate way to build from source
 
 Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
 
@@ -50,6 +94,6 @@ Test the result in `languagetool-office-extension/target`, rename the `*.zip` to
 
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 
-#### License
+### License
 
 Unless otherwise noted, this software is distributed under the LGPL, see file [COPYING.txt](https://github.com/languagetool-org/languagetool/blob/master/COPYING.txt).

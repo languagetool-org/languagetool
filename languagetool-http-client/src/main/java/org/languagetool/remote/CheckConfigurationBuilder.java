@@ -54,7 +54,7 @@ public class CheckConfigurationBuilder {
   }
 
   public CheckConfiguration build() {
-    if (enabledOnly && enabledRuleIds.size() == 0) {
+    if (enabledOnly && enabledRuleIds.isEmpty()) {
       throw new IllegalStateException("You cannot use 'enabledOnly' when you haven't set rule ids to be enabled");
     }
     return new CheckConfiguration(langCode, motherTongueLangCode, autoDetectLanguage, enabledRuleIds, enabledOnly, disabledRuleIds);

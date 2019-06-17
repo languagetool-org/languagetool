@@ -39,7 +39,7 @@ public class ReplaceOperationNamesRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages());
+    rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages(), new Catalan());
     langTool = new JLanguageTool(new Catalan());
   }
 

@@ -1,10 +1,668 @@
 # LanguageTool Change Log
 
-## 3.8-SNAPSHOT (release planned for 2017-06-27)
+## 4.6 (release planned for 2019-06-26)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.4) with more health terminology 
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * introduced new part-of-speech tag `PCT` for punctuation marks (.,;:…!?) 
+
+#### Esperanto
+  * added and improved rules
+
+#### French
+  * Rule `FRENCH_WHITESPACE` has been split into `FRENCH_WHITESPACE` (on
+    by default) and `FRENCH_WHITESPACE_STRICT` (off by default).
+    `FRENCH_WHITESPACE` only complains if there's no space at all before
+    `?`, `!`, `;`, `:`, or `»`. `FRENCH_WHITESPACE_STRICT` complains
+    if there's no space or a common space instead of a non-breaking space
+    before these characters.
+  * added some popular names to dictionary
+
+#### Galician
+  * added verbal agreement rules
+ 
+#### German
+  * added and improved rules
+  * The false friend rule has been modified to use ngrams: Now false friends
+    cause error messages if they are used in a wrong context, according to ngram statistics.
+    Note that some pairs from `false-friends.xml` are not supported anymore because
+    their precision isn't good enough. See `confusion_sets_l2_de.txt` for active DE/EN pairs.
+    Use `My handy is broken.` to test the rule. As before, this will only create
+    an error if `motherTongue` is set to a German language code.
+  * `prohibit.txt`: lines starting with ".*" will prohibit all words ending with
+    the subsequent string (e.g., '.*artigel' will prohibit 'Versandartigel')
+
+#### Greek
+  * added rules
+
+#### Italian
+  * added popular names to dictionary
+
+#### Portuguese
+  * POS and spelling improvements
+
+#### Russian
+  * added and improved rules
+
+#### Spanish
+  * Updated spell dictionary from 2.1 to 2.4
+
+#### HTTP API / LT server
+  * `altLanguages` will only be considered for words with >= 3 characters
+  * Cleaned up error handling: invalid parameters will now return an HTTP error 400
+    instead of 500.
+
+
+## 4.5.1 (2019-03-28)
+
+#### LibreOffice / Apache OpenOffice Integration
+ 
+ * Fixed a bug that caused the rules in the options dialog to not appear in the text language 
+
+
+
+## 4.5 (2019-03-26)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.3) with health terminology 
+
+#### English
+  * `resource/en/en-US-GB.txt` contains a mapping from US to British
+    English and vice versa. It's not used to detect correct or incorrect spellings,
+    but only to improve error messages so that they explicitly explain that
+    the incorrect word is actually a different variant (like 'colour' in an en-US
+    text).
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.70 - 2019-03-01)
+  * spell check ignores single characters (e.g., 'α')
+  
+#### Galician
+  * added and improved rules
+  * disambiguation improvements
+  * foreign names recognition
+
+#### German
+  * added and improved rules
+  * Simple German: added and improved rules
+  * improved suggestions for typos that end with a dot (typically at the end of
+    the sentence) - the dot is not included anymore
+  * spell check ignores single characters (e.g., 'α') and hyphenated compounds (e.g., 'α-Strahler')
+
+#### Portuguese
+  * added and significantly improved rules accuracy
+  * disambiguation improvements
+     - Chinese common names are now detected
+  * POS and spelling improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 3.1
+
+#### Russian
+  * added and improved rules
+  * disambiguation improvements
+  * added many words without "yo" letter to POS dictionary
+  * added new words to spell dictionary
+
+#### Ukrainian
+  * dictionary update
+  * added and improved rules
+  * improvements to tokenization, tagging, and disambiguation
+
+#### General
+  * URLs written like `mydomain.org/` are now detected as domains and not
+    considered spelling errors anymore. Note that the slash is still needed
+    to avoid missing real errors.
+  * JSON output: The `replacements` list now has an optional new item `shortDescription`
+    for each `value`. It can contain a short definition/hint about the word. Currently,
+    the only words that have a short description are ones that have a description
+    in `confusion_sets.txt` (i.e. a text after the `|` symbol).
+
+#### General
+  * bug fix: don't make `interpretAs` part of getTextWithMarkup() (#1393)
+  * Experimental new attribute `raw_pos` for the `<pattern>` element in `grammar.xml`.
+    If set to `yes`,  the `postag` will refer to the part-of-speech tags *before*
+    disambiguation.
+  * Experimental support for `<antipattern>` in `disambiguation.xml`
+  
+#### HTTP API / LT server
+  * Experimental new parameter `preferredLanguages`: up to a certain limit (currently
+    50 characters), only these languages will be considered for language detection.
+    This has to be a comma-delimited list of language codes without variants (e.g.
+    use 'en', not 'en-US'). 
+    This only works with fasttext configured as the language detector.
+  * Spellcheck-only languages can now be added dynamically from the configuration
+    using `lang-xx=languagename` and `lang-xx-dictPath=/path/to/morfologik.dict`.
+    `xx` needs to be the language code. The JSON result will contain `spellCheckOnly: true`
+    for these languages.
+
+
+
+## 4.4.1 (2019-01-14)
+
+  * Fixed a bug that prevented opening the Options dialog in LibreOffice/OpenOffice
+
+
+
+## 4.4 (2018-12-27)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary
+
+#### Dutch
+  * added and improved rules, including more confusion rules for dyslectic people
+  * added large amount of family names to reduce false alarms in spelling
+
+#### English
+  * added and improved rules
+  * segmentation improvements
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.67 - 2018-12-01)
+  * added rules for 'Oxford spelling' (applicable to British English only)
+
+##### French
+  * small rule improvements
+
+#### German
+  * added and improved rules
+  * Swiss German: improved POS tagging of words that contain 'ß' in de-DE German (e.g.,
+    'gross' is tagged as 'gross[groß/ADJ:PRD:GRU]'); (#1147)
+  * Simple German: added and improved rules; restructured grammar.xml
+
+#### Portuguese
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling improvements
+
+#### Russian
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling dictionary improvements 
+
+#### Serbian
+  * Serbian never moved beyond its "initial support" state with a tiny number of rules,
+    and it has no active maintainer, so we have deactivated it for now. If you'd like to
+    maintain support for Serbian, let us know in the forum (https://forum.languagetool.org).
+    Once it's clear that a new active long-term maintainer has been found, we'll activate
+    support for Serbian again.
+    
+#### Ukrainian
+  * dictionary update (about 7k of new words)
+  * added and improved rules
+  * improvements to tokenization, tagging, and disambiguation
+
+#### HTTP API / LT server
+  * Experimental support for `altLanguages` parameter: takes a list of language
+    codes. Unknown words of the main languages (as specified by the `language` parameter)
+    will cause errors of type "Hint" if accepted by one of these languages.
+    We expect clients to interpret this like style issues, e.g. these words should
+    be underlined with a light blue instead of red.
+    Support for this is experimental, i.e. it might be removed again or implemented
+    in a different way. 
+  * Experimental support for `noopLanguages` parameter: takes a list of language
+    codes of languages that are not supported by LT but that will be detected and
+    mapped to a no-op language without rules. Useful for clients that rely on
+    language auto-detection and whose users might use languages not supported by LT.
+    NOTE 1: only works with fastText configured
+    NOTE 2: setting languages here will worsen language detection quality on average
+  * Change to language detection behavior: Removed fallback to English when confidence of
+    detection algorithm is low, instead now always returning highest scoring detected language.
+    Added a field `confidence` to `detectedLanguage` object in the JSON response that contains
+    the probability score for the detected language as computed by the detection algorithm.
+
+
+
+## 4.3 (2018-09-26)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+##### Esperanto
+  * added and improved rules
+
+##### French
+  * small rule improvements
+
+#### Galician
+  * added and improved rules
+
+#### German
+  * added and improved rules
+
+#### German (simple)
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * improvements to disambiguation, and segmentation
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 3.0
+
+#### Russian
+  * added and improved rules
+
+#### Ukrainian
+  * added and improved rules
+
+#### General
+  * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
+    for the required libraries
+  * Email signatures are now ignored for language detection as long as they are
+    separated from the main text with `\n-- \n` 
+
+#### HTTP API / LT server
+  * The server can now accept JSON as the `data` parameter that describes
+    markup. For example:
+    ```
+    {"annotation":[
+      {"text": "A "},
+      {"markup": "<b>"},
+      {"text": "test"},
+      {"markup": "</b>"}
+    ]}
+    ```
+    With this input, LT will ignore the `markup` parts and run the check only
+    on the `text` parts. The error offset positions will still refer to the
+    original input including the markup, so that suggestions can easily be applied.
+    You can optionally use `interpretAs` to have markup interpreted as whitespace, like this:
+    ```
+    {"markup": "<p>", "interpretAs": "\n\n"}
+    ```  
+    Note that HTML entities (including `&nbsp;`) still need to be converted to Unicode characters
+    before feeding them into LT.  
+    (Issue: https://github.com/languagetool-org/languagetool/issues/757)
+  * The `blockedReferrers` setting now also considers the `Origin` header
+  * A `blockedReferrers` setting of `foobar.org` will now automatically match `http://foobar.org`, 
+   `http://www.foobar.org`, `https://foobar.org`, and `https://www.foobar.org`
+  * New setting `fasttextModel` (see https://fasttext.cc/docs/en/language-identification.html)
+    and `fasttextBinary` (see https://fasttext.cc/docs/en/support.html). With these
+    options set, the automatic language detection is much better than the built-in one.
+  * Experimental new `mode` parameter with `all`, `textLevelOnly`, or `allButTextLevelOnly` as value:
+    Will check only text-level rules or all other rules. As there are fewer text-level rules,
+    this is usually much faster and the access limit for characters per minute that can be
+    checked is more generous for this mode.
+  * Improved spellchecker suggestions (not yet enabled by default).
+    See https://forum.languagetool.org/t/gsoc-reports-spellchecker-server-side-framework-and-build-tool-tasks/2926/43
+  * Experimental new `type` in JSON. This is supposed to help clients choose the color
+    with which they underline/mark errors. Please do not rely on this yet, it might change
+    or even be removed.
+  
+
+## 4.2 (2018-06-26)
+
+#### Breton
+  * made many messages shorter
+  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.15
+
+#### Catalan
+  * added and improved rules
+  * rules and updated dictionary for new diacritics rules (IEC 2017)
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2018-06-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+
+#### Esperanto
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * updated jwordsplitter to 4.4 to prevent excessively long processing times for
+    artificially long compounds
+  * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
+    the previous string
+
+#### German (simple)
+  * added and improved rules
+
+#### Greek
+  * added rules
+
+#### Portuguese
+  * added and improved rules
+  
+#### Russian
+  * added and improved grammar and punctuation rules
+  * upgraded the tagging and synthesizer dictionaries from AOT.ru rev.269 (extend tags, add missing tags)
+  * spelling dictionary update
+
+#### Spanish
+  * added and improved a few rules
+
+#### Ukrainian
+  * dictionary update (more than 15k of new words)
+  * added and improved rules
+  * some improvements to tokenization, tagging and disambiguation
+
+#### HTTP API / LT server
+  * The JSON contains a new section `detectedLanguage` (under `language`) that
+    contains information about the automatically detected language. This way
+    clients can suggest switching to that language, e.g. in cases where the
+    user had selected the wrong language.
+  * New optional configuration setting `blockedReferrers`: a comma-separated list 
+    of HTTP referrers that are blocked and will not be served
+  * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
+    `dbPassword` to allow user-specific dictionaries
+    
+#### Java API
+  * The parameters of the `*SpellerRule` classes (e.g. `MorfologikRussianSpellerRule`)
+    have changed
+  * `LanguageIdentifier` will now only consider the first 1000 characters when
+    identifying the language of a text. This improves performance for long texts. 
+
+
+
+## 4.1 (2018-03-27)
+
+#### Catalan
+  * added and improved rules
+
+#### Chinese
+  * added some rules
+
+#### Dutch
+  * added and improved rules
+  * added new Java rule `NL_PREFERRED_WORD_RULE` that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+
+#### English
+  * all-uppercase words are now also spellchecked
+  * added and improved rules
+  * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
+
+#### Esperanto
+  * words written with x-sistemo now get proper POS tag so grammar mistakes can now
+    be found in: ambaux virino (->ambaux virinoj), mi farigxis maljunan (-> mi
+    farigxis maljuna), etc.
+  * added and improved rules
+  * added many `<url>` to rules
+  
+#### French
+  * improved suggestion for spelling mistakes (#912)
+
+#### Galician
+  * added a couple of rules
+
+#### German
+  * added and improved rules
+  * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
+    use has 'correct' capitalization and suggests the same capitalization for subsequent uses.
+  * New line extension `-*` for `ignore.txt`: entries ending with `-*` are ignored only if
+    they are part of a hyphenated compound (e.g, `Fair-Trade-*` allows `Fair-Trade-Kakao`)
+  * Added a new rule that tries to find compounds that are probably not correct, like
+    `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
+
+#### German (simple)
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+
+#### Russian
+  * sentence segmentation improvements
+  * added and improved rules
+  * upgraded the tagging and synthesizer dictionaries with extended POS tags from AOT.ru rev.269
+
+#### Spanish
+  * update to the part-of-speech dictionary
+
+#### Ukrainian
+  * dictionary update (~5K new lemmas)
+  * compound word tagging improvements
+  * many new disambiguation rules
+  * several new barbarism and grammar rules
+
+#### HTTP API / LT server
+  * The server now returns HTTP error code 500 in case of a timeout (it used to return 503)
+
+#### Java API
+  * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
+    as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
+
+
+
+## 4.0 (2017-12-29)
+
+#### Catalan
+  * added and improved rules
+  * updated and renamed dictionary: ca-ES.dict (external dependency: catalan-pos-dict 1.6)
+  * added new dictionary for Valencian including most words from Diccionari Normatiu Valencià (AVL): 
+    ca-ES-valencia.dict (external dependency: catalan-pos-dict 1.6)
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * removed the category `MISC` and moved the rules to more specific categories
+  * added WordCoherencyRule, to detect cases where two different variants of a word
+    are used in the same text (e.g. archaeology and archeology)
+  * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
+  * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
+  
+#### French
+  * LT now offers suggestions for spelling errors
+
+#### Galician
+  * added and improved rules, including:
+    - grammar: agreement rules added (only number and gender agreement)
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and 
+      Anglicisms correction
+    - style: barbarism, redundant expressions, and wordy expressions detection added
+    - typography: spacing and number formatting improvements; chemical formulas; degree 
+      signs; dashes; punctuation; international system standards; and mathematical symbol formatting
+  * development, punctuation and repetition rules categories added
+  * multiword disambiguation added
+  * disambiguation improvements
+  * new word tokenizer
+  * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for:
+    - abbreviations;
+    - variables in formulas, units, and related statistical vocabulary;
+    - common Latin, English and French expressions;
+    - species scientific names;
+    - famous personalities
+  * updated Hunspell dictionaries to:
+    - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
+
+#### German
+  * added and improved rules
+  * New rule that checks coherency of hyphen usage in compounds, e.g. it complains
+    when "Ärzteverband" and "Ärzte-Verband" are both used in the same text. While both
+    spellings are correct, it's probably a good idea to stick to one spelling.
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recognized as a variant of "arm")
+
+#### Polish
+  * added rules
+  * disambiguation improvements
+
+#### Portuguese
+  * added and improved rules
+  * LibreOffice category rules moved to other categories
+  * disambiguation improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
+    
+#### Russian
+  * added and improved grammar and punctuation rules
+  * spelling dictionary update
+  * new Russian-English false friends added (thanks to ZakShaker)
+
+#### Serbian
+  * initial support for Serbian by Zoltán Csala
+
+#### Ukrainian
+  * big dictionary update (~10K new lemmas)
+  * improvements in tokenization
+  * compound word tagging improvements
+  * more than 350 new disambiguation rules
+  * several new barbarism and grammar rules
+
+#### General
+  * Now runs with Java 9 (compilation with Maven still has issues with Java9)
+  * The spell checker tries harder to find suggestion for misspellings that have
+    a Levenshtein distance of larger than 2. The maximum Levenshtein distance is now 3.
+    This way you now get a suggestion for e.g. `algortherm` (algorithm) or `theromator` (thermometer).
+    In the worst case (every single word of a text misspelled), this has a performance
+    penalty of about 30%.
+  * Better support for Unicode codepoints greater than `0xFFFF`
+
+### word2vec
+  * word2vec word embeddings (cf. http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/#word-embeddings)
+    are now supported as additional language models and currently available for
+    English, German, and Portuguese.
+  * Neural network based rules for confusion pair disambiguation using the
+    word2vec model are available for English, German, and Portuguese. The necessary
+    data must be downloaded separately from https://fscs.hhu.de/languagetool/word2vec.tar.gz.
+    For details, please see:
+    * Code: https://github.com/gulp21/languagetool-neural-network
+    * Forum discussion: https://forum.languagetool.org/t/neural-network-rules/2225
+    * Paper: "Development of neural network based rules for confusion set disambiguation in LanguageTool"
+      by Markus Brenneis and Sebastian Krings: https://fscs.hhu.de/languagetool/summary.pdf
+
+#### GUI (stand-alone version)
+  * show line numbers in the text area
+  * a directory with word2vec language model for neural network rules can now be
+    specified in the configuration dialog, see https://forum.languagetool.org/t/neural-network-rules/2225
+  * Stop disposition of vertical scroll when expanding the checkbox.
+
+#### Java API
+  * A `RuleMatch` can now have a URL, too. The URL usually points to a page that
+    describes the error or grammar rule in more detail. Before, only the `Rule`
+    could have a URL. A `RuleMatch` URL will overwrite the `Rule` URL in the
+    JSON output.
+  * A `RuleMatch` now also has information about the sentence the error occurred in
+    (it used to have only position information and the caller was expected to find
+    the error context and/or sentence position in the original text).
+
+#### HTTP API / LT server
+  * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
+    need to be set for the limit to work
+  * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
+    not all requests but blocks once this many timeouts have been caused by the IP in the
+    time span set by `requestLimitPeriodInSeconds`
+  * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
+    the aggregated size of requests caused by an IP in the time span set 
+    by `requestLimitPeriodInSeconds`
+  * New property key `maxErrorsPerWordRate`: set the maximum allowed errors per word, e.g.
+    `0.3` if the maximum is about one error per three words. More errors will stop the
+    check with an exception. This is useful so no processing time gets wasted for texts
+    with a huge amount of errors that are only caused by the wrong language being
+    selected (leading to most words being detected as spelling errors).
+  * The JSON output now contains a `sentence` property with the text of the sentence
+    the error occurred in.
+
+
+## 3.9 (2017-09-26)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### Esperanto
+  * added and improved rules
+
+#### French
+  * added and improved rules
+  * upgraded dictionaries to Dicollecte-6.1
+
+#### German
+  * added and improved rules
+  * spell checker suggestions have been improved a lot by considering
+    more words, especially compounds (de-DE only so far, not yet active for
+    de-AT and de-CH)
+    (https://github.com/languagetool-org/languagetool/issues/725)
+  * added special dictionary extension files `spelling-de-AT.txt` and
+    `spelling-de-CH.txt` for de-AT and de-CH that will be considered in addition
+    to `spelling.txt`
+  * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
+    6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
+  * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in
+    addition to "Gehe"/"küsse")
+  * introduced two new line endings ('?' and '$') for the data-file `compounds.txt`; these
+    endings indicate that the mid-word parts of the compound need to be lower-cased
+    (e.g., 'Geräte Wahl' -> 'Gerätewahl')  
+
+#### Portuguese
+  * added and improved grammar and style rules, including:
+    - grammar: general agreement rules, pronominal collocations, paronyms and homophones
+      detection improvements; time agreement rules added
+    - punctuation: greetings and farewell punctuation
+    - style: puffery, weasel words, weak expressions, and biased opinion words detection added
+      (disabled by default)
+    - syntax: new category; fragment detection improvements
+    - typography: spacing, number, and mathematical symbol formatting improvements
+  * disambiguation improvements
+  * false friends added
+    - Portuguese to Galician (16 new pairs)
+  * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for abbreviations, variables in formulas, units, and related
+    statistical vocabulary
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.0
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.0
+    - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
+
+#### Russian
+  * spelling dictionary update
+  * added and improved some rules
+
+#### Spanish
+  * added and improved some rules
+
+#### Ukrainian
+  * significant dictionary update:
+    - more than 60K of new words
+    - some inflection adjustments
+  * improved dynamic tagging for compound words
+  * many new rules (barbarism, grammar, and spelling)
+  * inflection agreement rule updates
+
+#### Java API
+  * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
+    document-level meta data. This might be used by rules in the future.
+
+
+## 3.8 (2017-06-27)
 
 #### Catalan
   * added and improved rules
   * updated dictionary and rules for official names of Valencian municipalities
+
+#### Chinese
+  * added one rule
+
+#### Dutch
+  * added many rules (by Ruud Baars)
+  * spelling dictionary update
 
 #### English
   * added and improved rules
@@ -31,12 +689,25 @@
   * false friends support added
     - Portuguese to Catalan (26 new pairs)
     - Portuguese to Spanish (7 new pairs)
-  * spell checking exceptions for common Latin, English and French expressions, species scientific names,
+  * spell checking exceptions for common Latin, English, and French expressions, species scientific names,
     and famous personalities
-  * [pt-BR] hunspell dictionary updated to latest VERO version (2.1.4)
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.4
+    - [pt-BR]        VERO version 2.1.4
+
+#### Russian
+  * added and improved rules
 
 #### Slovak
   * major rule updates by Matúš Matula
+
+#### Ukrainian
+  * Significant dictionary update:
+    - thousands of new words
+    - some inflection adjustments
+  * Improved dynamic tagging for compound words
+  * Many new rules (barbarism, grammar, and spelling)
+  * New noun-verb agreement rule
 
 #### HTTP API
   * The deprecated AfterTheDeadline mode has been removed
@@ -48,7 +719,7 @@
 
 #### Internal
   * `spelling.txt` allows multi-word entries: the words/tokens (separated by " ") of one
-    line are converted to a `DisambiguationPatternRule` in which each word is as a case-sensitive
+    line are converted to a `DisambiguationPatternRule` in which each word is a case-sensitive
     and non-inflected `PatternToken` (result: the entire multi-word entry is ignored by
     the spell checker)
 
@@ -57,6 +728,7 @@
      at the startup time will be the new default rules. Previously these rules were "forgotten" 
      when a server query used the parameters for enabling and disabling rules. Now the rules 
      from the query will be added to the rules from the configuration file. 
+
 
 ## 3.7 (2017-03-27)
 

@@ -172,6 +172,12 @@ public class RemoteLanguageTool {
     Map<String, String> languageObj = (Map<String, String>) map.get("language");
     String language = languageObj.get("name");
     String languageCode = languageObj.get("code");
+    Map<String, String> detectedLanguageObj = (Map<String, String>) ((Map)languageObj).get("detectedLanguage");
+    String languageDetectedCode = null, languageDetectedName = null;
+    if (detectedLanguageObj != null) {
+      languageDetectedCode = detectedLanguageObj.get("code");
+      languageDetectedName = detectedLanguageObj.get("name");
+    }
     Map<String, String> software = (Map<String, String>) map.get("software");
     RemoteServer remoteServer = new RemoteServer(software.get("name"), software.get("version"), software.get("buildDate"));
     List matches = (ArrayList) map.get("matches");
@@ -180,7 +186,7 @@ public class RemoteLanguageTool {
       RemoteRuleMatch remoteMatch = getMatch((Map<String, Object>)match);
       result.add(remoteMatch);
     }
-    return new RemoteResult(language, languageCode, result, remoteServer);
+    return new RemoteResult(language, languageCode, languageDetectedCode, languageDetectedName, result, remoteServer);
   }
 
   private RemoteRuleMatch getMatch(Map<String, Object> match) {

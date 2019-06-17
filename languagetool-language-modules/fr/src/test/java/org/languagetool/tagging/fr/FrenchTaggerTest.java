@@ -50,7 +50,7 @@ public class FrenchTaggerTest {
         "Je/[je]R pers suj 1 s -- ne/[null]null -- parle/[parler]V imp pres 2 s|parle/[parler]V ind pres 1 s|parle/[parler]V ind pres 3 s|parle/[parler]V sub pres 1 s|parle/[parler]V sub pres 3 s -- pas/[pas]N m sp -- français/[français]J m sp|français/[français]N m sp", tokenizer, tagger);
     TestTools.myAssert("blablabla","blablabla/[blablabla]N m s", tokenizer, tagger);
     TestTools.myAssert("passagère","passagère/[passager]J f s|passagère/[passager]N f s", tokenizer, tagger);
-    TestTools.myAssert("non_existing_word","non_existing_word/[null]null", tokenizer, tagger);
+    TestTools.myAssert("non-existing-word","non-existing-word/[null]null", tokenizer, tagger);
   }
 
 }

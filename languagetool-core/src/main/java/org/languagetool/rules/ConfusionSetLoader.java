@@ -33,8 +33,8 @@ public class ConfusionSetLoader {
   public ConfusionSetLoader() {
   }
 
-  public Map<String,List<ConfusionSet>> loadConfusionSet(InputStream stream) throws IOException {
-    Map<String,List<ConfusionSet>> map = new HashMap<>();
+  public Map<String,List<ConfusionPair>> loadConfusionPairs(InputStream stream) throws IOException {
+    Map<String,List<ConfusionPair>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
@@ -44,18 +44,24 @@ public class ConfusionSetLoader {
         if (line.startsWith("#") || line.trim().isEmpty()) {
           continue;
         }
-        String[] parts = line.replaceFirst("\\s*#.*", "").split(";\\s*");
+        String[] parts = line.replaceFirst("\\s*#.*", "").split("\\s*(;|->)\\s*");
         if (parts.length != 3) {
           throw new RuntimeException("Unexpected format: '" + line + "' - expected three semicolon-separated values: word1; word2; factor");
         }
+        boolean bidirectional = !line.replaceFirst("#.*", "").contains(" -> ");
         List<ConfusionString> confusionStrings = new ArrayList<>();
         Set<String> loadedForSet = new HashSet<>();
         String prevWord = null;
-        for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
+        for (String part : Arrays.asList(parts).subList(0, parts.length - 1)) {
           String[] subParts = part.split("\\|");
           String word = subParts[0];
-          if (prevWord != null && word.compareTo(prevWord) < 0) {
-            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line);
+          if (bidirectional && prevWord != null && word.compareTo(prevWord) < 0) {
+            // Quick hack for reordering lines
+            //System.err.println("Delete: " + line);
+            //String comment = line.substring(line.indexOf("#"));
+            //String newLine = parts[1] + "; " + parts[0] + "; " + parts[2] + "; " + comment;
+            //System.err.println("Add: " + newLine);
+            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line + ": found " + word + " after " + prevWord);
           }
           prevWord = word;
           String description = subParts.length == 2 ? subParts[1] : null;
@@ -65,16 +71,16 @@ public class ConfusionSetLoader {
           confusionStrings.add(new ConfusionString(word, description));
           loadedForSet.add(word);
         }
-        ConfusionSet confusionSet = new ConfusionSet(Long.parseLong(parts[parts.length-1]), confusionStrings);
+        ConfusionPair confusionSet = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), Long.parseLong(parts[parts.length-1]), bidirectional);
         for (ConfusionString confusionString : confusionStrings) {
           String key = confusionString.getString();
-          List<ConfusionSet> existingEntry = map.get(key);
+          List<ConfusionPair> existingEntry = map.get(key);
           if (existingEntry != null) {
             existingEntry.add(confusionSet);
           } else {
-            List<ConfusionSet> sets = new ArrayList<>();
-            sets.add(confusionSet);
-            map.put(key, sets);
+            List<ConfusionPair> pairs = new ArrayList<>();
+            pairs.add(confusionSet);
+            map.put(key, pairs);
           }
         }
       }

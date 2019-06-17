@@ -20,6 +20,7 @@ package org.languagetool.rules.en;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.YMDDateHelper;
 
 import java.util.Map;
 
@@ -29,20 +30,14 @@ import java.util.Map;
  */
 public class YMDDateCheckFilter extends DateCheckFilter {
 
+  private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    String dateString = getRequired("date", args);
-    String[] parts = dateString.split("-");
-    if (parts.length != 3) {
-      throw new RuntimeException("Expected date in format 'dd-mm-yyyy': '" + dateString + "'");
-    }
-    args.put("year", parts[0]);
-    args.put("month", parts[1]);
-    args.put("day", parts[2]);
-    return super.acceptRuleMatch(match, args, patternTokens);
+    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokens);
   }
 
 }

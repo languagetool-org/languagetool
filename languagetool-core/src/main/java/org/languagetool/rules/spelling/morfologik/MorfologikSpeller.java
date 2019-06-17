@@ -25,10 +25,12 @@ import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -42,16 +44,23 @@ public class MorfologikSpeller {
   // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
   // Dictionary is thread-safe:
   private static final LoadingCache<String, Dictionary> dictCache = CacheBuilder.newBuilder()
+      //.maximumSize(0)
       .expireAfterWrite(10, TimeUnit.MINUTES)
       .build(new CacheLoader<String, Dictionary>() {
         @Override
         public Dictionary load(@NotNull String fileInClassPath) throws IOException {
-          return Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileInClassPath));
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          if (dataBroker.resourceExists(fileInClassPath)) {
+            return Dictionary.read(dataBroker.getFromResourceDirAsUrl(fileInClassPath));
+          } else {
+            return Dictionary.read(Paths.get(fileInClassPath));
+          }
         }
       });
 
   private final Dictionary dictionary;
   private final Speller speller;
+  private final int maxEditDistance;
 
   /**
    * Creates a speller with the given maximum edit distance.
@@ -75,24 +84,32 @@ public class MorfologikSpeller {
       throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
     }
     this.dictionary = dictionary;
+    this.maxEditDistance = maxEditDistance;
     speller = new Speller(dictionary, maxEditDistance);
   }
 
   public boolean isMisspelled(String word) {
     return word.length() > 0 
             && !SpellingCheckRule.LANGUAGETOOL.equals(word)
-            && !SpellingCheckRule.LANGUAGETOOL_FX.equals(word)
+            && !SpellingCheckRule.LANGUAGETOOLER.equals(word)
             && speller.isMisspelled(word);
   }
 
   public List<String> getSuggestions(String word) {
     List<String> suggestions = new ArrayList<>();
+    // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
+    // output changes when reused
+    Speller speller = new Speller(dictionary, maxEditDistance);
     suggestions.addAll(speller.findReplacements(word));
     suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
         String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions.get(i));
+        // do not use capitalized word if it matches the original word or it's mixed case
+        if (uppercaseFirst.equals(word) || StringTools.isMixedCase(suggestions.get(i))) {
+          uppercaseFirst = suggestions.get(i);
+        }
         // remove capitalized duplicates
         int auxIndex = suggestions.indexOf(uppercaseFirst);
         if (auxIndex > i) {
@@ -118,4 +135,8 @@ public class MorfologikSpeller {
     return speller.convertsCase();
   }
 
+  @Override
+  public String toString() {
+    return "dist=" + maxEditDistance;
+  }
 }

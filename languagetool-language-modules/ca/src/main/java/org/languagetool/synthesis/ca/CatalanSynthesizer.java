@@ -20,16 +20,17 @@ package org.languagetool.synthesis.ca;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.synthesis.BaseSynthesizer;
+
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
 
 /**
  * Catalan word form synthesizer.
@@ -45,10 +46,7 @@ import org.languagetool.synthesis.BaseSynthesizer;
  * @author Jaume Ortolà i Font
  */
 public class CatalanSynthesizer extends BaseSynthesizer {
-
-  private static final String RESOURCE_FILENAME = "/ca/catalan_synth.dict";
-  private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
-
+  
   /** A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
 
@@ -71,7 +69,8 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
   public CatalanSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+    super("/ca/ca-ES-valencia_synth.dict", 
+        "/ca/ca-ES-valencia_tags.txt");
   }
 
   @Override
@@ -107,11 +106,14 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }       
     
     // if not found, try verbs from any regional variant
-    if ((results.size() == 0) && posTag.startsWith("V")) {
-      if (!posTag.endsWith("0")) {
+    if (results.isEmpty() && posTag.startsWith("V")) {
+      if (posTag.endsWith("V") || posTag.endsWith("B")) {
+        lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z"), results);
+      }
+      if (results.isEmpty() && !posTag.endsWith("0")) {
             lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
       }
-      if (results.size() == 0) { // another try
+      if (results.isEmpty()) { // another try
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
@@ -139,7 +141,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         }
       }
       // if not found, try verbs from any regional variant
-      if ((results.size() == 0)) {
+      if (results.isEmpty()) {
         final Matcher mVerb = pVerb.matcher(posTag);
         if (mVerb.matches()) {
           if (!posTag.endsWith("0")) {
@@ -152,7 +154,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
               }
             }
           }
-          if (results.size() == 0) { // another try
+          if (results.isEmpty()) { // another try
             p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
                 .concat("."));
             for (final String tag : possibleTags) {

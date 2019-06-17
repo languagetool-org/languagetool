@@ -18,26 +18,33 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 /**
- * Command line tool to extract sentences from a compressed Wikipedia XML dump.
+ * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
  * @since 2.6
  */
 class WikipediaSentenceExtractor {
 
   private void extract(Language language, String xmlDumpPath) throws IOException, CompressorException {
     try (FileInputStream fis = new FileInputStream(xmlDumpPath);
-         BufferedInputStream bis = new BufferedInputStream(fis);
-         CompressorInputStream input = new CompressorStreamFactory().createCompressorInputStream(bis)) {
+         BufferedInputStream bis = new BufferedInputStream(fis)) {
+      InputStream input;
+      if (xmlDumpPath.endsWith(".bz2")) {
+        input = new CompressorStreamFactory().createCompressorInputStream(bis);
+      } else if (xmlDumpPath.endsWith(".xml")) {
+        input = bis;
+      } else {
+        throw new IllegalArgumentException("Unknown file name, expected '.xml' or '.bz2': " + xmlDumpPath);
+      }
       int sentenceCount = 0;
       WikipediaSentenceSource source = new WikipediaSentenceSource(input, language);
       while (source.hasNext()) {

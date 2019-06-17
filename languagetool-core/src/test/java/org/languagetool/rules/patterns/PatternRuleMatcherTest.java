@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -450,13 +452,28 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
+  public void testNoMatchReferenceRecursion() throws IOException {
+    // \n in rule messages refers to matches, but if match text contains \n this should not be resolved
+    PatternRule rule = new PatternRule("MATCH_REFERENCERE_CURSION_DEMO", new Demo(),
+      Arrays.asList(new PatternToken("\\p{Punct}", false, true, false), new PatternToken("\\d+", false, true, false)),
+      "", "Here come the match references: \\1\\2. This is the end", "");
+    PatternRuleMatcher matcher = new PatternRuleMatcher(rule, false);
+    RuleMatch[] matches = getMatches(":42", matcher);
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getMessage(), equalTo("Here come the match references: :42. This is the end"));
+    RuleMatch[] matches2 = getMatches("\\42", matcher);
+    assertThat(matches2.length, is(1));
+    assertThat(matches2[0].getMessage(), equalTo("Here come the match references: \\42. This is the end"));
+  }
+
+  @Test
   public void testEquals() throws Exception {
     PatternRule patternRule1 = new PatternRule("id1", Languages.getLanguageForShortCode("xx"),
             Collections.<PatternToken>emptyList(), "desc1", "msg1", "short1");
-    RuleMatch ruleMatch1 = new RuleMatch(patternRule1, 0, 1, "message");
-    RuleMatch ruleMatch2 = new RuleMatch(patternRule1, 0, 1, "message");
+    RuleMatch ruleMatch1 = new RuleMatch(patternRule1, null, 0, 1, "message");
+    RuleMatch ruleMatch2 = new RuleMatch(patternRule1, null, 0, 1, "message");
     assertTrue(ruleMatch1.equals(ruleMatch2));
-    RuleMatch ruleMatch3 = new RuleMatch(patternRule1, 0, 9, "message");
+    RuleMatch ruleMatch3 = new RuleMatch(patternRule1, null, 0, 9, "message");
     assertFalse(ruleMatch1.equals(ruleMatch3));
     assertFalse(ruleMatch2.equals(ruleMatch3));
   }

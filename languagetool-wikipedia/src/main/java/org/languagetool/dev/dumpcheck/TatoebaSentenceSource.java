@@ -57,7 +57,7 @@ class TatoebaSentenceSource extends SentenceSource {
   @Override
   public Sentence next() {
     fillSentences();
-    if (sentences.size() == 0) {
+    if (sentences.isEmpty()) {
       throw new NoSuchElementException();
     }
     return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org", ++articleCount);
@@ -69,7 +69,7 @@ class TatoebaSentenceSource extends SentenceSource {
   }
 
   private void fillSentences() {
-    while (sentences.size() == 0 && scanner.hasNextLine()) {
+    while (sentences.isEmpty() && scanner.hasNextLine()) {
       String line = scanner.nextLine();
       if (line.isEmpty()) {
         continue;

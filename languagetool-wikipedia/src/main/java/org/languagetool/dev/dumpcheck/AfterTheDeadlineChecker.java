@@ -110,7 +110,7 @@ class AfterTheDeadlineChecker {
       InputSource inputSource = new InputSource(new StringReader(xml));
       return builder.parse(inputSource);
     } catch (Exception e) {
-      throw new RuntimeException("Could not parse XML: " + xml);
+      throw new RuntimeException("Could not parse XML: " + xml, e);
     }
   }
 

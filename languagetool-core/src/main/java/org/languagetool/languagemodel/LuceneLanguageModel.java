@@ -51,7 +51,7 @@ public class LuceneLanguageModel extends BaseLanguageModel {
    *                    1) sub directories called {@code 1grams}, {@code 2grams}, {@code 3grams},
    *                    which are Lucene indexes with ngram occurrences as created by
    *                    {@code org.languagetool.dev.FrequencyIndexCreator}
-   *                    or 2) sub directories {@code index-1}, {@code index-2} etc who contain
+   *                    or 2) sub directories {@code index-1}, {@code index-2} etc that contain
    *                    the sub directories described under 1)
    */
   public LuceneLanguageModel(File topIndexDir)  {
@@ -83,7 +83,7 @@ public class LuceneLanguageModel extends BaseLanguageModel {
 
   @Override
   public void close() {
-    lms.stream().forEach(lm -> lm.close());
+    lms.forEach(lm -> lm.close());
   }
 
   @Override

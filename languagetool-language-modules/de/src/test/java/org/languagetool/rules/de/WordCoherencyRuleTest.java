@@ -18,24 +18,24 @@
  */
 package org.languagetool.rules.de;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
 
 public class WordCoherencyRuleTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new German());
+  private final JLanguageTool lt = new JLanguageTool(new GermanyGerman());
 
   @Before
   public void before() throws IOException {

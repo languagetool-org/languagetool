@@ -39,7 +39,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public final class RuleActivityOverview {
+final class RuleActivityOverview {
 
   private static final int PAST_DAYS = 365/2;
 
@@ -72,7 +72,7 @@ public final class RuleActivityOverview {
       List<File> xmlFiles = getAllXmlFiles(lang, langCode);
       int commits = 0;
       for (File file : xmlFiles) {
-        if (!file.exists()) {
+        if (!file.getName().contains("-test-") && !file.exists()) {
           throw new RuntimeException("Not found: " + file);
         }
         String command = "git log --after=" + pastString + " " + file;

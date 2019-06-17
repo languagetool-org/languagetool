@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,21 @@ import java.util.stream.Collectors;
  * @author Daniel Naber
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
-  
+
+  private final String falseFriendHint;
+  private final String falseFriendSugg;
+
+  public FalseFriendRuleLoader(Language motherTongue) {
+    ResourceBundle messages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+    this.falseFriendHint =  messages.getString("false_friend_hint");
+    this.falseFriendSugg =  messages.getString("false_friend_suggestion");
+  }
+
+  public FalseFriendRuleLoader(String falseFriendHint, String falseFriendSugg) {
+    this.falseFriendHint = Objects.requireNonNull(falseFriendHint);
+    this.falseFriendSugg = Objects.requireNonNull(falseFriendSugg);
+  }
+
   /**
    * @param file XML file with false friend rules
    * @since 2.3
@@ -58,7 +73,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
       Language textLanguage, Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
-        textLanguage, motherTongue);
+        textLanguage, motherTongue, falseFriendHint);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.getXMLReader().setFeature(
@@ -67,9 +82,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     saxParser.parse(stream, handler);
     List<AbstractPatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
-    ResourceBundle messages = ResourceBundle.getBundle(
-            JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
-    MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
+    MessageFormat msgFormat = new MessageFormat(falseFriendSugg);
     for (AbstractPatternRule rule : rules) {
       List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
       if (suggestions != null) {

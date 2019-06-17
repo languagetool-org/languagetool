@@ -42,6 +42,6 @@ public class EnglishTagger extends BaseTagger {
   }
 
   public EnglishTagger() {
-    super("/en/english.dict", Locale.ENGLISH);
+    super("/en/english.dict", Locale.ENGLISH, false);
   }
 }

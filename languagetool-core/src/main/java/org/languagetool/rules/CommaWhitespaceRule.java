@@ -76,13 +76,16 @@ public class CommaWhitespaceRule extends Rule {
     boolean prevWhite = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-          || tokens[i].isFieldCode();
+      boolean isWhitespace = (tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+          || tokens[i].isFieldCode()) && !token.equals("\u200B");
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
-        msg = messages.getString("no_space_after");
-        suggestionText = prevToken;
+        boolean isException = i + 1 < tokens.length && prevToken.equals("[") && token.equals(" ") && tokens[i+1].getToken().equals("]");  // "- [ ]" syntax e.g. on GitHub
+        if (!isException) {
+          msg = messages.getString("no_space_after");
+          suggestionText = prevToken;
+        }
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuoteOrHyphenOrComma(token)
           && !containsDigit(prevPrevToken)
@@ -92,8 +95,11 @@ public class CommaWhitespaceRule extends Rule {
         suggestionText = getCommaCharacter() + " " + tokens[i].getToken();
       } else if (prevWhite) {
         if (isRightBracket(token)) {
-          msg = messages.getString("no_space_before");
-          suggestionText = token;
+          boolean isException = token.equals("]") && prevToken.equals(" ") && prevPrevToken.equals("["); // "- [ ]" syntax e.g. on GitHub
+          if (!isException) {
+            msg = messages.getString("no_space_before");
+            suggestionText = token;
+          }
         } else if (token.equals(getCommaCharacter())) {
           msg = messages.getString("space_after_comma");
           suggestionText = getCommaCharacter();
@@ -115,7 +121,7 @@ public class CommaWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[i - 1].getStartPos();
         int toPos = tokens[i].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
@@ -132,7 +138,7 @@ public class CommaWhitespaceRule extends Rule {
       char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
           || c =='’' || c == '"' || c == '“'
-          || c == ',') {
+          || c == ','|| c == '»') {
         return true;
       }
     }

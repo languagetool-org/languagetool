@@ -43,7 +43,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP")) {
+    if (position == 0) {
+      return false;
+    }
+    if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
     }
     if (wordRepetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
@@ -76,6 +79,22 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("Li", tokens, position)) {
       return true;   // "Li Li", Chinese name
     }
+    if (tokens[position].getToken().endsWith("ay")) {
+      if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
+        return true;   // "may May"
+      }
+      if (tokens[position - 1].getToken().equals("May") && tokens[position].getToken().equals("may")) {
+        return true;   // "May may"
+      }
+      if (tokens[1].getToken().equals("May") && tokens[2].getToken().equals("May")) {
+        return true;   // "May May" SENT_START
+      }
+    }
+    if (tokens[position].getToken().endsWith("ill")) {
+      return (position > 0 && tokens[position - 1].getToken().equals("will") && tokens[position].getToken().equals("Will")) // will Wills
+        || (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) // Will will ...
+        || (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")); // "Will Will" SENT_START
+    }
     return false;
   }
 
@@ -91,7 +110,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
   }
 
   private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
+    return tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
   }
 
 }

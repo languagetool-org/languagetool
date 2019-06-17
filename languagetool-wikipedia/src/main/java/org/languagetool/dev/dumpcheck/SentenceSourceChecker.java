@@ -77,8 +77,13 @@ public class SentenceSourceChecker {
     String[] fileNames = commandLine.getOptionValues('f');
     File languageModelDir = commandLine.hasOption("languagemodel") ?
                             new File(commandLine.getOptionValue("languagemodel")) : null;
+    File word2vecModelDir = commandLine.hasOption("word2vecmodel") ?
+            new File(commandLine.getOptionValue("word2vecmodel")) : null;
+    File neuralNetworkModelDir = commandLine.hasOption("neuralnetworkmodel") ?
+      new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir, filter);
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
+      maxErrors, languageModelDir, word2vecModelDir, neuralNetworkModelDir, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -89,46 +94,47 @@ public class SentenceSourceChecker {
     }
   }
 
-  @SuppressWarnings("AccessStaticViaInstance")
   private static CommandLine ensureCorrectUsageOrExit(String[] args) {
     Options options = new Options();
-    options.addOption(OptionBuilder.withLongOpt("language").withArgName("code").hasArg()
-            .withDescription("language code like 'en' or 'de'")
-            .isRequired()
-            .create("l"));
-    options.addOption(OptionBuilder.withLongOpt("db-properties").withArgName("file").hasArg()
-            .withDescription("A file to set database access properties. If not set, the output will be written to STDOUT. " +
+    options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
+            .desc("language code like 'en' or 'de'")
+            .required().build());
+    options.addOption(Option.builder("d").longOpt("db-properties").argName("file").hasArg()
+            .desc("A file to set database access properties. If not set, the output will be written to STDOUT. " +
                     "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
                     "It can optionally define the batchSize for insert statements, which defaults to 1.")
-            .create("d"));
-    options.addOption(OptionBuilder.withLongOpt("rule-properties").withArgName("file").hasArg()
-            .withDescription("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")
-            .create());
-    options.addOption(OptionBuilder.withLongOpt("rule-ids").withArgName("id").hasArg()
-            .withDescription("comma-separated list of rule-ids to activate")
-            .create("r"));
-    options.addOption(OptionBuilder.withLongOpt("also-enable-categories").withArgName("categories").hasArg()
-            .withDescription("comma-separated list of categories to activate, additionally to rules activated anyway")
-            .create());
-    options.addOption(OptionBuilder.withLongOpt("file").withArgName("file").hasArg()
-            .withDescription("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
+            .build());
+    options.addOption(Option.builder().longOpt("rule-properties").argName("file").hasArg()
+            .desc("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")
+            .build());
+    options.addOption(Option.builder("r").longOpt("rule-ids").argName("id").hasArg()
+            .desc("comma-separated list of rule-ids to activate")
+            .build());
+    options.addOption(Option.builder().longOpt("also-enable-categories").argName("categories").hasArg()
+            .desc("comma-separated list of categories to activate, additionally to rules activated anyway")
+            .build());
+    options.addOption(Option.builder("f").longOpt("file").argName("file").hasArg()
+            .desc("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
                     "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
-            .isRequired()
-            .create("f"));
-    options.addOption(OptionBuilder.withLongOpt("max-sentences").withArgName("number").hasArg()
-            .withDescription("maximum number of sentences to check")
-            .create());
-    options.addOption(OptionBuilder.withLongOpt("max-errors").withArgName("number").hasArg()
-            .withDescription("maximum number of errors, stop when finding more")
-            .create());
-    options.addOption(OptionBuilder.withLongOpt("languagemodel").withArgName("indexDir").hasArg()
-            .withDescription("directory with a '3grams' sub directory that contains an ngram index")
-            .create());
-    options.addOption(OptionBuilder.withLongOpt("filter").withArgName("regex").hasArg()
-            .withDescription("Consider only sentences that contain this regular expression (for speed up)")
-            .create());
+            .required()
+            .build());
+    options.addOption(Option.builder().longOpt("max-sentences").argName("number").hasArg()
+            .desc("maximum number of sentences to check")
+            .build());
+    options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
+            .desc("maximum number of errors, stop when finding more")
+            .build());
+    options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
+            .desc("directory with a '3grams' sub directory that contains an ngram index")
+            .build());
+    options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
+            .desc("base directory for saved neural network models")
+            .build());
+    options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
+            .desc("Consider only sentences that contain this regular expression (for speed up)")
+            .build());
     try {
-      CommandLineParser parser = new GnuParser();
+      CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
     } catch (ParseException e) {
       System.err.println("Error: " + e.getMessage());
@@ -142,12 +148,19 @@ public class SentenceSourceChecker {
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors,
+                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
+    }
+    if (word2vecModelDir != null) {
+      languageTool.activateWord2VecModelRules(word2vecModelDir);
+    }
+    if (neuralNetworkModelDir != null) {
+      languageTool.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, languageTool);
@@ -162,6 +175,7 @@ public class SentenceSourceChecker {
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
+    //System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
 
     ResultHandler resultHandler = null;
     int ruleMatchCount = 0;

@@ -22,12 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 
 /**
- * Check if a word is repeated twice, e.g. "the the".
+ * Check if a word is repeated, e.g. "the the".
  *   
  * @author Daniel Naber
  */
@@ -62,22 +63,27 @@ public class WordRepeatRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return 1;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     String prevToken = "";
     // we start from token 1, token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       if (tokens[i].isImmunized()) {
-      	prevToken = "";
+        prevToken = "";
         continue;
       }
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {
         String msg = messages.getString("repetition");
         int prevPos = tokens[i - 1].getStartPos();
         int pos = tokens[i].getStartPos();
-        RuleMatch ruleMatch = createRuleMatch(prevToken, token, prevPos, pos, msg);
+        RuleMatch ruleMatch = createRuleMatch(prevToken, token, prevPos, pos, msg, sentence);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
@@ -85,8 +91,8 @@ public class WordRepeatRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  protected RuleMatch createRuleMatch(String prevToken, String token, int prevPos, int pos, String msg) {
-    RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
+  protected RuleMatch createRuleMatch(String prevToken, String token, int prevPos, int pos, String msg, AnalyzedSentence sentence) {
+    RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
     ruleMatch.setSuggestedReplacement(prevToken);
     return ruleMatch;
   }
@@ -94,15 +100,13 @@ public class WordRepeatRule extends Rule {
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;
-    if (token.length() == 0) {
+    if (StringUtils.isNumericSpace(token)) {
       isWord = false;
     } else if (token.length() == 1) {
       char c = token.charAt(0);
       if (!Character.isLetter(c)) {
         isWord = false;
       }
-    } else if (token.matches("0+")) {  // e.g. "1 000 000"
-      isWord = false;
     }
     return isWord;
   }

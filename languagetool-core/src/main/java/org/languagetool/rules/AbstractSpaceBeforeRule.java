@@ -73,7 +73,7 @@ public abstract class AbstractSpaceBeforeRule extends Rule {
           String replacement = " " + token;
           String msg = getSuggestion();
           int pos = tokens[i].getStartPos();
-          RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
               + token.length(), msg, getShort());
           potentialRuleMatch.setSuggestedReplacement(replacement);
           ruleMatches.add(potentialRuleMatch);

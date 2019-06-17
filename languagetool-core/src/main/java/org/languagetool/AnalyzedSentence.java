@@ -19,6 +19,8 @@
 package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -30,7 +32,9 @@ import java.util.*;
 public final class AnalyzedSentence {
 
   private final AnalyzedTokenReadings[] tokens;
+  private final AnalyzedTokenReadings[] preDisambigTokens;
   private final AnalyzedTokenReadings[] nonBlankTokens;
+  private final AnalyzedTokenReadings[] nonBlankPreDisambigTokens;
   private final int[] whPositions;  // maps positions without whitespace to positions that include whitespaces
   private final Set<String> tokenSet;
   private final Set<String> lemmaSet;
@@ -39,10 +43,24 @@ public final class AnalyzedSentence {
    * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
   public AnalyzedSentence(AnalyzedTokenReadings[] tokens) {
+    this(tokens, tokens);
+  }
+  
+  public AnalyzedSentence(AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings[] preDisambigTokens) {
     this.tokens = tokens;
+    this.preDisambigTokens = preDisambigTokens;
     int whCounter = 0;
     int nonWhCounter = 0;
     int[] mapping = new int[tokens.length + 1];
+    this.whPositions = mapping;
+    this.nonBlankTokens = getNonBlankReadings(tokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);
+    this.nonBlankPreDisambigTokens = getNonBlankReadings(preDisambigTokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);
+    this.tokenSet = getTokenSet(tokens);
+    this.lemmaSet = getLemmaSet(tokens);
+  }
+
+  @NotNull
+  private List<AnalyzedTokenReadings> getNonBlankReadings(AnalyzedTokenReadings[] tokens, int whCounter, int nonWhCounter, int[] mapping) {
     List<AnalyzedTokenReadings> l = new ArrayList<>();
     for (AnalyzedTokenReadings token : tokens) {
       if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd() || token.isParagraphEnd()) {
@@ -52,16 +70,15 @@ public final class AnalyzedSentence {
       }
       whCounter++;
     }
-    this.whPositions = mapping;
-    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
-    this.tokenSet = getTokenSet(tokens);
-    this.lemmaSet = getLemmaSet(tokens);
+    return l;
   }
 
-  private AnalyzedSentence(AnalyzedTokenReadings[] tokens, int[] mapping, AnalyzedTokenReadings[] nonBlankTokens) {
+  private AnalyzedSentence(AnalyzedTokenReadings[] tokens, int[] mapping, AnalyzedTokenReadings[] nonBlankTokens, AnalyzedTokenReadings[] nonBlankPreDisambigTokens) {
     this.tokens = tokens;
+    this.preDisambigTokens = tokens;
     this.whPositions = mapping;
     this.nonBlankTokens = nonBlankTokens;
+    this.nonBlankPreDisambigTokens = nonBlankPreDisambigTokens;
     this.tokenSet = getTokenSet(tokens);
     this.lemmaSet = getLemmaSet(tokens);
   }
@@ -111,7 +128,7 @@ public final class AnalyzedSentence {
       }
       copyTokens[i].setWhitespaceBefore(sentence.getTokens()[i].isWhitespaceBefore());
     }
-    return new AnalyzedSentence(copyTokens, sentence.whPositions, sentence.getTokensWithoutWhitespace());
+    return new AnalyzedSentence(copyTokens, sentence.whPositions, sentence.getTokensWithoutWhitespace(), sentence.getPreDisambigTokensWithoutWhitespace());
   }
 
   /**
@@ -125,12 +142,30 @@ public final class AnalyzedSentence {
   }
 
   /**
+   * @since 4.5
+   */
+  @Experimental
+  public AnalyzedTokenReadings[] getPreDisambigTokens() {
+    // It would be better to return a clone here to make this object immutable,
+    // but this would be bad for performance:
+    return preDisambigTokens;
+  }
+
+  /**
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with
    * whitespace tokens removed but with the artificial <code>SENT_START</code>
    * token included.
    */
   public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
     return nonBlankTokens.clone();
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public AnalyzedTokenReadings[] getPreDisambigTokensWithoutWhitespace() {
+    return nonBlankPreDisambigTokens.clone();
   }
 
   /**
@@ -266,9 +301,12 @@ public final class AnalyzedSentence {
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null) return false;
-    if (getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     AnalyzedSentence other = (AnalyzedSentence) o;
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Arrays.equals(nonBlankTokens, other.nonBlankTokens) 
@@ -280,6 +318,14 @@ public final class AnalyzedSentence {
   public int hashCode() {
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Objects.hash(nonBlankTokens, tokens, whPositions);
+  }
+
+  /**
+   * Returns true if sentences ends with a paragraph break.
+   * @since 4.3
+   */
+  public boolean hasParagraphEndMark(Language lang) {
+    return StringTools.isParagraphEnd(getText(), lang.getSentenceTokenizer().singleLineBreaksMarksPara());
   }
 
 }

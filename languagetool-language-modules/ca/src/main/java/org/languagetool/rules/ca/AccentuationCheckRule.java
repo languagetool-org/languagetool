@@ -344,7 +344,7 @@ public class AccentuationCheckRule extends Rule {
       }
       if (replacement != null) {
         final String msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Falta un accent");
         ruleMatch.setSuggestedReplacement(replacement);

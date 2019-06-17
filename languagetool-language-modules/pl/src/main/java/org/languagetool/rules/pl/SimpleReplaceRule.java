@@ -39,7 +39,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String POLISH_SIMPLE_REPLACE_RULE = "PL_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/pl/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/pl/replace.txt");
   private static final Locale PL_LOCALE = new Locale("pl");
 
   @Override

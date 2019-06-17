@@ -37,22 +37,45 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
-          "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòôÈÉÁÀÓÒãñíîş" +
-          "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
-          "Śśōżúï" +
+          "[0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
+          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
+          "ŚśōżúïÎôêâû" +
+          "õ" +   // for Portuguese
           "·" +   // for Catalan
+          "'ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 
-          "|[khmcd]m[²³]"
+          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
   );
 
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Mondelēz",
+          "chef-d’œuvre",
+          "chefs-d’œuvre",
+          "Brač",
+          "Djuveč",
+          "Djuvečreis",
           "Hidschāb/S",
           "Dvořák/S",
           "Erdoğan/S",
           "Ångström",
-          "'Ndrangheta"
+          "ångström",
+          "ångströms",
+          "'Ndrangheta",
+          "McDonald's",
+          "µm",
+          "µg",
+          "µl",
+          "CD&V",
+          "C&A",
+          "P&O",
+          "S&P",
+          "ČSSR",
+          "V&D",
+          // Greek letters / Mathematics and physics variables
+          "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", 
+          "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
   ));
 
   @Test

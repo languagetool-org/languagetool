@@ -19,14 +19,22 @@
 package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.language.Contributor;
+import org.languagetool.noop.NoopLanguage;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Helper methods to list all supported languages and to get language objects
@@ -35,13 +43,72 @@ import java.util.*;
  */
 public final class Languages {
 
-  private static final List<Language> LANGUAGES = getAllLanguages();
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
+  private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
+  private static final List<Language> languages = getAllLanguages();
+  private static final List<Language> dynLanguages = new ArrayList<>();
+  
   private Languages() {
   }
 
+  /**
+   * @since 4.5
+   */
+  public static Language addLanguage(String name, String code, File dictPath) {
+    Language lang = new Language() {
+      @Override
+      public String getShortCode() {
+        return code;
+      }
+      @Override
+      public String getName() {
+        return name;
+      }
+      @Override
+      public List<String> getRuleFileNames() {
+        return Collections.emptyList();
+      }
+      @Override
+      protected synchronized List<AbstractPatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+      @Override
+      public String getCommonWordsPath() {
+        return new File(dictPath.getParentFile(), "common_words.txt").getAbsolutePath();
+      }
+      @Override
+      public String[] getCountries() { return new String[0]; }
+      @Override
+      public Contributor[] getMaintainers() { return new Contributor[0]; }
+      @Override
+      public boolean isSpellcheckOnlyLanguage() {
+        return true;
+      }
+      @Override
+      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+        MorfologikSpellerRule r = new MorfologikSpellerRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en-US")), this) {
+          @Override
+          public String getFileName() {
+            return dictPath.getAbsolutePath();
+          }
+          @Override
+          public String getId() {
+            return code.toUpperCase() + "_SPELLER_RULE";
+          }
+          @Override
+          public String getSpellingFileName() {
+            return null;
+          }
+        };
+        return Collections.singletonList(r);
+      }
+    };
+    dynLanguages.add(lang);
+    return lang;
+  }
+  
   /**
    * Language classes are detected at runtime by searching the classpath for files named
    * {@code META-INF/org/languagetool/language-module.properties}. Those file(s)
@@ -52,8 +119,8 @@ public final class Languages {
    */
   public static List<Language> get() {
     List<Language> result = new ArrayList<>();
-    for (Language lang : LANGUAGES) {
-      if (!"xx".equals(lang.getShortCode())) {  // skip demo language
+    for (Language lang : getStaticAndDynamicLanguages()) {
+      if (!"xx".equals(lang.getShortCode()) && !"zz".equals(lang.getShortCode())) {  // skip demo and noop language
         result.add(lang);
       }
     }
@@ -66,7 +133,11 @@ public final class Languages {
    * @return an unmodifiable list
    */
   public static List<Language> getWithDemoLanguage() {
-    return LANGUAGES;
+    return Collections.unmodifiableList(getStaticAndDynamicLanguages());
+  }
+
+  private static List<Language> getStaticAndDynamicLanguages() {
+    return Stream.concat(languages.stream(), dynLanguages.stream()).collect(Collectors.toList());
   }
 
   private static List<Language> getAllLanguages() {
@@ -113,7 +184,7 @@ public final class Languages {
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
     } catch (Exception e) {
-      throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not created", e);
+      throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not be created", e);
     }
   }
 
@@ -125,7 +196,7 @@ public final class Languages {
    */
   @Nullable
   public static Language getLanguageForName(String languageName) {
-    for (Language element : LANGUAGES) {
+    for (Language element : getStaticAndDynamicLanguages()) {
       if (languageName.equals(element.getName())) {
         return element;
       }
@@ -135,21 +206,37 @@ public final class Languages {
 
   /**
    * Get the Language object for the given language code.
-   * @param langCode e.g. <code>en</code> or <code>es-US</code>
+   * @param langCode e.g. <code>en</code> or <code>en-US</code>
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
    * @since 3.6
    */
   public static Language getLanguageForShortCode(String langCode) {
+    return getLanguageForShortCode(langCode, Collections.emptyList());
+  }
+  
+  /**
+   * Get the Language object for the given language code.
+   * @param langCode e.g. <code>en</code> or <code>en-US</code>
+   * @param noopLanguageCodes list of languages that can be detected but that will not actually find any errors
+   *                           (can be used so non-supported languages are not detected as some other language)
+   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @since 4.4
+   */
+  public static Language getLanguageForShortCode(String langCode, List<String> noopLanguageCodes) {
     Language language = getLanguageForShortCodeOrNull(langCode);
     if (language == null) {
-      List<String> codes = new ArrayList<>();
-      for (Language realLanguage : LANGUAGES) {
-        codes.add(realLanguage.getShortCodeWithCountryAndVariant());
+      if (noopLanguageCodes.contains(langCode)) {
+        return NOOP_LANGUAGE;
+      } else {
+        List<String> codes = new ArrayList<>();
+        for (Language realLanguage : getStaticAndDynamicLanguages()) {
+          codes.add(realLanguage.getShortCodeWithCountryAndVariant());
+        }
+        Collections.sort(codes);
+        throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
+                " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
+                " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
       }
-      Collections.sort(codes);
-      throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-              " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
-              " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
     }
     return language;
   }
@@ -169,6 +256,7 @@ public final class Languages {
    * Get the best match for a locale, using American English as the final fallback if nothing
    * else fits. The returned language will be a country variant language (e.g. British English, not just English)
    * if available.
+   * Note: this does not consider languages added dynamically
    * @throws RuntimeException if no language was found and American English as a fallback is not available
    */
   public static Language getLanguageForLocale(Locale locale) {
@@ -181,7 +269,7 @@ public final class Languages {
         return firstFallbackLanguage;
       }
     }
-    for (Language aLanguage : LANGUAGES) {
+    for (Language aLanguage : languages) {
       if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
@@ -195,7 +283,7 @@ public final class Languages {
     Language result = null;
     if (langCode.contains("-x-")) {
       // e.g. "de-DE-x-simple-language"
-      for (Language element : LANGUAGES) {
+      for (Language element : getStaticAndDynamicLanguages()) {
         if (element.getShortCode().equalsIgnoreCase(langCode)) {
           return element;
         }
@@ -203,7 +291,7 @@ public final class Languages {
     } else if (langCode.contains("-")) {
       String[] parts = langCode.split("-");
       if (parts.length == 2) { // e.g. en-US
-        for (Language element : LANGUAGES) {
+        for (Language element : getStaticAndDynamicLanguages()) {
           if (parts[0].equalsIgnoreCase(element.getShortCode())
                   && element.getCountries().length == 1
                   && parts[1].equalsIgnoreCase(element.getCountries()[0])) {
@@ -212,7 +300,7 @@ public final class Languages {
           }
         }
       } else if (parts.length == 3) { // e.g. ca-ES-valencia
-        for (Language element : LANGUAGES) {
+        for (Language element : getStaticAndDynamicLanguages()) {
           if (parts[0].equalsIgnoreCase(element.getShortCode())
                   && element.getCountries().length == 1
                   && parts[1].equalsIgnoreCase(element.getCountries()[0])
@@ -225,7 +313,7 @@ public final class Languages {
         throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
       }
     } else {
-      for (Language element : LANGUAGES) {
+      for (Language element : getStaticAndDynamicLanguages()) {
         if (langCode.equalsIgnoreCase(element.getShortCode())) {
           result = element;
             /* TODO: It should return the DefaultLanguageVariant,
@@ -239,7 +327,7 @@ public final class Languages {
 
   @Nullable
   private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
-    for (Language language : LANGUAGES) {
+    for (Language language : getStaticAndDynamicLanguages()) {
       if (language.getShortCode().equals(locale.getLanguage())) {
         List<String> countryVariants = Arrays.asList(language.getCountries());
         if (countryVariants.contains(locale.getCountry())) {
@@ -253,7 +341,7 @@ public final class Languages {
   @Nullable
   private static Language getLanguageForLanguageNameOnly(Locale locale) {
     // use default variant if available:
-    for (Language language : LANGUAGES) {
+    for (Language language : getStaticAndDynamicLanguages()) {
       if (language.getShortCode().equals(locale.getLanguage()) && language.hasVariant()) {
         Language defaultVariant = language.getDefaultLanguageVariant();
         if (defaultVariant != null) {
@@ -262,7 +350,7 @@ public final class Languages {
       }
     }
     // use the first match otherwise (which should be the only match):
-    for (Language language : LANGUAGES) {
+    for (Language language : getStaticAndDynamicLanguages()) {
       if (language.getShortCode().equals(locale.getLanguage()) && !language.hasVariant()) {
         return language;
       }

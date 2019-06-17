@@ -1,0 +1,73 @@
+# Dutch confusion sets
+# Line format:
+# <word1>|<description1>; <word2>|<description2>; <factor>   # optional comment
+#   <word1> and <word2> are words that can easily be confused
+#   <description> will be used in the error message to explain the word (optional)
+#   <factor> is the factor of how much more the other word must be more
+#            probable so the text is considered potentially incorrect.
+#            Use a higher value for better precision but lower recall.
+#   Precision (p) and recall (r) values in the comments come from ConfusionRuleEvaluator
+#   The number after recall is the number of sentences used for evaluation.
+# Order is relevant for ambiguous cases like 'know' ('no' or 'now') where the match
+# is used whose pair comes first in this file.
+# 
+bereiden|klaarmaken; berijden|rijden op; 1000000;       # p=1.000, r=0.252, 648+106, 3grams, 2019-01-02
+boord|kraag; bord|plank, etensbord; 1000000;       # p=1.000, r=0.365, 979+929, 3grams, 2019-01-02
+camp|ouderwets; kamp|groep tenten; 10000;         # p=1.000, r=0.550, 56+741, 3grams, 2019-01-02
+canon|leerstof, zang; kanon|schiettuig; 10000;         # p=1.000, r=0.189, 429+616, 3grams, 2019-01-02
+cola|drank; kola|boomsoort; 10000;         # p=1.000, r=0.355, 93+0, 3grams, 2019-01-02
+col|kraag, heuvel; kol|heks; 10000;         # p=1.000, r=0.106, 118+42, 3grams, 2019-01-02
+deur|doorgang; dur|muziekterm; 1000000;       # p=0.994, r=0.722, 979+13, 3grams, 2019-01-02
+deuren|doorgangen; duren|tijd kosten; 10000;         # p=0.999, r=0.802, 968+961, 3grams, 2019-01-02
+faas|term heraldiek, schuinte beitel; vaas|bloempot; 10;  # p=0.994, r=0.873, 1+188, 3grams, 2019-01-02
+fat|dandy; vat|ton; 10000;         # p=1.000, r=0.579, 25+562, 3grams, 2019-01-02
+fee|sprookjesfiguur; vee|dieren; 1000000;       # p=0.996, r=0.249, 158+828, 3grams, 2019-01-02
+fel|heftig; vel|huid; 1000;          # p=0.999, r=0.630, 969+353, 3grams, 2019-01-02
+fier|dapper; vier|4; 10000;         # p=0.998, r=0.707, 47+737, 3grams, 2019-01-02
+finnen|blaaswormen; vinnen|van vis; 10000;         # p=1.000, r=0.315, 0+232, 3grams, 2019-01-02
+fin|blaasworm; vin|van vis; 10000;         # p=1.000, r=0.222, 188+114, 3grams, 2019-01-02
+floor|vloer; flor|schimmellaag; 10000;         # p=1.000, r=0.109, 37+18, 3grams, 2019-01-02
+folk|muziekstijl; volk|mensen; 1000000;       # p=0.997, r=0.356, 261+825, 3grams, 2019-01-02
+fond|bouillon; vond|van vinden; 10000;         # p=1.000, r=0.688, 32+985, 3grams, 2019-01-02
+form|formulier; vorm|uiterlijk; 1000000;       # p=0.998, r=0.624, 60+956, 3grams, 2019-01-02
+forst|meest fors; vorst|kou, heerser; 10000;         # p=1.000, r=0.726, 1+812, 3grams, 2019-01-02
+frezen|uitslijpen; vrezen|bang zijn; 1000;          # p=0.995, r=0.688, 50+235, 3grams, 2019-01-02
+fries|versiersel; vries|bevries; 10000;         # p=1.000, r=0.258, 28+3, 3grams, 2019-01-02
+geld|munten; geldt|is geldig; 1000000;       # p=1.000, r=0.357, 922+961, 3grams, 2019-01-02
+grafen|schema; graven|begraafplekken; 1000000;       # p=0.989, r=0.412, 48+857, 3grams, 2019-01-02
+hoorde|van horen; horde|hindernis; 10000;         # p=1.000, r=0.479, 991+55, 3grams, 2019-01-02
+hoorden|van horen; horden|hindernissen; 10000;         # p=1.000, r=0.216, 322+177, 3grams, 2019-01-02
+hoor|luister; hor|vliegengordijn; 1000000;       # p=1.000, r=0.681, 469+4, 3grams, 2019-01-02
+keer|maal; kir|drank; 10000;         # p=1.000, r=0.891, 962+4, 3grams, 2019-01-02
+koor|zanggroep; kor|sleepnet; 10000;         # p=1.000, r=0.866, 944+4, 3grams, 2019-01-02
+leidende|besturende; lijdende|pijn hebbende; 1000000;       # p=1.000, r=0.291, 651+152, 3grams, 2019-01-02
+leidend|besturend; lijdend|pijn hebbend; 10000;         # p=1.000, r=0.562, 156+223, 3grams, 2019-01-02
+leiden|besturen; lijden|pijn hebben; 10000;         # p=1.000, r=0.250, 212+978, 3grams, 2019-01-02
+leiders|bestuurders; lijders|zieken; 1000000;       # p=0.997, r=0.302, 964+65, 3grams, 2019-01-02
+leidt|bestuurt; lijdt|heeft pijn; 10000;         # p=0.990, r=0.283, 960+486, 3grams, 2019-01-02
+licht|niet zwaar, zichtbare straling; ligt|op de vloer; 10000;         # p=1.000, r=0.450, 876+967, 3grams, 2019-01-02
+loges|groepen; losjes|flexibel; 10000;         # p=1.000, r=0.209, 254+147, 3grams, 2019-01-02
+meiden|meisjes; mijden|ontwijken; 10000;         # p=1.000, r=0.572, 184+99, 3grams, 2019-01-02
+moor|zwart dier; mor|mopper; 100; # p=1.000, r=0.147, 14+20, 3grams, 2019-01-02
+noor|schaats; nor|gevangenis; 100; # p=1.000, r=0.238, 5+37, 3grams, 2019-01-02
+oorden|plaatsen; orden|grootten, kloosterorden; 1000;          # p=0.988, r=0.187, 101+332, 3grams, 2019-01-02
+oor|gehoororgaan; or|ondernemingraad; 1000000;       # p=1.000, r=0.350, 522+755, 3grams, 2019-01-02
+pact|verdrag; pakt|neemt; 10000;         # p=1.000, r=0.348, 202+315, 3grams, 2019-01-02
+persen|duwen; perzen|kleden; 10000;         # p=1.000, r=0.658, 277+1, 3grams, 2019-01-02
+poort|doorgang; port|drank; 100000;        # p=1.000, r=0.173, 694+127, 3grams, 2019-01-02
+sagen|legendes; zagen|met zaag bewerken; 1000000;       # p=0.994, r=0.293, 197+983, 3grams, 2019-01-02
+scheuren|stuk maken; schuren|vlak maken; 1000;          # p=1.000, r=0.161, 338+235, 3grams, 2019-01-02
+set|groep; zet|stap; 1000000;       # p=0.997, r=0.192, 792+878, 3grams, 2019-01-02
+sip|teleurgestld; zip|ingepakt bestand; 100; # p=1.000, r=0.167, 4+14, 3grams, 2019-01-02
+sonde|meetapparaat; zonde|wandaad; 10000;         # p=1.000, r=0.214, 342+409, 3grams, 2019-01-02
+song|lied; zong|van zingen; 10000;         # p=1.000, r=0.472, 190+907, 3grams, 2019-01-02
+spoort|blijft op de rails; sport|beweegt, beweging; 10000;         # p=0.997, r=0.679, 74+452, 3grams, 2019-01-02
+stoort|geeft storing; stort|valt neer, afvalberg; 10000;         # p=1.000, r=0.369, 59+551, 3grams, 2019-01-02
+sul|sukkel; zul|zal; 10000;         # p=1.000, r=0.223, 407+91, 3grams, 2019-01-02
+sus|kalmeer; zus|dochter van ouder; 10000;         # p=1.000, r=0.808, 32+958, 3grams, 2019-01-02
+toorn|woede; torn|rafel; 10000;         # p=1.000, r=0.782, 76+2, 3grams, 2019-01-02
+verwoorden|onder woorden brengen; verworden|achteruit gaan; 1000;          # p=0.989, r=0.566, 58+101, 3grams, 2019-01-02
+weiden|in de wei zetten; wijden|aandacht besteden; 1000000;       # p=1.000, r=0.163, 238+389, 3grams, 2019-01-02
+woorden|lettergroepen; worden|later zijn; 1000000;       # p=0.998, r=0.344, 895+1000, 3grams, 2019-01-02
+woord|groep letters; word|zal zijn; 1000000;       # p=0.998, r=0.357, 942+432, 3grams, 2019-01-02
+zeiden|spraken; zijden|van zijde, kanten; 10000;         # p=1.000, r=0.712, 206+977, 3grams, 2019-01-02

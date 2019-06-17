@@ -25,10 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -43,8 +40,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
 
 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
-                                        Language language) throws IOException {
-    super(messages, language);
+                                        Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
 //    setCheckCompound(true);
   }
 
@@ -60,9 +57,13 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   
   @Override
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+    if( word.endsWith("-") )
+      return true;
+  
     if( word.endsWith("²") || word.endsWith("³") ) {
       word = word.substring(0, word.length() - 1); 
     }
+
     return super.isMisspelled(speller, word);
   }
 
@@ -98,8 +99,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     for (AnalyzedToken analyzedToken : tokens) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag != null 
-            && ! posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) 
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
+            && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) 
             && ! posTag.contains(IPOSTag.bad.getText()) 
             && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
         return true;
@@ -111,9 +112,11 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   protected void filterSuggestions(List<String> suggestions) {
     super.filterSuggestions(suggestions);
 
+    // do not suggest "кіно прокат, вело- прогулянка..."
     for (Iterator<String> iterator = suggestions.iterator(); iterator.hasNext();) {
       String item = iterator.next();
-      if( item.contains(" ") && DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item).matches() ) {
+      if( item.contains(" ") && DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item).matches()
+              || item.contains("- ") ) {
         iterator.remove();
       }
     }

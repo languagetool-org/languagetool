@@ -28,19 +28,22 @@ import java.util.regex.Pattern;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
+import org.languagetool.rules.uk.MissingHyphenRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
-import org.languagetool.rules.uk.TokenAgreementRule;
-import org.languagetool.rules.uk.TokenInflectionAgreementRule;
-import org.languagetool.rules.uk.TokenVerbAgreementRule;
+import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
+import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
+import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
+import org.languagetool.rules.uk.TokenAgreementNounVerbRule;
 import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -144,7 +147,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
@@ -157,16 +160,19 @@ public class Ukrainian extends Language {
 
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this),
+        new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages),
 
-        new TokenVerbAgreementRule(messages),
-        new TokenInflectionAgreementRule(messages),
-        new TokenAgreementRule(messages),
+        new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
+        
+        new TokenAgreementNounVerbRule(messages),
+        new TokenAgreementAdjNounRule(messages),
+        new TokenAgreementPrepNounRule(messages),
 
         new MixedAlphabetsRule(messages),
 
-        new SimpleReplaceRule(messages),
         new SimpleReplaceSoftRule(messages),
+        new SimpleReplaceRenamedRule(messages),
+        new SimpleReplaceRule(messages),
 
         new HiddenCharacterRule(messages)
     );

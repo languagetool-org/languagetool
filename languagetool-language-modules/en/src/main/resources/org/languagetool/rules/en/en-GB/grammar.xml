@@ -40,7 +40,7 @@ USA
             <pattern>
                 <token inflected="yes">apartment</token>
             </pattern>
-            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
+            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="1" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
             <short>AmE/BrE: apartment/flat</short>
             <example correction="flats">These <marker>apartments</marker> are expensive.</example>
@@ -213,6 +213,199 @@ USA
             <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
             <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
         </rule>
+        <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_AME" name="1-liter/1-litre">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(liter|meter)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct British English.</message>
+            <short>AmE/BrE: SI units (adjectives)</short>
+            <example type="incorrect">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example type="correct">Use a <marker>6-millimetre</marker> bolt.</example>
+            <example type="correct">Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
+            <example type="correct">The 4.<marker>6-centigram</marker> difference is not a problem.</example><!-- Refer to OXFORD_SPELLING_GRAM -->
+            <example type="incorrect">Use a <marker>10-meter</marker> rope.</example>
+            <example type="incorrect">Also find typographic errors: a 5.7.<marker>8-femtoliter</marker> difference is not important.</example>
+       </rule>
+        <rule id="TAKE_A_BATH" name="Collocation: take (have) a bath/nap"><!-- Refer to en-US/HAVE_A_BATH -->
+            <pattern>
+                <marker>
+                    <token inflected="yes">take</token>
+                </marker>
+                <or>
+                    <token>a</token>
+                    <token postag="PRP$"/>
+                </or>
+                <token regexp="yes">bath|nap|rest|vacation</token>
+            </pattern>
+            <message>In British English, the usual verb to go with '\3' is <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">have</match></suggestion>.</message>
+            <url>http://dialectblog.com/2012/07/26/take-have-a-bath/</url>
+            <short>Collocation error</short>
+            <example correction="had">John <marker>took</marker> a nap after lunch.</example>
+            <example correction="have|haven">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
+            <example correction="have">Mary will <marker>take</marker> her vacation in Paris.</example>
+            <example correction="having">I was thinking about <marker>taking</marker> a rest, but I decided to complete the work.</example>
+            <example correction="having">While I was <marker>taking</marker> a bath, I thought about how to lay the bedroom carpet.</example>
+            <example correction="have|haven">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
+            <example correction="had">Who <marker>took</marker> a bath in the morning?</example>
+            <example>John <marker>had</marker> a nap after lunch.</example>
+        </rule>
     </category>
-
+    <category id="BRE_STYLE_OXFORD_SPELLING" name="British English, Oxford spelling (~iz~ not ~is~)" type="style">
+        <rulegroup id="OXFORD_SPELLING_GRAM" name="Oxford spelling of 'gram' (not 'gramme')">
+            <rule><!-- nouns. Nouns and adjectives have separate rules to prevent incorrect suggestions for incorrect adjectives such as '5-grammes'. -->
+                <pattern>
+                    <token regexp="yes">(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?grammes?<exception postag="NNP"/></token>
+                </pattern>
+                <message>Oxford Manual of Style, 2002, gives 'gram' as the preferred spelling of these: gram, kilogram, and other units of measurement. Also, UK Weights and Measures Act 1985, section 92 shows that both 'gram' and 'gramme' are permitted in British English, and this spelling is applicable to other units that are compounds of 'gram'. Use <suggestion><match no="1" regexp_match="gramme" regexp_replace="gram"/></suggestion>.</message>
+                <url>http://www.legislation.gov.uk/ukpga/1985/72/section/92</url>
+                <short>Oxford spelling: gram, not gramme</short>
+                <example correction="milligrams">Use 3 <marker>milligrammes</marker> of surfactant.</example>
+                <example>Use 3 <marker>milligrams</marker> of surfactant.</example>
+                <example>The television <marker>programme</marker> is scheduled for 17:00.</example>
+                <example>If the distance is less than 2 <marker>millimeters</marker>, ...</example>
+                <example>A <marker>6-gramme</marker> force is sufficient.</example>
+                <example correction="gram">The weight must be less than 1 <marker>gramme</marker>.</example>
+                <example correction="kilograms">The weight must be more than 20 <marker>kilogrammes</marker>.</example>
+                <example correction="yottagram">One <marker>yottagramme</marker> is a lotta grams!</example>
+                <example correction="Centigrams">'<marker>Centigrammes</marker>' is an alternative spelling of 'centigrams'.</example>
+                <example correction="KILOgrams">Add 2 <marker>KILOgrammes</marker> of the powder.</example><!-- The default spelling rules find this non-standard typography. -->
+                <example type="triggers_error">Did you read "<marker>The Teragramme Terror from Tangiers</marker>"? I think it's a good book.</example>
+            </rule>
+            <rule><!-- adjectives -->
+                <pattern>
+                    <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?gramme<exception postag="NNP"/></token>
+                </pattern>
+                <message>Oxford Manual of Style, 2002, gives 'gram' as the preferred spelling of these: gram, kilogram, and other units of measurement. Also, UK Weights and Measures Act 1985, section 92 shows that both 'gram' and 'gramme' are permitted in British English, and this spelling is applicable to other units that are compounds of 'gram'. Use <suggestion><match no="1" regexp_match="gramme" regexp_replace="gram"/></suggestion>.</message>
+                <url>http://www.legislation.gov.uk/ukpga/1985/72/section/92</url>
+                <short>Oxford spelling: 2-gram, not 2-gramme</short>
+                <example correction="6-gram">A <marker>6-gramme</marker> force is sufficient.</example>
+                <example>A <marker>6-gram</marker> force is sufficient.</example>
+                <example>Use a <marker>five-kilogramme</marker> weight.</example><!-- TODO -->
+                <example correction="10-microgram">A <marker>10-microgramme</marker> difference is not sufficient.</example>
+                <example correction="5-yoctogram">A <marker>5-yoctogramme</marker> error is not important.</example>
+            </rule>
+        </rulegroup>
+        <!--        <rulegroup id="OXFORD_SPELLING_IZE" name="Oxford spelling of 'iz' (not 'is')">
+        Created by Tiago F. Santos, based on the coherency list created by Mike Unwalla, 2018-11-15
+        MFU removed 2019-05-02. Refer to https://forum.languagetool.org/t/remove-oxford-spelling-ize/3805
+        -->
+        <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
+        <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
+        <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
+            <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+            <antipattern><!-- Dans l'organisation de ces autonomies... -->
+                <token>l</token>
+                <token spacebefore="no">'</token>
+                <token spacebefore="no" postag_regexp="yes" postag="NN.*"/>
+            </antipattern>
+            <antipattern><!-- If the token before or the token after is a proper noun, then the target token is probably part of a proper name, and not a common noun. Example: Organisation of Islamic Cooperation. -->
+                <token postag_regexp="yes" postag="NNPS?"/>
+                <token postag_regexp="yes" postag="NNPS?"/>
+            </antipattern>
+            <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**"><!-- Always ~isement not ~izement. Always ~ision, not ~izion. -->
+            <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~is noun that has a singular or plural postag. If the ~is noun has a postag, then the ~iz noun should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
+                <pattern>
+                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)<exception regexp="yes">(?-i)[A-Z-]+</exception>
+                    <exception regexp="yes" inflected="yes">improvisation|xxxx</exception><!-- This exception is for nouns that are always spelled with ~isation. -->
+                    <exception>passivisations</exception><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
+                    <exception regexp="yes" inflected="yes">(advert|adv|appra|bru|chast|circumc|comprom|(battle)?cru|curtain-ra|desp|dev|disfranch|disgu|dispra|enfranch|exerc|franch|fundra|hell-?ra|improv|ka|merchand|mort|po|pract|pra|prom|ra|reappra|repr|rev|r|surm|surpr|upra|upr)iser</exception><!-- These nouns are always ~iser. -->
+                    <exception regexp="yes" inflected="yes">(adv|d|)isability</exception></token><!-- These nouns are always ~isability. -->
+                </pattern>
+                <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <short>Oxford spelling: nouns</short>
+<!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
+                <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
+                <example>The word '<marker>organization</marker>' is the Oxford spelling.</example>
+                <example>The word '<marker>organizations</marker>' is the Oxford spelling.</example>
+                <example>'<marker>Americanisation</marker>' is NNP.</example><!-- TODO. Is 'Americanisation' a proper noun? -->
+                <example>'<marker>Americanisations</marker>' is NNPS.</example>
+                <example>'<marker>ORGANISATION</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
+                <example>Most of the surviving paperwork, up until 1986, for successful <marker>naturalisations</marker> is now held at The National Archives (www.nationalarchives.gov.uk/help-with-your-research/research-guides/naturalisation-british-citizenship/).</example><!-- TODO. naturalisations[naturalization/NNS and naturalizations[naturalization/NNS. Is the word not found because  naturalisation[naturalisation/NN:UN but naturalization[naturalization/NN:U ? -->
+                <example correction="Demutualizations">'<marker>Demutualisations</marker>: LT gives a spelling warning for demutualizations. BUT LT also suggests the Oxford spelling although the suggestion uses suppress_misspelled="yes". Why?</example>
+                <example>These words are always spelled with ~isation: improvisation/improvisations</example>
+                <example correction="de-energization"><marker>de-energisation</marker></example>
+                <example>Dans <marker>l'organisation</marker> de ces autonomies, la Belgique a réalisé...</example>
+                <example>year=2009 |publisher=<marker>L'Organisation</marker> internationale de la Francophonie</example>
+                <example><marker>de-energisations</marker> has no postag.</example>
+                <example>catheterisations, componentisations, demonisations, depoliticisations, depressurisations, immortalisations, incentivisations, intellectualisations, legitimisations, lionisations, memorialisations, militarisations, neutralisations, nominalisations, parameterisations, particularisations, photosensitisations, plagiarisations, productisations, professionalisations, proselytisations, repressurisations, satirisations, scandalisations, schematisations, sensualisations, sodomisations, spiritualisations, tenderisations, universalisations, vandalisations</example><!-- TODO: Add plural POS for these words. Are all the plurals standard BrE? -->
+                <example>The suggestion for the noun plural <marker>passivisations</marker> is: ". Thus, </example><!-- TODO. If we cannot prevent a suggestion of "", then this word and similar must be in an exception.-->
+                <example>'World Health Organization' uses ~z, but the '<marker>Organisation of Islamic Cooperation</marker>' uses ~s.</example>
+                <example type="triggers_error">For information about the <marker>Shanghai Cooperation Organisation</marker>, refer to http://eng.sectsco.org/about_sco/.</example>
+                <example type="triggers_error">File:<marker>Panneau de signalisation multilingue à Issers (Algérie).jpg</marker></example>
+<!-- ~iser --> <example correction="modernizer">The word '<marker>moderniser</marker>' is not the Oxford spelling.</example>
+                <example correction="Modernizers">The word '<marker>Modernisers</marker>' is not the Oxford spelling.</example>
+                <example correction="Americanizer">The word '<marker>Americaniser</marker>' has the postag NNP (and NN). Thus, do not use an NNP exception.</example>
+                <example>The word '<marker>modernizer</marker>' is the Oxford spelling.</example>
+                <example>The word '<marker>Modernizers</marker>' is the Oxford spelling.</example>
+                <example>Make sure that the regexp is correct. These are all ~iser nouns: advertisers, advisers, appraisers, bruisers, chastisers, circumcisers, compromisers, battlecruisers, curtain-raisers, despisers, devisers, disfranchisers, disguisers, dispraisers, enfranchisers, exercisers, franchisers, fundraisers, hell-raisers, hellraisers, improvisers, kaisers, merchandisers, mortisers, paralysers, poisers, practisers, praisers, promisers, raisers, reappraisers, reprisers, revisers, risers, surmisers, surprisers, upraisers, uprisers.</example>
+                <example>'<marker>MODERNISER</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
+                <example>The <marker>Stratocruiser</marker> set a new standard for luxurious air travel (www.boeing.com/history/products/model-377-stratocruiser.page).</example>
+                <example type="triggers_error">The first Liquid only events were <marker>Liquidiser</marker> at Bristol Academy.</example>
+<!-- ~isability--><example correction="magnetizability">The word '<marker>magnetisability</marker>' is not the Oxford spelling.</example>
+                <example correction="Magnetizability">The word '<marker>Magnetisability</marker>' is not the Oxford spelling.</example>
+<!--                <example correction="Magnetizabilities">The word '<marker>Magnetisabilities</marker>' is not the Oxford spelling.</example> TODO. Find a plural example. -->
+                <example correction="polarizability">This effect (<marker>polarisability</marker>) is shown to be...</example>
+                <example>The word '<marker>magnetizability</marker>' is the Oxford spelling.</example>
+                <example>Refer to <marker>www.example.com/polarisability.html</marker>.</example>
+                <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities</example>
+                <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
+            </rule>
+            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://en.oxforddictionaries.com/spelling/ize-ise-or-yse -->
+                <pattern>
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
+                    <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
+                </pattern>
+                <message>In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
+                <short>Oxford spelling: ~ise verbs</short>
+                <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
+                <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
+                <example correction="organizes">Who usually <marker>organises</marker> the meetings?</example>
+                <example correction="Organized"><marker>Organised</marker> the meeting? Ha!</example>
+                <example correction="organizing">Basic <marker>organising</marker> principles are...</example>
+                <example correction="de-energize"><marker>de-energise</marker></example>
+                <example correction="De-energizes"><marker>De-energises</marker></example>
+                <example correction="de-energized"><marker>de-energised</marker></example>
+                <example correction="de-energizing"><marker>de-energising</marker></example>
+                <example>The word '<marker>otherwise</marker>' is not a verb.</example>
+                <example>In tests, the words 'surprise' and 'Surprise' caused no warning, but <marker>SURPRISE</marker> and all its uppercase inflections caused a warning. This problem occurs with other verbs also. Solution: put all ~ise-only base verbs in an exception. [Keep this note for reference. Refer to the next example/comment.]</example>
+                <example><marker>CAPITALISED</marker> verbs are out of scope. In tests, for all verbs, the suggestion for the capitalised verb was the ~ise spelling.</example>
+                <example>The rule finds verbs that are only all lowercase or initial caps. Not: <marker>ORGANise</marker></example>
+                <example>All ~ise-only verbs are in an exception. As a fail-safe test, keep this list of inflections that previously caused incorrect warnings: alias [aliased], arise [arose], porpoise [aviation slang], trellis [VBZ = trellises]</example>
+                <example>These rare/obsolete ~ise-only verbs have no postag: annalise, bepraise, debruise, disseise, grandise, grise, hoise, marmalise, misprise, remise, re-rise, rerise, seise, sensibilise, unpromise, </example>
+                <example><marker>recentralise</marker> is not found because suppress_misspelled="yes". 'Recentralize' has no pos.</example><!-- TODO: get a more obscure example as a test. -->
+            </rule>
+            <rule id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"><!-- ~isable, ~isational, ~ised, ~ising -->
+                <pattern>
+                    <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)<exception regexp="yes">(?-i)[A-Z-]+</exception>
+                    <exception regexp="yes">advisable|hair-raising|ill-advised|improvisational|inadvisable|memorisable|raisable|self-advertising</exception><!-- These adjectives are always ~is. Some adjectives are ~isible (divisible, indivisible, invisible), but I did not find ~isible adjectives that are also spelled ~izible.-->
+                    <exception regexp="yes">(un)?(advis|bruis|circumcis|compromis|devis|(dis)?enfranchis|disguis|enterpris|excis|exercis|franchis|immunocompromis|improvis|incis|noncompromis|pois|practis|promis|rais|recognis|revis|supervis|surpris|televis)(ed|ing)</exception></token><!-- These words (adjectives/past participle adjectives/verbs are always ~is. Some words such as 'excised' do not have the postag JJ, but in some contexts, disambiguation DT_VBN_JJ gives the postag JJ to the VBN word (also, other rules do similarly). Possibly, some un* words do not exist, but that is not a problem. -->
+                </pattern>
+                <message>In British English, for some adjectives, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adjectives and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <short>Oxford spelling: adjectives</short>
+                <example correction="magnetizable">The adjective '<marker>magnetisable</marker>' is not the Oxford spelling.</example>
+                <example correction="Magnetizable">The adjective '<marker>Magnetisable</marker>' is not the Oxford spelling.</example>
+                <example correction="organizational">Her <marker>organisational</marker> ability is good.</example>
+                <example correction="randomized">These <marker>randomised</marker> controlled trials are...</example>
+                <example correction="unappetizing">This food is <marker>unappetising</marker>.</example>
+                <example>The word '<marker>magnetizable</marker>' is the Oxford spelling.</example>
+                <example>'<marker>MAGNETISABLE</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
+                <example>...as a parody of modern DJs' own soundbites and <marker>self-advertising</marker> pieces.</example>
+                <example>These words are always spelled with ~s: advisable, advised, bruised, circumcised, compromised, disenfranchised, divisible, excised, franchised, immunocompromised, improvised, inadvisable, incised, indivisible, invisible, memorisable, noncompromised, poised, practised, promised, raised, revised, surprised, televised, uncircumcised, unenfranchised, unrevised, unsupervised, unsurprised. Enterprising, excising, incising, noncompromising, promising, surprising, uncompromising, unsurprising</example>
+                <example>For information about the <marker>Conference of Specialised Ministers</marker> refer to www.coe.int/en/web/cm/iguide-chapter6</example><!-- Refer to disambiguation.xml CONFERENCE_OF_SPECIALISED_MINISTERS -->
+            </rule>
+            <rule id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"><!-- ~isably, ~isationally) -->
+                <pattern>
+                    <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)<exception regexp="yes">(?-i)[A-Z-]+</exception>
+                    <exception regexp="yes">(in)?advisably</exception></token><!-- These adverbs are always ~is.-->
+                </pattern>
+                <message>In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <short>Oxford spelling: adverbs</short>
+                <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
+                <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>
+                <example>The word '<marker>organizationally</marker>' is the Oxford spelling.</example>
+                <example>Not an adverb in standard English: ...he came to an opening, choked with timbers and bars of iron; <marker>surmisably</marker> the front portal at present in disuse.</example>
+                <example>'<marker>ORGANISATIONALLY</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
+            </rule>
+         </rulegroup>
+    </category>
 </rules>

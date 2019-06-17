@@ -58,7 +58,7 @@ public class ExportGermanNouns {
     for (ByteBuffer buffer : fsa) {
       final byte [] sequence = new byte [buffer.remaining()];
       buffer.get(sequence);
-      final String output = new String(sequence, "iso-8859-1");
+      final String output = new String(sequence, "utf-8"/*"iso-8859-1"*/);
       if (isRelevantNoun(output)) {
         final String[] parts = output.split("\\+");
         final String term = parts[0].toLowerCase();

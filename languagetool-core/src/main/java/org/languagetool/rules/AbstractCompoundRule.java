@@ -18,14 +18,21 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.ResourceBundle;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -40,12 +47,19 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
   private final String shortDesc;
+  // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
+  protected boolean sentenceStartsWithUpperCase = false;
 
   @Override
   public abstract String getId();
 
   @Override
   public abstract String getDescription();
+
+  @Override
+  public int estimateContextForSureMatch() {
+    return 1;
+  }
 
   /** @since 3.0 */
   protected abstract CompoundRuleData getCompoundRuleData();
@@ -101,8 +115,7 @@ public abstract class AbstractCompoundRule extends Rule {
       if (i == 0) {
         addToQueue(token, prevTokens);
         continue;
-      }
-      if (token.isImmunized()) {
+      } else if (token.isImmunized()) {
         continue;
       }
 
@@ -125,7 +138,7 @@ public abstract class AbstractCompoundRule extends Rule {
             msg = withHyphenMessage;
           }
           if (isNotAllUppercase(origStringToCheck) && !getCompoundRuleData().getOnlyDashSuggestion().contains(stringToCheck)) {
-            replacement.add(mergeCompound(origStringToCheck));
+            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getNoDashLowerCaseSuggestion().stream().anyMatch(s -> origStringsToCheck.contains(s))));
             msg = withoutHyphenMessage;
           }
           String[] parts = stringToCheck.split(" ");
@@ -136,7 +149,7 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
-          RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -158,11 +171,18 @@ public abstract class AbstractCompoundRule extends Rule {
     StringBuilder sb = new StringBuilder();
     Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
     int j = 0;
+    boolean isFirstSentStart = false;
     for (AnalyzedTokenReadings atr : prevTokens) {
       sb.append(' ');
       sb.append(atr.getToken());
+      if (j == 0) {
+        isFirstSentStart = atr.hasPosTag(JLanguageTool.SENTENCE_START_TAGNAME);
+      }
       if (j >= 1) {
         String stringToCheck = normalize(sb.toString());
+        if (sentenceStartsWithUpperCase && isFirstSentStart) {
+          stringToCheck = StringUtils.uncapitalize(stringToCheck);
+        }
         stringsToCheck.add(stringToCheck);
         origStringsToCheck.add(sb.toString().trim());
         if (!stringToToken.containsKey(stringToCheck)) {
@@ -199,7 +219,7 @@ public abstract class AbstractCompoundRule extends Rule {
     return true;
   }
 
-  private String mergeCompound(String str) {
+  private String mergeCompound(String str, boolean uncapitalizeMidWords) {
     String[] stringParts = str.split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
@@ -207,7 +227,7 @@ public abstract class AbstractCompoundRule extends Rule {
         if (k == 0) {
           sb.append(stringParts[0]);
         } else {
-          sb.append(stringParts[k]);
+          sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);
         }
       }
     }

@@ -228,7 +228,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     String tagText = new String(this.err.toByteArray());
-    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test
@@ -296,13 +296,20 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testEnglishStdInJsonOutput() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
     String[] args = {"-l", "en", "--json", "-"};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel " + 
-      "sound, e.g. 'a sentence', 'a university'\",\"shortMessage\":\"Wrong article\",\"replacements\":[{\"value\":\"a\"}],\"offset\":8,\"length\":2,\"context\":" + 
-      "{\"text\":\"This is an test.  This is a test of of language tool.  ...\",\"offset\":8,\"length\":2},\"rule\":{\"id\":\"EN_A_VS_AN\",\"description\":\"Use of " + 
-      "'a' vs. 'an'\",\"issueType\":\"misspelling\",\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}}},{\"message\":\"Possible typo: you repeated a word\","));
+    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"));
+    assertTrue("Got: " + output, output.contains("\"shortMessage\":\"Wrong article\""));
+    assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
+    assertTrue("Got: " + output, output.contains("\"offset\":8"));
+    assertTrue("Got: " + output, output.contains("\"length\":2"));
+    assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
+    assertTrue("Got: " + output, output.contains("\"id\":\"EN_A_VS_AN\""));
+    assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
+    assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
+    assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
+    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
+    assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
     assertTrue("Doesn't display Time", !output.contains("Time: "));
     assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
     assertTrue("Json end check",output.endsWith("}]}"));
@@ -440,13 +447,13 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("ruleId=\"WARD_VS_WART\" subId=\"1\""));
     //check URL part
-    assertTrue(output.contains("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
+    assertTrue(output.contains("url=\"https://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
 
     //now check in normal mode and check for URL
     String[] args2 = {"-l", "de", input.getAbsolutePath()};
     Main.main(args2);
     String output2 = new String(this.out.toByteArray());
-    assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
+    assertTrue(output2.contains("More info: https://www.korrekturen.de/beliebte_fehler/ward.shtml"));
   }
 
   @Test
@@ -491,7 +498,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
-    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test

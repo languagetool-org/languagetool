@@ -332,7 +332,7 @@ public class PortugueseAccentuationCheckRule extends Rule {
       }
       if (replacement != null) {
         final String msg = "Se \u00E9 um nome ou um adjectivo, tem acento.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Falta um acento");
         ruleMatch.setSuggestedReplacement(replacement);

@@ -1,0 +1,21 @@
+# Properties for running LanguageTool server
+# Copy to "server.properties" and customize as needed
+
+# For secure server, keystore must exist
+keystore = /etc/languagetool/keystore.jks
+
+password = keystorepwd
+
+# 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)
+# 'maxCheckThreads' - maximum number of threads working in parallel (optional)
+# 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)
+# 'requestLimit' - maximum number of requests (optional)
+# 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)
+# 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index
+#   each with ngram occurrence counts; activates the confusion rule if supported (optional)
+# 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)
+# 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)
+# 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)
+
+# Maximum text length. Optional - longer texts will cause an error.
+maxTextLength = 120000

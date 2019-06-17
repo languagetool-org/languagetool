@@ -33,7 +33,7 @@ public class CatalanTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new CatalanTagger();
+    tagger = new CatalanTagger(new Catalan());
     tokenizer = new WordTokenizer();
   }
 
@@ -48,12 +48,14 @@ public class CatalanTaggerTest {
     TestTools
         .myAssert(
             "Sóc un home molt honrat.",
-            "Sóc/[ser]VSIP1S00 -- un/[un]DI0MS0|un/[un]PI0MS000 -- home/[home]I|home/[home]NCMS000 -- molt/[molt]DI0MS0|molt/[molt]PI0MS000|molt/[molt]RG -- honrat/[honrar]VMP00SM0",
+            "Sóc/[ser]VSIP1S00 -- un/[un]DI0MS0|un/[un]PI0MS000 -- home/[home]I|home/[home]NCMS000 -- molt/[moldre]VMP00SM0|molt/[molt]DI0MS0|molt/[molt]PI0MS000|molt/[molt]RG -- honrat/[honrar]VMP00SM0|honrat/[honrat]AQ0MS0",
             tokenizer, tagger);
     TestTools.myAssert("blablabla", "blablabla/[null]null", tokenizer, tagger);
     TestTools.myAssert("inajornablement",
         "inajornablement/[inajornablement]RG", tokenizer, tagger);
     TestTools.myAssert("Acomplexadament",
         "Acomplexadament/[acomplexadament]RG", tokenizer, tagger);
+    TestTools.myAssert("FRANÇA",
+        "FRANÇA/[França]NPFSG00", tokenizer, tagger);
   }
 }

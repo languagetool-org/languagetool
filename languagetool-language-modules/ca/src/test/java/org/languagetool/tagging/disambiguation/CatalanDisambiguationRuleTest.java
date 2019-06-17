@@ -39,7 +39,7 @@ public class CatalanDisambiguationRuleTest extends DisambiguationRuleTest {
 
   @Before
   public void setUp() {
-    tagger = new CatalanTagger();
+    tagger = new CatalanTagger(new Catalan());
     tokenizer = new CatalanWordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
     disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);

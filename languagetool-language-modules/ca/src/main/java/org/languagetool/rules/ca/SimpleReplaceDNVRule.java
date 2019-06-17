@@ -18,22 +18,19 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A rule that matches lemmas found only in DNV (AVL dictionary) and suggests
@@ -44,22 +41,22 @@ import java.util.ResourceBundle;
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceDNVRule extends AbstractSimpleReplaceRule {
+public class SimpleReplaceDNVRule extends AbstractSimpleReplaceLemmasRule {
 
-  private static final Map<String, List<String>> wrongLemmas = load("/ca/replace_dnv.txt");
-  private static final Locale CA_LOCALE = new Locale("CA");
-  private static final CatalanSynthesizer synth = new CatalanSynthesizer();
+  private static final LoadingCache<String, Map<String, List<String>>> cache = CacheBuilder.newBuilder()
+          .expireAfterWrite(30, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, Map<String, List<String>>>() {
+            @Override
+            public Map<String, List<String>> load(@NotNull String path) {
+              return loadFromPath(path);
+            }
+          });
 
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongLemmas;
-  }
-  
-  public SimpleReplaceDNVRule(final ResourceBundle messages) throws IOException {
-    super(messages);
-    super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    this.setIgnoreTaggedWords();
+  public SimpleReplaceDNVRule(final ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
+    super.setCategory(Categories.REGIONALISMS.getCategory(messages));
+    super.setLocQualityIssueType(ITSIssueType.Style);
+    wrongLemmas = cache.getUnchecked("/ca/replace_dnv.txt");
   }  
 
   @Override
@@ -82,55 +79,4 @@ public class SimpleReplaceDNVRule extends AbstractSimpleReplaceRule {
 	  return "Paraula admesa pel DNV (AVL), però no per altres diccionaris.";
   }
   
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
-  
-  @Override
-  public Locale getLocale() {
-    return CA_LOCALE;
-  }
-  
-  @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
-    for (int i=1; i<tokens.length; i++) {
-
-      List<String> replacementLemmas = null; 
-      String replacePOSTag = null;
-      
-      for (AnalyzedToken at: tokens[i].getReadings()){
-    	  if (wrongLemmas.containsKey(at.getLemma())) {
-    		  replacementLemmas = wrongLemmas.get(at.getLemma());
-    		  replacePOSTag = at.getPOSTag();
-    		  break;
-    	  }
-      }
-      
-      // The rule matches!
-      if (replacementLemmas != null && replacePOSTag != null) {
-        List<String> possibleReplacements = new ArrayList<>();
-        String[] synthesized = null;
-        // synthesize replacements
-        for (String replacementLemma : replacementLemmas) {
-          try {
-            synthesized = synth.synthesize(new AnalyzedToken(replacementLemma, replacePOSTag, replacementLemma),
-                replacePOSTag);
-          } catch (IOException e) {
-            throw new RuntimeException("Could not synthesize: " + replacementLemma + " with tag " + replacePOSTag, e);
-          }
-          possibleReplacements.addAll(Arrays.asList(synthesized));
-        }
-        if (possibleReplacements.size() > 0) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], possibleReplacements);
-          ruleMatches.add(potentialRuleMatch);
-        }
-      }
-
-    }
-    return toRuleMatchArray(ruleMatches);
-  }
 }

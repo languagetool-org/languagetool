@@ -27,6 +27,7 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Portuguese version of {@link AbstractWordCoherencyRule}.
@@ -36,7 +37,7 @@ import java.util.ResourceBundle;
  */
 public class PortugueseWordCoherencyRule extends AbstractWordCoherencyRule {
 
-  private static final Map<String, String> wordMap = new WordCoherencyDataLoader().loadWords("/pt/coherency.txt");
+  private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/pt/coherency.txt");
 
   public PortugueseWordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
@@ -47,7 +48,7 @@ public class PortugueseWordCoherencyRule extends AbstractWordCoherencyRule {
   }
 
   @Override
-  protected Map<String, String> getWordMap() {
+  protected Map<String, Set<String>> getWordMap() {
     return wordMap;
   }
 

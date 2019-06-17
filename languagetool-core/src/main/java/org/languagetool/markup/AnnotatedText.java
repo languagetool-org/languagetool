@@ -32,18 +32,61 @@ import java.util.Objects;
  */
 public class AnnotatedText {
 
-  private final List<TextPart> parts;
-  private final Map<Integer,Integer> mapping;  // plain text position to original text (with markup) position
-
-  AnnotatedText(List<TextPart> parts, Map<Integer,Integer> mapping) {
-    this.parts = Objects.requireNonNull(parts);
-    this.mapping = Objects.requireNonNull(mapping);
+  /**
+   * @since 3.9
+   */
+  public enum MetaDataKey {
+    DocumentTitle,
+    EmailToAddress,
+    EmailNumberOfAttachments
   }
 
-  public String getPlainText() {
+  private final List<TextPart> parts;
+  private final Map<Integer,Integer> mapping;  // plain text position to original text (with markup) position
+  private final Map<MetaDataKey, String> metaData;
+  private final Map<String, String> customMetaData;
+
+  AnnotatedText(List<TextPart> parts, Map<Integer, Integer> mapping, Map<MetaDataKey, String> metaData, Map<String, String> customMetaData) {
+    this.parts = Objects.requireNonNull(parts);
+    this.mapping = Objects.requireNonNull(mapping);
+    this.metaData = Objects.requireNonNull(metaData);
+    this.customMetaData = Objects.requireNonNull(customMetaData);
+  }
+
+  /**
+   * Get the plain text, without markup and content from {@code interpretAs}.
+   * @since 4.3
+   */
+  public String getOriginalText() {
     StringBuilder sb = new StringBuilder();
     for (TextPart part : parts) {
       if (part.getType() == TextPart.Type.TEXT) {
+        sb.append(part.getPart());
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Get the plain text, without markup but with content from {@code interpretAs}.
+   */
+  public String getPlainText() {
+    StringBuilder sb = new StringBuilder();
+    for (TextPart part : parts) {
+      if (part.getType() == TextPart.Type.TEXT || part.getType() == TextPart.Type.FAKE_CONTENT) {
+        sb.append(part.getPart());
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * @since 4.3
+   */
+  public String getTextWithMarkup() {
+    StringBuilder sb = new StringBuilder();
+    for (TextPart part : parts) {
+      if (part.getType() != TextPart.Type.FAKE_CONTENT) {
         sb.append(part.getPart());
       }
     }
@@ -58,7 +101,7 @@ public class AnnotatedText {
    */
   public int getOriginalTextPositionFor(int plainTextPosition) {
     if (plainTextPosition < 0) {
-      throw new RuntimeException("plainTextPosition must be >= 0: " + plainTextPosition);
+      throw new IllegalArgumentException("plainTextPosition must be >= 0: " + plainTextPosition);
     }
     Integer origPosition = mapping.get(plainTextPosition);
     if (origPosition != null) {
@@ -85,8 +128,23 @@ public class AnnotatedText {
     return bestMatch + minDiff;
   }
 
+  /**
+   * @since 3.9
+   */
+  public String getGlobalMetaData(String key, String defaultValue) {
+    return customMetaData.getOrDefault(key, defaultValue);
+  }
+
+  /**
+   * @since 3.9
+   */
+  public String getGlobalMetaData(MetaDataKey key, String defaultValue) {
+    return metaData.getOrDefault(key, defaultValue);
+  }
+
   @Override
   public String toString() {
     return StringUtils.join(parts, "");
   }
+  
 }

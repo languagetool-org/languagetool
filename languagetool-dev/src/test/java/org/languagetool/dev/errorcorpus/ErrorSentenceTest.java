@@ -36,30 +36,30 @@ public class ErrorSentenceTest {
   public void testHasErrorCoveredByMatch() {
     ErrorSentence s = new ErrorSentence("this is an test", null, Arrays.asList(new Error(8, 10, null)));
 
-    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, 8, 10, "msg")));  // exact match
-    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, 8, 12, "msg")));
-    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, 7, 10, "msg")));
-    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, 7, 11, "msg")));
+    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 8, 10, "msg")));  // exact match
+    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 8, 12, "msg")));
+    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 7, 10, "msg")));
+    assertTrue(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 7, 11, "msg")));
 
-    assertFalse(s.hasErrorCoveredByMatch(new RuleMatch(rule, 9, 10, "msg"))); // no complete overlap
-    assertFalse(s.hasErrorCoveredByMatch(new RuleMatch(rule, 8, 9, "msg"))); // no complete overlap
+    assertFalse(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 9, 10, "msg"))); // no complete overlap
+    assertFalse(s.hasErrorCoveredByMatch(new RuleMatch(rule, null, 8, 9, "msg"))); // no complete overlap
   }
 
   @Test
   public void testHasErrorOverlappingWithMatch() {
     ErrorSentence s = new ErrorSentence("this is an test", null, Arrays.asList(new Error(8, 10, null)));
     
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 8, 10, "msg")));  // exact match
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 8, 12, "msg")));
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 7, 10, "msg")));
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 7, 11, "msg")));
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 9, 10, "msg"))); // no complete overlap
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 8, 9, "msg"))); // no complete overlap
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 6, 8, "msg")));
-    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 10, 12, "msg")));
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 8, 10, "msg")));  // exact match
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 8, 12, "msg")));
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 7, 10, "msg")));
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 7, 11, "msg")));
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 9, 10, "msg"))); // no complete overlap
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 8, 9, "msg"))); // no complete overlap
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 6, 8, "msg")));
+    assertTrue(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 10, 12, "msg")));
     
-    assertFalse(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 6, 7, "msg"))); // no overlap
-    assertFalse(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, 11, 13, "msg"))); // no overlap
+    assertFalse(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 6, 7, "msg"))); // no overlap
+    assertFalse(s.hasErrorOverlappingWithMatch(new RuleMatch(rule, null, 11, 13, "msg"))); // no overlap
   }
 
   private static class FakeRule extends Rule {

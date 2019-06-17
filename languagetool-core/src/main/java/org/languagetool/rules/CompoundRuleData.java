@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.JLanguageTool;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +25,8 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.languagetool.JLanguageTool;
 
 /**
  * Data about words that are compounds and should thus not be written
@@ -37,6 +37,7 @@ public class CompoundRuleData {
 
   private final Set<String> incorrectCompounds = new HashSet<>();
   private final Set<String> noDashSuggestion = new HashSet<>();
+  private final Set<String> noDashLowerCaseSuggestion = new HashSet<>();
   private final Set<String> onlyDashSuggestion = new HashSet<>();
 
   public CompoundRuleData(String path) {
@@ -65,6 +66,10 @@ public class CompoundRuleData {
     return Collections.unmodifiableSet(onlyDashSuggestion);
   }
 
+  Set<String> getNoDashLowerCaseSuggestion() {
+	return Collections.unmodifiableSet(noDashLowerCaseSuggestion);
+  }
+
   private void loadCompoundFile(String path) throws IOException {
     try (
       InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
@@ -84,22 +89,29 @@ public class CompoundRuleData {
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
           onlyDashSuggestion.add(line);
+        } else if (line.endsWith("?")) { // github issue #779
+          line = removeLastCharacter(line);
+          noDashSuggestion.add(line);
+          noDashLowerCaseSuggestion.add(line);
+        } else if (line.endsWith("$")) { // github issue #779
+          line = removeLastCharacter(line);
+          noDashLowerCaseSuggestion.add(line);
         }
         incorrectCompounds.add(line);
       }
     }
   }
 
-  private void validateLine(String path, String line) throws IOException {
+  private void validateLine(String path, String line) {
     String[] parts = line.split(" ");
     if (parts.length == 1) {
-      throw new RuntimeException("Not a compound in file " + path + ": " + line);
+      throw new IllegalArgumentException("Not a compound in file " + path + ": " + line);
     }
     if (parts.length > AbstractCompoundRule.MAX_TERMS) {
-      throw new RuntimeException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
+      throw new IllegalArgumentException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
     }
     if (incorrectCompounds.contains(line.toLowerCase())) {
-      throw new RuntimeException("Duplicated word in file " + path + ": " + line);
+      throw new IllegalArgumentException("Duplicated word in file " + path + ": " + line);
     }
   }
 

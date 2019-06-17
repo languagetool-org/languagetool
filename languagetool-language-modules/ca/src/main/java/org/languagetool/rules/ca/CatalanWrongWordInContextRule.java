@@ -29,6 +29,7 @@ public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   public CatalanWrongWordInContextRule(final ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.Grammar);
+    setMatchLemmmas();
   }
   
   @Override

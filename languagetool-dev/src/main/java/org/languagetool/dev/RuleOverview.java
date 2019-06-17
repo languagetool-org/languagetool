@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -39,6 +39,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Comparator.comparing;
+
 /**
  * Command line tool to list supported languages and their number of rules.
  * 
@@ -46,27 +48,27 @@ import java.util.*;
  */
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
-  
+
+  private static final List<String> langSpecificWebsites = Arrays.asList(
+          "br", "ca", "zh", "da", "nl", "eo", "fr", "gl", "de", "it", "pl", "pt", "ru", "es", "uk"
+  );
+
   enum SpellcheckSupport {
     Full, NoSuggestion, None
   }
 
   public static void main(final String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + RuleOverview.class.getName() + " <webRoot>");
-      System.exit(1);
-    }
-    final RuleOverview prg = new RuleOverview();
-    prg.run(new File(args[0]));
+    RuleOverview prg = new RuleOverview();
+    prg.run();
   }
   
   private RuleOverview() {
     // no public constructor
   }
   
-  private void run(File webRoot) throws IOException {
-    System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
-    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
+  private void run() throws IOException {
+    System.out.println("<p><b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
+    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "</p>\n");
     System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
@@ -78,7 +80,7 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
-    System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
+    System.out.println("  <th valign='bottom' align=\"left\" width=\"90\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
@@ -92,7 +94,6 @@ public final class RuleOverview {
       .replaceAll("(?s)<rules.*?>", "");
 
     int overallJavaCount = 0;
-    int langSpecificWebsiteCount = 0;
     RuleActivityOverview activity = new RuleActivityOverview();
     for (final Language lang : sortedLanguages) {
       if (lang.isVariant()) {
@@ -100,15 +101,13 @@ public final class RuleOverview {
       }
       System.out.print("<tr>");
       final String langCode = lang.getShortCode();
-      final File langSpecificWebsite = new File(webRoot, langCode);
       final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
       if (variants.size() > 0) {
         variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
-      if (langSpecificWebsite.isDirectory()) {
+      if (langSpecificWebsites.contains(langCode)) {
         System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
-        langSpecificWebsiteCount++;
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
@@ -192,10 +191,6 @@ public final class RuleOverview {
     if (overallJavaCount == 0) {
       throw new RuntimeException("No Java rules found - start this script from the languagetool-standalone directory");
     }
-    if (langSpecificWebsiteCount == 0) {
-      throw new RuntimeException("No language specific websites found - please let the web root parameter " +
-              "point to the 'www' directory (current value: '" + webRoot + "')");
-    }
 
     System.out.println("</tbody>");
     System.out.println("</table>");
@@ -238,7 +233,7 @@ public final class RuleOverview {
 
   private List<Language> getSortedLanguages() {
     final List<Language> sortedLanguages = new ArrayList<>(Languages.get());
-    Collections.sort(sortedLanguages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+    sortedLanguages.sort(comparing(Language::getName));
     return sortedLanguages;
   }
 
@@ -262,8 +257,7 @@ public final class RuleOverview {
     }
     return count;
   }
-
-
+  
   private SpellcheckSupport spellcheckSupport(Language lang, List<Language> allLanguages) throws IOException {
     if (spellcheckSupport(lang) != SpellcheckSupport.None) {
       return spellcheckSupport(lang);
@@ -278,7 +272,11 @@ public final class RuleOverview {
   }
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
-    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle())) {
+    List<Rule> rules = new ArrayList<>(lang.getRelevantRules(JLanguageTool.getMessageBundle(),
+      null, null, Collections.emptyList()));
+    rules.addAll(lang.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null, null,
+            null, Collections.emptyList()));
+    for (Rule rule : rules) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {
           return SpellcheckSupport.NoSuggestion;
@@ -296,7 +294,7 @@ public final class RuleOverview {
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
         ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-        return confusionSetLoader.loadConfusionSet(confusionSetStream).size()/2;
+        return confusionSetLoader.loadConfusionPairs(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

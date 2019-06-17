@@ -23,10 +23,7 @@ import java.net.URL;
 import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -55,6 +52,8 @@ public abstract class Rule {
   private Category category;
   private URL url;
   private boolean defaultOff;
+  private boolean officeDefaultOn = false;
+  private boolean officeDefaultOff = false;
 
   public Rule() {
     this(null);
@@ -68,7 +67,7 @@ public abstract class Rule {
     if (messages != null) {
       setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
     } else {
-      setCategory(new Category(CategoryIds.MISC, "Misc"));
+      setCategory(new Category(CategoryIds.MISC, "Miscellaneous"));
     }
   }
 
@@ -99,6 +98,20 @@ public abstract class Rule {
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
   /**
+   * A number that estimates how many words there must be after a match before we
+   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
+   * where a match might occur and the word that gets typed next makes the match
+   * disappear (something one would obviously like to avoid).
+   * Note: this may over-estimate the real context size.
+   * Returns {@code -1} when the sentence needs to end to be sure there's a match.
+   * @since 4.5
+   */
+  @Experimental
+  public int estimateContextForSureMatch() {
+    return 0;
+  }
+    
+  /**
    * Overwrite this to avoid false alarms by ignoring these patterns -
    * note that your {@link #match(AnalyzedSentence)} method needs to
    * call {@link #getSentenceWithImmunization} for this to be used
@@ -107,6 +120,46 @@ public abstract class Rule {
    */
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return Collections.emptyList();
+  }
+
+  /**
+   * Overwrite this to return true, if a value may be configured by option panel
+   * @since 4.2
+   */
+  public boolean hasConfigurableValue() {
+    return false;
+  }
+
+  /**
+   * Overwrite this to get a default Integer value by option panel
+   * @since 4.1
+   */
+  public int getDefaultValue() {
+    return 0;
+  }
+
+  /**
+   * Overwrite this to define the minimum of a configurable value
+   * @since 4.2
+   */
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  /**
+   * Overwrite this to define the maximum of a configurable value
+   * @since 4.2
+   */
+  public int getMaxConfigurableValue() {
+    return 100;
+  }
+
+  /**
+   * Overwrite this to define the Text in the option panel for the configurable value
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return "";
   }
 
   /**
@@ -140,7 +193,7 @@ public abstract class Rule {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
               patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
     }
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
   
   /**
@@ -151,7 +204,11 @@ public abstract class Rule {
   public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
-      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
+      UserConfig config = new UserConfig();
+      List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
+          config, null, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
+      relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,
+        config, null, Collections.emptyList()));
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }
@@ -238,7 +295,7 @@ public abstract class Rule {
   }
 
   protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
-    return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+    return ruleMatches.toArray(new RuleMatch[0]);
   }
 
   /**
@@ -261,6 +318,40 @@ public abstract class Rule {
    */
   public final void setDefaultOn() {
     defaultOff = false;
+  }
+  
+  /**
+   * Checks whether the rule has been turned off by default for Office Extension by the rule author.
+   * @return True if the rule is turned off. Overrides the default for LO/OO.
+   * @since 4.0
+  */
+  public final boolean isOfficeDefaultOff() {
+    return officeDefaultOff;
+  }
+
+  /**
+   * Checks whether the rule has been turned on by default for Office Extension by the rule author.
+   * @return True if the rule is turned on. Overrides the default for LO/OO.
+   * @since 4.0
+   */
+  public final boolean isOfficeDefaultOn() {
+    return officeDefaultOn;
+  }
+
+  /**
+   * Turns the rule off for Office Extension by default.
+   * @since 4.0
+   */
+  public final void setOfficeDefaultOff() {
+    officeDefaultOff = true;
+  }
+
+  /**
+   * Turns the rule on for Office Extension by default.
+   * @since 4.0
+   */
+  public final void setOfficeDefaultOn() {
+    officeDefaultOn = true;
   }
   
   /**
@@ -311,7 +402,15 @@ public abstract class Rule {
    * @since 2.5
    */
   protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    incorrectExamples.add(incorrectSentence);
+    String correctExample = correctSentence.getExample();
+    int markerStart= correctExample.indexOf("<marker>");
+    int markerEnd = correctExample.indexOf("</marker>");
+    if (markerStart != -1 && markerEnd != -1) {
+      List<String> correction = Collections.singletonList(correctExample.substring(markerStart + "<marker>".length(), markerEnd));
+      incorrectExamples.add(new IncorrectExample(incorrectSentence.getExample(), correction));
+    } else {
+      incorrectExamples.add(incorrectSentence);
+    }
     correctExamples.add(correctSentence);
   }
 

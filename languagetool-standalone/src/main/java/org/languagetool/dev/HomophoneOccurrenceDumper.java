@@ -25,7 +25,7 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.File;
@@ -80,7 +80,7 @@ class HomophoneOccurrenceDumper extends LuceneSingleIndexLanguageModel {
     System.err.println("Loading confusion sets from " + confusionSetPath + ", minimum occurrence: " + MIN_COUNT);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(confusionSetPath);
-    Map<String,List<ConfusionSet>> map = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,List<ConfusionPair>> map = confusionSetLoader.loadConfusionPairs(inputStream);
     Set<String> confusionTerms = map.keySet();
     dumpOccurrences(confusionTerms);
   }

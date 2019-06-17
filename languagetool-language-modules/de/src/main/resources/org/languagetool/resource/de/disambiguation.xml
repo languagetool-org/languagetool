@@ -5,6 +5,9 @@
 German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
+  <!DOCTYPE rules [
+    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
+]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -109,7 +112,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <!-- "Der größte und schönste Tempel" -->
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
+                <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <unify-ignore>
                     <token>und</token>
@@ -124,7 +127,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
-                <token regexp="yes">d(e[nr]|ie|as|iese[rs])|eine?|sein|ihr</token>
+                <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
@@ -136,11 +139,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!-- "Am Strand stehen schöne Häuser"-->
-                <token postag="ADJ:.*" postag_regexp="yes"/>
-                <token postag="SUB:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*" postag_regexp="yes"><exception>liebe</exception></token>
+                <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.+:SOL" postag_regexp="yes" regexp="yes">[A-Z].+</exception></token>
             </unify>
         </pattern>
         <disambig action="unify"/>
+        <example type="untouched">Gegen eine schwache Wiener Austria holte das Schlusslicht einen 1:0-Heimerfolg.</example>
+        <example type="untouched">Ich liebe Lachs.</example>
     </rule>
 
     <rule name="NP unify 4" id="UNIFY_4">
@@ -171,454 +176,900 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_1">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;iges</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:NEU:GRU:IND"/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_2">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;iges</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:NEU:GRU:IND "/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_3">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;iges</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:NEU:GRU:SOL "/></disambig>
     </rule>
 
     <rule name="-jähriges UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_4">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iges</token>
+            <token regexp="yes">&zal_adj;iges</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:NEU:GRU:SOL "/></disambig>
     </rule>
 
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_5">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos=""/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_6">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_7">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_8">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_9">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:NEU:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_10">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_11">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_12">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_13">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_14">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_15">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_16">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:NEU:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_17">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_18">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_19">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_20">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährige UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_21">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)ige</token>
+            <token regexp="yes">&zal_adj;ige</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_22">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_23">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_24">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_25">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:NEU:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_26">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_27">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_28">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jähriger UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_29">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)iger</token>
+            <token regexp="yes">&zal_adj;iger</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:SIN:MAS:GRU:SOL "/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_30">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_31">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_32">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_33">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_34">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_35">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:PLU:NEU:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_36">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_37">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_38">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:AKK:SIN:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_39">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_40">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_41">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:FEM:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_42">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_43">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_44">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_45">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_46">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_47">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_48">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_49">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_50">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_51">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_52">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_53">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:DAT:SIN:NEU:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_54">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_55">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_56">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_57">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_58">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_59">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:PLU:NEU:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_60">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_61">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_62">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_63">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_64">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:MAS:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_65">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_66">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:NEU:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_67">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:GEN:SIN:NEU:GRU:SOL"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_68">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:FEM:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_69">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:FEM:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_70">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:MAS:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_71">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:MAS:GRU:IND"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_72">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:NEU:GRU:DEF"/></disambig>
     </rule>
     <rule name="-jährigen UNKNOWN -> ADJ" id="NUMBER_COMPOUND_ADJECTIVE_73">
         <pattern>
-            <token regexp="yes">(?-i)\d+-(jähr|bänd|seit|monat)igen</token>
+            <token regexp="yes">&zal_adj;igen</token>
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:NEU:GRU:IND"/></disambig>
     </rule>
-
+    <rule name="60ern -> SUB" id="NUMBER_COMPOUND_NOUN_1">
+        <pattern>
+            <token regexp="yes">\d{2,4}ern</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:AKK:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60ern -> SUB" id="NUMBER_COMPOUND_NOUN_2">
+        <pattern>
+            <token regexp="yes">\d{2,4}ern</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:DAT:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_3">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:NOM:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:GEN:PLU:FEM"/></disambig>
+    </rule>
+    <!-- Treat "60er" in "in den 60er Jahren" as adjective -->
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_1">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:DEF"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_2">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:IND"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_3">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:SOL"/></disambig>
+    </rule>
+    <rule name="lebenswerten (VER) -> lebenswerten ()" id="LEBENSWERTEN">
+        <pattern>
+            <marker>
+                <token regexp="yes">l(eb|ohn)enswerten?|achtenswerten?|ehrenswerten?|rühmenswerten?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token case_sensitive="yes">Ich</token>
+                <marker>
+                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
+            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Ich <marker>sage</marker> ihr die Wahrheit.</example>
+        </rule>
+        <rule name="Ich am Satzanfang" id="ICH_SENT_START">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>Ich</token>
+                </marker>
+                <token postag="VER:1:.+" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SUB:.*:NEU"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="VER -> PA2" id="VER_PA2">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="10">sein
+                    <exception>sein</exception>
+                    <exception postag="PKT" scope="next"></exception>
+                </token>
+                <marker>
+                    <and>
+                        <token postag=".*PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:[123].+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token>worden</token>
+                <token postag="PKT"></token>
+            </pattern>
+            <disambig action="filter" postag=".*PA2.*"/>
+            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]">Er ist gestern <marker>verhaftet</marker> worden.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes" skip="2">wurde(n|st)?</token>
+                <marker>
+                    <and>
+                        <token postag=".*PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:[123].+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="PKT"></token>
+            </pattern>
+            <disambig action="filter" postag=".*PA2.*"/>
+            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]">Er wurde gestern <marker>verhaftet</marker>.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup name="um...zu -> um (KON:INF)" id="UM_KON_INF">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>,</token>
+                <marker>
+                    <token skip="7">um<exception scope="next">,</exception></token>
+                </marker>
+                <token>zu</token>
+                <token postag="VER:INF:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="filter" postag="KON:INF"/>
+            <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> ihm zu helfen.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>,</token>
+                <marker>
+                    <token skip="5">um</token>
+                </marker>
+                <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="filter" postag="KON:INF"/>
+            <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
+        </rule>
+    </rulegroup>
+    <rule name="WORKAROUND_GH_635" id="WORKAROUND_GH_635">
+        <!-- workaround for github issue mentioned in  https://github.com/languagetool-org/languagetool/issues/635 -->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>-</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".+"/>
+    </rule>
+    <rule name="FIDEL" id="FIDEL">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Fidel</token>
+            </marker>
+            <token regexp="yes">Castros?</token>
+        </pattern>
+        <disambig action="remove" postag=".+:FEM"/>
+    </rule>
+    <rule id="HOCHDRAMATISCH" name="kein Verb: charismatischen / hochdramatischen">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token inflected="yes" regexp="yes">(charis|hochdra)matischen|minimalistischen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
+    <rule id="FASSUNGSLOS" name="kein Substantiv: Fassungslos">
+        <pattern case_sensitive="yes">
+            <token>
+                <exception postag="SENT_START"/>
+                <exception regexp="yes">\W</exception>
+            </token>
+            <marker>
+                <token postag="SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-zäöüß]+ungslose?</token>
+            </marker>
+        </pattern>
+        <disambig postag="ADJ:PRD:GRU"/>
+        <example type="untouched">„Fassungslos bestieg sie das Schiff.“</example>
+        <example type="untouched">Erbarmungslos bestieg sie das Schiff.</example>
+    </rule>
+    <rule id="BITTE" name="kein Verb: 'bitte' am Satzende">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>bitte</token>
+            </marker>
+            <token postag="PKT" regexp="yes">[\.!]</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+        <example type="untouched">Und wenn ich dich ganz lieb bitte?</example>
+    </rule>
+    <rule id="RECHTSCHAFFEN" name="kein Verb: rechtschaffen">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>rechtschaffen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
+    <rule id="ZU_MIT_INFINITIV" name="Infinitiv nach 'zu'">
+        <pattern case_sensitive="yes">
+            <token>zu</token>
+            <marker>
+                <token postag="VER:INF:.+" postag_regexp="yes"/>
+            </marker>
+            <token postag="PKT|KON:NEB" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3]:.+"/>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker>.</example>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">"Sie kommen, um dich zu <marker>sehen</marker>."</example>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker> und dich zu pflegen.</example>
+    </rule>
+    <rule id="MODALVERB_MIT_INFINITIV" name="Infinitiv mit Modalverb">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+            </marker>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3]:.+"/>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Ich glaube nicht , dass er es <marker>sehen</marker> wird.</example>
+    </rule>
+    <rule id="MODALVERB_MIT_INFINITIV_2" name="Infinitiv mit Modalverb">
+        <pattern case_sensitive="yes">
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <marker>
+                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3]:.+"/>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Er kann <marker>sehen</marker>.</example>
+    </rule>
+    <rule id="RIW" name="Reit im Winkl">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Reit</token>
+            </marker>
+            <token>im</token>
+            <token>Winkl</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
+    <rule id="WUERDIGE" name="eine würdige (keine Verbform)">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[kdms]?eine|die(se)?|viele</token>
+            <marker>
+                <token>würdige</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
+    <rule id="ZAHLEN" name="Zahlen">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb(en)?|acht|neun)(zehn|zig|hundert|tausend){0,2}((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieb(en)?|acht|neun)(.*zehn|.*zig)?)?<exception postag="ZAL"/></token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="ZAL"/></disambig>
+        <example type="ambiguous" inputform="achtzig[achtzig]" outputform="achtzig[achtzig/ZAL]">Er hat <marker>achtzig</marker> Pfennige.</example>
+    </rule>
+    <rulegroup id="KOENNEN" name="Können">
+        <rule>
+            <pattern>
+                <token regexp="yes">\W</token>
+                <marker>
+                    <token case_sensitive="yes">Können</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="können" pos="VER:MOD:1:PLU:KJ1">können</wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\W</token>
+                <marker>
+                    <token case_sensitive="yes">Können</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="können" pos="VER:MOD:1:PLU:PRÄ">können</wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\W</token>
+                <marker>
+                    <token case_sensitive="yes">Können</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="können" pos="VER:MOD:3:PLU:KJ1">können</wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\W</token>
+                <marker>
+                    <token case_sensitive="yes">Können</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="können" pos="VER:MOD:3:PLU:PRÄ">können</wd></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="KONJUNKTIV" name="Konjunktiv">
+        <rule>
+            <pattern>
+                <token regexp="yes">e[rs]|sie</token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Sie sagte, er <marker>ginge</marker> jetzt.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ich</token>
+                <marker>
+                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:3:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:1:SIN:KJ2:NON]">Sie sagte, ich <marker>ginge</marker> merkwürdig.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception><exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+                <token><exception>ich</exception></token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Sie sagte, wenn der Mann <marker>ginge</marker>, könne man beginnen.</example>
+            <example type="untouched">Seit er mich angelogen hat, spreche ich nicht mehr mit ihm.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
+            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Weil sie es wollte, <marker>sage</marker> ich ihr diw Wahrheit.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="TASCHENMESSER" name="Taschenmesser">
+        <rule>
+            <pattern>
+                <token inflected="yes">Taschenmesser</token>
+            </pattern>
+            <disambig action="remove" postag="SUB:.*:MAS"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ICH_LIEBE" name="ich liebe ... (liebe als Verb)">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Ich</token>
+                <marker><token regexp="yes">liebe|vertraute</token></marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="RETTUNGSWAGEN" name="Rettungswagen keine Verbform">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(Rettungs|Kranken)wagen|[A-Z][a-zäöüß]{4,}(schmerzen|strecken)</token>
+            </pattern>
+            <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="DIREKTVERTRIEB" name="Kompositum mit 'Vertrieb' keine Verbform">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Z].+vertrieb</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="SUB_PRT_VERB" name="Entferne Präteritum von Substantiv">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token><exception postag="SENT_START"/><exception regexp="yes">[:;]</exception></token>
+                <marker>
+                    <and>
+                        <token postag="SUB:.+" postag_regexp="yes"/>
+                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+            <example type="ambiguous" inputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS,abstehen/VER:1:SIN:PRT:NON:NEB,abstehen/VER:3:SIN:PRT:NON:NEB]" outputform="Abstand[Abstand/SUB:AKK:SIN:MAS,Abstand/SUB:DAT:SIN:MAS,Abstand/SUB:NOM:SIN:MAS]">Ich habe Verständnis und halte <marker>Abstand</marker>.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="PA2_PRT_VERB" name="Entferne Präteritum von Partizip">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">ein|der</token>
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">[a-zäöü].+</token>
+                    </and>
+                </marker>
+                <token postag="SUB:.+" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="PA2_WERDEN" name="Entferne Adjektiv von Partizip">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"></token>
+                    </and>
+                </marker>
+                <token regexp="yes">w[eo]rden</token>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="3">werden<exception scope="next" postag="PKT"/></token>
+                <marker>
+                    <and>
+                        <token postag="PA2:.+" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"></token>
+                    </and>
+                </marker>
+                <token postag="PKT"></token>
+            </pattern>
+            <disambig action="remove" postag="ADJ:PRD:GRU"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="RARE_PRT" name="Entferne Präteritum">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token><exception>ihr</exception></token>
+                <marker>
+                    <token>schlicht</token>
+                </marker>
+                <token><exception>ihr</exception></token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+"/>
+        </rule>
+    </rulegroup>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="x-geschossig" id="X_GESCHOSSIG">
+    <!-- 3-geschossig etc. -->
+        <pattern>
+            <token regexp="yes">\d+-(geschoss|stöck|wöch|teil|räum|köpf)ig(e[mnrs]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
-            <token regexp="yes">vogue|gros|masse|passant|détail</token>
+            <token regexp="yes">bloc|vogue|gros|masse|miniature|passant|détail|suite|fa(mill|c)e|garde|route|suite</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -638,7 +1089,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    
     <rule name="Mise en scène" id="MISE_EN_SCENE">
         <pattern>
             <token>Mise</token>
@@ -661,7 +1112,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Crème fraîche/brûlée" id="CREME_FRAICHE">
         <pattern case_sensitive="yes">
             <token>Crème</token>
-            <token regexp="yes">brûlée|fraîche</token>
+            <token regexp="yes">br[ûu]lée|Caramel|double|fraîche</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -687,6 +1138,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>corps</token>
             <token>diplomatique</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="rien ne va plus" id="RIEN_NE_VA_PLUS">
+        <pattern>
+            <token>rien</token>
+            <token>ne</token>
+            <token>va</token>
+            <token>plus</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -720,7 +1181,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Tour</token>
             <token>de</token>
-            <token regexp="yes">Force|France</token>
+            <token regexp="yes">F(or|ran)ce</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -730,7 +1191,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">Tours?</token>
             <token>d</token>
             <token regexp="yes">['’]</token>
-            <token regexp="yes">Honneur|Horizon</token>
+            <token regexp="yes">Ho(nneur|rizon)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -811,11 +1272,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Casus" id="CASUS">
+        <pattern>
+            <token>Casus</token>
+            <token regexp='yes'>Belli|Foederis|knacksus|obliquus|rectus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="Sambal Oelek" id="SAMBAL_OELEK">
         <pattern case_sensitive="yes">
             <token>Sambal</token>
             <token>Oelek</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule name="Pulled Pork" id="PULLED_PORK">
+        <pattern case_sensitive="yes">
+            <token>Pulled</token>
+            <token>Pork</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -831,7 +1307,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Sierra Madre" id="SIERRA_MADRE">
         <pattern case_sensitive="yes">
             <token>Sierra</token>
-            <token>Madre</token>
+            <token regexp="yes">Madre|Negra</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -839,7 +1315,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Los Angeles" id="LOS_ANGELES">
         <pattern>
             <token>Los</token>
-            <token regexp="yes">Alamos|Angeles</token>
+            <token regexp="yes">A(lamo|ngele)s</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -847,15 +1323,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Las Vegas" id="LAS_VEGAS">
         <pattern case_sensitive="yes">
             <token>Las</token>
-            <token>Vegas</token>
+            <token regexp="yes">Ramblas|Vegas</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
-
+    <rule name="ABBEY" id="ABBEY">
+        <pattern case_sensitive="yes">
+            <token>Westminster</token>
+            <token>Abbey</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule name="Valleys" id="VALLEYS">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Death|Silicon</token>
-            <token>Valley</token>
+            <token regexp="yes">Death|Napa|Silicon</token>
+            <token regexp="yes">Valleys?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -886,10 +1368,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="World Trade Center" id="WTC">
+        <pattern case_sensitive="yes">
+            <token>World</token>
+            <token>Trade</token>
+            <token regexp="yes">Centers?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Social Media" id="SOCIAL_MEDIA">
         <pattern case_sensitive="yes">
             <token>Social</token>
-            <token>Media</token>
+            <token regexp="yes">Bot|Media|Engineering</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -953,9 +1444,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="La Paz" id="LA_PAZ">
-        <pattern>
+        <pattern case_sensitive="yes">
             <token>La</token>
-            <token>Paz</token>
+            <token regexp="yes">Paz|[Tt]raviata|Rambla</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -979,7 +1470,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Le Havre/Le Mans" id="LE_HAVRE">
         <pattern>
             <token>Le</token>
-            <token regexp='yes'>Havre|Mans|Monde|Pens?</token>
+            <token regexp='yes'>Havre|Mans|Monde|Pens?|Corbusiers?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1008,9 +1499,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="Open-Source-Software" id="OPEN_SOURCE_SOFTWARE">
-        <pattern>
-            <token>Open-Source-Software</token>
+    <rule name="Visual Studio/Basic" id="VISUAL_STUDIO">
+        <pattern case_sensitive="yes">
+            <token>Visual</token>
+            <token regexp="yes">Studio|Basic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="European Standardisation" id="EUROPEAN_STANDARDISATION">
+        <pattern case_sensitive="yes">
+            <token>European</token>
+            <token>Standardisation</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1033,7 +1533,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="Ein und Alles" id="EIN_UND_ALLES">
         <pattern>
-            <!-- http://canoo.net/blog/2008/11/14/zum-einen-zum-anderen/ -->
+            <!-- http://canoonet.eu/blog/2008/11/14/zum-einen-zum-anderen/ -->
             <token>Ein</token>
             <token>und</token>
             <token>Alles</token>
@@ -1044,7 +1544,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">Ben|Data|Bang</token>
+            <token regexp="yes">Apple|B(en|an[dg]|rother)|Data</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1065,6 +1565,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="nomen est omen" id="NOMEN_EST">
+        <pattern>
+            <token>nomen</token>
+            <token case_sensitive="yes">est</token>
+            <token case_sensitive="yes">omen</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="habeas corpus" id="HABEAS_CORPUS">
+        <pattern>
+            <token>habeas</token>
+            <token>corpus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+        <rule name="habemus Papam" id="HABEMUS_PAPAM">
+        <pattern>
+            <token>habemus</token>
+            <token>Papam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="et al." id="ET_AL">
         <pattern>
             <token>et</token>
@@ -1131,6 +1653,24 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="argumentum ad ..." id="ARGUMENTUM_AD">
+        <pattern>
+            <token>argumentum</token>
+            <token>ad</token>
+            <token regexp="yes">antiquitatem|misericordiam|passiones|hominem|veritatem|personam|populum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="similia similibus curantur" id="SIMILIA_SIMILIBUS">
+        <pattern>
+            <token>similia</token>
+            <token>similibus</token>
+            <token>curantur</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="tu quoque" id="TU_QUOQUE">
         <pattern>
             <token>tu</token>
@@ -1144,7 +1684,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>homo</token>
             <token>homini</token>
             <token>lupus</token>
-            <token min="0">est</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1186,7 +1725,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="homo faber" id="HOMO_FABER">
         <pattern case_sensitive="yes">
             <token>Homo</token>
-            <token regexp="yes">faber|ludens</token>
+            <token regexp="yes">erectus|faber|habilis|ludens|neanderthalensis|novus|oeconomicus|oecologicus</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1257,7 +1796,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="mutatis mutandis" id="MUTATIS_MUTANDIS">
+        <pattern>
+            <token>mutatis</token>
+            <token>mutandis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="in dubio pro reo" id="IN_DUBIO">
         <pattern>
             <token>in</token>
@@ -1276,6 +1821,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="pax/dominus vobiscum" id="VOBISCUM">
+        <pattern>
+            <token regexp="yes">pax|dominus</token>
+            <token>vobiscum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="sensu stricto/lato" id="SENSU_LATO">
         <pattern>
             <token>sensu</token>
@@ -1287,7 +1840,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="in praesentia" id="IN_PRAESENTIA">
         <pattern>
             <token>in</token>
-            <token regexp="yes">(ab|prae)sentia|memoriam</token>
+            <token regexp="yes" case_sensitive="yes">(ab|prae)sentia|memoriam|effectu</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1344,7 +1897,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="ex nihilo" id="EX_NIHILO">
         <pattern>
             <token>ex</token>
-            <token>nihilo</token>
+            <token regexp="yes">aequo|nihilo</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1377,7 +1930,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Terra incognita" id="TERRA_INCOGNITA">
         <pattern>
             <token>terra</token>
-            <token>incognita</token>
+            <token regexp="yes">incognita|preta</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1490,7 +2043,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="avant la lettre" id="AVANT_LA_LETTRE">
         <pattern>
-            <token>avant</token>
+            <token regexp="yes">avant|avec|après</token>
             <token>la</token>
             <token>lettre</token>
         </pattern>
@@ -1518,15 +2071,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Air Force" id="AIR_FORCE">
         <pattern>
             <token>Air</token>
-            <token regexp="yes">F(orce|rance)</token>
+            <token regexp="yes">F(or|ran)ce|Berlin</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="Air Force One" id="AIR_FORCE_ONE">
+        <pattern case_sensitive="yes">
+            <token>Air</token>
+            <token>Force</token>
+            <token>One</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="cui bono" id="CUI_BONO">
         <pattern>
-            <token>Cui</token>
-            <token>Bono</token>
+            <token>cui</token>
+            <token>bono</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1534,8 +2094,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="In- und Ausland" id="IN_UND_AUSLAND">
         <pattern>
             <token>In-</token>
-            <token regexp='yes'>und|oder|beziehungsweise</token>
-            <token>Ausland</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|beziehungsweise</token>
+            <token regexp="yes" case_sensitive="yes">Ausland|außerhalb</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1602,7 +2162,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- http://www.korrekturen.de/wortliste/fair_play.shtml -->
         <pattern case_sensitive="yes">
             <token>Fair</token>
-            <token>Play</token>
+            <token regexp="yes">Play|Trade</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1611,10 +2171,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>University</token>
             <token>of</token>
+            <token regexp="yes">[A-Z][a-z]+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rule name="Yad Vashem" id="YAD_VASHEM">
         <pattern>
             <token>Yad</token>
@@ -1626,7 +2186,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="El Niño" id="EL_NINO">
         <pattern>
             <token>El</token>
-            <token>Niño</token>
+            <token regexp="yes">Niño|Salvador|Paso</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1690,6 +2250,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="ceteris paribus" id="CETERIS_PARIBUS">
+        <pattern>
+            <token>ceteris</token>
+            <token>paribus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="pacta" id="PACTA_SUNT_SERVANDA">
         <pattern>
             <token>pacta</token>
@@ -1706,13 +2274,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
-    <rule name="Grand Canyon" id="GRAND_CANYON">
-        <pattern>
-            <token>Grand</token>
-            <token regexp='yes'>Canyon|Prix|Slam|Hyatt</token>
+    <rule name="High" id="HIGH">
+        <pattern case_sensitive="yes">
+            <token>High</token>
+            <token regexp='yes'>Noon|Potential|Society</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Grand Canyon" id="GRAND_CANYON">
+        <pattern case_sensitive="yes">
+            <token>Grand</token>
+            <token regexp='yes'>Canyons?|Jury|Slams?|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="die Grand Jury" id="GRAND_JURY">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[dD]ie</token>
+            <token>Grand</token>
+            <token>Jury</token>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
 
     <rule name="horribile dictu" id="HORRIBILE_DICTU">
@@ -1750,7 +2332,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Potz Blitz" id="POTZ_BLITZ">
         <pattern>
             <token>potz</token>
-            <token regexp="yes">Blitz|Blut|Donner|Donnerwetter|Marter|Teufel</token>
+            <token regexp="yes">Blitz|Blut|Donner(wetter)?|Marter|Teufel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1797,8 +2379,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="Fifth Avenue" id="FIFTH_AVENUE">
-        <pattern>
-            <token>Fifth</token>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Fifth|5th</token>
             <token>Avenue</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -1855,7 +2437,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="immunize"/>
     </rule>
-
+    <rule name="American Dream" id="AMERICAN_DREAM">
+        <pattern case_sensitive="yes">
+            <token>American</token>
+            <token regexp="yes">Airlines|Dream|Express|Football</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Financial Times" id="FINANCIAL_TIMES">
         <pattern case_sensitive="yes">
             <token>Financial</token>
@@ -1897,15 +2485,24 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="virtual" id="VIRTUAL_REALITY">
-        <pattern>
+    <rule name="virtual" id="VPN">
+        <pattern case_sensitive="yes">
             <token>Virtual</token>
-            <token regexp="yes">Reality|Environments?</token>
+            <token>Private</token>
+            <token>Network</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <!-- Eigennamen -->
+    <rule name="Umberto Eco" id="UMBERTO_ECO">
+        <pattern>
+            <token>Umberto</token>
+            <token regexp="yes">Ecos?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="François Hollande" id="FRANCOIS_HOLLANDE">
         <pattern>
             <token>François</token>
@@ -2047,10 +2644,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="Zeit- und Längeneinheiten" id="EINHEITEN">
-        <pattern>
+    <rule name="Energie-, Zeit- und Längeneinheiten" id="EINHEITEN">
+        <pattern case_sensitive="yes">
             <token regexp="yes">\d+</token>
-            <token regexp="yes">[hμnpf][ms]<exception>hs</exception></token>
+            <token regexp="yes">[hμnpf][ms]|[MG]?eV<exception>hs</exception></token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2143,7 +2740,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Google Maps" id="GOOGLE_MAPS">
         <pattern case_sensitive="yes">
             <token>Google</token>
-            <token regexp="yes">Maps|Drive|Docs</token>
+            <token regexp="yes">Ads|Assistant|Docs|Drive|Earth|Groups|Hangouts|Maps|Wallet</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2208,7 +2805,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="Parks" id="PARKS">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Central|Hyde</token>
+            <token regexp="yes">Bletchley|Central|Hyde</token>
             <token>Park</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -2249,7 +2846,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Mexico" id="MEXICO">
         <pattern case_sensitive="yes">
             <token>New</token>
-            <token regexp="yes">Haven|Mexico</token>
+            <token regexp="yes">Haven|Mexico|Age|Economy</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2274,7 +2871,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Little Boy" id="LITTLE_BOY">
         <pattern case_sensitive="yes">
             <token>Little</token>
-            <token>Boy</token>
+            <token regexp="yes">Bighorn|Boy|Italy|John|Rock</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2282,14 +2879,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Fat Man" id="FAT_MAN">
         <pattern>
             <token>Fat</token>
-            <token>Man</token>
+            <token regexp="yes">Client|Man</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Moulin Rouge" id="MOULIN_ROUGE">
       <pattern case_sensitive="yes">
-        <token>Moulin</token>
+        <token regexp="yes">Baton|Moulin</token>
         <token>Rouge</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2315,6 +2912,222 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>Happy</token>
         <token>End</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Pietra dura" id="PIETRA_DURA">
+      <pattern case_sensitive="yes">
+        <token>Pietra</token>
+        <token>dura</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Tadsch Mahal" id="TADSCH_MAHAL">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Ta(dsch|j)</token>
+        <token regexp="yes">Mahals?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Royal Society" id="ROYAL_SOCIETY">
+      <pattern case_sensitive="yes">
+        <token>Royal</token>
+        <token regexp="yes">Academy|British|Navy|Society</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Institute of Technology" id="MIT">
+      <pattern case_sensitive="yes">
+        <token>Institute</token>
+        <token>of</token>
+        <token>Technology</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="68ern" id="ZAHL_ERN">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d{2,4}ern?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Mont" id="MONT">
+      <pattern case_sensitive="yes">
+        <token>Mont</token>
+        <token regexp="yes">Blanc|Ventoux|Vully</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Primus" id="PIP">
+      <pattern>
+        <token>Primus</token>
+        <token>inter</token>
+        <token>Pares</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Prince" id="PRINCE">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Prince(ss)?</token>
+        <token>of</token>
+        <token>Wales</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Press" id="PRESS">
+      <pattern case_sensitive="yes">
+        <token>University</token>
+        <token>Press</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Hotdog" id="HOTDOG">
+      <pattern case_sensitive="yes">
+        <token>Hot</token>
+        <token>Dog</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ich stehe kopf" id="KOPFSTEHEN">
+      <pattern>
+        <token inflected="yes">stehen</token>
+        <token case_sensitive="yes">kopf</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Machu Picchu" id="MACHU_PICCHU">
+      <pattern case_sensitive="yes">
+        <token>Machu</token>
+        <token>Picchu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="-köpfig" id="KOEPFIG">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d+-köpfige[mnsr]?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Bachelor/Master of Arts" id="OF_ARTS">
+      <pattern case_sensitive="yes">
+        <token>of</token>
+        <token regexp="yes">Arts|Business|Engineering|Laws|Science</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Low Carb" id="LOW_CARB">
+      <pattern case_sensitive="yes">
+        <token>Low</token>
+        <token>Carb</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Corporate" id="CORPORATE">
+      <pattern case_sensitive="yes">
+        <token>Corporate</token>
+        <token regexp="yes">Designs?|Identit(ies|y)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Cosa Nostra" id="COSA">
+      <pattern case_sensitive="yes">
+        <token>Cosa</token>
+        <token>Nostra</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Fleur" id="FLEUR">
+      <pattern case_sensitive="yes">
+        <token>Fleur</token>
+        <token>de</token>
+        <token>Sel</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Abkürzungen" id="UPPERCASE_ABBREVIATIONS">
+      <pattern case_sensitive="yes">
+        <token>(</token>
+        <token spacebefore="no" regexp="yes">[A-Z]{2,3}</token>
+        <token spacebefore="no">)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="sch (Ohm'sches Gesetz)" id="SCH">
+      <pattern case_sensitive="yes">
+        <token spacebefore="no" regexp="yes">['´’]</token>
+        <token spacebefore="no" regexp="yes">sche[rmns]?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Reit im Winkl" id="REIT_IM_WINKL">
+      <pattern case_sensitive="yes">
+        <token>Reit</token>
+        <token>im</token>
+        <token>Winkl</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="à la" id="A_LA">
+      <pattern case_sensitive="yes">
+        <token>à</token>
+        <token>la</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Long Island" id="LONG_ISLAND">
+      <pattern case_sensitive="yes">
+        <token>Long</token>
+        <token regexp="yes">Beach|Island</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Cape Cod" id="CAPE_COD">
+      <pattern case_sensitive="yes">
+        <token>Cape</token>
+        <token regexp="yes">C(anaveral|od|oral)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Kottbusser" id="KOTTBUSSER">
+      <pattern case_sensitive="yes">
+        <token>Kottbusser</token>
+        <token regexp="yes">Brücke|Damms?|Tors?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Al Kaida" id="AL">
+      <pattern case_sensitive="yes">
+        <token>Al</token>
+        <token regexp="yes">Capones?|Gores?|Jazeeras?|Kaidas?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="hin- und hergerissen" id="HIN_HER">
+      <pattern case_sensitive="yes">
+        <marker><token regexp="yes">(a[bn]|auf|hin|nach|vor|zurück)-</token></marker>
+        <token postag="KON:.+" postag_regexp="yes"></token>
+        <token regexp="yes">(a[bn]|auf|her|hin|nach|vor|weg|zurück)\w+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Allahu akbar" id="ALLAHU_AKBAR">
+      <pattern>
+        <token case_sensitive="yes">Allahu</token>
+        <token>akbar</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="al dente" id="AL_DENTE">
+      <pattern case_sensitive="yes">
+        <token>al</token>
+        <token regexp="yes">dente|diavolo|fine|pari</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="MANUS" id="MANUS">
+      <pattern>
+        <token>manus</token>
+        <token>manum</token>
+        <token>lavat</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

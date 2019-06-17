@@ -40,12 +40,12 @@ public class RuleWithMaxFilterTest {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
     PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    RuleMatch match1 = new RuleMatch(rule1, null, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches1.size());
-    RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
+    RuleMatch match3 = new RuleMatch(rule2, null, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
     assertEquals(1, filteredMatches2.size());
   }
@@ -55,8 +55,8 @@ public class RuleWithMaxFilterTest {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
     PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
+    RuleMatch match1 = new RuleMatch(rule1, null, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, null, 21, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches.size());
@@ -67,12 +67,12 @@ public class RuleWithMaxFilterTest {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
     Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    RuleMatch match1 = new RuleMatch(rule1, null, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches1.size());
-    RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
+    RuleMatch match3 = new RuleMatch(rule2, null, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
     assertEquals(2, filteredMatches2.size());
   }
@@ -93,7 +93,7 @@ public class RuleWithMaxFilterTest {
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {
-    return new RuleMatch(new FakeRule(), fromPos, toPos, "FakeMatch1");
+    return new RuleMatch(new FakeRule(), null, fromPos, toPos, "FakeMatch1");
   }
 
 }

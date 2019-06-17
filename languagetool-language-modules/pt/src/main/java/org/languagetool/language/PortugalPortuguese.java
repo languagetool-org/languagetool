@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseDashRule;
@@ -42,9 +44,9 @@ public class PortugalPortuguese extends Portuguese {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
+    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
     rules.add(new PostReformPortugueseDashRule());
     rules.add(new PortugalPortugueseReplaceRule(messages));
@@ -58,6 +60,6 @@ public class PortugalPortuguese extends Portuguese {
       case "PT_COMPOUNDS_POST_REFORM":         return  1;
       case "PORTUGUESE_OLD_SPELLING_INTERNAL": return -9;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

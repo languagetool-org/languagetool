@@ -39,15 +39,24 @@ public final class PatternTestTools {
 
   // These characters should not be present in token values as they split tokens in all languages.
   private static final Pattern TOKEN_SEPARATOR_PATTERN = Pattern.compile("[ 	.,:;…!?(){}<>«»\"]");
+  private static final Pattern TOKEN_SEPARATOR_PATTERN_NO_DOT = Pattern.compile("[ 	,:;…!?(){}<>«»\"]");
 
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(\\\\[dDsSwW])|.*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
 
   // Polish POS tags use dots, so do not consider the presence of a dot
   // as indicating a probable regular expression.
-  private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
+  private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile("(\\\\[dDsSwW])|.*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("\\[^?([^\\]]+)\\]");
   private static final Pattern STRICT_CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
+
+  /*
+   * These strings are not be recognized as a regular expression
+   */
+  private static final Set<String> NO_REGEXP = new HashSet<>(Arrays.asList(
+    "PRP:LOK+TMP+MOD:DAT+AKK", "AUX:ind+pres+3+p"
+    ));
+
 
   private PatternTestTools() {
   }
@@ -108,14 +117,19 @@ public final class PatternTestTools {
         for (PatternToken exception: pToken.getExceptionList()) {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
-          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
-            System.err.println("The " + lang + " rule: "
-                    + ruleId + "[" + ruleSubId + "]"
-                    + " (exception in token [" + i + "])"
-                    + " has no skip=\"...\" and yet contains scope=\"next\""
-                    + " so the exception never applies."
-                    + " Did you forget skip=\"...\"?");
-          }
+          
+          // We now allow scope="next" without skip="..."
+          if (exception.hasNextException())
+            continue;
+
+//          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
+//            System.err.println("The " + lang + " rule: "
+//                    + ruleId + "[" + ruleSubId + "]"
+//                    + " (exception in token [" + i + "])"
+//                    + " has no skip=\"...\" and yet contains scope=\"next\""
+//                    + " so the exception never applies."
+//                    + " Did you forget skip=\"...\"?");
+//          }
 
           // Detect exception that can't possibly be matched.
           if ( !pToken.getString().isEmpty()
@@ -317,7 +331,13 @@ public final class PatternTestTools {
     if (!isPos && !isRegularExpression && stringValue.length() > 1) {
       // Example: <token>foo bar</token> can't be valid because
       // token value contains a space which is a token separator.
-      if (TOKEN_SEPARATOR_PATTERN.matcher(stringValue).find()) {
+
+      // Ukrainian dictionary contains some abbreviations with dot
+      Pattern tokenSeparatorPattern = lang.getShortCode().equals("uk")
+    		  ? TOKEN_SEPARATOR_PATTERN_NO_DOT
+    		  : TOKEN_SEPARATOR_PATTERN;
+
+      if (tokenSeparatorPattern.matcher(stringValue).find()) {
         System.err.println("The " + lang + " rule: "
                 + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
                 + "\" that contains token separators, so can't possibly be matched.");
@@ -328,11 +348,12 @@ public final class PatternTestTools {
     // since Polish uses dot '.' in POS tags. So a dot does not indicate that
     // it's a probable regexp for Polish POS tags.
     Pattern regexPattern = (isPos && lang.getShortCode().equals("pl"))
-            ? PROBABLE_PATTERN_PL_POS // Polish POS tag.
-            : PROBABLE_PATTERN;       // something else than Polish POS tag.
+        || (!isPos && lang.getShortCode().equals("uk"))
+            ? PROBABLE_PATTERN_PL_POS // Polish POS tag or Ukrainian token
+            : PROBABLE_PATTERN;       // other usual cases
 
     if (!isRegularExpression && stringValue.length() > 1
-            && regexPattern.matcher(stringValue).find()) {
+            && regexPattern.matcher(stringValue).find() && !NO_REGEXP.contains(stringValue)) {
       System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
               + "\" that is not marked as regular expression but probably is one.");
@@ -416,7 +437,7 @@ public final class PatternTestTools {
                   + ruleId + ", token [" + tokenIndex + "], contains empty "
                   + "disjunction | within " + "\"" + stringValue + "\".");
         }
-        String[] groups = stringValue.split("\\)");
+        String[] groups = stringValue.split("\\)|\\(");
         for (String group : groups) {
           String[] alt = group.split("\\|");
           Set<String> partSet = new HashSet<>();

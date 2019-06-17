@@ -24,9 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.BritishReplaceRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class BritishEnglish extends English {
 
@@ -41,11 +44,22 @@ public class BritishEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
+    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new BritishReplaceRule(messages));
-    rules.add(new MorfologikBritishSpellerRule(messages, this));
+    rules.add(new MorfologikBritishSpellerRule(messages, this, userConfig, altLanguages));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "OXFORD_SPELLING_ISATION_NOUNS": return -20;
+      case "OXFORD_SPELLING_ISE_VERBS":     return -21;
+      case "OXFORD_SPELLING_IZE":           return -22;
+    }
+    return super.getPriorityForId(id);
   }
 }

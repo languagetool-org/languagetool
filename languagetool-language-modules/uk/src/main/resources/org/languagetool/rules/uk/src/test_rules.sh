@@ -2,8 +2,10 @@
 
 
 export PATH=$PATH:~/bin
-PWD=`pwd`
+DIR=`pwd`
 BASE="../../../../../../../../../.."
+
+
 
 cd $BASE/languagetool-language-modules/uk
 
@@ -11,8 +13,7 @@ if [ "$1" != "" ]; then
   FLAGS="-Dtest=$1"
 fi
 
-#FLAGS="$FLAGS -Dorg.languagetool.rules.uk.TokenInflectionAgreementRule.debug=true"
-#FLAGS="$FLAGS -Dorg.languagetool.rules.uk.TokenVerbAgreementRule.debug=true"
+#FLAGS="$FLAGS -Dlogback.configurationFile=$DIR/logback-uk-debug.xml"
 
 mvn $FLAGS compile test
-cd $PWD
+cd $DIR

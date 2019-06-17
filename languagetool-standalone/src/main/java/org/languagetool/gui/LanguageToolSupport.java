@@ -24,10 +24,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.UserConfig;
 import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -40,6 +39,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,8 +47,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
@@ -156,6 +154,11 @@ class LanguageToolSupport {
 
     boolean update = false;
   
+    Language language = languageTool.getLanguage();
+    languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
+        new UserConfig(config.getConfigurableValues()));
+    config.initStyleCategories(languageTool.getAllRules());
+
     Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules == null) {
       disabledRules = Collections.emptySet();
@@ -226,6 +229,8 @@ class LanguageToolSupport {
       languageTool.enableRule(ruleName);
       update = true;
     }
+    
+//    languageTool.setConfigValues(config.getConfigValues());
 
     if (update) {
       //FIXME
@@ -246,26 +251,48 @@ class LanguageToolSupport {
       //if (languageTool != null) {
       //  languageTool.shutdownWhenDone();
       //}
-      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
+      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
+          new UserConfig(config.getConfigurableValues()));
+      config.initStyleCategories(languageTool.getAllRules());
       languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
-      if (config.getNgramDirectory() != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortCode());
-        if (ngramLangDir.exists()) {
-          try {
-            languageTool.activateLanguageModelRules(config.getNgramDirectory());
-          } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
-          }
-        } else {
-          // user might have set ngram directory to use it for e.g. English, but they
-          // might not have the data for other languages that supports ngram, so don't
-          // annoy them with an error dialog:
-          System.err.println("Not loading ngram data, directory does not exist: " + ngramLangDir);
-        }
-      }
+      activateLanguageModelRules(language);
+      activateWord2VecModelRules(language);
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  private void activateLanguageModelRules(Language language) {
+    if (config.getNgramDirectory() != null) {
+      File ngramLangDir = new File(config.getNgramDirectory(), language.getShortCode());
+      if (ngramLangDir.exists()) {
+        try {
+          languageTool.activateLanguageModelRules(config.getNgramDirectory());
+        } catch (Exception e) {
+          JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
+        }
+      } else {
+        // user might have set ngram directory to use it for e.g. English, but they
+        // might not have the data for other languages that supports ngram, so don't
+        // annoy them with an error dialog:
+        System.err.println("Not loading ngram data, directory does not exist: " + ngramLangDir);
+      }
+    }
+  }
+
+  private void activateWord2VecModelRules(Language language) {
+    if (config.getWord2VecDirectory() != null) {
+      File word2vecDir = new File(config.getWord2VecDirectory(), language.getShortCode());
+      if (word2vecDir.exists()) {
+        try {
+          languageTool.activateWord2VecModelRules(config.getWord2VecDirectory());
+        } catch (Exception e) {
+          JOptionPane.showMessageDialog(null, "Error while loading word2vec model.\n" + e.getMessage());
+        }
+      } else {
+        System.err.println("Not loading word2vec data, directory does not exist: " + word2vecDir);
+      }
     }
   }
 
@@ -497,7 +524,7 @@ class LanguageToolSupport {
       popup.add(new JSeparator());
 
       JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
-      moreItem.addActionListener(e -> showDialog(textComponent, span.msg, span.desc, span.rule));
+      moreItem.addActionListener(e -> showDialog(textComponent, span.msg, span.desc, span.rule, span.url));
       popup.add(moreItem);
 
       JMenuItem ignoreItem = new JMenuItem(messages.getString("guiTurnOffRule"));
@@ -821,9 +848,10 @@ class LanguageToolSupport {
       try {
         if (span.start < span.end) { //to avoid the BadLocationException
           ITSIssueType issueType = span.rule.getLocQualityIssueType();
+          Color ulColor = config.getUnderlineColor(span.rule.getCategory().getName());
           Color colorForIssueType = getConfig().getErrorColors().get(issueType);
           Color bgColor = colorForIssueType != null ? colorForIssueType : null;
-          Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : Color.blue;
+          Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : ulColor;
           HighlightPainter painter = new HighlightPainter(bgColor, underlineColor);
           h.addHighlight(span.start, span.end, painter);
         }
@@ -833,8 +861,8 @@ class LanguageToolSupport {
     }
   }
 
-  private void showDialog(Component parent, String title, String message, Rule rule) {
-    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortCodeWithCountryAndVariant());
+  private void showDialog(Component parent, String title, String message, Rule rule, URL url) {
+    Tools.showRuleInfoDialog(parent, title, message, rule, url, messages, languageTool.getLanguage().getShortCodeWithCountryAndVariant());
   }
 
   private static class ReplaceMenuItem extends JMenuItem {
@@ -849,12 +877,15 @@ class LanguageToolSupport {
 
   private static class Span {
 
+    private static final int MAX_SUGGESTIONS = 5;
+    
     private int start;
     private int end;
     private final String msg;
     private final String desc;
     private final List<String> replacement;
     private final Rule rule;
+    private final URL url;
 
     private Span(RuleMatch match) {
       start = match.getFromPos();
@@ -866,8 +897,10 @@ class LanguageToolSupport {
       msg = Tools.shortenComment(tmp);
       desc = match.getMessage();
       replacement = new ArrayList<>();
-      replacement.addAll(match.getSuggestedReplacements());
+      List<String> repl = match.getSuggestedReplacements();
+      replacement.addAll(repl.subList(0, Math.min(MAX_SUGGESTIONS, repl.size())));
       rule = match.getRule();
+      url = match.getUrl() != null ? match.getUrl() : rule.getUrl();
     }
   }
 

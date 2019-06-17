@@ -18,9 +18,8 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.language.German;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,29 +27,80 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.HashMap;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 
 public class HTTPSServerTest {
 
   private static final String KEYSTORE = "/org/languagetool/server/test-keystore.jks";
   private static final String KEYSTORE_PASSWORD = "mytest";
 
+  @Before
+  public void setup() {
+    DatabaseLogger.getInstance().disableLogging();
+  }
+
   @Test
   public void runRequestLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
     HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
+    serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org", "bar.org"));
     HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
-      check(new German(), "foo");
-      check(new German(), "foo");
+      check(new GermanyGerman(), "foo");
+      check(new GermanyGerman(), "foo");
       try {
         System.out.println("=== Testing too many requests now, please ignore the following error ===");
         String result = check(new German(), "foo");
         fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException ignored) {}
+    } finally {
+      server.stop();
+    }
+  }
+  
+  @Test
+  public void runReferrerLimitationTest() throws Exception {
+    HTTPTools.disableCertChecks();
+    HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD);
+    serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org", "bar.org"));
+    HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
+    try {
+      server.run();
+
+      HashMap<String, String> map = new HashMap<>();
+      URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
+      try {
+        map.put("Referer", "http://foo.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+
+      try {
+        map.put("Referer", "http://bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      try {
+        map.put("Referer", "https://bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      try {
+        map.put("Referer", "https://www.bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      map.put("Referer", "https://www.something-else.org/myref");
+      HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+
     } finally {
       server.stop();
     }
@@ -108,13 +158,23 @@ public class HTTPSServerTest {
         fail("Expected exception with error 413, got: " + expected);
       }
     }
+
+    String json = check("de", "This is an English text, but we specify German anyway");
+    assertTrue("Got: " + json, json.contains("\"German\""));
+    assertTrue("Got: " + json, json.contains("\"de\""));
+    assertTrue("Got: " + json, json.contains("\"English (US)\""));
+    assertTrue("Got: " + json, json.contains("\"en-US\""));
   }
 
-  private String check(Language lang, String text) throws IOException {
-    String urlOptions = "/v2/check?language=" + lang.getShortCode();
+  private String check(String langCode, String text) throws IOException {
+    String urlOptions = "/v2/check?language=" + langCode;
     urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
+  }
+
+  private String check(Language lang, String text) throws IOException {
+    return check(lang.getShortCode(), text);
   }
   
   private String encode(String text) throws UnsupportedEncodingException {

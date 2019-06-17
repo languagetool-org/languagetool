@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
@@ -27,8 +28,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,49 +36,59 @@ import static org.junit.Assert.*;
 public class RuleMatchesAsJsonSerializerTest {
 
   private final RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
+  
   private final List<RuleMatch> matches = Arrays.asList(
-          new RuleMatch(new FakeRule(), 1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
+          new RuleMatch(new FakeRule(),
+          new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
+          1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
   );
+
+  public RuleMatchesAsJsonSerializerTest() throws IOException {
+  }
 
   @Test
   public void testJson() {
-    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
+    DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
+    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, lang);
     // Software:
-    assertTrue(json.contains("\"LanguageTool\""));
-    assertTrue(json.contains(JLanguageTool.VERSION));
+    assertContains("\"LanguageTool\"", json);
+    assertContains(JLanguageTool.VERSION, json);
     // Language:
-    assertTrue(json.contains("\"Testlanguage\""));
-    assertTrue(json.contains("\"xx-XX\""));
+    assertContains("\"Testlanguage\"", json);
+    assertContains("\"xx-XX\"", json);
     // Matches:
-    assertTrue(json.contains("\"My Message, use \\\"foo\\\" instead\""));
-    assertTrue(json.contains("\"My rule description\""));
-    assertTrue(json.contains("\"FAKE_ID\""));
-    assertTrue(json.contains("\"This is ...\""));
-    assertTrue(json.contains("\"http://foobar.org/blah\""));
-    assertTrue(json.contains("\"addition\""));
-    assertTrue(json.contains("\"short message\""));
+    assertContains("\"My Message, use \\\"foo\\\" instead\"", json);
+    assertContains("\"My rule description\"", json);
+    assertContains("\"FAKE_ID\"", json);
+    assertContains("\"This is ...\"", json);
+    assertContains("\"http://foobar.org/blah\"", json);
+    assertContains("\"addition\"", json);
+    assertContains("\"short message\"", json);
+    assertContains("\"sentence\":\"This is an test sentence.\"", json);
   }
-  
+
+  private void assertContains(String expectedSubstring, String json) {
+    assertTrue("Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json, json.contains(expectedSubstring));
+  }
+
   @Test
   public void testJsonWithUnixLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
+    DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
+    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, lang);
     assertTrue(json.contains("This is ..."));  // got filtered out by ContextTools
   }
   
   @Test
   public void testJsonWithWindowsLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
+    DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
+    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, lang);
     assertTrue(json.contains("This\\ris ..."));
   }
   
   static class FakeRule extends Rule {
     FakeRule() {
       setLocQualityIssueType(ITSIssueType.Addition);
-      try {
-        setUrl(new URL("http://foobar.org/blah"));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
+      setUrl(Tools.getUrl("http://foobar.org/blah"));
     }
     @Override
     public String getId() {

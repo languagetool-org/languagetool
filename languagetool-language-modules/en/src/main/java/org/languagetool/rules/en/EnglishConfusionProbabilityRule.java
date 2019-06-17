@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
-import org.languagetool.tokenizers.WordTokenizer;
 
 import java.util.ResourceBundle;
 
@@ -30,8 +29,6 @@ import java.util.ResourceBundle;
  * @since 2.7
  */
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
-
-  private final WordTokenizer tokenizer = new GoogleStyleWordTokenizer();
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -43,8 +40,4 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
                    Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
 
-  @Override
-  protected WordTokenizer getGoogleStyleWordTokenizer() {
-    return tokenizer;
-  }
 }

@@ -41,7 +41,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String GL_SIMPLE_REPLACE_RULE = "GL_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/gl/words.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/gl/words.txt");
   private static final Locale GL_LOCALE = new Locale("gl");
 
   @Override

@@ -23,11 +23,15 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
+import org.languagetool.UserConfig;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.CanadianEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,11 +44,16 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   
   private static MorfologikAmericanSpellerRule rule;
   private static JLanguageTool langTool;
+  private static MorfologikCanadianSpellerRule caRule;
+  private static JLanguageTool caLangTool;
 
   @BeforeClass
   public static void setup() throws IOException {
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     langTool = new JLanguageTool(language);
+    CanadianEnglish canadianEnglish = new CanadianEnglish();
+    caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, Collections.emptyList());
+    caLangTool = new JLanguageTool(canadianEnglish);
   }
 
   @Test
@@ -55,7 +64,31 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   }
 
   @Test
+  public void testVariantMessages() throws IOException {
+    Language language = new AmericanEnglish();
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("This is a nice colour."));
+    assertEquals(1, matches.length);
+    assertTrue(matches[0].getMessage().contains("is British English"));
+  }
+
+  @Test
+  public void testUserDict() throws IOException {
+    Language language = new AmericanEnglish();
+    UserConfig userConfig = new UserConfig(Arrays.asList("mytestword", "mytesttwo"));
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, userConfig, Collections.emptyList());
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytestword")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytesttwo")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("mytestthree")).length);
+  }
+
+  @Test
   public void testMorfologikSpeller() throws IOException {
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mansplaining")).length); // test merge of spelling.txt
+    // test suggesting words with diacritics
+    assertTrue(rule.match(langTool.getAnalyzedSentence("fianc"))[0].getSuggestedReplacements().contains("fiancé"));
+
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behavior as a dictionary word.")).length);
@@ -65,6 +98,12 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😾")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
+
+    // test words in language-specific spelling_en-US.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("USTestWordToBeIgnored")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("NZTestWordToBeIgnored")).length);
 
     //incorrect sentences:
 
@@ -153,10 +192,19 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("farest", "furthest", "farthest");
     //double consonants not yet supported:
     //assertSuggestion("baddest", "worst");
+    // suggestions from language specific spelling_en-XX.txt
+    assertSuggestion("USTestWordToBeIgnore", "USTestWordToBeIgnored");
+    assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");
+    assertSuggestion("CATestWordToBeIgnore", caRule, caLangTool, "CATestWordToBeIgnored");
+    assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");  // test again because of caching
   }
 
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    assertSuggestion(input, rule, langTool, expectedSuggestions);
+  }
+
+  private void assertSuggestion(String input, Rule rule, JLanguageTool lt, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
     assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
             matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);

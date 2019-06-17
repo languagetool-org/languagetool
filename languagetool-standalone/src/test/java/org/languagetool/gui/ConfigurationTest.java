@@ -21,9 +21,10 @@ package org.languagetool.gui;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Belarusian;
+import org.languagetool.language.French;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class ConfigurationTest {
       assertTrue(enabledRuleIds.contains("enabledRule"));
       assertEquals(1, enabledRuleIds.size());
     } finally {
-      tempFile.delete();
+      Files.delete(tempFile.toPath());
     }
   }
 
@@ -74,16 +75,15 @@ public class ConfigurationTest {
       assertEquals(1, enabledRuleIds.size());
 
       //now change language
-
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
-              new Belarusian());
+              new French());
       disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.isEmpty());
       enabledRuleIds = conf.getEnabledRuleIds();
       assertTrue(enabledRuleIds.isEmpty());
 
-      conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledBYRule")));
-      conf.saveConfiguration(new Belarusian());
+      conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledFRRule")));
+      conf.saveConfiguration(new French());
 
       //and back...
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
@@ -98,7 +98,7 @@ public class ConfigurationTest {
 
 
     } finally {
-      tempFile.delete();
+      Files.delete(tempFile.toPath());
     }
   }
 

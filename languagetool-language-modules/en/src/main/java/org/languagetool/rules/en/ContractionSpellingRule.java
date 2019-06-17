@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   public static final String CONTRACTION_SPELLING_RULE = "EN_CONTRACTION_SPELLING";
 
-  private static final Map<String, List<String>> wrongWords = load("/en/contractions.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/contractions.txt");
   private static final Locale EN_LOCALE = new Locale("en");
 
   @Override
@@ -45,7 +44,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public ContractionSpellingRule(ResourceBundle messages) throws IOException {
+  public ContractionSpellingRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -66,11 +65,6 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   @Override
   public String getShort() {
     return "Spelling mistake";
-  }
-
-  @Override
-  public boolean isDictionaryBasedSpellingRule() {
-    return false;
   }
 
   @Override

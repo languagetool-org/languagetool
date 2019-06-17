@@ -42,7 +42,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String PORTUGAL_PORTUGUESE_SIMPLE_REPLACE_RULE = "PT_PT_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/pt/pt-PT/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/pt/pt-PT/replace.txt");
   private static final Locale PT_PT_LOCALE = new Locale("pt-PT");
 
   @Override
@@ -52,7 +52,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public PortugalPortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(Categories.REPETITIONS.getCategory(messages));
+    super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Onde está o <marker>banheiro</marker>?"),
                    Example.fixed("Onde está o <marker>toilet</marker>?"));
@@ -65,7 +65,7 @@ public class PortugalPortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Palavras brasileiras facilmente confundidas com as de Portugal";
+    return "Brasileirismo: 1. palavras confundidas com as de Portugal";
   }
 
   @Override

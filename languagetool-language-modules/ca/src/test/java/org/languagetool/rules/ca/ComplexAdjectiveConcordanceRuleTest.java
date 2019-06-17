@@ -195,7 +195,9 @@ public class ComplexAdjectiveConcordanceRuleTest {
     assertCorrect("un Do dues octaves més alt que l'anterior");
     assertCorrect("són pràcticament dos graus més baixes");
     assertCorrect("és unes vint vegades més gran que l'espermatozou.");
+    assertCorrect("és unes quantes vegades més gran que l'espermatozou.");
     assertCorrect("és unes 20 vegades més gran que l'espermatozou.");
+    assertCorrect("Una casa cinquanta vegades més gran.");
     assertCorrect("eren quatre vegades més alts");
     assertCorrect("eren uns fets cada volta més inexplicables");
     assertCorrect("El castell està totalment en ruïnes i completament cobert de vegetació.");

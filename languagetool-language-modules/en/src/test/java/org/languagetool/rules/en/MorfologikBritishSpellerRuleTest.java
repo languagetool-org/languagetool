@@ -18,9 +18,13 @@
  */
 package org.languagetool.rules.en;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -35,15 +39,29 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
   @Test
   public void testSuggestions() throws IOException {
     Language language = new BritishEnglish();
-    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
+    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
+
+    JLanguageTool langTool = new JLanguageTool(language);
+    // suggestions from language specific spelling_en-XX.txt
+    assertSuggestion(rule, langTool, "GBTestWordToBeIgnore", "GBTestWordToBeIgnored");
   }
-  
+
+  @Test
+  public void testVariantMessages() throws IOException {
+    BritishEnglish language = new BritishEnglish();
+    JLanguageTool lt = new JLanguageTool(language);
+    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("This is a nice color."));
+    assertEquals(1, matches.length);
+    assertTrue(matches[0].getMessage().contains("is American English"));
+  }
+
   @Test
   public void testMorfologikSpeller() throws IOException {
     BritishEnglish language = new BritishEnglish();
     MorfologikBritishSpellerRule rule =
-            new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
+            new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(language);
 
@@ -58,6 +76,8 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    // Greek letters
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //incorrect sentences:
 
@@ -81,4 +101,13 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
   }
 
+  private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat(matches.length, is(1));
+    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
+            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
+    for (String expectedSuggestion : expectedSuggestions) {
+      assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
+    }
+  }
 }

@@ -202,7 +202,10 @@ public class Hunspell {
                 return "hunspell-freebsd-x86-64";
             }
 
-        } 
+        } else if (os.startsWith("aix")) {
+            // added by Martin Kallinger (https://github.com/languagetool-org/languagetool/pull/1090)
+            return "hunspell-ppc64"; 
+        }
 
         throw new UnsupportedOperationException("Unknown OS/arch: "+os+"/"+arch);
     }    

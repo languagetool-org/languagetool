@@ -20,17 +20,20 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 
 public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_CA.dict";
+  private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-CA.txt";
 
   public MorfologikCanadianSpellerRule(ResourceBundle messages,
-                                       Language language) throws IOException {
-    super(messages, language);
+                                       Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
   }
 
   @Override
@@ -43,4 +46,8 @@ public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerR
     return "MORFOLOGIK_RULE_EN_CA";
   }
 
+  @Override
+  public String getLanguageVariantSpellingFileName() {
+    return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
+  }
 }

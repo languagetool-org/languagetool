@@ -27,6 +27,7 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +36,7 @@ public class MorfologikCatalanSpellerRuleTest {
     @Test
     public void testMorfologikSpeller() throws IOException {
         MorfologikCatalanSpellerRule rule =
-                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan());
+                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan(), null, Collections.emptyList());
 
         RuleMatch[] matches;
         JLanguageTool langTool = new JLanguageTool(new Catalan());
@@ -228,7 +229,8 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("col·laborÀ"));
         assertEquals(1, matches.length);
-        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("col·labora", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("después"));
         assertEquals(1, matches.length);
@@ -409,5 +411,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("bél.lica")); 
         assertEquals("bèl·lica", matches[0].getSuggestedReplacements().get(0));
         
+        //majúscules
+        matches = rule.match(langTool.getAnalyzedSentence("De PH 4")); 
+        assertEquals("pH", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("De l'any 156 Ac a l'any 2000.")); 
+        assertEquals("aC", matches[0].getSuggestedReplacements().get(0)); 
     }
 }

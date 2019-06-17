@@ -84,7 +84,21 @@ public class AgreementRuleTest {
     assertGood("Kern einer jeden Tragödie ist es, ..");
     assertGood("Das wenige Sekunden alte Baby schrie laut.");
     assertGood("Meistens sind das Frauen, die damit besser umgehen können.");
-
+    assertGood("Er fragte, ob das Spaß macht.");
+    assertGood("Das viele Geld wird ihr helfen.");
+    assertGood("Er verspricht jedem hohe Gewinne.");
+    assertGood("Er versprach allen Renditen jenseits von 15 Prozent.");
+    assertGood("Sind das Eier aus Bodenhaltung?");
+    assertGood("Dir macht doch irgendwas Sorgen.");
+    assertGood("Sie fragte, ob das wirklich Kunst sei.");
+    assertGood("Für ihn ist das Alltag.");
+    assertGood("Für die Religiösen ist das Blasphemie.");
+    assertGood("Das ist ein super Tipp.");
+    assertGood("Er nahm allen Mut zusammen und ging los.");
+    assertGood("Sie kann einem Angst einjagen.");
+    assertGood("Damit sollten zum einen neue Energien gefördert werden, zum anderen der Sozialbereich.");
+    assertGood("Nichts ist mit dieser einen Nacht zu vergleichen.");
+    assertGood("dann muss Schule dem Rechnung tragen.");
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
 
@@ -136,7 +150,10 @@ public class AgreementRuleTest {
 
     assertGood("Das erfordert Können.");
     assertGood("Ist das Kunst?");
+    assertGood("Ist das Kunst oder Abfall?");
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
+    assertGood("Es sollte nicht viele solcher Bilder geben");
+    assertGood("In den 80er Jahren.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -175,8 +192,32 @@ public class AgreementRuleTest {
     assertGood("Er hat einen 34-jährigen Sohn.");
     assertGood("Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ.");
     assertGood("Dieses Versäumnis soll vertuscht worden sein - es wurde Anzeige erstattet.");
+    assertGood("Die Firmen - nicht nur die ausländischen, auch die katalanischen - treibt diese Frage um.");
+    // TODO: assertGood("Der Obst und Getränke führende Fachmarkt.");
+    assertGood("Stell dich dem Leben lächelnd!");
+    assertGood("Die Messe wird auf das vor der Stadt liegende Ausstellungsgelände verlegt.");
+    assertGood("Sie sind ein den Frieden liebendes Volk.");
+    //assertGood("Zum Teil sind das Krebsvorstufen.");
+    assertGood("Er sagt, dass das Rache bedeutet.");
+    assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
+    assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
+    assertGood("Es blieb nur dieser eine Satz.");
+    assertGood("Oder ist das Mathematikern vorbehalten?");
+    assertGood("Wenn hier einer Fragen stellt, dann ich.");
+    assertGood("Wenn einer Katzen mag, dann meine Schwester.");
+    assertGood("Ergibt das Sinn?");
+    assertGood("Sie ist über die Maßen schön.");
+    assertGood("Ich vertraue ganz auf die Meinen.");
+    assertGood("Was nützt einem Gesundheit, wenn man sonst ein Idiot ist?");
+    assertGood("Auch das hatte sein Gutes.");
+    assertGood("Auch wenn es sein Gutes hatte, war es doch traurig.");
+    assertGood("Er wollte doch nur jemandem Gutes tun.");
+    assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
+    assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
 
     // incorrect sentences:
+    assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
+    assertBad("Meiner Chef raucht.");
     assertBad("Er hat eine 34-jährigen Sohn.");
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
     assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
@@ -191,10 +232,14 @@ public class AgreementRuleTest {
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     
+    //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
+    assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
+    assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
     assertBad("Die erwähnter Konferenz ist am Samstag.");
+    assertBad("Die erwähntem Konferenz ist am Samstag.");
     
     assertBad("Des großer Mannes.");
 
@@ -220,7 +265,11 @@ public class AgreementRuleTest {
     assertGood("Außerdem unterstützt mich Herr Müller beim abheften");
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
     assertBad("Der Zustand meiner Gehirns.");
-    
+
+    assertBad("Lebensmittel sind da, um den menschliche Körper zu ernähren.");
+    assertBad("Geld ist da, um den menschliche Überleben sicherzustellen.");
+    assertBad("Sie hatte das kleinen Kaninchen.");
+    assertBad("Frau Müller hat das wichtigen Dokument gefunden.");
     assertBad("Ich gebe dir ein kleine Kaninchen.");
     assertBad("Ich gebe dir ein kleinen Kaninchen.");
     assertBad("Ich gebe dir ein kleinem Kaninchen.");
@@ -241,6 +290,13 @@ public class AgreementRuleTest {
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
+    
+    assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
+    assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
+    assertBad("Er ging ins Küche.");
+    assertBad("Er ging ans Luft.");
+    assertBad("Eine Niereninsuffizienz führt zur Störungen des Wasserhaushalts.");
+    assertBad("Er stieg durchs Fensters.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
@@ -316,6 +372,11 @@ public class AgreementRuleTest {
     assertBad("An der rote Ampel.");
     assertBad("An der rotes Ampel.");
     assertBad("An der rotem Ampel.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte eine sehr schweren Infektion.");
+    assertBad("Ein fast 5 Meter hohem Haus.");
+    assertBad("Ein fünf Meter hohem Haus.");
     // TODO: not yet detected:
     //assertBad("An der rot Ampel.");
   }

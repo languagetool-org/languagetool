@@ -20,10 +20,14 @@ package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -46,6 +50,8 @@ public class PatternRule extends AbstractPatternRule {
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
+  
+  private boolean interpretPosTagsPreDisambiguation;
 
   // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
@@ -110,10 +116,77 @@ public class PatternRule extends AbstractPatternRule {
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg,
       boolean isMember) {
-    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
-    this.isMemberOfDisjunctiveSet = isMember;
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg, isMember, false);
   }
 
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage, String suggestionsOutMsg,
+      boolean isMember, boolean interpretPosTagsPreDisambiguation) {
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
+    this.isMemberOfDisjunctiveSet = isMember;
+    this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;
+  }
+
+  @Experimental
+  @Override
+  public int estimateContextForSureMatch() {
+    int extendAfterMarker = 0;
+    boolean markerSeen = false;
+    boolean infinity = false;
+    for (PatternToken pToken : this.patternTokens) {
+      if (markerSeen && !pToken.isInsideMarker()) {
+        extendAfterMarker++;
+      }
+      if (JLanguageTool.SENTENCE_END_TAGNAME.equals(pToken.getPOStag())) {
+        // e.g. for DT_JJ_NO_NOUN and all rules that match the sentence end
+        extendAfterMarker++;
+      }
+      if (pToken.isInsideMarker()) {
+        markerSeen = true;
+      }
+      if (pToken.getSkipNext() == -1) {
+        infinity = true;
+        break;
+      } else {
+        extendAfterMarker += pToken.getSkipNext();
+      }
+    }
+    List<Integer> antiPatternLengths = antiPatterns.stream().map(p -> p.patternTokens.size()).collect(Collectors.toList());
+    int longestAntiPattern = antiPatternLengths.stream().max(Comparator.comparing(i -> i)).orElse(0);
+    int longestSkip = 0;
+    for (DisambiguationPatternRule antiPattern : antiPatterns) {
+      for (PatternToken token : antiPattern.getPatternTokens()) {
+        if (token.getSkipNext() == -1) {
+          infinity = true;
+          break;
+        } else if (token.getSkipNext() > longestSkip) {
+          longestSkip = token.getSkipNext();
+        }
+      }
+    }
+    //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
+    if (infinity) {
+      return -1;
+    } else {
+      return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
+    }
+  }
+
+  /**
+   * Whether any POS tags from this rule should refer to the POS tags of the analyzed
+   * sentence *before* disambiguation.
+   * @since 4.5
+   */
+  @Experimental
+  boolean isInterpretPosTagsPreDisambiguation() {
+    return interpretPosTagsPreDisambiguation;
+  }
+  
   /**
    * Used for testing rules: only one of the set can match.
    * @return Whether the rule can non-match (as a member of disjunctive set of
@@ -155,7 +228,7 @@ public class PatternRule extends AbstractPatternRule {
       if (patternTokens != null) {
         matcher = new PatternRuleMatcher(this, useList);
       } else if (regex != null) {
-        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
+        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getShortMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
       }
@@ -197,6 +270,10 @@ public class PatternRule extends AbstractPatternRule {
     return elementNo;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+   */
+  @Override
   String getShortMessage() {
     return shortMessage;
   }

@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -42,10 +42,26 @@ public class VerbAgreementRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(new German());
-    rule = new VerbAgreementRule(TestTools.getMessages("de"), new German());
+    lt = new JLanguageTool(new GermanyGerman());
+    rule = new VerbAgreementRule(TestTools.getMessages("de"), new GermanyGerman());
   }
 
+  @Test
+  public void testPositions() throws IOException {
+    RuleMatch[] match1 = rule.match(lt.analyzeText("Du erreichst ich unter 12345"));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getFromPos(), is(3));
+    assertThat(match1[0].getToPos(), is(16));
+    RuleMatch[] match2 = rule.match(lt.analyzeText("Hallo Karl. Du erreichst ich unter 12345"));
+    assertThat(match2.length, is(1));
+    assertThat(match2[0].getFromPos(), is(12+3));
+    assertThat(match2[0].getToPos(), is(12+16));
+    RuleMatch[] match3 = rule.match(lt.analyzeText("Ihr könnt das Training abbrechen, weil es nichts bringen wird. Er geht los und sagt dabei: Werde ich machen."));
+    assertThat(match3.length, is(1));
+    assertThat(match3[0].getFromPos(), is(97));
+    assertThat(match3[0].getToPos(), is(107));
+  }
+  
   @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
@@ -82,6 +98,11 @@ public class VerbAgreementRuleTest {
     assertGood("Das sind Leute, die viel mehr als ich wissen.");
     assertGood("Das ist mir nicht klar, kannst ja mal beim Kunden nachfragen.");
     assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
+    assertGood("Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.");
+    assertGood("„Werde ich tun!“");
+    assertGood("Sie fragte: „Muss ich aussagen?“");
+    assertGood("„Können wir bitte das Thema wechseln, denn ich möchte ungern darüber reden?“");
+    assertGood("Er sagt: „Willst du behaupten, dass mein Sohn euch liebt?“");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -90,6 +111,12 @@ public class VerbAgreementRuleTest {
     assertBad("Peter bin nett.");
     assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
+    assertBad("Ich geht jetzt nach Hause, weil ich schon zu spät bin.");
+    assertBad("„Du muss gehen.“");
+    assertBad("Du weiß es doch.");
+    assertBad("Sie sagte zu mir: „Du muss gehen.“");
+    assertBad("„Ich müsst alles machen.“");
+    assertBad("„Ich könnt mich sowieso nicht verstehen.“");
   }
 
   @Test
@@ -110,7 +137,7 @@ public class VerbAgreementRuleTest {
     assertGood("Der Vorfall, bei dem er einen Teil seines Vermögens verloren hat, ist lange vorbei.");
     assertGood("Diese Lösung wurde in der 64'er beschrieben, kam jedoch nie.");
     assertGood("Die Theorie, mit der ich arbeiten konnte.");
-//     assertGood("Die Zeitschrift film-dienst."); TODO
+//    assertGood("Die Zeitschrift film-dienst.");
     assertGood("Du bist nett.");
     assertGood("Du kannst heute leider nicht kommen.");
     assertGood("Du lebst.");
@@ -160,10 +187,13 @@ public class VerbAgreementRuleTest {
     assertGood("Wünschst du dir mehr Zeit?");
     assertGood("Wyrjtjbst du?"); // make sure that "UNKNOWN" is handled correctly
     assertGood("Wenn ich du wäre, würde ich das nicht machen.");
+    assertGood("Er sagte: „Darf ich bitten, mir zu folgen?“");
+    // TODO: assertBad("Er fragte irritiert: „Darf ich fragen, die an dich gerichtet werden, beantworten?“");
 //     assertGood("Angenommen, du wärst ich."); TODO
-//     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist."); TODO
+    assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
+    assertBad("Du weiß noch, dass du das gestern gesagt hast.");
     assertBad("Auch morgen leben du"); // do not segfault because "du" is the last token
     assertBad("Auch morgen leben er.");
     assertBad("Auch morgen leben ich.");
@@ -184,7 +214,7 @@ public class VerbAgreementRuleTest {
     assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
     assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
-//     assertBad("Leben du?"); // TODO "Leben" not tagged as verb
+    assertBad("Leben du?");
     assertBad("Nett bist ich nicht.", 2);
     assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
     assertBad("Nett sind du.");
@@ -227,7 +257,7 @@ public class VerbAgreementRuleTest {
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one
-      if(matches.length > 1 && match.getSuggestedReplacements().size()==0) {
+      if(matches.length > 1 && match.getSuggestedReplacements().isEmpty()) {
         match = matches[1];
       }
       List<String> suggestions = match.getSuggestedReplacements();

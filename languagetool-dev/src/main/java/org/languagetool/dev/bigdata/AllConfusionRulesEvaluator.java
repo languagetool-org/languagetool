@@ -25,7 +25,7 @@ import org.languagetool.Languages;
 import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.ConfusionString;
 
@@ -63,19 +63,19 @@ final class AllConfusionRulesEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false);
+    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false, true); // TODO: consider bidirectional
     eval.setVerboseMode(false);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
-    Map<String,List<ConfusionSet>> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,List<ConfusionPair>> confusionSetMap = confusionSetLoader.loadConfusionPairs(inputStream);
     Set<String> done = new HashSet<>();
     int fMeasureCount = 0;
     float fMeasureTotal = 0;
-    for (List<ConfusionSet> entry : confusionSetMap.values()) {
-      for (ConfusionSet confusionSet : entry) {
-        Set<ConfusionString> set = confusionSet.getSet();
+    for (List<ConfusionPair> entry : confusionSetMap.values()) {
+      for (ConfusionPair confusionPair : entry) {
+        List<ConfusionString> set = confusionPair.getTerms();
         if (set.size() != 2) {
-          System.out.println("Skipping confusion set with size != 2: " + confusionSet);
+          System.out.println("Skipping confusion set with size != 2: " + confusionPair);
         } else {
           Iterator<ConfusionString> iterator = set.iterator();
           ConfusionString set1 = iterator.next();
@@ -84,15 +84,15 @@ final class AllConfusionRulesEvaluator {
           String word2 = set2.getString();
           String key = word1 + " " + word2;
           if (!done.contains(key)) {
-            Map<Long, ConfusionRuleEvaluator.EvalResult> evalResults = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
-            ConfusionRuleEvaluator.EvalResult evalResult = evalResults.values().iterator().next();
+            Map<Long, RuleEvalResult> evalResults = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionPair.getFactor()));
+            RuleEvalResult evalResult = evalResults.values().iterator().next();
             String summary1 = set1.getDescription() != null ? word1 + "|" + set1.getDescription() : word1;
             String summary2 = set2.getDescription() != null ? word2 + "|" + set2.getDescription() : word2;
             String start;
             if (summary1.compareTo(summary2) < 0) {
-              start = summary1 + "; " + summary2 + "; " + confusionSet.getFactor();
+              start = summary1 + "; " + summary2 + "; " + confusionPair.getFactor();
             } else {
-              start = summary2 + "; " + summary1 + "; " + confusionSet.getFactor();
+              start = summary2 + "; " + summary1 + "; " + confusionPair.getFactor();
             }
             String spaces = StringUtils.repeat(" ", 82-start.length());
             System.out.println(start + spaces + "# " + evalResult.getSummary());
