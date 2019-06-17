@@ -67,7 +67,7 @@ class SingleDocument {
   private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
-  private static final int PARA_CHECK_FACTOR = 500;  //  Factor for parameter checked at once at iteration (no text change)
+  private static final int PARA_CHECK_FACTOR = 40;  //  Factor for parameter checked at once at iteration (no text change)
   private static final int MAX_SUGGESTIONS = 15;
 
 
@@ -97,6 +97,7 @@ class SingleDocument {
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
   private List<Boolean> isChecked;                //  List of status of all flat paragraphs of document
+  private List<Integer> changedParas;   //  List of changed paragraphs after editing the document
   private int paraNum;                            //  Number of current checked paragraph
   
   SingleDocument(XComponentContext xContext, Configuration config, String docID, XComponent xComponent) {
@@ -107,6 +108,7 @@ class SingleDocument {
     this.sentencesCache = new ResultCache();
     this.paragraphsCache = new ResultCache();
     this.singleParaCache = new ResultCache();
+    setConfigValues(config);
   }
   
   /**  get the result for a check of a single document 
@@ -166,6 +168,7 @@ class SingleDocument {
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = numParasToCheck * PARA_CHECK_FACTOR;
     doResetCheck = config.isResetCheck();
+    changedParas = null;
   }
   
   /** Set XComponentContext and XComponent of the document
@@ -203,16 +206,16 @@ class SingleDocument {
       return false;
     }
     if(resetCheck) {
-      if(numParasToCheck > 0) {
+      if(numParasToCheck != 0) {
         loadIsChecked();
-        paragraphsCache.removeRange(resetFrom, resetTo);
+//        paragraphsCache.removeRange(resetFrom, resetTo);
       }
     } else if(resetParaNum >= 0 && resetParaNum != paraNum) {
       resetCheck = true;
       resetParaNum = -1;
-      if(numParasToCheck > 0) {
+      if(numParasToCheck != 0) {
         loadIsChecked();
-        paragraphsCache.removeRange(resetFrom, resetTo);
+//        paragraphsCache.removeRange(resetFrom, resetTo);
       }
     }
     return resetCheck;
@@ -222,7 +225,7 @@ class SingleDocument {
    * Reset only changed paragraphs
    */
   void optimizeReset() {
-    if(numParasToCheck > 0) {
+    if(numParasToCheck != 0) {
       FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
       flatPara.markFlatParasAsChecked(resetFrom + divNum, resetTo + divNum, isChecked);
     }
@@ -234,7 +237,7 @@ class SingleDocument {
    */
   public void loadIsChecked () {
     FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
-    isChecked = flatPara.isChecked();
+    isChecked = flatPara.isChecked(changedParas, divNum);
     if (debugMode > 0) {
       int nChecked = 0;
       for (boolean bChecked : isChecked) {
@@ -313,7 +316,11 @@ class SingleDocument {
         from++;
       }
       from -= 1 + numParasToCheck;
-      resetFrom = from;
+      if(numParasToCheck > 0) {
+        resetFrom = from;
+      } else {
+        resetFrom = 0;
+      }
       int to = 1;
       while (to <= allParas.size() && to <= oldParas.size()
           && allParas.get(allParas.size() - to).equals(
@@ -321,12 +328,12 @@ class SingleDocument {
         to++;
       }
       to = allParas.size() + numParasToCheck - to;
-      resetTo = to;
-      if (numParasToCheck > 0) {
-        paragraphsCache.removeAndShift(from, to, allParas.size() - oldParas.size());
+      if(numParasToCheck > 0) {
+        resetTo = to;
       } else {
-        paragraphsCache.removeAll();
+        resetTo = 0;
       }
+      paragraphsCache.removeAndShift(from, to, allParas.size() - oldParas.size());
       isReset = true;
       if(doResetCheck) {
         from += numParasToCheck;
@@ -658,6 +665,12 @@ class SingleDocument {
       }
       int startPos = getStartOfParagraph(startPara, paraNum);
       int endPos;
+      ResultCache oldCache = null;
+      if(numParasToCheck < 0 && doResetCheck && resetCheck) {
+        oldCache = paragraphsCache;
+        paragraphsCache = new ResultCache();
+      }
+
       for (int i = startPara; i < endPara; i++) {
         if(i < endPara - 1) {
           endPos = getStartOfParagraph(i + 1, paraNum);
@@ -692,6 +705,11 @@ class SingleDocument {
           }
         }
         startPos = endPos;
+      }
+      
+      if(numParasToCheck < 0 && doResetCheck && resetCheck) {
+        changedParas = paragraphsCache.differenceInCaches(oldCache);
+        oldCache = null;
       }
       return paragraphsCache.getFromPara(paraNum, startSentencePos, endSentencePos);
     } catch (Throwable t) {

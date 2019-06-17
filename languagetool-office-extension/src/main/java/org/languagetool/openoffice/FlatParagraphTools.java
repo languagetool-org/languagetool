@@ -319,7 +319,7 @@ public class FlatParagraphTools {
   /**
    * Get information of checked status of all paragraphs
    */
-  public List<Boolean> isChecked() {
+  public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     List<Boolean> isChecked = new ArrayList<>();
     try {
       if (xFlatPara == null) {
@@ -335,8 +335,10 @@ public class FlatParagraphTools {
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
       tmpFlatPara = startFlatPara;
-      while (tmpFlatPara != null) {
-        isChecked.add(tmpFlatPara.isChecked(TextMarkupType.PROOFREADING));
+      for (int i = 0; tmpFlatPara != null; i++) {
+        boolean dontCheck = (changedParas == null || !changedParas.contains(i - nDiv))
+            && tmpFlatPara.isChecked(TextMarkupType.PROOFREADING);
+        isChecked.add(dontCheck);
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
     } catch (Throwable t) {
