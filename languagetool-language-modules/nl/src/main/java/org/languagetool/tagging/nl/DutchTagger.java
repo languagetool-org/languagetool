@@ -61,7 +61,7 @@ public class DutchTagger extends BaseTagger {
         String word2 = word;
         word2 = word2.replace("á", "a").replace("é", "e").replace("í","i").replace("ó","o").replace("ú","u");
         if (!word2.equals(word)) {
-          List<AnalyzedToken> l2  = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
+          List<AnalyzedToken> l2  = getAnalyzedTokens(word2);
           if (l2 != null) {
             l.addAll(l2);
           }
