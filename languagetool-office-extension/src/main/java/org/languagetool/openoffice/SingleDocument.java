@@ -278,7 +278,7 @@ class SingleDocument {
     boolean isReset = false;
     textIsChanged = false;
 
-    if (allParas == null || allParas.size() < 1) {
+    if (allParas == null || allParas.isEmpty()) {
       if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas
         return -1;
       }
@@ -428,7 +428,7 @@ class SingleDocument {
    */
   private boolean resetAllParas(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
     allParas = docCursor.getAllTextParagraphs();
-    if (allParas == null || allParas.size() < 1) {
+    if (allParas == null || allParas.isEmpty()) {
       return false;
     }
     //  change all footnotes to \u200B (like in paraText)
