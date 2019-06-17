@@ -94,6 +94,7 @@ public class CatalanTagger extends BaseTagger {
       final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
+      final boolean isAllUpper = StringTools.isAllUppercase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       
       // normal case:
@@ -103,6 +104,13 @@ public class CatalanTagger extends BaseTagger {
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
+      }
+      
+      //tag all-uppercase proper nouns (ex. FRANÇA)
+      if (l.isEmpty() && isAllUpper) {
+        final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(firstUpper));
+        addTokens(firstupperTaggerTokens, l);
       }
 
       // additional tagging with prefixes
