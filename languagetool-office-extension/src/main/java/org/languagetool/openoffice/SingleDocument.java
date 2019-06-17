@@ -108,7 +108,9 @@ class SingleDocument {
     this.sentencesCache = new ResultCache();
     this.paragraphsCache = new ResultCache();
     this.singleParaCache = new ResultCache();
-    setConfigValues(config);
+    if (config != null) {
+      setConfigValues(config);
+    }
   }
   
   /**  get the result for a check of a single document 
