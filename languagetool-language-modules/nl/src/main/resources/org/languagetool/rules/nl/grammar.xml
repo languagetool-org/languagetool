@@ -18254,7 +18254,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Als dit een Nederlandse postcode is, dan hoort deze met spatie <suggestion><match no="1" regexp_match="([0-9])([A-Z])" regexp_replace="$1 $2"/></suggestion>.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/24/adressering_aan_bedrijven_en_instellingen/</url>
-                <short>Nederlandse postcode heeft spatie</short>
+                <short>Postcode heeft spatie</short>
                 <example correction="1234 AB"><marker>1234AB</marker></example>
             </rule>
         </rulegroup>
@@ -39330,11 +39330,13 @@ steenwijk;Steenwijk
 		
 	</category>
 
-	<category id="FLAG_RULES" name="rules based on flags">
-		<rulegroup id="TUSSEN_S">
+	<category id="FLAG_RULES" name="Rules based on flags">
+		<rulegroup id="TUSSEN_S" name="Wel of geen tussen-s">
 			<rule>
-				<pattern raw_pos="yes"><token postag="FLG:TSS"/></pattern>
-				<message>Dit is niet fout, maar veel gebruikelijker is: <suggestion><match no="1" postag="FLG:TSS"></suggestion>.</message>
+				<pattern raw_pos="yes">
+					<token postag="FLG:TSS"/>
+				</pattern>
+				<message>Dit is niet fout, maar veel gebruikelijker is: <suggestion><match no="1" postag="FLG:TSS"/></suggestion>.</message>
 				<example correction="bachelordiploma">Hij haalde het <marker>bachelorsdiploma</marker>.</example>
 			</rule>
 		</rulegroup>
