@@ -391,6 +391,10 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("(all|je(d|glich))en").build(),
       new PatternTokenBuilder().csToken("Reiz").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().posRegex("VER:.*[1-3]:.+").setSkip(1).build(),
+      new PatternTokenBuilder().csToken("vermehrt").build()
     )
   );
 
