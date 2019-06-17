@@ -18,9 +18,15 @@
  */
 package org.languagetool.tagging.nl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * Dutch tagger.
@@ -42,4 +48,32 @@ public class DutchTagger extends BaseTagger {
   public DutchTagger() {
     super("/nl/dutch.dict",  new Locale("nl"));
   }
+  
+  @Override
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
+      throws IOException {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    int pos = 0;
+    for (String word : sentenceTokens) {
+      List<AnalyzedToken> l = getAnalyzedTokens(word);
+      
+      if (l.isEmpty()) {
+        String word2 = word;
+        word2 = word2.replace("á", "a").replace("é", "e").replace("í","i").replace("ó","o").replace("ú","u");
+        if (!word2.equals(word)) {
+          List<AnalyzedToken> l2  = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
+          if (l2 != null) {
+            l.addAll(l2);
+          }
+        }
+      }
+      
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+      pos += word.length();
+      
+    }
+    
+    return tokenReadings;
+  }
+  
 }
