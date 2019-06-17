@@ -5,7 +5,15 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-	
+
+	<!-- verwijder vlaggen die geen postag zijn -->
+	<rule id="FLAG" name="remove flags">
+		<pattern>
+			<token postag="FLG:.*"/>
+		</pattern>
+		<disambig action="remove" postag="FLG:.*" />
+	</rule>	
+
 	<!-- SPELLING IGNORES -->
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
