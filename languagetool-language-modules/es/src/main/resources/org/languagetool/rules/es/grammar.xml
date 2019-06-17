@@ -584,6 +584,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="más">No hay <marker>mas</marker>.</example>
             <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
         </rule>
+        <rule id="PAGINA" name="pagina/página">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">los?|se</token>
+                    <token regexp="yes">paginas?</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">paginas?</token>
+            </pattern>
+            <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
+            <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
+            <example correction="Página"><marker>Pagina</marker> 34.</example>
+            <example>Este libro lo pagina con el programa de edición.</example>
+            <example>Se pagina al final del diseño.</example>
+        </rule>
         <rulegroup id="AUN" name="aún/anun">
             <!-- AÚN > AUN -->
             <rule>
