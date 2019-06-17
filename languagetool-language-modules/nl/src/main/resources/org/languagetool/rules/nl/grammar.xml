@@ -36712,7 +36712,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token>jouw</token>
-                    <token postag="SENT_END"/>
+					<token postag="SENT_END" regexp="yes">[.?!]</token>
                 </pattern>
                 <message>U bedoelt vast <suggestion>jou</suggestion>?</message>
                 <example correction="jou">Is dit van <marker>jouw?</marker></example>
@@ -39329,5 +39329,15 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 	</category>
-
+<!--
+	<category id="FLAG_RULES" name="rules based on flags">
+		<rulegroup id="CONFUSION">
+			<rule>
+				<pattern raw_pos="yes"><token postag="FLG:CNF:GRT"/></pattern>
+				<message>De kans is groot dat u bedoelt: <suggestion><match no="1" postag="FLG:CNF:GRT"></suggestion>.</message>
+				<example correction="">We spreken de <marker>mannelijke</marker> bestuurder.</example>
+			</rule>
+		</rulegroup>
+	</category>
+	-->
 </rules>
