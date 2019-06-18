@@ -55,6 +55,8 @@ public class DutchTagger extends BaseTagger {
     int pos = 0;
 
     for (String word : sentenceTokens) {
+      boolean ignoreSpelling = false;
+      boolean tagFound = false;
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
@@ -86,6 +88,18 @@ public class DutchTagger extends BaseTagger {
           List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
           if (l2 != null) {
             addTokens(l2, l);
+
+            String word3 = word;
+            word3 = word3.replace("áá", "aa").replace("éé", "ee").replace("óó", "oo").replace("úú", "uu").replace("íé",
+                "ie");
+            word3 = word3.replaceAll("[^aeiou])á([^aeiou])", "$1a$2");
+            word3 = word3.replaceAll("[^aeiou])é([^aeiou])", "$1e$2");
+            word3 = word3.replaceAll("[^aeiou])í([^aeiou])", "$1i$2");
+            word3 = word3.replaceAll("[^aeiou])ó([^aeiou])", "$1o$2");
+            word3 = word3.replaceAll("[^aeiou])ú([^aeiou])", "$1u$2");
+            if (word3.equals(word2)) {
+              ignoreSpelling = true;
+            }
           }
         }
       }
@@ -95,6 +109,9 @@ public class DutchTagger extends BaseTagger {
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
+      if (ignoreSpelling) {
+        atr.ignoreSpelling();
+      }
 
       tokenReadings.add(atr);
       pos += word.length();
