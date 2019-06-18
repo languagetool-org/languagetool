@@ -4754,22 +4754,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NN"/>
     </rule>
-    <rulegroup name="lingua franca" id="LINGUA_FRANCA"><!-- www.lexico.com/en/definition/lingua_franca -->
-      <rule>
-        <pattern>
-          <token>lingua</token>
-          <token>franca</token>
-        </pattern>
-        <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
-      </rule>
-      <rule>
-        <pattern>
-          <token>lingua</token>
-          <token>francas</token>
-        </pattern>
-        <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
-      </rule>
-    </rulegroup>
     
       <rulegroup name="Adverbial phrases/locutions" id="ADVERBIAL_PHRASES">
         <!-- Created by Tiago F. Santos, 2018-11-13 -->
@@ -6400,6 +6384,96 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>monde</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+    </rulegroup>
+
+    <rulegroup id="FOREIGN_TERM_ITALIAN" name="Italian terms used in English">
+    <!-- MFU verified with www.lexico.com and/or www.merriam-webster.com unless otherwise noted. -->
+
+        <rule id="A_CAPPELLA_ADJECTIVE" name="a cappella (adjective)">
+            <pattern>
+                <token>a</token>
+                <token>cappella</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="A_CAPPELLA_ADVERB" name="a cappella (adverb)">
+            <pattern>
+                <token>a</token>
+                <token>cappella</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="AL_DENTE" name="al dente">
+            <pattern>
+                <token>al</token>
+                <token>dente</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="AL_DENTE_ADVERB" name="al dente (adverb)">
+            <pattern>
+                <token>al</token>
+                <token>dente</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="DOLCE_FAR_NIENTE" name="dolce far niente">
+            <pattern>
+                <token>dolce</token>
+                <token>far</token>
+                <token>niente</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="DOLCE_VITA" name="dolce vita">
+            <pattern>
+                <token>dolce</token>
+                <token>vita</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="FATA_MORGANA" name="fata morgana">
+            <pattern>
+                <token>fata</token>
+                <token>morgana</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="LINGUA_FRANCA" name="lingua franca">
+            <pattern>
+                <token>lingua</token>
+                <token>franca</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="LINGUA_FRANCAS" name="lingua francas">
+            <pattern>
+                <token>lingua</token>
+                <token>francas</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="SOTTO_VOCE_ADJECTIVE" name="sotto voce (adjective)">
+            <pattern>
+                <token>sotto</token>
+                <token>voce</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="SOTTO_VOCE_ADVERB" name="sotto voce (adverb)">
+            <pattern>
+                <token>sotto</token>
+                <token>voce</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
 
     </rulegroup>
