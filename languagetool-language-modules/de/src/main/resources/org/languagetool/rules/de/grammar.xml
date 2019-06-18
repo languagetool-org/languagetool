@@ -2332,7 +2332,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mails">Schick mir <marker>Emails</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)s?\b</regexp>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">e-?[mM]ails?|E-mails?</token>
+                </pattern>
                 <message>Meinten Sie <suggestion>E-Mail</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail">Er schickt mir eine <marker>e-mail</marker>.</example>
