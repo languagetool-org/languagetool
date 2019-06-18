@@ -89,13 +89,12 @@ public class DutchTagger extends BaseTagger {
             addTokens(l2, l);
 
             String word3 = word;
-            word3 = word3.replace("áá", "aa").replace("éé", "ee").replace("óó", "oo").replace("úú", "uu").replace("íé",
-                "ie");
-            word3 = word3.replaceAll("[^aeiou])á([^aeiou])", "$1a$2");
-            word3 = word3.replaceAll("[^aeiou])é([^aeiou])", "$1e$2");
-            word3 = word3.replaceAll("[^aeiou])í([^aeiou])", "$1i$2");
-            word3 = word3.replaceAll("[^aeiou])ó([^aeiou])", "$1o$2");
-            word3 = word3.replaceAll("[^aeiou])ú([^aeiou])", "$1u$2");
+            word3 = word3.replace("áá", "aa").replace("éé", "ee").replace("óó", "oo").replace("úú", "uu").replace("íé", "ie");
+            word3 = word3.replaceAll("([^aeiou])á([^aeiou])", "$1a$2");
+            word3 = word3.replaceAll("([^aeiou])é([^aeiou])", "$1e$2");
+            word3 = word3.replaceAll("([^aeiou])í([^aeiou])", "$1i$2");
+            word3 = word3.replaceAll("([^aeiou])ó([^aeiou])", "$1o$2");
+            word3 = word3.replaceAll("([^aeiou])ú([^aeiou])", "$1u$2");
             if (word3.equals(word2)) {
               ignoreSpelling = true;
             }
