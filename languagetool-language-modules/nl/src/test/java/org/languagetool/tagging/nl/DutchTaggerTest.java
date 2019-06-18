@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.nl;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
@@ -25,13 +27,11 @@ import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
-import java.io.IOException;
-
 public class DutchTaggerTest {
-    
+
   private DutchTagger tagger;
   private WordTokenizer tokenizer;
-      
+
   @Before
   public void setUp() {
     tagger = new DutchTagger();
@@ -45,10 +45,11 @@ public class DutchTaggerTest {
 
   @Test
   public void testTagger() throws IOException {
-  
-    TestTools.myAssert("Aardappels koken.",
-        "Aardappels/[aardappel]ZNW:MRV:DE_ -- koken/[koken]WKW:TGW:INF", tokenizer, tagger);        
-    TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);        
-    
+    TestTools.myAssert("Aardappels koken.", "Aardappels/[aardappel]ZNW:MRV:DE_ -- koken/[koken]WKW:TGW:INF", tokenizer,
+        tagger);
+    TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);
+    TestTools.myAssert("geen", "geen/[geen]BYW", tokenizer, tagger);
+    TestTools.myAssert("géen", "géen/[geen]BYW", tokenizer, tagger);
+
   }
 }
