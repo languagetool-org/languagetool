@@ -4740,13 +4740,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
-    <rule name="alter ego" id="ALTER_EGO">
-      <pattern>
-          <marker><token>alter</token></marker>
-          <token>ego</token>
-      </pattern>
-      <disambig postag="NN"/>
-    </rule>
     
       <rulegroup name="Adverbial phrases/locutions" id="ADVERBIAL_PHRASES">
         <!-- Created by Tiago F. Santos, 2018-11-13 -->
@@ -5941,6 +5934,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
         </rule>
 
+        <rule id="FORCE_MAJEURE" name="force majeure">
+            <pattern>
+                <token>force</token>
+                <token>majeure</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
         <rule id="GRAND_MAL" name="grand mal">
             <pattern>
                 <token>grand</token>
@@ -6467,6 +6468,355 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>voce</token>
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+    </rulegroup>
+
+    <rulegroup id="FOREIGN_TERM_LATIN" name="Latin terms used in English">
+    <!-- MFU verified with www.lexico.com and/or www.merriam-webster.com unless otherwise noted. -->
+
+        <rule id="ACTUS_REUS" name="actus reus">
+            <pattern>
+                <token>actus</token>
+                <token>reus</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="AD_ADJECTIVE" name="ad + ADJECTIVE">
+            <pattern>
+                <token>ad</token>
+                <token regexp="yes">absurdum|interim</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="AD_ADVERB" name="ad + ADVERB">
+            <pattern>
+                <token>ad</token>
+                <token regexp="yes">absurdum|interim|nauseam</token><!-- Not the same as AD_ADJECTIVE -->
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="ALMA_MATER" name="alma mater">
+            <pattern>
+                <token>alma</token>
+                <token>mater</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="ALMA_MATERS" name="alma maters">
+            <pattern>
+                <token>alma</token>
+                <token>maters</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ALTER_EGO" name="alter ego">
+            <pattern>
+                <token>alter</token>
+                <token>ego</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="ALTER_EGOS" name="alter egos">
+            <pattern>
+                <token>alter</token>
+                <token>egos</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="AMICUS_CURIAE" name="amicus curiae">
+            <pattern>
+                <token>amicus</token>
+                <token>curiae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="AMICI_CURIAE" name="amici curiae">
+            <pattern>
+                <token>amici</token>
+                <token>curiae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ANNUS_MIRABILIS" name="annus mirabilis">
+            <pattern>
+                <token>annus</token>
+                <token>mirabilis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="ANNI_MIRABILISE" name="anni mirabiles">
+            <pattern>
+                <token>anni</token>
+                <token>mirabiles</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ARS_GRATIA_ARTIS" name="ars gratia artis">
+            <pattern>
+                <token>ars</token>
+                <token>gratia</token>
+                <token>artis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="AUDI_ALTERAM_PARTEM" name="audi alteram partem">
+            <pattern>
+                <token>audi</token>
+                <token>alteram</token>
+                <token>partem</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="BONA_FIDES" name="bona fides">
+            <pattern>
+                <token>bona</token>
+                <token>fides</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="CARPE_DIEM" name="carpe diem/noctem">
+            <pattern>
+                <token>carpe</token>
+                <token regexp="yes">diem|noctem</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="CASUS_BELLI" name="casus belli">
+            <pattern>
+                <token>casus</token>
+                <token>belli</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="COMPOS_MENTIS" name="compos mentis">
+            <pattern>
+                <token>compos</token>
+                <token>mentis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="CONSENSUS_AD_IDEM" name="consensus ad idem"><!-- www.ldoceonline.com/dictionary/consensus-ad-idem -->
+            <pattern>
+                <token>consensus</token>
+                <token>ad</token>
+                <token>idem</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="CORPUS_DELICTI" name="corpus delicti">
+            <pattern>
+                <token>corpus</token>
+                <token>delicti</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="CORPORA_DELICTI" name="corpora delicti">
+            <pattern>
+                <token>corpora</token>
+                <token>delicti</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="CUI_BONO" name="cui bono">
+            <pattern>
+                <token>cui</token>
+                <token>bono</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="DE_MINIMIS" name="de minimis">
+            <pattern>
+                <token>de</token>
+                <token>minimis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="DE_PROFUNDIS" name="de profundis">
+            <pattern>
+                <token>de</token>
+                <token>profundis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="DEI_GRATIA" name="Dei gratia">
+            <pattern>
+                <token case_sensitive="yes">Dei</token>
+                <token>gratia</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="DEO_GRATIAS" name="Deo gratias">
+            <pattern>
+                <token case_sensitive="yes">Deo</token>
+                <token>gratias</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="DEO_VOLENTE" name="Deo volente">
+            <pattern>
+                <token case_sensitive="yes">Deo</token>
+                <token>volente</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="DEUS_EX_MACHINA" name="deus ex machina">
+            <pattern>
+                <token>deus</token>
+                <token>ex</token>
+                <token>machina</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="DOLI_CAPAX" name="doli capax/incapax">
+            <pattern>
+                <token>doli</token>
+                <token regexp="yes">(in)?capax</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="DRAMATIS_PERSONAE" name="dramatis personae">
+            <pattern>
+                <token>dramatis</token>
+                <token>personae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ECCE_HOMO" name="ecce homo">
+            <pattern>
+                <token>ecce</token>
+                <token>homo</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="EJUSDEM_GENERIS_ADJECTIVE" name="ejusdem generis (adjective)">
+            <pattern>
+                <token>ejusdem</token>
+                <token>generis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="EJUSDEM_GENERIS_ADVERB" name="ejusdem generis (adverb)">
+            <pattern>
+                <token>ejusdem</token>
+                <token>generis</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="EX_ADJECTIVE" name="ex + ADJECTIVE">
+            <pattern>
+                <token>ex</token>
+                <token regexp="yes">cathedra|gratia|parte</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="EX_ADVERB" name="ex + ADVERB">
+            <pattern>
+                <token>ex</token>
+                <token regexp="yes">cathedra|gratia|parte</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="HABEAS_CORPUS" name="habeas corpus">
+            <pattern>
+                <token>habeas</token>
+                <token>corpus</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="IN_ADJECTIVE" name="in + ADJECTIVE">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">personam|rem</token><!-- Not the same as IN_ADVERB -->
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="IN_ADVERB" name="in + ADVERB">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">absentia|extremis|personam|rem</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="IN_FLAGRANTE_DELICTO" name="in flagrante delicto">
+            <pattern>
+                <token>in</token>
+                <token>flagrante</token>
+                <token>delicto</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="IN_LOCO_PARENTIS_ADJECTIVE" name="in loco parentis (adjective)">
+            <pattern>
+                <token>in</token>
+                <token>loco</token>
+                <token>parentis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="IN_LOCO_PARENTIS_ADVERB" name="in loco parentis (adverb)">
+            <pattern>
+                <token>in</token>
+                <token>loco</token>
+                <token>parentis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="IN_MEDIAS_RES" name="in medias res">
+            <pattern>
+                <token>in</token>
+                <token>media</token>
+                <token>res</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="IN_PROPRIA_PERSONA" name="in propria persona">
+            <pattern>
+                <token>in</token>
+                <token>propria</token>
+                <token>persona</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="IN_VINO_VERITAS" name="in vino veritas">
+            <pattern>
+                <token>in</token>
+                <token>vino</token>
+                <token>veritas</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
     </rulegroup>
