@@ -213,12 +213,18 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             }
           }
           ruleMatch.setSuggestedReplacements(replacements);
-          ruleMatches.add(ruleMatch);
+          if (!isException(sentence.getText().substring(startPos, endPos))) {
+            ruleMatches.add(ruleMatch);
+          }
           break;
         }
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected boolean isException(String matchedText) {
+    return false;
   }
 
   class PathAndLanguage {
