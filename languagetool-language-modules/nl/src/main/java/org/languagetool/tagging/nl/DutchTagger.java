@@ -56,7 +56,6 @@ public class DutchTagger extends BaseTagger {
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
-      boolean tagFound = false;
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
