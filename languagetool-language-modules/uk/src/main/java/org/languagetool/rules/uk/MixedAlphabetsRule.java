@@ -41,7 +41,7 @@ import org.languagetool.rules.RuleMatch;
 public class MixedAlphabetsRule extends Rule {
 
   private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}(-[а-яіїє]{1,3})?");
-  private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
+  private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("(Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3})(-[а-яіїє]{1,4})?");
   private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]).*");
   private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзийїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
   private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrstvzDFGJLNQRSUVZ].*");
@@ -120,21 +120,27 @@ public class MixedAlphabetsRule extends Rule {
           replacements.add( toCyrillic(tokenString) );
         }
         if(!CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
-          String[] parts = tokenString.split("-", 2);
-          String right = parts.length > 1 ? "-" + parts[1] : "";
-          replacements.add( toLatin(parts[0]) + right );
+          String converted = toLatinLeftOnly(tokenString);
+          converted = adjustForInvalidSuffix(converted);
+          replacements.add( converted );
         }
 
         if (replacements.size() > 0) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
+          String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
+          msg = adjustForInvalidSuffix(tokenString, msg);
+
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
       }
       else if(LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches()) {
         List<String> replacements = new ArrayList<>();
-        replacements.add( toLatin(tokenString) );
+        String converted = toLatinLeftOnly(tokenString);
+        converted = adjustForInvalidSuffix(converted);
+        replacements.add( converted );
 
         String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
+        msg = adjustForInvalidSuffix(tokenString, msg);
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
@@ -150,13 +156,34 @@ public class MixedAlphabetsRule extends Rule {
     }
     return toRuleMatchArray(ruleMatches);
   }
-  
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, AnalyzedSentence sentence) {
-    String tokenString = readings.getToken();
-    String msg = tokenString + getSuggestion(tokenString) + String.join(", ", replacements);
-    
-    return createRuleMatch(readings, replacements, msg, sentence);
+
+  private String adjustForInvalidSuffix(String tokenString) {
+    if( tokenString.contains("-") ) {
+      tokenString = tokenString.replaceFirst("-.*", "");
+    }
+    return tokenString;
   }
+
+  private String adjustForInvalidSuffix(String tokenString, String msg) {
+    if( tokenString.contains("-") ) {
+      msg += ". Також: до римських цифр букви не дописуються.";
+    }
+    return msg;
+  }
+
+  private String toLatinLeftOnly(String tokenString) {
+    String[] parts = tokenString.split("-", 2);
+    String right = parts.length > 1 ? "-" + parts[1] : "";
+    String converted = toLatin(parts[0]) + right;
+    return converted;
+  }
+  
+//  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, AnalyzedSentence sentence) {
+//    String tokenString = readings.getToken();
+//    String msg = tokenString + getSuggestion(tokenString) + String.join(", ", replacements);
+//    
+//    return createRuleMatch(readings, replacements, msg, sentence);
+//  }
 
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg, AnalyzedSentence sentence) {
     RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, getShort());

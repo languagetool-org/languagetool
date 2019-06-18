@@ -75,7 +75,12 @@ public class MixedAlphabetsRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("VIIІ-го")); // latin VII and cyrillic І
 
     assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("VIII-го"), matches[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("VIII"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("ІІІ-го")); // cyrillic І
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("III"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("ХІ")); // cyrillic both X and I used for latin number
 

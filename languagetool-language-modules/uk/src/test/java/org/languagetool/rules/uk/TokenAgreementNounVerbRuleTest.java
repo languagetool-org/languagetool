@@ -69,7 +69,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("я прибіг");
     assertEmptyMatch("я прибігла");
     
-    assertMatches(1, "40 тисяч чоловік виявили бажання");
+//    assertMatches(1, "40 тисяч чоловік виявили бажання");
+    // handled by styling rule
+    assertEmptyMatch("40 тисяч чоловік виявили бажання");
     
     // було + impers
     assertEmptyMatch("клан Алькапоне було знищено");

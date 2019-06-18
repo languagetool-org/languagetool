@@ -245,6 +245,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
           return true;
         }
 
+        // 100 чоловік - handled by styling rule
+        if( PosTagHelper.hasPosTagPart(tokens[i-2], "num")
+            && tokens[i-1].getToken().equals("чоловік") 
+            && LemmaHelper.tokenSearch(tokens, 1, "noun:anim:f:.*", Pattern.compile("жінк[аи]"), Pattern.compile(".*"), Dir.FORWARD) == -1 ) {
+          logException();
+          return true;
+        }
+
+
         // 50%+1 акція закріплюються
         // заінтересованість плюс гарна вивіска зіграли злий жарт
         if( i > 2

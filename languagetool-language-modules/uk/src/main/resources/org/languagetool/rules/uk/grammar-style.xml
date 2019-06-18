@@ -1766,6 +1766,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 
+    <rule id="cholovik_with_numr" name="«Чоловік» з числівниками">
+      <pattern>
+        <token postag=".*num.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">один|обидва</exception>
+          <exception postag_regexp="yes" postag="adj:m:.*"/>
+        </token>
+        <marker>
+          <token regexp="yes" skip="-1">чоловік|чоловіка|чоловіки
+            <exception scope="next" regexp="yes">жінок|жінки|жінка</exception>
+          </token>
+        </marker>
+        <token postag="SENT_END"/>
+      </pattern>
+      <message>Деякі мовні стилісти радять вживати «осіб»: \1 <suggestion>осіб</suggestion></message>
+      <url>http://mova.kreschatic.kiev.ua/32.php</url>
+      <example correction="осіб">На заході побувало триста <marker>чоловік</marker>.</example>
+      <example correction="осіб">280 мільйонів <marker>чоловік</marker>.</example>
+      <example>На заході побувало 21 чоловік і 15 жінок.</example>
+      <example>791 чоловік, 43 жінки</example>
+      <example>Один чоловік сказав мені таке...</example>
+      <example>Її першого чоловіка.</example>
+    </rule>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
