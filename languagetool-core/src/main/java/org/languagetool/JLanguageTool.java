@@ -504,12 +504,14 @@ public class JLanguageTool {
   }
 
   public void activateRemoteRules(File configFile) throws IOException {
-    try (FileInputStream input = new FileInputStream(configFile)) {
-      List<RemoteRuleConfig> configs = RemoteRuleConfig.parse(input);
+    try {
+      List<RemoteRuleConfig> configs = RemoteRuleConfig.load(configFile);
       List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs);
       userRules.addAll(rules);
     } catch (IOException e) {
       throw new IOException("Could not load remote rules.", e);
+    } catch (ExecutionException e) {
+      throw new IOException("Could not load remote rules configuration at " + configFile.getAbsolutePath(), e);
     }
   }
 
