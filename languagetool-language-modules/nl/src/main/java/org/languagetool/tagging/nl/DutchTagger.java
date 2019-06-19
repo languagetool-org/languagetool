@@ -87,6 +87,7 @@ public class DutchTagger extends BaseTagger {
         word2 = word2.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
         
         // TODO: remove optional hyphens one at a time; for now just all will be removed
+        // best would be to check the parts as well (uncompound)
         word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
         
         if (!word2.equals(word)) {

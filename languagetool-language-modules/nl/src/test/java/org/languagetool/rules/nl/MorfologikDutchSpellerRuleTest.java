@@ -51,6 +51,7 @@ public class MorfologikDutchSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("déúr")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("déur")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("deur-knop")).length);
 
   }
 }
