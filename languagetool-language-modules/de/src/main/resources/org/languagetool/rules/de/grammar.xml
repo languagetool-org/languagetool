@@ -14336,20 +14336,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>geheißen</suggestion>
             <example correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
         </rule>
-        <rulegroup id="LILANES" name="'lilanes (lila) Shirt'">
+        <rulegroup id="LILANES" name="'orangenes (oranges) Shirt'">
             <rule>
-                <regexp case_sensitive='yes'>\b((lilane?|pinke|chamoise)[mnrs]?|olive[rsn]|orange(ne)?[nrs])\b</regexp>
-                <message>Dieses Farbadjektiv wird standardsprachlich nicht gebeugt.</message>
-                <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-sind-rosane-t-shirts-und-lilane-leggings-erlaubt-a-292846.html</url>
+                <pattern>
+                    <token regexp="yes">orangene[nrsm]</token>
+                </pattern>
+                <message>\1 ist umgangssprachlich. Standardsprachlich heißt es <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange$1" /></suggestion> oder <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange" /></suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/orange</url>
                 <short>Umgangssprache</short>
-                <example>Ein <marker>lila</marker> Shirt</example>
-                <example>Ein <marker>lilafarbenes</marker> Kleid</example>
-                <example correction="">Ein <marker>lilanes</marker> Shirt</example>
-                <example correction="">Eine <marker>pinke</marker> Hose</example>
-                <example correction="">Ein <marker>olives</marker> Kleid</example>
-                <example correction="">Die <marker>pinken</marker> Kleider</example>
-                <example>Eine <marker>Olive</marker></example>
-                <example>Gregor <marker>Pinke</marker></example>
+                <example correction="oranges|orange">Ein <marker>orangenes</marker> Shirt</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>orangene</token>
+                </pattern>
+                <message>\1 ist umgangssprachlich. Standardsprachlich heißt es <suggestion>orange</suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/orange</url>
+                <short>Umgangssprache</short>
+                <example correction="orange">Eine <marker>orangene</marker> Tischdecke</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_INTERNET" name="'mein Internet (meine Internetverbindung)'">
