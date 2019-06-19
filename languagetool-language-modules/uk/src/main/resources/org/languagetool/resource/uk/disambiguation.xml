@@ -2577,6 +2577,22 @@
     <example type="untouched">велика ґрата</example>
   </rule>
 
+  <rule name="І т.д." id="i_t_d">
+    <pattern>
+      <token regexp="yes">[ій]</token>
+      <token>т.</token>
+      <marker>
+        <token>д.</token>
+      </marker>
+    </pattern>
+    <disambig action="replace" postag="adv:abbr"></disambig>
+    <example type="ambiguous"
+        inputform="д.[&lt;/S&gt;]"
+        outputform="д.[&lt;/S&gt;,д./adv:abbr]"
+            >і т.<marker>д.</marker></example>
+    <example type="untouched">д.м.н.</example>
+  </rule>
+
 
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
