@@ -6494,10 +6494,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
-        <rule id="INTER_ALIA" name="inter alia">
+        <rule id="INTER_ADVERB" name="inter + ADVERB">
             <pattern>
                 <token>inter</token>
-                <token>alia</token>
+                <token regexp="yes">alia|vivos</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="INTER_VIVOS" name="inter vivos">
+            <pattern>
+                <token>inter</token>
+                <token>vivos</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="INTRA_VIRES" name="intra vires">
+            <pattern>
+                <token>intra</token>
+                <token>vires</token>
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
@@ -6510,17 +6526,95 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
 
-        <rule id="LOCUS_CLASSICUS" name="locus classicus">
+        <rule id="LOCUM_TENENS" name="locum tenens">
             <pattern>
-                <token>locus</token>
-                <token>classicus</token>
+                <token>locum</token>
+                <token>tenens</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
         </rule>
-        <rule id="LOCI_CLASSICI" name="loci classici">
+        <rule id="LOCUM_TENENTES" name="locum tenentes">
+            <pattern>
+                <token>locum</token>
+                <token>tenentes</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="LOCUS_NOUN" name="locus + NOUN">
+            <pattern>
+                <token>locus</token>
+                <token regexp="yes">classicus|standi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="LOCI_NOUN" name="loci + NOUN">
             <pattern>
                 <token>loci</token>
-                <token>classici</token>
+                <token regexp="yes">classicus|standi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="MAGNUM_OPUS" name="magnum opus">
+            <pattern>
+                <token>magnum</token>
+                <token>opus</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="MAGNUM_OPUSES" name="magnum opuses">
+            <pattern>
+                <token>magnum</token>
+                <token>opuses</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+        <rule id="MAGNA_OPERA" name="magna opera">
+            <pattern>
+                <token>magna</token>
+                <token>opera</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="MEA_CULPA" name="mea culpa">
+            <pattern>
+                <token>mea</token>
+                <token>culpa</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="MEMENTO_MORI" name="memento mori">
+            <pattern>
+                <token>memento</token>
+                <token>mori</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+<!-- The mens rea names are John and Peter. [Not found by LT]
+        <rule id="MENS_REA" name="mens rea">
+            <pattern>
+                <token>mens</token>
+                <token>rea</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+-->
+
+        <rule id="MODUS_NOUN" name="modus + NOUN">
+            <pattern>
+                <token>modus</token>
+                <token regexp="yes">operandi|vivendi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="MODI_NOUN" name="modi + NOUN">
+            <pattern>
+                <token>modi</token>
+                <token regexp="yes">operandi|vivendi</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
@@ -6532,6 +6626,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>ultra</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="NIL_DESPERANDUM" name="nil desperandum">
+            <pattern>
+                <token>nil</token>
+                <token>desperandum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="NOLENS_VOLENS" name="nolens volens">
+            <pattern>
+                <token>nolens</token>
+                <token>volens</token>
+            </pattern>
+            <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="NOLLE_PROSEQUI" name="nolle prosequi">
+            <pattern>
+                <token>nolle</token>
+                <token>prosequi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
         </rule>
 
         <rule id="NON_SEQUITUR" name="non sequitur">
@@ -6549,19 +6667,99 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
 
+        <rule id="NOSCITUR_A_SOCIIS" name="noscitur a sociis">
+            <pattern>
+                <token>noscitur</token>
+                <token>a</token>
+                <token>sociis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="NOTA_BENE" name="nota bene">
+            <pattern>
+                <token>nota</token>
+                <token>bene</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="OBITER_DICTUM" name="obiter dictum">
+            <pattern>
+                <token>obiter</token>
+                <token>dictum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="OBITER_DICTA" name="obiter dicta">
+            <pattern>
+                <token>obiter</token>
+                <token>dicta</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ONUS_PROBANDI" name="onus probandi">
+            <pattern>
+                <token>onus</token>
+                <token>probandi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="PARENS_PATRIAE" name="parens patriae">
+            <pattern>
+                <token>parens</token>
+                <token>patriae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
         <rule id="PER_ADJECTIVE" name="per + ADJECTIVE">
             <pattern>
                 <token>per</token>
-                <token>capita</token>
+                <token regexp="yes">capita|incuriam</token>
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
         <rule id="PER_ADVERB" name="per + ADVERB">
             <pattern>
                 <token>per</token>
-                <token regexp="yes">capita|se</token><!-- Not the same as PER_ADJECTIVE -->
+                <token regexp="yes">annum|capita|incuriam|se</token><!-- Not the same as PER_ADJECTIVE -->
             </pattern>
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="PERSONA_NON_GRATA" name="persona non grata">
+            <pattern>
+                <token>persona</token>
+                <token>non</token>
+                <token>grata</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="PERSONAE_NON_GRATAE" name="personae non gratae">
+            <pattern>
+                <token>personae</token>
+                <token>non</token>
+                <token>gratae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="PRIMA_DONNA" name="prima donna">
+            <pattern>
+                <token>prima</token>
+                <token>donna</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="PRIMA_DONNAS" name="prima donnas">
+            <pattern>
+                <token>prima</token>
+                <token>donnas</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
 
         <rule id="PRIMA_FACIE_ADJECTIVE" name="prima facie (adjective)">
@@ -6579,19 +6777,44 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
 
+        <rule id="PRIMUS_INTER_PARES" name="primus inter pares">
+            <pattern>
+                <token>primus</token>
+                <token>inter</token>
+                <token>pares</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
         <rule id="PRO_ADJECTIVE" name="pro + ADJECTIVE">
             <pattern>
                 <token>pro</token>
-                <token regexp="yes">bono|rata</token>
+                <token regexp="yes">bono|forma|rata|tempore</token>
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
         <rule id="PRO_ADVERB" name="pro + ADVERB">
             <pattern>
                 <token>pro</token>
-                <token regexp="yes">bono|rata</token>
+                <token regexp="yes">bono|forma|rata|tempore</token>
             </pattern>
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="PROXIME_ACCESSIT" name="proxime accessit">
+            <pattern>
+                <token>proxime</token>
+                <token>accessit</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="QUANTUM_MERUIT" name="quantum meruit">
+            <pattern>
+                <token>quantum</token>
+                <token>meruit</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
         </rule>
 
         <rule id="QUID_PRO_QUO" name="quid pro quo">
@@ -6609,6 +6832,82 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>quos</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="QUOD_ERAT_DEMONSTRANDUM" name="quod erat demonstrandum">
+            <pattern>
+                <token>quad</token>
+                <token>erat</token>
+                <token>demonstrandum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="RATIO_DECIDENDI" name="ratio decidendi">
+            <pattern>
+                <token>ratio</token>
+                <token>decidendi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="RATIONES_DECIDENDI" name="rationes decidendi">
+            <pattern>
+                <token>rationes</token>
+                <token>decidendi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="REDUCTIO_AD_ABSURDUM" name="reductio ad absurdum">
+            <pattern>
+                <token>reductio</token>
+                <token>ad</token>
+                <token>absurdum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="RES_IPSA_LOQUITUR" name="res ipsa loquitur">
+            <pattern>
+                <token>res</token>
+                <token>ipsa</token>
+               <token regexp="yes">loquit[ou]r</token><!-- loquitor=AmE variant -->
+           </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="RES_JUDICATA" name="res judicata">
+            <pattern>
+                <token>res</token>
+                <token>judicata</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+        <rule id="RES_JUDICATAE" name="res judicatae">
+            <pattern>
+                <token>res</token>
+                <token>judicatae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="RESTITUTIO_IN_INTEGRUM" name="restitutio in integrum">
+            <pattern>
+                <token>restitutio</token>
+                <token regexp="yes">ad|in</token>
+                <token>integrum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="SIC_TRANSIT_GLORIA_MUNDI" name="sic transit gloria mundi">
+            <pattern>
+                <token>sic</token>
+                <token>transit</token>
+                <token>gloria</token>
+                <token>mundi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
         <rule id="SINE_DIE" name="sine die">
@@ -6636,6 +6935,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
 
+        <rule id="STARE_DECISIS" name="stare decisis">
+            <pattern>
+                <token>stare</token>
+                <token>decisis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
         <rule id="STATUS_QUO" name="status quo">
             <antipattern case_sensitive="yes"><!-- www.statusquo.co.uk -->
                 <token>Status</token>
@@ -6646,6 +6953,103 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>quo</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="SUB_ADJECTIVE" name="sub + ADJECTIVE">
+            <pattern>
+                <token>sub</token>
+                <token regexp="yes">judice|rosa</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="SUB_ADVERB" name="sub + ADVERB">
+            <pattern>
+                <token>sub</token>
+                <token regexp="yes">judice|rosa</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="SUI_GENERIS" name="sui generis">
+            <pattern>
+                <token>sui</token>
+                <token>generis</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
+        <rule id="TEMPUS_FUGIT" name="tempus fugit">
+            <pattern>
+                <token>tempus</token>
+                <token>fugit</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="TERRA_NOUN" name="terra + NOUN">
+            <pattern>
+                <token>terra</token>
+                <token regexp="yes">firma|incognita|nullius</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="TERRAE_INCOGNITAE" name="terrae incognitae">
+            <pattern>
+                <token>terrae</token>
+                <token>incognitae</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="ULTRA_VIRES_ADJECTIVE" name="ultra vires (adjective)">
+            <pattern>
+                <token>ultra</token>
+                <token>vires</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="ULTRA_VIRES_ADVERB" name="ultra vires (adverb)">
+            <pattern>
+                <token>ultra</token>
+                <token>vires</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="VENI_VIDI_VICI" name="veni, vidi, vici">
+            <pattern>
+                <token>veni</token>
+                <token>,</token>
+                <token>vidi</token>
+                <token>,</token>
+                <token>vici</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+<!-- ... and via media such as radio and television.
+        <rule id="VIA_MEDIA" name="via media"> = compromise
+            <pattern>
+                <token>via</token>
+                <token>media</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+-->
+        <rule id="VICTOR_LUDORUM" name="victor ludorum">
+            <pattern>
+                <token>victor</token>
+                <token>ludorum</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+        </rule>
+
+        <rule id="VIRGO_INTACTA" name="virgo intacta">
+            <pattern>
+                <token>virgo</token>
+                <token>intacta</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
         <rule id="VIVA_VOCE_ADJECTIVE" name="viva voce (adjective)">
@@ -6668,6 +7072,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>voce</token>
             </pattern>
             <disambig action="add"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+        </rule>
+
+        <rule id="VOLENTI_NON_FIT_INJURIA" name="volenti non fit injuria">
+            <pattern>
+                <token>volenti</token>
+                <token>non</token>
+                <token>fit</token>
+                <token>injuria</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
+        </rule>
+
+        <rule id="VOX_POPULI" name="vox populi">
+            <pattern>
+                <token>vox</token>
+                <token>populi</token>
+            </pattern>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
     </rulegroup>
