@@ -643,6 +643,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Fr-Sa", "Fr.–Sa.");
     put("Fr-So", "Fr.–So.");
     put("Sa-So", "Sa.–So.");
+    put("E-mail", "E-Mail");
+    putRepl("eMail-Adressen?", "eMail-", "E-Mail-");
     putRepl("[hH]ats", "ats", "at es");
     putRepl("[Ww]ieviele?", "ieviel", "ie viel");
     put("As", "Ass");
