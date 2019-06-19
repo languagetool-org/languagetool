@@ -7094,4 +7094,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     </rulegroup>
 
+    <rulegroup id="FOREIGN_TERM_SPANISH" name="Spanish terms used in English">
+
+        <rule id="MANO_A_MANO_ADJECTIVE" name="mano a mano (adjective)">
+            <pattern>
+                <token>mano</token>
+                <token>a</token>
+                <token>mano</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+        <rule id="MANO_A_MANO_ADVERB" name="mano a mano (adverb)">
+            <pattern>
+                <token>mano</token>
+                <token>a</token>
+                <token>mano</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+    </rulegroup>
+
 </rules>
