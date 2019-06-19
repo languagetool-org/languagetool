@@ -58,5 +58,6 @@ public class DutchTaggerTest {
     TestTools.myAssert("kán", "kán/[kan]ZNW:EKV:DE_|kán/[kunnen]WKW:TGW:1EP|kán/[kunnen]WKW:TGW:3EP", tokenizer,
         tagger);
     TestTools.myAssert("ín", "ín/[in]FOREIGN|ín/[in]VRZ|ín/[innen]WKW:TGW:1EP", tokenizer, tagger);
+    TestTools.myAssert("deur-knop", "deur-knop/[deurknop]ZNW:EKV:DE_", tokenizer, tagger);
   }
 }

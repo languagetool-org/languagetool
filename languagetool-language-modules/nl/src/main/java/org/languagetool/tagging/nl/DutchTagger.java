@@ -81,8 +81,14 @@ public class DutchTagger extends BaseTagger {
       }
 
       if (l.isEmpty()) {
+   
         String word2 = word;
+        // remove single accented characterd
         word2 = word2.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        
+        // TODO: remove optional hyphens one at a time; for now just all will be removed
+        word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
+        
         if (!word2.equals(word)) {
           List<AnalyzedToken> l2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word2));
           if (l2 != null) {
