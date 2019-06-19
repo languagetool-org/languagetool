@@ -95,8 +95,25 @@ public class DutchTagger extends BaseTagger {
             addTokens(l2, l);
 
             String word3 = word;
-            word3 = word3.replace("áá", "aa").replace("éé", "ee").replace("óó", "oo").replace("úú", "uu").replace("íé",
-                "ie");
+            word3 = word.replaceAll("([a-z])-([a-z])", "$1$2");
+            // remove allowed accented characterd
+
+            word3 = word3.replace("áá", "aa");
+            word3 = word3.replace("áé", "ae");
+            word3 = word3.replace("áí", "ai");
+            word3 = word3.replace("áú", "au");
+            word3 = word3.replace("éé", "ee");
+            word3 = word3.replace("éí", "ei");
+            word3 = word3.replace("éú", "eu");
+            word3 = word3.replace("íé", "ie");
+            word3 = word3.replace("óé", "oe");
+            word3 = word3.replace("óí", "oi");
+            word3 = word3.replace("óó", "oo");
+            word3 = word3.replace("óú", "ou");
+            word3 = word3.replace("úí", "ui");
+            word3 = word3.replace("úú", "uu");
+            word3 = word3.replace("íj", "ij");
+            
             word3 = word3.replaceAll("(^|[^aeiou])á([^aeiou]|$)", "$1a$2");
             word3 = word3.replaceAll("(^|[^aeiou])é([^aeiou]|$)", "$1e$2");
             word3 = word3.replaceAll("(^|[^aeiou])í([^aeiou]|$)", "$1i$2");
