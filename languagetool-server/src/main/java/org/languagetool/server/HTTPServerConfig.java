@@ -76,6 +76,7 @@ public class HTTPServerConfig {
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
+  protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
@@ -237,6 +238,10 @@ public class HTTPServerConfig {
         if (cacheSize < 0) {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
         }
+        if (props.containsKey("cacheTTLSeconds") && !props.containsKey("cacheSize")) {
+          System.err.println("Use of cacheTTLSeconds without also setting cacheSize has no effect.");
+        }
+        cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         if (props.containsKey("warmUp")) {
           System.err.println("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
         }
@@ -648,6 +653,22 @@ public class HTTPServerConfig {
    */
   void setCacheSize(int sentenceCacheSize) {
     this.cacheSize = sentenceCacheSize;
+  }
+
+  /**
+   * Cache entry TTL; refreshed on access; in seconds
+   * @since 4.6
+   */
+  long getCacheTTLSeconds() {
+    return cacheTTLSeconds;
+  }
+
+  /**
+   * Set cache entry TTL in seconds
+   * @since 4.6
+   */
+  void setCacheTTLSeconds(long cacheTTLSeconds) {
+    this.cacheTTLSeconds = cacheTTLSeconds;
   }
 
   /**
