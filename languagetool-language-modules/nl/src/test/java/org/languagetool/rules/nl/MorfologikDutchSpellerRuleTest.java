@@ -47,7 +47,10 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("kán")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("ín")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("wéé")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("géén")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("déúr")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("géen")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("geén")).length);
   }
 }
