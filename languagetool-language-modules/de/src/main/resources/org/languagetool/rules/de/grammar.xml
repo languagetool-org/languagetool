@@ -15988,6 +15988,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Eine dieser Lösungen muss die <marker>beste</marker> sein.</example>
             <example>Von allen Vorschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
         </rule>
+        <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">gute|schlechte|beste|schlechteste</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[ai][mn]</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Gute">Sie hat den glauben an das <marker>gute</marker> im Menschen verloren.</example>
+                <example correction="Schlechteste">Dies ruft das <marker>schlechteste</marker> im Menschen hervor.</example>
+            </rule>
+        </rulegroup>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
             <antipattern>
                 <token regexp="yes">das|[dms]ein|ihr<exception scope="previous" postag="PRP.+|NEG" postag_regexp="yes"></exception></token>
@@ -22373,6 +22388,31 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Sinne">Schuldig im <marker>sinne</marker> der Anklage.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GLAUBEN_SCHENKEN" name="'glauben (Glauben) schenken'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">glauben|vertrauen</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">verlieren|schenken</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Glauben">Sie hat ihm keinen <marker>glauben</marker> geschenkt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">verlieren|schenken<exception scope="next" postag="PKT"/></token>
+                    <marker>
+                        <token regexp="yes">glauben|vertrauen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Glauben">Sie hat schenkte ihm keinen <marker>glauben</marker>.</example>
+                <example correction="Glauben">Deshalb verlor sie ihren <marker>glauben</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_ALTER" name="'im alter (Alter)'">
