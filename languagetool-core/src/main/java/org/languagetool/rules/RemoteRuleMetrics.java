@@ -56,8 +56,12 @@ public final class RemoteRuleMetrics {
     "Time remote rules were deactivated because of errors").labelNames("rule_id").register();
 
   // supersedes requests, requestDuration
-  private static final Summary requestSummary = Summary.build("languagetool_remote_rule_request_duration_seconds",
+  private static final Summary requestTimeSummary = Summary.build("languagetool_remote_rule_request_duration_seconds",
     "Request duration summary").labelNames("rule_id", "result")
+    .quantile(0.5, 0.05).quantile(0.9, 0.01).register();
+
+  private static final Summary requestSizeSummary = Summary.build("languagetool_remote_rule_request_size",
+    "Request size summary").labelNames("rule_id", "result")
     .quantile(0.5, 0.05).quantile(0.9, 0.01).register();
 
   private static final Gauge failures = Gauge.build("languagetool_remote_rule_consecutive_failures",
@@ -66,9 +70,10 @@ public final class RemoteRuleMetrics {
   private static final Gauge up = Gauge.build("languagetool_remote_rule_up",
     "Status of remote rule").labelNames("rule_id").register();
 
-  public static void request(String rule, int numRetries, long nanoseconds, RequestResult result) {
+  public static void request(String rule, int numRetries, long nanoseconds, long characters, RequestResult result) {
     requests.labels(rule, result.name().toLowerCase()).inc();
-    requestSummary.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
+    requestTimeSummary.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
+    requestSizeSummary.labels(rule, result.name().toLowerCase()).observe(characters);
     retries.labels(rule).inc(numRetries);
     requestDuration.labels(rule).inc((double) nanoseconds / 1e9);
   }
