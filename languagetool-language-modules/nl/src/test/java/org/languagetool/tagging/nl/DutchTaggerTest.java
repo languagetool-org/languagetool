@@ -45,11 +45,19 @@ public class DutchTaggerTest {
 
   @Test
   public void testTagger() throws IOException {
+
     TestTools.myAssert("Aardappels koken.", "Aardappels/[aardappel]ZNW:MRV:DE_ -- koken/[koken]WKW:TGW:INF", tokenizer,
         tagger);
     TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);
     TestTools.myAssert("geen", "geen/[geen]BYW", tokenizer, tagger);
     TestTools.myAssert("géen", "géen/[geen]BYW", tokenizer, tagger);
-
+    TestTools.myAssert("déúr", "déúr/[deur]ZNW:EKV:DE_", tokenizer, tagger);
+    TestTools.myAssert("kómen", "kómen/[komen]WKW:TGW:INF", tokenizer, tagger);
+    TestTools.myAssert("wéé", "wéé/[wéé]UNSPECIFIED", tokenizer, tagger);
+    TestTools.myAssert("háár", "háár/[haar]ZNW:EKV|háár/[haren]WKW:TGW:1EP|háár/[zij]VNW:PER:1EP:MRV:BEZ", tokenizer,
+        tagger);
+    TestTools.myAssert("kán", "kán/[kan]ZNW:EKV:DE_|kán/[kunnen]WKW:TGW:1EP|kán/[kunnen]WKW:TGW:3EP", tokenizer,
+        tagger);
+    TestTools.myAssert("ín", "ín/[in]FOREIGN|ín/[in]VRZ|ín/[innen]WKW:TGW:1EP", tokenizer, tagger);
   }
 }
