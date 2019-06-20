@@ -39,7 +39,7 @@ USA
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chinese|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
-    <!ENTITY extreme_qualifiers "ex(?:treme(?:ly)?|ceedingly|ceptionally|tra(ordinarily)?)|especially|fault|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
+    <!ENTITY extreme_qualifiers "ex(?:treme(?:ly)?|ceedingly|ceptionally|tra(ordinarily)?)|fault|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
 
     <!ENTITY hyphen "(?:[-‑])">
 
@@ -13775,6 +13775,7 @@ USA
             </pattern>
             <message>The extreme adjective for small is '<suggestion><match no="2">tiny</match></suggestion>'.</message>
             <example correction="tiny">This is <marker>extremely small</marker>.</example>
+            <example>Many cities, especially small ones, will not be able to meet the costs.</example>
         </rule>
         <rule>
             <pattern>
@@ -14093,6 +14094,12 @@ USA
                 <token>use</token>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token regexp="NN.*" postag_regexp="yes"></token>
+                <token regexp="NN.*" postag_regexp="yes"></token>
+                <token>use</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="MD"/></token>
                 <marker>
@@ -14111,6 +14118,7 @@ USA
             <example>What language did you use to communicate?</example>
             <example>Did you use to drink a lot?</example>
             <example>What language do you two use to communicate?</example>
+            <example>This is a process doctors use to educate their patients.</example>
         </rule>
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
