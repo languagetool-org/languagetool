@@ -43,6 +43,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private static final String EXTERNAL = "external";
 
+  protected final String sourceFile;
+
   protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
@@ -73,7 +75,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean inAntiPattern;
 
   private String idPrefix;
-  private final String sourceFile;
 
   public PatternRuleHandler() {
     this.sourceFile = null;
@@ -572,6 +573,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
         rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
+        rule.setSourceFile(sourceFile);
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
@@ -626,6 +628,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
 
   protected void prepareRule(AbstractPatternRule rule) {
+    rule.setSourceFile(sourceFile);
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
       rule.setEndPositionCorrection(endPos - tokenCountForMarker);
