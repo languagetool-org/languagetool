@@ -8739,13 +8739,40 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="2"/>
             <token postag="N f.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">duquel|auquel|auxquels|desquels</token>
+            <token>duquel</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
-        <example correction="">La femme <marker>auquel</marker> tu parles</example>
+          <suggestion>de laquelle</suggestion>
+        <example correction="de laquelle">La femme <marker>duquel</marker> tu parles</example>
         <example>L’<marker>homme auquel</marker> tu parles</example>
       </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="2"/>
+                <token postag="N f.*" postag_regexp="yes"/>
+                <marker>
+                    <token>auquel</token>
+                </marker>
+            </pattern>
+            <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
+            <suggestion>à laquelle</suggestion>
+            <example correction="à laquelle">La femme <marker>auquel</marker> tu parles</example>
+            <example>L’<marker>homme auquel</marker> tu parles</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="2"/>
+                <token postag="N f.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">auxquels|desquels</token>
+                </marker>
+            </pattern>
+            <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
+            <suggestion><match no="3" regexp_match="quels" regexp_replace="quelles"/></suggestion>
+            <example correction="auxquelles">Les femmes <marker>auxquels</marker> tu parles</example>
+            <example>L’<marker>homme auquel</marker> tu parles</example>
+        </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
@@ -8766,13 +8793,27 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="2"/>
             <token postag="N . p" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">duquel|auquel</token>
+            <token>duquel</token>
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
-        <example correction="">Les hommes <marker>auquel</marker> tu parles</example>
+          <suggestion>desquels</suggestion>
+        <example correction="desquels">Les hommes <marker>duquel</marker> tu parles</example>
         <example>Les <marker>hommes auxquels</marker> tu parles</example>
       </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="2"/>
+                <token postag="N . p" postag_regexp="yes"/>
+                <marker>
+                    <token>auquel</token>
+                </marker>
+            </pattern>
+            <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
+            <suggestion>auxquels</suggestion>
+            <example correction="auxquels">Les hommes <marker>auquel</marker> tu parles</example>
+            <example>Les <marker>hommes auxquels</marker> tu parles</example>
+        </rule>
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
@@ -8819,20 +8860,22 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="MON_NFS" name="mon/ton/son suivi d’un nom féminin singulier">
       <pattern>
+          <marker>
         <token regexp="yes">[mts]on</token>
+          </marker>
         <and>
           <token negate="yes" postag="N f s" regexp="yes">[ahâeiouéèîœ].*</token>
           <token><exception postag="N m s"/></token>
         </and>
       </pattern>
       <message>« \1 » ne peut pas être suivi du nom féminin « \2 ». Utilisez un déterminant féminin à la place de « \1 ».</message>
-<!--	 <suggestion><match no="1" postag="" postag_regexp="yes" postag_replace""/></suggestion> -->
+	 <suggestion><match no="1" regexp_match="([MTSmts])on" regexp_replace="$1a"/></suggestion>
       <example>Mon chien</example>
       <example>Ton histoire</example>
       <example>Mon œuvre</example>
       <example>Son ère</example>
       <example>Son malaise</example>
-      <example correction=""><marker>Mon fille</marker></example>
+      <example correction="Ma"><marker>Mon</marker> fille</example>
     </rule>
     <rulegroup id="EST_CE_QUE_INF" name="est-ce que + verbe inf">
       <rule>
