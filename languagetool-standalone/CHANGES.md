@@ -54,6 +54,11 @@
 #### Spanish
   * Updated spell dictionary from 2.1 to 2.4
 
+#### Ukrainian
+  * Support for new spelling rules from 2019
+  * Thousands of new words in the dictionary
+  * Many rule improvements
+
 #### HTTP API / LT server
   * `altLanguages` will only be considered for words with >= 3 characters
   * Cleaned up error handling: invalid parameters will now return an HTTP error 400
