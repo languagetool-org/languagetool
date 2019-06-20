@@ -22414,6 +22414,21 @@ Andere Projekte</example>
                 <example correction="Glauben">Sie hat schenkte ihm keinen <marker>glauben</marker>.</example>
                 <example correction="Glauben">Deshalb verlor sie ihren <marker>glauben</marker>.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Treu</token>
+                    <token>und</token>
+                    <token>Glauben</token>
+                </antipattern>
+                <pattern>
+                    <token>treu</token>
+                    <token>und</token>
+                    <token>glauben</token>
+                </pattern>
+                <message>&inwend;<suggestion>Treu und Glauben</suggestion> werden 'Treu' und 'Glauben' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Treu und Glauben">Prinzipiell ist <marker>treu und glauben</marker> nur innerhalb einer Vertragsbeziehung anwendbar.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="IM_ALTER" name="'im alter (Alter)'">
             <rule>
@@ -22543,7 +22558,7 @@ Andere Projekte</example>
         <rule id="AUF_DIE_REISE" name="'auf die reise (Reise)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[aA]uf</token>
-                <token regexp="yes">die|der</token>
+                <token regexp="yes">die|der|[dkms]?einer</token>
                 <marker>
                     <token>reise</token>
                 </marker>
@@ -22597,7 +22612,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">gewisser|dieser|anderer</token>
+                    <token regexp="yes">gewisser|dieser|anderer|unvergleichlicher|keinster</token>
                     <marker>
                         <token>weise</token>
                     </marker>
@@ -22692,7 +22707,6 @@ Andere Projekte</example>
         <rulegroup id="AUF_DEM_STAND" name="'auf dem stand (Stand)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">haben</token>
                     <token>einen</token>
                     <token>schweren</token>
                     <marker>
@@ -22702,38 +22716,13 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Stand">Er hat einen schweren <marker>stand</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>einen</token>
-                    <token>schweren</token>
-                    <marker>
-                        <token>stand</token>
-                    </marker>
-                    <token inflected="yes">haben</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Stand">Er wird einen schweren <marker>stand</marker> haben.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
                     <token>dem</token>
-                    <marker>
-                        <token>stand</token>
-                    </marker>
-                    <token>von</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Stand">Die Software ist auf dem <marker>stand</marker> von 2001.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]uf</token>
-                    <token>dem</token>
-                    <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes" min="0"/>
                     <marker>
                         <token>stand</token>
                     </marker>
@@ -22741,6 +22730,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Stand">Die Software ist nicht auf dem aktuellen <marker>stand</marker>.</example>
+                <example correction="Stand">Die Software ist auf dem <marker>stand</marker> von 2001.</example>
                 <example>Die Software ist nicht auf dem neuesten <marker>Stand</marker>.</example>
             </rule>
         </rulegroup>
@@ -22764,7 +22754,7 @@ Andere Projekte</example>
                     <marker>
                         <token>strecke</token>
                     </marker>
-                    <token inflected="yes">bleiben</token>
+                    <token inflected="yes" regexp="yes">bleiben|von|nach</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -23800,7 +23790,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>außer</token>
-                    <token regexp="yes">sich|mir</token>
+                    <token inflected="yes">sich</token>
                     <token>vor</token>
                     <marker>
                         <token>sorge</token>
@@ -23931,22 +23921,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">treiben</token>
                     <token>es</token>
-                    <token>auf</token>
-                    <token>die</token>
-                    <marker>
-                        <token>spitze</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Spitze">Ihr treibt es auf die <marker>spitze</marker>!</example>
-                <example>Treibt es nicht auf die <marker>Spitze</marker>!</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">treiben</token>
-                    <token>es</token>
-                    <token>nicht</token>
+                    <token min="0">nicht</token>
                     <token>auf</token>
                     <token>die</token>
                     <marker>
@@ -23956,6 +23931,8 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Spitze</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Spitze">Treibt es nicht auf die <marker>spitze</marker>!</example>
+                <example correction="Spitze">Ihr treibt es auf die <marker>spitze</marker>!</example>
+                <example>Treibt es nicht auf die <marker>Spitze</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_DER_KIPPE" name="'auf der kippe (Kippe)'">
