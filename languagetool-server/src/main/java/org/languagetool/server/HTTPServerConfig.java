@@ -239,7 +239,7 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
         }
         if (props.containsKey("cacheTTLSeconds") && !props.containsKey("cacheSize")) {
-          System.err.println("Use of cacheTTLSeconds without also setting cacheSize has no effect.");
+          throw new IllegalArgumentException("Use of cacheTTLSeconds without also setting cacheSize has no effect.");
         }
         cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         if (props.containsKey("warmUp")) {
