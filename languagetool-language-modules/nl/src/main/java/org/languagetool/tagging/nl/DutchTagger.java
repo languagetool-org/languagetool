@@ -83,7 +83,7 @@ public class DutchTagger extends BaseTagger {
       if (l.isEmpty()) {
         String word2 = lowerWord;
         // remove single accented characterd
-        word2 = word2.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        word2 = word2.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u');
         
         // TODO: remove optional hyphens one at a time; for now just all will be removed
         // best would be to check the parts as well (uncompound)

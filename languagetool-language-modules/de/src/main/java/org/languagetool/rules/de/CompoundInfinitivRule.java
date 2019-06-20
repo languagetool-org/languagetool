@@ -148,7 +148,7 @@ public class CompoundInfinitivRule extends Rule {
     String verb = null;
     for (int i = n - 2; i > 0 && !isPunctuation(tokens[i].getToken()) && verb == null; i--) {
       if (tokens[i].hasPosTagStartingWith("VER:IMP")) {
-        verb = getLemma(tokens[i]).toLowerCase();
+        verb = StringUtils.lowerCase(getLemma(tokens[i]));
       } else if (tokens[i].hasPosTagStartingWith("VER")) {
         verb = tokens[i].getToken().toLowerCase();
       } else if ("Fang".equals(tokens[i].getToken())) {
@@ -191,7 +191,7 @@ public class CompoundInfinitivRule extends Rule {
         && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
         String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
                    + "' abgeleitet ist, muss er zusammengeschrieben werden";
-        RuleMatch ruleMatch = new RuleMatch(this, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
         List<String> suggestions = new ArrayList<>();
         suggestions.add(tokens[i - 1].getToken() + tokens[i].getToken() + tokens[i + 1].getToken());
         ruleMatch.setSuggestedReplacements(suggestions);

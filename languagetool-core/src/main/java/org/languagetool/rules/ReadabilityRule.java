@@ -306,7 +306,7 @@ public class ReadabilityRule extends TextLevelRule {
           
           if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
             msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
-            RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
             ruleMatches.add(ruleMatch);
           }
         }

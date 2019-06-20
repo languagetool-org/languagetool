@@ -132,7 +132,7 @@ public class LongParagraphRule extends TextLevelRule {
       }
       if (sentence.hasParagraphEndMark(lang)) {
         if (wordCount > maxWords) {
-          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
           ruleMatches.add(ruleMatch);
         }
         wordCount = 0;
