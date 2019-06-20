@@ -44,6 +44,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "\u2400-\u27FF"                                                       // Control Pictures
             + String.valueOf(Character.toChars(0x1F400)) + "-" + String.valueOf(Character.toChars(0x1F64F))          // Emojis
             + "\ufeff\uffa0\ufff9\ufffa\ufffb"
+            + "\ufe00-\uffff"
             + "\uE110]";
 
   private static final Pattern SPLIT_CHARS_REGEX = Pattern.compile(SPLIT_CHARS);
