@@ -10831,6 +10831,40 @@ USA
                  <example>Gambling is forbidden</example>
                  <example>Windows is a type of computer operating system.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
+                    <token regexp="yes">in|of</token>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>are</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog is released.</example>
+                <example correction="are">The dogs of Peter <marker>is</marker> released.</example>
+                <example correction="are">The chemicals in Botox <marker>is</marker> released.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
+                    <token regexp="yes">in|of</token>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes"/>
+                    <marker>
+                        <token>was</token>
+                    </marker>
+                </pattern>
+                <message>You should probably use: <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example>The dog is released.</example>
+                <example correction="were">The dogs of Peter <marker>was</marker> released.</example>
+                <example correction="were">The chemicals in Botox <marker>was</marker> released.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_QUESTION" name="agreement error: auxiliary verb (do/have) and subject in questions">
             <rule>
