@@ -75,7 +75,8 @@ public class GrammalecteRule extends Rule {
     "nbsp_après_double_ponctuation",
     "typo_guillemets_typographiques_simples_ouvrants",
     "num_grand_nombre_avec_espaces",
-    "num_grand_nombre_soudé"
+    "num_grand_nombre_soudé",
+    "tab_début_ligne"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
