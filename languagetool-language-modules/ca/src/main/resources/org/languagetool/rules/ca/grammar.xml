@@ -27417,6 +27417,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EN_BONA_MESURA" name="*en bona mesura">
+            <pattern>
+                <token>en</token>
+                <token>bona</token>
+                <token regexp="yes">mesura|mida</token>
+            </pattern>
+            <message>Expressió desaconsellable.</message>
+            <suggestion>en bona part</suggestion>
+            <suggestion>en grau considerable</suggestion>
+            <suggestion>en alt grau</suggestion>
+            <example correction="en bona part|en grau considerable|en alt grau">És així <marker>en bona mida</marker>.</example>
+        </rule>
+        <rule id="EN_GRAN_MESURA" name="*en gran mesura">
+            <pattern>
+                <token>en</token>
+                <token>gran</token>
+                <token regexp="yes">mesura|mida</token>
+            </pattern>
+            <message>Expressió desaconsellable.</message>
+            <suggestion>en gran manera</suggestion>
+            <suggestion>sobre manera</suggestion>
+            <example correction="en gran manera|sobre manera">És així <marker>en gran mida</marker>.</example>
+        </rule>
+        <rule id="EN_CERTA_MESURA" name="*en certa mesura">
+            <pattern>
+                <token>en</token>
+                <token>certa</token>
+                <token regexp="yes">mesura|mida</token>
+            </pattern>
+            <message>Expressió desaconsellable.</message>
+            <suggestion>en certa manera</suggestion>
+            <suggestion>d'alguna manera</suggestion>
+            <example correction="en certa manera|d'alguna manera">És així <marker>en certa mesura</marker>.</example>
+        </rule>
         <rule id="DOIDA" name="conèixer *d'oïda">
             <pattern>
                 <token inflected="yes">conèixer</token>
@@ -34473,6 +34507,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="MENYSPREABLE" name="menyspreable / negligible">
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="3">valor|quantitat|nombre|número|xifra|suma|import|dosi|porció|part|càrrega|ració|partida|total|volum|duració|durada|pes|errors?</token>
+                <marker>
+                    <token inflected="yes" regexp="yes">menyspreable|despreciable</token>
+                </marker>
+            </pattern>
+            <message>En sentit matemàtic cal dir <suggestion><match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="$1">negligible</match></suggestion>.</message>
+            <example correction="negligibles">Els errors són <marker>menyspreables</marker>.</example>
+        </rule>
+        <rule id="CALAT" name="de calat / de gran importància">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">metre|m|embarcació</token>
+                    <token>de</token>
+                    <token>calat</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token regexp="yes" min="0">gran|major|més</token>
+                <token>calat</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>de gran importància</suggestion>? És correcte en altres sentits.</message>
+            <example correction="de gran importància">És una decisió <marker>de calat</marker>.</example>
+            <example correction="de gran importància">És una decisió <marker>de major calat</marker>.</example>
+            <example>De tres metres de calat.</example>
+        </rule>
         <rule id="EN_CARA" name="en cara/encara">
             <antipattern>
                 <marker>
@@ -40112,6 +40174,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="VENIR_DONAT_PER" name="venir donat per / ser causat per, ser definit per">
+            <pattern>
+                <marker>
+                    <token inflected="yes">venir</token>
+                    <token inflected="yes" postag="V.P.*" postag_regexp="yes">donar</token>
+                </marker>
+                <token inflected="yes">per</token>
+            </pattern>
+            <message>Expressió incorrecta amb valor causal. En altres sentits també és preferible evitar-la.</message>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">causar</match></suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">definir</match></suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">expressar</match></suggestion>
+            <example correction="eren causades|eren definides|eren expressades">Les pluges <marker>venien donades</marker> pel canvi climàtic.</example>
+        </rule>
         <rulegroup id="DIFERENT_A" name="diferent a">
             <url>http://esadir.cat/entrades/fitxa/node/diferent</url>
             <antipattern>
