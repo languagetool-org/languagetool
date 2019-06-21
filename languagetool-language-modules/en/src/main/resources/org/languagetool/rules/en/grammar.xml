@@ -21491,6 +21491,11 @@ USA
             </rule>
         </rulegroup>
         <rule default="off" id="COMMA_WHICH" name="No comma before 'which'">
+            <antipattern>
+                <token regexp="yes">['‘"“]</token>
+                <token spacebefore="no">which</token>
+                <token spacebefore="no" regexp="yes">['’"”]</token>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">[,(-–−—―"“]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"/></token>
                 <token>which</token>
@@ -21501,6 +21506,7 @@ USA
             <example correction="house, which|house that">I am going to the <marker>house which</marker> burned down.</example>
             <example>The science fair, which lasted all day, ended with an awards ceremony.</example>
             <example>This is an example (which is dull).</example>
+            <example>..., these or those it is usual to use 'which'.</example>
         </rule>
         <rule id="BY_DEFAULT_COMMA" name="Comma after by default at the beginning of a sentence.">
             <pattern case_sensitive="yes">
