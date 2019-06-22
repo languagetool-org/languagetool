@@ -128,11 +128,42 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*|PA2:.+" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
         <disambig action="unify"/>
+    </rule>
+    <rule name="NP unify 3a" id="UNIFY_DET_ADJ_PCT_PA_SUB">
+        <pattern>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <unify-ignore>
+                    <token>,</token>
+                </unify-ignore>
+                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <!-- Er sah <marker>den kleinen, geschundenen Körper</marker>  -->
+    </rule>
+    <rule name="NP unify 3a1" id="UNIFY_DET_ADJ_PA_SUB">
+        <pattern>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"/>
+                <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
+                <unify-ignore>
+                    <token postag="ADJ:PRD:GRU"/>
+                </unify-ignore>
+                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <!-- Er sah <marker>den gut erhaltenen Koffer</marker>  -->
     </rule>
     <rule name="NP unify 3b" id="UNIFY_ADJ_SUB">
         <pattern>
