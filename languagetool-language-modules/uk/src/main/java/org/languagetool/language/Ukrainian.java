@@ -163,6 +163,8 @@ public class Ukrainian extends Language {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    MorfologikUkrainianSpellerRule morfologikSpellerRule = new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages);
+
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
@@ -175,7 +177,7 @@ public class Ukrainian extends Language {
 
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages),
+        morfologikSpellerRule,
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
@@ -188,7 +190,7 @@ public class Ukrainian extends Language {
         new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
         getSpellingReplacementRule(messages),
-        new SimpleReplaceRule(messages),
+        new SimpleReplaceRule(messages, morfologikSpellerRule),
 
         new HiddenCharacterRule(messages)
     );
