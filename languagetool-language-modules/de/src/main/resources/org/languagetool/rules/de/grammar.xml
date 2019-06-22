@@ -4246,11 +4246,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
             <pattern>
                 <token>gegen</token>
-                <token inflected="yes">checken</token>
+                <token inflected="yes" regexp="yes">checken|prüfen</token>
             </pattern>
-            <message><suggestion>\1\2</suggestion> (überprüfen) wird zusammengeschrieben</message>
+            <message><suggestion>\1\2</suggestion> (überprüfen) wird zusammengeschrieben.</message>
             <example correction="gegenchecken">Er lässt die gemeldeten Fehler mit sauberen Wikipedia-Texten <marker>gegen checken</marker>.</example>
             <example correction="gegengecheckt">Sie hat die Texten <marker>gegen gecheckt</marker>.</example>
+        </rule>
+        <rule id="NAHEGESTANDEN" name="nahe gestanden (nahegestanden)">
+            <pattern>
+                <marker>
+                    <token>nahe</token>
+                    <token inflected="yes">stehen</token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>In der Bedeutung 'vertraut sein' wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
+            <example correction="nahegestanden">Er hat ihr sehr <marker>nahe gestanden</marker>.</example>
+            <example>Das der Fabrik <marker>nahe stehende</marker> Haus wird bald abgerissen.</example>
         </rule>
     </category>
 

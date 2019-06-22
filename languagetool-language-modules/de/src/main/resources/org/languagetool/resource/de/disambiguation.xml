@@ -667,6 +667,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
+    <rule name="'Der' am Satzanfang (kein Genitiv Singular)" id="SENT_START_DER">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"></token>
+            <marker>
+                <token>Der</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ART:DEF:GEN:SIN:FEM"/>
+        <example type="ambiguous" inputform="Der[der/ART:DEF:DAT:SIN:FEM,der/ART:DEF:GEN:SIN:FEM,der/PRO:DEM:DAT:SIN:FEM]" outputform="Der[der/ART:DEF:DAT:SIN:FEM,der/PRO:DEM:DAT:SIN:FEM]"><marker>Der</marker> Frau wurden die Stoffe gezeigt.</example>
+    </rule>
     <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
         <rule>
             <pattern>
@@ -3128,6 +3138,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <token>manus</token>
         <token>manum</token>
         <token>lavat</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="COURT" id="COURT">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Cent(er|re)|Supreme</token>
+        <token>Court</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
