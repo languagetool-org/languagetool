@@ -49,6 +49,24 @@
   </unification>
 
 
+  <rule name="Паралельні погані форми" id="parallel_bad_forms">
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="adj.*" regexp="yes">.*(воротн|заробітн|двірн|природн|дорожн)(і[йхм]?)</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adj.*?:bad.*" />
+    <example type="ambiguous"
+        inputform="природній[природний/adj:f:v_dav:compb,природний/adj:f:v_mis:compb,природній/adj:f:v_dav:bad,природній/adj:f:v_mis:bad,природній/adj:m:v_kly:bad,природній/adj:m:v_naz:bad,природній/adj:m:v_zna:rinanim:bad]"
+        outputform="природній[природний/adj:f:v_dav:compb,природний/adj:f:v_mis:compb]"><marker>природній</marker> силі.</example>
+    <example type="ambiguous"
+        inputform="дорожній[дорожний/adj:f:v_dav:bad,дорожний/adj:f:v_mis:bad,дорожній/adj:f:v_dav,дорожній/adj:f:v_mis,дорожній/adj:m:v_kly,дорожній/adj:m:v_naz,дорожній/adj:m:v_zna:rinanim]"
+        outputform="дорожній[дорожній/adj:f:v_dav,дорожній/adj:f:v_mis,дорожній/adj:m:v_kly,дорожній/adj:m:v_naz,дорожній/adj:m:v_zna:rinanim]">на <marker>дорожній</marker> розмітці.</example>
+    <example type="untouched">природня</example>
+    <example type="untouched">дорожному</example>
+  </rule>
+
+
   <rule name="Коли" id="koly_not_verb">
     <pattern>
       <marker>
