@@ -225,6 +225,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Here's");
     } else if ("McDonalds".equals(word)) {
       return Arrays.asList("McDonald's");
+    } else if ("ecommerce".equals(word)) {
+      return Arrays.asList("e-commerce");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
