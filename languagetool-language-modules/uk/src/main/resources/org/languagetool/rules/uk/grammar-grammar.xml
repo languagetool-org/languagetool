@@ -561,23 +561,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="CONSISTENCY_NUMERIC_FRACTIONAL" name="Узгодженість дробових числівників">
-      <rule>
-        <pattern>
-          <token regexp="yes">дві|три|чотири</token>
-          <marker>
-            <token regexp="yes">десятих|сотих|тисячних|третіх|четвертих</token>
-          </marker>
-        </pattern>
-        <message>Хоча чинний правопис пропонує у дробовому числівнику після два, три, чотири писати: третіх, десятих, сотих, логічніше мало би бути: треті, десяті, соті…</message>
-        <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_naz$2"/></suggestion>
-        <example correction="десяті">дві <marker>десятих</marker></example>
-        <example correction="соті">три <marker>сотих</marker></example>
-        <!-- TODO: false positive
-            <example>перше місце, три других і чотири третіх</example>
-        -->
-      </rule>
-    </rulegroup>
+    <rule id="consistency_numeric_fractional" name="Узгодженість дробових числівників">
+      <pattern>
+        <token regexp="yes">дві|три|чотири</token>
+         <marker>
+          <token regexp="yes">десятих|сотих|тисячних|третіх|четвертих</token>
+        </marker>
+      </pattern>
+      <message>Хоча чинний правопис пропонує у дробовому числівнику після два, три, чотири писати: третіх, десятих, сотих, логічніше мало би бути: треті, десяті, соті…</message>
+      <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_naz$2"/></suggestion>
+      <example correction="десяті">дві <marker>десятих</marker></example>
+      <example correction="соті">три <marker>сотих</marker></example>
+      <!-- TODO: false positive
+          <example>перше місце, три других і чотири третіх</example>
+      -->
+    </rule>
+
+    <rule id="consistency_numeric_fractional_2019" name="Узгодженість дробових числівників (2019)">
+      <pattern>
+        <token regexp="yes">дві|три|чотири</token>
+        <marker>
+          <token regexp="yes">десяті|соті|тисячні|треті|четверті</token>
+        </marker>
+      </pattern>
+      <message>Хоча логічніше мало би бути: треті, десяті, соті…, чинний правопис пропонує у дробовому числівнику після два, три, чотири писати: третіх, десятих, сотих,…</message>
+      <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_rod$2"/></suggestion>
+      <example correction="десятих">дві <marker>десяті</marker></example>
+      <example correction="сотих">три <marker>соті</marker></example>
+    </rule>
 
 
     <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">

@@ -45,6 +45,6 @@ public class Ukrainian1992 extends Ukrainian {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    return Arrays.asList("piv_okremo_2019");
+    return Arrays.asList("piv_okremo_2019", "consistency_numeric_fractional_2019");
   }
 }
