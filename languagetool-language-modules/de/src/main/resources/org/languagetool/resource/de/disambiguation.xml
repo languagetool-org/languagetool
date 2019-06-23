@@ -693,10 +693,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="lebenswerten (VER) -> lebenswerten ()" id="LEBENSWERTEN">
         <pattern>
             <marker>
-                <token regexp="yes">l(eb|ohn)enswerten?|achtenswerten?|ehrenswerten?|rühmenswerten?</token>
+                <!-- l(eb|ohn)enswerten?|achtenswerten?|ehrenswerten?|rühmenswerten?|schützenswerten? -->
+                <token regexp="yes" case_sensitive="yes">[a-zäöü]+enswerten?</token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="VER.*"/>
+        <disambig action="remove" postag="VER:.+"/>
     </rule>
     <rule name="'Der' am Satzanfang (kein Genitiv Singular)" id="SENT_START_DER">
         <pattern case_sensitive="yes">
@@ -747,7 +748,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>worden</token>
                 <token postag="PKT"></token>
             </pattern>
-            <disambig action="filter" postag="VER:PA2.*"/>
+            <disambig action="filter" postag="VER:PA2:.+"/>
             <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er ist gestern <marker>verhaftet</marker> worden.</example>
         </rule>
         <rule>
