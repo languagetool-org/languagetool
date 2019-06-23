@@ -115,7 +115,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <unify-ignore>
-                    <token>und</token>
+                    <token regexp="yes">oder|und</token>
                 </unify-ignore>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
@@ -128,7 +128,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
-                <token postag="ADJ:.*|PA2:.+" postag_regexp="yes"/>
+                <token postag="ADJ:.*|PA[12]:.+" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -141,9 +141,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
                 <unify-ignore>
-                    <token>,</token>
+                    <token regexp="yes">,|und|oder</token>
                 </unify-ignore>
-                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="PA[12]:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -158,7 +158,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <unify-ignore>
                     <token postag="ADJ:PRD:GRU"/>
                 </unify-ignore>
-                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="PA[12]:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -191,7 +191,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     <!--<token postag="ADJ:.*" postag_regexp="yes"/>-->
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </unify-ignore>
-                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag="PA[12]:.*" postag_regexp="yes"/>
                 <token postag="SUB:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -740,29 +740,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </token>
                 <marker>
                     <and>
-                        <token postag=".*PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:PA2:.+" postag_regexp="yes"/>
                         <token postag="VER:[123].+" postag_regexp="yes"/>
                     </and>
                 </marker>
                 <token>worden</token>
                 <token postag="PKT"></token>
             </pattern>
-            <disambig action="filter" postag=".*PA2.*"/>
-            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]">Er ist gestern <marker>verhaftet</marker> worden.</example>
+            <disambig action="filter" postag="VER:PA2.*"/>
+            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er ist gestern <marker>verhaftet</marker> worden.</example>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes" skip="2">wurde(n|st)?</token>
+                <token regexp="yes" skip="2">w[euü]rde(n|st)?</token>
                 <marker>
                     <and>
-                        <token postag=".*PA2:.+" postag_regexp="yes"/>
+                        <token postag="VER:PA2:.+" postag_regexp="yes"/>
                         <token postag="VER:[123].+" postag_regexp="yes"/>
                     </and>
                 </marker>
                 <token postag="PKT"></token>
             </pattern>
-            <disambig action="filter" postag=".*PA2.*"/>
-            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]">Er wurde gestern <marker>verhaftet</marker>.</example>
+            <disambig action="filter" postag="VER:PA2.*"/>
+            <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er wurde gestern <marker>verhaftet</marker>.</example>
         </rule>
     </rulegroup>
     <rulegroup name="um...zu -> um (KON:INF)" id="UM_KON_INF">
