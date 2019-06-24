@@ -19,8 +19,8 @@
 package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
-import org.languagetool.dev.wikipedia.SwebleWikipediaTextFilter;
 import org.languagetool.tokenizers.Tokenizer;
+import org.wikiclean.WikiClean;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -34,8 +34,7 @@ import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 /**
- * Provides access to the sentences of a Wikipedia XML dump. Note that
- * conversion exceptions are logged to STDERR and are otherwise ignored.
+ * Provides access to the sentences of a Wikipedia XML dump.
  * 
  * To get an XML dump, download {@code pages-articles.xml.bz2} from
  * <a href="http://download.wikimedia.org/backup-index.html">http://download.wikimedia.org/backup-index.html</a>, e.g.
@@ -47,7 +46,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
 
-  private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();
+  private final WikiClean wikiCleaner;
   private final XMLEventReader reader;
   private final Tokenizer sentenceTokenizer;
   private final List<WikipediaSentence> sentences;
@@ -64,7 +63,6 @@ public class WikipediaSentenceSource extends SentenceSource {
   /** @since 3.0 */
   WikipediaSentenceSource(InputStream xmlInput, Language language, Pattern filter) {
     super(language, filter);
-    textFilter.enableMapping(false);  // improves performance
     try {
       System.setProperty("jdk.xml.totalEntitySizeLimit", String.valueOf(Integer.MAX_VALUE));  // see https://github.com/dbpedia/extraction-framework/issues/487
       XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -72,6 +70,17 @@ public class WikipediaSentenceSource extends SentenceSource {
       sentenceTokenizer = language.getSentenceTokenizer();
       sentences = new ArrayList<>();
       this.language = language;
+      WikiClean.WikiLanguage wikiLang;
+      switch(language.getShortCode()) {
+        case "en": wikiLang = WikiClean.WikiLanguage.EN; break;
+        case "de": wikiLang = WikiClean.WikiLanguage.DE; break;
+        case "zh": wikiLang = WikiClean.WikiLanguage.ZH; break;
+        default: throw new RuntimeException("Sorry, language " + language + " isn't supported for Wikipedia extraction by WikiClean.");
+      }
+      wikiCleaner = new WikiClean.Builder()
+                      .withLanguage(wikiLang)
+                      .withTitle(false)
+                      .withFooter(false).build();
     } catch (XMLStreamException e) {
       throw new RuntimeException(e);
     }
@@ -152,7 +161,7 @@ public class WikipediaSentenceSource extends SentenceSource {
         redirectSkipCount++;
         return;
       }
-      String textToCheck = textFilter.filter(sb.toString()).getPlainText();
+      String textToCheck = wikiCleaner.clean("<text xml:space=\"preserve\">" + sb.toString() + "</text>");
       for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
         if (acceptSentence(sentence)) {
           sentences.add(new WikipediaSentence(sentence, title, articleCount));
