@@ -259,5 +259,26 @@ Copyright (C) 2011 Juan Martorell
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
+
+  <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
+    <rule>
+        <pattern>
+            <marker>
+                <token postag="P[0P].*" postag_regexp="yes"><exception postag="D.*" regexp="yes"></exception></token>
+            </marker>
+            <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
+        </pattern>
+        <disambig action="filter" postag="P[0P].*"/>
+    </rule>
+    <rule>
+        <pattern>
+            <token postag="PP.*" postag_regexp="yes"><exception postag="D.*" regexp="yes"></exception></token>
+            <marker>
+                <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.[^MNPG].*"/>
+    </rule>
+  </rulegroup>
   
 </rules>
