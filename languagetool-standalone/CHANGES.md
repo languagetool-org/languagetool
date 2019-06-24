@@ -12,6 +12,7 @@
 #### English
   * added and improved rules
   * introduced new part-of-speech tag `PCT` for punctuation marks (.,;:…!?) 
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.73 - 2019-06-01)
 
 #### Esperanto
   * added and improved rules
@@ -50,7 +51,8 @@
 
 #### Russian
   * added and improved rules
-
+  * added new words to spell dictionary
+  
 #### Spanish
   * Updated spell dictionary from 2.1 to 2.4
 
