@@ -50,7 +50,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   private final int markGroup;
   private final String shortMessage;
 
-  RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
+  public RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
     super(id, description, language, regex, regexpMark);
     this.message = message;
     this.pattern = regex;
