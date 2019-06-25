@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  *
  * @since 3.2
  */
-class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
+public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
   private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
