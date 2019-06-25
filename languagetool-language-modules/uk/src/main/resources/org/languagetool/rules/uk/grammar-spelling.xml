@@ -86,13 +86,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="piv_okremo_2019" name="пів пишемо окремо">
       <rule>
         <pattern>
-          <token regexp="yes">пів['–-][а-яіїєґ].*
+          <token regexp="yes">пів['–-][а-яіїєґ'].*
             <exception>пів-на-пів</exception>
             <exception postag_regexp="yes" postag="noun(?!.*ua_1992).*"/>
           </token>
         </pattern>
         <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
-        <suggestion><match no="1" regexp_match="(пів)['-]([а-яіїєґА-ЯІЇЄҐ].*)" regexp_replace="$1 $2" /></suggestion>
+        <suggestion><match no="1" regexp_match="(пів)['–-]?([а-яіїєґА-ЯІЇЄҐ].*)" regexp_replace="$1 $2" /></suggestion>
         <example correction="пів яблука">з'їв <marker>пів'яблука</marker>.</example>
         <example correction="пів ящика">з'їв <marker>пів'ящика</marker>.</example>
         <example correction="пів України">з'їв <marker>пів-України</marker>.</example>
@@ -100,6 +100,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>пів'ют</example>
         <example>півколо</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" postag_regexp="yes" postag="noun.*?:nv.*">пів[^'–-][а-яіїєґ'].*
+            <exception postag_regexp="yes" postag="noun(?!.*ua_1992).*"/>
+          </token>
+        </pattern>
+        <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
+        <suggestion><match no="1" regexp_match="(пів)([а-яіїєґ'].*)" regexp_replace="$1 $2" /></suggestion>
+        <example correction="пів огірка">з'їв <marker>півогірка</marker>.</example>
+        <example>півколо</example>
+        <example>південноафриканський</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">

@@ -60,6 +60,7 @@
   * Support for new spelling rules from 2019
   * Thousands of new words in the dictionary
   * Many rule improvements
+  * Tokenization and tagging improvements
 
 #### HTTP API / LT server
   * `altLanguages` will only be considered for words with >= 3 characters
