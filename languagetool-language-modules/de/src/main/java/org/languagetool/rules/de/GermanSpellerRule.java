@@ -1407,6 +1407,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         wordStartsToBeProhibited.add(words.get(0).substring(0, words.get(0).length()-2));
       } else if (words.get(0).startsWith(".*")) {
         wordEndingsToBeProhibited.add(words.get(0).substring(2));
+      } else {
+        super.addProhibitedWords(words);
       }
     } else {
       super.addProhibitedWords(words);

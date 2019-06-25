@@ -89,7 +89,7 @@ public class GermanSpellerRuleTest {
   public void testProhibited() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     rule.getSuggestions("");  // needed to force a proper init
-    assertTrue(rule.isProhibited("Standart-Test"));
+    assertTrue(rule.isProhibited("Standart-Test"));  // entry with ".*" in prohibited.txt
     assertTrue(rule.isProhibited("Weihnachtfreier"));
     assertFalse(rule.isProhibited("Standard-Test"));
     assertTrue(rule.isProhibited("Abstellgreis"));
@@ -97,6 +97,13 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Abstellgreisen"));
     assertTrue(rule.isProhibited("Landstreckenflüge"));
     assertTrue(rule.isProhibited("Landstreckenflügen"));
+    assertTrue(rule.isProhibited("Badegas"));  // non-expanded entry in prohibited.txt
+    assertTrue(rule.isProhibited("Aktienkur")); // non-expanded entry in prohibited.txt
+    assertTrue(rule.isProhibited("Stellungsnahmen")); // expanded entry in prohibited.txt
+    assertTrue(rule.isProhibited("Varietee")); // expanded entry in prohibited.txt
+    assertTrue(rule.isProhibited("Varietees")); // expanded entry in prohibited.txt
+    assertTrue(rule.isProhibited("Feuerwerksartigel")); // entry with ".*" at line start in prohibited.txt
+    assertTrue(rule.isProhibited("Feuerwerksartigeln")); // entry with ".*" at line start in prohibited.txt
   }
 
   @Test
