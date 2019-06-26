@@ -51,22 +51,23 @@ import java.util.stream.Collectors;
  */
 public class HunspellRule extends SpellingCheckRule {
 
-  private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
+  public static final String RULE_ID = "HUNSPELL_RULE";
+
+  protected static final String FILE_EXTENSION = ".dic";
+
   protected final SuggestionsOrderer suggestionsOrderer;
+  protected boolean needsInit = true;
+  protected Hunspell.Dictionary hunspellDict = null;
+
+  private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
+  private static final String NON_ALPHABETIC = "[^\\p{L}]";
+
   private final boolean monitorRules;
   private final boolean runningExperiment;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
   }
-
-  public static final String RULE_ID = "HUNSPELL_RULE";
-
-  protected boolean needsInit = true;
-  protected Hunspell.Dictionary hunspellDict = null;
-
-  private static final String NON_ALPHABETIC = "[^\\p{L}]";
-  protected static final String FILE_EXTENSION = ".dic";
 
   private static final String[] WHITESPACE_ARRAY = new String[20];
   static {
@@ -410,9 +411,7 @@ public class HunspellRule extends SpellingCheckRule {
    * Used in combination with <code>acceptedInAlternativeLanguage</code> to surpress spelling
    * errors for words from a foreign language
    * @since 4.6
-   * @param language
-   * @param word
-   * @return true if the <code>word</word> from <code>language</language> can be considered as correctly spelled
+   * @return true if the {@code word} from {@code language} can be considered as correctly spelled
    */
   protected boolean isAcceptedWordFromLanguage(Language language, String word) {
     return false;
