@@ -219,6 +219,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("the");
     } else if ("todays".equals(word)) {
       return Arrays.asList("today's");
+    } else if ("Todays".equals(word)) {
+      return Arrays.asList("Today's");
     } else if ("heres".equals(word)) { 
       return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
@@ -227,6 +229,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("McDonald's");
     } else if ("ecommerce".equals(word)) {
       return Arrays.asList("e-commerce");
+    } else if ("Ecommerce".equals(word)) {
+      return Arrays.asList("E-Commerce");
+    } else if ("elearning".equals(word)) {
+      return Arrays.asList("e-learning");
+    } else if ("eLearning".equals(word)) {
+      return Arrays.asList("e-learning");
+    } else if ("ebook".equals(word)) {
+      return Arrays.asList("e-book");
+    } else if ("Ebook".equals(word)) {
+      return Arrays.asList("E-Book");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
