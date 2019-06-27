@@ -4962,6 +4962,62 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rulegroup id="NUMBER_YEAR_OLD" name="hyphenated adjectives/nouns (10-year-old)"><!-- https://writingexplained.org/years-old-hyphenate -->
+        <rule><!-- adjective -->
+            <antipattern><!-- 30-year-old wine are. Because 'x-year-old' is a basic adjective, is it correct to try to prevent incorrect readings in this rule, or is it better for a grammar rule to find the error? Possibly, this rulegroup and DIGIT_HYPHENATED_ADJECTIVES should be near the top of this file so that the terms can be used by other disambiguation rules. -->
+                <token regexp="yes">.*-year-old</token>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+                <token regexp="yes">are|were</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-old</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN.*"/>
+            </pattern>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">Incorrect grammar. These 30-year-old wine are very good.</example>
+            <example type="untouched">Not good style (use a digit 33). This thirty-three-year-old wine is good.</example>
+            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/JJ]">At this age, <marker>10-year-old</marker> children can...</example>
+            <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/JJ]">The average <marker>x-year-old</marker> child can... where is is between 9 and 13.</example>
+        </rule>
+        <rule><!-- singular noun -->
+            <antipattern>
+                <token regexp="yes">.*-year-old</token>
+                <token postag_regexp="yes" postag="NN.*">
+                    <exception postag="MD"/>
+                    </token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-old
+                        <exception postag="JJ"/>
+                        </token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="NN"/></disambig>
+            <example type="untouched">This 10-year-old child is a prodigy.</example>
+            <example type="untouched">This 10-year-old can is rusty.</example>
+            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/NN]">This <marker>10-year-old</marker> is a remarkable child.</example>
+            <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/NN]">The average <marker>x-year-old</marker> can... where is is between 9 and 13.</example>
+            <example type="ambiguous" inputform="nineteen-year-old[nineteen-year-old]" outputform="nineteen-year-old[nineteen-year-old/NN]">What future is there for this disadvantaged <marker>nineteen-year-old</marker>'s child?</example>
+        </rule>
+        <rule><!-- plural noun -->
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-olds</token>
+                </marker>
+                <token>
+                    <exception postag_regexp="yes" postag="NN.*"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="NNS"/></disambig>
+            <example type="untouched">Incorrect grammar. These 30-year-olds wines are very good.</example>
+            <example type="untouched">Not good style (use a digit 33). These thirty-three-year-olds were all born in the USA.</example>
+            <example type="ambiguous" inputform="10-year-olds[10-year-olds]" outputform="10-year-olds[10-year-olds/NNS]">At this age, <marker>10-year-olds</marker> are able to think more abstractly and have a good command of reading and writing.</example>
+            <example type="ambiguous" inputform="x-year-olds[x-year-olds]" outputform="x-year-olds[x-year-olds/NNS]">Let px be the proportion of <marker>x-year-olds</marker> who have some fixed attribute such as the season of birth.</example>
+        </rule>
+    </rulegroup>
+
     <rule id="THE_BLESSED" name="the blessed"><!-- www.lexico.com/en/definition/blessed -->
         <pattern>
             <token>the</token>
