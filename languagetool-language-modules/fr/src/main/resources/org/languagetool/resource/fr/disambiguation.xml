@@ -26,9 +26,20 @@ RB => Règles Brutes
     </equivalence>
   </unification>
 
+  <rule name="C" id="C_APOSTROPHE">
+    <pattern>
+      <token>C
+        <exception scope="next" regexp="yes" negate="yes">[’´'‛′‘]</exception>
+      </token>
+    </pattern>
+    <disambig postag="R dem m s"/>
+  </rule>
+
   <rule id="ROMAN_NUMBER" name="roman number">
     <pattern>
-      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
+      <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)
+        <exception scope="next" regexp="yes">[’´'‛′‘]</exception>
+      </token>
     </pattern>
     <disambig postag=""/>
   </rule>
