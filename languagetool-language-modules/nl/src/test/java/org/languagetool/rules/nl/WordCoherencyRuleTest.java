@@ -41,7 +41,7 @@ public class WordCoherencyRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    assertError("hivtest, hiv-test");
+    assertError("caissière, kaissière");
   }
 
   private void assertError(String s) throws IOException {
