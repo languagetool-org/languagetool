@@ -4977,16 +4977,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
-<!--
-        <rule id="À_HUIS_CLOS" name="à huis clos"> www.merriam-webster.com/dictionary/%C3%A0%20huis%20clos -
+
+        <rule id="À_HUIS_CLOS" name="à huis clos">
             <pattern>
                 <token>à</token>
                 <token>huis</token>
                 <token>clos</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
--->
+
         <rule id="À_LA_CARTE" name="à la carte">
             <pattern>
                 <token>à</token>
@@ -5011,15 +5011,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
-<!--
+
         <rule id="AU_CONTRAIRE" name="au contraire">
             <pattern>
                 <token>au</token>
                 <token>contraire</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
--->
+
         <rule id="AU_FOND" name="au fond">
             <pattern>
                 <token>au</token>
@@ -5027,23 +5027,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
-<!--
-        <rule id="AUTREFOIS_ACQUIT" name="autrefois acquit">
+
+        <rule id="AUTREFOIS_ACQUIT" name="autrefois acquit/convict">
             <pattern>
-                <token></token>
-                <token></token>
+                <token>autrefois</token>
+                <token regexp="yes">acquit|convict</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
 
-        <rule id="AUTREFOIS_CONVICT" name="autrefois convict">
-            <pattern>
-                <token></token>
-                <token></token>
-            </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
-        </rule>
--->
         <rule id="AVANT_GARDE_JJ" name="avant-garde">
             <pattern>
                 <token>avant-garde</token>
@@ -5137,24 +5129,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
-<!--
+
         <rule id="BON_VOYAGE" name="bon voyage">
             <pattern>
-                <token></token>
-                <token></token>
+                <token>bon</token>
+                <token>voyage</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
--->
-<!--
-        <rule id="C_EST_LA_GUERRE" name="c'est la guerre">
+
+        <rule id="C_EST_LA_GUERRE" name="c'est la guerre/vie">
             <pattern>
-                <token></token>
-                <token></token>
+                <token>c</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">est</token>
+                <token>la</token>
+                <token regexp="yes">guerre|vie</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
--->
+
         <rule id="CARTE_BLANCHE" name="carte blanche">
             <pattern>
                 <token>carte</token>
@@ -5177,24 +5171,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
         </rule>
-<!--
-        <rule id="CE_DE_RÉSISTANCE" name="ce de résistance">
-            <pattern>
-                <token></token>
-                <token></token>
-            </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
-        </rule>
--->
-<!--
+
         <rule id="CHACUN_À_SON_GOUT" name="chacun à son gout">
             <pattern>
-                <token></token>
-                <token></token>
+                <token>chacun</token>
+                <token>à</token>
+                <token>son</token>
+                <token>gout</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/><wd pos="FW"/></disambig>
         </rule>
--->
+
         <rule id="CHEF_D_ŒUVRE" name="chef-d'œuvre">
             <pattern>
                 <token>chef-d</token>
@@ -5250,24 +5237,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
-<!--
-        <rule id="CORDON_BLEU" name="cordon bleu">
+
+        <rule id="CORDON_BLEU" name="cordon bleu"><!-- www.lexico.com/en/definition/cordon_bleu also has noun, but that is not usual: He is a cordon bleu. -->
             <pattern>
-                <token></token>
-                <token></token>
+                <token>cordon</token>
+                <token>bleu</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
--->
-<!--
+
         <rule id="CORDON_SANITAIRE" name="cordon sanitaire">
             <pattern>
-                <token></token>
-                <token></token>
+                <token>cordon</token>
+                <token>sanitaire</token>
             </pattern>
-            <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
         </rule>
--->
+        <rule id="CORDONS_SANITAIRES" name="cordons sanitaires">
+            <pattern>
+                <token>cordons</token>
+                <token>sanitaires</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
         <rule id="COUP_D_ÉTAT" name="coup d'état">
             <pattern>
                 <token>coup</token>
