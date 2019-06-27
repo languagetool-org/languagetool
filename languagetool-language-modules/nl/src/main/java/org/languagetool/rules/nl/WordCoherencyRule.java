@@ -36,8 +36,8 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    addExamplePair(Example.wrong("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hiv-test</marker> te schrijven."),
-                   Example.fixed("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hivtest</marker> te schrijven."));
+    addExamplePair(Example.wrong("We raden af om in één tekst zowel <marker>caissière</marker> als <marker>kaissière</marker> te schrijven."),
+                   Example.fixed("We raden af om in één tekst zowel <marker>caissière</marker> als <marker>caissière</marker> te schrijven."));
   }
 
   @Override
