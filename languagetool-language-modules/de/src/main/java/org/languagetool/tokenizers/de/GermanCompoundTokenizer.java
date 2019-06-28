@@ -69,6 +69,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Badeshorts", Arrays.asList("Bade", "shorts"));
     wordSplitter.addException("Buchungstrick", Arrays.asList("Buchungs", "trick"));
     wordSplitter.addException("Buchungstricks", Arrays.asList("Buchungs", "tricks"));
+    wordSplitter.addException("Rückzugsorte", Arrays.asList("Rückzugs", "orte"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
