@@ -9049,6 +9049,14 @@ USA
             </rule>
         </rulegroup>
         <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
+            <antipattern>
+                <token>know</token>
+                <token>if</token>
+                <token regexp="yes">I|you|we|they|s?he|it</token>
+                <token>would</token>
+                <token>have</token>
+                <token postag="VBN"/>
+            </antipattern>
             <pattern>
                 <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
                 <marker>
@@ -9062,6 +9070,8 @@ USA
             <example correction="had known">If I <marker>would have known</marker> about the party, I would have gone to it.</example>
             <example>If I were you, I would have done the same thing.</example>
             <example>And if looks could kill, Wally would have been dead.</example>
+            <example>I don't know if he would have done it for me.</example><!-- In formal text, use 'whether' not 'if', but that is a different problem. -->
+            <example>Jane doesn't know if she would have gone to the party, even if she had known about it.</example>
         </rule>
         <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
             <url>http://www.oxforddictionaries.com/words/less-or-fewer</url>
