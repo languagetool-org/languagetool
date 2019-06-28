@@ -49,6 +49,109 @@
         <disambig action="add"><wd pos="PCT"/></disambig>
     </rule>
 
+    <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
+        <rule>
+            <pattern>
+                <token regexp="yes">[0-9]+-[a-z]+<exception postag="JJ"/></token>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:[0-9]+-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">Do a <marker>4-Hour</marker> test.</example>
+            <example type="untouched">Do a <marker>3-wORd</marker> test.</example>
+            <example type="untouched">Do a <marker>3-secTIon</marker> test.</example>
+            <example type="untouched">A <marker>500-pages</marker> document is too large.</example>
+            <example type="ambiguous" inputform="4-hour[4-hour]" outputform="4-hour[4-hour/JJ]">Do a <marker>4-hour</marker> test.</example>
+            <example type="ambiguous" inputform="5-hour[5-hour]" outputform="5-hour[5-hour/JJ]">Do a 3.<marker>5-hour</marker> test.</example>
+            <example type="ambiguous" inputform="500-page[500-page]" outputform="500-page[500-page/JJ]">A <marker>500-page</marker> document is too large.</example>
+            <example type="ambiguous" inputform="400-chapter[400-chapter]" outputform="400-chapter[400-chapter/JJ]">This large (<marker>400-chapter</marker>) document is too large.</example>
+            <example type="ambiguous" inputform="2-word[2-word]" outputform="2-word[2-word/JJ]">When you use an approved <marker>2-word</marker> term, make sure that the ...</example>
+            <example type="ambiguous" inputform="3-PAGE[3-PAGE]" outputform="3-PAGE[3-PAGE/JJ]">WRITE A <marker>3-PAGE</marker> DOCUMENT.</example>
+            <example type="ambiguous" inputform="10-person[10-person]" outputform="10-person[10-person/JJ]">A <marker>10-person</marker> or possibly 11-person team is the optimum size.</example>
+            <example type="ambiguous" inputform="4-oil[4-oil]" outputform="4-oil[4-oil/JJ]">We use a special <marker>4-oil</marker> blend.</example><!-- oil/NN:U -->
+            <example type="ambiguous" inputform="3-warning[3-warning]" outputform="3-warning[3-warning/JJ]">There is a <marker>3-warning</marker> rule, which means that after 3 warnings, you will be dismissed.</example><!-- warning/NN:UN -->
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[0-9]+-(KB|MB|GB)<exception postag="JJ"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">The file is <marker>30 GB</marker>.</example>
+            <example type="untouched">A <marker>30-Gb</marker> file is too large.</example>
+            <example type="untouched">A <marker>3-5-GB</marker> file is too large.</example>
+<!--            <example type="untouched">A <marker>3.3.3-GB</marker> file is too large.</example>-->
+            <example type="ambiguous" inputform="30-GB[30-GB]" outputform="30-GB[30-GB/JJ]">A <marker>30-GB</marker> file is too large.</example>
+            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">A 55.<marker>5-GB</marker> file is too large.</example>
+            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">2.<marker>5-GB</marker> files and larger can ...</example>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="NUMBER_YEAR_OLD" name="hyphenated adjectives/nouns (10-year-old)"><!-- https://writingexplained.org/years-old-hyphenate -->
+    <!-- This rulegroup has some simple antipatterns to prevent giving a reading to incorrect text. If necessary, other rules later in the disambiguation should disambiguate NN/JJ readings -->
+        <rule><!-- adjective -->
+            <antipattern><!-- Noun -->
+                <token chunk="E-NP-singular" regexp="yes">.*-old</token>
+            </antipattern>
+            <antipattern><!-- Incorrect grammar: 30-year-old wine are. -->
+                <token regexp="yes">.*-old</token>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+                <token regexp="yes">are|were</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-(day|week|month|year)-old</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN.*"/>
+            </pattern>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">Incorrect grammar. These 30-year-old wine are very good.</example>
+            <example type="untouched">Not good style (use a digit 33). This thirty-three-year-old wine is good.</example>
+            <example type="untouched">NN. The average 2-year-old should be able to do this.</example>
+            <example type="untouched">NN. The average 7-year-old can do this easily.</example>
+            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/JJ]">At this age, <marker>10-year-old</marker> children can...</example>
+            <example type="ambiguous" inputform="x-month-old[x-month-old]" outputform="x-month-old[x-month-old/JJ]">The average <marker>x-month-old</marker> child can... where is is between 9 and 13.</example>
+            <example type="ambiguous" inputform="seven-year-old[seven-year-old]" outputform="seven-year-old[seven-year-old/JJ]">The average <marker>seven-year-old</marker> can is rusty.</example>
+        </rule>
+        <rule><!-- singular noun -->
+            <antipattern>
+                <token chunk="I-NP-singular" regexp="yes">.*-old</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="I-NP-plural" regexp="yes">.*-old</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-(day|week|month|year)-old
+                        <exception postag="JJ"/><!-- Not sure whether is is necessary, but keep as a fail-safe option. -->
+                        </token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="NN"/></disambig>
+            <example type="untouched">JJ. This 10-year-old child is a prodigy.</example>
+            <example type="untouched">JJ. This 10-year-old can is rusty.</example>
+            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/NN]">This <marker>10-year-old</marker> is a remarkable child.</example>
+            <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/NN]">The average <marker>x-year-old</marker> can usually do this (where is is between 9 and 13).</example>
+            <example type="ambiguous" inputform="nineteen-year-old[nineteen-year-old]" outputform="nineteen-year-old[nineteen-year-old/NN]">What future is there for this disadvantaged <marker>nineteen-year-old</marker>'s child?</example>
+        </rule>
+        <rule><!-- plural noun -->
+            <antipattern>
+                <token chunk="I-NP-singular" regexp="yes">.*-year-olds</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="I-NP-plural" regexp="yes">.*-year-olds</token>
+            </antipattern>
+            <pattern>
+                 <token regexp="yes" case_sensitive="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-(day|week|month|year)-olds</token><!-- MFU: Usually, only '-year-olds', but I don't know of a grammar rule that prevents the use of days/weeks/months -->
+            </pattern>
+            <disambig action="add"><wd pos="NNS"/></disambig>
+            <example type="untouched">Incorrect grammar. These 30-year-olds wines are very good.</example>
+            <example type="untouched">Incorrect grammar. Those 2-year-olds wine is also good.</example>
+            <example type="untouched">Not good style (use a digit 33). These thirty-three-year-olds were all born in the USA.</example>
+            <example type="ambiguous" inputform="10-year-olds[10-year-olds]" outputform="10-year-olds[10-year-olds/NNS]">At this age, <marker>10-year-olds</marker> are able to think more abstractly and have a good command of reading and writing.</example>
+            <example type="ambiguous" inputform="x-year-olds[x-year-olds]" outputform="x-year-olds[x-year-olds/NNS]">Let px be the proportion of <marker>x-year-olds</marker> who have some fixed attribute such as the season of birth.</example>
+        </rule>
+    </rulegroup>
+
     <rule id="number_JJ" name="Tag number-based adjectives">
         <pattern>
         <marker>
@@ -4924,99 +5027,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
     </rule>
   </rulegroup>
-
-    <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
-        <rule>
-            <pattern>
-                <token regexp="yes">[0-9]+-[a-z]+<exception postag="JJ"/></token>
-            </pattern>
-            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                args="no:1 regexp:[0-9]+-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter is case-sensitive -->
-            <disambig action="add"><wd pos="JJ"/></disambig>
-            <example type="untouched">Do a <marker>4-Hour</marker> test.</example>
-            <example type="untouched">Do a <marker>3-wORd</marker> test.</example>
-            <example type="untouched">Do a <marker>3-secTIon</marker> test.</example>
-            <example type="untouched">A <marker>500-pages</marker> document is too large.</example>
-            <example type="ambiguous" inputform="4-hour[4-hour]" outputform="4-hour[4-hour/JJ]">Do a <marker>4-hour</marker> test.</example>
-            <example type="ambiguous" inputform="5-hour[5-hour]" outputform="5-hour[5-hour/JJ]">Do a 3.<marker>5-hour</marker> test.</example>
-            <example type="ambiguous" inputform="500-page[500-page]" outputform="500-page[500-page/JJ]">A <marker>500-page</marker> document is too large.</example>
-            <example type="ambiguous" inputform="400-chapter[400-chapter]" outputform="400-chapter[400-chapter/JJ]">This large (<marker>400-chapter</marker>) document is too large.</example>
-            <example type="ambiguous" inputform="2-word[2-word]" outputform="2-word[2-word/JJ]">When you use an approved <marker>2-word</marker> term, make sure that the ...</example>
-            <example type="ambiguous" inputform="3-PAGE[3-PAGE]" outputform="3-PAGE[3-PAGE/JJ]">WRITE A <marker>3-PAGE</marker> DOCUMENT.</example>
-            <example type="ambiguous" inputform="10-person[10-person]" outputform="10-person[10-person/JJ]">A <marker>10-person</marker> or possibly 11-person team is the optimum size.</example>
-            <example type="ambiguous" inputform="4-oil[4-oil]" outputform="4-oil[4-oil/JJ]">We use a special <marker>4-oil</marker> blend.</example><!-- oil/NN:U -->
-            <example type="ambiguous" inputform="3-warning[3-warning]" outputform="3-warning[3-warning/JJ]">There is a <marker>3-warning</marker> rule, which means that after 3 warnings, you will be dismissed.</example><!-- warning/NN:UN -->
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">[0-9]+-(KB|MB|GB)<exception postag="JJ"/></token>
-            </pattern>
-            <disambig action="add"><wd pos="JJ"/></disambig>
-            <example type="untouched">The file is <marker>30 GB</marker>.</example>
-            <example type="untouched">A <marker>30-Gb</marker> file is too large.</example>
-            <example type="untouched">A <marker>3-5-GB</marker> file is too large.</example>
-<!--            <example type="untouched">A <marker>3.3.3-GB</marker> file is too large.</example>-->
-            <example type="ambiguous" inputform="30-GB[30-GB]" outputform="30-GB[30-GB/JJ]">A <marker>30-GB</marker> file is too large.</example>
-            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">A 55.<marker>5-GB</marker> file is too large.</example>
-            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">2.<marker>5-GB</marker> files and larger can ...</example>
-        </rule>
-    </rulegroup>
-
-    <rulegroup id="NUMBER_YEAR_OLD" name="hyphenated adjectives/nouns (10-year-old)"><!-- https://writingexplained.org/years-old-hyphenate -->
-        <rule><!-- adjective -->
-            <antipattern><!-- 30-year-old wine are. Because 'x-year-old' is a basic adjective, is it correct to try to prevent incorrect readings in this rule, or is it better for a grammar rule to find the error? Possibly, this rulegroup and DIGIT_HYPHENATED_ADJECTIVES should be near the top of this file so that the terms can be used by other disambiguation rules. -->
-                <token regexp="yes">.*-year-old</token>
-                <token postag_regexp="yes" postag="NN:UN?"/>
-                <token regexp="yes">are|were</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-old</token>
-                </marker>
-                <token postag_regexp="yes" postag="NN.*"/>
-            </pattern>
-            <disambig action="add"><wd pos="JJ"/></disambig>
-            <example type="untouched">Incorrect grammar. These 30-year-old wine are very good.</example>
-            <example type="untouched">Not good style (use a digit 33). This thirty-three-year-old wine is good.</example>
-            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/JJ]">At this age, <marker>10-year-old</marker> children can...</example>
-            <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/JJ]">The average <marker>x-year-old</marker> child can... where is is between 9 and 13.</example>
-        </rule>
-        <rule><!-- singular noun -->
-            <antipattern>
-                <token regexp="yes">.*-year-old</token>
-                <token postag_regexp="yes" postag="NN.*">
-                    <exception postag="MD"/>
-                    </token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-old
-                        <exception postag="JJ"/>
-                        </token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NN"/></disambig>
-            <example type="untouched">This 10-year-old child is a prodigy.</example>
-            <example type="untouched">This 10-year-old can is rusty.</example>
-            <example type="ambiguous" inputform="10-year-old[10-year-old]" outputform="10-year-old[10-year-old/NN]">This <marker>10-year-old</marker> is a remarkable child.</example>
-            <example type="ambiguous" inputform="x-year-old[x-year-old]" outputform="x-year-old[x-year-old/NN]">The average <marker>x-year-old</marker> can... where is is between 9 and 13.</example>
-            <example type="ambiguous" inputform="nineteen-year-old[nineteen-year-old]" outputform="nineteen-year-old[nineteen-year-old/NN]">What future is there for this disadvantaged <marker>nineteen-year-old</marker>'s child?</example>
-        </rule>
-        <rule><!-- plural noun -->
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">([0-9]+|x|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)-year-olds</token>
-                </marker>
-                <token>
-                    <exception postag_regexp="yes" postag="NN.*"/></token>
-            </pattern>
-            <disambig action="add"><wd pos="NNS"/></disambig>
-            <example type="untouched">Incorrect grammar. These 30-year-olds wines are very good.</example>
-            <example type="untouched">Not good style (use a digit 33). These thirty-three-year-olds were all born in the USA.</example>
-            <example type="ambiguous" inputform="10-year-olds[10-year-olds]" outputform="10-year-olds[10-year-olds/NNS]">At this age, <marker>10-year-olds</marker> are able to think more abstractly and have a good command of reading and writing.</example>
-            <example type="ambiguous" inputform="x-year-olds[x-year-olds]" outputform="x-year-olds[x-year-olds/NNS]">Let px be the proportion of <marker>x-year-olds</marker> who have some fixed attribute such as the season of birth.</example>
-        </rule>
-    </rulegroup>
 
     <rule id="THE_BLESSED" name="the blessed"><!-- www.lexico.com/en/definition/blessed -->
         <pattern>
