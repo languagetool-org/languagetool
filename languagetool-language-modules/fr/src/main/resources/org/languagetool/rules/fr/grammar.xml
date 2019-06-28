@@ -7927,7 +7927,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Iouri|ouate|Ouacif|Ouagadougou|Ouarzazate|Ouémo|Ouidah|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
+        <token regexp="yes">h?[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Iouri|ouate|Ouacif|Ouagadougou|Ouarzazate|Ouémo|Ouidah|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=1737</url>
@@ -7946,6 +7946,7 @@ though, and has since been slightly modified)-->
       <example>Dès le Ier siècle</example>
       <example>Les habitants de Ouagadougou.</example>
       <example>Le one-man-show.</example>
+      <example correction="L’honneur"><marker>Le honneur</marker> de rester debout face à l'adversité.</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
@@ -11557,7 +11558,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V.* 1 s" postag_regexp="yes"/>
               <exception scope="previous" postag="V.* 1 s" postag_regexp="yes"/>
-              <exception postag="V (inf|ppa).*" postag_regexp="yes"/>
+              <exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -11585,7 +11586,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V.* (sub|ind|con).* 2 s" postag_regexp="yes"/>
               <exception scope="previous" postag="V.* (sub|ind|con).* 2 s" postag_regexp="yes"/>
-              <exception postag="V (inf|ppa).*" postag_regexp="yes"/>
+              <exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -11611,7 +11612,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token min="0">ne</token>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
@@ -11639,7 +11640,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
@@ -11661,7 +11662,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token min="0">ne</token>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
@@ -11688,7 +11689,7 @@ though, and has since been slightly modified)-->
             <exception postag="R pers suj.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
@@ -11702,7 +11703,7 @@ though, and has since been slightly modified)-->
           <token>nous</token>
           <token>qui</token>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 1e personne du pluriel.</message>
@@ -11718,7 +11719,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 1e personne du pluriel.</message>
@@ -11735,7 +11736,7 @@ though, and has since been slightly modified)-->
           </token>
           <token>qui</token>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à la 2e personne du pluriel.</message>
@@ -11751,7 +11752,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa).*" postag_regexp="yes"/></token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à la 2e personne du pluriel.</message>
@@ -14270,7 +14271,9 @@ though, and has since been slightly modified)-->
         <marker><token postag="V.* sub.*" postag_regexp="yes"><exception postag="V.* (?:ind|con).*" postag_regexp="yes"/></token></marker>
       </pattern>
       <message>Le verbe « \5 » devrait être à l’indicatif ou au conditionnel (et non au subjonctif) après « \1 \2 \3 \4 » qui exprime la certitude ou une forte vraisemblance de manière positive.</message>
-      <example correction="">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
+        <suggestion><match no="5" postag="V(.*) sub(.*)" postag_regexp="yes" postag_replace="V$1 ind$2"/></suggestion>
+        <suggestion><match no="5" postag="V(.*) sub(.*)" postag_regexp="yes" postag_replace="V$1 con$2"/></suggestion>
+      <example correction="êtes|seriez">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
       <example>Elle est certaine que vous <marker>êtes</marker> un espion.</example>
     </rule>
     <rulegroup id="J_AIMERAI" name="j’aimerai, j’aimerais">
@@ -14610,29 +14613,57 @@ though, and has since been slightly modified)-->
         <example>Je reçois des mises à jour régulièrement.</example>
       </rule>
     </rulegroup>
-    <rule id="TRES" name="très + adjectif/adverbe/participe passé">
-      <pattern>
-        <token>très</token>
-        <marker>
-          <token>
-            <exception postag="[JAM].*|V ppa.*|UNKNOWN" postag_regexp="yes"/>
-            <exception regexp="yes">à|au|en|attention|classe|envie|faim|limite|peur|plaisir|près|proche|soif|sommeil|demandeur|dommage|tendance|Cloîtres</exception>
-          </token>
-        </marker>
-      </pattern>
-      <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
-      <example correction="">C’est très <marker>importent</marker>.</example>
-      <example>C’est très <marker>important</marker>.</example>
-      <example>J’ai très faim.</example>
-      <example>Il est très à l’aise.</example>
-      <example>Je suis très en retard.</example>
-      <example>Très, très loin.</example>
-      <example>Tu aimes beaucoup ? Très !</example>
-      <example>Je me sentirais très seul si tu venais à disparaître.</example>
-      <example>le vieux quartier Très Cloîttres à Grenoble.</example>
-      <example>Il fait faire très attention.</example>
-      <example>Ça me fait très plaisir.</example>
-    </rule>
+    <rulegroup id="TRES" name="très + adjectif/adverbe/participe passé">
+        <rule>
+            <pattern>
+                <token>très</token>
+                <marker>
+                   <token postag="V.*" postag_regexp="yes" regexp="yes">.*ent\b</token>
+                </marker>
+            </pattern>
+            <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
+            <suggestion><match no="2" regexp_match="(.*)ent\b" regexp_replace="$1ant"/></suggestion>
+            <example correction="important">C’est très <marker>importent</marker>.</example>
+            <example>C’est très <marker>important</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>très</token>
+                <marker>
+                    <token postag="V.* inf" postag_regexp="yes" regexp="yes">.*er\b</token>
+                </marker>
+            </pattern>
+            <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
+            <suggestion><match no="2" regexp_match="(.*)er\b" regexp_replace="$1é"/></suggestion>
+            <example correction="apprécié">C’est très <marker>apprécier</marker> dans le milieu.</example>
+            <example>C’est très <marker>important</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>très</token>
+            <marker>
+              <token>
+                <exception postag="V.*" postag_regexp="yes" regexp="yes">.*ent\b</exception>
+                <exception postag="[JAM].*|V ppa.*|UNKNOWN" postag_regexp="yes"/>
+                <exception postag="V.* inf" postag_regexp="yes" regexp="yes">.*er\b</exception>
+                <exception regexp="yes">à|au|en|attention|classe|envie|faim|limite|peur|plaisir|près|proche|soif|sommeil|demandeur|dommage|tendance|Cloîtres</exception>
+              </token>
+            </marker>
+          </pattern>
+          <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
+          <example correction="">C’est très <marker>courir</marker>.</example>
+          <example>C’est très <marker>important</marker>.</example>
+          <example>J’ai très faim.</example>
+          <example>Il est très à l’aise.</example>
+          <example>Je suis très en retard.</example>
+          <example>Très, très loin.</example>
+          <example>Tu aimes beaucoup ? Très !</example>
+          <example>Je me sentirais très seul si tu venais à disparaître.</example>
+          <example>le vieux quartier Très Cloîttres à Grenoble.</example>
+          <example>Il fait faire très attention.</example>
+          <example>Ça me fait très plaisir.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
       <rule>
         <pattern>
