@@ -274,7 +274,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
     ),
     Arrays.asList( // "Für ihn ist das Alltag." / "Für die Religiösen ist das Blasphemie."
-    	new PatternTokenBuilder().posRegex("PRP:.+|ADV:MOD").setSkip(2).build(),
+      new PatternTokenBuilder().posRegex("PRP:.+|ADV:MOD").setSkip(2).build(),
       new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("das").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.*").build(),
@@ -486,13 +486,13 @@ public class AgreementRule extends Rule {
   }
 
   private void replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
-  	for (int i = 0; i < tokens.length; i++) {
+    for (int i = 0; i < tokens.length; i++) {
       if (StringUtils.equalsAny(tokens[i].getToken(), "ins", "ans", "aufs", "vors", "durchs", "hinters", "unters", "übers", "fürs", "ums")) {
-  			tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
-  		} else if (StringUtils.equalsAny(tokens[i].getToken(), "zur")) {
-  			tokens[i] = new AnalyzedTokenReadings(ZUR_REPLACEMENT, tokens[i].getStartPos());
-  		}
-  	}
+        tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
+      } else if (StringUtils.equalsAny(tokens[i].getToken(), "zur")) {
+        tokens[i] = new AnalyzedTokenReadings(ZUR_REPLACEMENT, tokens[i].getStartPos());
+      }
+    }
   }
 
   @Override
