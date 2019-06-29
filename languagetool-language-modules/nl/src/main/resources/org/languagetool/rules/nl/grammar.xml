@@ -13332,19 +13332,19 @@ onwaarschijnlijk
                 <example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- uitgeschakeld vanwege te veel false positives; moet heel ander 
+
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
-        <rule>
-        <pattern>
-        <marker>
-        <token regexp="yes" case_sensitive="yes">.*[a-z]-[a-z].*<exception regexp="yes">.*(a-[aeiué]|[eé]-[éeiu]|i-[éeij]|o-[éeiou]|u-[iu]).*</exception></token>
-        </marker>
-        </pattern>
-        <message>Ook als dit een correcte spelling is, is het koppelteken alleen aan te raden als het woord anders slecht leest of het tussen gelijkwaardige begrippen staat, of omdat het een 'mini-zin' is.".</message>
-        <example type="incorrect">De <marker>oven-zygoot</marker> staat open.</example>
-        </rule>
+			<rule>
+				<pattern raw_pos="yes">
+					<marker>
+						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*<exception postag="UNKNOWN"/></token>
+					</marker>
+				</pattern>
+				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder.</message>
+				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
+			</rule>
         </rulegroup>
-        -->
+
     </category>
     <category id="CASING" name="Hoofdletters">
 		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen">
