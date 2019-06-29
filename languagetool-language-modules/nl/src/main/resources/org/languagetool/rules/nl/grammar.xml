@@ -30121,6 +30121,14 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		
+        <rulegroup id="AAN_X_SLAG" name="Aan de slag">
+            <rule>
+				<antipattern><token>aan</token><token>de</token><token>slag</token></antipattern>
+                <pattern><token>aan</token><token/><token>slag</token></pattern>
+                <message>U bedoelt vast <suggestion>aan de slag</suggestion>.</message>
+                <example correction="aan de slag">Ik ga snel <marker>aan ede slag</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WORT" name="wort → wordt of word">
             <rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*(brouw|bier|gist|mout|kook|koel|ketel).*|sg</token></antipattern>
