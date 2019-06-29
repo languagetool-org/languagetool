@@ -15658,17 +15658,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="HAM_DIT" name="*ham dit/hem dit">
             <pattern>
                 <token><exception postag="SPS00"/></token>
-                <token><exception postag="SPS00"/></token>
+                <token><exception postag="SPS00"/><exception>un</exception></token>
                 <marker>
                     <token>ham</token>
                 </marker>
-                <token postag="V.P..SM." postag_regexp="yes"/>
+                <token postag="V.P..SM." postag_regexp="yes"><exception>rovellat</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>han</suggestion>?</message>
             <suggestion>hem</suggestion>
             <example correction="han|hem">¿Què <marker>ham</marker> dit?</example>
             <example>Què han dit.</example>
             <example>Depenent de la mida de l'ham utilitzat.</example>
+            <example>Un ham rovellat.</example>
         </rule>
         <rule id="A_TOTA_HORA" name="a *tot/tota hora">
             <pattern>
@@ -40189,6 +40190,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="COM_A_CONSEQUENCIA" name="*com a conseqüència de/a conseqüència de">
+            <pattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>conseqüència</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Expressió preferible.</message>
+            <suggestion>a conseqüència</suggestion>
+            <example correction="a conseqüència">Va passar això <marker>com a conseqüència</marker> d'un terratrèmol.</example>
+            <example correction="a conseqüència">Va passar això <marker>com a conseqüència</marker> del terratrèmol.</example>
+        </rule>
         <rule id="VENIR_DONAT_PER" name="venir donat per / ser causat per, ser definit per">
             <pattern>
                 <marker>
