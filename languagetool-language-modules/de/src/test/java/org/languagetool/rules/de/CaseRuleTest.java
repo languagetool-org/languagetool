@@ -290,6 +290,7 @@ public class CaseRuleTest {
     assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
     assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
     assertGood("Er befürchtet Schlimmeres.");
+    assertBad("Bis Bald!");
     
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
