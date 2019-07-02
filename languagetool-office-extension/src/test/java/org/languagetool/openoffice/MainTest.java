@@ -87,7 +87,7 @@ public class MainTest {
   public void testCleanFootnotes() {
     Main main = new Main(null);
     main.setTestMode(true);
-    SingleDocument prog = new SingleDocument(null, null, null, null);
+    SingleDocument prog = new SingleDocument(null, null, null, null, null);
     assertEquals("A house.¹ Here comes more text.", prog.cleanFootnotes("A house.1 Here comes more text."));
     assertEquals("A road that's 3.4 miles long.", prog.cleanFootnotes("A road that's 3.4 miles long."));
     assertEquals("A house.1234 Here comes more text.", prog.cleanFootnotes("A house.1234 Here comes more text."));  // too many digits for a footnote

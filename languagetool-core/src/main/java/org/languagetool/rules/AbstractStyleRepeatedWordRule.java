@@ -319,4 +319,9 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     return toRuleMatchArray(ruleMatches);
   }
   
+  @Override
+  public int minToCheckParagraph() {
+    return maxDistanceOfSentences;
+  }
+  
 }

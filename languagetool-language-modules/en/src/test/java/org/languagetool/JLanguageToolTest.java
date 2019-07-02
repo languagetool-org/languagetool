@@ -270,5 +270,9 @@ public class JLanguageToolTest {
     public String getDescription() {
       return "Test rule";
     }
+    @Override
+    public int minToCheckParagraph() {
+      return -1;
+    }
   }
 }

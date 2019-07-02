@@ -293,4 +293,9 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     }
   }
 
+  @Override
+  public int minToCheckParagraph() {
+    return -1;
+  }
+
 }

@@ -594,4 +594,9 @@ public class VerbAgreementRule extends TextLevelRule {
       this.finiteVerb = finiteVerb;
     }
   }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
+  }
 }

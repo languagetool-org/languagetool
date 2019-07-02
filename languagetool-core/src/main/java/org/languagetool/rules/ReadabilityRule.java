@@ -331,5 +331,10 @@ public class ReadabilityRule extends TextLevelRule {
       return toRuleMatchArray(new ArrayList<>());
     }
   }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
+  }
  
 }

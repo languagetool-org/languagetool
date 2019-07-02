@@ -188,4 +188,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private boolean isQuoteStart(String word) {
     return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘");
   }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
+  }
 }

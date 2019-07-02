@@ -34,6 +34,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.awt.XMenuBar;
@@ -78,6 +79,7 @@ public class MultiDocumentsHandler {
   private final String configFile;
   private Configuration config = null;
   private LinguisticServices linguServices = null;
+  private SortedTextRules sortedTextRules;
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
@@ -367,7 +369,7 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    documents.add(new SingleDocument(xContext, config, docID, xComponent));
+    documents.add(new SingleDocument(xContext, config, docID, xComponent, this));
     setMenuTextForSwitchOff(xContext);
     if (debugMode) {
       MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
@@ -469,10 +471,12 @@ public class MultiDocumentsHandler {
         langTool.enableRule(ruleName);
       }
     }
+    recheck = false;
+    sortedTextRules = new SortedTextRules();
+    setConfigValues(config, langTool);
     for (SingleDocument document : documents) {
       document.resetCache();
     }
-    recheck = false;
   }
   
 /**
@@ -573,5 +577,128 @@ public class MultiDocumentsHandler {
     return ret;
   }
 
+  /**
+   * Returns a list of different numbers of paragraphs to check for text level rules
+   * (currently only -1 for full text check and n for max number for other text level rules)
+   */
+  public List<Integer> getNumMinToCheckParas() {
+    return sortedTextRules.minToCheckParagraph;
+  }
 
+  /**
+   * activate all rules stored under a given index related to the list of getNumMinToCheckParas
+   * deactivate all other text level rules
+   */
+  public void activateTextRulesByIndex(int index) {
+    sortedTextRules.activateTextRulesByIndex(index);
+  }
+
+  /**
+   * reactivate all text level rules
+   */
+  public void reactivateTextRules() {
+    sortedTextRules.reactivateTextRules();;
+  }
+
+  /**
+   * class to store all text level rules sorted by the minimum to check paragraphs
+   * (currently only full text check and all other text level rules)
+   *
+   */
+  class SortedTextRules { 
+    List<Integer> minToCheckParagraph;
+    List<List<String>> textLevelRules;
+    SortedTextRules () {
+      minToCheckParagraph = new ArrayList<Integer>();
+      textLevelRules = new ArrayList<List<String>>();
+      List<Rule> rules = langTool.getAllActiveOfficeRules();
+      for(Rule rule : rules) {
+        if(rule instanceof TextLevelRule) {
+          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
+        }
+      }
+      if(debugMode) {
+        MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
+        for( int i = 0; i < minToCheckParagraph.size(); i++) {
+          MessageHandler.printToLogFile("minToCheckParagraph: " + minToCheckParagraph.get(i));
+          for (int j = 0; j < textLevelRules.get(i).size(); j++) {
+            MessageHandler.printToLogFile("RuleId: " + textLevelRules.get(i).get(j));
+          }
+        }
+      }
+    }
+    
+    private void insertRule (int minPara, String RuleId) {
+      if(minPara < 0) {
+        int n = minToCheckParagraph.indexOf(minPara);
+        if( n >= 0) {
+        } else {
+          minToCheckParagraph.add(minPara);
+          textLevelRules.add(new ArrayList<String>());
+        }
+        textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));
+      } else {
+        int n = minToCheckParagraph.indexOf(-1);
+        if( n == 0 || minToCheckParagraph.size() == 0) {
+          minToCheckParagraph.add(0, minPara);
+          textLevelRules.add(0, new ArrayList<String>());
+        } else if(minPara > minToCheckParagraph.get(0)) {
+          minToCheckParagraph.set(0, minPara);
+        }
+        textLevelRules.get(0).add(new String(RuleId));
+      }
+    }
+/*
+ * This rule was commented out for performance reasons and replaced by the same named rule before 
+ * 
+    private void insertRule (int minPara, String RuleId) {
+      int n = minToCheckParagraph.indexOf(minPara); 
+      if( n >= 0) {
+        textLevelRules.get(n).add(new String(RuleId));
+        return;
+      } else {
+        if(minPara < 0) {
+          n = minToCheckParagraph.size();
+        } else {
+          for (n = 0; n < minToCheckParagraph.size(); n++) {
+            if(minPara < minToCheckParagraph.get(n) || minToCheckParagraph.get(n) < 0) {
+              break;
+            }
+          }
+        }
+        minToCheckParagraph.add(n, minPara);
+        textLevelRules.add(n, new ArrayList<String>());
+        textLevelRules.get(n).add(new String(RuleId));
+      }
+    }
+*/
+    public List<Integer> getMinToCheckParas() {
+      return minToCheckParagraph;
+    }
+
+    public void activateTextRulesByIndex(int index) {
+      for(int i = 0; i < textLevelRules.size(); i++) {
+        if(i == index) {
+          for (String ruleId : textLevelRules.get(i)) {
+            langTool.enableRule(ruleId);
+          }
+        } else {
+          for (String ruleId : textLevelRules.get(i)) {
+            langTool.disableRule(ruleId);
+          }
+        }
+      }
+    }
+
+    public void reactivateTextRules() {
+      for(List<String> textRules : textLevelRules) {
+        for (String ruleId : textRules) {
+          langTool.enableRule(ruleId);
+        }
+      }
+    }
+
+  }
+  
+  
 }

@@ -107,4 +107,9 @@ public class WordRepeatBeginningRule extends TextLevelRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
+  public int minToCheckParagraph() {
+    return 2;
+  }
+
 }

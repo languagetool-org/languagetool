@@ -146,4 +146,9 @@ public class LongParagraphRule extends TextLevelRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
+  }
+
 }
