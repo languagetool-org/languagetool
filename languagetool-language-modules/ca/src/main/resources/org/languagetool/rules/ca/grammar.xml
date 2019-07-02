@@ -27429,6 +27429,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="EN_LA_SEVA_TOTALITAT" name="*en la seva totalitat/totalment">
+            <pattern>
+                <token>en</token>
+                <token>la</token>
+                <token regexp="yes">seva|seua</token>
+                <token>totalitat</token>
+            </pattern>
+            <message>Calc del castellà. Val més fer servir una altra expressió.</message>
+            <suggestion>completament</suggestion>
+            <suggestion>totalment</suggestion>
+            <suggestion>tot</suggestion>
+            <suggestion>tota</suggestion>
+            <example correction="completament|totalment|tot|tota">Va ser destruït <marker>en la seua totalitat</marker>.</example>
+        </rule>
         <rule id="EN_BONA_MESURA" name="*en bona mesura">
             <pattern>
                 <token>en</token>
