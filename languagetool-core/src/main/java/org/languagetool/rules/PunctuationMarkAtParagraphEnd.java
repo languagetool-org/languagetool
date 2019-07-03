@@ -114,6 +114,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             if (tokens[tokens.length-2].getToken().equalsIgnoreCase(":") &&
                 WordTokenizer.isUrl(tokens[tokens.length-1].getToken())) {
               // e.g. "find it at: http://example.com" should not be an error
+              pos += sentence.getText().length();
               continue;
             }
             if (isWord(tokens[lastNWToken]) 
