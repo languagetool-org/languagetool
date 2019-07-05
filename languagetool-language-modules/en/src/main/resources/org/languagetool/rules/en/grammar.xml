@@ -112,6 +112,21 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+
+        <rule id="LIGATURES" name="Word contains a ligature">
+            <pattern>
+                <token regexp="yes">.*(æ|ﬀ|ﬁ).*</token><!-- Don't add all known ligatures. Wait for real errors reported by users. -->
+            </pattern>
+            <message>The word '\1' contains a ligature (joined letters). Modern English does not usually use ligatures. A ligature in a word causes a spelling error. If the word is an English  word, write it with standard characters.</message><!-- A ligature can also cause a disambiguation error, but the average reader does not need to know that. -->
+          <url>https://en.wikipedia.org/wiki/Typographic_ligature</url><!-- Refer also to https://en.wikipedia.org/wiki/List_of_words_that_may_be_spelled_with_a_ligature -->
+          <short>Ligature</short>
+          <example type="incorrect">LanguageTool <marker>ﬁnds</marker> spelling errors. [The word 'finds' contains a ligature, not the characters f i.]</example>
+          <example type="incorrect">An <marker>æon</marker> is a technical term. [ae]</example>
+          <example type="incorrect">This <marker>eﬀects</marker> many rules. [ef]</example>
+          <example>LanguageTool <marker>finds</marker> spelling errors.</example>
+          <example>LanguageTool <marker>【Upgraded</marker> version...</example><!-- Not a ligature. Need a different rule. -->
+        </rule>
+
        <rulegroup id="IN_LAWS" name="brother-in-laws (brothers-in-law)">
            <rule>
                <pattern>
