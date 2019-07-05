@@ -231,11 +231,15 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("e-commerce");
     } else if ("Ecommerce".equals(word)) {
       return Arrays.asList("E-Commerce");
+    } else if ("eCommerce".equals(word)) {
+      return Arrays.asList("e-commerce");
     } else if ("elearning".equals(word)) {
       return Arrays.asList("e-learning");
     } else if ("eLearning".equals(word)) {
       return Arrays.asList("e-learning");
     } else if ("ebook".equals(word)) {
+      return Arrays.asList("e-book");
+    } else if ("eBook".equals(word)) {
       return Arrays.asList("e-book");
     } else if ("Ebook".equals(word)) {
       return Arrays.asList("E-Book");
