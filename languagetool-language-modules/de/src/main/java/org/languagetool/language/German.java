@@ -205,6 +205,24 @@ public class German extends Language implements AutoCloseable {
     );
   }
 
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.asList(
+            new GermanConfusionProbabilityRule(messages, languageModel, this),
+            new ProhibitedCompoundRule(messages, languageModel)
+    );
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    if (nnRules == null) {
+      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
+    }
+    return nnRules;
+  }
+
   /**
    * @since 2.7
    */
@@ -252,24 +270,6 @@ public class German extends Language implements AutoCloseable {
       word2VecModel = new Word2VecModel(indexDir + File.separator + getShortCode());
     }
     return word2VecModel;
-  }
-
-  /** @since 3.1 */
-  @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.asList(
-            new GermanConfusionProbabilityRule(messages, languageModel, this),
-            new ProhibitedCompoundRule(messages, languageModel)
-    );
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    if (nnRules == null) {
-      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
-    }
-    return nnRules;
   }
 
   /**

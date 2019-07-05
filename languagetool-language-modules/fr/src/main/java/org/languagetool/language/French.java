@@ -140,19 +140,19 @@ public class French extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.asList(
+            new FrenchConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
       languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
-  }
-
-  /** @since 3.1 */
-  @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.asList(
-            new FrenchConfusionProbabilityRule(messages, languageModel, this)
-    );
   }
 
   /**
