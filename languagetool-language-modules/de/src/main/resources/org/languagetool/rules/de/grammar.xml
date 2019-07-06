@@ -17380,7 +17380,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern case_sensitive="yes">
                     <token>gegen</token>
                     <token>Rechts</token>
-                    <token>“</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token negate="yes">Blick</token>
@@ -39310,6 +39309,18 @@ Andere Projekte</example>
                 <example correction='bekannt gab'>Als er es <marker>bekanntgab</marker>, achtete niemand darauf.</example>
                 <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
                 <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">ein</token>
+                    <marker>
+                        <token>Hand</token>
+                        <token>voll</token>
+                    </marker>
+                    <token regexp="yes">[A-ZÄÖÜ].+</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>\2\3</suggestion> verwenden?</message>
+                <example correction="Handvoll">Es kam nur eine <marker>Hand voll</marker> Schüler.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">
