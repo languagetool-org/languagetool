@@ -42,6 +42,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
     List<RuleMatch> matches2 = lt.check("Décu");
     assertThat(matches2.size(), is(1));
     assertThat(matches2.get(0).getSuggestedReplacements().get(0), is("Déçu"));   // see #912
+    List<RuleMatch> matches3 = lt.check("etant");
+    assertThat(matches3.size(), is(1));
+    assertThat(matches3.get(0).getSuggestedReplacements().get(0), is("étant"));   // see #1633
   }
 
 }
