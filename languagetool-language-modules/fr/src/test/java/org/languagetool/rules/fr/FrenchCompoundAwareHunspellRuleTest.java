@@ -36,15 +36,24 @@ public class FrenchCompoundAwareHunspellRuleTest {
   public void testSpellcheck() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     TestTools.disableAllRulesExcept(lt, "FR_SPELLING_RULE");
-    List<RuleMatch> matches1 = lt.check("Ca");
-    assertThat(matches1.size(), is(1));
-    assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Ça"));   // see #912
-    List<RuleMatch> matches2 = lt.check("Décu");
-    assertThat(matches2.size(), is(1));
-    assertThat(matches2.get(0).getSuggestedReplacements().get(0), is("Déçu"));   // see #912
-    List<RuleMatch> matches3 = lt.check("etant");
-    assertThat(matches3.size(), is(1));
-    assertThat(matches3.get(0).getSuggestedReplacements().get(0), is("étant"));   // see #1633
+    assertSuggestion(lt, "Ca", "Ça");  // see #912
+    assertSuggestion(lt, "Décu", "Déçu");  // see #912
+    assertSuggestion(lt, "etant", "étant");  // see #1633
+    assertSuggestion(lt, "Cliqez", "Cliquez");
+    assertSuggestion(lt, "cliqez", "cliquez");
+    assertSuggestion(lt, "offe", "effet", "offre");  // "offre" would be better as first suggestion? 
+    assertSuggestion(lt, "problemes", "problèmes"); 
+    assertSuggestion(lt, "coulurs", "couleurs"); 
+    assertSuggestion(lt, "boton", "bâton", "béton");  // "bouton" would be better? 
+  }
+
+  private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
+    List<RuleMatch> matches = lt.check(input);
+    assertThat(matches.size(), is(1));
+    int i = 0;
+    for (String s : expected) {
+      assertThat(matches.get(0).getSuggestedReplacements().get(i++), is(s));
+    }
   }
 
 }
