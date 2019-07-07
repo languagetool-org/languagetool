@@ -8237,6 +8237,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
+        <rulegroup id="A_ZONES" name="*a zones/en zones">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">viure|situar|trobar|establir|habitar|estar|ser|romandre</token>
+                    <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">regió|zona|país|continent|estat|comarca|hàbitat|bosc|selva|paratge|llac|riu|estany</token>
+                </pattern>
+                <message>Si no indica moviment, la preposició adequada és <suggestion>en</suggestion>.</message>
+                <example correction="en">Viu <marker>a</marker> zones càlides.</example>
+                <example correction="en">Viu habitualment <marker>a</marker> zones càlides.</example>
+                <example correction="en">Se situa de vegades <marker>a</marker> zones càlides.</example>
+                <example>Arriba fins a hàbitats extrems.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">viure|situar|trobar|establir|habitar|estar|ser|romandre</token>
+                    <token min="1" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">regió|zona|país|continent|estat|comarca|hàbitat|bosc|selva|paratge|llac|riu|estany</token>
+                </pattern>
+                <message>Si no indica moviment, la preposició adequada és <suggestion>en</suggestion>.</message>
+                <example correction="en">Se situa a vegades <marker>a</marker> zones càlides.</example>
+                <example>Arriba a voltes a hàbitats extrems.</example>
+            </rule>
+        </rulegroup>
         <rule id="MALGRAT_A" name="*malgrat a/malgrat">
             <pattern>
                 <token>malgrat<exception postag="_possible_nompropi"/></token>
@@ -27429,6 +27459,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="DACORD_A" name="*d'acord a/d'acord amb/segons">
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token inflected="yes">el</token>
+                    <token regexp="yes">&mesos_any;|hora</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token postag=".*LOC_.*" postag_regexp="yes">a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token min="0" inflected="yes">el</token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">posar</token>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token regexp="yes">ls?</token>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion>d'acord amb e<match no="4"/></suggestion>
+                <suggestion>segons e<match no="4"/></suggestion>
+                <example correction="D'acord amb el|Segons el"><marker>D'acord al</marker> reglament, no es pot actuar així.</example>
+                <example correction="D'acord amb els|Segons els"><marker>D'acord als</marker> reglaments, no es pot actuar així.</example>
+                <example>Es van posar d'acord al setembre.</example>
+                <example>Estaven d'acord al mateix temps.</example>
+                <example>Estaven d'acord a l'hora de partir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>acord</token>
+                        <token>a</token>
+                    </marker>
+                    <token postag="A...P.|NP.*|NC.P.*|D.*" postag_regexp="yes"><exception regexp="yes">ls?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion>d'acord amb</suggestion>
+                <suggestion>segons</suggestion>
+                <example correction="D'acord amb|Segons"><marker>D'acord a</marker> les condicions, no es pot actuar així.</example>
+                <example correction="D'acord amb|Segons"><marker>D'acord a</marker> aquest reglament, no es pot actuar així.</example>
+                <example>Es van posar d'acord al setembre.</example>
+                <example>Estaven d'acord a ampliar les accions.</example>
+                <example>Estaven d'acord al mateix temps.</example>
+                <example>Es van posar d'acord a contracor.</example>
+                <example>Es van posar d'acord a escala general.</example>
+                <example>D'acord a condició que vinguis tu.</example>
+                <example>No aconseguiren posar-se d'acord a Barcelona.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_LA_SEVA_TOTALITAT" name="*en la seva totalitat/totalment">
             <pattern>
                 <token>en</token>
@@ -27439,9 +27542,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Calc del castellà. Val més fer servir una altra expressió.</message>
             <suggestion>completament</suggestion>
             <suggestion>totalment</suggestion>
+            <suggestion>del tot</suggestion>
             <suggestion>tot</suggestion>
             <suggestion>tota</suggestion>
-            <example correction="completament|totalment|tot|tota">Va ser destruït <marker>en la seua totalitat</marker>.</example>
+            <example correction="completament|totalment|del tot|tot|tota">Va ser destruït <marker>en la seua totalitat</marker>.</example>
         </rule>
         <rule id="EN_BONA_MESURA" name="*en bona mesura">
             <pattern>
