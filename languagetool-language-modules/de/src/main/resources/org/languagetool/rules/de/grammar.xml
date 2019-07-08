@@ -33737,11 +33737,11 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="MEINES_ERACHTENS_NACH" name="meines Erachtens nach (meines Erachtens)">
             <pattern>
-                <token>meines</token>
+                <token regexp="yes">[dms]eines</token>
                 <token>Erachtens</token>
                 <token>nach</token>
             </pattern>
-            <message>Die feste Wendung lautet <suggestion>meines Erachtens</suggestion>, ohne 'nach'.</message>
+            <message>Die feste Wendung lautet <suggestion>\1 Erachtens</suggestion>, ohne 'nach'.</message>
             <url>https://www.korrekturen.de/beliebte_fehler/meines_erachtens_nach.shtml</url>
             <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
         </rule>
@@ -33819,7 +33819,7 @@ Andere Projekte</example>
             <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-abc-insofern-als-insofern-dass-a-340036.html</url>
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">insofern|insoweit</token>
+                    <token skip="2" regexp="yes">inso(fern|weit)</token>
                     <token>,</token>
                     <marker>
                         <token>als</token>
@@ -33871,7 +33871,7 @@ Andere Projekte</example>
             <example correction="Schmerz zugefügt">Ich habe ihm großen <marker>Schmerz zugeführt</marker>.</example>
         </rule>
         <rule id="AUF_WEITEM_FLUR" name="'auf weitem (weiter) Flur'">
-            <regexp>\bauf weitem Flur\b</regexp>
+            <regexp>\bauf weite[mn] Flur\b</regexp>
             <message>Meinten Sie die Redewendung <suggestion>auf weiter Flur</suggestion>?</message>
             <url>https://www.duden.de/rechtschreibung/Flur_Boden_Land_Feld</url>
             <short>Möglicherweise falsch verwendete Redewendung</short>
