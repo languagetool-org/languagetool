@@ -37418,15 +37418,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">descabellar</token>
             </pattern>
             <message>Correcte en el sentit de "desordenar els cabells". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="VMP..(.)(.).*" postag_regexp="yes" postag_replace="AQ.$2$1.">forassenyat</match></suggestion>
+            <suggestion><match no="1" postag="VMP..(.)(.).*" postag_regexp="yes" postag_replace="AQ.$2$1.">desficaciat</match></suggestion>
             <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desbaratar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desgavellar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">esgavellar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desficaciar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desballestar</match></suggestion>
             <suggestion><match no="1" postag="VMP..(.)(.)." postag_regexp="yes" postag_replace="AQ.$2$1.">destarifat</match></suggestion>
             <suggestion>sense cap ni peus</suggestion>
             <short>Possible error</short>
-            <example correction="desbaratades|desgavellades|esgavellades|desficaciades|desballestades|destarifades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
+            <example correction="forassenyades|desficaciades|desbaratades|destarifades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
             <example>Té idees desgavellades.</example>
         </rule>
         <rulegroup id="CORRERIA" name="*correria / correguda,incursió,escapada,volta">
@@ -38324,21 +38322,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Van decidir que calia resecar el fetge.</example>
             </rule>
         </rulegroup>
-        <rule id="ACONSEGUIT" name="aconseguit/reeixit">
-            <pattern>
-                <token regexp="yes">molt|ben|tan|poc</token>
-                <marker>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>?</message>
-            <example correction="reeixida">una fotografia molt <marker>aconseguida</marker>.</example>
-            <example>Han aconseguit fer-ho</example>
-            <example>ho han finalment aconseguit</example>
-            <example>Una vegada aconseguit l'objectiu</example>
-            <example>Aconseguit l'objectiu</example>
-            <example>l'alfabet artificial tan laboriosament aconseguit</example>
-        </rule>
+        <rulegroup id="ACONSEGUIT" name="*aconseguit/reeixit">
+            <rule>
+                <pattern>
+                    <token regexp="yes">molt|tan|poc</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
+                    </marker>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">encertar</match></suggestion>
+                <suggestion>ben <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+                <example correction="reeixida|encertada|ben trobada">una fotografia molt <marker>aconseguida</marker>.</example>
+                <example>Han aconseguit fer-ho</example>
+                <example>ho han finalment aconseguit</example>
+                <example>Una vegada aconseguit l'objectiu</example>
+                <example>Aconseguit l'objectiu</example>
+                <example>l'alfabet artificial tan laboriosament aconseguit</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ben</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
+                    </marker>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">encertar</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+                <example correction="reeixida|encertada|trobada">una fotografia ben <marker>aconseguida</marker>.</example>
+                <example>Han aconseguit fer-ho</example>
+                <example>ho han finalment aconseguit</example>
+                <example>Una vegada aconseguit l'objectiu</example>
+                <example>Aconseguit l'objectiu</example>
+                <example>l'alfabet artificial tan laboriosament aconseguit</example>
+            </rule>
+        </rulegroup>
         <rule id="VISTIPLAU" name="vistiplau">
             <pattern>
                 <token postag="D..MS.|PX.*" postag_regexp="yes"/>
