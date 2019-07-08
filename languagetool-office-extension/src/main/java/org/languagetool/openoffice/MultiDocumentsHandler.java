@@ -90,7 +90,7 @@ public class MultiDocumentsHandler {
   private int docNum;                       //  number of the current document
 
   private boolean switchOff = false;        //  is LT switched off
-  private boolean noMultiReset = true;      //  will be overwritten by config; TODO: add to configuration dialog
+  private boolean noMultiReset = true;      //  will be overwritten by config;
 
   private boolean testMode = false;
 
@@ -200,7 +200,7 @@ public class MultiDocumentsHandler {
     if(documents.isEmpty() || (documents.size() > 1 && noMultiReset)) {
       return false;
     }
-    return documents.get(docNum).doresetCheck();
+    return documents.get(docNum).doResetCheck();
   }
 
   /** 
@@ -627,7 +627,7 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    
+/*    
     private void insertRule (int minPara, String RuleId) {
       if(minPara < 0) {
         int n = minToCheckParagraph.indexOf(minPara);
@@ -648,9 +648,10 @@ public class MultiDocumentsHandler {
         textLevelRules.get(0).add(new String(RuleId));
       }
     }
+*/
 /*
  * This rule was commented out for performance reasons and replaced by the same named rule before 
- * 
+ */ 
     private void insertRule (int minPara, String RuleId) {
       int n = minToCheckParagraph.indexOf(minPara); 
       if( n >= 0) {
@@ -671,7 +672,7 @@ public class MultiDocumentsHandler {
         textLevelRules.get(n).add(new String(RuleId));
       }
     }
-*/
+
     public List<Integer> getMinToCheckParas() {
       return minToCheckParagraph;
     }

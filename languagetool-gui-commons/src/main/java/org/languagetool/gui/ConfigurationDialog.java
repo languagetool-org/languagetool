@@ -571,8 +571,12 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
 
-
+    JLabel textChangedLabel = new JLabel(Tools.getLabel(messages.getString("guiTextChangeLabel")));
+    cons.gridy++;
+    portPanel.add(textChangedLabel, cons);
     
+    cons.gridy++;
+    cons.insets = new Insets(0, 30, 0, 0);
     for (int i = 0; i < 3; i++) {
       portPanel.add(radioButtons[i], cons);
       if (i < 2) cons.gridy++;
@@ -599,10 +603,11 @@ public class ConfigurationDialog implements ActionListener {
         noMultiResetbox.setEnabled(resetCheckbox.isSelected());
       }
     });
+    cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
-    JLabel dummyLabel = new JLabel(" ");
-    cons.gridy++;
-    portPanel.add(dummyLabel, cons);
+//    JLabel dummyLabel = new JLabel(" ");
+//    cons.gridy++;
+//    portPanel.add(dummyLabel, cons);
     cons.gridy++;
     portPanel.add(resetCheckbox, cons);
 
@@ -610,6 +615,22 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(noMultiResetbox, cons);
+    
+    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
+    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
+    fullTextCheckAtFirstBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected());
+      }
+    });
+    cons.insets = new Insets(0, 4, 0, 0);
+    cons.gridx = 0;
+//    cons.gridy++;
+//    JLabel dummyLabel2 = new JLabel(" ");
+//    portPanel.add(dummyLabel2, cons);
+    cons.gridy++;
+    portPanel.add(fullTextCheckAtFirstBox, cons);
     
     JCheckBox isMultiThreadBox = new JCheckBox(Tools.getLabel(messages.getString("guiIsMultiThread")));
     isMultiThreadBox.setSelected(config.isMultiThread());
@@ -619,11 +640,9 @@ public class ConfigurationDialog implements ActionListener {
         config.setMultiThreadLO(isMultiThreadBox.isSelected());
       }
     });
-    cons.insets = new Insets(0, 4, 0, 0);
-    cons.gridx = 0;
     cons.gridy++;
-    JLabel dummyLabel2 = new JLabel(" ");
-    portPanel.add(dummyLabel2, cons);
+    JLabel dummyLabel3 = new JLabel(" ");
+    portPanel.add(dummyLabel3, cons);
     cons.gridy++;
     portPanel.add(isMultiThreadBox, cons);
     

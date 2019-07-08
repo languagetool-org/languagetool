@@ -75,10 +75,10 @@ class SingleDocument {
   
   private Configuration config;
 
-  private int maxParasToCheck = 5;                // will be overwritten by config
+//  private int maxParasToCheck = 5;                // will be overwritten by config
   private int defaultParaCheck = 10;              // will be overwritten by config
   private boolean doResetCheck = true;            // will be overwritten by config
-  private boolean doFullCheckAtFirst = true;      // TODO: will be overwritten by config
+  private boolean doFullCheckAtFirst = true;      // will be overwritten by config
   
   private int numParasToCheck = 0;                // current number of Paragraphs to be checked
   private boolean firstCheckIsDone = false;       // Is first check done?
@@ -117,16 +117,16 @@ class SingleDocument {
     this.sentencesCache = new ResultCache();
     this.singleParaCache = new ResultCache();
     this.paragraphsCache = new ArrayList<ResultCache>();
-    if((doFullCheckAtFirst || maxParasToCheck < 0) && mDocHandler != null) {
+    if (config != null) {
+      setConfigValues(config);
+    }
+    if((doFullCheckAtFirst || numParasToCheck < 0) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       for(int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.add(new ResultCache());
       }
     } else {
       paragraphsCache.add(new ResultCache());
-    }
-    if (config != null) {
-      setConfigValues(config);
     }
   }
   
@@ -188,8 +188,10 @@ class SingleDocument {
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
     doResetCheck = config.isResetCheck();
+    doFullCheckAtFirst = config.doFullCheckAtFirst();
     changedParas = null;
     firstCheckIsDone = false;
+    MessageHandler.printToLogFile("doFullCheckAtFirst: " + doFullCheckAtFirst);
   }
   
   /** Set XComponentContext and XComponent of the document
@@ -217,7 +219,7 @@ class SingleDocument {
     sentencesCache.removeAll();
     singleParaCache.removeAll();
     paragraphsCache = new ArrayList<ResultCache>();
-    if(doFullCheckAtFirst || maxParasToCheck < 0) {
+    if(doFullCheckAtFirst || numParasToCheck < 0) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       for(int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.add(new ResultCache());
@@ -230,19 +232,19 @@ class SingleDocument {
   /** 
    * Do a reset to check document again
    */
-  boolean doresetCheck() {
+  boolean doResetCheck() {
     if(!doResetCheck) {
       return false;
     }
     if(resetCheck) {
-      if(numParasToCheck != 0) {
+      if(doFullCheckAtFirst || numParasToCheck != 0) {
         loadIsChecked();
 //        paragraphsCache.removeRange(resetFrom, resetTo);
       }
     } else if(resetParaNum >= 0 && resetParaNum != paraNum) {
       resetCheck = true;
       resetParaNum = -1;
-      if(numParasToCheck != 0) {
+      if(doFullCheckAtFirst || numParasToCheck != 0) {
         loadIsChecked();
 //        paragraphsCache.removeRange(resetFrom, resetTo);
       }
@@ -254,9 +256,9 @@ class SingleDocument {
    * Reset only changed paragraphs
    */
   void optimizeReset() {
-    if(numParasToCheck != 0) {
+    if(doFullCheckAtFirst || numParasToCheck != 0) {
       FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
-      if(numParasToCheck < 0) {
+      if(doFullCheckAtFirst || numParasToCheck < 0) {
         flatPara.markFlatParasAsChecked(0, 0, isChecked);
       } else {
         flatPara.markFlatParasAsChecked(resetFrom + divNum, resetTo + divNum, isChecked);
@@ -645,18 +647,19 @@ class SingleDocument {
       int startSentencePos, int endSentencePos, boolean isParallelThread, SwJLanguageTool langTool) {
     List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
 
-    if(paraNum < 0 || (!doFullCheckAtFirst && maxParasToCheck >= 0)) {
+    if(paraNum < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst)) {
       pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, 0));
     } else {
       //  Real full text check / numParas < 0
       ResultCache oldCache = null;
       List<Integer> tmpChangedParas;
+      int maxParasToCheck = numParasToCheck;
       if(doResetCheck && resetCheck) {
         changedParas = new ArrayList<Integer>();
       }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         numParasToCheck = minToCheckPara.get(i);
-        if(firstCheckIsDone && (numParasToCheck == -1 || numParasToCheck > maxParasToCheck)) {
+        if(firstCheckIsDone && maxParasToCheck >= 0 && (numParasToCheck == -1 || numParasToCheck > maxParasToCheck)) {
           numParasToCheck = maxParasToCheck;
         }
         defaultParaCheck = PARA_CHECK_DEFAULT;
@@ -695,11 +698,12 @@ class SingleDocument {
           }
         }
       }
-      oldCache = null;
-      if(!firstCheckIsDone && numParasToCheck == -1) {
+      if(!firstCheckIsDone) {
         firstCheckIsDone = true;
       }
+      oldCache = null;
       mDocHandler.reactivateTextRules();
+      numParasToCheck = maxParasToCheck;
     }
     return pErrors;
   }

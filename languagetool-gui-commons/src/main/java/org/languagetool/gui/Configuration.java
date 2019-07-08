@@ -77,6 +77,7 @@ public class Configuration {
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
   private static final String NO_MULTI_RESET_KEY = "noMultiReset";
+  private static final String DO_FULL_CHECK_AT_FIRST_KEY = "doFullCheckAtFirst";
   private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
@@ -128,6 +129,7 @@ public class Configuration {
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
   private boolean doResetCheck = false;
   private boolean noMultiReset = true;
+  private boolean doFullCheckAtFirst = true;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private boolean switchOff = false;
@@ -196,6 +198,7 @@ public class Configuration {
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
     this.noMultiReset = configuration.noMultiReset;
+    this.doFullCheckAtFirst = configuration.doFullCheckAtFirst;
     this.isMultiThreadLO = configuration.isMultiThreadLO;
     this.useDocLanguage = configuration.useDocLanguage;
     this.lookAndFeelName = configuration.lookAndFeelName;
@@ -405,6 +408,22 @@ public class Configuration {
    */
   public void setNoMultiReset(boolean noMultiReset) {
     this.noMultiReset = noMultiReset;
+  }
+
+  /**
+   * set option to do a full check at first iteration
+   * @since 4.7
+   */
+  public void setFullCheckAtFirst(boolean doFullCheckAtFirst) {
+    this.doFullCheckAtFirst = doFullCheckAtFirst;
+  }
+
+  /**
+   * do a full check at first iteration?
+   * @since 4.7
+   */
+  public boolean doFullCheckAtFirst() {
+    return doFullCheckAtFirst;
   }
 
   /**
@@ -781,6 +800,11 @@ public class Configuration {
         noMultiReset = Boolean.parseBoolean(noMultiResetString);
       }
 
+      String doFullCheckAtFirstString = (String) props.get(DO_FULL_CHECK_AT_FIRST_KEY);
+      if (doFullCheckAtFirstString != null) {
+        doFullCheckAtFirst = Boolean.parseBoolean(doFullCheckAtFirstString);
+      }
+
       String useDocLangString = (String) props.get(USE_DOC_LANG_KEY);
       if (useDocLangString != null) {
         useDocLanguage = Boolean.parseBoolean(useDocLangString);
@@ -923,6 +947,9 @@ public class Configuration {
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
     props.setProperty(NO_MULTI_RESET_KEY, Boolean.toString(noMultiReset));
+    if(!doFullCheckAtFirst) {
+      props.setProperty(DO_FULL_CHECK_AT_FIRST_KEY, Boolean.toString(doFullCheckAtFirst));
+    }
     if(!useDocLanguage) {
       props.setProperty(USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
     }
