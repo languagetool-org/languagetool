@@ -191,7 +191,6 @@ class SingleDocument {
     doFullCheckAtFirst = config.doFullCheckAtFirst();
     changedParas = null;
     firstCheckIsDone = false;
-    MessageHandler.printToLogFile("doFullCheckAtFirst: " + doFullCheckAtFirst);
   }
   
   /** Set XComponentContext and XComponent of the document
@@ -682,11 +681,11 @@ class SingleDocument {
               }
             }
           } else {
-            int firstPara = resetFrom - numParasToCheck;
+            int firstPara = resetFrom;
             if (firstPara < 0) {
               firstPara = 0;
             }
-            int lastPara = resetTo + numParasToCheck;
+            int lastPara = resetTo;
             if (lastPara > allParas.size()) {
               lastPara = allParas.size();
             }

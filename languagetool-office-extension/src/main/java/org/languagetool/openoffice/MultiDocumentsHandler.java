@@ -627,7 +627,7 @@ public class MultiDocumentsHandler {
         }
       }
     }
-/*    
+
     private void insertRule (int minPara, String RuleId) {
       if(minPara < 0) {
         int n = minToCheckParagraph.indexOf(minPara);
@@ -648,10 +648,10 @@ public class MultiDocumentsHandler {
         textLevelRules.get(0).add(new String(RuleId));
       }
     }
-*/
+
 /*
  * This rule was commented out for performance reasons and replaced by the same named rule before 
- */ 
+ *
     private void insertRule (int minPara, String RuleId) {
       int n = minToCheckParagraph.indexOf(minPara); 
       if( n >= 0) {
@@ -672,7 +672,7 @@ public class MultiDocumentsHandler {
         textLevelRules.get(n).add(new String(RuleId));
       }
     }
-
+*/
     public List<Integer> getMinToCheckParas() {
       return minToCheckParagraph;
     }
