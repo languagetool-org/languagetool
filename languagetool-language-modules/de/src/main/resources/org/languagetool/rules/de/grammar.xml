@@ -164,7 +164,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Ist hier <suggestion>Freien</suggestion> (= nicht in geschlossenen Räumen) gemeint?</message>
-                <short>&prgk;.</short>
                 <example correction="Freien">Die Feier findet im <marker>Feien</marker> statt.</example>
             </rule>
             <rule>
@@ -175,7 +174,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Ist hier das <suggestion>Freie</suggestion> (= nicht in geschlossenen Räumen) gemeint?</message>
-                <short>&prgk;.</short>
                 <example correction="Freie">Sie gingen ins <marker>Feie</marker>.</example>
             </rule>
             <rule>
@@ -186,7 +184,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Demokrat.+|und</token>
                 </pattern>
                 <message>Ist hier <suggestion><match no="1" regexp_match="Fe" regexp_replace="Fre"/></suggestion> (= unabhängig) gemeint?</message>
-                <short>&prgk;.</short>
                 <example correction="Freien">In der <marker>Feien</marker> und Hansestadt Hamburg.</example>
             </rule>
         </rulegroup>
@@ -285,7 +282,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">lassen</token>
                 </pattern>
                 <message>Ist hier die Wendung 'sich etwas <suggestion>entgehen</suggestion> lassen' (= etw. verpassen) gemeint?</message>
-                <short>&prgk;.</short>
                 <example correction="entgehen">Du solltest dir das nicht <marker>entgegen</marker> lassen?</example>
             </rule>
         </rulegroup>
@@ -4199,6 +4195,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie eine <suggestion>Prise</suggestion>?</message>
             <example correction="Prise">Eine <marker>Priese</marker> Salz.</example>
         </rule>
+        <rule id="PREISE" name="'Priese (Preise)'">
+            <pattern>
+                <token regexp="yes" inflected="yes">steigend|fallend|hoch|niedrig</token>
+                <marker>
+                    <token>Priese</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie eine <suggestion>Preise</suggestion>?</message>
+            <example correction="Preise">Steigende <marker>Priese</marker> belasten den Kosnum.</example>
+        </rule>
         <rule id="OCR_ERROR" name="'vor-Übergehend (vorübergehend)'">
             <pattern>
                 <token regexp="yes">vor-Über.*</token>
@@ -4263,6 +4269,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>In der Bedeutung 'vertraut sein' wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
             <example correction="nahegestanden">Er hat ihr sehr <marker>nahe gestanden</marker>.</example>
             <example>Das der Fabrik <marker>nahe stehende</marker> Haus wird bald abgerissen.</example>
+        </rule>
+        <rule id="MEISTGELESEN" name="meist gelesen (meistgelesen)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">meist|viel</token>
+                    <token inflected="yes">gelesen</token>
+                </marker>
+                <token postag_regexp="yes" postag="SUB:.+"/>
+            </pattern>
+            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+            <example correction="meistgelesene">Er hat das <marker>meist gelesene</marker> Buch des Jahres verfasst.</example>
+            <example correction="vielgelesener">Er ist ein <marker>viel gelesener</marker> Autor.</example>
+            <example>Sie hat früher viel gelesen.</example>
         </rule>
     </category>
 
