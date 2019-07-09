@@ -14088,7 +14088,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \4 » ne doit pas être au subjonctif après la location « \1 \2 ».</message>
-        <example correction="">Il est arrivé après que je <marker>sois</marker> parti.</example>
+          <suggestion><match no="4" postag="V (.*) sub .* ([123] [sp])" postag_regexp="yes" postag_replace="V $1 ind psim $2"/></suggestion>
+        <example correction="fus">Il est arrivé après que je <marker>sois</marker> parti.</example>
         <example>Il est arrivé après que je <marker>fus</marker> parti.</example>
       </rule>
       <rule>
@@ -27960,25 +27961,15 @@ though, and has since been slightly modified)-->
     <rulegroup id="HEURES" name="heures 20h30 → 20 h 30">
       <rule>
         <pattern><token regexp="yes">(?:1?\d|2[0-4])h(?:[0-5]?\d)</token></pattern>
-        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h(\d+)" regexp_replace="$1 h $2"/></suggestion> ?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH](\d+)" regexp_replace="$1 h $2"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h 30">Il est <marker>20h30</marker>.</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern>
-        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h" regexp_replace="$1 h"/></suggestion> ?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1 h"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h">Il est <marker>20h</marker>.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token regexp="yes">1?\d|2[0-4]</token>
-          <token>H</token>
-          <token regexp="yes">[0-5]?\d</token>
-        </pattern>
-        <message>La lettre h doit être espacée dans les heures abrégées et en minuscules. Voulez-vous écrire <suggestion>\1 h \3</suggestion> ?</message>
-        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
-        <example correction="20 h 30">Il est <marker>20 H 30</marker>.</example>
       </rule>
     </rulegroup>
   </category>
@@ -29241,10 +29232,12 @@ though, and has since been slightly modified)-->
         <token postag="N.*" postag_regexp="yes"/>
       </pattern>
       <message>« exploser » est un verbe intransitif. La construction transitive est fautive.</message>
+        <suggestion>fait \1</suggestion>
+        <suggestion>pulvérisé</suggestion>
       <url>http://www.académie-française.fr/exploser</url>
-      <example correction="">Il a <marker>explosé</marker> le record.</example>
+      <example correction="fait explosé|pulvérisé">Il a <marker>explosé</marker> le record.</example>
       <example>Il a pulvérisé le record.</example>
-      <example correction="">Ils ont <marker>explosé</marker> le pont.</example>
+      <example correction="fait explosé|pulvérisé">Ils ont <marker>explosé</marker> le pont.</example>
       <example>Ils ont fait exploser le pont.</example>
     </rule>
     <rule id="AUTANT_POUR_MOI" name="autant pour moi → au temps pour moi">
