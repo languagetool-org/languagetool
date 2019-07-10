@@ -11097,6 +11097,20 @@ USA
             <short>Possible typo</short>
             <example correction="die">I had a <marker>dice</marker> in my hand.</example>
         </rule>
+        <rule id="ESPECIALLY" name="(e)specially">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>specially</token>
+                </marker>
+                <token postag="JJ.?" postag_regexp="yes"><exception postag="VBN"/></token>
+                <token>ones</token>
+                <token postag="PCT"/>
+            </pattern>
+            <message>Consider using <suggestion>especially</suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="especially">He loves cats, <marker>specially</marker> small ones.</example>
+        </rule>
         <rule id="FOOT_FEET" name="one foot, two feet">
             <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
             <pattern>
@@ -11163,7 +11177,7 @@ USA
                 <antipattern>
                     <token regexp="yes">that|which</token>
                     <token regexp="yes">he|she|it</token>
-                    <token regexp="yes">ha(s|d)</token>
+                    <token regexp="yes">ha[ds]</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">that|which</token>
@@ -22072,6 +22086,27 @@ USA
                 <url>https://www.merriam-webster.com/words-at-play/usage-of-precedent-vs-precedence</url>
                 <short>Possible typo</short>
                 <example correction="precedent">Allow us to set a <marker>precedence</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMA_COMMA" name="coma / comma">
+            <rule>
+                <pattern>
+                    <marker><token>coma</token></marker>
+                    <token regexp="yes">after|be(fore|tween)</token>
+                </pattern>
+                <message>Did you mean <suggestion>comma</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="comma">Please put a <marker>coma</marker> between the two main clauses.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>comma</token></marker>
+                    <token skip="2">for</token>
+                    <token regexp="yes" inflected="yes">day|week|month|year</token>
+                </pattern>
+                <message>Did you mean <suggestion>coma</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="coma">He has been in a <marker>comma</marker> for nearly two weeks.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOG_IN" name="login (log in)">
