@@ -285,6 +285,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
@@ -293,7 +294,13 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
-      case "KOMMA_VOR_RELATIVSATZ" : return -10;
+      case "KOMMA_VOR_RELATIVSATZ": return -10;
+      // Category ids - make sure style issues don't hide overlapping "real" errors:
+      case "COLLOQUIALISMS": return -15; 
+      case "STYLE": return -15; 
+      case "REDUNDANCY": return -15; 
+      case "GENDER_NEUTRALITY": return -15; 
+      case "TYPOGRAPHY": return -15; 
     }
     return super.getPriorityForId(id);
   }
