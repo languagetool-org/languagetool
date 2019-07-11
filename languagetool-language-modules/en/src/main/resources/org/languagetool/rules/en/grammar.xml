@@ -17540,6 +17540,20 @@ USA
             <example type="triggers_error">Even when a new century begins it is only we <marker>mortals</marker> who ring bells and fire off pistols.</example>
             <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example> -->
         </rule>
+        <rule id="SEVERAL_OTHER" name="several other (others)">
+            <pattern>
+                <token regexp="yes">all|many|most|several</token>
+                <marker>
+                    <token>other</token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Possibly, a noun is missing after '\2'. Or do you mean <suggestion>others</suggestion>?</message>
+            <short>Possible grammar error</short>
+            <example correction="others">I saw him and and several <marker>other</marker>.</example>
+            <example>I saw him and and several <marker>others</marker>.</example>
+            <example>I saw him and and several <marker>other people</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
