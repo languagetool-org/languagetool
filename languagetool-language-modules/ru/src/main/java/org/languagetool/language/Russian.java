@@ -47,7 +47,7 @@ public class Russian extends Language implements AutoCloseable {
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
@@ -135,9 +135,7 @@ public class Russian extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 

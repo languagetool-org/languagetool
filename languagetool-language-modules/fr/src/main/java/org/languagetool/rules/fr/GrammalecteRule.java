@@ -76,6 +76,7 @@ public class GrammalecteRule extends Rule {
     "typo_guillemets_typographiques_simples_ouvrants",
     "num_grand_nombre_avec_espaces",
     "num_grand_nombre_soudé",
+    "typo_parenthèse_ouvrante_collée",  // we already have UNPAIRED_BRACKETS
     "tab_début_ligne"
   ));
 

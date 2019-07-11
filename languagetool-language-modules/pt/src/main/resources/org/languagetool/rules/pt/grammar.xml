@@ -6,8 +6,8 @@ title="Easy editing stylesheet" ?>
 
     <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2012-2018 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright © 2016-2018 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2012-2019 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2019 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
@@ -6125,6 +6125,30 @@ title="Easy editing stylesheet" ?>
       <example correction="massagem">Quero uma <marker>massajem</marker> relaxante.</example>
     </rule>
 
+  <rulegroup id='MINORIAS_ÉTNICAS' name="Minoria(s) Ética(s)/Étnica(s)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
+      <pattern>          
+        <token>minoria</token>
+        <marker>
+			<token>ética</token>
+		</marker>
+      </pattern>
+      <message>Substitua por <suggestion>étnica</suggestion>.</message>
+      <example correction="étnica">É uma minoria <marker>ética</marker> importante.</example>
+    </rule>
+    <rule>
+      <pattern>          
+        <token>minorias</token>
+        <marker>
+			<token>éticas</token>
+		</marker>
+      </pattern>
+      <message>Substitua por <suggestion>étnicas</suggestion>.</message>
+      <example correction="étnicas">As minorias <marker>éticas</marker> são importantes.</example>
+    </rule>
+  </rulegroup>
+  
     <!-- MULHER CARTEIRO carteira -->
     <rule id='MULHER_CARTEIRO' name="Carteira">
       <pattern>

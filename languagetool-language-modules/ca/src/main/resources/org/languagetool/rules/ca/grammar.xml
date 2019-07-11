@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|judicial|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|dispositiva|jutjar|jutjat|sentenciar">
-    <!ENTITY context_FER_SE_AMB "regne|soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
+    <!ENTITY context_FER_SE_AMB "premi|regne|soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_OSCAR "nominar|nominació|guanyar|guanyador|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar|premiar|guió|guionista|coguionista|cinematogràfic|obtenir|interpretació|reconeixement|carrera|dramàtic">
     <!ENTITY context_PERJUDICI "accedir|accés|acord|acordar|actuació|actualització|actualitzar|addicional|adjudicació|administració|administratiu|alienar|alteració|annex|apartar|aplicable|aprovació|aprovar|article|aspirant|assegurança|atorgar|autorització|avaria|benefici|cancel·lació|cancel·lar|captació|causant|causar|certificar|clàusula|col·legiar|comerç|compensació|compensar|competència|competent|compliment|comportar|comptabilitat|cònjuge|conseqüència|contenciós|contracte|contractar|contractual|control|convocar|convocatòria|correspondre|cost|creditor|dany|declinar|decret|delegació|demandant|departament|derivar|devolució|disciplinari|disposició|documentació|dret|econòmic|efectuar|elèctric|emissió|emprendre|enllaçar|enunciatiu|escaure|especialitat|estabilitat|establiment|establir|estatut|euro|exclusiu|execució|exercici|eximir|expedient|extingir|extracció|fallada|finca|funcionament|greu|horari|il·legítim|il·lícit|immoble|import|impugnar|imputable|incompliment|incomplir|incórrer|indemnització|indemnitzar|indirecte|inexacte|informació|infracció|infringir|ingrés|inspecció|instal·lació|interposar|interrupció|irreparable|jurídic|lamentar|legal|legislació|lesió|lesiu|llei|llicència|municipal|municipi|navegador|negligent|normatiu|notificació|notificar|obligació|obtenir|ocasionar|operatiu|oportú|ordenació|òrgan|organisme|pagament|pagar|patrimonial|pèrdua|petició|planejament|prestació|procediment|processal|produir|propietari|propietat|protecció|proveïdor|reclamació|reclamar|refondre|reglament|regular|reial|reparació|reparar|reposició|resolució|responsabilitat|responsable|retard|retribució|sanció|sectorial|seguretat|servei|sofrir|sòl|sol·licitar|subministrar|subvenció|suposar|suspensió|tabac|tercer|termini|titular|titularitat|tramitar|transferència|trànsit|treballador|tributari|urbanització|vulnerar">
@@ -8237,6 +8237,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
+        <rulegroup id="A_ZONES" name="*a zones/en zones">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">aparèixer|viure|situar|trobar|establir|habitar|estar|ser|romandre</token>
+                    <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"><exception postag="[PC].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">aigua|regió|zona|país|continent|estat|comarca|hàbitat|bosc|selva|paratge|llac|riu|estany</token>
+                </pattern>
+                <message>Si no indica moviment, la preposició adequada és <suggestion>en</suggestion>.</message>
+                <example correction="en">Viu <marker>a</marker> zones càlides.</example>
+                <example correction="en">Viu habitualment <marker>a</marker> zones càlides.</example>
+                <example correction="en">Se situa de vegades <marker>a</marker> zones càlides.</example>
+                <example correction="en">Apareixen principalment <marker>a</marker> aigües càlides.</example>
+                <example>Arriba fins a hàbitats extrems.</example>
+                <example>Roman com a zona protegida.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">aparèixer|viure|situar|trobar|establir|habitar|estar|ser|romandre</token>
+                    <token min="1" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"><exception postag="[PC].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">aigua|regió|zona|país|continent|estat|comarca|hàbitat|bosc|selva|paratge|llac|riu|estany</token>
+                </pattern>
+                <message>Si no indica moviment, la preposició adequada és <suggestion>en</suggestion>.</message>
+                <example correction="en">Se situa a vegades <marker>a</marker> zones càlides.</example>
+                <example>Arriba a voltes a hàbitats extrems.</example>
+                <example>Roman com a zona protegida.</example>
+            </rule>
+        </rulegroup>
         <rule id="MALGRAT_A" name="*malgrat a/malgrat">
             <pattern>
                 <token>malgrat<exception postag="_possible_nompropi"/></token>
@@ -12178,7 +12211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>respòs<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
             </pattern>
-            <message>¿Volíru dir <suggestion>respost</suggestion> (del v. respondre)? "Respòs" és un nom amb altres significats.</message>
+            <message>¿Volíeu dir <suggestion>respost</suggestion> (del v. respondre)? "Respòs" és un nom amb altres significats.</message>
             <example correction="respost">M'ha <marker>respòs</marker> que sí.</example>
             <example>Aquest respòs parla de l'amor del poeta.</example>
         </rule>
@@ -27429,6 +27462,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="DACORD_A" name="*d'acord a/d'acord amb/segons">
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token inflected="yes">el</token>
+                    <token regexp="yes">&mesos_any;|hora</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token postag=".*LOC_.*" postag_regexp="yes">a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token min="0" inflected="yes">el</token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">posar</token>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>acord</token>
+                    <token>a</token>
+                    <token regexp="yes">ls?</token>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion>d'acord amb e<match no="4"/></suggestion>
+                <suggestion>segons e<match no="4"/></suggestion>
+                <example correction="D'acord amb el|Segons el"><marker>D'acord al</marker> reglament, no es pot actuar així.</example>
+                <example correction="D'acord amb els|Segons els"><marker>D'acord als</marker> reglaments, no es pot actuar així.</example>
+                <example>Es van posar d'acord al setembre.</example>
+                <example>Estaven d'acord al mateix temps.</example>
+                <example>Estaven d'acord a l'hora de partir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>acord</token>
+                        <token>a</token>
+                    </marker>
+                    <token postag="A...P.|NP.*|NC.P.*|D.*" postag_regexp="yes"><exception regexp="yes">ls?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion>d'acord amb</suggestion>
+                <suggestion>segons</suggestion>
+                <example correction="D'acord amb|Segons"><marker>D'acord a</marker> les condicions, no es pot actuar així.</example>
+                <example correction="D'acord amb|Segons"><marker>D'acord a</marker> aquest reglament, no es pot actuar així.</example>
+                <example>Es van posar d'acord al setembre.</example>
+                <example>Estaven d'acord a ampliar les accions.</example>
+                <example>Estaven d'acord al mateix temps.</example>
+                <example>Es van posar d'acord a contracor.</example>
+                <example>Es van posar d'acord a escala general.</example>
+                <example>D'acord a condició que vinguis tu.</example>
+                <example>No aconseguiren posar-se d'acord a Barcelona.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_LA_SEVA_TOTALITAT" name="*en la seva totalitat/totalment">
             <pattern>
                 <token>en</token>
@@ -27439,9 +27545,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Calc del castellà. Val més fer servir una altra expressió.</message>
             <suggestion>completament</suggestion>
             <suggestion>totalment</suggestion>
+            <suggestion>del tot</suggestion>
             <suggestion>tot</suggestion>
             <suggestion>tota</suggestion>
-            <example correction="completament|totalment|tot|tota">Va ser destruït <marker>en la seua totalitat</marker>.</example>
+            <example correction="completament|totalment|del tot|tot|tota">Va ser destruït <marker>en la seua totalitat</marker>.</example>
         </rule>
         <rule id="EN_BONA_MESURA" name="*en bona mesura">
             <pattern>
@@ -37313,15 +37420,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">descabellar</token>
             </pattern>
             <message>Correcte en el sentit de "desordenar els cabells". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="VMP..(.)(.).*" postag_regexp="yes" postag_replace="AQ.$2$1.">forassenyat</match></suggestion>
+            <suggestion><match no="1" postag="VMP..(.)(.).*" postag_regexp="yes" postag_replace="AQ.$2$1.">desficaciat</match></suggestion>
             <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desbaratar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desgavellar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">esgavellar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desficaciar</match></suggestion>
-            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desballestar</match></suggestion>
             <suggestion><match no="1" postag="VMP..(.)(.)." postag_regexp="yes" postag_replace="AQ.$2$1.">destarifat</match></suggestion>
             <suggestion>sense cap ni peus</suggestion>
             <short>Possible error</short>
-            <example correction="desbaratades|desgavellades|esgavellades|desficaciades|desballestades|destarifades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
+            <example correction="forassenyades|desficaciades|desbaratades|destarifades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
             <example>Té idees desgavellades.</example>
         </rule>
         <rulegroup id="CORRERIA" name="*correria / correguda,incursió,escapada,volta">
@@ -38219,21 +38324,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Van decidir que calia resecar el fetge.</example>
             </rule>
         </rulegroup>
-        <rule id="ACONSEGUIT" name="aconseguit/reeixit">
-            <pattern>
-                <token regexp="yes">molt|ben|tan|poc</token>
-                <marker>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>?</message>
-            <example correction="reeixida">una fotografia molt <marker>aconseguida</marker>.</example>
-            <example>Han aconseguit fer-ho</example>
-            <example>ho han finalment aconseguit</example>
-            <example>Una vegada aconseguit l'objectiu</example>
-            <example>Aconseguit l'objectiu</example>
-            <example>l'alfabet artificial tan laboriosament aconseguit</example>
-        </rule>
+        <rulegroup id="ACONSEGUIT" name="*aconseguit/reeixit">
+            <rule>
+                <pattern>
+                    <token regexp="yes">molt|tan|poc</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
+                    </marker>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">encertar</match></suggestion>
+                <suggestion>ben <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+                <example correction="reeixida|encertada|ben trobada">una fotografia molt <marker>aconseguida</marker>.</example>
+                <example>Han aconseguit fer-ho</example>
+                <example>ho han finalment aconseguit</example>
+                <example>Una vegada aconseguit l'objectiu</example>
+                <example>Aconseguit l'objectiu</example>
+                <example>l'alfabet artificial tan laboriosament aconseguit</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ben</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
+                    </marker>
+                </pattern>
+                <message>Expressió probablement incorrecta.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">reeixir</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">encertar</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+                <example correction="reeixida|encertada|trobada">una fotografia ben <marker>aconseguida</marker>.</example>
+                <example>Han aconseguit fer-ho</example>
+                <example>ho han finalment aconseguit</example>
+                <example>Una vegada aconseguit l'objectiu</example>
+                <example>Aconseguit l'objectiu</example>
+                <example>l'alfabet artificial tan laboriosament aconseguit</example>
+            </rule>
+        </rulegroup>
         <rule id="VISTIPLAU" name="vistiplau">
             <pattern>
                 <token postag="D..MS.|PX.*" postag_regexp="yes"/>

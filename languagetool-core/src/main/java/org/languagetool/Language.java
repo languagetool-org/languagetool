@@ -23,6 +23,7 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
@@ -64,6 +65,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
+  private boolean noLmWarningPrinted;
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -151,6 +153,19 @@ public abstract class Language {
   @Nullable
   public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
+  }
+
+  protected LanguageModel initLanguageModel(File indexDir, LanguageModel languageModel) {
+    if (languageModel == null) {
+      File topIndexDir = new File(indexDir, getShortCode());
+      if (topIndexDir.exists()) {
+        languageModel = new LuceneLanguageModel(topIndexDir);
+      } else if (!noLmWarningPrinted) {
+        System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
+        noLmWarningPrinted = true;
+      }
+    }
+    return languageModel;
   }
 
   /**

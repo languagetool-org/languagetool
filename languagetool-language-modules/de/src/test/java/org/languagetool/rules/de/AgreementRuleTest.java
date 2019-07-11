@@ -101,6 +101,7 @@ public class AgreementRuleTest {
     assertGood("dann muss Schule dem Rechnung tragen.");
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
+    assertGood("Da stellt sich die Frage: Ist das Science-Fiction oder moderne Mobilität?");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");

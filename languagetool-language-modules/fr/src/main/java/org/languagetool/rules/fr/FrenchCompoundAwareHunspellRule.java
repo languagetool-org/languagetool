@@ -79,4 +79,13 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(text);
     }
   }
+
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+    switch (word) {
+      case "Jai": return Collections.singletonList("J'ai");
+      case "jai": return Collections.singletonList("j'ai");
+      default: return Collections.emptyList();
+    }
+  }
 }

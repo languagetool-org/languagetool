@@ -64,7 +64,7 @@ public class SimpleGerman extends GermanyGerman {
   }
   
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
   }
 

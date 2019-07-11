@@ -114,8 +114,11 @@ USA
     <category id="TYPOS" name="Possible Typo" type="misspelling">
 
         <rule id="LIGATURES" name="Word contains a ligature">
-            <pattern>
-                <token regexp="yes">.*(æ|ﬀ|ﬁ).*</token><!-- Don't add all known ligatures. Wait for real errors reported by users. -->
+            <pattern><!-- Don't add all known ligatures. Wait for real errors reported by users. -->
+                <token regexp="yes">.*(æ|ﬀ|ﬁ).*
+                    <exception regexp="yes">.</exception><!-- Ignore a token that is a single ligature -->
+                    <exception postag_regexp="yes" postag="NNPS?"/>
+                    </token>
             </pattern>
             <message>The word '\1' contains a ligature (joined letters). Modern English does not usually use ligatures. A ligature in a word causes a spelling error. If the word is an English  word, write it with standard characters.</message><!-- A ligature can also cause a disambiguation error, but the average reader does not need to know that. -->
           <url>https://en.wikipedia.org/wiki/Typographic_ligature</url><!-- Refer also to https://en.wikipedia.org/wiki/List_of_words_that_may_be_spelled_with_a_ligature -->
@@ -125,6 +128,8 @@ USA
           <example type="incorrect">This <marker>eﬀects</marker> many rules. [ef]</example>
           <example>LanguageTool <marker>finds</marker> spelling errors.</example>
           <example>LanguageTool <marker>【Upgraded</marker> version...</example><!-- Not a ligature. Need a different rule. -->
+          <example>The correct spelling of the proper noun '<marker>Encyclopædia Britannica</marker>' uses a ligature (https://corporate.britannica.com/contact/).</example>
+          <example>The Danish and Norwegian alphabets end with <marker>æ</marker>—ø—å, whereas the Icelandic...</example>
         </rule>
 
        <rulegroup id="IN_LAWS" name="brother-in-laws (brothers-in-law)">
@@ -11092,6 +11097,20 @@ USA
             <short>Possible typo</short>
             <example correction="die">I had a <marker>dice</marker> in my hand.</example>
         </rule>
+        <rule id="ESPECIALLY" name="(e)specially">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>specially</token>
+                </marker>
+                <token postag="JJ.?" postag_regexp="yes"><exception postag="VBN"/></token>
+                <token>ones</token>
+                <token postag="PCT"/>
+            </pattern>
+            <message>Consider using <suggestion>especially</suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="especially">He loves cats, <marker>specially</marker> small ones.</example>
+        </rule>
         <rule id="FOOT_FEET" name="one foot, two feet">
             <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
             <pattern>
@@ -11158,7 +11177,7 @@ USA
                 <antipattern>
                     <token regexp="yes">that|which</token>
                     <token regexp="yes">he|she|it</token>
-                    <token regexp="yes">ha(s|d)</token>
+                    <token regexp="yes">ha[ds]</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">that|which</token>
@@ -14168,21 +14187,25 @@ USA
                 <token><exception postag="MD"/></token>
                 <marker>
                     <token>use</token>
+                    <token>to</token>
                 </marker>
-                <token>to</token>
                 <token postag="VB"/>
             </pattern>
-            <message>Did you mean <suggestion>used</suggestion>?</message>
+            <message>Make sure that '\2 \3' is correct. For habitual actions in the past or to mean 'accustomed to', use <suggestion>used to</suggestion>.</message>
+            <url>https://www.collinsdictionary.com/dictionary/english/used-to</url>
+            <short>Possible grammar error: use to</short>
             <example>It can be used to save lives</example>
             <example>Tom didn't use to drink so much.</example>
             <example>That is the term that futurists use to describe a potentially cataclysmic point.</example>
-            <example correction="used">He <marker>use</marker> to believe this.</example>
-            <example correction="used">Aethera <marker>use</marker> to use this.</example>
+            <example correction="used to">He <marker>use to</marker> believe this.</example>
+            <example correction="used to">Aethera <marker>use to</marker> use this.</example>
+            <example correction="used to">This is the laptop that I <marker>use to</marker> use. (It's slow, so I don't use it now.)</example><!-- #1700 -->
             <example>This could set a dangerous precedent that they would surely use to target other journalists.</example>
             <example>What language did you use to communicate?</example>
             <example>Did you use to drink a lot?</example>
             <example>What language do you two use to communicate?</example>
             <example>This is a process doctors use to educate their patients.</example>
+            <example type="triggers_error">This is the laptop that I <marker>use to</marker> code on.</example><!-- #1700 -->
         </rule>
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
@@ -17520,6 +17543,20 @@ USA
             <example type="triggers_error">publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
             <example type="triggers_error">Even when a new century begins it is only we <marker>mortals</marker> who ring bells and fire off pistols.</example>
             <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example> -->
+        </rule>
+        <rule id="SEVERAL_OTHER" name="several other (others)">
+            <pattern>
+                <token regexp="yes">all|many|most|several</token>
+                <marker>
+                    <token>other</token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Possibly, a noun is missing after '\2'. Or do you mean <suggestion>others</suggestion>?</message>
+            <short>Possible grammar error</short>
+            <example correction="others">I saw him and and several <marker>other</marker>.</example>
+            <example>I saw him and and several <marker>others</marker>.</example>
+            <example>I saw him and and several <marker>other people</marker>.</example>
         </rule>
     </category>
 
@@ -22067,6 +22104,27 @@ USA
                 <url>https://www.merriam-webster.com/words-at-play/usage-of-precedent-vs-precedence</url>
                 <short>Possible typo</short>
                 <example correction="precedent">Allow us to set a <marker>precedence</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMA_COMMA" name="coma / comma">
+            <rule>
+                <pattern>
+                    <marker><token>coma</token></marker>
+                    <token regexp="yes">after|be(fore|tween)</token>
+                </pattern>
+                <message>Did you mean <suggestion>comma</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="comma">Please put a <marker>coma</marker> between the two main clauses.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>comma</token></marker>
+                    <token skip="2">for</token>
+                    <token regexp="yes" inflected="yes">day|week|month|year</token>
+                </pattern>
+                <message>Did you mean <suggestion>coma</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="coma">He has been in a <marker>comma</marker> for nearly two weeks.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOG_IN" name="login (log in)">

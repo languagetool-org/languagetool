@@ -25,7 +25,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.*;
@@ -205,6 +204,24 @@ public class German extends Language implements AutoCloseable {
     );
   }
 
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.asList(
+            new GermanConfusionProbabilityRule(messages, languageModel, this),
+            new ProhibitedCompoundRule(messages, languageModel)
+    );
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    if (nnRules == null) {
+      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
+    }
+    return nnRules;
+  }
+
   /**
    * @since 2.7
    */
@@ -236,12 +253,7 @@ public class German extends Language implements AutoCloseable {
 
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-      // for testing:
-      //languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
-      //languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
@@ -252,24 +264,6 @@ public class German extends Language implements AutoCloseable {
       word2VecModel = new Word2VecModel(indexDir + File.separator + getShortCode());
     }
     return word2VecModel;
-  }
-
-  /** @since 3.1 */
-  @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.asList(
-            new GermanConfusionProbabilityRule(messages, languageModel, this),
-            new ProhibitedCompoundRule(messages, languageModel)
-    );
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    if (nnRules == null) {
-      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
-    }
-    return nnRules;
   }
 
   /**
@@ -291,6 +285,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
@@ -299,7 +294,13 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
-      case "KOMMA_VOR_RELATIVSATZ" : return -10;
+      case "KOMMA_VOR_RELATIVSATZ": return -10;
+      // Category ids - make sure style issues don't hide overlapping "real" errors:
+      case "COLLOQUIALISMS": return -15; 
+      case "STYLE": return -15; 
+      case "REDUNDANCY": return -15; 
+      case "GENDER_NEUTRALITY": return -15; 
+      case "TYPOGRAPHY": return -15; 
     }
     return super.getPriorityForId(id);
   }

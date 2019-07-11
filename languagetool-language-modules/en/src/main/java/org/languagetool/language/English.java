@@ -29,7 +29,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
@@ -81,7 +80,7 @@ public class English extends Language implements AutoCloseable {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private WordTokenizer wordTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   /**
    * @deprecated use {@link AmericanEnglish} or {@link BritishEnglish} etc. instead -
@@ -164,9 +163,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
@@ -269,6 +266,7 @@ public class English extends Language implements AutoCloseable {
     switch (id) {
       case "MISSING_HYPHEN":            return 5;
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
+      case "LIGATURES":                 return 1;   // prefer over spell checker
       case "TWO_CONNECTED_MODAL_VERBS": return -5;
       case "CONFUSION_RULE":            return -10;
       case LongSentenceRule.RULE_ID:    return -997;

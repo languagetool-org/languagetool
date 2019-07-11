@@ -150,7 +150,23 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("PKT|KON:NEB|ZUS").build()// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList(
+      // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
+      new PatternTokenBuilder().token(":").build(),
+      new PatternTokenBuilder().tokenRegex("Ist|Sind|Macht|Wird").build(),
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().posRegex("SUB:.*").build(),
+      new PatternTokenBuilder().posRegex("PKT|KON:NEB|ZUS").build()// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten").build(),
+      new PatternTokenBuilder().tokenRegex("sind|waren|ist").build(),
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().posRegex("SUB:.*").build() // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList(
+      // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
+      new PatternTokenBuilder().token(":").build(),
       new PatternTokenBuilder().tokenRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten").build(),
       new PatternTokenBuilder().tokenRegex("sind|waren|ist").build(),
       new PatternTokenBuilder().token("das").build(),
@@ -163,6 +179,13 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().tokenRegex("D(a|ie)s").build(),
+      new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
+      new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
+    ),
+    Arrays.asList(
+      // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
+      new PatternTokenBuilder().token(":").build(),
       new PatternTokenBuilder().tokenRegex("D(a|ie)s").build(),
       new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
