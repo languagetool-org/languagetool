@@ -133,6 +133,8 @@ public class CaseRuleTest {
     assertGood("Das ist ihr Zuhause.");
     assertGood("Das ist Sandras Zuhause.");
     assertGood("Das machen eher wohlhabende Leute.");
+    assertGood("Als Erstes würde ich sofort die Struktur ändern.");
+    assertGood("Er sagte: Als Erstes würde ich sofort die Struktur ändern.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

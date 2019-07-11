@@ -142,12 +142,13 @@ public class GermanTagger extends BaseTagger {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
+    String prevWord = null;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
 
-      //Only first iteration
-      if (firstWord && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
+      //Only first iteration. Consider ":" as a potential sentence start marker
+      if ((firstWord || ":".equals(prevWord)) && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
         firstWord = word.matches("^\\W?$");
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
@@ -243,6 +244,7 @@ public class GermanTagger extends BaseTagger {
       }
       tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
       pos += word.length();
+      prevWord = word;
     }
     return tokenReadings;
   }
