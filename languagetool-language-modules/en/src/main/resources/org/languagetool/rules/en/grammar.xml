@@ -11455,6 +11455,12 @@ USA
                         <token chunk="B-NP-singular"/><!-- For "... is usually oil and natural gas." -->
                     </and>
                 </antipattern>
+                <antipattern><!-- was Truly Mind Blowing, #1701 -->
+                    <token regexp="yes">been|w(?:as|ere)|is|are|am</token>
+                    <token postag="RB"></token>
+                    <token chunk="I-NP-singular"/>
+                    <token chunk="E-NP-singular"/>
+                </antipattern>
                 <antipattern><!-- that's not butter -->
                     <token regexp="yes">i?s|was|am</token>
                     <token>not</token>
@@ -11484,6 +11490,7 @@ USA
                 <example>Indirect consumption is mainly <marker>oil and natural gas</marker>.</example>
                 <example>“There is still hope,” said Fernando.</example>
                 <example>That's not butter; it's margarine.</example>
+                <example>What he did next was Truly Mind Blowing.</example><!-- #1701 -->
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
