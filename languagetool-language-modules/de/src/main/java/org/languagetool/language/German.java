@@ -289,6 +289,7 @@ public class German extends Language implements AutoCloseable {
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
+      case "DIESEN_JAHRES": return 1;
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
