@@ -100,7 +100,7 @@ class ResultExtender {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
         String urlParameters = "";
-        List<String> ignoredParameters = Arrays.asList("enableHiddenRules", "username", "password", "token", "apiKey");
+        List<String> ignoredParameters = Arrays.asList("enableHiddenRules", "username", "password", "token", "apiKey", "c");
         for (Map.Entry<String, String> entry : params.entrySet()) {
           // We could set 'language' to the language already detected, so the queried server
           // wouldn't need to guess the language again. But then we'd run into cases where
