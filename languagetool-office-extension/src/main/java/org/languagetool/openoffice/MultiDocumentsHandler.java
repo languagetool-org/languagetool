@@ -105,7 +105,8 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
   }
   
-  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, int[] footnotePositions) {
+  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
+      int[] footnotePositions, boolean docReset) {
     
     if (!hasLocale(locale)) {
       return paRes;
@@ -127,7 +128,7 @@ public class MultiDocumentsHandler {
     if(switchOff) {
       return paRes;
     }
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, isParallelThread, langTool);
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, isParallelThread, docReset, langTool);
     if(isParallelThread) {
       isParallelThread = false;
     } else {
@@ -575,6 +576,10 @@ public class MultiDocumentsHandler {
     langTool = null;
     config.setSwitchedOff(switchOff, docLanguage);
     return ret;
+  }
+  
+  public void ignoreOnce() {
+    documents.get(docNum).ignoreOnce();
   }
 
   /**

@@ -22,7 +22,10 @@ import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -32,13 +35,28 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
+import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XIndexContainer;
+import com.sun.star.frame.XController;
 import com.sun.star.lang.Locale;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
+import com.sun.star.text.XTextDocument;
+import com.sun.star.ui.ActionTriggerSeparatorType;
+import com.sun.star.ui.ContextMenuExecuteEvent;
+import com.sun.star.ui.ContextMenuInterceptorAction;
+import com.sun.star.ui.XContextMenuInterception;
+import com.sun.star.ui.XContextMenuInterceptor;
+import com.sun.star.uno.Any;
+import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 import static java.lang.System.arraycopy;
@@ -63,6 +81,7 @@ class SingleDocument {
    * singleParaCache: used for one paragraph check by default or for special paragraphs like headers, footers, footnotes, etc.
    *  
    */
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator like in standalone GUI
   private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
@@ -75,7 +94,6 @@ class SingleDocument {
   
   private Configuration config;
 
-//  private int maxParasToCheck = 5;                // will be overwritten by config
   private int defaultParaCheck = 10;              // will be overwritten by config
   private boolean doResetCheck = true;            // will be overwritten by config
   private boolean doFullCheckAtFirst = true;      // will be overwritten by config
@@ -104,8 +122,12 @@ class SingleDocument {
   private List<Boolean> isChecked;                //  List of status of all flat paragraphs of document
   private List<Integer> changedParas;             //  List of changed paragraphs after editing the document
   private int paraNum;                            //  Number of current checked paragraph
-  List<Integer> minToCheckPara;
-  List<List<String>> textLevelRules;
+  List<Integer> minToCheckPara;                   //  List of minimal to check paragraphs for different classes of text level rules
+  List<List<String>> textLevelRules;              //  List of text level rules sorted by different classes
+  Map<Integer, List<Integer>> ignoredMatches;           //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called  
+
+  @SuppressWarnings("unused") 
+  private ContextMenuInterceptor contextMenuInterceptor;
   
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComponent, MultiDocumentsHandler mDH) {
@@ -128,6 +150,7 @@ class SingleDocument {
     } else {
       paragraphsCache.add(new ResultCache());
     }
+    ignoredMatches = new HashMap<>();
   }
   
   /**  get the result for a check of a single document 
@@ -139,8 +162,12 @@ class SingleDocument {
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      int[] footnotePositions, boolean isParallelThread, SwJLanguageTool langTool) {
+      int[] footnotePositions, boolean isParallelThread, boolean docReset, SwJLanguageTool langTool) {
     try {
+      if(docReset) {
+        numLastVCPara = 0;
+        ignoredMatches = new HashMap<>();
+      }
       SingleProofreadingError[] sErrors = null;
       paraNum = getParaPos(paraText, isParallelThread);
       // Don't use Cache for check in single paragraph mode
@@ -269,9 +296,16 @@ class SingleDocument {
   /** 
    * load checked status of all paragraphs
    */
-  public void loadIsChecked () {
+  public void loadIsChecked() {
     FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
     isChecked = flatPara.isChecked(changedParas, divNum);
+    if(isChecked == null) {
+      // Assume no XFlatParagraphIterator --> all paragraphs are checked
+      isChecked = new ArrayList<>();
+      for (int i = 0; i < allParas.size() + divNum; i++) {
+        isChecked.add(changedParas == null || !changedParas.contains(i - divNum));
+      }
+    }
     if (debugMode > 0) {
       int nChecked = 0;
       for (boolean bChecked : isChecked) {
@@ -303,6 +337,7 @@ class SingleDocument {
 
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xContext);
+      contextMenuInterceptor = new ContextMenuInterceptor(xContext);
     }
     FlatParagraphTools flatPara = null;
 
@@ -365,6 +400,24 @@ class SingleDocument {
       } else {
         resetTo = allParas.size() - to;
       }
+      if(!ignoredMatches.isEmpty()) {
+        Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
+        for (int i = 0; i < from; i++) {
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(i, ignoredMatches.get(i));
+//            MessageHandler.printToLogFile("Add to ignoredMatches: Paragraph: " + i + ", Maches: " + ignoredMatches.get(i).size());
+          }
+        }
+        for (int i = to + 1; i < oldParas.size(); i++) {
+          int n = i + allParas.size() - oldParas.size();
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(n, ignoredMatches.get(i));
+//            MessageHandler.printToLogFile("Add to ignoredMatches: Paragraph: " + n + ", Maches: " + ignoredMatches.get(i).size());
+          }
+        }
+        ignoredMatches = tmpIgnoredMatches;
+      }
+
       for(ResultCache cache : paragraphsCache) {
         cache.removeAndShift(from, to, allParas.size() - oldParas.size());
       }
@@ -377,31 +430,15 @@ class SingleDocument {
       }
       textIsChanged = true;
     }
-
-    // try to get next position from last ViewCursorPosition (proof per dialog box)
-    int numLastPara;
-    numLastPara = numLastVCPara;
-    nParas = findNextParaPos(numLastPara, chPara);
-    if (nParas >= 0) {
-      numLastVCPara = nParas;
-      return nParas;
-    }
-
-    // try to get next position from last Position of FlatParagraph (automatic Iteration without Text change)
-    numLastPara = numLastFlPara;
-    nParas = findNextParaPos(numLastPara, chPara);
-    if (nParas >= 0) {
-      numLastFlPara = nParas;
-      return nParas;
-    }
-
-    // try to get ViewCursor position (proof initiated by mouse click)
-    nParas = docCursor.getViewCursorParagraph();
+    // try to get next position from last FlatParagraph position (for performance reasons)
+    nParas = findNextParaPos(numLastFlPara, chPara);
     if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
-      numLastVCPara = nParas;
+      numLastFlPara = nParas;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + logLineBreak);
+      }
       return nParas;
     }
-
     //  try to get paragraph position from automatic iteration
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xContext);
@@ -409,12 +446,16 @@ class SingleDocument {
     nParas = flatPara.getNumberOfAllFlatPara();
 
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("numLastFlPara: " + numLastFlPara + " (isParallelThread: " + isParallelThread 
-          + "); nParas: " + nParas + "; docID: " + docID + logLineBreak);
+      MessageHandler.printToLogFile("Number FlatParagraphs (isParallelThread: " + isParallelThread 
+          + "): " + nParas + "; docID: " + docID);
     }
 
-    if (nParas < allParas.size()) {
-      return -1;   //  no automatic iteration
+    if (nParas < allParas.size()) {   //  no automatic iteration
+      nParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
+      if (nParas >= 0) {
+        return nParas;
+      }
+      return -1;
     }
     divNum = nParas - allParas.size();
 
@@ -428,6 +469,10 @@ class SingleDocument {
     numLastFlPara = nParas;
     
     if (!chPara.equals(allParas.get(nParas))) {
+      int nVParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
+      if (nVParas >= 0) {
+        return nVParas;
+      }
       if (isReset || isParallelThread) {
         return -1;
       } else {
@@ -453,16 +498,42 @@ class SingleDocument {
           resetFrom = nParas;
           resetTo = nParas + 1;
         }
+        ignoredMatches.remove(nParas);
         textIsChanged = true;
         return nParas;
       }
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("nParas from FlatParagraph: " + nParas);
+      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nParas + logLineBreak);
     }
     return nParas;
   }
 
+  /** Get the number of paragraph from position of ViewCursor or from the last position (dialog)
+   * @return number of paragraph or -1 if it fails
+   */
+  private int getParaFromViewCursorOrDialog(String chPara) {
+    // try to get ViewCursor position (proof initiated by mouse click)
+    int nParas = docCursor.getViewCursorParagraph();
+    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
+      numLastVCPara = nParas;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + logLineBreak);
+      }
+      return nParas;
+    }
+    // try to get next position from last ViewCursor position (proof per dialog box)
+    nParas = findNextParaPos(numLastVCPara, chPara);
+    if (nParas >= 0) {
+      numLastVCPara = nParas;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + nParas + logLineBreak);
+      }
+      return nParas;
+    }
+    return -1;
+  }
+  
   /**
    * Reset allParas
    */
@@ -638,6 +709,25 @@ class SingleDocument {
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
+//    MessageHandler.printToLogFile("Merge Matches: paragraph: " + paraNum);
+    if(ignoredMatches.containsKey(paraNum)) {
+      List<Integer> xIgnoredMatches = ignoredMatches.get(paraNum);
+//      MessageHandler.printToLogFile("Ignored Matches: paragraph: " + paraNum + ", number matches: "+ xIgnoredMatches.size());
+      List<SingleProofreadingError> filteredErrors = new ArrayList<SingleProofreadingError>();
+      for (SingleProofreadingError error : errorArray) {
+        boolean noFilter = true;
+        for (int nIgnore : xIgnoredMatches) {
+          if(error.nErrorStart <= nIgnore && error.nErrorStart + error.nErrorLength > nIgnore) {
+            noFilter = false;
+            break;
+          }
+        }
+        if (noFilter) {
+          filteredErrors.add(error);
+        }
+      }
+      return filteredErrors.toArray(new SingleProofreadingError[0]);
+    }
     return errorArray;
   }
 
@@ -1005,5 +1095,160 @@ class SingleDocument {
       return str;
     }
   }
+  
+  public void ignoreOnce() {
+    int x = docCursor.getViewCursorCharacter();
+    int y = docCursor.getViewCursorParagraph();
+    if (ignoredMatches.containsKey(y)) {
+      List<Integer> charNums = ignoredMatches.get(y);
+      charNums.add(x);
+      ignoredMatches.put(y, charNums);
+    } else {
+      List<Integer> charNums = new ArrayList<Integer>();
+      charNums.add(x);
+      ignoredMatches.put(y, charNums);
+    }
+    if(doFullCheckAtFirst || numParasToCheck < 0) {
+      changedParas = new ArrayList<Integer>();
+      changedParas.add(y);
+    } else {
+      resetFrom = y;
+      resetTo = y + 1;
+    }
+    loadIsChecked();
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x);
+    }
+  }
+  /** 
+   * Class to add a LanguageTool Options item to the context menu
+   * since 4.6
+   */
+  class ContextMenuInterceptor implements XContextMenuInterceptor{
+    
+    private final static String IGNORE_ONCE_URL = "slot:201";
+    private final static String ADD_TO_DICTIONARY_2 = "slot:2";
+    private final static String ADD_TO_DICTIONARY_3 = "slot:3";
+    private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
+    private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
 
+    public ContextMenuInterceptor() {};
+    
+    public ContextMenuInterceptor(XComponentContext xContext)
+    {
+      try {
+        XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
+        if (xTextDocument == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xTextDocument == null");
+          return;
+        }
+        xTextDocument.getCurrentController();
+        XController xController = xTextDocument.getCurrentController();
+        if (xController == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xController == null");
+          return;
+        }
+        XContextMenuInterception xContextMenuInterception = UnoRuntime.queryInterface(XContextMenuInterception.class, xController);
+        if (xContextMenuInterception == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterception == null");
+          return;
+        }
+        ContextMenuInterceptor aContextMenuInterceptor = new ContextMenuInterceptor();
+        XContextMenuInterceptor xContextMenuInterceptor = 
+            UnoRuntime.queryInterface(XContextMenuInterceptor.class, aContextMenuInterceptor);
+        if (xContextMenuInterceptor == null) {
+          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterceptor == null");
+          return;
+        }
+        xContextMenuInterception.registerContextMenuInterceptor(xContextMenuInterceptor);
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+    }
+  
+    @Override
+    public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
+      try {
+        XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
+        int count = xContextMenu.getCount();
+        
+        //  Version to add LT Options Item only if a Grammar or Spell error was detected
+        //  TODO: delete or activate after practice test
+        for (int i = 0; i < count; i++) {
+          Any a = (Any) xContextMenu.getByIndex(i);
+          XPropertySet props = (XPropertySet) a.getObject();
+          if (debugMode > 0) {
+            printProperties(props);
+          }
+          String str = null;
+          if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+            str = props.getPropertyValue("CommandURL").toString();
+          }
+          if(str != null && IGNORE_ONCE_URL.equals(str)) {
+            int n;  
+            for(n = i + 1; n < count; n++) {
+              a = (Any) xContextMenu.getByIndex(n);
+              XPropertySet tmpProps = (XPropertySet) a.getObject();
+              if(tmpProps.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+                str = tmpProps.getPropertyValue("CommandURL").toString();
+              }
+              if(ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
+                break;
+              }
+            }
+            if(n >= count) {
+              if(doResetCheck && paraNum >= 0) {
+                props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
+              }
+              XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+              XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
+              xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
+              xContextMenu.insertByIndex(i + 3, xNewMenuEntry);
+  
+              return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
+            }
+          }
+        }
+
+        //  Add LT Options Item for context menu without grammar error
+        XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+        XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
+        xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
+        xContextMenu.insertByIndex(count, xSeparator);
+
+        XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
+        xContextMenu.insertByIndex(count + 1, xNewMenuEntry);
+
+        return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
+
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+      
+      MessageHandler.printToLogFile("no change in Menu");
+      return ContextMenuInterceptorAction.IGNORED;
+    }
+    
+    private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
+      Property propInfo[] = props.getPropertySetInfo().getProperties();
+      for(int j = 0; j < propInfo.length; j++) {
+        MessageHandler.printToLogFile("Property: Name: " + propInfo[j].Name + ", Type: " + propInfo[j].Type);
+      }
+      if(props.getPropertySetInfo().hasPropertyByName("Text")) {
+        MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text").toString());
+      }
+      if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
+        MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL").toString());
+      }
+    }
+
+  }
+  
+  
 }

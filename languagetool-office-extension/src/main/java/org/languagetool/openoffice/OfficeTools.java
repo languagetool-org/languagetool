@@ -27,6 +27,7 @@ import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XLayoutManager;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
@@ -84,6 +85,24 @@ public class OfficeTools {
     }
   }
     
+  /**
+   * Returns the current text document (if any) 
+   * Returns null if it fails
+   */
+  @Nullable
+  public static XTextDocument getCurrentDocument(XComponentContext xContext) {
+    try {
+      XComponent curComp = getCurrentComponent(xContext);
+      if (curComp == null) {
+        return null;
+      }
+      else return UnoRuntime.queryInterface(XTextDocument.class, curComp);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+
   public static XMenuBar getMenuBar(XComponentContext xContext) {
     try {
       XDesktop desktop = OfficeTools.getCurrentDesktop(xContext);

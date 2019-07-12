@@ -81,6 +81,7 @@ public class Main extends WeakBase implements XJobExecutor,
   // or the context menu.
   private Set<String> disabledRules = null;
   private Set<String> disabledRulesUI;
+  private boolean docReset = false;
 
   private XComponentContext xContext;
   
@@ -147,7 +148,8 @@ public class Main extends WeakBase implements XJobExecutor,
     paRes.aProperties = propertyValues;
     try {
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
-      paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions);
+      paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
+      docReset = false;
       if (disabledRules == null) {
         prepareConfig();
       }
@@ -367,6 +369,10 @@ public class Main extends WeakBase implements XJobExecutor,
         if(documents.toggleSwitchedOff()) {
           resetCheck();
         }
+      } else if ("ignoreOnce".equals(sEvent)) {
+        documents.ignoreOnce();
+        resetCheck();
+        documents.optimizeReset();
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
@@ -472,6 +478,7 @@ public class Main extends WeakBase implements XJobExecutor,
       MessageHandler.showError(t);
     }
     documents.setRecheck();
+    docReset = true;
   }
 
   @Override

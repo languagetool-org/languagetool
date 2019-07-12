@@ -326,7 +326,7 @@ public class FlatParagraphTools {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
-        return isChecked;
+        return null;
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
       XFlatParagraph startFlatPara = xFlatPara;
