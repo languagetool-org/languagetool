@@ -1288,6 +1288,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
     </rule>
     <rule>
+      <antipattern>
+        <token regexp="yes">I|you|we|they|he|s?he|it</token>
+        <token>can</token>
+        <token chunk="B-VP">will</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>can</token>
@@ -1296,6 +1301,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NN"/>
       <example type="untouched">You <marker>can</marker> be happy without money.</example>
+      <example type="untouched">MD ... but in any given moment of your life you <marker>can</marker> will only one definite thing and absolutely nothing...</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> is dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> was not dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> will be used to demonstrate problem.</example>
