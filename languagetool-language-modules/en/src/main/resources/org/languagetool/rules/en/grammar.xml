@@ -669,16 +669,16 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>than</suggestion>?</message>
                 <example correction="than">It may be more expensive on some file systems <marker>then</marker> others.</example>
-		    </rule>
-		    <rule>
+            </rule>
+            <rule>
                 <pattern>
                     <token>more</token>
                     <marker><token>then</token></marker>
                 </pattern>
                 <message>Did you mean <suggestion>than</suggestion>?</message>
                 <example correction="than">She knows more <marker>then</marker> her colleagues.</example>
-		    </rule>
-		</rulegroup>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_THESES_THESE" name="theses (these)">
             <pattern>
                 <marker><token>theses</token></marker>
@@ -1342,23 +1342,23 @@ USA
             <example correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
         </rule>
         <rulegroup id="I_LOWERCASE" name="i vs. I">
-			<rule>
-				<antipattern>
-					<token regexp="yes">row|index</token>
-					<token>i</token>
-				</antipattern>
-				<pattern case_sensitive="yes">
-					<marker>
-						<token>i</token>
-					</marker>
-					<token postag="V.+" postag_regexp="yes"></token>
-				</pattern>
-				<message>Is this the personal pronoun 'I'? It is spelled uppercase.</message>
-				<suggestion>I</suggestion>
-				<example correction="I">Way back in the day, I had no tonality whatsoever when <marker>i</marker> talked.</example>
-				<example>The table of contents can be found on page i.</example>
-				<example>Items i) and j) support this point of view.</example>
-			</rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">row|index</token>
+                    <token>i</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>i</token>
+                    </marker>
+                    <token postag="V.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Is this the personal pronoun 'I'? It is spelled uppercase.</message>
+                <suggestion>I</suggestion>
+                <example correction="I">Way back in the day, I had no tonality whatsoever when <marker>i</marker> talked.</example>
+                <example>The table of contents can be found on page i.</example>
+                <example>Items i) and j) support this point of view.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>i</token>
@@ -9621,7 +9621,7 @@ USA
             </rule>
         </rulegroup>
         <rule id="ADVERB_VERB_ADVERB_REPETITION" name="Adverb repetition: e.g. 'also see also'">
-    <!-- Created by Tiago F. Santos, 2018-11-10	-->
+    <!-- Created by Tiago F. Santos, 2018-11-10    -->
             <pattern>
                 <token postag='RB'>
                   <exception>as</exception></token>
@@ -10060,7 +10060,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="SINGULAR_AGREEMENT_SENT_START" name="Possible agreement error: singular noun + plural verb">
-    <!-- Created by Tiago F. Santos, 2018-07-17	-->
+    <!-- Created by Tiago F. Santos, 2018-07-17    -->
             <rule><!-- TODO overly strict. expand with other rules or improve disambiguation significantly-->
                 <antipattern><!-- https://www.lexico.com/en/definition/former, www.ldoceonline.com/dictionary/remainder -->
                     <token>the</token>
@@ -10687,8 +10687,8 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-						<token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
-						<token postag="VBZ"/>
+                        <token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
+                        <token postag="VBZ"/>
                     </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag="VBP" case_conversion="startupper"/> \3</suggestion> or <suggestion>\2 <match no="3" postag="VBP"/></suggestion>.</message>
@@ -10705,12 +10705,12 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-						<token postag_regexp='yes' postag="NNP?S">
-						  <exception postag="NN(P|:.*)?" postag_regexp="yes"/>
-						  <exception>media</exception></token>
-						<token postag="VBZ">
-						  <exception regexp='yes'>is|was</exception></token><!-- XXX is/are to allow sub-rule 41 -->
-				    </marker>
+                        <token postag_regexp='yes' postag="NNP?S">
+                          <exception postag="NN(P|:.*)?" postag_regexp="yes"/>
+                          <exception>media</exception></token>
+                        <token postag="VBZ">
+                          <exception regexp='yes'>is|was</exception></token><!-- XXX is/are to allow sub-rule 41 -->
+                    </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag_regexp='yes' postag="(NNP?)S" postag_replace='$1'/> \3</suggestion>.</message>
                   <!-- suggestion>\2 <match no="3" postag="VBP"/></suggestion XXX bug: intermitent failures in suggestions. -->
@@ -13691,7 +13691,7 @@ USA
             </rule>
         </rulegroup>
           <rule id='SHORT_COMPARATIVES' name="Short comparatives">
-	      <!--      Created by Tiago F. Santos, 2018-07-10. Edited by MFU 2012-12-11      -->
+          <!--      Created by Tiago F. Santos, 2018-07-10. Edited by MFU 2012-12-11      -->
                 <antipattern>
                     <token>more</token>
                     <token regexp='yes'>&short_adjectives;</token>
@@ -13729,7 +13729,7 @@ USA
                 <example>Eat <marker>more fresh vegetables</marker>.</example>
           </rule>
           <rule id='SHORT_SUPERLATIVES' name="Short superlatives">
-	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
+          <!--      Created by Tiago F. Santos, 2018-07-10      -->
                 <pattern>
                     <token>the</token>
                     <token>most</token>
@@ -15232,9 +15232,9 @@ USA
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-					<token regexp="yes">Do(es)?</token>
-					<token postag="NN:U|PRP\$|PRP" postag_regexp="yes"/>
-					<token postag="MD"><exception>need</exception></token>
+                    <token regexp="yes">Do(es)?</token>
+                    <token postag="NN:U|PRP\$|PRP" postag_regexp="yes"/>
+                    <token postag="MD"><exception>need</exception></token>
                 </marker>
             </pattern>
             <message>Possibly wrong usage of '\2' in the question. Did you mean: <suggestion>\4 \3</suggestion>.</message>
@@ -18726,8 +18726,8 @@ USA
       <pattern>
           <token postag="SENT_START"/>
           <marker>
-			  <token regexp="yes">on|at</token>
-			  <token>fact</token>
+              <token regexp="yes">on|at</token>
+              <token>fact</token>
           </marker>
       </pattern>
       <message>The usual preposition for "fact" is "in". Did you mean <suggestion>In fact</suggestion>?</message>
@@ -19676,8 +19676,8 @@ USA
       <pattern>
           <token postag="SENT_START"/>
           <marker>
-			  <token regexp="yes">by|par</token>
-			  <token regexp="yes">ex[ae]mple</token>
+              <token regexp="yes">by|par</token>
+              <token regexp="yes">ex[ae]mple</token>
           </marker>
       </pattern>
       <message>The best translation for the introductory phrase "\1 \2" is 'for example'. Did you mean <suggestion>For example</suggestion>?</message>
@@ -20454,8 +20454,8 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-						<token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
-						<token postag="NNP"/>
+                        <token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
+                        <token postag="NNP"/>
                     </marker>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
@@ -20476,8 +20476,8 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-						<token postag="NNP"/>
-						<token regexp="yes">thank|please</token>
+                        <token postag="NNP"/>
+                        <token regexp="yes">thank|please</token>
                     </marker>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
@@ -21608,11 +21608,11 @@ USA
         </rule>
         <rule id="BY_DEFAULT_COMMA" name="Comma after by default at the beginning of a sentence.">
             <pattern case_sensitive="yes">
-				<token postag="SENT_START"/>
-				<marker>
-					<token>By</token>
-					<token>default</token>
-				</marker>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>By</token>
+                    <token>default</token>
+                </marker>
                 <token negate="yes">,</token>
             </pattern>
             <message>Did you mean: <suggestion>By default,</suggestion>?</message>
@@ -21875,11 +21875,11 @@ USA
             <!-- Created by Tiago F. Santos, 2017-01-23 -->
             <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
             <url>https://en.wikipedia.org/wiki/Dash#Em_dash</url>
-	       <antipattern>
-	           <token regexp='yes'>-</token>
-        	   <token regexp='yes'>-</token>
-        	   <token regexp='yes'>-</token>
-	       </antipattern>
+           <antipattern>
+               <token regexp='yes'>-</token>
+               <token regexp='yes'>-</token>
+               <token regexp='yes'>-</token>
+           </antipattern>
             <rule>
                 <antipattern>
                     <!-- typical signature delimiter in emails -->
@@ -21899,7 +21899,7 @@ USA
                 <example correction='—'><marker>-</marker> What is that, mother?</example>
                 <example correction='—'>« <marker>-</marker> What is that, mother?</example>
                 <example>— It's your birthday present, my daughter.</example>
-	        <example>---------------------------------------</example>
+            <example>---------------------------------------</example>
             </rule>
             <rule>
                 <antipattern>
@@ -21921,13 +21921,13 @@ USA
                 <example>In the Midwest and Northwest portion are higher elevations, reaching 500 meters above sea level, highlighting Serra do Tumucumaque and Sierra Lombarda.</example>
             </rule>
             <rule>
-	        <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
-	            <token regexp="yes">\d{2}|\d{4}</token>
-	            <token regexp="yes" spacebefore='no'>–|-</token>
-	            <token regexp="yes" spacebefore='no'>\d{2}</token>
-	            <token regexp="yes" spacebefore='no'>–|-</token>
-	            <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
-	        </antipattern>
+            <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
+                <token regexp="yes">\d{2}|\d{4}</token>
+                <token regexp="yes" spacebefore='no'>–|-</token>
+                <token regexp="yes" spacebefore='no'>\d{2}</token>
+                <token regexp="yes" spacebefore='no'>–|-</token>
+                <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
+            </antipattern>
                 <pattern>
                     <token regexp='yes'>\d+|&months;|&abbrevMonths;|&weekdays;|&abbrevWeekdays;</token>
                     <token regexp='yes'>-|—</token>
@@ -21938,31 +21938,31 @@ USA
                 <suggestion>\1–\3</suggestion>
                 <short>Use an n-dash.</short>
                 <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — writer and university teacher.</example>
-	        <example>10-10-10 — Date</example>
-	        <example>10-10-2010 — Date</example>
-	        <example>2010-10-10 — Date</example>
+            <example>10-10-10 — Date</example>
+            <example>10-10-2010 — Date</example>
+            <example>2010-10-10 — Date</example>
             </rule>
-	    <rule>
-	      <antipattern>
-	          <token regexp='yes'>-</token>
-	          <token regexp='yes'>-</token>
-	          <token regexp='yes'>-</token>
-	          <token regexp='yes'>,</token>
-	      </antipattern>
-	      <pattern>
-	        <marker>
-	          <token regexp='yes' spacebefore='yes'>-|–</token>
-	        </marker>
-	          <token spacebefore="no">,</token>
-	      </pattern>
-	      <message>If this is a parenthetical clause, finish it with an m-dash.</message>
-	        <suggestion>—</suggestion>
+        <rule>
+          <antipattern>
+              <token regexp='yes'>-</token>
+              <token regexp='yes'>-</token>
+              <token regexp='yes'>-</token>
+              <token regexp='yes'>,</token>
+          </antipattern>
+          <pattern>
+            <marker>
+              <token regexp='yes' spacebefore='yes'>-|–</token>
+            </marker>
+              <token spacebefore="no">,</token>
+          </pattern>
+          <message>If this is a parenthetical clause, finish it with an m-dash.</message>
+            <suggestion>—</suggestion>
                 <short>Use an m-dash.</short>
-	      <example correction='—'>…— as aforementioned <marker>-</marker>,…</example>
-	      <example>A better or more prestigious quality or status: A-, A or A+</example>
-	      <example>Sometimes the syndrome is divided into low-, medium- or high-functioning autism</example>
-	      <example>--------, Schopenhauer, The Human Character.</example>
-	    </rule>
+          <example correction='—'>…— as aforementioned <marker>-</marker>,…</example>
+          <example>A better or more prestigious quality or status: A-, A or A+</example>
+          <example>Sometimes the syndrome is divided into low-, medium- or high-functioning autism</example>
+          <example>--------, Schopenhauer, The Human Character.</example>
+        </rule>
         </rulegroup>
     <rule id="ENUMERATION_AND_DASHES" name="Enumerations with dashes: 1.2.-">
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
@@ -22593,9 +22593,9 @@ USA
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-					<token>That</token>
-					<token>being</token>
-					<token regexp="yes">sa[dt]|aid</token>
+                    <token>That</token>
+                    <token>being</token>
+                    <token regexp="yes">sa[dt]|aid</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>That being said</suggestion>?</message>
@@ -23497,7 +23497,7 @@ USA
         </rulegroup>
         <rule id="HEAR_HERE" name="hear (here)">
             <pattern case_sensitive="yes">
-				<token postag="SENT_START"/>
+                <token postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">Hea?r</token>
                 </marker>
@@ -25442,8 +25442,8 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-						<token>everyday</token>
-						<token postag="PRP"/>
+                        <token>everyday</token>
+                        <token postag="PRP"/>
                     </marker>
                 </pattern>
                 <message>'Everyday' is an adjective, and the comma is missing. Did you mean <suggestion>every day, \3</suggestion>?</message>
@@ -25452,7 +25452,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-					<token postag="SENT_START"/>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>everyday</token>
                     </marker>
@@ -25873,13 +25873,13 @@ USA
       <token>the</token>
         <token>question</token>
         <token postag='WRB|WP.*' postag_regexp='yes'><exception regexp='yes'>that|when</exception></token>
- 		</pattern>
- 		<message>This sounds awkward in English. The standard is <suggestion><match no="1"/> <match no="2"/> of <match no="3"/></suggestion>.</message>
- 		<url>http://english.stackexchange.com/questions/186173/what-is-the-correct-usage-of-the-question-of</url>
+         </pattern>
+         <message>This sounds awkward in English. The standard is <suggestion><match no="1"/> <match no="2"/> of <match no="3"/></suggestion>.</message>
+         <url>http://english.stackexchange.com/questions/186173/what-is-the-correct-usage-of-the-question-of</url>
         <short>Awkward style</short>
         <example correction='the question of how'>This thesis addresses <marker>the question how</marker> to analyze concepts.</example>
- 		<example>This thesis addresses the question of how to analyze concepts.</example>
-		</rule>
+         <example>This thesis addresses the question of how to analyze concepts.</example>
+        </rule>
         <rule id="IN_THE_MOMENT" name="in the moment (currently)">
             <!-- Typical mistake for German native speakers -->
             <pattern>
@@ -26396,7 +26396,7 @@ USA
                 <example correction="HIV">The <marker>HIV virus</marker> continues to spread.</example>
             </rule>
         </rulegroup>
-		<rulegroup id="PIN_NUMBER" name="PIN number / ISBN number (PIN / ISBN)">
+        <rulegroup id="PIN_NUMBER" name="PIN number / ISBN number (PIN / ISBN)">
             <rule>
                 <pattern>
                     <token regexp="yes">IS[BS]N|PIN</token>
@@ -26410,7 +26410,7 @@ USA
                 <example correction="ISBNs"><marker>ISBN numbers</marker> are assigned to text-based monographic publications.</example>
             </rule>
         </rulegroup>
-		<rulegroup id="LCD_DISPLAY" name="LCD display (LCD)">
+        <rulegroup id="LCD_DISPLAY" name="LCD display (LCD)">
             <rule>
                 <pattern>
                     <token>LCD</token>
@@ -28238,7 +28238,7 @@ USA
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-					<token regexp="yes">\d+</token>
+                    <token regexp="yes">\d+</token>
                 </marker>
             </pattern>
             <message>Numbers at the start of the sentence should be written as words.</message>
@@ -28250,7 +28250,7 @@ USA
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-					<token>hopefully</token>
+                    <token>hopefully</token>
                 </marker>
             </pattern>
             <message>Many style books advice that a sentence should not start with 'hopefully'.</message>
@@ -28639,7 +28639,7 @@ USA
                 <example>On <marker>7 October 2010</marker>, I had already informed the customer.</example>
                 <example>On 7 October 2010, we will inform the client.</example>
             </rule>
-	    <rule> <!-- We visited the client on 7 October 2020 -->
+        <rule> <!-- We visited the client on 7 October 2020 -->
                 <pattern>
                     <token postag="VBD" skip="-1"/>
                     <marker> &date_dmy; </marker>
@@ -30992,9 +30992,9 @@ USA
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
                 <marker>
-					<token>The</token>
-					<token regexp="yes">truth|fact</token>
-					<token>is</token>
+                    <token>The</token>
+                    <token regexp="yes">truth|fact</token>
+                    <token>is</token>
                 </marker>
             </pattern>
             <message>Remove. Just say what the truth or fact is.</message>
@@ -31168,24 +31168,24 @@ USA
      <example correction='™'>The new product is Executive Choice<marker>(TM)</marker> Plus.</example>
     </rule>
     <rule id="R_SYMBOL" name="(R) instead of ®">
-		<antipattern case_sensitive="yes">
-		    <marker>
-		    <token>(</token>        
+        <antipattern case_sensitive="yes">
+            <marker>
+            <token>(</token>        
         <token>R</token>
         <token skip="-1">)</token>        
         </marker>
         <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
-		</antipattern>
-		<antipattern case_sensitive="yes">
-		    <token>(</token>        
+        </antipattern>
+        <antipattern case_sensitive="yes">
+            <token>(</token>        
         <token regexp="yes">[\p{Lu}^R]</token>
         <token skip="-1">)</token>        
         <marker>
         <token>R<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
         </marker>
-		</antipattern>
+        </antipattern>
      <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{Lu}.*</token>
       <marker>
@@ -31210,7 +31210,7 @@ USA
         <token>c<exception scope="previous" negate="yes">(</exception></token>
         <token>)</token>
         </marker>
-		</antipattern>    
+        </antipattern>    
       <pattern>
       <marker>
         <token>(</token>        
@@ -31224,7 +31224,7 @@ USA
       <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
       <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
       <example>This is a list: (a) item, (b) 2 items, (c) 2014 items.</example>
-		</rule>
+        </rule>
         <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
                 <regexp>([\d,.]*[\d]+) ?([$€£¥\u8371])</regexp>
