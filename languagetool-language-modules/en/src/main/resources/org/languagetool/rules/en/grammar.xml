@@ -1154,8 +1154,8 @@ USA
         </rule>
         <rule id="ANOTHER_WORDS" name="another words (in other words)">
             <pattern>
+                <token postag="SENT_START"/>
                 <marker>
-                    <token postag="SENT_START"/>
                     <token>another</token>
                     <token>words</token>
                 </marker>
@@ -2395,8 +2395,8 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
-                        <token postag="SENT_START"/>
                         <token>were</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes"><exception postag="JJ|VBN" postag_regexp="yes"/><exception regexp="yes">there|they|we|you</exception></token>
@@ -10018,8 +10018,8 @@ USA
         </rule>
         <rule id="EACH_EVERY_NNS" name="'each' or 'every' with plural nouns">
             <pattern>
+                <token postag="SENT_START"/>
                 <marker>
-                    <token postag="SENT_START"/>
                     <token regexp="yes">each|every|n?either</token>
                 </marker>
                 <token postag="NNS"><exception postag="NN"/></token>
@@ -10686,8 +10686,10 @@ USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
-                    <token postag="VBZ"/>
+                    <marker>
+						<token postag="VBZ"><exception postag="NN.*" postag_regexp="yes"/></token>
+						<token postag="VBZ"/>
+                    </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag="VBP" case_conversion="startupper"/> \3</suggestion> or <suggestion>\2 <match no="3" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
@@ -10702,11 +10704,13 @@ USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag_regexp='yes' postag="NNP?S">
-                      <exception postag="NN(P|:.*)?" postag_regexp="yes"/>
-                      <exception>media</exception></token>
-                    <token postag="VBZ">
-                      <exception regexp='yes'>is|was</exception></token><!-- XXX is/are to allow sub-rule 41 -->
+                    <marker>
+						<token postag_regexp='yes' postag="NNP?S">
+						  <exception postag="NN(P|:.*)?" postag_regexp="yes"/>
+						  <exception>media</exception></token>
+						<token postag="VBZ">
+						  <exception regexp='yes'>is|was</exception></token><!-- XXX is/are to allow sub-rule 41 -->
+				    </marker>
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag_regexp='yes' postag="(NNP?)S" postag_replace='$1'/> \3</suggestion>.</message>
                   <!-- suggestion>\2 <match no="3" postag="VBP"/></suggestion XXX bug: intermitent failures in suggestions. -->
@@ -13399,8 +13403,8 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
-                        <token postag="SENT_START"/>
                         <token>this</token>
                     </marker>
                     <token regexp="yes">are|were</token>
@@ -13411,8 +13415,8 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
-                        <token postag="SENT_START"/>
                         <token regexp="yes">th[eo]se</token>
                     </marker>
                     <token regexp="yes">is|was</token>
@@ -15051,9 +15055,11 @@ USA
         <rule id="ACCORDING_TO_ME" name="according to me (in my opinion)">
             <pattern>
                 <token postag="SENT_START"/>
-                <token>according</token>
-                <token>to</token>
-                <token>me</token>
+                <marker>
+                    <token>according</token>
+                    <token>to</token>
+                    <token>me</token>
+                </marker>
             </pattern>
             <message>This phrase can sound awkward in English. Consider using <suggestion>in my opinion</suggestion> or <suggestion>I think</suggestion>.</message>
             <short>Grammatical problem</short>
@@ -15225,9 +15231,11 @@ USA
         <rule id="DOES_XX_CAN" name="Wrong usage of modal verbs in questions">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">Do(es)?</token>
-                <token postag="NN:U|PRP\$|PRP" postag_regexp="yes"/>
-                <token postag="MD"><exception>need</exception></token>
+                <marker>
+					<token regexp="yes">Do(es)?</token>
+					<token postag="NN:U|PRP\$|PRP" postag_regexp="yes"/>
+					<token postag="MD"><exception>need</exception></token>
+                </marker>
             </pattern>
             <message>Possibly wrong usage of '\2' in the question. Did you mean: <suggestion>\4 \3</suggestion>.</message>
             <short>Grammatical problem: incorrect modal verb</short>
@@ -16109,8 +16117,8 @@ USA
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
@@ -16141,25 +16149,28 @@ USA
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                    </token>
-                    <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>[,;:!\?]</token>
+                    <marker>
+                        <token>Even</token>
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose</token>
+                        <!-- start search after 2nd token in case it is a comma -->
+                        <token regexp='yes'>[,;:!\?]</token>
+                    </marker>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                    </token>
-                    <!-- start search after 2nd token in case it is a comma -->
-                    <token postag='CC'/>
+                    <marker>
+                        <token>Even</token>
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- start search after 2nd token in case it is a comma -->
+                        <token postag='CC'/>
+                    </marker>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token>even</token>
                         <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
@@ -16198,8 +16209,8 @@ USA
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token>So</token>
                         <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
@@ -16238,8 +16249,8 @@ USA
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token>So</token>
                         <token postag=',|:' postag_regexp='yes'/>
                         <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
@@ -16280,11 +16291,13 @@ USA
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <token postag='SENT_START'/>
-                    <token>So</token>
-                    <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                    </token>
-                    <token postag='SENT_END'/>
+                    <marker>
+                        <token>So</token>
+                        <token>even</token>
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <token postag='SENT_END'/>
+                    </marker>
                 </pattern>
                 <message>“\2 \3 \4” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence.</message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -16321,12 +16334,14 @@ USA
                 <!-- If ir got past the antipatterns, then something is wrong -->
                 <pattern>
                     <token postag='SENT_START'/>
-                    <token>So</token>
-                    <token postag=',|:' postag_regexp='yes'/>
-                    <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                    </token>
-                    <token postag='SENT_END'/>
+                    <marker>
+                        <token>So</token>
+                        <token postag=',|:' postag_regexp='yes'/>
+                        <token>even</token>
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <token postag='SENT_END'/>
+                    </marker>
                 </pattern>
                 <message>“\2 \3 \4 \5” at the beginning of a sentence requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence.</message>
                 <short>Punctuation error, sentence looks like a fragment</short>
@@ -16354,8 +16369,8 @@ USA
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token>In</token>
                         <token>order</token>
                         <token skip='-1'>that</token>
@@ -16385,8 +16400,8 @@ USA
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
+                    <token postag='SENT_START'/>
                     <marker>
-                        <token postag='SENT_START'/>
                         <token>Provided</token>
                         <token skip='-1'>that</token>
                     </marker>
@@ -18710,8 +18725,10 @@ USA
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">on|at</token>
-          <token>fact</token>
+          <marker>
+			  <token regexp="yes">on|at</token>
+			  <token>fact</token>
+          </marker>
       </pattern>
       <message>The usual preposition for "fact" is "in". Did you mean <suggestion>In fact</suggestion>?</message>
       <example correction='In fact'><marker>On fact</marker>, the people are fed up of so many elections.</example>
@@ -19658,8 +19675,10 @@ USA
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">by|par</token>
-          <token regexp="yes">ex[ae]mple</token>
+          <marker>
+			  <token regexp="yes">by|par</token>
+			  <token regexp="yes">ex[ae]mple</token>
+          </marker>
       </pattern>
       <message>The best translation for the introductory phrase "\1 \2" is 'for example'. Did you mean <suggestion>For example</suggestion>?</message>
       <example correction="For example"><marker>By example</marker>, poor spelling makes pattern matching more difficult.</example>
@@ -20434,8 +20453,10 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
-                    <token postag="NNP"/>
+                    <marker>
+						<token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
+						<token postag="NNP"/>
+                    </marker>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
                 <short>Missing comma</short>
@@ -20454,8 +20475,10 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NNP"/>
-                    <token regexp="yes">thank|please</token>
+                    <marker>
+						<token postag="NNP"/>
+						<token regexp="yes">thank|please</token>
+                    </marker>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
                 <short>Missing comma</short>
@@ -21585,11 +21608,11 @@ USA
         </rule>
         <rule id="BY_DEFAULT_COMMA" name="Comma after by default at the beginning of a sentence.">
             <pattern case_sensitive="yes">
-                <marker>
-                    <token postag="SENT_START"/>
-                    <token>By</token>
-                    <token>default</token>
-                </marker>
+				<token postag="SENT_START"/>
+				<marker>
+					<token>By</token>
+					<token>default</token>
+				</marker>
                 <token negate="yes">,</token>
             </pattern>
             <message>Did you mean: <suggestion>By default,</suggestion>?</message>
@@ -21951,11 +21974,13 @@ USA
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">\d+</token>
-          <token>.</token>
-          <token min='0' regexp='yes'>\d+</token>
-          <token min='0'>.</token>
-          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          <marker>
+              <token regexp="yes">\d+</token>
+              <token>.</token>
+              <token min='0' regexp='yes'>\d+</token>
+              <token min='0'>.</token>
+              <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          </marker>
       </pattern>
       <message>Dashes are unnecessary in enumerations.</message>
         <suggestion>\2\3<match no='4' include_skipped='all'/><match no='5' include_skipped='all'/></suggestion>
@@ -22567,9 +22592,11 @@ USA
         <rule id="THAT_BEING_SAID" name="That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
-                <token>That</token>
-                <token>being</token>
-                <token regexp="yes">sa[dt]|aid</token>
+                <marker>
+					<token>That</token>
+					<token>being</token>
+					<token regexp="yes">sa[dt]|aid</token>
+                </marker>
             </pattern>
             <message>Did you mean <suggestion>That being said</suggestion>?</message>
             <url>https://en.wiktionary.org/wiki/said</url>
@@ -23470,8 +23497,8 @@ USA
         </rulegroup>
         <rule id="HEAR_HERE" name="hear (here)">
             <pattern case_sensitive="yes">
+				<token postag="SENT_START"/>
                 <marker>
-                    <token postag="SENT_START"/>
                     <token regexp="yes">Hea?r</token>
                 </marker>
                 <token inflected="yes">be</token>
@@ -25414,8 +25441,10 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>everyday</token>
-                    <token postag="PRP"/>
+                    <marker>
+						<token>everyday</token>
+						<token postag="PRP"/>
+                    </marker>
                 </pattern>
                 <message>'Everyday' is an adjective, and the comma is missing. Did you mean <suggestion>every day, \3</suggestion>?</message>
                 <short>Commonly confused word</short>
@@ -25423,8 +25452,8 @@ USA
             </rule>
             <rule>
                 <pattern>
+					<token postag="SENT_START"/>
                     <marker>
-                        <token postag="SENT_START"/>
                         <token>everyday</token>
                     </marker>
                     <token>,</token>
@@ -28193,7 +28222,9 @@ USA
         <rule default="off" id="And" name="Sentence starting with 'And' or 'But'">
             <pattern>
                 <token postag='SENT_START'/>
-                <token regexp="yes">And|But</token>
+                <marker>
+                    <token regexp="yes">And|But</token>
+                </marker>
             </pattern>
             <message>While it is not exactly wrong, stylistically '\2' should only be used to start a sentence for dramatic effect and even then rarely.</message>
             <url>https://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>
@@ -28206,7 +28237,9 @@ USA
         <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">\d+</token>
+                <marker>
+					<token regexp="yes">\d+</token>
+                </marker>
             </pattern>
             <message>Numbers at the start of the sentence should be written as words.</message>
             <short>Number starting a sentence</short>
@@ -28216,7 +28249,9 @@ USA
         <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
             <pattern>
                 <token postag="SENT_START"/>
-                <token>hopefully</token>
+                <marker>
+					<token>hopefully</token>
+                </marker>
             </pattern>
             <message>Many style books advice that a sentence should not start with 'hopefully'.</message>
             <short>Bad style</short>
@@ -30956,9 +30991,11 @@ USA
         <rule id="THE_TRUTH_OR_FACT_IS" name="Starting sentence with 'The truth/fact is'.">
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
-                <token>The</token>
-                <token regexp="yes">truth|fact</token>
-                <token>is</token>
+                <marker>
+					<token>The</token>
+					<token regexp="yes">truth|fact</token>
+					<token>is</token>
+                </marker>
             </pattern>
             <message>Remove. Just say what the truth or fact is.</message>
             <example correction=""><marker>The truth is</marker>, this is annoying.</example>
