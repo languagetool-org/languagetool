@@ -115,7 +115,7 @@ USA
 
         <rule id="LIGATURES" name="Word contains a ligature">
             <pattern><!-- Don't add all known ligatures. Wait for real errors reported by users. -->
-                <token regexp="yes">.*(æ|ﬀ|ﬁ).*
+                <token regexp="yes">.*(æ|ﬀ|ﬁ|ﬂ).*
                     <exception regexp="yes">.</exception><!-- Ignore a token that is a single ligature -->
                     <exception postag_regexp="yes" postag="NNPS?"/>
                     </token>
@@ -126,6 +126,7 @@ USA
           <example type="incorrect">LanguageTool <marker>ﬁnds</marker> spelling errors. [The word 'finds' contains a ligature, not the characters f i.]</example>
           <example type="incorrect">An <marker>æon</marker> is a technical term. [ae]</example>
           <example type="incorrect">This <marker>eﬀects</marker> many rules. [ef]</example>
+          <example type="incorrect">Her <marker>inﬂuence</marker> is strong. [fl]</example>
           <example>LanguageTool <marker>finds</marker> spelling errors.</example>
           <example>LanguageTool <marker>【Upgraded</marker> version...</example><!-- Not a ligature. Need a different rule. -->
           <example>The correct spelling of the proper noun '<marker>Encyclopædia Britannica</marker>' uses a ligature (https://corporate.britannica.com/contact/).</example>
