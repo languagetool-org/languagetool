@@ -23,7 +23,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -144,13 +143,14 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
-    System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
+    System.out.println("Running pattern rule tests for " + lang.getName() + "... ");
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       disableSpellingRules(languageTool);
     }
     MultiThreadedJLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLanguageTool);
+    validateSentenceStartNotInMarker(allRulesLanguageTool);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, languageTool);
     for (AbstractPatternRule rule : rules) {
       // Test the rule pattern.
@@ -233,6 +233,27 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
           System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
           categoryIds.add(catId);
+        }
+      }
+    }
+  }
+
+  /*
+   * A <marker> that covers the SENT_START can lead to obscure offset issues, so warn about that. 
+   */
+  private void validateSentenceStartNotInMarker(JLanguageTool lt) {
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        List<PatternToken> patternTokens = ((AbstractPatternRule) rule).getPatternTokens();
+        if (patternTokens != null) {
+          boolean hasExplicitMarker = patternTokens.stream().anyMatch(PatternToken::isInsideMarker);
+          for (PatternToken patternToken : patternTokens) {
+            if ((patternToken.isInsideMarker() || !hasExplicitMarker) && patternToken.isSentenceStart()) {
+              System.out.println("WARNING: Sentence start in <marker>: " + ((AbstractPatternRule) rule).getFullId() +
+                      " (hasExplicitMarker: " + hasExplicitMarker + ") - please move the <marker> so the SENT_START is not covered");
+            }
+          }
         }
       }
     }
