@@ -4169,22 +4169,26 @@ title="Easy editing stylesheet" ?>
       <antipattern><!-- XXX LibreOffice specific antipattern -->
     <!-- TODO Libreoffice plug-in tokenizes enumerations differently, so, it triggers an error that does not exist in the LT-server, nor LT-standalone. Verify. -->
           <token postag='SENT_START'/>
-          <token regexp='yes'>\d{1,2}|\p{L}</token>
-          <token regexp='yes'>[\.\)]</token>
-          <token max='3'/>
-          <token regexp='yes'>[.!?]</token>
+          <marker>
+              <token regexp='yes'>\d{1,2}|\p{L}</token>
+              <token regexp='yes'>[\.\)]</token>
+              <token max='3'/>
+              <token regexp='yes'>[.!?]</token>
+          </marker>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token min='2'>
-            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-          <token skip='-1'>
-            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
-            <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-        <and>
-          <token regexp='yes'>[.?!…”»]|&quot;</token>
-          <token postag='SENT_END'/>
-        </and>
+          <marker>
+              <token min='2'>
+                <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+              <token skip='-1'>
+                <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
+                <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+            <and>
+              <token regexp='yes'>[.?!…”»]|&quot;</token>
+              <token postag='SENT_END'/>
+            </and>
+          </marker>
       </pattern>
       <message>Esta frase não tem verbo. Confirme que não é uma holófrase.</message>
       <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
@@ -4395,8 +4399,8 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
+        <token postag='SENT_START'/>
         <marker>
-          <token postag='SENT_START'/>
           <token postag='C.|R.' postag_regexp='yes' skip="-1">
             <exception negate_pos='yes' postag='C.|R.' postag_regexp='yes'/>
           </token>
@@ -4430,8 +4434,8 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
+        <token postag='SENT_START'/>
         <marker>
-          <token postag='SENT_START'/>
           <token regexp='yes'>Mesmo|Então|Portanto</token>
           <token regexp='yes' min='0'>[,:]</token>
           <token postag='C.|R.' postag_regexp='yes' skip='-1'>
@@ -4458,8 +4462,8 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
+        <token postag='SENT_START'/>
         <marker>
-          <token postag='SENT_START'/>
           <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
           <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
         </marker>
@@ -4484,8 +4488,8 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
+        <token postag='SENT_START'/>
         <marker>
-          <token postag='SENT_START'/>
           <token regexp='yes'>De|A|Considerando|Contando</token>
           <token skip='-1' regexp='yes'>que|menos|quer</token>
         </marker>
@@ -4512,8 +4516,8 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
+        <token postag='SENT_START'/>
         <marker>
-          <token postag='SENT_START'/>
           <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
           <token regexp='yes'>vez|modo|quer|menos|em</token>
           <token skip='-1' regexp='yes'>a|que|conta</token>
@@ -8317,7 +8321,9 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+          <marker>
+              <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+          </marker>
       </pattern>
       <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
       <example correction=""><marker>Portanto</marker>, não posso sair.</example>
@@ -24282,10 +24288,13 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d+|\w</token>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no">
-            <exception regexp="yes">\d+</exception></token>
+          <marker>
+              <token regexp="yes">\d+|\w</token>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="no">
+                  <exception regexp="yes">\d+</exception>
+              </token>
+          </marker>
       </pattern>
       <message>Em enumerações, deve dar um espaço depois do travessão.</message>
         <suggestion>\2 — \4</suggestion>
@@ -24303,8 +24312,10 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="yes"/>
+          <marker>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="yes"/>
+          </marker>
       </pattern>
       <message>Em diálogos, deve remover o espaço depois do travessão.</message>
         <suggestion>—\3</suggestion>
@@ -24325,9 +24336,12 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no">
-            <exception>,</exception></token>
+          <marker>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="no">
+                  <exception>,</exception>
+              </token>
+          </marker>
       </pattern>
       <message>Em diálogos, deve dar espaço depois do travessão.</message>
         <suggestion>— \3</suggestion>
@@ -24401,9 +24415,11 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">\d+(?:\.\d+)?</token>
-          <token>.</token>
-          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          <marker>
+              <token regexp="yes">\d+(?:\.\d+)?</token>
+              <token>.</token>
+              <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          </marker>
       </pattern>
       <message>Os travessões são desnecessários em enumerações.</message>
         <suggestion>\2.</suggestion>
@@ -26536,7 +26552,9 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">E|Mas|Ou|Porém</token>
+          <marker>
+            <token regexp="yes">E|Mas|Ou|Porém</token>
+          </marker>
       </pattern>
       <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
@@ -26782,7 +26800,7 @@ TODO Write better examples
  <category id='FORMAL_SPEECH' name="Linguagem Formal" type="register">
 
   <rulegroup id='ARCHAISMS' name='1. Arcaísmos (Palavras que caíram em desuso)'>
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2017-05-08      -->
+    <!--      Created by Tiago F. Santos, Portuguese rule, BARBARISMS2017-05-08      -->
       <url>https://pt.wiktionary.org/wiki/Categoria:Arca%C3%ADsmo_(Portugu%C3%AAs)</url>
       <short>Arcaísmo</short>
     <rule>
@@ -26796,8 +26814,11 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp='yes'>(?:&arcaismos;)s?
-            <exception regexp='yes'>aH|almeida</exception></token>
+          <marker>
+              <token regexp='yes'>(?:&arcaismos;)s?
+                  <exception regexp='yes'>aH|almeida</exception>
+              </token>
+          </marker>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico. Tente utilizar uma alternativa.</message>
       <example type='incorrect'><marker>Vosmecês</marker> são uns sacanas!</example>
@@ -26845,8 +26866,10 @@ TODO Write better examples
     <rule>
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
-          <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
-            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
+          <marker>
+              <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
+                <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
+          </marker>
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>‘\2’</suggestion>

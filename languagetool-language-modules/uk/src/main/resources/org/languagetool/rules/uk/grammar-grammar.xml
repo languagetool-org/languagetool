@@ -2017,22 +2017,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </or>
 -->
           <token postag="SENT_START"/>
-          <token postag_regexp="yes" postag="noun:anim(:.:v_naz|:f:v_zna|:m:v_dav).*">
-            <exception postag_regexp="yes" postag="noun:anim:.*:v_kly.*"/>
-            <exception postag_regexp="yes" postag="noun.*(lname).*|.*pron.*|(intj|part).*"/>
-            <exception regexp="yes">.*-.*|типу|чорт</exception>
-            <!--
-            <exception>ласка</exception>
-            <exception regexp="yes">честь|милість|високість</exception>
-            -->
-          </token>
-          <token>,</token>
-          <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
-            <exception postag_regexp="yes" postag="verb.*insert.*"/>
-            <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
-            <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|скажімо|дякуй|дякуйте</exception>
-          </token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim(:.:v_naz|:f:v_zna|:m:v_dav).*">
+              <exception postag_regexp="yes" postag="noun:anim:.*:v_kly.*"/>
+              <exception postag_regexp="yes" postag="noun.*(lname).*|.*pron.*|(intj|part).*"/>
+              <exception regexp="yes">.*-.*|типу|чорт</exception>
+              <!--
+              <exception>ласка</exception>
+              <exception regexp="yes">честь|милість|високість</exception>
+              -->
+            </token>
+            <token>,</token>
+            <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
+              <exception postag_regexp="yes" postag="verb.*insert.*"/>
+              <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
+              <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|скажімо|дякуй|дякуйте</exception>
+            </token>
+          </marker>
         </pattern>
         <message>Можливо, іменник має бути у кличному відмінку?</message>
         <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)(v_naz|v_zna|v_dav)(.*)" postag_replace="$1v_kly$3"/>, <match no="4"/></suggestion>

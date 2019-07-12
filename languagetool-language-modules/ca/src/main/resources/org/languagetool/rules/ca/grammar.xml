@@ -14640,8 +14640,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>l</token>
-                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>l</token>
+                        <token postag="N.*|A.*" postag_regexp="yes"/>
+                    </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="3" postag="DT" /></suggestion>?</message>
                 <short>Possible confusió</short>
@@ -14665,8 +14667,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>l</token>
-                    <token><exception postag="[NA].*" postag_regexp="yes"/><exception>.</exception></token>
+                    <marker>
+                        <token>l</token>
+                        <token><exception postag="[NA].*" postag_regexp="yes"/><exception>.</exception></token>
+                    </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>El <match no="3" /></suggestion>?</message>
                 <suggestion>La <match no="3" /></suggestion>
@@ -14702,8 +14706,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>d</token>
-                    <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>d</token>
+                        <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
+                    </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \3</suggestion>?</message>
                 <suggestion>d'\3</suggestion>
@@ -25763,7 +25769,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">[–‒-]</token>
+                    <marker>
+                        <token regexp="yes">[–‒-]</token>
+                    </marker>
                 </pattern>
                 <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
@@ -25834,7 +25842,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">[—‒-]</token>
+                    <marker>
+                        <token regexp="yes">[—‒-]</token>
+                    </marker>
                 </pattern>
                 <message>Cal substituir el guionet per guió mitjà.</message>
                 <suggestion>–</suggestion>
@@ -25847,8 +25857,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GUIO_ESPAI" name="Guió i espai en enumeracions" default="off">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">[–‒—-]</token>
-                <token spacebefore="no"/>
+                <marker>
+                    <token regexp="yes">[–‒—-]</token>
+                    <token spacebefore="no"/>
+                </marker>
             </pattern>
             <message>En enumeracions cal posar un espai després del guió.</message>
             <suggestion>\2 \3</suggestion>
@@ -25859,8 +25871,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GUIO_SENSE_ESPAI" name="Guió sense espai en diàlegs" default="off">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">[–‒—-]</token>
-                <token spacebefore="yes"/>
+                <marker>
+                    <token regexp="yes">[–‒—-]</token>
+                    <token spacebefore="yes"/>
+                </marker>
             </pattern>
             <message>En diàlegs no es posa un espai després del guió.</message>
             <suggestion>\2\3</suggestion>
@@ -27070,8 +27084,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>"</token>
-                    <token spacebefore="yes"></token>
+                    <marker>
+                        <token>"</token>
+                        <token spacebefore="yes"></token>
+                    </marker>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion>\1\2\3</suggestion>

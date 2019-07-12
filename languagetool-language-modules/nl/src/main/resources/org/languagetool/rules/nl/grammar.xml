@@ -12090,8 +12090,10 @@ onwaarschijnlijk
                 <!-- 2014-08-19 TaalTik -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token>Ad</token>
-                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token>Ad</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
                 </pattern>
                 <message>Dit is geen afkorting: <suggestion>ad</suggestion></message>
                 <example correction="Ad"><marker>Ad.</marker> punt 5 wil ik nog iets zeggen.</example>
@@ -12760,8 +12762,8 @@ onwaarschijnlijk
             <!-- 2014-08-23 TaalTik regel werkt goed, url toegevoegd, tekst aangepast. -->
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
-                        <token postag="SENT_START"/>
                         <token>Laat</token>
                         <token>ons</token>
                     </marker>
@@ -17529,8 +17531,10 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>Echter</token>
-                    <token negate="yes" regexp="yes">,|dan</token>
+                    <marker>
+                        <token>Echter</token>
+                        <token negate="yes" regexp="yes">,|dan</token>
+                    </marker>
                 </pattern>
                 <message>Na '<match no="2"/>' (in de betekenis 'maar') aan het begin van een zin hoort een komma: <suggestion><match no="2"/>, <match no="3"/></suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
@@ -18861,7 +18865,9 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>alvorens</token>
+                    <marker>
+                        <token>alvorens</token>
+                    </marker>
                 </pattern>
                 <message>Dit is ouderwets. herschrijf met 'voordat'.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
@@ -25055,9 +25061,12 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>L</token>
-                    <token spacebefore="no">.</token>
-                    <token>S</token><token spacebefore="no">.</token>
+                    <marker>
+                        <token>L</token>
+                        <token spacebefore="no">.</token>
+                        <token>S</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
                 </pattern>
                 <message>De tekst wordt vlotter als je deze herschrijft met <suggestion>Geachte</suggestion> of <suggestion>Beste</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -34858,8 +34867,10 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">[A-Z][a-z].*</token>
-                    <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
+                    <marker>
+                        <token regexp="yes">[A-Z][a-z].*</token>
+                        <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
+                    </marker>
                 </pattern>
                 <message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>
                 <example type="incorrect"><marker>Hij.</marker></example>
@@ -34870,9 +34881,11 @@ steenwijk;Steenwijk
                 <antipattern><token>Hoofdstuk</token><token regexp="yes">[0-9]*</token></antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">[A-Z][a-z].*</token>
-                    <token/>
-                    <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
+                    <marker>
+                        <token regexp="yes">[A-Z][a-z].*</token>
+                        <token/>
+                        <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
+                    </marker>
                 </pattern>
                 <message>Zulke korte zinnen zijn zeldzaam, incompleet en ongebruikelijk in officiële tekst.</message>
                 <example type="incorrect"><marker>Hij doet.</marker></example>

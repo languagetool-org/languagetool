@@ -28858,11 +28858,13 @@ though, and has since been slightly modified)-->
     <rule id="A_L_INTENTION_DE" name="à l’intention de">
       <pattern>
         <token postag="SENT_START"/>
-        <token>À</token>
-        <token>l</token>
-        <token regexp="yes" skip="1">[’´'‛′‘]</token>
-        <token>intention</token>
-        <token regexp="yes">de?</token>
+        <marker>
+          <token>À</token>
+          <token>l</token>
+          <token regexp="yes" skip="1">[’´'‛′‘]</token>
+          <token>intention</token>
+          <token regexp="yes">de?</token>
+        </marker>
       </pattern>
       <message>« à l’intention de » est une expression fautive (impropriété). Employez <suggestion>à l\4attention de</suggestion>.</message>
       <url>http://www.academie-francaise.fr/questions-de-langue#3_strong-em--l-attention-de--l-intention-de-em-strong</url>

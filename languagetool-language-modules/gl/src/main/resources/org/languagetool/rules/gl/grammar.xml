@@ -1661,10 +1661,12 @@
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d+|\w</token>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no">
-            <exception regexp="yes">\d+</exception></token>
+          <marker>
+              <token regexp="yes">\d+|\w</token>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="no">
+                <exception regexp="yes">\d+</exception></token>
+          </marker>
       </pattern>
       <message>En enumerações, debe dar un espazo despois do trazo longo.</message>
         <suggestion>\2 — \4</suggestion>
@@ -1682,8 +1684,10 @@
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="yes"/>
+          <marker>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="yes"/>
+          </marker>
       </pattern>
       <message>En diálogos, debe remover o espazo despois do trazo longo.</message>
         <suggestion>—\3</suggestion>
@@ -1704,8 +1708,10 @@
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no"/>
+          <marker>
+            <token regexp="yes">[–‒—]|&hifen;</token>
+            <token spacebefore="no"/>
+          </marker>
       </pattern>
       <message>En diálogos, debe dar espazo despois do trazo longo.</message>
         <suggestion>— \3</suggestion>
@@ -1771,9 +1777,11 @@
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">\d+(?:\.\d+)?</token>
-          <token>.</token>
-          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          <marker>
+            <token regexp="yes">\d+(?:\.\d+)?</token>
+            <token>.</token>
+            <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          </marker>
       </pattern>
       <message>Os trazos longos son desnecessários en enumerações.</message>
         <suggestion>\2.</suggestion>
@@ -2800,8 +2808,10 @@
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
-          <token postag="PP......:PP......" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"/>
+          <marker>
+            <token postag="PP......:PP......" postag_regexp="yes"/>
+            <token postag="V.*" postag_regexp="yes"/>
+          </marker>
       </pattern>
       <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: 'díxenvolo' no canto de 'volo dixen').</message>
       <short>O pronome debe ir posposto ao verbo</short>
@@ -2879,10 +2889,10 @@
     <rule id="PRON_NOS" name="nos cantamos (nós cantamos)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-        <marker>
           <token postag="SENT_START"/>
-          <token>nos</token>
-        </marker>
+          <marker>
+            <token>nos</token>
+          </marker>
           <token postag="V...1P.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
           </token>
@@ -2894,8 +2904,8 @@
     <rule id="PRON_VOS" name="vos cantades (vós cantades)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
+        <token postag="SENT_START"/>
         <marker>
-          <token postag="SENT_START"/>
           <token>vos</token>
         </marker>
           <token postag="V...2P.*" postag_regexp="yes">

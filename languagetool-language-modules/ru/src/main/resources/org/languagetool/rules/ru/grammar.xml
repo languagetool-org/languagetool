@@ -2787,8 +2787,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token>Пожалуйста</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token>Пожалуйста</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -2882,9 +2884,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <!--  removed как сейчас (#1127)   -->
                     <token postag="SENT_START"></token>
-                    <token>Как</token>
-                    <token regexp="yes">обычно|всегда|правило|исключение|нарочно</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token>Как</token>
+                        <token regexp="yes">обычно|всегда|правило|исключение|нарочно</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3289,8 +3293,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">По-видимому|По-моему|По-твоему|Впрочем|Ох|Ах</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token regexp="yes">По-видимому|По-моему|По-твоему|Впрочем|Ох|Ах</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3343,8 +3349,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 
@@ -3399,9 +3407,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">Видишь|Понимаешь</token>
-                    <token>ли</token>
-                    <token negate="yes" regexp="yes">[.,]</token>
+                    <marker>
+                        <token regexp="yes">Видишь|Понимаешь</token>
+                        <token>ли</token>
+                        <token negate="yes" regexp="yes">[.,]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3458,9 +3468,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token>К</token>
-                    <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token>К</token>
+                        <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3527,8 +3539,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--  Слово "однако" в начале предложения не является вводным всегда, поэтому исключено из списка -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|же</token>
+                    <marker>
+                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|же</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3540,9 +3554,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--  Может быть -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token>Может</token>
-                    <token>быть</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token>Может</token>
+                        <token>быть</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://new.gramota.ru/spravka/punctum?id=58_417&amp;layout=item</url>
@@ -3597,9 +3613,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token>Одним</token>
-                    <token>словом</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <marker>
+                        <token>Одним</token>
+                        <token>словом</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3612,8 +3630,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--  Слово "однако" в начале предложения всегда не является вводным -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token>Однако</token>
-                    <token>,</token>
+                    <marker>
+                        <token>Однако</token>
+                        <token>,</token>
+                    </marker>
                 </pattern>
                 <message>Слово <suggestion>\2</suggestion> в начале предложения никогда не может являться вводным. Может выделяться запятой или восклицательным знаком, если выступает в роли междометия.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -11167,9 +11187,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>   
                 <pattern>
-                        <token postag="SENT_START" />
+                    <token postag="SENT_START" />
+                    <marker>
                         <token>лучше</token>
                         <token>них</token>
+                    </marker>
                 </pattern>
                 <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>лучше их</suggestion>?</message>
                 <example correction="Лучше их"><marker>Лучше них</marker> могут быть только горы.</example>
@@ -11177,10 +11199,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>   
                 <pattern>
-                        <token postag="SENT_START" />
+                    <token postag="SENT_START" />
+                    <marker>
                         <token>слева</token>
                         <token>от</token>
                         <token>её</token>
+                    </marker>
                 </pattern>
                 <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>слева от неё</suggestion>?</message>
                 <example correction="Слева от неё"><marker>Слева от её</marker> будет магазин.</example>
@@ -11188,11 +11212,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>   
                 <pattern>
-                        <token postag="SENT_START" />
+                    <token postag="SENT_START" />
+                    <marker>
                         <token>между</token>
                         <token>неё</token>
                         <token>и</token>
                         <token>моим</token>
+                    </marker>
                 </pattern>
                 <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>между её и моим</suggestion>?</message>
                 <example correction="Между её и моим"><marker>Между неё и моим</marker> произношением нет разницы.</example>
