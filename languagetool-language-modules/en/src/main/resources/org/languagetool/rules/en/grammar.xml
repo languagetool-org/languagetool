@@ -416,6 +416,17 @@ USA
             <example>We were wont to meet at that pleasant spot.</example>
             <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
+        <rule id="DELETE_SPACE" name="n't">
+            <pattern>
+                <token/>
+                <token>n</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">t</token>
+            </pattern>
+            <message>Please check whether the space between '\1' and '\2\3\4' is correct.</message>
+            <suggestion>\1\2\3\4</suggestion>
+            <example correction="doesn't">He <marker>does n't</marker> like her.</example>
+        </rule>
         <rulegroup id="ISSUES_WITH_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't">
         <!-- Created by Tiago F. Santos, 2018-11-25 -->
           <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
