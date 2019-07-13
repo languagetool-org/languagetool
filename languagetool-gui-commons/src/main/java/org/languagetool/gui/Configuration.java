@@ -109,6 +109,7 @@ public class Configuration {
   private final Map<String, String> specialTabCategories = new HashMap<>();
 
   private File configFile;
+  private File oldConfigFile;
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
@@ -155,10 +156,15 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang, LinguServices linguServices) throws IOException {
+    this(baseDir, filename, null, lang, linguServices);
+  }
+
+  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
     if (baseDir == null || !baseDir.isDirectory()) {
       throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
     }
     configFile = new File(baseDir, filename);
+    this.oldConfigFile = oldConfigFile;
     loadConfiguration(lang);
   }
 
@@ -725,8 +731,15 @@ public class Configuration {
   private void loadConfiguration(Language lang) throws IOException {
 
     String qualifier = getQualifier(lang);
+    
+    File cfgFile;
+    if(oldConfigFile != null && oldConfigFile.exists()) {
+      cfgFile = oldConfigFile;
+    } else {
+      cfgFile = configFile;
+    }
 
-    try (FileInputStream fis = new FileInputStream(configFile)) {
+    try (FileInputStream fis = new FileInputStream(cfgFile)) {
 
       Properties props = new Properties();
       props.load(fis);
@@ -1002,6 +1015,10 @@ public class Configuration {
 
     try (FileOutputStream fos = new FileOutputStream(configFile)) {
       props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
+    }
+    
+    if(oldConfigFile != null && oldConfigFile.exists()) {
+      oldConfigFile.delete();
     }
   }
 

@@ -77,6 +77,7 @@ public class MultiDocumentsHandler {
   private final XEventListener xEventListener;
   private final File configDir;
   private final String configFile;
+  private final File oldConfigFile;
   private Configuration config = null;
   private LinguisticServices linguServices = null;
   private SortedTextRules sortedTextRules;
@@ -95,11 +96,13 @@ public class MultiDocumentsHandler {
   private boolean testMode = false;
 
 
-  MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
+  MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile, File oldConfigFile,
+
       ResourceBundle messages, XEventListener xEventListener) {
     this.xContext = xContext;
     this.configDir = configDir;
     this.configFile = configFile;
+    this.oldConfigFile = oldConfigFile;
     this.messages = messages;
     this.xEventListener = xEventListener;
     documents = new ArrayList<>();
@@ -415,7 +418,7 @@ public class MultiDocumentsHandler {
       if(xContext != null) {
         linguServices = new LinguisticServices(xContext);
       }
-      config = new Configuration(configDir, configFile, docLanguage, linguServices);
+      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
       fixedLanguage = config.getDefaultLanguage();
       if(fixedLanguage != null) {
         docLanguage = fixedLanguage;
@@ -566,7 +569,7 @@ public class MultiDocumentsHandler {
       docLanguage = getLanguage();
     }
     if (config == null) {
-      config = new Configuration(configDir, configFile, docLanguage, linguServices);
+      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
     }
     switchOff = !switchOff;
     boolean ret = setMenuTextForSwitchOff(xContext);

@@ -31,6 +31,8 @@ import com.sun.star.lang.*;
 import com.sun.star.linguistic2.LinguServiceEvent;
 import com.sun.star.linguistic2.LinguServiceEventFlags;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -63,11 +65,12 @@ public class Main extends WeakBase implements XJobExecutor,
           "com.sun.star.linguistic2.Proofreader",
           "org.languagetool.openoffice.Main" };
 
-  // use a different name than the stand-alone version to avoid conflicts:
-  private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
-
-  // use a log-file for output of messages and debug information:
-  private static final String LOG_FILE = ".LanguageTool.log";
+  private static final String VENDOR_ID = "languagetool.org";
+  private static final String APPLICATION_ID = "LanguageTool";
+  private static final String OFFICE_EXTENSION_ID = "LibreOffice";
+  private static final String CONFIG_FILE = "Languagetool.cfg";
+  private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
+  private static final String LOG_FILE = "LanguageTool.log";
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
@@ -92,9 +95,11 @@ public class Main extends WeakBase implements XJobExecutor,
     changeContext(xCompContext);
     xEventListeners = new ArrayList<>();
     File homeDir = getHomeDir();
-    String homeDirName = homeDir == null ? "." : homeDir.toString();
-    MessageHandler.init(homeDirName, LOG_FILE);
-    documents = new MultiDocumentsHandler(xContext, getHomeDir(), CONFIG_FILE, MESSAGES, this);
+    File configDir = getLOConfigDir();
+    String configDirName = configDir == null ? "." : configDir.toString();
+    File oldConfigFile = homeDir == null ? null : new File(homeDir, OLD_CONFIG_FILE);
+    MessageHandler.init(configDirName, LOG_FILE);
+    documents = new MultiDocumentsHandler(xContext, configDir, CONFIG_FILE, oldConfigFile, MESSAGES, this);
   }
 
   private Configuration prepareConfig() {
@@ -412,6 +417,72 @@ public class Main extends WeakBase implements XJobExecutor,
       return null;
     }
     return new File(homeDir);
+  }
+
+  /**
+   * Returns directory to store every information for LT office extension
+   * @since 4.7
+   */
+  private File getLOConfigDir() {
+      String userHome = null;
+      File directory;
+      try {
+        userHome = System.getProperty("user.home");
+      } catch (SecurityException ex) {
+      }
+      if (userHome == null) {
+        MessageHandler.showError(new RuntimeException("Could not get home directory"));
+        directory = null;
+      } else if (SystemUtils.IS_OS_WINDOWS) {
+        File appDataDir = null;
+        try {
+          String appData = System.getenv("APPDATA");
+          if (!StringUtils.isEmpty(appData)) {
+            appDataDir = new File(appData);
+          }
+        } catch (SecurityException ex) {
+        }
+        if (appDataDir != null && appDataDir.isDirectory()) {
+          String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+          directory = new File(appDataDir, path);
+        } else {
+          String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+          directory = new File(userHome, path);
+        }
+      } else if (SystemUtils.IS_OS_LINUX) {
+        File appDataDir = null;
+        try {
+          String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+          if (!StringUtils.isEmpty(xdgConfigHome)) {
+            appDataDir = new File(xdgConfigHome);
+            if (!appDataDir.isAbsolute()) {
+              //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+              //All paths set in these environment variables must be absolute.
+              //If an implementation encounters a relative path in any of these
+              //variables it should consider the path invalid and ignore it.
+              appDataDir = null;
+            }
+          }
+        } catch (SecurityException ex) {
+        }
+        if (appDataDir != null && appDataDir.isDirectory()) {
+          String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+          directory = new File(appDataDir, path);
+        } else {
+          String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+          directory = new File(userHome, path);
+        }
+      } else if (SystemUtils.IS_OS_MAC_OSX) {
+        String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      } else {
+        String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      }
+      if (directory != null && !directory.exists()) {
+        directory.mkdirs();
+      }
+      return directory;
   }
 
   /**
