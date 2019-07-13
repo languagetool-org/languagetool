@@ -2731,7 +2731,7 @@ USA
             <rule>
                 <!-- TODO: its of, its to -->
                 <pattern>
-                    <token><exception postag="IN|CC" postag_regexp="yes"/><exception regexp="yes">[tw]hat</exception></token>
+                    <token><exception postag="IN|CC|PCT" postag_regexp="yes"/><exception regexp="yes">[tw]hat</exception></token>
                     <marker>
                         <token>its</token>
                     </marker>
@@ -2746,6 +2746,7 @@ USA
                 <example>The Service has not said what its next step will be.</example>
                 <example>But mostly, I feel it because I see its poison working its way out of me and on to those around me as repercussions of my actions.</example>
                 <example>London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+                <example>India is aiming to launch Chandrayaan-2, its first attempt to reach the moon.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10039,6 +10040,38 @@ USA
             <example><marker>Each</marker> children services are available...</example>
             <example><marker>Each</marker> series revolves around a group of magical girls.</example>
         </rule>
+        <rulegroup id="A_INFORMATION" name="'information' as a plural nouns">
+           <rule>
+                <pattern>
+                        <token regexp="yes">these|no</token>
+                        <token regexp="yes">information|news</token>
+                        <token regexp="yes">were|are</token>
+                </pattern>
+                <message>'\2' is a mass noun (i.e., uncountable). Therefore, use the singular.</message>
+                <suggestion><match no="1" regexp_match="ese" regexp_replace="is"/> \2 was</suggestion>
+                <suggestion><match no="1" regexp_match="ese" regexp_replace="is"/> \2 is</suggestion>
+                <url>https://www.englishclub.com/grammar/nouns-countable-un.htm</url>
+                <short>Grammatical problem: delete 'a' / 'an'</short>
+                <example correction="No news was|No news is"><marker>No news are</marker> good news.</example>
+                <example correction="This information was|This information is"><marker>These information were</marker> very helpful.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">an?</token>
+                    </marker>
+                    <token postag="JJ"><exception postag="NN.*" postag_regexp="yes"/></token>
+                    <token>information</token>
+                    <token><exception postag="NN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>'\3' is a mass noun (i.e., uncountable). Therefore, the preceding '\1' is probably wrong.</message>
+                <url>https://www.englishclub.com/grammar/nouns-countable-un.htm</url>
+                <short>Grammatical problem: delete 'a' / 'an'</short>
+                <example correction="">This is <marker>a</marker> valuable information.</example>
+                <example>This is valuable information.</example>
+                <example>Is there <marker>an</marker> information desk?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_THEIR_HIS" name="Possible agreement error: Each of them likes their (his/her)">
             <url>http://writing2.richmond.edu/writing/wweb/pronoun.html</url>
             <rule>
@@ -24462,6 +24495,25 @@ USA
             <example>There was a long time there where my feelings for him was hella twisted.</example>
             <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tattoo.</example>
         </rule>
+        <rulegroup id="WERE_WE_RE" name="were (we're)">
+            <rule>
+                <antipattern>
+                    <token skip="-1">were</token>
+                    <token postag="PCT">?</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Were</token>
+                    </marker>
+                    <token postag="VBG"/>
+                    <token><exception postag="NN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Did you mean <suggestion>We're</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="We're"><marker>Were</marker> going to the zoo.</example>
+                <example><marker>Were</marker> warning shoots fired?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WERE_WHERE" name="were (where)">
             <rule>
                 <pattern>
