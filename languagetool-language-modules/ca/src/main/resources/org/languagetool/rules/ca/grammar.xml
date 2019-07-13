@@ -11612,6 +11612,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Després de diversos dies de cerca.</example>
         </rule>
         <rule id="MATI_DEMA" name="*matí/demà">
+            <antipattern>
+                <marker>
+                    <token>matí</token>
+                    <token regexp="yes">,|i|o|ni|\-|/</token>
+                    <token regexp="yes">tarda|vesprada|vespre|nit|migdia</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception>el</exception></token>
                 <marker>
@@ -11622,8 +11629,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>demà</suggestion>
             <example correction="demà">Veurem què passa <marker>matí</marker></example>
             <example correction="demà">Acull <marker>matí</marker> 30.000 espectadors</example>
+            <example correction="demà">Treballa <marker>matí</marker>.</example>
             <example>Demà al matí.</example>
-            <example>El matí o el vaig matar</example>
+            <example>El matí o el vaig matar.</example>
+            <example>Treballa matí i tarda.</example>
+            <example>Faig matí/vesprada.</example>
         </rule>
         <rule id="TRADUCCIO_SENSE_DESAMBIGUAR" name="traducció sense desambiguar: aaa|bbb">
             <pattern>
