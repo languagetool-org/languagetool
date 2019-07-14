@@ -10950,6 +10950,27 @@ USA
                 <example correction="were">The dogs of Peter <marker>was</marker> released.</example>
                 <example correction="were">The chemicals in Botox <marker>was</marker> released.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>The</token>
+                    <token>mass</token>
+                    <token>of</token>
+                    <token/>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>The</token>
+                    <token postag="NN:UN"><exception postag="NNS"/></token>
+                    <token>of</token>
+                    <token postag="JJ" min="0"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <marker><token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZD]|NN.*|RB" postag_regexp="yes"/></token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="6" postag="VBZ"/></suggestion>?</message>
+                <example correction="is">The smell of apples <marker>are</marker> great.</example>
+                <example>The lack of modern post facilities caused trouble for many shippers.</example>
+                <example>The people of London are very proud of this bridge.</example>
+                <example>The level of arsenic found in Sami's stomach was enough to kill 4 horses.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_QUESTION" name="agreement error: auxiliary verb (do/have) and subject in questions">
             <rule>
