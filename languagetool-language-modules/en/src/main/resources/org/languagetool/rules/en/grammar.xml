@@ -7473,6 +7473,23 @@ USA
             <example correction="on">The test was <marker>om</marker> Thursday.</example>
             <example>The word <marker>om</marker> is a sacred Hindu word.</example>
         </rule>
+        <rule id="APPSTORE" name="AppStore (App Store, Amazon Appstore)">
+            <antipattern case_sensitive="yes">
+                <token>Amazon</token>
+                <token>Appstore</token>
+            </antipattern>
+            <pattern>
+                <token>appstore</token>
+            </pattern>
+            <message>If you mean the Apple digital distribution platform, use <suggestion>App Store</suggestion>. For Amazon, use <suggestion>Amazon Appstore</suggestion>.</message>
+            <url>https://www.apple.com/legal/intellectual-property/trademark/appletmlist.html</url><!-- https://en.wikipedia.org/wiki/Amazon_Appstore. I did not find trademark information on www.amazon.com/gp/help/customer/display.html/?nodeId=200738910. Amazon consistently uses 'Amazon Appstore', so I assume that that is the correct name. -->
+            <short>Possible typo</short>
+            <example correction="App Store|Amazon Appstore">For information about the <marker>Appstore</marker> from Amazon, refer to https://developer.amazon.com/apps-and-games/getting-started.</example>
+            <example correction="App Store|Amazon Appstore">Get our app from the <marker>AppStore</marker>.</example>
+            <example correction="App Store|Amazon Appstore">For information about the Amazon <marker>AppStore</marker>, refer to…</example>
+            <example>For information about the <marker>Amazon Appstore</marker>, refer to…</example>
+            <example>Get our app from the <marker>App Store</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->

@@ -267,6 +267,7 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
       case "LIGATURES":                 return 1;   // prefer over spell checker
+      case "APPSTORE":                  return 1;   // prefer over spell checker
       case "TWO_CONNECTED_MODAL_VERBS": return -5;
       case "CONFUSION_RULE":            return -10;
       case LongSentenceRule.RULE_ID:    return -997;
