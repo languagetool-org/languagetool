@@ -5484,6 +5484,14 @@ USA
         </rulegroup>
         <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Your</token>
+                    <token>not</token>
+                    <token postag="VBG"></token>
+                    <token postag_regexp="yes" postag="NN(S|:UN?)"></token>
+                    <token postag_regexp="yes" postag="VB[DZ]|MD"></token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker><token>Your</token></marker>
@@ -5493,6 +5501,9 @@ USA
                 <example correction="You're"><marker>Your</marker> not a nice man.</example>
                 <example correction="You're"><marker>Your</marker> a great guy!</example>
                 <example correction="You're"><marker>Your</marker> the nicest girl on earth!</example>
+                <example><marker>You're</marker> not a nice man.</example>
+                <example><marker>Your</marker> not having money doesn't mean you cannot enjoy yourself.</example><!-- https://english.stackexchange.com/questions/112837/gerund-preceded-by-a-genitive-->
+                <example><marker>Your</marker> not eating vegetables can't be good for you.</example>
             </rule>
             <rule>
                 <pattern>
