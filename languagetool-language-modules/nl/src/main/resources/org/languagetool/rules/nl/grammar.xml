@@ -18068,6 +18068,19 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="CONGRUENTIE" name="Congruentie">
+
+		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
+            <rule>
+                <pattern>
+					<token inflected="yes" regexp="yes">worden|zijn</token>
+					<marker>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+                </pattern>
+				<message>U bedoelt vast: <suggestion><match no="2" regexp_match="t$" regexp_replace="d"/></suggestion></message>
+                <example correction="verwaarloosd">Het restaurant werd <marker>verwaarloost</marker>.</example>
+            </rule>
+        </rulegroup>
 		
 		<rulegroup id="DIKKEN_MAN" name="een n te veel">
             <rule>
