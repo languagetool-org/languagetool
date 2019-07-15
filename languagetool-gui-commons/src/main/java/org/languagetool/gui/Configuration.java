@@ -258,6 +258,16 @@ public class Configuration {
     enabledRuleIds.removeAll(ruleIds);
   }
 
+  public void addDisabledRuleIds(Set<String> ruleIds) {
+    disabledRuleIds.addAll(ruleIds);
+    enabledRuleIds.removeAll(ruleIds);
+  }
+
+  public void removeDisabledRuleIds(Set<String> ruleIds) {
+    disabledRuleIds.removeAll(ruleIds);
+    enabledRuleIds.addAll(ruleIds);
+  }
+
   public void setEnabledRuleIds(Set<String> ruleIds) {
     enabledRuleIds = ruleIds;
   }
@@ -733,10 +743,10 @@ public class Configuration {
     String qualifier = getQualifier(lang);
     
     File cfgFile;
-    if(oldConfigFile != null && oldConfigFile.exists()) {
-      cfgFile = oldConfigFile;
-    } else {
+    if(configFile.exists() || oldConfigFile == null) {
       cfgFile = configFile;
+    } else {
+      cfgFile = oldConfigFile;
     }
 
     try (FileInputStream fis = new FileInputStream(cfgFile)) {

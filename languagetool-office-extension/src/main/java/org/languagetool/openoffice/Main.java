@@ -20,7 +20,6 @@ package org.languagetool.openoffice;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -80,10 +79,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private final List<XLinguServiceEventListener> xEventListeners;
 
-  // Rules disabled using the config dialog box rather than Spelling dialog box
-  // or the context menu.
-  private Set<String> disabledRules = null;
-  private Set<String> disabledRulesUI;
   private boolean docReset = false;
 
   private XComponentContext xContext;
@@ -100,24 +95,6 @@ public class Main extends WeakBase implements XJobExecutor,
     File oldConfigFile = homeDir == null ? null : new File(homeDir, OLD_CONFIG_FILE);
     MessageHandler.init(configDirName, LOG_FILE);
     documents = new MultiDocumentsHandler(xContext, configDir, CONFIG_FILE, oldConfigFile, MESSAGES, this);
-  }
-
-  private Configuration prepareConfig() {
-    try {
-      Configuration config = documents.getConfiguration();
-      if (config != null) {
-        disabledRules = config.getDisabledRuleIds();
-      }
-      if (disabledRules == null) {
-        disabledRules = new HashSet<>();
-      }
-      disabledRulesUI = new HashSet<>(disabledRules);
-      return config;
-
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
-    }
-    return null;
   }
 
   void changeContext(XComponentContext xCompContext) {
@@ -155,9 +132,6 @@ public class Main extends WeakBase implements XJobExecutor,
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
       docReset = false;
-      if (disabledRules == null) {
-        prepareConfig();
-      }
       if(documents.doResetCheck()) {
         resetCheck();
         documents.optimizeReset();
@@ -201,7 +175,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Runs LT options dialog box.
    */
   private void runOptionsDialog() {
-    Configuration config = prepareConfig();
+    Configuration config = documents.getConfiguration();
     Language lang = config.getDefaultLanguage();
     if (lang == null) {
       lang = documents.getLanguage();
@@ -311,13 +285,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   void resetDocument() {
     documents.setRecheck();
-    if (resetCheck()) {
-      Configuration config = documents.getConfiguration();
-      disabledRules = config.getDisabledRuleIds();
-      if (disabledRules == null) {
-        disabledRules = new HashSet<>();
-      }
-    }
+    resetCheck();
   }
 
   @Override
@@ -493,6 +461,22 @@ public class Main extends WeakBase implements XJobExecutor,
     documents.setTestMode(mode);
     MessageHandler.setTestMode(mode);
   }
+  
+  /**
+   *  get all disabled rules by context menu or spell dialog
+   */
+  public Set<String> getDisabledRules() {
+    return documents.getDisabledRules();
+  }
+  
+  /**
+   *  set disabled rules by context menu or spell dialog
+   */
+  public void setDisabledRules(Set<String> ruleIds) {
+    documents.setDisabledRules(ruleIds);;
+  }
+  
+
 
   private static class AboutDialogThread extends Thread {
 
@@ -518,16 +502,7 @@ public class Main extends WeakBase implements XJobExecutor,
   @Override
   public void ignoreRule(String ruleId, Locale locale) {
     /* TODO: config should be locale-dependent */
-    Configuration config = documents.getConfiguration();
-    disabledRulesUI.add(ruleId);
-    config.setDisabledRuleIds(disabledRulesUI);
-    try {
-      SwJLanguageTool langTool = documents.getLanguageTool();
-      documents.initCheck();
-      config.saveConfiguration(langTool.getLanguage());
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
-    }
+    documents.addDisabledRule(ruleId);
     documents.setRecheck();
   }
 
@@ -539,15 +514,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public void resetIgnoreRules() {
-    Configuration config = documents.getConfiguration();
-    config.setDisabledRuleIds(disabledRules);
-    try {
-      SwJLanguageTool langTool = documents.getLanguageTool();
-      documents.initCheck();
-      config.saveConfiguration(langTool.getLanguage());
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
-    }
+    documents.resetDisabledRules();
     documents.setRecheck();
     docReset = true;
   }

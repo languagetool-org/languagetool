@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.List;
+import java.util.Set;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -72,11 +73,30 @@ class ConfigThread extends Thread {
           rule.setDefaultOff();
         }
       }
+      Set<String> disabledRulesUI = null;
+      if (mainThread != null) {
+        disabledRulesUI = mainThread.getDisabledRules();
+        config.addDisabledRuleIds(disabledRulesUI);
+      }
       boolean configChanged = cfgDialog.show(allRules);
       if(configChanged) {
+        if (mainThread != null) {
+          Set<String> disabledRules = config.getDisabledRuleIds();
+          for(String ruleId : disabledRulesUI) {
+            if(!disabledRules.contains(ruleId)) {
+              disabledRulesUI.remove(ruleId);
+            }
+          }
+          mainThread.setDisabledRules(disabledRulesUI);
+          config.removeDisabledRuleIds(disabledRulesUI);
+        }
         config.saveConfiguration(docLanguage);
         if (mainThread != null) {
           mainThread.resetDocument();
+        }
+      } else {
+        if (mainThread != null) {
+          config.removeDisabledRuleIds(mainThread.getDisabledRules());
         }
       }
     } catch (Throwable e) {

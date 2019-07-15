@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -81,6 +82,7 @@ public class MultiDocumentsHandler {
   private Configuration config = null;
   private LinguisticServices linguServices = null;
   private SortedTextRules sortedTextRules;
+  private Set<String> disabledRulesUI;      //  Rules disabled by context menu or spell dialog
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
@@ -97,7 +99,6 @@ public class MultiDocumentsHandler {
 
 
   MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile, File oldConfigFile,
-
       ResourceBundle messages, XEventListener xEventListener) {
     this.xContext = xContext;
     this.configDir = configDir;
@@ -106,6 +107,7 @@ public class MultiDocumentsHandler {
     this.messages = messages;
     this.xEventListener = xEventListener;
     documents = new ArrayList<>();
+    disabledRulesUI = new HashSet<>();
   }
   
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
@@ -160,6 +162,34 @@ public class MultiDocumentsHandler {
    */
   void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
+  }
+  
+  /**
+   *  Add a rule to disabled rules by context menu or spell dialog
+   */
+  void addDisabledRule(String ruleId) {
+    disabledRulesUI.add(ruleId);
+  }
+  
+  /**
+   *  remove all disabled rules by context menu or spell dialog
+   */
+  void resetDisabledRules() {
+    disabledRulesUI = new HashSet<>();
+  }
+  
+  /**
+   *  get all disabled rules by context menu or spell dialog
+   */
+  Set<String> getDisabledRules() {
+    return disabledRulesUI;
+  }
+  
+  /**
+   *  set disabled rules by context menu or spell dialog
+   */
+  void setDisabledRules(Set<String> ruleIds) {
+    disabledRulesUI = new HashSet<>(ruleIds);
   }
   
   /**
@@ -473,6 +503,11 @@ public class MultiDocumentsHandler {
       List<String> list = new ArrayList<>(enabledRuleIds);
       for (String ruleName : list) {
         langTool.enableRule(ruleName);
+      }
+    }
+    if (disabledRulesUI != null) {
+      for (String id : disabledRulesUI) {
+        langTool.disableRule(id);
       }
     }
     recheck = false;
