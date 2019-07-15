@@ -77,6 +77,7 @@ public class GrammalecteRule extends Rule {
     "num_grand_nombre_avec_espaces",
     "num_grand_nombre_soudé",
     "typo_parenthèse_ouvrante_collée",  // we already have UNPAIRED_BRACKETS
+    "nbsp_après_chevrons_ouvrants",
     "tab_début_ligne"
   ));
 
