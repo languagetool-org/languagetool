@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -68,7 +68,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
   private static final int MAX_EDIT_DISTANCE = 2;
-  
+
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
@@ -691,7 +691,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict) {
     this(messages, language, userConfig, languageVariantPlainTextDict, Collections.emptyList(), null);
   }
-  
+
   /**
    * @since 4.3
    */
@@ -905,6 +905,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String suggestion;
     if ("WIFI".equalsIgnoreCase(word)) {
       return Collections.singletonList("Wi-Fi");
+    } else if ("W-Lan".equalsIgnoreCase(word)) {
+      return Collections.singletonList("WLAN");
+    } else if ("W-lan".equalsIgnoreCase(word)) {
+      return Collections.singletonList("WLAN");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
     } else if ("Preis-Leistungsverhältnis".equals(word)) {
@@ -1309,7 +1313,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
-        // support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+        // support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt
         // to accept sentences such as
         // "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
         if (word.startsWith("ost") || word.startsWith("süd")) {
