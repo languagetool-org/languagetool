@@ -5531,6 +5531,25 @@ USA
                 <message>Did you mean <suggestion>Yours</suggestion>? (complimentary close)</message>
                 <example correction="Yours"><marker>Your</marker> sincerely, Tom</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>if</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token postag="VBG"/>
+                    <token postag_regexp="yes" postag="NN(S|:UN?)|RB"/>
+                    <token>,</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> or <suggestion>you are</suggestion>?</message>
+                <example correction="you're|you are">If <marker>your</marker> having trouble, ask for help.</example><!-- trouble/E-NP-singular -->
+                <example correction="you're|you are">... and if <marker>your</marker> thinking carefully, you will understand why this is not easy.</example><!-- thinking/E-NP-singular -->
+                <example>If <marker>you're</marker> having trouble, ask for help.</example>
+                <example>If you think <marker>your</marker> having money will make you happy, you are a shallow person.</example><!-- money/E-NP-singular -->
+                <example>Some people say that if <marker>your</marker> thinking patterns are very sloppy.</example>
+                <example>Show me your driving license, please.</example>
+                <example>Be nice to your kids. They'll choose your nursing home, after all.</example>
+            </rule>
         </rulegroup>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
