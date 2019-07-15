@@ -13349,6 +13349,22 @@ onwaarschijnlijk
 
     </category>
     <category id="CASING" name="Hoofdletters">
+		
+		<rulegroup id="WEEKDAGEN" name="Hoofdletters bij plaatsnamen">
+			<rule>
+				<pattern>
+					<token negate_pos="yes" postag="SENT_START"/>
+					<marker>
+						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag</token>
+					</marker>
+				</pattern>
+				<message>De dagen van de week mogen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<short>Geen hoofdletter</short>
+				<example correction="maandag">Ik heb de pest aan de <marker>Maandag</marker>.</example>
+				<example><marker>Maandag</marker> is een rotdag.</example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="EIGENNAMEN_PLAATSEN" name="Hoofdletters bij plaatsnamen">
 
 		<rule>
