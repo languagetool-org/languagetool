@@ -13352,13 +13352,15 @@ onwaarschijnlijk
 		
 		<rulegroup id="WEEKDAGEN" name="Hoofdletters bij plaatsnamen">
 			<rule>
+				<!-- TODO: uitzonderingen voor Augustus (keizer) -->
+				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
 				<pattern>
 					<token negate_pos="yes" postag="SENT_START"/>
 					<marker>
-						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag</token>
+						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
 					</marker>
 				</pattern>
-				<message>De dagen van de week mogen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+				<message>De dagen van de week en maanden horen met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
 				<short>Geen hoofdletter</short>
 				<example correction="maandag">Ik heb de pest aan de <marker>Maandag</marker>.</example>
 				<example><marker>Maandag</marker> is een rotdag.</example>
