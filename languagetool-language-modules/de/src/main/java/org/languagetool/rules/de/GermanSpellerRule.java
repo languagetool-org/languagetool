@@ -907,8 +907,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Wi-Fi");
     } else if ("W-Lan".equalsIgnoreCase(word)) {
       return Collections.singletonList("WLAN");
-    } else if ("W-lan".equalsIgnoreCase(word)) {
-      return Collections.singletonList("WLAN");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
     } else if ("Preis-Leistungsverhältnis".equals(word)) {
