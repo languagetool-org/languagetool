@@ -32,9 +32,9 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
- * Check if a word is repeated twice, taking into account an exception 
+ * Check if a word is repeated twice, taking into account an exception
  * for German where e.g. "..., die die ..." is often okay.
- *   
+ *
  * @author Daniel Naber
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
@@ -44,6 +44,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(
       new PatternTokenBuilder().csToken("Bora").build(),
       new PatternTokenBuilder().csToken("Bora").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("Moin").build(),
+      new PatternTokenBuilder().token("Moin").build()
     ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       new PatternTokenBuilder().csToken(",").build(),
