@@ -21,17 +21,22 @@ package org.languagetool.server;
 import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
+import io.prometheus.client.Histogram;
+import io.prometheus.client.Summary;
 import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.DefaultExports;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 
 public class ServerMetricsCollector {
+
+  public static final String UNKNOWN = "unknown";
 
   public enum RequestErrorType {
     QUEUE_FULL,
@@ -40,7 +45,37 @@ public class ServerMetricsCollector {
     MAX_TEXT_SIZE,
     INVALID_REQUEST
   }
-  
+
+  private static final double[] LATENCY_BUCKETS = new double[] {
+    .025, .05, .075, .1, .125, .15, .175, .2, .25, .3, .35, .4, .45, .5, .75, 1.,
+    1.25, 1.5, 1.75, 2., 2.5, 3., 4., 5., 7.5, 10., 15.
+  };
+
+  private static final double[] SIZE_BUCKETS = new double[] {
+    25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 40000
+  };
+
+  // client is user-provided data, don't create unlimited amount of time series in prometheus
+  private static final Set<String> CLIENTS = new HashSet<>(Arrays.asList(
+    "webextension-chrome-ng",
+    "webextension-firefox-ng",
+    "ltorg",
+    "sdl-trados-addon-public",
+    "webextension-opera-ng",
+    "ltplus",
+    "googledocs",
+    "webextension-firefox",
+    "webextension-chrome",
+    "mswordpremiumJS-demo",
+    "webextension-unknown-ng",
+    "java-http-client",
+    "msword",
+    "androidspell",
+    "mswordpremiumJS",
+    "webextension-edge-ng"
+  ));
+  private static final String CLIENT_OTHER = "other";
+
   private static final ServerMetricsCollector collector = new ServerMetricsCollector();
   
   private static HTTPServer server;
@@ -57,6 +92,16 @@ public class ServerMetricsCollector {
   private final Counter computationTimeCounter = Counter
     .build("languagetool_computation_time_seconds_total", "Total computation time, in seconds")
     .labelNames("language", "client", "mode").register();
+
+
+  // no client label for these for now, combined with buckets -> combinatorial explosion
+  private final Histogram checkLatency = Histogram
+    .build("languagetool_check_latency_seconds", "Histogram of check times")
+    .buckets(LATENCY_BUCKETS)
+    .labelNames("language", "mode").register();
+  private final Histogram checkSize = Histogram
+    .build("languagetool_check_size_characters", "Histogram of check sizes")
+    .buckets(SIZE_BUCKETS).labelNames("language", "mode").register();
 
   private final Counter ruleMatchCounter = Counter
     .build("languagetool_rule_matches_total", "Total amount of matches of a given rule")
@@ -112,18 +157,36 @@ public class ServerMetricsCollector {
 
   public void logCheck(Language language, long milliseconds, int textSize, int matchCount,
                        JLanguageTool.Mode mode, @Nullable String client, Map<String, Integer> ruleMatches) {
-    String clientLabel = client != null ? client : "unknown";
-    String langLabel = language != null ? language.getShortCode() : "unknown";
-    String modeLabel = mode != null ? mode.name() : "unknown";
+    String clientLabel = cleanClientLabel(client);
+    String langLabel = language != null ? language.getShortCode() : UNKNOWN;
+    String modeLabel = mode != null ? mode.name() : UNKNOWN;
 
     checkCounter.labels(langLabel, clientLabel, modeLabel).inc();
     matchCounter.labels(langLabel, clientLabel, modeLabel).inc(matchCount);
-    charactersCounter.labels(langLabel, clientLabel, modeLabel).inc(textSize);
-    computationTimeCounter.labels(langLabel, clientLabel, modeLabel).inc((double) milliseconds / 1000.0);
 
-    ruleMatches.forEach((ruleId, ruleMatchCount) -> {
-      ruleMatchCounter.labels(langLabel, ruleId).inc(ruleMatchCount);
-    });
+    charactersCounter.labels(langLabel, clientLabel, modeLabel).inc(textSize);
+    checkSize.labels(langLabel, modeLabel).observe(textSize);
+
+    double seconds = (double) milliseconds / 1000.0;
+    computationTimeCounter.labels(langLabel, clientLabel, modeLabel).inc(seconds);
+    checkLatency.labels(langLabel, modeLabel).observe(seconds);
+
+    ruleMatches.forEach((ruleId, ruleMatchCount) -> ruleMatchCounter.labels(langLabel, ruleId).inc(ruleMatchCount));
+  }
+
+  @NotNull
+  private String cleanClientLabel(@Nullable String client) {
+    String clientLabel;
+    if (client != null && !client.equals("-")) {
+      if (CLIENTS.contains(client)) {
+        clientLabel = client;
+      } else {
+        clientLabel = CLIENT_OTHER;
+      }
+    } else {
+      clientLabel = UNKNOWN;
+    }
+    return clientLabel;
   }
 
   public void logRequestError(RequestErrorType type) {
