@@ -99,6 +99,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rulegroup id="SINGLE_CHARACTER" name="single lowercase character"><!-- copied and adapted from English rule -->
+            <antipattern><!-- A series of single characters or digits -->
+                <token regexp="yes">[a-z]|[0-9]</token>
+                <token regexp="yes">[a-z]|[0-9]</token>
+                <token regexp="yes">[a-z]|[0-9]</token>
+            </antipattern>
+            <antipattern><!-- Marcovitch H -->
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+            </antipattern>
+            <antipattern><!-- J Child -->
+                <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+            </antipattern>
+            <antipattern><!-- Units of measurement. Possibly not complete -->
+                <token postag="CD"/>
+                <token case_sensitive="yes" regexp="yes">[gKlm]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">letra|recta</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-z]</token>
+                <token>se</token>
+                <token>pronuncia</token>
+            </antipattern>
+            <antipattern>
+                <token>número</token>
+                <token>entero</token>
+                <token regexp="yes">[a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-z]</token>
+                <token>=</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Mac</token>
+                <token>OS</token>
+                <token>X</token>
+            </antipattern>
+            <antipattern>
+                <token>rayos</token>
+                <token>x</token>
+            </antipattern>
+            <rule>
+                <pattern><!-- Find only standard prose -->
+                    <token regexp="yes">[a-z].*</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[a-z]
+                            <exception regexp="yes">[aeouy]</exception>
+                            <exception postag="NNP"/>
+                        </token>
+                    </marker>
+                    <token regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Asegúrese de que el carácter '\2' es correcto y no es un error de escritura.</message>
+                <example correction="">Diorama se fundó en 1996 como un proyecto musical <marker>d</marker> Torben Wendt.</example>
+                <example correction="">Felix Marc el cual mantenía amistad con Torben entró a <marker>l</marker> banda como teclista.</example>
+            </rule>
+        </rulegroup>
         <rule id="USO_HUSO" name="uso/huso horario">
             <pattern>
                 <marker>
