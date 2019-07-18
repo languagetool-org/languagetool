@@ -15807,9 +15807,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token min="0" regexp="yes">&anfauf;</token>
-                    <token regexp="yes">Hallo|Hi|Moin</token>
+                    <token regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?</token>
                     <token/>
                     <token>!</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&anfauf;</token>
+                    <token regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?</token>
+                    <token regexp="yes">&anfzu;</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
@@ -15824,6 +15829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
                 <example><marker>Hallo</marker> Tom!</example>
+                <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
             </rule>
