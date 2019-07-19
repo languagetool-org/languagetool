@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
@@ -105,15 +106,23 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
         posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
       }
 
-      Pattern p = Pattern.compile(posTag.replace('+', '|'));
-      for (String tag : possibleTags) {
-        Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          List<String> wordForms = getWordForms(token, tag, isNegated, synthesizer);
-          if (wordForms != null) {
-            results.addAll(wordForms);
+      try {
+        Pattern p = Pattern.compile(posTag.replace('+', '|'));
+        for (String tag : possibleTags) {
+          Matcher m = p.matcher(tag);
+          if (m.matches()) {
+            List<String> wordForms = getWordForms(token, tag, isNegated, synthesizer);
+            if (wordForms != null) {
+              results.addAll(wordForms);
+            }
           }
         }
+      } catch (PatternSyntaxException e) {
+        // catch this rare error which I couldn't fix yet (https://github.com/languagetool-org/languagetool/issues/1651):
+        //java.util.regex.PatternSyntaxException: Unclosed group near index 17
+        //(.*)(sg|pl.*acc.*
+        //                 ^
+        e.printStackTrace();
       }
       //remove duplicates
       Set<String> hs = new HashSet<>(results);
