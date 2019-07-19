@@ -149,6 +149,7 @@ public class HunspellRule extends SpellingCheckRule {
       } else {
         len = sentence.getTokens()[0].getStartPos();
       }
+      int prevStartPos = -1;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
@@ -160,6 +161,27 @@ public class HunspellRule extends SpellingCheckRule {
           if (word.endsWith(".")) {
             cleanWord = word.substring(0, word.length()-1);
           }
+          
+          if (i > 0 && prevStartPos != -1) {
+            String prevWord = tokens[i-1];
+            if (prevWord.length() > 0) {
+              // "thanky ou" -> "thank you"
+              String sugg1a = prevWord.substring(0, prevWord.length()-1);
+              String sugg1b = prevWord.substring(prevWord.length()-1) + word;
+              if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
+                addWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
+                continue;
+              }
+              // "than kyou" -> "thank you"
+              String sugg2a = prevWord + word.substring(0, 1);
+              String sugg2b = word.substring(1);
+              if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
+                addWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
+                continue;
+              }
+            }
+          }
+          
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
             len, len + cleanWord.length(),
             messages.getString("spelling"),
@@ -234,6 +256,7 @@ public class HunspellRule extends SpellingCheckRule {
           }
           ruleMatches.add(ruleMatch);
         }
+        prevStartPos = len;
         len += word.length() + 1;
       }
     } finally {

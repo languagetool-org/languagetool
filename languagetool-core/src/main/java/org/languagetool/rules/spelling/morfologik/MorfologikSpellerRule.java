@@ -135,31 +135,33 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     int idx = -1;
+    int prevStartPos = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
         continue;
       }
+      int startPos = token.getStartPos();
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
       int newRuleIdx = ruleMatches.size();
-      int startPos = token.getStartPos();
       if (tokenizingPattern() == null) {
-        ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches));
+        ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, prevStartPos, tokens));
       } else {
         int index = 0;
         Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
-          ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, prevStartPos, tokens));
           index = m.end();
         }
         if (index == 0) { // tokenizing char not found
-          ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, prevStartPos, tokens));
         } else {
-          ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches, idx, prevStartPos, tokens));
         }
       }
+      prevStartPos = tokens[idx].getStartPos();
 
       if( ruleMatches.size() > newRuleIdx ) {
         // matches added for current token - need to adjust for hidden characters
@@ -225,9 +227,30 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, int prevStartPos, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
+
+      if (idx > 0 && prevStartPos != -1) {
+        String prevWord = tokens[idx-1].getToken();
+        if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")) {
+          // "thanky ou" -> "thank you"
+          String sugg1a = prevWord.substring(0, prevWord.length()-1);
+          String sugg1b = prevWord.substring(prevWord.length()-1) + word;
+          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
+            addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
+            //return ruleMatches;
+          }
+          // "than kyou" -> "thank you"
+          String sugg2a = prevWord + word.substring(0, 1);
+          String sugg2b = word.substring(1);
+          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+            addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
+            //return ruleMatches;
+          }
+        }
+      }
+
       RuleMatch ruleMatch;
       Language acceptingLanguage = acceptedInAlternativeLanguage(word);
       if (acceptingLanguage != null) {

@@ -25,10 +25,11 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
-import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class HunspellRuleTest {
 
@@ -61,6 +63,43 @@ public class HunspellRuleTest {
     assertEquals(14 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
+  }
+
+  @Test
+  public void testRuleWithWrongSplit() throws Exception {
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new GermanyGerman(), null);
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    assertResult("vielen Dan kfür die Blumen", "Dank für", 7, 15, rule, lt);
+    assertResult("vielen Dankf ür die Blumen", "Dank für", 7, 15, rule, lt);
+    assertResult("Viele nDank für die Blumen", "Vielen Dank", 0, 11, rule, lt);
+    assertResult("VielenD ank für die Blumen", "Vielen Dank", 0, 11, rule, lt);
+    assertResult("Vielen Dank für di eBlumen", "die Blumen", 16, 26, rule, lt);
+    assertResult("Vielen Dank für dieB lumen", "die Blumen", 16, 26, rule, lt);
+
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Vielen Dak für dieB lumen"));
+    assertThat(matches.length, is(2));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("DAK"));  // not really a good first suggestion...
+    assertThat(matches[1].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[1].getSuggestedReplacements().get(0), is("die Blumen"));
+    assertThat(matches[1].getFromPos(), is(15));
+    assertThat(matches[1].getToPos(), is(25));
+
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Und gan viele nDank"));
+    assertThat(matches2.length, is(2));
+    assertThat(matches2[0].getSuggestedReplacements().get(0), is("gab"));  // not really a good first suggestion...
+    assertThat(matches2[1].getSuggestedReplacements().size(), is(1));
+    assertThat(matches2[1].getSuggestedReplacements().get(0), is("vielen Dank"));
+    assertThat(matches2[1].getFromPos(), is(8));
+    assertThat(matches2[1].getToPos(), is(19));
+  }
+
+  private void assertResult(String input, String expectedResult, int fromPos, int toPos, HunspellRule rule, JLanguageTool lt) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is(expectedResult));
+    assertThat(matches[0].getFromPos(), is(fromPos));
+    assertThat(matches[0].getToPos(), is(toPos));
   }
 
   @Test
