@@ -32464,6 +32464,16 @@ Andere Projekte</example>
                 <example correction="deiner|ihrer|meiner|seiner|unserer">Sie ist seit <marker>ihre</marker> Kindheit sehr schüchtern.</example>
                 <example>Er ist sehr glücklich, seit <marker>seine</marker> Mutter zurück ist.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP:TMP+MOD+CAU:DAT"></token>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß].+<exception regexp="yes">.+weise</exception></token> 
+                    <token postag="SUB:.+" postag_regexp="yes"><exception postag="SUB:(GEN|DAT):.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
+                <example correction="mit wichtigen Kunden">Sie sprach <marker>mit wichtige Kunden</marker>.</example>
+                <example>Sie feierten mit kistenweise Champagner.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>http://www.canoonet.eu/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
@@ -32471,7 +32481,7 @@ Andere Projekte</example>
                 <antipattern case_sensitive="yes">
                     <token>,</token>
                     <token skip="-1">ohne</token>
-                    <token regexp="yes">.*zu.*</token>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"></token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>

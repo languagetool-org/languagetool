@@ -1025,6 +1025,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
         </rule>
     </rulegroup>
+    <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ">
+        <rule>
+            <pattern>
+                <token postag="PRP:TMP+MOD+CAU:DAT"></token>
+                <marker>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]-+</token> 
+                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag=".*:(NOM|AKK):.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="DIREKTVERTRIEB" name="Kompositum mit 'Vertrieb' keine Verbform">
         <rule>
             <pattern case_sensitive="yes">
