@@ -790,6 +790,36 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
         </rule>
     </rulegroup>
+    <rulegroup name="Präposition / Verbzusatz" id="PRP_ZUS">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <and>
+                        <token postag="ZUS"></token>
+                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                    </and>
+                </marker>
+                <token>,</token>
+                <token postag="KON:UNT"/>
+            </pattern>
+            <disambig action="filter" postag="PRP:.+"/>
+            <example type="ambiguous" inputform="zu[zu/ADV:MOD,zu/PRP:LOK+TMP+CAU+MOD:DAT+AKK,zu/ZUS]" outputform="zu[zu/PRP:LOK+TMP+CAU+MOD:DAT+AKK]">Sie gab <marker>zu</marker>, dass sie im Unrecht war.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="VER:[123]:.+" skip="-1"/>
+                <marker>
+                    <and>
+                        <token postag="ZUS"></token>
+                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                    </and>
+                </marker>
+                <token postag="SENT_END" regexp="yes">\W</token>
+            </pattern>
+            <disambig action="filter" postag="ZUS"/>
+            <example type="ambiguous" inputform="zu[zu/ADV:MOD,zu/PRP:LOK+TMP+CAU+MOD:DAT+AKK,zu/ZUS]" outputform="zu[zu/ZUS]">Sie gab es <marker>zu</marker>.</example>
+        </rule>
+    </rulegroup>
     <rule name="WORKAROUND_GH_635" id="WORKAROUND_GH_635">
         <!-- workaround for github issue mentioned in  https://github.com/languagetool-org/languagetool/issues/635 -->
         <pattern case_sensitive="yes">
