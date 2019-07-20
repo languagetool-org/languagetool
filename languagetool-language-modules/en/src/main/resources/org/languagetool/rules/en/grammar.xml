@@ -16714,6 +16714,32 @@ USA
                 <example correction="a faster">There must be <marker>faster</marker> way of going to California.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="THE_MOST" name="missing article before 'BE + MOST + ADJECTIVE + NOUN'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <marker><token>most</token></marker>
+                    <token postag="JJ"><exception postag="RB"/></token>
+                    <token postag="NN.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion>the \2</suggestion>?</message>
+                <example correction="the most">This is <marker>most</marker> popular game ever.</example>
+                <example>The excessive attention we pay to danger is most often responsible for us to fall into it.</example>
+                <example>She was most likely travelling to Lapland.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token>by</token>
+                    <token>far</token>
+                    <marker><token>most</token></marker>
+                    <token postag="JJ"></token>
+                    <token postag="NN.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion>the \4</suggestion>?</message>
+                <example correction="the most">This is by far <marker>most</marker> popular game ever.</example>
+            </rule>
+        </rulegroup>
         <rule id="EVERY_EACH_SINGULAR" name="'every/each' + SINGULAR">
             <antipattern>
                 <token regexp="yes">each|every</token>
