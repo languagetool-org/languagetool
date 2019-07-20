@@ -386,7 +386,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("rethorisch", "rhetorisch", rule, lt);
     assertFirstSuggestion("anschliessliche", "anschließende", rule, lt);
     assertFirstSuggestion("Überstreitung", "Überschreitung", rule, lt);
-    assertFirstSuggestion("spätmöglichster", "spätestmöglicher", rule, lt);
   }
 
   @Test
