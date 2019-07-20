@@ -2,9 +2,24 @@
 
 ## 4.7 (release planned for 2019-09-26)
 
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### French
+  * improved rules
+
+#### German
+  * added and improved rules
+
+#### Ukrainian
+  * added and improved rules
+
 #### General
   * Spell suggestion improvements: for many cases of a misplaced space,
-    the suggestion are now better. For example, "thef eedback" can now
+    the suggestions are now better. For example, "thef eedback" can now
     be corrected to "the feedback" in one step. (#1729)
   
   
