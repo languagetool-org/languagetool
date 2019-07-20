@@ -16718,14 +16718,16 @@ USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">be</token>
+                    <token min="0" postag="RB"/>
                     <marker><token>most</token></marker>
                     <token postag="JJ"><exception postag="RB"/></token>
                     <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Did you mean <suggestion>the \2</suggestion>?</message>
+                <message>Did you mean <suggestion>the \3</suggestion>?</message>
                 <example correction="the most">This is <marker>most</marker> popular game ever.</example>
                 <example>The excessive attention we pay to danger is most often responsible for us to fall into it.</example>
                 <example>She was most likely travelling to Lapland.</example>
+                <example correction="the most">English is clearly <marker>most</marker> popular language.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
