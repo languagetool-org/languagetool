@@ -18075,10 +18075,18 @@ steenwijk;Steenwijk
 
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
             <rule>
+                <antipattern>
+					<token regexp="yes">de|een</token>
+					<token inflected="yes" regexp="yes">worden|zijn</token>
+					<marker>
+						<token postag="WKW:TGW:3EP"><exception regexp="yes">niet|waar|jou|welk|art</exception></token>
+					</marker>
+                </antipattern>
+				
                 <pattern>
 					<token inflected="yes" regexp="yes">worden|zijn</token>
 					<marker>
-						<token postag="WKW:TGW:3EP"><exception>niet</exception></token>
+						<token postag="WKW:TGW:3EP"><exception regexp="yes">niet|waar|jou|welk|art</exception></token>
 					</marker>
                 </pattern>
 				<message>U bedoelt vast: <suggestion><match no="2" regexp_match="t$" regexp_replace="d"/></suggestion></message>
