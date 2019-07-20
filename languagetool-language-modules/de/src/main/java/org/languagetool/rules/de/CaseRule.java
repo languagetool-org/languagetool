@@ -1119,7 +1119,7 @@ public class CaseRule extends Rule {
     boolean hasCityPrefix = StringUtils.equalsAny(token, "Klein", "Groß", "Neu");
     if (hasCityPrefix) {
       AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
-      return nextReadings != null && (!nextReadings.isTagged() || nextReadings.hasPartialPosTag("EIG"));
+      return nextReadings != null && (!nextReadings.isTagged() || nextReadings.hasPosTagStartingWith("EIG"));
     }
     return false;
   }
