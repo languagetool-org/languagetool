@@ -336,7 +336,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[kK]app?erzität(en)?", "^[kK]app?er", "Kapa");
     putRepl("känzel(n|s?t)", "känzel", "cancel");
     put("gekänzelt", "gecancelt");
+    putRepl("[üÜ]berstreitung(en)?", "[üÜ]berst", "Übersch");
+    putRepl("anschliess?lich(e(mnrs)?)?", "anschliess?lich", "anschließend");
+    putRepl("[rR]ethorisch(e(mnrs)?)?", "eth", "het");
+    putRepl("änlich(e(mnrs)?)?", "än", "ähn");
+    putRepl("spätmöglichste(mnrs)?", "spätmöglichst", "spätestmöglich");
     put("mogen", "morgen");
+    put("[fF]uss?ill?ien", "Fossilien");
+    put("übrings", "übrigens");
     put("[rR]evü", "Revue");
     put("eingänglich", "eingangs");
     put("geerthe", "geehrte");

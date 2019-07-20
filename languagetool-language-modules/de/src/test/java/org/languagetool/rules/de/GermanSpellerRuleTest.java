@@ -383,6 +383,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Diseing", "Design", rule, lt);
     assertFirstSuggestion("Lieradresse", "Lieferadresse", rule, lt);
     assertFirstSuggestion("Boykutierung", "Boykottierung", rule, lt);
+    assertFirstSuggestion("rethorisch", "rhetorisch", rule, lt);
+    assertFirstSuggestion("anschliessliche", "anschließende", rule, lt);
+    assertFirstSuggestion("Überstreitung", "Überschreitung", rule, lt);
+    assertFirstSuggestion("spätmöglichster", "spätestmöglicher", rule, lt);
   }
 
   @Test
