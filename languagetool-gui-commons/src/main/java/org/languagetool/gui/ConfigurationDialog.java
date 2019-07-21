@@ -28,6 +28,7 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeModelEvent;
@@ -39,6 +40,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -57,10 +59,12 @@ public class ConfigurationDialog implements ActionListener {
 
   private final ResourceBundle messages;
   private final Configuration original;
-  private final Configuration config;
+  private Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
   private boolean configChanged = false;
+  private boolean profileChanged = true;
+  private boolean restartShow = false;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
@@ -147,9 +151,10 @@ public class ConfigurationDialog implements ActionListener {
 
   public boolean show(List<Rule> rules) {
     configChanged = false;
-    if (original != null) {
+    if (original != null && !restartShow) {
       config.restoreState(original);
     }
+    restartShow = false;
     dialog = new JDialog(owner, true);
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     // close dialog when user presses Escape key:
@@ -252,6 +257,11 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
+    
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getProfilePanel(cons, rules), cons);
+
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getMotherTonguePanel(cons), cons);
@@ -285,7 +295,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 1.0f;
     jPane.add(new JPanel(), cons);
 
-    tabpane.addTab(messages.getString("guiGeneral"), jPane);
+    tabpane.addTab(messages.getString("guiGeneral"), new JScrollPane(jPane));
 
     jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
@@ -413,6 +423,9 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     dialog.setVisible(true);
+    if(restartShow) {
+      return show(rules);
+    }
     return configChanged;
   }
 
@@ -808,12 +821,136 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   @NotNull
+  private JPanel getProfilePanel(GridBagConstraints cons, List<Rule> rules) {
+    profileChanged = true;
+    JPanel profilePanel = new JPanel();
+    profilePanel.setLayout(new GridBagLayout());
+    cons.insets = new Insets(8, 8, 0, 8);
+    cons.gridx = 0;
+    cons.anchor = GridBagConstraints.WEST;
+    cons.fill = GridBagConstraints.NONE;
+    cons.weightx = 0.0f;
+    List<String> profiles = new ArrayList<String>();
+    String defaultOptions = messages.getString("guiDefaultOptions");
+    String userOptions = messages.getString("guiUserProfile");
+    profiles.add(userOptions);
+    profiles.addAll(config.getDefinedProfiles());
+    String currentProfile = config.getCurrentProfile();
+    JComboBox<String> profileBox = new JComboBox<>(profiles.toArray(new String[profiles.size()]));
+    if(currentProfile == null || currentProfile.isEmpty()) {
+      profileBox.setSelectedItem(userOptions);
+    } else {
+      profileBox.setSelectedItem(currentProfile);
+    }
+    profileBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          if(profileChanged) {
+            try {
+              List<String> saveProfiles = new ArrayList<String>(); 
+              saveProfiles.addAll(config.getDefinedProfiles());
+              if(e.getItem().equals(userOptions)) {
+                config.initOptions();
+                config.loadConfiguration("");
+                config.setCurrentProfile(null);
+              } else {
+                config.initOptions();
+                config.loadConfiguration((String) e.getItem());
+                config.setCurrentProfile((String) e.getItem());
+              }
+              config.addProfiles(saveProfiles);
+              restartShow = true;
+              dialog.setVisible(false);
+            } catch (IOException e1) {
+            }
+          } else {
+            profileChanged = true;
+          }
+        }
+      }
+    });
+      
+    profilePanel.add(new JLabel(messages.getString("guiProfile")), cons);
+    cons.gridy++;
+    profilePanel.add(profileBox, cons);
+    
+    JButton deleteButton = new JButton(messages.getString("guiDeleteProfile"));
+    deleteButton.setEnabled(!profileBox.getSelectedItem().equals(defaultOptions) 
+        && !profileBox.getSelectedItem().equals(userOptions));
+    deleteButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        config.initOptions();
+        try {
+          config.loadConfiguration("");
+        } catch (IOException e1) {
+        }
+        config.setCurrentProfile(null);
+        config.removeProfile((String)profileBox.getSelectedItem());
+        restartShow = true;
+        dialog.setVisible(false);
+      }
+    });
+    cons.gridx++;
+    profilePanel.add(deleteButton, cons);
+    
+    JButton defaultButton = new JButton(defaultOptions);
+    defaultButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        List<String> saveProfiles = new ArrayList<String>(); 
+        saveProfiles.addAll(config.getDefinedProfiles());
+        String saveCurrent = new String(config.getCurrentProfile());
+        config.initOptions();
+        config.addProfiles(saveProfiles);
+        config.setCurrentProfile(saveCurrent);
+        restartShow = true;
+        dialog.setVisible(false);
+      }
+    });
+    cons.gridx++;
+    profilePanel.add(defaultButton, cons);
+    
+    JTextField newProfileName = new JTextField(15);
+    cons.insets = new Insets(0, 16, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    profilePanel.add(new JLabel(messages.getString("guiNewProfile")), cons);
+    cons.gridx++;
+    profilePanel.add(newProfileName, cons);
+    JButton addNewButton = new JButton(messages.getString("guiAddProfile"));
+    addNewButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String profileName = newProfileName.getText();
+        while(config.getDefinedProfiles().contains(profileName) || userOptions.equals(profileName)) {
+          profileName += "_new";
+        }
+        profileName = profileName.replaceAll("[ \t]", "_");
+        config.addProfile(profileName);
+        config.setCurrentProfile(profileName);
+        profileChanged = false;
+        profileBox.addItem(profileName);
+        profileBox.setSelectedItem(profileName);
+        newProfileName.setText("");
+        deleteButton.setEnabled(true);
+      }
+    });
+    cons.gridx++;
+    cons.insets = new Insets(0, 0, 8, 0);
+    profilePanel.add(addNewButton, cons);
+    profilePanel.setBorder(BorderFactory.createLoweredBevelBorder());
+    return profilePanel;
+  }
+
+  @NotNull
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
     JPanel motherTonguePanel = new JPanel();
     if(insideOffice){
       motherTonguePanel.setLayout(new GridBagLayout());
       GridBagConstraints cons1 = new GridBagConstraints();
-      cons1.insets = new Insets(0, 0, 0, 0);
+      cons1.insets = new Insets(16, 0, 0, 0);
       cons1.gridx = 0;
       cons1.gridy = 0;
       cons1.anchor = GridBagConstraints.WEST;
@@ -986,6 +1123,7 @@ public class ConfigurationDialog implements ActionListener {
     }
     for (Language lang : Languages.get()) {
      motherTongues.add(lang.getTranslatedName(messages));
+     motherTongues.sort(null);
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
   }
@@ -1208,6 +1346,5 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-  
   
 }
