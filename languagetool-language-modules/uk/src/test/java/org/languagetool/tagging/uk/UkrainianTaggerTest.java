@@ -209,6 +209,8 @@ public class UkrainianTaggerTest {
   public void testDynamicTaggingParts() throws IOException {
     TestTools.myAssert("по-свинячому", "по-свинячому/[по-свинячому]adv", tokenizer, tagger);
     TestTools.myAssert("по-сибірськи", "по-сибірськи/[по-сибірськи]adv", tokenizer, tagger);
+    TestTools.myAssert("по-абхазьки", "по-абхазьки/[по-абхазьки]adv", tokenizer, tagger);
+    TestTools.myAssert("по-авантурницьки", "по-авантурницьки/[по-авантурницьки]adv", tokenizer, tagger);
 
     TestTools.myAssert("давай-но", "давай-но/[давати]verb:imperf:impr:s:2", tokenizer, tagger);
     TestTools.myAssert("дивіться-но", "дивіться-но/[дивитися]verb:rev:imperf:impr:p:2", tokenizer, tagger);

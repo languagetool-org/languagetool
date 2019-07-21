@@ -95,6 +95,8 @@ class CompoundTagger {
 
   private static final List<String> WORDS_WITH_YEAR = Arrays.asList("гра", "бюджет", "вибори", "олімпіада", "універсіада");
   private static final List<String> WORDS_WITH_NUM = Arrays.asList("Формула", "Карпати", "Динамо", "Шахтар", "Фукусіма", "омега");
+  private static final Pattern SKY_PATTERN = Pattern.compile(".*[сзц]ьки");
+  private static final Pattern SKYI_PATTERN = Pattern.compile(".*[сзц]ький");
 
   // http://www.pravopys.net/sections/33/
   static {
@@ -239,7 +241,7 @@ class CompoundTagger {
 
     // по-болгарськи, по-болгарському
 
-    if( leftWord.equalsIgnoreCase("по") && rightWord.endsWith("ськи") ) {
+    if( leftWord.equalsIgnoreCase("по") && SKY_PATTERN.matcher(rightWord).matches() ) {
       rightWord += "й";
     }
     
@@ -287,7 +289,7 @@ class CompoundTagger {
       if( rightWord.endsWith("ому") ) {
         return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_MIS);
       }
-      else if( rightWord.endsWith("ський") ) {
+      else if( SKYI_PATTERN.matcher(rightWord).matches() ) {
         return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_NAZ);
       }
       return null;
@@ -1204,7 +1206,7 @@ class CompoundTagger {
       if( posTag.startsWith(IPOSTag.noun.getText() )
           && ! posTag.contains("v_kly") ) {
 
-        if( Arrays.asList("В2В", "АІ").contains(leftWord) ) {
+        if( Arrays.asList("В2В", "АІ", "комьюніті", "пресс").contains(leftWord) ) {
             posTag = PosTagHelper.addIfNotContains(posTag, ":bad");
         }
 
