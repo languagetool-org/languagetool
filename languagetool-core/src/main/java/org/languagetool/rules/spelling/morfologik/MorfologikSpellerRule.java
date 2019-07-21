@@ -161,11 +161,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
       }
 
-      if( ruleMatches.size() > newRuleIdx ) {
+      if (ruleMatches.size() > newRuleIdx) {
         // matches added for current token - need to adjust for hidden characters
         int hiddenCharOffset = token.getToken().length() - word.length();
-        if( hiddenCharOffset > 0 ) {
-          for(int i=newRuleIdx; i<ruleMatches.size(); i++) {
+        if (hiddenCharOffset > 0) {
+          for (int i = newRuleIdx; i < ruleMatches.size(); i++) {
             RuleMatch ruleMatch = ruleMatches.get(i);
             ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);
           }
