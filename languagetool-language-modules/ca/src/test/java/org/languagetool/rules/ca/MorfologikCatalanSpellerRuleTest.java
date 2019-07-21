@@ -416,5 +416,12 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("pH", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("De l'any 156 Ac a l'any 2000.")); 
         assertEquals("aC", matches[0].getSuggestedReplacements().get(0)); 
+        
+        //
+        assertEquals(2, rule.match(langTool.getAnalyzedSentence("sobre el llit d'en Ron i el va colpir la certesa del que havia passat amb la força d'un troll quan envesteix")).length);
+        matches = rule.match(langTool.getAnalyzedSentence("unaa juda")); 
+        assertEquals("una ajuda", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("elsi nteressos")); 
+        assertEquals("els interessos", matches[0].getSuggestedReplacements().get(0));
     }
 }

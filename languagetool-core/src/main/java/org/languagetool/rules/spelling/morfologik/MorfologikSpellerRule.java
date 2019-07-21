@@ -231,7 +231,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
 
-      if (idx > 0 && prevStartPos != -1) {
+      //if (idx > 0 && prevStartPos != -1) {
+      if (idx > 0 && prevStartPos == tokens[idx-1].getStartPos()) {
         String prevWord = tokens[idx-1].getToken();
         if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")) {
           // "thanky ou" -> "thank you"
