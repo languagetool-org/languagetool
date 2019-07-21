@@ -112,7 +112,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, int prevStartPos, AnalyzedTokenReadings[] tokens)
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens)
           throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) && isNotCompound(word)) {

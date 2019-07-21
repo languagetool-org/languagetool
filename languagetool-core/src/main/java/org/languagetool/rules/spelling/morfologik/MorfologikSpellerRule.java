@@ -135,7 +135,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     int idx = -1;
-    int prevStartPos = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -146,22 +145,21 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       String word = token.getAnalyzedToken(0).getToken();
       int newRuleIdx = ruleMatches.size();
       if (tokenizingPattern() == null) {
-        ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, prevStartPos, tokens));
+        ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));
       } else {
         int index = 0;
         Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
-          ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, prevStartPos, tokens));
+          ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, tokens));
           index = m.end();
         }
         if (index == 0) { // tokenizing char not found
-          ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, prevStartPos, tokens));
+          ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));
         } else {
-          ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches, idx, prevStartPos, tokens));
+          ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches, idx, tokens));
         }
       }
-      prevStartPos = tokens[idx].getStartPos();
 
       if( ruleMatches.size() > newRuleIdx ) {
         // matches added for current token - need to adjust for hidden characters
@@ -226,28 +224,64 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     return true;
   }
+  
+  protected int getFrequency(MorfologikMultiSpeller speller, String word) {
+    return speller.getFrequency(word);
+  }
 
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, int prevStartPos, AnalyzedTokenReadings[] tokens) throws IOException {
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
-
-      //if (idx > 0 && prevStartPos != -1) {
-      if (idx > 0 && prevStartPos == tokens[idx-1].getStartPos()) {
+      if (ruleMatches.size() > 0)
+        if (ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {
+          return ruleMatches; // the current word is already dealt with in the previous match, so do nothing
+        }
+      if (idx > 0) {
         String prevWord = tokens[idx-1].getToken();
         if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")) {
+          int prevStartPos = tokens[idx - 1].getStartPos();
           // "thanky ou" -> "thank you"
-          String sugg1a = prevWord.substring(0, prevWord.length()-1);
-          String sugg1b = prevWord.substring(prevWord.length()-1) + word;
+          String sugg1a = prevWord.substring(0, prevWord.length() - 1);
+          String sugg1b = prevWord.substring(prevWord.length() - 1) + word;
           if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
-            addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
-            //return ruleMatches;
+            if (getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
+              addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
+              return ruleMatches;
+            }
           }
-          // "than kyou" -> "thank you"
+          // "than kyou" -> "thank you" ; but not "She awaked" > "Shea waked"
           String sugg2a = prevWord + word.substring(0, 1);
           String sugg2b = word.substring(1);
           if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
-            addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
-            //return ruleMatches;
+            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
+              addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
+              return ruleMatches;
+            }
+          }
+        }
+      }
+      // the same with the next word
+      if (idx < tokens.length - 1) {
+        String nextWord = tokens[idx + 1].getToken();
+        if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")) {
+          int nextStartPos = tokens[idx + 1].getStartPos();
+          // 
+          String sugg1a = word.substring(0, word.length() - 1);
+          String sugg1b = word.substring(word.length() - 1) + nextWord;
+          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
+            if (getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
+              addWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
+              return ruleMatches;
+            }
+          }
+          // 
+          String sugg2a = word + nextWord.substring(0, 1);
+          String sugg2b = nextWord.substring(1);
+          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
+              addWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
+              return ruleMatches;
+            }
           }
         }
       }

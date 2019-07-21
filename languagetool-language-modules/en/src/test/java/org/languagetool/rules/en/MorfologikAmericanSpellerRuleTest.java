@@ -152,50 +152,57 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("But than kyou for the feedback"));
-    Assert.assertThat(matches1.length, is(2));
+    Assert.assertThat(matches1.length, is(1));
     Assert.assertThat(matches1[0].getSuggestedReplacements().get(0), is("thank you"));
     Assert.assertThat(matches1[0].getFromPos(), is(4));
     Assert.assertThat(matches1[0].getToPos(), is(13));
-    Assert.assertThat(matches1[1].getSuggestedReplacements().get(0), is("you"));
+    //Assert.assertThat(matches1[1].getSuggestedReplacements().get(0), is("you"));
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("But thanky ou for the feedback"));
-    Assert.assertThat(matches2.length, is(2));
+    Assert.assertThat(matches2.length, is(1));
     Assert.assertThat(matches2[0].getSuggestedReplacements().get(0), is("thank you"));
     Assert.assertThat(matches2[0].getFromPos(), is(4));
     Assert.assertThat(matches2[0].getToPos(), is(13));
-    Assert.assertThat(matches2[1].getSuggestedReplacements().get(0), is("of"));
+    //Assert.assertThat(matches2[1].getSuggestedReplacements().get(0), is("of"));
 
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("But thank you for th efeedback"));
-    Assert.assertThat(matches3.length, is(2));
+    Assert.assertThat(matches3.length, is(1));
     Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("the feedback"));
     Assert.assertThat(matches3[0].getFromPos(), is(18));
     Assert.assertThat(matches3[0].getToPos(), is(30));
-    Assert.assertThat(matches3[1].getSuggestedReplacements().get(0), is("feedback"));
+    //Assert.assertThat(matches3[1].getSuggestedReplacements().get(0), is("feedback"));
 
     RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("But thank you for thef eedback"));
-    Assert.assertThat(matches4.length, is(2));
+    Assert.assertThat(matches4.length, is(1));
     Assert.assertThat(matches4[0].getSuggestedReplacements().get(0), is("the feedback"));
     Assert.assertThat(matches4[0].getFromPos(), is(18));
     Assert.assertThat(matches4[0].getToPos(), is(30));
-    Assert.assertThat(matches4[1].getSuggestedReplacements().get(0), is("feedback"));
+    //Assert.assertThat(matches4[1].getSuggestedReplacements().get(0), is("feedback"));
 
     RuleMatch[] matches5 = rule.match(lt.getAnalyzedSentence("But thnk you fo rthe feedback"));
-    Assert.assertThat(matches5.length, is(3));
+    Assert.assertThat(matches5.length, is(2));
     Assert.assertThat(matches5[0].getSuggestedReplacements().get(0), is("tank"));  // not really a good first suggestion...
     Assert.assertThat(matches5[1].getSuggestedReplacements().size(), is(1));
     Assert.assertThat(matches5[1].getSuggestedReplacements().get(0), is("for the"));
     Assert.assertThat(matches5[1].getFromPos(), is(13));
     Assert.assertThat(matches5[1].getToPos(), is(20));
-    Assert.assertThat(matches5[2].getSuggestedReplacements().get(0), is("the"));
+    //Assert.assertThat(matches5[2].getSuggestedReplacements().get(0), is("the"));
 
     RuleMatch[] matches6 = rule.match(lt.getAnalyzedSentence("LanguageTol offer sspell checking"));
-    Assert.assertThat(matches6.length, is(3));
+    Assert.assertThat(matches6.length, is(2));
     Assert.assertThat(matches6[0].getSuggestedReplacements().get(0), is("LanguageTool"));
     Assert.assertThat(matches6[1].getSuggestedReplacements().size(), is(1));
     Assert.assertThat(matches6[1].getSuggestedReplacements().get(0), is("offers spell"));
     Assert.assertThat(matches6[1].getFromPos(), is(12));
     Assert.assertThat(matches6[1].getToPos(), is(24));
-    Assert.assertThat(matches6[2].getSuggestedReplacements().get(0), is("spell"));
+    //Assert.assertThat(matches6[2].getSuggestedReplacements().get(0), is("spell"));
+    
+    RuleMatch[] matches7 = rule.match(lt.getAnalyzedSentence("She awaked"));
+    Assert.assertThat(matches7.length, is(1));
+    // Avoid suggestion "Shea waked"
+    Assert.assertThat(matches7[0].getSuggestedReplacements().get(0), is("awoke"));
+    Assert.assertThat(matches7[0].getSuggestedReplacements().get(1), is("awake"));
+    
   }
 
   @Test
@@ -204,12 +211,12 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("He teached us.", "taught");
     assertSuggestion("He buyed the wrong brand", "bought");
     assertSuggestion("I thinked so.", "thought");
-    assertSuggestion("She awaked", Arrays.asList(singletonList("Shea waked"), singletonList("awoke")), lt, rule); 
+    assertSuggestion("She awaked", "awoke"); 
     assertSuggestion("She becomed", "became");
     assertSuggestion("It begined", "began");
     assertSuggestion("It bited", "bit");
     assertSuggestion("She dealed", "dealt");
-    assertSuggestion("She drived", Arrays.asList(singletonList("Shed rived"), singletonList("drove")), lt, rule);
+    assertSuggestion("She drived", "drove");
     assertSuggestion("He drawed", "drew");
     assertSuggestion("She finded", "found");
     assertSuggestion("It hurted", "hurt");
@@ -217,7 +224,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("He maked", "made");
     assertSuggestion("She runed", "ran");
     assertSuggestion("She selled", "sold");
-    assertSuggestion("He speaked", Arrays.asList(singletonList("Hes peaked"), singletonList("spoke")), lt, rule);  //needs dict update to not include 'spake'
+    assertSuggestion("He speaked", "spoke"); //needs dict update to not include 'spake'
 
     // double consonants not yet supported:
     //assertSuggestion("He cutted", "cut");

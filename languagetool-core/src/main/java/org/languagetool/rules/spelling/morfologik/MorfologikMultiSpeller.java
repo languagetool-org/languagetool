@@ -192,7 +192,7 @@ public class MorfologikMultiSpeller {
       return dict;
     }
   }
-
+  
   /**
    * Accept the word if at least one of the dictionaries accepts it as not misspelled.
    */
@@ -203,6 +203,19 @@ public class MorfologikMultiSpeller {
       }
     }
     return true;
+  }
+  
+  /**
+   * Get the frequency of use of a word (0-27) form the dictionary
+   */
+  public int getFrequency(String word) {
+    for (MorfologikSpeller speller : spellers) {
+      int freq = speller.getFrequency(word);
+      if (freq > 0) {
+        return freq;
+      }
+    }
+    return 0;
   }
 
   @NotNull
