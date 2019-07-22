@@ -257,13 +257,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               if (ruleMatch == null) {
                 ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
               } else {
-                ruleMatch.addSuggestedReplacement(sugg2a + " " + sugg2b);
+                ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
               }
             }
           }
           // "g oing-> "going"
           String sugg = prevWord + word;
-          if (word == word.toLowerCase() && !isMisspelled(speller1, sugg)) {
+          if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord) ) {
               if (ruleMatch == null) {
                 ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
@@ -300,12 +300,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               if (ruleMatch == null) {
                 ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
               } else {
-                ruleMatch.addSuggestedReplacement(sugg2a + " " + sugg2b);
+                ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
               }
             }
           }
           String sugg = word + nextWord;
-          if (nextWord == nextWord.toLowerCase() && !isMisspelled(speller1, sugg)) {
+          if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord) ) {
               if (ruleMatch == null) {
                 ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + word.length(),
