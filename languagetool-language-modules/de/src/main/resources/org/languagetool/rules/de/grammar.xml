@@ -16023,7 +16023,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DAS_KLEINES_SUBST_ADJEKTIV" name="kleingeschriebenes substantiviertes Adjektiv am Satzanfang">
             <pattern>
-                <token postag="SENT_START"/>
+                <or>
+                    <token postag="SENT_START"/>
+                    <token>:</token>
+                </or>
                 <token>das</token>
                 <marker>
                     <token postag="ADJ:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+</token>
@@ -16036,6 +16039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Schöne">Das <marker>schöne</marker> daran ist, dass es funktioniert.</example>
             <example correction="Schöne">Das <marker>schöne</marker> am Wochenende ist der Samstag.</example>
             <example correction="Schönste">Das <marker>schönste</marker> im Park sind die Bäume.</example>
+            <example correction="Schöne">Groß-/Kleinschreibung: Das <marker>schöne</marker> daran ist, dass es funktioniert.</example>
             <example>Das <marker>schöne</marker> Wochenende.</example>
             <example>Das <marker>letzte</marker> der drei Bücher gefiel mir nicht.</example>
         </rule>
