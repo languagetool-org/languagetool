@@ -4063,7 +4063,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="hoofdzonde">Het woord <marker>hoofdsonde</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="LASEREN_LAZEREN" name="waarschuwing bij gebruik laseren i.p.v. lazeren">
             <rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">ogen|oog</token></antipattern>
@@ -4072,7 +4072,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="lazeren">Het woord <marker>laseren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="SOUTJE_ZOUTJE" name="waarschuwing bij gebruik soutje i.p.v. zoutje">
             <rule>
 				<pattern><token regexp="yes">soutjes?</token></pattern>
@@ -4135,6 +4135,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
         -->
+		<!--
         <rulegroup id="SIPPEN_ZIPPEN" name="waarschuwing bij gebruik sippen i.p.v. zippen">
             <rule>
                 <pattern><token inflected="yes">sippen</token></pattern>
@@ -4142,6 +4143,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="zippen">Het woord <marker>sippen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+		-->
 <!--
         <rulegroup id="SAS_SAZ" name="waarschuwing bij gebruik sas i.p.v. saz">
             <rule>
@@ -30993,6 +30995,13 @@ steenwijk;Steenwijk
                 <pattern><marker><token skip="5">wilt</token></marker><token>hij</token></pattern>
                 <message>U bedoelt vast <suggestion>wil</suggestion></message>
                 <example correction="Wil"><marker>Wilt</marker> hij het niet, gaat het mis.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="HIJ_VIND" name="hij vind => hij vindt">
+            <rule>
+				<pattern><token regexp="yes">hij|zij|men|ze</token><marker><token postag_regexp="yes" postag="WKW:TGW:1EP" regexp="yes">.*d$<exception>rond</exception><exception postag_regexp="yes" postag="ZNW:EKV.*|WKW:VLT:1EP|BNW:STL:ONV|WKW:VTD:ONV"/></token></marker></pattern>
+                <message>U bedoelt vast <suggestion>\2t</suggestion></message>
+                <example correction="vindt">Hij <marker>vind</marker> het niet goed.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEPAALD_JE" name="voltooid deelwoord / 3e persoon">
