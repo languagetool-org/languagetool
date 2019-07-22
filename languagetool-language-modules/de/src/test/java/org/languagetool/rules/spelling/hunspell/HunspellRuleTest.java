@@ -75,6 +75,7 @@ public class HunspellRuleTest {
     assertResult("VielenD ank für die Blumen", "Vielen Dank", 0, 11, rule, lt);
     assertResult("Vielen Dank für di eBlumen", "die Blumen", 16, 26, rule, lt);
     assertResult("Vielen Dank für dieB lumen", "die Blumen", 16, 26, rule, lt);
+    assertResult("Das ist g anz falsch", "ganz", 8, 13, rule, lt);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Vielen Dak für dieB lumen"));
     assertThat(matches.length, is(2));
