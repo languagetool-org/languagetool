@@ -924,6 +924,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
+    } else if ("Std".equals(word)) {
+      return Collections.singletonList("Std.");
     } else if (word.matches(".*ibel[hk]eit$")) {
       suggestion = word.replaceFirst("el[hk]eit$", "ilität");
       if (!hunspellDict.misspelled(suggestion)) {
