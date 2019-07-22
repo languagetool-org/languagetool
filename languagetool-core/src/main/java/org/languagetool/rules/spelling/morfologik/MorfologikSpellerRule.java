@@ -274,7 +274,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               ruleMatch.addSuggestedReplacement(sugg);
             }
           }
-          
         }
       }
       if (ruleMatch != null) {

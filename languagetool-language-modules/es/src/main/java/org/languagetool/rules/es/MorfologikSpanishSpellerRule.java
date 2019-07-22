@@ -33,6 +33,7 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+    this.setIgnoreTaggedWords();
   }
 
   @Override
