@@ -295,6 +295,16 @@ public class RuleMatch implements Comparable<RuleMatch> {
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
   }
+  
+  public void addSuggestedReplacement(String replacement) {
+    Objects.requireNonNull(replacement, "replacement may be empty but not null");
+    List<String> l = new ArrayList<>();
+    for (SuggestedReplacement repl : suggestedReplacements) {
+      l.add(repl.getReplacement());
+    }
+    l.add(replacement);
+    setSuggestedReplacements(l);
+  }
 
   /**
    * The text fragments which might be an appropriate fix for the problem. One
