@@ -431,8 +431,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("una hora", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("benv inguts")); 
         assertEquals("ben vinguts", matches[0].getSuggestedReplacements().get(0));
-        matches = rule.match(langTool.getAnalyzedSentence("benv inguts")); 
-        assertEquals("ben vinguts", matches[0].getSuggestedReplacements().get(0));
         assertEquals("benvinguts", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("benam at")); 
         assertEquals("bena mat", matches[0].getSuggestedReplacements().get(0));
@@ -442,7 +440,7 @@ public class MorfologikCatalanSpellerRuleTest {
         //assertEquals("estimades", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("estimad es")); 
         assertEquals("estima des", matches[0].getSuggestedReplacements().get(0));
-        //assertEquals("estimades", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("estimades", matches[0].getSuggestedReplacements().get(1));
         
     }
 }

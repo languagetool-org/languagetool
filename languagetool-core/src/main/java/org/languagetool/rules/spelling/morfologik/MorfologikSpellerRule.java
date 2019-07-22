@@ -253,25 +253,25 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String sugg2a = prevWord + word.substring(0, 1);
           String sugg2b = word.substring(1);
           if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
-            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
-              if (ruleMatch == null) {
+            if (ruleMatch == null) {
+              if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
                 ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
-              } else {
-                ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
               }
+            } else {
+              ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
             }
           }
           // "g oing-> "going"
           String sugg = prevWord + word;
           if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
-            if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord) ) {
-              if (ruleMatch == null) {
+            if (ruleMatch == null) {
+              if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
                 ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
-                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
-                ruleMatch.setSuggestedReplacement(sugg);
-              } else {
-                ruleMatch.addSuggestedReplacement(sugg);
+                    messages.getString("spelling"), messages.getString("desc_spelling_short"));
+                ruleMatch.setSuggestedReplacement(sugg);  
               }
+            } else {
+              ruleMatch.addSuggestedReplacement(sugg);
             }
           }
           
@@ -296,24 +296,24 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String sugg2a = word + nextWord.substring(0, 1);
           String sugg2b = nextWord.substring(1);
           if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
-            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
-              if (ruleMatch == null) {
+            if (ruleMatch == null) {
+              if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
                 ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
-              } else {
-                ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
               }
+            } else {
+              ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
             }
           }
           String sugg = word + nextWord;
           if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
-            if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord) ) {
-              if (ruleMatch == null) {
+            if (ruleMatch == null) {
+              if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
                 ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + word.length(),
-                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
+                    messages.getString("spelling"), messages.getString("desc_spelling_short"));
                 ruleMatch.setSuggestedReplacement(sugg);
-              } else {
-                ruleMatch.addSuggestedReplacement(sugg);
               }
+            } else {
+              ruleMatch.addSuggestedReplacement(sugg);
             }
           }
         }
