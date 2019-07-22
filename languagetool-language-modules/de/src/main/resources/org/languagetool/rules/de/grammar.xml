@@ -28245,6 +28245,19 @@ Andere Projekte</example>
                 <example correction="Wohl">Für das leibliche <marker>wohl</marker> ist gesorgt.</example>
                 <example correction="Wohl">Ich war um mein eigenes <marker>wohl</marker> besorgt.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:([123]|IMP):.+" postag_regexp="yes"><exception postag="SUB:.+" regexp="yes"/></token>
+                    <token spacebefore="no" min="0">’</token>
+                    <marker>
+                        <token case_sensitive="yes">Wohl</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" case_conversion="startlower"/></suggestion>?</message>
+                <short>prgk;.</short>
+                <example correction="wohl">Lebt <marker>Wohl</marker>!</example>
+                <example correction="wohl">Leb’ <marker>Wohl</marker>!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WOHL_UND_WEHE" name="'das wohl und wehe (Wohl und Wehe)'">
             <url>https://de.wiktionary.org/wiki/Wohl_und_Wehe</url>
