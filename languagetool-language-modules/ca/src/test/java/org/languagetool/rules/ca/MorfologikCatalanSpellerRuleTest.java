@@ -429,5 +429,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("el lustre", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("unah ora")); 
         assertEquals("una hora", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("benv inguts")); 
+        assertEquals("ben vinguts", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("benv inguts")); 
+        assertEquals("ben vinguts", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("benvinguts", matches[1].getSuggestedReplacements().get(0));
     }
 }

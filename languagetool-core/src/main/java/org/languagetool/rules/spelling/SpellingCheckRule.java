@@ -185,18 +185,18 @@ public abstract class SpellingCheckRule extends Rule {
     System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/
   }
 
-  protected void addWrongSplitMatch(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
-    if (ruleMatches.size() > 0) {
-      RuleMatch prevMatch = ruleMatches.get(ruleMatches.size() - 1);
+  protected RuleMatch createWrongSplitMatch(AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
+    if (ruleMatchesSoFar.size() > 0) {
+      RuleMatch prevMatch = ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1);
       if (prevMatch.getFromPos() == prevPos) {
         // we'll later create a new match that covers the previous misspelled word and the current one:
-        ruleMatches.remove(ruleMatches.size()-1);
+        ruleMatchesSoFar.remove(ruleMatchesSoFar.size()-1);
       }
     }
     RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + coveredWord.length(),
             messages.getString("spelling"), messages.getString("desc_spelling_short"));
     ruleMatch.setSuggestedReplacement(suggestion1 + " " + suggestion2);
-    ruleMatches.add(ruleMatch);
+    return ruleMatch;
   }
 
   @Override

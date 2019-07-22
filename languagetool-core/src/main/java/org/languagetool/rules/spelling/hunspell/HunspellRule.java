@@ -169,15 +169,15 @@ public class HunspellRule extends SpellingCheckRule {
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = prevWord.substring(prevWord.length()-1) + word;
               if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
-                addWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
-                continue;
+                ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos));
+                return toRuleMatchArray(ruleMatches);
               }
               // "than kyou" -> "thank you"
               String sugg2a = prevWord + word.substring(0, 1);
               String sugg2b = word.substring(1);
               if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
-                addWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
-                continue;
+                ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos));
+                return toRuleMatchArray(ruleMatches);
               }
             }
           }

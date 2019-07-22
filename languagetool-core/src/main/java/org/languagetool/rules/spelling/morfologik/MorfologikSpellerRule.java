@@ -232,7 +232,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
-      if (ruleMatches.size() > 0)
+      if (ruleMatchesSoFar.size() > 0)
         if (ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {
           return ruleMatches; // the current word is already dealt with in the previous match, so do nothing
         }
@@ -245,19 +245,28 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String sugg1b = prevWord.substring(prevWord.length() - 1) + word;
           if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
             if (getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
-              addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
-              return ruleMatches;
+              ruleMatches.add(createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos));
             }
           }
-          // "than kyou" -> "thank you" ; but not "She awaked" > "Shea waked"
+          // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
           String sugg2a = prevWord + word.substring(0, 1);
           String sugg2b = word.substring(1);
           if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
-              addWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
-              return ruleMatches;
+              ruleMatches.add(createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos));
             }
           }
+          // "g oing-> "going"
+          String sugg = prevWord + word;
+          if (!isMisspelled(speller1, sugg)) {
+            if (getFrequency(speller1, sugg) > getFrequency(speller1, prevWord) ) {
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
+                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              ruleMatch.setSuggestedReplacement(sugg);
+              ruleMatches.add(ruleMatch);
+            }
+          }
+          
         }
       }
       // the same with the next word
@@ -270,8 +279,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String sugg1b = word.substring(word.length() - 1) + nextWord;
           if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
             if (getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
-              addWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
-              return ruleMatches;
+              ruleMatches.add(createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos));
             }
           }
           // 
@@ -279,11 +287,23 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String sugg2b = nextWord.substring(1);
           if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
             if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
-              addWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
-              return ruleMatches;
+              ruleMatches.add(createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos));
+            }
+          }
+          String sugg = word + nextWord;
+          if (!isMisspelled(speller1, sugg)) {
+            if (getFrequency(speller1, sugg) > getFrequency(speller1, nextWord) ) {
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + word.length(),
+                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              ruleMatch.setSuggestedReplacement(sugg);
+              ruleMatches.add(ruleMatch);
             }
           }
         }
+      }
+      
+      if (ruleMatches.size() > 0) {
+        return ruleMatches;
       }
 
       RuleMatch ruleMatch;

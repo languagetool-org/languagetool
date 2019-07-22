@@ -203,6 +203,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     Assert.assertThat(matches7[0].getSuggestedReplacements().get(0), is("awoke"));
     Assert.assertThat(matches7[0].getSuggestedReplacements().get(1), is("awake"));
     
+    RuleMatch[] matches8 = rule.match(lt.getAnalyzedSentence("I'm g oing"));
+    Assert.assertThat(matches8.length, is(1));
+    Assert.assertThat(matches8[0].getSuggestedReplacements().get(0), is("going"));
+    Assert.assertThat(matches8[0].getFromPos(), is(4));
+    Assert.assertThat(matches8[0].getToPos(), is(10));
+    
+    RuleMatch[] matches9 = rule.match(lt.getAnalyzedSentence("I'm go ing"));
+    Assert.assertThat(matches9.length, is(1));
+    Assert.assertThat(matches9[0].getSuggestedReplacements().get(0), is("going"));
+    Assert.assertThat(matches9[0].getFromPos(), is(4));
+    Assert.assertThat(matches9[0].getToPos(), is(10));
+    
   }
 
   @Test
