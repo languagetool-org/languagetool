@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
@@ -157,6 +158,8 @@ public class JLanguageTool {
   private final Language language;
   private final List<Language> altLanguages;
   private final Language motherTongue;
+
+  private final List<RuleMatchFilter> matchFilters = new LinkedList<>();
 
   private PrintStream printStream;
   private boolean listUnknownWords;
@@ -539,6 +542,16 @@ public class JLanguageTool {
   }
 
   /**
+   * Add a {@link RuleMatchFilter} for post-processing of rule matches
+   * Filters are called sequentially in the same order as added
+   * @since 4.7
+   * @param filter filter to add
+   */
+  public void addMatchFilter(@NotNull RuleMatchFilter filter) {
+    matchFilters.add(Objects.requireNonNull(filter));
+  }
+
+  /**
    * Add a rule to be used by the next call to the check methods like {@link #check(String)}.
    */
   public void addRule(Rule rule) {
@@ -744,7 +757,9 @@ public class JLanguageTool {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, this.enabledRules).filter(ruleMatches);
-    
+
+    ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
+
     return ruleMatches;
   }
   
@@ -834,7 +849,8 @@ public class JLanguageTool {
         sentenceMatches.add(elem);
       }
     }
-    return new SameRuleGroupFilter().filter(sentenceMatches);
+    AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentence.getText()).build();
+    return applyCustomFilters(new SameRuleGroupFilter().filter(sentenceMatches),text);
   }
 
   private boolean ignoreRule(Rule rule) {
@@ -1172,6 +1188,21 @@ public class JLanguageTool {
     }
   }
 
+  /**
+   * should be called just once with complete list of matches, before returning them to caller
+   * @param matches matches after applying rules and default filters
+   * @param text text that matches refer to
+   * @return transformed matches (after applying filters in {@link matchFilters})
+   * @since 4.7
+   */
+  protected List<RuleMatch> applyCustomFilters(List<RuleMatch> matches, AnnotatedText text) {
+    List<RuleMatch> transformed = matches;
+    for (RuleMatchFilter filter : matchFilters) {
+      transformed = filter.filter(transformed, text);
+    }
+    return transformed;
+  }
+
   class TextCheckCallable implements Callable<List<RuleMatch>> {
 
     private final List<Rule> rules;
@@ -1217,6 +1248,8 @@ public class JLanguageTool {
       } else {
         throw new IllegalArgumentException("Unknown mode: " + mode);
       }
+      // can't call applyCustomRuleFilters here, done in performCheck ->
+      // should run just once w/ complete list of matches
       return ruleMatches;
     }
 

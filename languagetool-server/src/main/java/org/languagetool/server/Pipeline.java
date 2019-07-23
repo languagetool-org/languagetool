@@ -21,10 +21,12 @@
 
 package org.languagetool.server;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatchFilter;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -135,6 +137,14 @@ class Pipeline extends JLanguageTool {
       throw new IllegalPipelineMutationException();
     }
     super.activateWord2VecModelRules(indexDir);
+  }
+
+  @Override
+  public void addMatchFilter(@NotNull RuleMatchFilter filter) {
+    if (setup) {
+      throw new IllegalPipelineMutationException();
+    }
+    super.addMatchFilter(filter);
   }
 
   @Override
