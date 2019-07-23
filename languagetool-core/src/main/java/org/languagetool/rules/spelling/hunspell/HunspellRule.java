@@ -91,12 +91,10 @@ public class HunspellRule extends SpellingCheckRule {
    }
    public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages,
                        LanguageModel languageModel) {
-    super(messages, language, userConfig, altLanguages, languageModel);
-    super.setCategory(Categories.TYPOS.getCategory(messages));
-    this.userConfig = userConfig;
-    this.monitorRules = System.getProperty("monitorActiveRules") != null;
-
-
+     super(messages, language, userConfig, altLanguages, languageModel);
+     super.setCategory(Categories.TYPOS.getCategory(messages));
+     this.userConfig = userConfig;
+     this.monitorRules = System.getProperty("monitorActiveRules") != null;
      if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
        suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
        runningExperiment = true;
