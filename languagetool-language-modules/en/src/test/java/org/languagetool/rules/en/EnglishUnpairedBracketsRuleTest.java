@@ -86,6 +86,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\""); // inch symbol is at the sentence end
     assertCorrect("\"02\" will sort before \"10\""); // quotation mark is at the sentence end
     assertCorrect("On their 'host societies'.");
+    assertCorrect("a) item one\nb) item two\nc) item three");
+    assertCorrect("This is not so (neither a nor b)");
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -93,6 +95,9 @@ public class EnglishUnpairedBracketsRuleTest {
     assertIncorrect("&'");
     assertIncorrect("!'");
     assertIncorrect("What?'");
+    assertIncorrect("This is not so (neither a nor b");
+    assertIncorrect("This is not so neither a nor b)");
+    assertIncorrect("This is not so neither foo nor bar)");
 
     // this is currently considered incorrect... although people often use smileys this way:
     assertIncorrect("Some text (and some funny remark :-) with more text to follow");

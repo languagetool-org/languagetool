@@ -271,6 +271,19 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos, sentence));
     String otherSymbol = findCorrespondingSymbol(symbol);
     String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
+    if (startPos + symbol.length() < sentence.getText().length()) {
+      if (startPos >= 2 && startPos + symbol.length() < sentence.getText().length()) {
+        String context = sentence.getText().substring(startPos - 2, startPos + symbol.length());
+        if (context.matches("\n[a-zA-Z]\\)")) {  // prevent error for "b) foo item"
+          return null;
+        }
+      } else if (startPos >= 1) {
+        String context = sentence.getText().substring(startPos - 1, startPos + symbol.length());
+        if (context.matches("[a-zA-Z]\\)")) {   // prevent error for "a) foo item" at text start
+          return null;
+        }
+      }
+    }
     return new RuleMatch(this, sentence, startPos, startPos + symbol.length(), message);
   }
 
