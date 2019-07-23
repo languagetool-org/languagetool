@@ -98,7 +98,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (ruleMatches.size() > 0) {
-      // so 'word' is misspelled: 
+      // so 'word' is misspelled:
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
         String message = "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
@@ -221,7 +221,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("today's");
     } else if ("Todays".equals(word)) {
       return Arrays.asList("Today's");
-    } else if ("heres".equals(word)) { 
+    } else if ("heres".equals(word)) {
       return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
@@ -243,6 +243,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("e-book");
     } else if ("Ebook".equals(word)) {
       return Arrays.asList("E-Book");
+    } else if ("ie".equals(word)) {
+      return Arrays.asList("i.e.");
+    } else if ("eg".equals(word)) {
+      return Arrays.asList("e.g.");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
