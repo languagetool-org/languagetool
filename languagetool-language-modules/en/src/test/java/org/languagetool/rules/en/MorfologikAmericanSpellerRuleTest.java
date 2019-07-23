@@ -152,68 +152,68 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
     
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("But than kyou for the feedback"));
-    Assert.assertThat(matches1.length, is(1));
-    Assert.assertThat(matches1[0].getSuggestedReplacements().get(0), is("thank you"));
-    Assert.assertThat(matches1[0].getFromPos(), is(4));
-    Assert.assertThat(matches1[0].getToPos(), is(13));
-    //Assert.assertThat(matches1[1].getSuggestedReplacements().get(0), is("you"));
+    assertThat(matches1.length, is(1));
+    assertThat(matches1[0].getSuggestedReplacements().get(0), is("thank you"));
+    assertThat(matches1[0].getFromPos(), is(4));
+    assertThat(matches1[0].getToPos(), is(13));
+    //assertThat(matches1[1].getSuggestedReplacements().get(0), is("you"));
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("But thanky ou for the feedback"));
-    Assert.assertThat(matches2.length, is(1));
-    Assert.assertThat(matches2[0].getSuggestedReplacements().get(0), is("thank you"));
-    Assert.assertThat(matches2[0].getFromPos(), is(4));
-    Assert.assertThat(matches2[0].getToPos(), is(13));
-    //Assert.assertThat(matches2[1].getSuggestedReplacements().get(0), is("of"));
+    assertThat(matches2.length, is(1));
+    assertThat(matches2[0].getSuggestedReplacements().get(0), is("thank you"));
+    assertThat(matches2[0].getFromPos(), is(4));
+    assertThat(matches2[0].getToPos(), is(13));
+    //assertThat(matches2[1].getSuggestedReplacements().get(0), is("of"));
 
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("But thank you for th efeedback"));
-    Assert.assertThat(matches3.length, is(1));
-    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("the feedback"));
-    Assert.assertThat(matches3[0].getFromPos(), is(18));
-    Assert.assertThat(matches3[0].getToPos(), is(30));
-    //Assert.assertThat(matches3[1].getSuggestedReplacements().get(0), is("feedback"));
+    assertThat(matches3.length, is(1));
+    assertThat(matches3[0].getSuggestedReplacements().get(0), is("the feedback"));
+    assertThat(matches3[0].getFromPos(), is(18));
+    assertThat(matches3[0].getToPos(), is(30));
+    //assertThat(matches3[1].getSuggestedReplacements().get(0), is("feedback"));
 
     RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("But thank you for thef eedback"));
-    Assert.assertThat(matches4.length, is(1));
-    Assert.assertThat(matches4[0].getSuggestedReplacements().get(0), is("the feedback"));
-    Assert.assertThat(matches4[0].getFromPos(), is(18));
-    Assert.assertThat(matches4[0].getToPos(), is(30));
-    //Assert.assertThat(matches4[1].getSuggestedReplacements().get(0), is("feedback"));
+    assertThat(matches4.length, is(1));
+    assertThat(matches4[0].getSuggestedReplacements().get(0), is("the feedback"));
+    assertThat(matches4[0].getFromPos(), is(18));
+    assertThat(matches4[0].getToPos(), is(30));
+    //assertThat(matches4[1].getSuggestedReplacements().get(0), is("feedback"));
 
     RuleMatch[] matches5 = rule.match(lt.getAnalyzedSentence("But thnk you fo rthe feedback"));
-    Assert.assertThat(matches5.length, is(2));
-    Assert.assertThat(matches5[0].getSuggestedReplacements().get(0), is("tank"));  // not really a good first suggestion...
-    Assert.assertThat(matches5[1].getSuggestedReplacements().size(), is(1));
-    Assert.assertThat(matches5[1].getSuggestedReplacements().get(0), is("for the"));
-    Assert.assertThat(matches5[1].getFromPos(), is(13));
-    Assert.assertThat(matches5[1].getToPos(), is(20));
-    //Assert.assertThat(matches5[2].getSuggestedReplacements().get(0), is("the"));
+    assertThat(matches5.length, is(2));
+    assertThat(matches5[0].getSuggestedReplacements().get(0), is("tank"));  // not really a good first suggestion...
+    assertThat(matches5[1].getSuggestedReplacements().size(), is(1));
+    assertThat(matches5[1].getSuggestedReplacements().get(0), is("for the"));
+    assertThat(matches5[1].getFromPos(), is(13));
+    assertThat(matches5[1].getToPos(), is(20));
+    //assertThat(matches5[2].getSuggestedReplacements().get(0), is("the"));
 
     RuleMatch[] matches6 = rule.match(lt.getAnalyzedSentence("LanguageTol offer sspell checking"));
-    Assert.assertThat(matches6.length, is(2));
-    Assert.assertThat(matches6[0].getSuggestedReplacements().get(0), is("LanguageTool"));
-    Assert.assertThat(matches6[1].getSuggestedReplacements().size(), is(1));
-    Assert.assertThat(matches6[1].getSuggestedReplacements().get(0), is("offers spell"));
-    Assert.assertThat(matches6[1].getFromPos(), is(12));
-    Assert.assertThat(matches6[1].getToPos(), is(24));
-    //Assert.assertThat(matches6[2].getSuggestedReplacements().get(0), is("spell"));
+    assertThat(matches6.length, is(2));
+    assertThat(matches6[0].getSuggestedReplacements().get(0), is("LanguageTool"));
+    assertThat(matches6[1].getSuggestedReplacements().size(), is(1));
+    assertThat(matches6[1].getSuggestedReplacements().get(0), is("offers spell"));
+    assertThat(matches6[1].getFromPos(), is(12));
+    assertThat(matches6[1].getToPos(), is(24));
+    //assertThat(matches6[2].getSuggestedReplacements().get(0), is("spell"));
     
     RuleMatch[] matches7 = rule.match(lt.getAnalyzedSentence("She awaked"));
-    Assert.assertThat(matches7.length, is(1));
+    assertThat(matches7.length, is(1));
     // Avoid suggestion "Shea waked"
-    Assert.assertThat(matches7[0].getSuggestedReplacements().get(0), is("awoke"));
-    Assert.assertThat(matches7[0].getSuggestedReplacements().get(1), is("awake"));
+    assertThat(matches7[0].getSuggestedReplacements().get(0), is("awoke"));
+    assertThat(matches7[0].getSuggestedReplacements().get(1), is("awake"));
     
     RuleMatch[] matches8 = rule.match(lt.getAnalyzedSentence("I'm g oing"));
-    Assert.assertThat(matches8.length, is(1));
-    Assert.assertThat(matches8[0].getSuggestedReplacements().get(0), is("going"));
-    Assert.assertThat(matches8[0].getFromPos(), is(4));
-    Assert.assertThat(matches8[0].getToPos(), is(10));
+    assertThat(matches8.length, is(1));
+    assertThat(matches8[0].getSuggestedReplacements().get(0), is("going"));
+    assertThat(matches8[0].getFromPos(), is(4));
+    assertThat(matches8[0].getToPos(), is(10));
     
     RuleMatch[] matches9 = rule.match(lt.getAnalyzedSentence("I'm go ing"));
-    Assert.assertThat(matches9.length, is(1));
-    Assert.assertThat(matches9[0].getSuggestedReplacements().get(0), is("going"));
-    Assert.assertThat(matches9[0].getFromPos(), is(4));
-    Assert.assertThat(matches9[0].getToPos(), is(10));
+    assertThat(matches9.length, is(1));
+    assertThat(matches9[0].getSuggestedReplacements().get(0), is("going"));
+    assertThat(matches9[0].getFromPos(), is(4));
+    assertThat(matches9[0].getToPos(), is(10));
     
   }
 
