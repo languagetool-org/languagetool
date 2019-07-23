@@ -84,6 +84,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       return toRuleMatchArray(ruleMatches);
     }
     int pos = 0;
+    boolean isPrevSentenceNumberedList = false;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
       if (tokens.length < 2) {
@@ -136,7 +137,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         preventError = true;
       }
 
-      if (isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
+      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
         preventError = true;
       }
 
@@ -152,6 +153,11 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         }
       }
       pos += sentence.getText().length();
+      // Plain text lists like this are not properly split into sentences, we 
+      // work around that here so the items don't create an error when starting lowercase:
+      // 1. item one
+      // 2. item two
+      isPrevSentenceNumberedList = sentence.getText().matches("\\d+\\. .*") || sentence.getText().matches(".*\n\\d+\\. ");
     }
     return toRuleMatchArray(ruleMatches);
   }
