@@ -254,7 +254,13 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Ш-подібному", "Ш-подібному/[Ш-подібний]adj:m:v_dav:compb|Ш-подібному/[Ш-подібний]adj:m:v_mis:compb|Ш-подібному/[Ш-подібний]adj:n:v_dav:compb|Ш-подібному/[Ш-подібний]adj:n:v_mis:compb", tokenizer, tagger);
     TestTools.myAssert("S-подібної", "S-подібної/[S-подібний]adj:f:v_rod:compb", tokenizer, tagger);
   }
-  
+
+  @Test
+  public void testDynamicTaggingVmisny() throws IOException {
+    TestTools.myAssert("Са-вмісні", "Са-вмісні/[Са-вмісний]adj:p:v_naz|Са-вмісні/[Са-вмісний]adj:p:v_zna:rinanim", tokenizer, tagger);
+    TestTools.myAssert("карбонат-вмісні", "карбонат-вмісні/[карбонат-вмісний]adj:p:v_naz|карбонат-вмісні/[карбонат-вмісний]adj:p:v_zna:rinanim", tokenizer, tagger);
+  }
+
   @Test
   public void testDynamicTaggingPrefixes() throws IOException {
     TestTools.myAssert("VIP–будинок", "VIP–будинок/[VIP-будинок]noun:inanim:m:v_naz|VIP–будинок/[VIP-будинок]noun:inanim:m:v_zna", tokenizer, tagger);

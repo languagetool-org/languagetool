@@ -251,6 +251,15 @@ class CompoundTagger {
       return PosTagHelper.generateTokensForNv(word, "f", ":prop");
     }
 
+    // Fe-вмісний
+    if( rightWord.startsWith("вмісн") ) {
+      String adjustedWord = "боро" + rightWord;
+      List<TaggedWord> rightWdList = tagEitherCase(adjustedWord);
+      rightWdList = rightWdList.stream().map(wd -> new TaggedWord("вмісний", wd.getPosTag())).collect(Collectors.toList());
+      List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
+      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText());
+    }
+
     List<TaggedWord> rightWdList = tagEitherCase(rightWord);
       
     if( rightWdList.isEmpty() ) {
