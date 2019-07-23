@@ -6640,7 +6640,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="cutters">Het woord <marker>kutters</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>        
-
+<!--
         <rulegroup id="CAMPEREN_KAMPEREN" name="waarschuwing bij gebruik kamperen i.p.v. camperen">
             <rule>
                 <pattern><token regexp="yes">kampere(n|nd|nde)</token>
@@ -6649,7 +6649,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="camperen">Het woord <marker>kamperen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
+		<!--
         <rulegroup id="CASTEN_KASTEN" name="waarschuwing bij gebruik kasten i.p.v. casten">
             <rule>
                 <antipattern><token postag="BNW:STL:VRB"/><token>kasten</token></antipattern>
@@ -6662,7 +6663,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="casten">Het woord <marker>kasten</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="CORNET_KORNET" name="waarschuwing bij gebruik kornet i.p.v. cornet">
             <rule>
                 <pattern>
@@ -6672,7 +6673,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="cornet">Het woord <marker>kornet</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="WECKEN_WEKKEN" name="waarschuwing bij gebruik wekken i.p.v. wecken">
             <rule>
                 <antipattern><token skip="-1">wekken</token><token regexp="yes">verbazing|indruk|suggestie</token></antipattern>
@@ -6686,6 +6687,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="wecken">Het woord <marker>wekken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+		-->
 <!--
         <rulegroup id="CAPO_KAPO" name="waarschuwing bij gebruik kapo i.p.v. capo">
             <rule>
@@ -8336,7 +8338,7 @@ onwaarschijnlijk
 			<rule>
 				<pattern>
 					<marker>
-					<token  case_sensitive="yes" regexp="yes">Adr|Fr|Fred|IJ|Jac|Joh|Ph|St|Th|Tj</token>
+					<token  case_sensitive="yes" regexp="yes">Adr|Fr|Fred|IJ|Jac|Joh|Ph|Th|Tj</token>
 					<token spacebefore="no">.</token>
 					</marker>
 					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
@@ -10676,18 +10678,26 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
         <rulegroup id="COLLEGA_ZNW" name=" ">
-            <antipattern><token>collega</token><token regexp="yes">van|heeft|een</token></antipattern>
-            <antipattern><token>collega</token><token postag="BNW.*|WKW.*" postag_regexp="yes"/></antipattern>
             <rule>
+				<antipattern><token>collega</token><token regexp="yes">van|heeft|een</token></antipattern>
+				<antipattern><token>collega</token><token postag="BNW.*|WKW.*" postag_regexp="yes"/></antipattern>
                 <pattern>
                     <token>collega</token>
-                    <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes" case_sensitive="yes">[A-Z][a-z].*|van|heeft|een|bij|ons|mijner|[a-zA-Z]{1,4}</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*MRV.*"><exception regexp="yes" case_sensitive="yes">[A-Z][a-z].*|van|heeft|een|bij|ons|mijner|[a-zA-Z]{1,4}</exception></token>
                 </pattern>
                 <message>ALs de \2 collega's zijn, dan is het: <suggestion>\1-\2</suggestion>.</message>
-                <example correction="collega-huisarts">Ik zie een <marker>collega huisarts</marker>.</example>
                 <example correction="collega-middenstanders">De <marker>collega middenstanders</marker> ...</example>
                 <example correction="collega-vissers">Er waren nog drie <marker>collega vissers</marker> in de boot.</example>
                 <example correction="collega-auteurs">Een mooie kans om de <marker>collega auteurs</marker> te ontmoeten.</example>
+            </rule>
+            <rule>
+				<antipattern><token>collega</token><token regexp="yes">van|heeft|een</token></antipattern>
+				<antipattern><token>collega</token><token postag="BNW.*|WKW.*" postag_regexp="yes"/></antipattern>
+                <pattern>
+                    <token>collega</token>
+                    <token postag_regexp="yes" postag="ZNW.*EKV.*"><exception regexp="yes" case_sensitive="yes">[A-Z][a-z].*|van|heeft|een|bij|ons|mijner|[a-zA-Z]{1,4}</exception></token>
+                </pattern>
+                <message>ALs de \2 een collega is, dan is het: <suggestion>\1-\2</suggestion>.</message>
                 <example correction="collega-minister">Daarvoor verwijs ik naar mijn <marker>collega minister</marker> Muyters.</example>
                 <example correction="collega-wielertoerist">Een <marker>collega wielertoerist</marker> was hier om het leven gekomen.</example>
             </rule>
