@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
+import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -202,6 +203,9 @@ class PipelinePool {
     if (params.useQuerySettings) {
       Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
         new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);
+    }
+    if (userConfig.filterDictionaryMatches()) {
+      lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
     }
     if (pool != null) {
       lt.setupFinished();

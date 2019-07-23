@@ -30,6 +30,7 @@ import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
@@ -203,9 +204,12 @@ abstract class TextChecker {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
+
+    boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
+
     UserConfig userConfig = new UserConfig(
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            new HashMap<>(), config.getMaxSpellingSuggestions());
+            new HashMap<>(), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
 
     // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
     if (agent != null && agent.equals("ltorg")) {
@@ -268,8 +272,9 @@ abstract class TextChecker {
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     String callback = parameters.get("callback");
-    QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories,
-            useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
+    QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
+      enabledCategories, disabledCategories, useEnabledOnly,
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
 
     Long textSessionId = null;
     try {
@@ -475,6 +480,9 @@ abstract class TextChecker {
       Language sourceLanguage = Languages.getLanguageForShortCode(parameters.get("sourceLanguage"));
       JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);
       JLanguageTool targetLt = new JLanguageTool(lang);
+      if (userConfig.filterDictionaryMatches()) {
+        targetLt.addMatchFilter(new DictionaryMatchFilter(userConfig));
+      }
       List<BitextRule> bitextRules = Tools.getBitextRules(sourceLanguage, lang);
       return Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules);
     } else {
