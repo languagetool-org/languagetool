@@ -150,7 +150,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   public void testRuleWithWrongSplit() throws Exception {
     MorfologikAmericanSpellerRule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), new AmericanEnglish());
     JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
-
+    
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("But than kyou for the feedback"));
     Assert.assertThat(matches1.length, is(1));
     Assert.assertThat(matches1[0].getSuggestedReplacements().get(0), is("thank you"));

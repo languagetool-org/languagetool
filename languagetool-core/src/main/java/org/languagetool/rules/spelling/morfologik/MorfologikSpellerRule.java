@@ -307,7 +307,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
-                ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + word.length(),
+                ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
                     messages.getString("spelling"), messages.getString("desc_spelling_short"));
                 ruleMatch.setSuggestedReplacement(sugg);
               }
