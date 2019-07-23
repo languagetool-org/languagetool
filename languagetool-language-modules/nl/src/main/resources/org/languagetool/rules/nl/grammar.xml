@@ -6255,7 +6255,7 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
 		-->
 		
-
+<!--
         <rulegroup id="GAASJE_GAGE" name="waarschuwing bij gebruik gaasje i.p.v. gage">
             <rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*(steriel|verband|pleister).*</token></antipattern>
@@ -6273,6 +6273,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="gages">Het woord <marker>gaasjes</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+		-->
 		
         <!-- K en C -->
         <rulegroup id="INSTINCT_INSTINKT" name="waarschuwing bij gebruik instinkt i.p.v. instinct">
@@ -6310,7 +6311,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="kicken">Het woord <marker>kikken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="CANON_KANON" name="waarschuwing bij gebruik kanon i.p.v. canon">
             <rule>
 				<antipattern><token>het</token><token>kanon</token></antipattern>
@@ -6322,7 +6323,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="canon">Het woord <marker>kanon</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="COLA_KOLA" name="waarschuwing bij gebruik kola i.p.v. cola">
             <rule>
                 <pattern><token inflected="yes">kola</token></pattern>
@@ -6399,7 +6400,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token inflected="yes">kamper</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">camper</match></suggestion> een kampeerwagen? Een kamper is iemand die op een woonwagenkamp woont.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">camper</match></suggestion> (kampeerwagen)? Een kamper is iemand die op een woonwagenkamp woont.</message>
                 <example correction="camper">Het woord <marker>kamper</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -6415,7 +6416,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="CLIP_KLIP" name="waarschuwing bij gebruik klip i.p.v. clip">
             <rule>
 				<antipattern><token>klip</token><token>en</token><token>klaar</token></antipattern>
-                <pattern><token inflected="yes">klip</token></pattern>
+                <pattern><token regexp="yes">klip|klipje|klipjes</token></pattern>
                 <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">clip</match></suggestion> (filmpje, klem)? Een klip is een steile rotswand.</message>
                 <example correction="clip">Het woord <marker>klip</marker> kan een vergissing zijn.</example>
             </rule>
@@ -6726,6 +6727,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 		-->
+		<!--
         <rulegroup id="LOCKEN_LOKKEN" name="waarschuwing bij gebruik lokken i.p.v. locken">
 			<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">uit|naar|weg|val|klanten</token></antipattern>
 			<antipattern><token regexp="yes">blonde|lange</token><token>lokken</token></antipattern>
@@ -6737,7 +6739,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="locken">Het woord <marker>lokken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="CROPPEN_KROPPEN" name="waarschuwing bij gebruik kroppen i.p.v. croppen">
             <rule>
                 <pattern><token>kroppen</token></pattern>
@@ -6748,7 +6750,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="CAMMEN_KAMMEN" name="waarschuwing bij gebruik kammen i.p.v. cammen">
             <rule>
-				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">uit|haar|.*borstel.*</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">uit|haar|.*borstel.*</token><token postag="SENT_END"/></antipattern>
                 <pattern><token>kammen</token></pattern>
                 <message>Bedoelt u wellicht <suggestion>cammen</suggestion> (met de webcam bezig zijn)? Kammen doe je je haar.</message>
                 <example correction="cammen">Het woord <marker>kammen</marker> kan een vergissing zijn.</example>
@@ -7014,12 +7016,13 @@ onwaarschijnlijk
                 <message>Bij situeren hoort geen 'zich'.</message>
                 <example type="incorrect">De verschillende factoren situeren <marker>zich</marker> op het biologische domein.</example>                
             </rule>          
-            <rule>
+
+			<rule>
                 <pattern>
 					<marker>
 					<token>zo'n</token>
 					</marker>
-					<token postag_regexp="yes" postag=".*MRV.*"/>
+					<token postag_regexp="yes" postag="ZNW:.*MRV.*"/>
 				</pattern>
 				<message>Beter is <suggestion>zulke</suggestion>.</message>
                 <example correction="zulke">Hij wist niets van <marker>zo'n</marker> auto's.</example>
@@ -31009,7 +31012,7 @@ steenwijk;Steenwijk
         </rulegroup>
 		<rulegroup id="HIJ_VIND" name="hij vind => hij vindt">
             <rule>
-				<pattern><token regexp="yes">hij|zij|men|ze</token><marker><token postag_regexp="yes" postag="WKW:TGW:1EP" regexp="yes">.*d$<exception>rond</exception><exception postag_regexp="yes" postag="ZNW:EKV.*|WKW:VLT:1EP|BNW:STL:ONV|WKW:VTD:ONV"/></token></marker></pattern>
+				<pattern><token regexp="yes">hij|zij|men|ze</token><marker><token postag="WKW:TGW:1EP" regexp="yes">.*d$<exception>rond</exception><exception postag_regexp="yes" postag="ZNW:EKV.*|WKW:VLT:1EP|BNW:STL:ONV|WKW:VTD:ONV"/></token></marker></pattern>
                 <message>U bedoelt vast <suggestion>\2t</suggestion></message>
                 <example correction="vindt">Hij <marker>vind</marker> het niet goed.</example>
             </rule>
