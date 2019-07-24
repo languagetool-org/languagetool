@@ -185,8 +185,12 @@ public class English extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> allRules = new ArrayList<>();
-    if (motherTongue != null && "de".equals(motherTongue.getShortCode())) {
-      allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-de.xml"));
+    if (motherTongue != null) {
+      if ("de".equals(motherTongue.getShortCode())) {
+        allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-de.xml"));
+      } else if ("fr".equals(motherTongue.getShortCode())) {
+        allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-fr.xml"));
+      }
     }
     allRules.addAll(Arrays.asList(
         new CommaWhitespaceRule(messages,
