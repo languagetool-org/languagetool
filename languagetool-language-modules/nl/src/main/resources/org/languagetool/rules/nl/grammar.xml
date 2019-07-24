@@ -13369,9 +13369,10 @@ onwaarschijnlijk
 
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
 			<rule>
+				<antipattern><token postag="UNKNOWN"/></antipattern>
 				<pattern raw_pos="yes">
 					<marker>
-						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*<exception postag="UNKNOWN"/></token>
+						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
 				</pattern>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder.</message>
@@ -16126,7 +16127,7 @@ steenwijk;Steenwijk
 						<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*|VLG:BHL"/></token>
 					</marker>
                 </pattern>
-                <message>Na een getal krijgt het eerste gewone woord geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
+                <message>Na een getal krijgt het eerste gewone woord van de zin geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
                 <example correction="deed">2018 <marker>Deed</marker> het goed.</example>
             </rule>
 		</rulegroup>
@@ -16237,20 +16238,20 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_HL" name=", Hoofdletter">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
             <rule>
-                <antipattern><token>,</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
-                <antipattern><token>,</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
-				<antipattern><token>,</token><token/><token>,</token></antipattern>
-				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
-				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische)$</token></antipattern>
-                <antipattern><token>,</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
-                <antipattern><token>,</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
+                <antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
+                <antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische)$</token></antipattern>
+                <antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
+                <antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
                 <pattern case_sensitive="yes">
-                    <token>,</token>
+                    <token regexp="yes">[,;]</token>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
 					</marker>
                 </pattern>
-                <message>Na een komma hoeft meestal geen hoofdletter (behalve bij een eigennaam); bedoelt u: <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam); bedoelt u: <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
                 <example correction="is">Dit, <marker>Is</marker> een fout.</example>
                 <example>Dit <marker>is</marker> wel goed.</example>
             </rule>
@@ -17177,13 +17178,11 @@ steenwijk;Steenwijk
             <!-- 2014-08-21 TaalTik -->
             <rule>
                 <antipattern><token regexp="yes">wereldstem|.*(straat|plein|steeg)</token></antipattern>
+				<antipattern case_sensitive="yes"><token skip="1">een</token><token postag="UNKNOWN" regexp="yes">([w]ereld...*)|([a-z].*..(stichting|fonds|organisatie))</token></antipattern>
                 <pattern case_sensitive="yes">
-                    <token skip="1" negate="yes">een</token>
-                    <marker>
-                        <token postag="UNKNOWN" regexp="yes">([w]ereld...*)|([a-z].*..(stichting|fonds|organisatie))</token>
-                    </marker>
+                    <token postag="UNKNOWN" regexp="yes">([w]ereld...*)|([a-z].*..(stichting|fonds|organisatie))</token>
                 </pattern>
-                <message>Als dit een eigennaam is, dan: <suggestion><match no="2" case_conversion="startupper"/></suggestion></message>
+                <message>Als dit een eigennaam is, dan: <suggestion><match no="1" case_conversion="startupper"/></suggestion></message>
                 <short>Hoofdletter?</short>
                 <example correction="Wereldxxx">Ik zie het <marker>wereldxxx</marker> terug.</example>
                 <example>Ik zie het <marker>Wereldcongres</marker> terug.</example>
@@ -17490,10 +17489,15 @@ steenwijk;Steenwijk
 		
         <rulegroup id="SPATIE_NA" name="spatie na ; of :">
             <rule>
+				<antipattern> <!-- smiley -->
+                    <token regexp="yes">[:;]</token>
+					<token spacebefore="no" regexp="yes">[)p]</token>
+					<token spacebefore="yes"/>
+                </antipattern>
 				<antipattern> <!-- e.g. 15:00 -->
 					<token regexp="yes">[0-9]{1,2}</token>
 					<token spacebefore="no">:</token>
-					<token spacebefore="no" regexp="yes">[0-9]{1,2}</token>
+					<token spacebefore="no" regexp="yes">[0-9]{1,}</token>
 				</antipattern>
 				<antipattern>  <!-- e.g. &nbsp; -->
 					<token regexp="yes">&amp;[a-zA-Z#0-9]+</token>
