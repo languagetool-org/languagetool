@@ -43,7 +43,4 @@ public class UnitConversionRuleImperialTest {
     unitConversionRuleTestHelper.assertMatches("I am 6 feet (2.02 m) tall.", 1, "1.83 metres", rule, lt);
   }
 
-  private void assertMatches(String input, int expectedMatches, String converted, AbstractUnitConversionRule rule, JLanguageTool lt) throws IOException {
-    unitConversionRuleTestHelper.assertMatches(input, expectedMatches, converted, rule, lt);
-  }
 }
