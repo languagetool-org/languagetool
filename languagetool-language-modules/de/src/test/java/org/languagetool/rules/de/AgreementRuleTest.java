@@ -105,6 +105,12 @@ public class AgreementRuleTest {
     assertGood("Das Dach von meinen Autos.");
     assertGood("Da stellt sich die Frage: Ist das Science-Fiction oder moderne Mobilität?");
 
+    assertGood("Wir machen das Januar.");
+    assertGood("Wir teilen das Morgen mit.");
+    assertGood("Wir präsentierten das vorletzten Sonnabend.");
+    assertGood("Ich release das Vormittags.");
+    assertGood("Sie aktualisieren das Montags.");
+
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
 
