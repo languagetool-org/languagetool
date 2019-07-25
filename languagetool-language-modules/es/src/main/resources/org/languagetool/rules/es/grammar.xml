@@ -147,6 +147,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern><!-- Find only standard prose -->
                     <token regexp="yes">[a-z].*</token>
                     <marker>
+                        <token case_sensitive="yes">i</token>
+                    </marker>
+                    <token regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Asegúrese de que el carácter '\2' es correcto y no es un error de escritura.</message>
+                <suggestion>y</suggestion>
+                <example correction="y">Entre Madrid <marker>i</marker> Sevilla.</example>
+                <example correction="y">Ortega <marker>i</marker> Gasset.</example>
+                <example>Carlos I de España.</example>
+            </rule>
+            <!--TODO: other suggestions: d > de, l > el/la, n > en/un...-->
+            <rule>
+                <pattern><!-- Find only standard prose -->
+                    <token regexp="yes">[a-z].*</token>
+                    <marker>
                         <token case_sensitive="yes" regexp="yes">[a-z]
                             <exception regexp="yes">[aeouy]</exception>
                             <exception postag="NNP"/>
