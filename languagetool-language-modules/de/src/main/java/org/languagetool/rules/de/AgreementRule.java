@@ -95,6 +95,17 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?").build()
     ),
+    Arrays.asList(  // "Kannst du das Mittags machen?"
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?").build(),
+      new PatternTokenBuilder().posRegex("VER:.*|UNKNOWN").build()
+    ),
+    Arrays.asList(  // "Kannst du das nächsten Monat machen?"
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().tokenRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten").build(),
+      new PatternTokenBuilder().tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?").build(),
+      new PatternTokenBuilder().posRegex("VER:.*|UNKNOWN").build()
+    ),
     Arrays.asList(
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().tokenRegex("Zufall|Sinn|Spaß").build(),

@@ -110,6 +110,9 @@ public class AgreementRuleTest {
     assertGood("Wir präsentierten das vorletzten Sonnabend.");
     assertGood("Ich release das Vormittags.");
     assertGood("Sie aktualisieren das Montags.");
+    assertGood("Kannst du das Mittags machen?");
+    assertGood("Können Sie das nächsten Monat erledigen?");
+    assertGood("Können Sie das auch nächsten Monat erledigen?");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
