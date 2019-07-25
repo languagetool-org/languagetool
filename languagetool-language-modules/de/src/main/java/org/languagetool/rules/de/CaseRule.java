@@ -233,11 +233,36 @@ public class CaseRule extends Rule {
        new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
        new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
     ),
+    Arrays.asList( // Das schaffen moderne E-Autos locker
+       new PatternTokenBuilder().token("das").build(),
+       new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
+       new PatternTokenBuilder().posRegex("ADJ:.+").build(),
+       new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
+    ),
+    Arrays.asList( // Das schaffen moderne und effiziente E-Autos locker
+       new PatternTokenBuilder().token("das").build(),
+       new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
+       new PatternTokenBuilder().posRegex("ADJ:.+").build(), 
+       new PatternTokenBuilder().posRegex("KON:.+").build(), 
+       new PatternTokenBuilder().posRegex("ADJ:.+").build(), 
+       new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
+    ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
       new PatternTokenBuilder().tokenRegex("[tT]ausende?").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.+").build(), 
       new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_END_TAGNAME+"|VER:[1-3]:.+").build()
-   ),
+    ),
+    Arrays.asList( // "Man kann das generalisieren"
+      new PatternTokenBuilder().posRegex("VER:MOD.*").build(),
+      new PatternTokenBuilder().token("das").build(), 
+      new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build()
+    ),
+    Arrays.asList( // "Vielleicht kann er das generalisieren"
+      new PatternTokenBuilder().posRegex("VER:MOD.*").build(),
+      new PatternTokenBuilder().posRegex("PRO:.+").build(), 
+      new PatternTokenBuilder().token("das").build(), 
+      new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build()
+    ),
     Arrays.asList( // "Er befürchtete Schlimmeres."
       regex("Schlimm(er)?es"), 
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
