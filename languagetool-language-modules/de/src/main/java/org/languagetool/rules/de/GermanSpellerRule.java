@@ -18,12 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.SequenceInputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -813,6 +809,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         List<InputStream> streams = new ArrayList<>();
         for (String path : paths) {
           concatPaths.append(path).append(";");
+          // add separation between streams so that missing newlines at the end don't join the last & first line from two files
+          String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
+          ByteArrayInputStream separationStream = new ByteArrayInputStream(
+            Charset.defaultCharset().encode(separation).array());
+          streams.add(separationStream);
           streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
         }
         try (BufferedReader br = new BufferedReader(
