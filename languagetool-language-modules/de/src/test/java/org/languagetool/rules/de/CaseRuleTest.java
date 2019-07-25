@@ -135,6 +135,14 @@ public class CaseRuleTest {
     assertGood("Das machen eher wohlhabende Leute.");
     assertGood("Als Erstes würde ich sofort die Struktur ändern.");
     assertGood("Er sagte: Als Erstes würde ich sofort die Struktur ändern.");
+    assertGood("Das schaffen moderne E-Autos locker.");
+    assertGood("Das schaffen moderne E-Autos schneller");
+    assertGood("Das schaffen moderne und effizientere E-Autos schneller.");
+    assertGood("Das verwalten User.");
+    assertGood("Man kann das generalisieren");
+    assertGood("Vielleicht kann man das erweitern");
+    assertGood("Vielleicht soll er das generalisieren");
+    assertGood("Wahrscheinlich müssten sie das überarbeiten");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
