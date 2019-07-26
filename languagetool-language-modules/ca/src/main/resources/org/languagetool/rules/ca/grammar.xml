@@ -35815,6 +35815,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token inflected="yes">escoltar</token>
+                    <token>a</token>
+                    <token regexp="yes">dir|parlar</token>
+                </pattern>
+                <message>Ús incorrecte.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a \3</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> \3</suggestion>
+                <example correction="Sentia a dir|Sentia dir"><marker>Escoltava a dir</marker> coses.</example>
+                <example>Sentia a dir coses.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token inflected="yes">escoltar</token>
                     </marker>
@@ -46512,7 +46524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria|substantius?|&dies_setmana;</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria|substantius?|objectes?|&dies_setmana;</exception></token>
                         <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*|fra|don|&dies_setmana;|.+ador(a|s|es)?</exception></token>
                     </marker>
                     <token><exception regexp="yes">amunt|avall|enllà</exception></token>
