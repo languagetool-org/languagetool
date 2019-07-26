@@ -21877,6 +21877,11 @@ USA
                     <token min="0" max="1" postag="PRP"/>
                     <token>,</token>
                 </antipattern>
+                <antipattern><!-- #1744. Still and calm he was sitting there. -->
+                    <token postag="JJ"/>
+                    <token>and</token>
+                    <token postag="JJ"/>
+                </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
@@ -21917,6 +21922,7 @@ USA
                 <example correction="However,"><marker>However</marker> large errors can occur.</example>
 <!-- TODO -->   <example><marker>Anyway</marker> you look after the disambiguation, and I'll do the grammar rules.</example>
                 <example><marker>Anyway you look at it</marker>, the rule is good.</example>
+                <example>Still and calm he was sitting there.</example>
                 <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
                 <example type="triggers_error"><marker>Currently under construction in Edmonton</marker> is the new...</example>
