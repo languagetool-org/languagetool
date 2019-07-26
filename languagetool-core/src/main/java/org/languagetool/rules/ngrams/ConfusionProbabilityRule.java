@@ -55,7 +55,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   // the minimum value the more probable variant needs to have to be considered:
   private static final double MIN_PROB = 0.0;  // try values > 0 to avoid false alarms
 
-  private static final boolean DEBUG = false;
+  private static final boolean DEBUG = false;  // also see DEBUG in BaseLanguageModel.java
 
   // Speed up the server use case, where rules get initialized for every call:
   private static final LoadingCache<String, Map<String, List<ConfusionPair>>> confSetCache = CacheBuilder.newBuilder()
@@ -141,6 +141,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
               List<String> suggestions = new ArrayList<>(getSuggestions(message));
               if (!suggestions.contains(betterAlternative.getString())) {
                 suggestions.add(betterAlternative.getString());
+              }
+              if (pos > 0 && "_START_".equals(tokens.get(pos-1).token) && tokens.size() > pos+1 && tokens.get(pos+1).token != null && !tokens.get(pos+1).token.matches("\\w+")) {
+                // Let's assume there is not enough data for this. The original problem was a false alarm for
+                // "Resolves:" (-> "Resolved:")
+                continue;
               }
               RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
               match.setSuggestedReplacements(suggestions);
