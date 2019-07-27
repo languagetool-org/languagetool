@@ -226,6 +226,7 @@ public class AgreementRuleTest {
     assertGood("Er wollte doch nur jemandem Gutes tun.");
     assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
     assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
+    assertGood("Unser Hund vergräbt seine Knochen im Garten.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
