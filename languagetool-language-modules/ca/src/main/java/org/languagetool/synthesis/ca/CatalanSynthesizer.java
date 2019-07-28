@@ -116,7 +116,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
-    return results.toArray(new String[results.size()]);
+    return results.toArray(new String[0]);
   }
   
   @Override
@@ -165,7 +165,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
           }
         }
       }
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
     return synthesize(token, posTag);
   }

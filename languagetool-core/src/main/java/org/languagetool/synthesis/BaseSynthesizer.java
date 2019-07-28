@@ -137,8 +137,7 @@ public class BaseSynthesizer implements Synthesizer {
   }
 
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag,
-      boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
       Pattern p = Pattern.compile(posTag);
