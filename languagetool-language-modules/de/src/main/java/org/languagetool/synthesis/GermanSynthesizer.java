@@ -79,7 +79,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     for (String part : lastPartForms) {
       results.add(firstPart + StringTools.lowercaseFirstChar(part));
     }
-    return results.toArray(new String[results.size()]);
+    return results.toArray(new String[0]);
   }
 
 }
