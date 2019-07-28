@@ -140,7 +140,7 @@ public class English extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new EnglishSynthesizer();
+      synthesizer = new EnglishSynthesizer(this);
     }
     return synthesizer;
   }

@@ -134,7 +134,7 @@ public class Catalan extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new CatalanSynthesizer();
+      synthesizer = new CatalanSynthesizer(this);
     }
     return synthesizer;
   }

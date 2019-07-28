@@ -99,7 +99,7 @@ public class Polish extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new PolishSynthesizer();
+      synthesizer = new PolishSynthesizer(this);
     }
     return synthesizer;
   }

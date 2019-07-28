@@ -90,7 +90,7 @@ public class Galician extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new GalicianSynthesizer();
+      synthesizer = new GalicianSynthesizer(this);
     }
     return synthesizer;
   }

@@ -119,7 +119,7 @@ public class Greek extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new GreekSynthesizer();
+      synthesizer = new GreekSynthesizer(this);
     }
     return synthesizer;
   }

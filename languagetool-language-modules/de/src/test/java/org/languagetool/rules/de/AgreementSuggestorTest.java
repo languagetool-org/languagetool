@@ -32,13 +32,13 @@ import org.languagetool.language.GermanyGerman;
 public class AgreementSuggestorTest {
 
   @Test
-  public void testSuggestions() throws Exception {
+  public void testSuggestions() {
     assertSuggestion("das/der/ART:DEF:NOM:SIN:NEU Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("der/der/ART:DEF:NOM:SIN:MAS Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("die/der/ART:DEF:NOM:PLU:FEM Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häuser/Haus/SUB:NOM:PLU:NEU", "[die Häuser]");
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häusern/Haus/SUB:DAT:PLU:NEU", "[den Häusern]");
-    assertSuggestion("dieser/dies/PRO:DEM:GEN:PLU:NEU:B/S Buch/Buch/SUB:NOM:SIN:NEU", "[dieser Bücher, dieses Buch]");
+    assertSuggestion("dieser/dies/PRO:DEM:GEN:PLU:NEU:B/S Buch/Buch/SUB:NOM:SIN:NEU", "[dies Buch, dieser Bücher, dieses Buch]");
     assertSuggestion("die/der/PRO:IND:NOM:PLU:NEU:B/S Kabels/Kabel/SUB:GEN:PLU:NEU", "[die Kabel]");
     assertSuggestion("die/der/PRO:IND:NOM:PLU:NEU:B/S LAN-Kabels/LAN-Kabel/SUB:GEN:PLU:NEU", "[die LAN-Kabel]");
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S Kabels/Kabel/SUB:GEN:SIN:MAS", "[mehrere Kabel]");

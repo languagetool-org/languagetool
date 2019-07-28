@@ -84,7 +84,7 @@ public class French extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new FrenchSynthesizer();
+      synthesizer = new FrenchSynthesizer(this);
     }
     return synthesizer;
   }

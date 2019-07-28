@@ -120,7 +120,7 @@ public class Portuguese extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new PortugueseSynthesizer();
+      synthesizer = new PortugueseSynthesizer(this);
     }
     return synthesizer;
   }

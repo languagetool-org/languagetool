@@ -20,6 +20,7 @@ package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
@@ -35,7 +36,7 @@ import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer();
+  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());

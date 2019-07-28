@@ -79,8 +79,7 @@ public class MatchTest {
   @Before
   public void setUp() throws Exception {
     tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
-    synthesizer = new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
-    languageTool = new JLanguageTool(new Demo() {
+    Demo demo = new Demo() {
       @Override
       public String getName() {
         return "TEST";
@@ -93,7 +92,9 @@ public class MatchTest {
       public Tagger getTagger() {
         return MatchTest.this.tagger;
       }
-    });
+    };
+    synthesizer = new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))), demo);
+    languageTool = new JLanguageTool(demo);
   }
 
   //-- test methods

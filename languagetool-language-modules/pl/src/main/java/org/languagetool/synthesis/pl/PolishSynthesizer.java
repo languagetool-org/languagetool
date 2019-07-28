@@ -34,6 +34,7 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.SynthesizerTools;
@@ -56,8 +57,8 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
 
   private List<String> possibleTags;
 
-  public PolishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public PolishSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   @Override

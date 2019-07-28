@@ -21,6 +21,7 @@
   * Spell suggestion improvements: for many cases of a misplaced space,
     the suggestions are now better. For example, "thef eedback" can now
     be corrected to "the feedback" in one step. (#1729)
+  * The synthesizer now considers entries in `added.txt` (#884)
   
   
 

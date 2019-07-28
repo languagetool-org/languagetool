@@ -96,7 +96,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SpanishSynthesizer();
+      synthesizer = new SpanishSynthesizer(this);
     }
     return synthesizer;
   }

@@ -77,7 +77,7 @@ public class Dutch extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new DutchSynthesizer();
+      synthesizer = new DutchSynthesizer(this);
     }
     return synthesizer;
   }

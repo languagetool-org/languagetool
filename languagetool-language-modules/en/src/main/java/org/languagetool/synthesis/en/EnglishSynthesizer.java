@@ -29,6 +29,7 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.synthesis.BaseSynthesizer;
@@ -60,8 +61,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
-  public EnglishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public EnglishSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   /**

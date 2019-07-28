@@ -73,7 +73,7 @@ public class Slovak extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SlovakSynthesizer();
+      synthesizer = new SlovakSynthesizer(this);
     }
     return synthesizer;
   }

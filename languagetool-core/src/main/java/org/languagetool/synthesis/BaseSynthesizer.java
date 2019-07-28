@@ -33,6 +33,7 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 public class BaseSynthesizer implements Synthesizer {
 
@@ -41,22 +42,36 @@ public class BaseSynthesizer implements Synthesizer {
   private final String tagFileName;
   private final String resourceFileName;
   private final IStemmer stemmer;
-
+  private final ManualSynthesizer manualSynthesizer;
+  
   private volatile Dictionary dictionary;
 
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
    */
-  public BaseSynthesizer(String resourceFileName, String tagFileName) {
+  public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
     this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
     this.stemmer = createStemmer();
+    try {
+      String path = "/" + lang.getShortCode() + "/added.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(path)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
+          this.manualSynthesizer = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.manualSynthesizer = null;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 
   /**
    * Returns the {@link Dictionary} used for this synthesizer.
-   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
+   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String, Language) constructor}.
    * @throws IOException In case the dictionary cannot be loaded.
    */
   protected Dictionary getDictionary() throws IOException {
@@ -97,6 +112,12 @@ public class BaseSynthesizer implements Synthesizer {
       List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
       for (WordData wd : wordForms) {
         results.add(wd.getStem().toString());
+      }
+    }
+    if (manualSynthesizer != null) {
+      List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
+      if (manualForms != null) {
+        results.addAll(manualForms);
       }
     }
   }
@@ -154,6 +175,13 @@ public class BaseSynthesizer implements Synthesizer {
         if (tags == null) {
           try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {
             possibleTags = SynthesizerTools.loadWords(stream);
+          }
+        }
+      }
+      if (manualSynthesizer != null) {
+        for (String tag : manualSynthesizer.getPossibleTags()) {
+          if (!possibleTags.contains(tag)) {
+            possibleTags.add(tag);
           }
         }
       }

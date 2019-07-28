@@ -124,7 +124,7 @@ public class Ukrainian extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new UkrainianSynthesizer();
+      synthesizer = new UkrainianSynthesizer(this);
     }
     return synthesizer;
   }

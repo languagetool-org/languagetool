@@ -21,6 +21,7 @@ package org.languagetool.synthesis.ca;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Catalan;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CatalanSynthesizerTest {
 
-  private final CatalanSynthesizer synth = new CatalanSynthesizer();
+  private final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
 
   @Test
   public final void testSynthesizeStringString() throws IOException {

@@ -21,6 +21,7 @@ package org.languagetool.synthesis.sk;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Slovak;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class SlovakSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    SlovakSynthesizer synth = new SlovakSynthesizer();
+    SlovakSynthesizer synth = new SlovakSynthesizer(new Slovak());
     assertEquals(synth.synthesize(dummyToken("blablabla"), 
         "blablabla").length, 0);
     

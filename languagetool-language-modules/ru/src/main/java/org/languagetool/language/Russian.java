@@ -88,7 +88,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new RussianSynthesizer();
+      synthesizer = new RussianSynthesizer(this);
     }
     return synthesizer;
   }

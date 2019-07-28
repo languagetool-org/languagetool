@@ -20,6 +20,7 @@ package org.languagetool.synthesis;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -35,8 +36,8 @@ public class GermanSynthesizer extends BaseSynthesizer {
 
   private final GermanCompoundTokenizer splitter;
   
-  public GermanSynthesizer() {
-    super("/de/german_synth.dict", "/de/german_tags.txt");
+  public GermanSynthesizer(Language lang) {
+    super("/de/german_synth.dict", "/de/german_tags.txt", lang);
     try {
       splitter = new GermanCompoundTokenizer();
     } catch (IOException e) {

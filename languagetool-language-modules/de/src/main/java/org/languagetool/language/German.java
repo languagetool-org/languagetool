@@ -133,7 +133,7 @@ public class German extends Language implements AutoCloseable {
   @NotNull
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new GermanSynthesizer();
+      synthesizer = new GermanSynthesizer(this);
     }
     return synthesizer;
   }

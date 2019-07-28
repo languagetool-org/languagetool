@@ -20,13 +20,13 @@ package org.languagetool.synthesis.ca;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 import morfologik.stemming.IStemmer;
@@ -47,7 +47,7 @@ import morfologik.stemming.WordData;
  */
 public class CatalanSynthesizer extends BaseSynthesizer {
   
-  /** A special tag to add determiner (el, la, l', els, les). **/
+  /* A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
 
   /** Patterns for number and gender **/
@@ -68,9 +68,8 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   /** Patterns verb **/
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
-  public CatalanSynthesizer() {
-    super("/ca/ca-ES-valencia_synth.dict", 
-        "/ca/ca-ES-valencia_tags.txt");
+  public CatalanSynthesizer(Language lang) {
+    super("/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
   }
 
   @Override

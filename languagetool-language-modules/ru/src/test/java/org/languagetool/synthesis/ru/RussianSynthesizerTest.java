@@ -21,6 +21,7 @@ package org.languagetool.synthesis.ru;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Russian;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public class RussianSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    RussianSynthesizer synth = new RussianSynthesizer();
+    RussianSynthesizer synth = new RussianSynthesizer(new Russian());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[семья]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Inanim:Fem:Sin:Nom")));

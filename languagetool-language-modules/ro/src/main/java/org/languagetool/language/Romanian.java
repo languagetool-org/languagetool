@@ -106,7 +106,7 @@ public class Romanian extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new RomanianSynthesizer();
+      synthesizer = new RomanianSynthesizer(this);
     }
     return synthesizer;
   }

@@ -20,6 +20,7 @@ package org.languagetool.synthesis.fr;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.French;
 import org.languagetool.synthesis.FrenchSynthesizer;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class FrenchSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    FrenchSynthesizer synth = new FrenchSynthesizer();
+    FrenchSynthesizer synth = new FrenchSynthesizer(new French());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
     assertEquals("[nagent]", Arrays.toString(synth.synthesize(dummyToken("nager"), "V ind pres 3 p")));

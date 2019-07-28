@@ -20,6 +20,7 @@ package org.languagetool.synthesis;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.German;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertThat;
 
 public class GermanSynthesizerTest {
 
-  private final GermanSynthesizer synthesizer = new GermanSynthesizer();
+  private final GermanSynthesizer synthesizer = new GermanSynthesizer(new German());
 
   @Test
   public void testSynthesize() throws IOException {
