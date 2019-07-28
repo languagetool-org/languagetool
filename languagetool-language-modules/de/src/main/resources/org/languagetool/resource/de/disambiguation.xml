@@ -3198,6 +3198,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Auf- oder Abwertung" id="HIN_HER_GROSS">
+      <pattern case_sensitive="yes">
+        <marker><token regexp="yes">(A[bn]|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
+        <token postag="KON:.+" postag_regexp="yes"></token>
+        <token regexp="yes">(A[bn]|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Allahu akbar" id="ALLAHU_AKBAR">
       <pattern>
         <token case_sensitive="yes">Allahu</token>
@@ -3224,6 +3232,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token regexp="yes">Cent(er|re)|Supreme</token>
         <token>Court</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="WOODS" id="WOODS"><!-- Bretton/Tiger Woods-->
+      <pattern case_sensitive="yes">
+        <token postag="UNKNOWN|EIG:.+" postag_regexp="yes"></token>
+        <token>Woods</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
