@@ -62,6 +62,8 @@ public class EnglishSynthesizerTest {
     // from added.txt:
     assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VBD", false)));
     assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VB[XD]", true)));
+    // from removed.txt:
+    assertEquals("[]", Arrays.toString(synth.synthesize(dummyToken("Christmas"), "VBZ", false)));
   }
 
 }

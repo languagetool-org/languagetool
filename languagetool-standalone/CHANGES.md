@@ -21,8 +21,9 @@
   * Spell suggestion improvements: for many cases of a misplaced space,
     the suggestions are now better. For example, "thef eedback" can now
     be corrected to "the feedback" in one step. (#1729)
-  * The synthesizer now considers entries in `added.txt` (except for Catalan
-    and Polish) (#884)
+  * The synthesizer now considers entries in `added.txt` and `removed.txt`
+    (except for Catalan and Polish; for German removing compounds
+    in `removed.txt` might not work) (#884)
   
   
 

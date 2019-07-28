@@ -43,6 +43,7 @@ public class BaseSynthesizer implements Synthesizer {
   private final String resourceFileName;
   private final IStemmer stemmer;
   private final ManualSynthesizer manualSynthesizer;
+  private final ManualSynthesizer removalSynthesizer;
   
   private volatile Dictionary dictionary;
 
@@ -63,10 +64,17 @@ public class BaseSynthesizer implements Synthesizer {
       } else {
         this.manualSynthesizer = null;
       }
+      String removalPath = "/" + lang.getShortCode() + "/removed.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(removalPath)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath)) {
+          this.removalSynthesizer = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.removalSynthesizer = null;
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
   }
 
   /**
@@ -118,6 +126,12 @@ public class BaseSynthesizer implements Synthesizer {
       List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
       if (manualForms != null) {
         results.addAll(manualForms);
+      }
+    }
+    if (removalSynthesizer != null) {
+      List<String> removeForms = removalSynthesizer.lookup(lemma, posTag);
+      if (removeForms != null) {
+        results.removeAll(removeForms);
       }
     }
   }
