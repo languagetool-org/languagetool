@@ -35,6 +35,7 @@ import org.languagetool.tokenizers.ManualTaggerAdapter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -78,7 +79,7 @@ public class MatchTest {
 
   @Before
   public void setUp() throws Exception {
-    tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
+    tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes(StandardCharsets.UTF_8))));
     Demo demo = new Demo() {
       @Override
       public String getName() {
@@ -93,7 +94,7 @@ public class MatchTest {
         return MatchTest.this.tagger;
       }
     };
-    synthesizer = new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))), demo);
+    synthesizer = new ManualSynthesizerAdapter(new ManualSynthesizer(new ByteArrayInputStream(TEST_DATA.getBytes(StandardCharsets.UTF_8))), demo);
     languageTool = new JLanguageTool(demo);
   }
 

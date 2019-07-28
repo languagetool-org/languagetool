@@ -32,6 +32,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -122,7 +123,7 @@ class UserLimits {
                 .append('=')
                 .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
       }
-      byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+      byte[] postDataBytes = postData.toString().getBytes(StandardCharsets.UTF_8);
       HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
       try {
         conn.setRequestMethod("POST");

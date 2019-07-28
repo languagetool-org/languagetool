@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +35,6 @@ import java.util.stream.Stream;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
@@ -727,7 +727,7 @@ public class GermanSpellerRuleTest {
     List<String> dictWords = Arrays.asList("schenken", "Schänken");
     List<byte[]> dictWordsAsBytes = new ArrayList<>();
     for (String entry : dictWords) {
-      dictWordsAsBytes.add(entry.getBytes("utf-8"));
+      dictWordsAsBytes.add(entry.getBytes(StandardCharsets.UTF_8));
     }
     dictWordsAsBytes.sort(FSABuilder.LEXICAL_ORDERING);
     FSA fsa = FSABuilder.build(dictWordsAsBytes);
@@ -740,7 +740,7 @@ public class GermanSpellerRuleTest {
                       "fsa.dict.separator=+\n" +
                       "fsa.dict.encoding=utf-8\n" +
                       "fsa.dict.speller.ignore-diacritics=false\n";
-    InputStream is = new ByteArrayInputStream(infoFile.getBytes("utf-8"));
+    InputStream is = new ByteArrayInputStream(infoFile.getBytes(StandardCharsets.UTF_8));
     Dictionary dict = Dictionary.read(fsaInStream, is);
     runTests(dict, inputWord);
   }

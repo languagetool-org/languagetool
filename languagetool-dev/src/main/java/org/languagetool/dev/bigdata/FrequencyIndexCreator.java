@@ -29,6 +29,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -176,7 +177,7 @@ public class FrequencyIndexCreator {
     try (
       InputStream fileStream = new FileInputStream(inputFile);
       InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
-      Reader decoder = new InputStreamReader(gzipStream, "utf-8");
+      Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
       BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE)
     ) {
       int i = 0;

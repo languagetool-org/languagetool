@@ -28,6 +28,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -62,7 +63,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
         // spell data will not exist in LibreOffice/OpenOffice context
         String path = "/fr/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-             BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+             BufferedReader br = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
           return new MorfologikMultiSpeller(morfoFile, br, path, null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
