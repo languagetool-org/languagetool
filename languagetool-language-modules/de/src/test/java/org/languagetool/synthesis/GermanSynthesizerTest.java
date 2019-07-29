@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.German;
@@ -31,6 +32,17 @@ import static org.junit.Assert.assertThat;
 public class GermanSynthesizerTest {
 
   private final GermanSynthesizer synthesizer = new GermanSynthesizer(new German());
+
+  @Ignore("for interactive debugging only")
+  @Test
+  public void testSynthesizeX() throws IOException {
+    String token = "musst";
+    String lemma = "müssen";
+    String posTag = "VER:MOD:2:SIN:PRÄ";
+    String targetPosTag = ".*:PRT.*";
+    String[] result = synthesizer.synthesize(new AnalyzedToken(token, posTag, lemma), targetPosTag, true);
+    System.out.println("=> " + Arrays.toString(result));
+  }
 
   @Test
   public void testSynthesize() throws IOException {
