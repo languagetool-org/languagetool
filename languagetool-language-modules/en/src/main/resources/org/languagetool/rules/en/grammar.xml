@@ -14107,7 +14107,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll</token>
+                    <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll|must</token>
                     <marker>
                         <token postag="VBZ"><exception postag="VBP|NNP" postag_regexp="yes"/></token>
                     </marker>
@@ -14115,6 +14115,10 @@ USA
                 <message>The verb '<match no="1"/>' requires the base form of the verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
                 <short>Grammatical problem: use the base form</short>
                 <example correction="have">Mozilla should <marker>has</marker> a grammar checker.</example>
+                <example correction="have">Mozilla must <marker>has</marker> a grammar checker.</example><!-- https://forum.languagetool.org/t/must-missing-in-some-rules/4526 -->
+                <example>Mozilla should <marker>have</marker> a grammar checker.</example>
+                <example>The must has an unusual colour today. Please check the filters.</example>
+                <example type="triggers_error">This can <marker>holds</marker> about 4 gallons.</example><!-- Ambiguous. NN+VBZ is correct. MD+VBZ is not correct. -->
             </rule>
             <rule>
                 <pattern>
