@@ -11484,6 +11484,78 @@ USA
                 <example correction="gone">Where have you <marker>went</marker>?</example>
                 <example>What have you seen?</example>
             </rule>
+            <rule><!-- had + past tense. MFU 2018-07-29. As an alternative to trying to change the existing rules, I added 2 rules that find errors that the existing rules do not find. -->
+                <antipattern>
+                    <token>had</token>
+                    <token chunk="B-NP-plural"/>
+                </antipattern>
+                <antipattern>
+                    <token>had</token>
+                    <token chunk="B-NP-singular"/>
+                </antipattern>
+                <antipattern><!-- Chunker is not sufficient: had ringed notebooks -->
+                    <token>had</token>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token>had</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <marker>
+                        <token postag='VBD'>
+                            <exception postag='VBN'/>
+                            <exception regexp='yes'>was|were</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Use the past participle <suggestion><match no="3" postag="VBN"/></suggestion> after the modal (auxiliary) verb '\1'.</message>
+                <example correction="broken">The impact had <marker>broke</marker> my foot.</example>
+                <example correction="fallen|felled">If he had not <marker>fell</marker>, he would not have died.</example>
+                <example correction="risen">I had <marker>rose</marker> before the break of day.</example>
+                <example correction="sung">She had often <marker>sang</marker> many good songs.</example>
+                <example>The impact had <marker>broken</marker> my foot.</example>
+                <example>The block of wood had <marker>saw marks</marker> on it.</example>
+                <example>...operational abilities the armed forces had were gradually destroyed by politicisation of...</example>
+                <example>...child, only children from wealthy families had ringed notebooks.</example>
+<!-- False negative caused by broke/B-NP-plural. Cannot see how to solve the problem. I can add JJ, NN etc to the AP, but 'broke' is JJ, so the rule will still not find this example. --><example>They had <marker>broke</marker> all the rules.</example>
+<!-- False negative caused by rose/E-NP-singular --><example>The sun had <marker>rose</marker> before I awoke.</example>
+<!-- False negative cause by non-standard drank/VBN --><example>He had <marker>drank</marker> that too quickly.</example>
+            </rule>
+            <rule><!-- has + past tense -->
+                <antipattern>
+                    <token>has</token>
+                    <token chunk="B-NP-plural"/>
+                </antipattern>
+                <antipattern>
+                    <token>has</token>
+                    <token chunk="B-NP-singular"/>
+                </antipattern>
+                <antipattern><!-- Chunker is not sufficient: has ringed notebooks -->
+                    <token>has</token>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token>has</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <marker>
+                        <token postag='VBD'>
+                            <exception postag='VBN'/>
+                            <exception regexp='yes'>was|were</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Use the past participle <suggestion><match no="3" postag="VBN"/></suggestion> after the modal (auxiliary) verb '\1'.</message>
+                <example correction="broken">She has not <marker>broke</marker> her foot.</example>
+                <example correction="fallen|felled">She has unfortunately <marker>fell</marker>.</example>
+                <example correction="risen">The sun has <marker>rose</marker> already.</example>
+                <example correction="sung">She has <marker>sang</marker> many good songs.</example>
+                <example>She has not <marker>broken</marker> her foot.</example>
+                <example>The block of wood has <marker>saw marks</marker> on it.</example>
+                <example>...operational abilities the organization has were gradually destroyed by the...</example>
+                <example>...a child from a wealthy family who has ringed notebooks.</example>
+<!-- False negative cause by non-standard drank/VBN --><example>He has <marker>drank</marker> that too quickly.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
             <antipattern>
