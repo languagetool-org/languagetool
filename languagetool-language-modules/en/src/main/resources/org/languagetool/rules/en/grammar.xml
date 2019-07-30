@@ -26628,6 +26628,7 @@ USA
             <example>He <marker>emailed</marker> her.</example>
         </rule>
         <rulegroup id="SEND_PRP_AN_EMAIL" name="send me an email (email me)"><!-- https://forum.languagetool.org/t/en-possible-new-rule-2019-07-19/4486 -->
+            <short>Possibly redundant phrase</short>
             <rule><!-- email -->
                 <pattern>
                     <token inflected="yes">send</token>
@@ -26635,8 +26636,7 @@ USA
                     <token>an</token>
                     <token>email</token>
                 </pattern>
-                <message>Consider using <suggestion><match no="1" postag="VB.*">email</match> \2</suggestion>.</message>
-                <short>Redundant phrase</short>
+                <message>In some texts, you can shorten this phrase. Consider using <suggestion><match no="1" postag="VB.*">email</match> \2</suggestion>.</message>
                 <example correction="emailed me">Peter has <marker>sent me an email</marker>.</example>
                 <example correction="email her">Jenny didn't <marker>send her an email</marker>.</example>
                 <example correction="emailing him">I was <marker>sending him an email</marker> when he phoned me.</example>
@@ -26649,12 +26649,12 @@ USA
                     <token>an</token>
                     <token>e-mail</token>
                 </pattern>
-                <message>Consider using <suggestion><match no="1" postag="VB.*">e-mail</match> \2</suggestion>.</message>
-                <short>Redundant phrase</short>
+                <message>In some texts, you can shorten this phrase. Consider using <suggestion><match no="1" postag="VB.*">e-mail</match> \2</suggestion>.</message>
                 <example correction="e-mailed me">Peter has <marker>sent me an e-mail</marker>.</example>
                 <example correction="e-mail her">Jenny didn't <marker>send her an e-mail</marker>.</example>
                 <example correction="e-mailing him">I was <marker>sending him an e-mail</marker> when he phoned me.</example>
                 <example>Peter has <marker>e-mailed</marker> me.</example>
+                <example type="triggers_error">Pierre <marker>sent me an E-mail</marker>, a rather scathing E-mail.</example>
             </rule>
         </rulegroup>
         <rule default="off" id="WORLD_AROUND_IT" name="the world around it (the world)">
