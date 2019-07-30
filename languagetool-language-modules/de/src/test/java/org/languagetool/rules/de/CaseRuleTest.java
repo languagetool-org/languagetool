@@ -143,6 +143,7 @@ public class CaseRuleTest {
     assertGood("Vielleicht kann man das erweitern");
     assertGood("Vielleicht soll er das generalisieren");
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
+    assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

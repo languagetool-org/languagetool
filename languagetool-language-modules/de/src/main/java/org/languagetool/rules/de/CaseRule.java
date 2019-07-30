@@ -70,6 +70,10 @@ public class CaseRule extends Rule {
       token("Geboten")
     ),
     Arrays.asList(
+      regex("vor|den"),
+      token("Gefahren")
+    ),
+    Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Goldenen?"),
