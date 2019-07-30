@@ -3324,6 +3324,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aquest detectiu|aquests detectius|aquesta detectiva|aquestes detectives"><marker>aquesta detectiu</marker>.</example>
                 <example>La detectiva</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..M.." postag_regexp="yes"/>
+                    <token>credencials</token>
+                </pattern>
+                <message>Error de concordnaça. El nom "credencial" és femení.</message>
+                <suggestion><match no="1" postag="(D..)M.(.)" postag_regexp="yes" postag_replace="$1FP$2"/> \2</suggestion>
+                <example correction="Les credencials"><marker>Els credencials</marker> d'accés.</example>
+                <example correction="Aquestes credencials"><marker>Aquest credencials</marker> d'accés.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..M.." postag_regexp="yes"/>
+                    <token>credencial</token>
+                </pattern>
+                <message>Error de concordnaça. El nom "credencial" és femení.</message>
+                <suggestion><match no="1" postag="(D..)M.(.)" postag_regexp="yes" postag_replace="$1FS$2"/> \2</suggestion>
+                <example correction="La credencial"><marker>Els credencial</marker> d'accés.</example>
+                <example correction="Aquesta credencial"><marker>Aquest credencial</marker> d'accés.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
@@ -25587,6 +25607,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
+            <antipattern> <!--  versions -->
+                <marker>
+                    <token regexp="yes">[\d\.]+</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">\d+\.\d+</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">(\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+)\.\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
@@ -25611,6 +25638,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En Apache 2.4 és així.</example>
                 <example>En la web 2.0 és així.</example>
                 <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example>
+                <example>Tinc la versió 5.6.3.4 de LibreOffice.</example>
+                <example>Tinc la versió 5.6.3 de LibreOffice.</example>
             </rule>
             <rule>
                 <pattern>
