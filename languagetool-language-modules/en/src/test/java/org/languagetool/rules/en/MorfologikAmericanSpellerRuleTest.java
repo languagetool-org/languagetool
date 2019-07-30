@@ -20,6 +20,7 @@ package org.languagetool.rules.en;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -144,6 +145,12 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A software")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A soft\u00ADware")).length);
+  }
+
+  @Ignore("ignore until issue #1769 is fixed")
+  @Test
+  public void testBug() throws IOException {
+    lt.check("sus\u00AD tainability");
   }
 
   @Test
