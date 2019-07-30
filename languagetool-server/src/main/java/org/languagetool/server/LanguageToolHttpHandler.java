@@ -294,6 +294,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (params.get("apiKey") != null) {
       message += "apiKey: " + params.get("apiKey") + ", ";
     }
+    if (params.get("tokenV2") != null) {
+      message += "tokenV2: " + params.get("tokenV2") + ", ";
+    }
     message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");
     if (text != null) {
