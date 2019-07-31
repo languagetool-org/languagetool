@@ -3329,7 +3329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D..M.." postag_regexp="yes"/>
                     <token>credencials</token>
                 </pattern>
-                <message>Error de concordnaça. El nom "credencial" és femení.</message>
+                <message>Error de concordança. El nom "credencial" és femení.</message>
                 <suggestion><match no="1" postag="(D..)M.(.)" postag_regexp="yes" postag_replace="$1FP$2"/> \2</suggestion>
                 <example correction="Les credencials"><marker>Els credencials</marker> d'accés.</example>
                 <example correction="Aquestes credencials"><marker>Aquest credencials</marker> d'accés.</example>
@@ -3339,10 +3339,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D..M.." postag_regexp="yes"/>
                     <token>credencial</token>
                 </pattern>
-                <message>Error de concordnaça. El nom "credencial" és femení.</message>
+                <message>Error de concordança. El nom "credencial" és femení.</message>
                 <suggestion><match no="1" postag="(D..)M.(.)" postag_regexp="yes" postag_replace="$1FS$2"/> \2</suggestion>
                 <example correction="La credencial"><marker>Els credencial</marker> d'accés.</example>
                 <example correction="Aquesta credencial"><marker>Aquest credencial</marker> d'accés.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">credencials?</token>
+                    <token min="0" postag="R." postag_regexp="yes"/>
+                    <token postag="A..M.." postag_regexp="yes"><exception postag="A..F.." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança. El nom "credencial" és femení.</message>
+                <example correction=""><marker>credencial incorrecte</marker></example>
+                <example correction=""><marker>credencials no vàlids</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
@@ -40949,7 +40959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="(V.[^M].*)" postag_regexp="yes" inflected="yes">comptar</token>
                     <token skip="3">amb</token>
                 </marker>
-                <token postag="N.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">població|habitant|batejar</token>
+                <token postag="N.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">població|habitant|batejar|municipi|cantó</token>
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">tenir</match></suggestion>
