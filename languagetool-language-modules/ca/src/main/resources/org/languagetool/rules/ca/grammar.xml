@@ -8272,7 +8272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en">Viu habitualment <marker>a</marker> zones càlides.</example>
                 <example correction="en">Se situa de vegades <marker>a</marker> zones càlides.</example>
                 <example correction="en">Apareixen principalment <marker>a</marker> aigües càlides.</example>
-                <example correction="en">Nien aobretot <marker>a</marker> coves i forats d'arbre.</example>
+                <example correction="en">Nien sobretot <marker>a</marker> coves i forats d'arbre.</example>
                 <example>Arriba fins a hàbitats extrems.</example>
                 <example>Roman com a zona protegida.</example>
             </rule>
@@ -11239,6 +11239,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sigui encara|continuï essent|segueixi essent">Vull que <marker>sigui essent</marker> així.</example>
             <example correction="siga encara|continue sent|seguesca sent|seguisca sent">Vull que <marker>siga sent</marker> així.</example>
         </rule>
+        <rulegroup id="LHI_SEL" name="*l'hi denomina / se'l denomina">
+            <rule>
+                <pattern>
+                    <token regexp="yes">l'|li</token>
+                    <token regexp="yes">hi|'l</token>
+                    <token inflected="yes">denominar</token>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>se'l \3</suggestion>
+                <example correction="Se'l denominava"><marker>L'hi denominava</marker> així.</example>
+                <example correction="Se'l denominava"><marker>Li'l denominava</marker> així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">l'|li</token>
+                    <token regexp="yes">hi|'l|l'</token>
+                    <token inflected="yes">anomenar</token>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>se l'\3</suggestion>
+                <example correction="Se l'anomena"><marker>L'hi anomena</marker> així.</example>
+                <example correction="Se l'anomena"><marker>Li l'anomena</marker> així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">l'|li</token>
+                    <token regexp="yes">hi|'l|l'</token>
+                    <token inflected="yes">haver</token>
+                    <token inflected="yes" regexp="yes">denominar|anomenar</token>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>se l'\3 \4</suggestion>
+                <example correction="Se l'ha anomenat"><marker>L'hi ha anomenat</marker> així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">l'|li</token>
+                    <token regexp="yes">hi|'l|l'</token>
+                    <token inflected="yes">anar</token>
+                    <token inflected="yes" regexp="yes">denominar|anomenar</token>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>se'l \3 \4</suggestion>
+                <example correction="Se'l va denominar"><marker>Li'l va denominar</marker> així.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">els|li</token>
+                        <token regexp="yes">hi|'ls</token>
+                    </marker>
+                    <token min="0" regexp="yes" inflected="yes">anar|haver</token>
+                    <token regexp="yes" inflected="yes">denominar|anomenar</token>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>se'ls</suggestion>
+                <example correction="Se'ls"><marker>Els hi</marker> denominava així.</example>
+                <example correction="Se'ls"><marker>Els hi</marker> ha denominat així.</example>
+                <example correction="Se'ls"><marker>Els hi</marker> va anomenar així.</example>
+                <example correction="se'ls">Volia que <marker>els hi</marker> anomenés així.</example>
+            </rule>
+        </rulegroup>
         <rule id="PROJECTO" name="projecto/projecte">
             <pattern>
                  <marker>
