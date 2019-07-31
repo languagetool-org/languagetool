@@ -3561,6 +3561,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="RB"/>
         <token postag="SENT_END"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. Line up by height against the wall. -->
+        <token postag="SENT_START"/>
+        <token postag="VB"/>
+        <token postag="RP"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -3590,6 +3595,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Incorrect grammar. We are drive to London.</example>
       <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
       <example type="untouched">Incorrect grammar. I am irritated when the dog <marker>bark</marker> loudly.</example>
+      <example type="untouched"><marker>Line up</marker> by height against the wall, please.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
     </rule>
