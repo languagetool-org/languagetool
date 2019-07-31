@@ -80,7 +80,7 @@ public class AbstractEnglishSpellerRuleTest {
     // currently solved as a special case (AbstractEnglishSpellerRule.getAdditionalTopSuggestions()):
     assertFirstMatch("speach", "speech");
     assertFirstMatch("qualifys", "qualifies");
-    assertFirstMatch("foobarys", "foobar");
+    assertFirstMatch("nicefys", "nicely");
 
     // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
     //assertFirstMatch("rythem", "them", "rather", "rhythm"); // suggests Ryther now, has been added to en_GB
