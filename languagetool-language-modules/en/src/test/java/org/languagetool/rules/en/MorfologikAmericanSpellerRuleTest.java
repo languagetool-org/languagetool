@@ -145,12 +145,21 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A software")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A soft\u00ADware")).length);
+
+    List<RuleMatch> ruleMatchesWithoutMerge = lt.check("sux\u00AD tainability");
+    assertEquals(2, ruleMatchesWithoutMerge.size());
+    // make sure we offset correctly for ignored characters
+    assertEquals(Arrays.asList(0, 4), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
+    assertEquals(Arrays.asList(5, 16), Arrays.asList(ruleMatchesWithoutMerge.get(1).getFromPos(), ruleMatchesWithoutMerge.get(1).getToPos()));
   }
 
   @Ignore("ignore until issue #1769 is fixed")
   @Test
   public void testBug() throws IOException {
-    lt.check("sus\u00AD tainability");
+    List<RuleMatch> ruleMatches = lt.check("sus\u00AD tainability");
+    assertEquals(1, ruleMatches.size());
+    // make sure we offset correctly for ignored characters
+    assertEquals(Arrays.asList(0, 16), Arrays.asList(ruleMatches.get(0).getFromPos(), ruleMatches.get(0).getToPos()));
   }
 
   @Test
