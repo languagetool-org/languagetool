@@ -1987,6 +1987,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
  <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
+    <rulegroup id="AM_PM" name="AM/PM">
+        <rule>
+            <pattern>
+                <token regexp="yes">am|pm|AM|PM</token>
+                <token>.</token>
+            </pattern>
+            <message>Estas abreviaturas deben escribirse en minúsculas y con la puntuación indicada.</message>
+            <suggestion><match no="1" regexp_match="(a|A|p|P)(m|M)" regexp_replace="$1.$2." case_conversion="alllower" /></suggestion>
+            <url>https://spanish.stackexchange.com/questions/888/use-of-am-pm-in-time</url>
+            <example correction="a.m.">La entrada es a las 7.30 <marker>AM.</marker></example>
+            <example correction="p.m.">El servicio se realizará a las 5 <marker>pm.</marker></example>
+            <example>El servicio se realizará a las 5 <marker>p.m.</marker></example>
+            <example>El servicio se realizará a las 5 <marker>a.m.</marker>!</example>
+            <example type="correct">La entrada es a las 7.30 am</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">am|pm|AM|PM</token>
+            </pattern>
+            <message>Estas abreviaturas deben escribirse en minúsculas y con la puntuación indicada.</message>
+            <suggestion><match no="1" regexp_match="(a|A|p|P)(m|M)" regexp_replace="$1.$2." case_conversion="alllower" /></suggestion>
+            <url>https://spanish.stackexchange.com/questions/888/use-of-am-pm-in-time</url>
+            <example correction="a.m.">La entrada es a las 7.30 <marker>AM</marker></example>
+            <example correction="p.m.">El servicio se realizará a las 5 <marker>pm</marker>!</example>
+            <example>El servicio se realizará a las 5 <marker>p.m.</marker></example>
+            <example>El servicio se realizará a las 5 <marker>a.m.</marker></example>
+        </rule>
+    </rulegroup>
   <rulegroup id="ARROWS" name="Flechas: -&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
