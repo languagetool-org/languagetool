@@ -81,6 +81,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     //System.out.println("Computing suggestions for " + word);
     List<String> candidates = getCandidates(word);
     List<String> simpleSuggestions = getCorrectWords(candidates);
+    simpleSuggestions = getFilteredSuggestions(simpleSuggestions);
     //System.out.println("simpleSuggestions: " + simpleSuggestions);
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
@@ -212,4 +213,11 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return result;
   }
 
+  /**
+   * @since 4.7
+   */
+  protected List<String> getFilteredSuggestions(List<String> wordsOrPhrases) {
+    return wordsOrPhrases;
+  }
+  
 }

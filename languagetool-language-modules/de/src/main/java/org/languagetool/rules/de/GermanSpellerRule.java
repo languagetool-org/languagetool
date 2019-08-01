@@ -884,6 +884,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return result;
   }
 
+  protected List<String> getFilteredSuggestions(List<String> wordsOrPhrases) {
+    List<String> result = new ArrayList<>();
+    for (String wordOrPhrase : wordsOrPhrases) {
+      String[] words = tokenizeText(wordOrPhrase);
+      if (words.length >= 2 && isNoun(words[0]) && isNoun(words[1]) &&
+              StringTools.startsWithUppercase(words[0]) && StringTools.startsWithUppercase(words[1])) {
+        // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
+      } else {
+        result.add(wordOrPhrase);
+      }
+    }
+    return result;
+  }
+
+  private boolean isNoun(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+      for (AnalyzedTokenReadings atr : readings) {
+        if (atr.hasPosTagStartingWith("SUB:")) {
+          return true;
+        }
+      }
+      return false;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private boolean ignoreElative(String word) {
     if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
         "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
