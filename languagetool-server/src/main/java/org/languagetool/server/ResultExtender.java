@@ -120,7 +120,7 @@ class ResultExtender {
     } catch (Exception e) {
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage());
+      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
       return Collections.emptyList();
     } finally {
       huc.disconnect();

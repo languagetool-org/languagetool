@@ -391,7 +391,7 @@ abstract class TextChecker {
           lastHiddenMatchesServerTimeout = -1;
         } catch (Exception e) {
           ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-          print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
+          print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters");
           lastHiddenMatchesServerTimeout = System.currentTimeMillis();
         }
       }
