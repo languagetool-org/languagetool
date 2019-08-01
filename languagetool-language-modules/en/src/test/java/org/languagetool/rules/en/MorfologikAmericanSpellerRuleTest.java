@@ -18,9 +18,7 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -151,11 +149,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     // make sure we offset correctly for ignored characters
     assertEquals(Arrays.asList(0, 4), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
     assertEquals(Arrays.asList(5, 16), Arrays.asList(ruleMatchesWithoutMerge.get(1).getFromPos(), ruleMatchesWithoutMerge.get(1).getToPos()));
-  }
 
-  @Ignore("ignore until issue #1769 is fixed")
-  @Test
-  public void testBug() throws IOException {
+    // see issue #1769
     List<RuleMatch> ruleMatches = lt.check("sus\u00AD tainability");
     assertEquals(1, ruleMatches.size());
     // make sure we offset correctly for ignored characters
