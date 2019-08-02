@@ -94,6 +94,12 @@ class ResultExtender {
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(connectTimeoutMillis);
     huc.setReadTimeout(connectTimeoutMillis*2);
+    // longer texts take longer to check, so increase the timeout:
+    float factor = plainText.length() / 1000.0f;
+    if (factor > 1) {
+      int increasedTimeout = (int)(connectTimeoutMillis * 2 * Math.min(factor, 5));
+      huc.setReadTimeout(increasedTimeout);
+    }
     huc.setRequestMethod("POST");
     huc.setDoOutput(true);
     try {
