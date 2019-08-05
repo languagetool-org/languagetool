@@ -6636,6 +6636,20 @@ title="Easy editing stylesheet" ?>
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
     </rule>
 
+    <rule id='TRABALHO_PAGO' name="trabalho remunerado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token inflected='yes' regexp="yes">ser|fazer</token>
+          <token>trabalho</token>
+		  <token min="0" regexp="yes">não|mal</token>
+		  <marker>
+			<token>pago</token>
+		  </marker>	
+      </pattern>
+	  <message>Substitua por <suggestion>remunerado</suggestion>.</message>
+      <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
+    </rule>
+
     <rule id='UM_CERTO_DIA' name="certo dia">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
