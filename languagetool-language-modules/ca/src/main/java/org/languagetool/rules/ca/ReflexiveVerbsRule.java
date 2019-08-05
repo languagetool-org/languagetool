@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -617,18 +618,15 @@ public class ReflexiveVerbsRule extends Rule {
       if (foundVerb) {
         k--;
         // us animem a queixar-vos
-        if (i - 1 > 0 && tokens[i - 1].getToken().equals("a")) {
-          if (i + 1 < tokens.length && i - k - 1 > 0) {
-            if (tokens[i - k - 1].getReadings().get(0).getPOSTag()
-                .equals(tokens[i + 1].getReadings().get(0).getPOSTag())) {
-              return true;
-            }
-            //l'animem a queixar-se
-            if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
-                && tokens[i + 1].getReadings().get(0).getPOSTag().equals("P0300000")
-                && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
-              return true;
-            }
+        if (i - 1 > 0 && tokens[i - 1].getToken().equals("a") && i + 1 < tokens.length && i - k - 1 > 0) {
+          if (StringUtils.equals(tokens[i - k - 1].getReadings().get(0).getPOSTag(), tokens[i + 1].getReadings().get(0).getPOSTag())) {
+            return true;
+          }
+          //l'animem a queixar-se
+          if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
+              && tokens[i + 1].getReadings().get(0).getPOSTag().equals("P0300000")
+              && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
+            return true;
           }
         }
         pPronomBuscat = pronomPattern(tokens[i - k]);
@@ -775,8 +773,8 @@ public class ReflexiveVerbsRule extends Rule {
         return true;
       keepCounting = matchPostagRegexp(tokens[i - j],
           PREP_VERB_PRONOM);
-      if (tokens[i-j].getToken().equalsIgnoreCase("per")
-          && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+      if ("per".equalsIgnoreCase(tokens[i-j].getToken())
+          && "a".equalsIgnoreCase(tokens[i-j+1].getToken()))
         keepCounting=false;
       if (matchPostagRegexp(tokens[i-j],VERB_INDSUBJ)
           && matchPostagRegexp(tokens[i-j+1],VERB_INFGER))

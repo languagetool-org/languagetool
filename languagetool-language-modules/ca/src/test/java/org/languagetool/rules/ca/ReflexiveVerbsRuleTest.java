@@ -55,6 +55,7 @@ public class ReflexiveVerbsRuleTest {
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
     assertCorrect("Els animem a queixar-se.");
+    assertCorrect("Lorella va a venir"); // used to cause NPE - see #1787
     assertCorrect("Ens animava a queixar-nos.");
     assertCorrect("L'animem a queixar-se.");
     assertCorrect("Us animem a endur-vos a casa.");
