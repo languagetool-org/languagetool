@@ -63,6 +63,7 @@ public class Searcher {
   
   private final Directory directory;
 
+  private int skipHits = 0;
   private int maxHits = 1000;
   private int maxSearchTimeMillis = 5000;
   private IndexSearcher indexSearcher;
@@ -109,6 +110,14 @@ public class Searcher {
 
   public void setMaxHits(int maxHits) {
     this.maxHits = maxHits;
+  }
+
+  public int getSkipHits() {
+    return skipHits;
+  }
+
+  public void setSkipHits(int skipHits) {
+    this.skipHits = skipHits;
   }
 
   public int getMaxSearchTimeMillis() {
@@ -160,6 +169,7 @@ public class Searcher {
       List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
       int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
       SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
+      searcherResult.setMaxDocChecked(runnable.getMaxDocChecked());
       searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());
       searcherResult.setLuceneMatchCount(runnable.getLuceneMatchCount());
       if (runnable.hasTooManyLuceneMatches()) {
@@ -237,9 +247,15 @@ public class Searcher {
     return sentencesChecked;
   }
 
-  private List<MatchingSentence> findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
+  private MatchingSentencesResult findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
     List<MatchingSentence> matchingSentences = new ArrayList<>();
+    int i = 0;
     for (ScoreDoc match : topDocs.scoreDocs) {
+      i++;
+      if (i < skipHits) {
+        // needed for paging
+        continue;
+      }
       Document doc = indexSearcher.doc(match.doc);
       String sentence = doc.get(FIELD_NAME);
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
@@ -251,7 +267,16 @@ public class Searcher {
         matchingSentences.add(matchingSentence);
       }
     }
-    return matchingSentences;
+    return new MatchingSentencesResult(matchingSentences, i);
+  }
+  
+  class MatchingSentencesResult {
+    List<MatchingSentence> matchingSentences;
+    int maxDocChecked;
+    MatchingSentencesResult(List<MatchingSentence> matchingSentences, int maxDocChecked) {
+      this.matchingSentences = matchingSentences;
+      this.maxDocChecked = maxDocChecked;
+    }
   }
 
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
@@ -298,6 +323,7 @@ public class Searcher {
     private Exception exception;
     private boolean tooManyLuceneMatches;
     private int luceneMatchCount;
+    private int maxDocChecked;
 
     SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
@@ -318,7 +344,9 @@ public class Searcher {
         long t3 = System.currentTimeMillis();
         luceneMatchCount = limitedTopDocs.topDocs.totalHits;
         tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length >= maxHits;
-        matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+        MatchingSentencesResult res = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+        matchingSentences = res.matchingSentences;
+        maxDocChecked = res.maxDocChecked;
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
             + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
       } catch (Exception e) {
@@ -344,6 +372,10 @@ public class Searcher {
 
     List<MatchingSentence> getMatchingSentences() {
       return matchingSentences;
+    }
+
+    int getMaxDocChecked() {
+      return maxDocChecked;
     }
   }
 

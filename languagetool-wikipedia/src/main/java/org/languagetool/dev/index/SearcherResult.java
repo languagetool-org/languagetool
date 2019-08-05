@@ -33,6 +33,7 @@ public class SearcherResult {
 
   private boolean resultIsTimeLimited;
   private int docCount;
+  private int maxDocChecked;
   private boolean hasTooManyLuceneMatches;
   private int luceneMatchCount;
 
@@ -86,4 +87,11 @@ public class SearcherResult {
     return luceneMatchCount;
   }
 
+  public void setMaxDocChecked(int maxDocChecked) {
+    this.maxDocChecked = maxDocChecked;
+  }
+
+  public int getMaxDocChecked() {
+    return maxDocChecked;
+  }
 }
