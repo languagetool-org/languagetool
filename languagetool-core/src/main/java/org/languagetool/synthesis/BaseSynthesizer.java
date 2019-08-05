@@ -18,6 +18,14 @@
  */
 package org.languagetool.synthesis;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,15 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 
 public class BaseSynthesizer implements Synthesizer {
 
@@ -190,11 +189,12 @@ public class BaseSynthesizer implements Synthesizer {
             possibleTags = SynthesizerTools.loadWords(stream);
           }
         }
-      }
-      if (manualSynthesizer != null) {
-        for (String tag : manualSynthesizer.getPossibleTags()) {
-          if (!possibleTags.contains(tag)) {
-            possibleTags.add(tag);
+        // needed to be moved into synchronized block, should fix ConcurrentModificationException in synthesize
+        if (manualSynthesizer != null) {
+          for (String tag : manualSynthesizer.getPossibleTags()) {
+            if (!possibleTags.contains(tag)) {
+              possibleTags.add(tag);
+            }
           }
         }
       }
