@@ -594,7 +594,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   @Test
   public void testLangWithCountryVariant() throws Exception {
-    File input = writeToTempFile("This is modelling.");
+    File input = writeToTempFile("This is a theatre.");
     String[] args = {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
