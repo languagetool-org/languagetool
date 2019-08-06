@@ -1963,6 +1963,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token>as</token>
         <token regexp="yes">[\.\?!;:]</token>
       </antipattern>
+      <antipattern><!-- Relative clause: ... say that all in -->
+        <token postag="VB.*" postag_regexp="yes"/>
+        <token>that</token>
+        <token>all</token>
+        <token postag="IN"/>
+      </antipattern>
       <pattern>
         <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
         <marker>
@@ -1983,6 +1989,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
       <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>
       <example type="untouched">Incorrect grammar. It's not a large sheep, it's <marker>a small as</marker>!</example>
+      <example type="untouched">We can say that <marker>all</marker> in some way belong to a kind of ethnic category...</example><!-- 'That' comes before a relative clause in which 'all' is a pronoun (https://www.lexico.com/en/definition/all) -->
     </rule>
 
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
@@ -3116,7 +3123,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
         </pattern>
         <disambig postag="DT"/>
-        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/PDT,all/PRP]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
         <example type="untouched">All the people.</example>
         <example type="untouched">Incorrect grammar. …and put <marker>the all</marker> effort on the other tasks.</example>
     </rule>
@@ -3131,7 +3138,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="DT|PRP\$"/>
         </pattern>
         <disambig postag="PDT"/>
-        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
+        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT,all/PRP]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
         <example type="untouched">All students are happy.</example>
     </rule>
     <rule name="WDT/WP -&gt;WDT" id="WP_WDT">
