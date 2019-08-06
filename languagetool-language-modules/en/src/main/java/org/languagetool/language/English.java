@@ -272,6 +272,12 @@ public class English extends Language implements AutoCloseable {
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
       case "LIGATURES":                 return 1;   // prefer over spell checker
       case "APPSTORE":                  return 1;   // prefer over spell checker
+      case "MORFOLOGIK_RULE_EN_US":     return -1;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_GB":     return -1;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_CA":     return -1;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_ZA":     return -1;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_NZ":     return -1;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_AU":     return -1;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -5;
       case "CONFUSION_RULE":            return -10;
       case LongSentenceRule.RULE_ID:    return -997;
