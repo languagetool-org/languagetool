@@ -24,6 +24,8 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
@@ -87,6 +89,13 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("\"02\" will sort before \"10\""); // quotation mark is at the sentence end
     assertCorrect("On their 'host societies'.");
     assertCorrect("a) item one\nb) item two\nc) item three");
+    assertCorrectText("\n\n" +
+                      "a) New York\n" +
+                      "b) Boston\n");
+    assertCorrectText("\n\n" +
+                      "A) New York\n" +
+                      "B) Boston\n" +
+                      "C) Foo\n");
     assertCorrect("This is not so (neither a nor b)");
 
     // incorrect sentences:
@@ -111,6 +120,12 @@ public class EnglishUnpairedBracketsRuleTest {
 
   private void assertCorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
+    assertEquals(0, matches.length);
+  }
+
+  private void assertCorrectText(String sentences) throws IOException {
+    AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
+    RuleMatch[] matches = rule.match(langTool.analyzeText(sentences), aText);
     assertEquals(0, matches.length);
   }
 
