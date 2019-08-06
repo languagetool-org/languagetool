@@ -259,7 +259,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("parenthesises", "parentheses");
     assertSuggestion("childs", "children");
     assertSuggestion("womans", "women");
-    assertSuggestion("criterions", "criteria");
     //accepted by spell checker, e.g. as third-person verb:
     // foots, mouses, man
     
