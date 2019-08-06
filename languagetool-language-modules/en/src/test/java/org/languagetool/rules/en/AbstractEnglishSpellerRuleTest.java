@@ -70,6 +70,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hipocrit", "hypocrite");
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
+    assertFirstMatch("ur", "your");
     //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     

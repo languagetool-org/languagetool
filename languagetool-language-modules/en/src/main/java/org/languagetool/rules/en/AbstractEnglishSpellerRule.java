@@ -252,6 +252,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
       return Arrays.asList("thanks");
+    } else if ("ur".equals(word)) {
+      return Arrays.asList("your");
+    } else if ("Ur".equals(word)) {
+      return Arrays.asList("Your");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
