@@ -1055,6 +1055,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
         </rule>
     </rulegroup>
+    <rulegroup id="ZURATE" name="'zurate' keine Verbform in Verbindung mit 'ziehen'">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="5">ziehen<exception scope="next" postag="PKT"/></token>
+                <marker><token>zurate</token></marker>
+            </pattern>
+            <disambig><wd lemma="zurate" pos="ADV">zurate</wd></disambig>
+            <example type="ambiguous" inputform="zurate[zuraten/VER:1:SIN:KJ1:NON:NEB,zuraten/VER:1:SIN:PRÄ:NON:NEB,zuraten/VER:3:SIN:KJ1:NON:NEB]" outputform="zurate[zurate/ADV]">Bitte ziehe einen lokalen Experten <marker>zurate</marker>.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker><token>zurate</token></marker>
+                <token>ziehen</token>
+            </pattern>
+            <disambig postag="ADV"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ">
         <rule>
             <pattern>
