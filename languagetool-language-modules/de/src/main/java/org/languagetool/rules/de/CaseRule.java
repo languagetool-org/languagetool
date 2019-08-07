@@ -609,7 +609,6 @@ public class CaseRule extends Rule {
   
   private static final Set<String> languages = new HashSet<>();
     static {
-    // TODO: alle Sprachen
     languages.add("Angelsächsisch");
     languages.add("Afrikanisch");
     languages.add("Albanisch");
