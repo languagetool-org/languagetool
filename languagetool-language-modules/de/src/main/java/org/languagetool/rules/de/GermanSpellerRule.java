@@ -75,6 +75,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
+    put("Oke", "Okay");
     put("abschiednehmen", "Abschied nehmen");
     put("wars", w -> Arrays.asList("war's", "war es"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
