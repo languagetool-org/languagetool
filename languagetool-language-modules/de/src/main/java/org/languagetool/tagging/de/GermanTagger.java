@@ -150,7 +150,7 @@ public class GermanTagger extends BaseTagger {
       //Only first iteration. Consider ":" as a potential sentence start marker
       if ((firstWord || ":".equals(prevWord)) && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
-        firstWord = word.matches("^\\W?$");
+        firstWord = !StringUtils.isAlphanumeric(word);
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       } else if (pos > 1 && taggerTokens.isEmpty() && ignoreCase) {
@@ -164,7 +164,7 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        if (!StringTools.isEmpty(word.trim())) {
+        if (!StringUtils.isAllBlank(word)) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
@@ -188,7 +188,7 @@ public class GermanTagger extends BaseTagger {
               }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
-              if (word.split(" ").length == 1 && !Character.isDigit(word.charAt(0))) {
+              if (StringUtils.split(word, ' ').length == 1 && !Character.isDigit(word.charAt(0))) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
@@ -273,7 +273,7 @@ public class GermanTagger extends BaseTagger {
     String w = pos == 0 || "„".equals(previousWord) ? word.toLowerCase() : word;
     List<TaggedWord> taggedWithE = getWordTagger().tag(w.concat("e"));
     for (TaggedWord tagged : taggedWithE) {
-      if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
+      if (tagged.getPosTag().startsWith("VER:IMP:SIN")) {
         // do not overwrite manually removed tags
         if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
           return getAnalyzedTokens(Arrays.asList(tagged), word);
