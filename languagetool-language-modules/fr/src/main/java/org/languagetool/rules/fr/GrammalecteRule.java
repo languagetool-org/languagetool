@@ -79,6 +79,8 @@ public class GrammalecteRule extends Rule {
     "typo_parenthèse_ouvrante_collée",  // we already have UNPAIRED_BRACKETS
     "nbsp_après_chevrons_ouvrants",
     "typo_points_suspension1",
+    "typo_points_suspension2",
+    "typo_points_suspension3",
     "tab_début_ligne"
   ));
 
