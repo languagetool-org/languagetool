@@ -23166,6 +23166,11 @@ USA
             <example>In the past, we had a number of successes.</example>
         </rule>
         <rulegroup id="TOO_TO" name="too go (to go)">
+            <antipattern><!-- https://www.lexico.com/en/definition/all_too_%E2%80%94 -->
+                <token>all</token>
+                <token>too</token>
+                <token postag="JJ"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>too<exception scope="previous" regexp="yes">I|we|you|they</exception></token>
@@ -23189,6 +23194,7 @@ USA
                 <message>Did you mean <suggestion>to</suggestion>?</message>
                 <example correction="to">I would like her <marker>too</marker> do it now.</example>
                 <example>Don't mourn over the loss of your loved one too long.</example>
+                <example>... state would become a new elite had proved <marker>all too true</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
