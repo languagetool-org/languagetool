@@ -185,9 +185,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       for (int tokenPosition : tokenPositions) {
         tokensPos.add(tokenPosition);
       }
-      Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, tokensPos);
+      Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, firstMatchToken, tokensPos);
       AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-      return filter.matches(resolvedArguments, relevantTokens);
+      return filter.matches(resolvedArguments, relevantTokens, firstMatchToken);
     }
     return true;
   }

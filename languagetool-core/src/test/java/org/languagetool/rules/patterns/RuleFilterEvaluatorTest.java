@@ -40,7 +40,7 @@ public class RuleFilterEvaluatorTest {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
     };
-    Map<String,String> map = eval.getResolvedArguments("year:\\1 month:\\2", readingsList, Arrays.asList(1, 1));
+    Map<String,String> map = eval.getResolvedArguments("year:\\1 month:\\2", readingsList, -1, Arrays.asList(1, 1));
     assertThat(map.get("year"), is("fake1"));
     assertThat(map.get("month"), is("fake2"));
     assertThat(map.size(), is(2));
@@ -51,7 +51,7 @@ public class RuleFilterEvaluatorTest {
     AnalyzedTokenReadings[] readingsList = {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
     };
-    Map<String,String> map = eval.getResolvedArguments("regex:(?:foo[xyz])bar", readingsList, Arrays.asList(1, 1));
+    Map<String,String> map = eval.getResolvedArguments("regex:(?:foo[xyz])bar", readingsList, -1, Arrays.asList(1, 1));
     assertThat(map.get("regex"), is("(?:foo[xyz])bar"));
     assertThat(map.size(), is(1));
   }
@@ -63,12 +63,12 @@ public class RuleFilterEvaluatorTest {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
     };
-    eval.getResolvedArguments("year:\\1 year:\\2", readingsList, Arrays.asList(1, 2));
+    eval.getResolvedArguments("year:\\1 year:\\2", readingsList, -1, Arrays.asList(1, 2));
   }
 
   @Test
   public void testNoBackReference() throws Exception {
-    Map<String, String> args = eval.getResolvedArguments("year:2 foo:bar", null, Collections.<Integer>emptyList());
+    Map<String, String> args = eval.getResolvedArguments("year:2 foo:bar", null, -1, Collections.emptyList());
     Map<String, String> expected = new HashMap<>();
     expected.put("year", "2");
     expected.put("foo", "bar");
@@ -77,7 +77,7 @@ public class RuleFilterEvaluatorTest {
 
   @Test(expected = RuntimeException.class)
   public void testTooLargeBackRef() throws Exception {
-    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, Collections.<Integer>emptyList());
+    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, -1, Collections.emptyList());
   }
 
 }

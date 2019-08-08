@@ -244,7 +244,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, tokenPositions);
+          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, tokenPositions);
         } else {
           return ruleMatch; 
         }
