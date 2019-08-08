@@ -166,13 +166,13 @@ public class HunspellRule extends SpellingCheckRule {
             if (prevWord.length() > 0) {
               // "thanky ou" -> "thank you"
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
-              String sugg1b = prevWord.substring(prevWord.length()-1) + word;
+              String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
               if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
                 ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos));
               }
               // "than kyou" -> "thank you"
               String sugg2a = prevWord + word.substring(0, 1);
-              String sugg2b = word.substring(1);
+              String sugg2b = cutOffDot(word.substring(1));
               if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
                 ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos));
               }
@@ -262,6 +262,10 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private String cutOffDot(String s) {
+    return s.endsWith(".") ? s.substring(0, s.length()-1) : s;
   }
 
   /**
