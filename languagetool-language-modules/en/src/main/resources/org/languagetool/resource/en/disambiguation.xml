@@ -2384,6 +2384,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <!-- known written works -->
     <rule name="VBN + VBN + NN -&gt; JJ" id="VBN_VBN_NN_JJ">
+       <antipattern>
+           <token postag="PRP"/>
+           <token postag="VBD"/>
+       </antipattern>
         <pattern>
             <marker>
                 <token postag="VBN"><exception regexp="yes">been|had|got</exception></token>
@@ -2395,6 +2399,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He had been proven innocent.</example>
         <example type="untouched">...that is, they <marker>had</marker> become logograms as in Egyptian Demotic.</example>
         <example type="untouched">... and they just <marker>got</marker> carried away.</example>
+        <example type="untouched">He <marker>looked</marker> tired then.</example>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>
