@@ -11230,7 +11230,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zurück</token>
             </antipattern>
             <antipattern>
-                <token>Weg</token>
+                <token regexp="yes">Wege?|Pfade?|Strecke|Straße|Bahn|Bus|Busse|Zug|Bahnen|Züge</token>
+                <token min="0" postag="ADJ:.*" postag_regexp="yes"></token>
                 <token>zurück</token>
             </antipattern>
             <antipattern>
@@ -11250,6 +11251,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
             <example correction="zurückgegeben">Sie hatte das Buch bereits <marker>zurück gegeben</marker>.</example>
             <example>Wir müssen den Weg <marker>zurück finden</marker>.</example>
+            <example>Wir müssen die Strecke langsam <marker>zurück gehen</marker>.</example>
+            <example>Die letzte Bahn <marker>zurück geht</marker> um 22:38.</example>
             <example>Sie sind mit dem Auto nach Paris und <marker>zurück gefahren</marker>.</example>
             <example>Er hat die Fahrt mit der Dampflokomotive von Nürnberg nach Fürth und zurück durchgeführt.</example>
             <example>Es wird kein Zurück geben.</example> 
