@@ -202,7 +202,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
            token.isIgnoredBySpeller() ||
            isUrl(token.getToken()) ||
            isEMail(token.getToken()) ||
-           (ignoreTaggedWords && token.isTagged()) ||
+           (ignoreTaggedWords && token.isTagged() && !isProhibited(token.getToken())) ||
            ignoreToken(tokens, idx);
   }
 
