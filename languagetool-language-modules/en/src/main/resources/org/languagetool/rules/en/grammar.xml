@@ -9364,6 +9364,12 @@ USA
                 <token postag="CC"/>
                 <token>it</token>
             </antipattern>
+            <antipattern><!-- #1802: it piece by piece -->
+                <token>it</token>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token>by</token>
+                <token><match no="1"/></token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -9403,6 +9409,7 @@ USA
             <example>Don't cut it too <marker>short</marker> in the front.</example>
             <example>You will understand it as <marker>time</marker> passes.</example>
             <example>The lights suddenly went off and it <marker>become</marker> dark.</example>
+            <example>Instead of setting it piece by piece, you can...</example><!-- #1802 -->
             <example type="triggers_error">The lights suddenly went out and it <marker>become</marker> dark.</example><!-- Disambiguation BE_OUT removes 'RP' from the phrasal verb 'go out'. But, there is no easy correction to the disambiguation, because in "The man went out of the office", 'out' is an adverb. -->
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
