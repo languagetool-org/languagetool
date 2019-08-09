@@ -17845,6 +17845,135 @@ USA
             <example correction=""><marker>We've don't</marker> made an error.</example>
             <example>The person <marker>who didn't</marker> do the work was sacked.</example>
         </rule>
+        <rulegroup id="ADVERB_OR_HYPHENATED_ADJECTIVE" name="Use an adverb or a compound adjective, not an adjective"><!--  #1723 -->
+        <!-- Refer to https://github.com/languagetooler-gmbh/languagetool-premium/issues/250 -->
+            <url>https://www.grammar.cl/english/compound-adjectives.htm</url>
+            <short>Possible grammar error</short>
+            <antipattern><!-- I will add to the list when I find words that cannot form adverbs. Use an AP so that I update only one list. -->
+                <token postag="JJ" regexp="yes">known|retired|suspended|wheeled|written</token><!-- These words do not have adverbs English (typically *ly) -->
+                <token postag="VBN"/>
+                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
+            </antipattern>
+            <antipattern><!-- single building left standing -->
+                <token>single</token>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="VBN"/>
+                <token postag="JJ"/>
+            </antipattern>
+            <antipattern><!-- www.gov.uk/find-charity-information -->
+                <token>registered</token>
+                <token inflected="yes">charity</token>
+            </antipattern>
+            <rule><!-- BE + DT + JJ + VBN + NN. This is simpler version of a general rule that I abandoned. Many of the correct examples are from that general rule. -->
+                <antipattern><!-- There is no satisfying spoiled children. -->
+                    <token>no</token>
+                    <token postag="VBG"/>
+                    <token postag="VBN"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+<!-- this does not work with: It is a popular common used tool for spammers.  <token min="0" max="1" postag="JJ"/> -->
+                    <marker>
+                        <token postag="JJ">
+                           <exception postag="RB"/><!-- She is a very refined lady. -->
+                           <exception regexp="yes">.*(st|nd|rd|th)</exception>
+                            <exception>only</exception>
+                            </token>
+                        <token postag="VBN"/><!-- Including JJ in the token causes many FP. For now, keep the rule simple. -->
+                    </marker>
+                    <token postag_regexp="yes" postag="NN(S|:UN?)?">
+                        <exception postag="IN"/>
+                        </token>
+                </pattern>
+                <message>Make sure that the adjective '\3' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\4'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message><!-- I did not use a suggestion for the compound adjectives, because I think that that is misleading because we don't give a suggestion for the adverb. -->
+                <example correction="">It's a <marker>common used</marker> tool for spammers.</example>
+                <example correction="">The boss said this group is a <marker>real mixed</marker> bag.</example><!-- Informal AmE: https://www.lexico.com/en/definition/real. In standard English, use 'really'. -->
+                <example correction="">... suitable for mounted action and there was a <marker>long established</marker> culture of horsemanship amongst the Arab and...</example><!-- Should be a hyphenated adjective -->
+                <example correction="">You're a <marker>natural born</marker> talker.</example><!-- Hyphenated adjective -->
+                <example correction="">Beauty is a <marker>short lived</marker> tyranny.</example><!-- Hyphenated adjective -->
+                <example>It is a <marker>commonly used</marker> tool for spammers.</example>
+                <example>It is the fourth known problem this week.</example>
+                <example>She is a very refined lady.</example>
+                <example>I would like to try the blue striped skirt.</example><!-- Hyphenated and non-hyphenated adjectives are both correct. Blue striped: a blue shirt that is striped. Blue-striped: a shirt with blue stripes. -->
+                <example>There are 2 types of placement: ordered placement and unordered placement (they are examples of possible technical terms). For some unknown reason, the frequent <marker>ordered placements</marker> are not correct, but the infrequent ordered placements are correct.</example>
+                <example>It is unlikely that such a cool headed person got upset.</example><!-- Should be a hyphenated adjective -->
+                <example><marker>Slow roasted</marker> ribs are awesome!</example><!-- Should be a hyphenated adjective -->
+                <example>... fried chicken with a sweet orange flavored chili sauce that is thickened and glazed.</example><!-- Should be a hyphenated adjective -->
+                <example>The frequent ordered dish.</example><!-- Sentence fragment has no verb. Out of scope. -->
+                <example>Special terminology used by selected individuals.</example>
+                <example>Tom felt cold.</example>
+                <example>I waved good bye and then walked away.</example>
+                <example>Please come downstairs.</example>
+                <example>Lossless compressed audio format.</example><!-- compress/VBN,I-NP-singular] -->
+                <example>Lossy compressed audio format.</example><!-- compress/VBN,B-VP] -->
+                <example>... and a lossless compressed audio format.</example><!-- Compare: it's a common used tool. -->
+                <example>... is awarded first base on four called balls.</example>
+                <example>... and they just got carried away.</example>
+                <example>If she gets home exhausted today, I will...</example>
+                <example>... and the 2nd mixed group can do the task next week.</example>
+                <example>Dictionary of Modern Written Arabic.</example>
+                <example>He looked tired then.</example>
+                <example>One stayed and the other went away.</example>
+                <example>Her older sister cut samples from the cloth.</example>
+                <example>Her older sister got rich when she won the lottery.</example>
+                <example>He put great emphasis on spoken English.</example>
+                <example>ERA — Earned run average : total number of earned runs ( see " ER " above ), multiplied by 9, divided by innings pitched.</example>
+                <example>The Hittites adopted the cuneiform written script, invented in Mesopotamia.</example>
+                <example>At the time, NASA called it the most successful manned flight ever achieved.</example>
+                <example>Tom decided to say nothing until everyone else had given their opinions.</example>
+                <example>There was danger lest the secret become known.</example>
+                <example>The Amazon River and its tributaries are characterized by <marker>extensive forested</marker> areas that become flooded every rainy season.</example><!-- Semantic ambiguity. 'extensive [forested areas]' is correct. But, possibly, the writer means '[extensively forested] areas, in which case the analysis is correct. -->
+                <example>True aspirated voiced stops, as opposed to murmured voiced stops such as are extremely rare, but have been described in the Kelabit language.</example>
+                <example>A lofty isolated ridge formed its acropolis.</example>
+                <example>Have you named your new born baby?</example>
+                <example>Its name has become a byword for any and all supposed advanced prehistoric lost civilizations </example>
+                <example>Royal beef – deep-fried sliced beef, doused in a wine sauce and often served with steamed broccoli.</example>
+                <example>All representatives and senators listed represented Alabama except where noted.</example>
+                <example>The design is complemented by joinery windows set with <marker>multicolored stained</marker> glass.</example>
+                <example>Disabled basketball played by various disabled groups, such as...</example>
+                <example>It is the only known source of The Method of Mechanical Theorems, referred to by...</example>
+                <example>An affidavit is a written sworn statement of fact voluntarily made by...</example><!-- There is no adverb 'writtenly'. -->
+                <example>There is no satisfying spoiled children.</example>
+                <example>The military's armoured car is a wheeled armoured vehicle, generally lighter...</example>
+                <example>... another literary forerunner was an epic written by Hellanicus of Lesbos...</example>
+                <example>The assignment was described as not being a good fit in either direction.</example>
+                <example>The centrepiece of the exhibit is a suspended mounted Blue Whale skeleton, gleaned from the...</example>
+                <example>The foundation is an independent <marker>registered charity</marker> funded by the entire profits of ...</example>
+                <example type="triggers_error">... to finance the government, to be the sole <marker>authorised distributor</marker> of banknotes, and to function as...</example>
+                <example type="triggers_error">Cicero successfully made him appear to be a foreign <marker>freed man</marker> who was devious enough to take advantage...</example><!-- foreignly is an adverb: www.merriam-webster.com/dictionary/foreignly -->
+                <example type="triggers_error">...to see if there is a <marker>previous established</marker> consensus or compromise.</example><!-- Semantic ambiguity. 'previous [established consensus]' is correct. But, possibly, the writer means '[previously established] consensus, in which case the analysis is correct. -->
+<!-- False negative --><example>It's a popular <marker>common used</marker> tool.</example>
+<!-- False negative --><example>Sorry sir, this <marker>frequent ordered</marker> dish is sold out today.</example>
+<!-- False negative --><example>A spelling error can reliable be detected.</example>
+<!-- False negative --><example>The initial installed software is working.</example>
+            </rule>
+            <rule><!-- BE + DT + JJ + JJ + VBN + NN -->
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token postag="JJ"/>
+                    <marker>
+                        <token postag="JJ">
+                            <exception postag="RB"/>
+                            <exception regexp="yes">.*(st|nd|rd|th)</exception>
+                            <exception>only</exception>
+                            </token>
+                        <token postag="VBN"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN(S|:UN?)?">
+                        <exception postag="IN"/>
+                        </token>
+                </pattern>
+                <message>Make sure that the adjective '\4' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\5'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message>
+                <example correction="">It's a popular <marker>common used</marker> tool for spammers.</example>
+                <example>It is a popular <marker>commonly used</marker> tool for spammers.</example>
+                <example>One of the first actors is believed to be an ancient Greek called Thespis of Icaria.</example>
+                <example>There are a few known written works by Augustus that have survived.</example>
+                <example>... there won't be a single building left standing.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
