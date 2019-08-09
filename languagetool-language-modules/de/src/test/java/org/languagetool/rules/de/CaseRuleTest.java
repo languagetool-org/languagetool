@@ -55,6 +55,8 @@ public class CaseRuleTest {
     assertGood("Das ist eine Abkehr von Gottes Geboten.");
     assertGood("Dem Hund Futter geben");
     assertGood("Heute spricht Frau Stieg.");
+    assertGood("Die Firma Drosch hat nicht pünktlich geliefert.");
+    assertGood("3.1 Technische Dokumentation");
     assertGood("Ein einfacher Satz zum Testen.");
     assertGood("Das Laufen fällt mir leicht.");
     assertGood("Das Winseln stört.");

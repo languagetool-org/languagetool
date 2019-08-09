@@ -785,9 +785,15 @@ public class CaseRule extends Rule {
         prevTokenIsDas = nounIndicators.contains(tokens[1].getToken().toLowerCase());
         continue;
       }
-      if (i > 0 && isSalutation(tokens[i-1].getToken())) {   // e.g. "Frau Stieg" could be a name, ignore
+      if (i > 0 && (isSalutation(tokens[i-1].getToken()) || isCompany(tokens[i-1].getToken()))) {   // e.g. "Frau Stieg" could be a name, ignore
         continue;
       }
+
+      // 1.1 Technische Dokumentation
+      if (i > 2 && NUMERALS_EN.matcher(tokens[i-1].getToken()).matches() && isDot(tokens[i-2].getToken()) && NUMERALS_EN.matcher(tokens[i-3].getToken()).matches()) {
+        continue;
+      }
+
       AnalyzedTokenReadings analyzedToken = tokens[i];
       String token = analyzedToken.getToken();
 
@@ -906,6 +912,14 @@ public class CaseRule extends Rule {
 
   private boolean isSalutation(String token) {
     return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau");
+  }
+
+  private boolean isCompany(String token) {
+    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Fa");
+  }
+
+  private boolean isDot(String token) {
+    return token.equals(".");
   }
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
