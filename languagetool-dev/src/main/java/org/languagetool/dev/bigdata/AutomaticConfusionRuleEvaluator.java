@@ -53,19 +53,21 @@ class AutomaticConfusionRuleEvaluator {
   private final Set<String> finishedPairs = new HashSet<>();
   private final String fieldName;
   private final boolean caseInsensitive;
+  private final Language lang;
   
   private int ignored = 0;
 
-  private AutomaticConfusionRuleEvaluator(File luceneIndexDir, String fieldName, boolean caseInsensitive) throws IOException {
+  private AutomaticConfusionRuleEvaluator(File luceneIndexDir, String fieldName, boolean caseInsensitive, Language lang) throws IOException {
     this.fieldName = fieldName;
     this.caseInsensitive = caseInsensitive;
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
-    InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
+    InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() + "/confusion_sets.txt");
     knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
+    this.lang = lang; 
   }
 
-  private void run(List<String> lines, File indexDir, Language lang) throws IOException {
+  private void run(List<String> lines, File indexDir) throws IOException {
     LanguageModel lm = new LuceneLanguageModel(indexDir);
     int lineCount = 0;
     for (String line : lines) {
@@ -112,6 +114,9 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
     }
+    boolean evalNewsSets = true;  // set to true to re-evaluate existing pairs (the input file thus needs to contain the words already in confusion_sets.txt)
+    boolean use = false;
+    long existingFactor = 0L;
     for (Map.Entry<String, List<ConfusionPair>> entry : knownSets.entrySet()) {
       if (entry.getKey().equals(part1)) {
         List<ConfusionPair> confusionPairs = entry.getValue();
@@ -119,17 +124,26 @@ class AutomaticConfusionRuleEvaluator {
           Set<String> stringSet = pair.getTerms().stream().map(l -> l.getString()).collect(Collectors.toSet());
           if (stringSet.containsAll(Arrays.asList(part1, part2))) {
             System.out.println("Ignoring: " + part1 + "/" + part2 + ", in active confusion sets already");
-            ignored++;
-            return;
+            if (evalNewsSets) {
+              ignored++;
+              return;
+            } else {
+              use = true;
+              existingFactor = pair.getFactor();
+            }
           }
         }
       }
+    }
+    if (!evalNewsSets && !use) {
+      System.out.println("Skipping, evalNewsSets=false and pair not known yet");
+      return;
     }
     System.out.println("Working on: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
-      Map<Long, RuleEvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, EVAL_FACTORS);
+      Map<Long, RuleEvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, evalNewsSets ? EVAL_FACTORS : Collections.singletonList(existingFactor));
       Map<Long, RuleEvalResult> bestResults = findBestFactor(results);
       if (bestResults.size() > 0) {
         for (Map.Entry<Long, RuleEvalResult> entry : bestResults.entrySet()) {
@@ -219,8 +233,8 @@ class AutomaticConfusionRuleEvaluator {
     Language lang = Languages.getLanguageForShortCode(args[0]);
     List<String> lines = IOUtils.readLines(new FileInputStream(args[1]), "utf-8");
     boolean caseInsensitive = args[5].equalsIgnoreCase("true");
-    AutomaticConfusionRuleEvaluator eval = new AutomaticConfusionRuleEvaluator(new File(args[2]), args[4], caseInsensitive);
-    eval.run(lines, new File(args[3]), lang);
+    AutomaticConfusionRuleEvaluator eval = new AutomaticConfusionRuleEvaluator(new File(args[2]), args[4], caseInsensitive, lang);
+    eval.run(lines, new File(args[3]));
   }
 
   class TooFewExamples extends RuntimeException {
