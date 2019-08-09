@@ -136,7 +136,7 @@ public class ProhibitedCompoundRule extends Rule {
             }
           }
         }
-        }
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
