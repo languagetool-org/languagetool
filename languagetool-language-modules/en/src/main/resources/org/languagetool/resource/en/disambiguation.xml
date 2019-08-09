@@ -4256,7 +4256,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="NN_CC_NN" name="nouns in coordination">
             <pattern>
                 <marker>
-                    <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RB|JJ"/></token>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
                 </marker>
                 <token postag="CC"><exception negate_pos="yes" postag="CC"/></token>
                 <token postag="NN.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN.*" postag_regexp="yes"/></token>
@@ -4264,6 +4264,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="NN.*"/>
             <example type="untouched">Tickets are selling fast and space is limited.</example>
             <example type="untouched">Adjective: ... because it's <marker>free</marker> and support is not provided.</example>
+            <example type="untouched">Adjective: I would like having this with you <marker>sooner</marker> but discussions...</example><!-- #1803 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
         </rule>
