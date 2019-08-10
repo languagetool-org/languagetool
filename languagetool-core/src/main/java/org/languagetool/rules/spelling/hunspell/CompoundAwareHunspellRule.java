@@ -27,10 +27,7 @@ import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -190,6 +187,20 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       partCount++;
     }
     return candidates;
+  }
+
+  @Override
+  protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    List<String> result = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      if (suggestion.replace(" ", "").equals(misspelling) && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
+        // prefer run-on words unless a single letter is split off:
+        result.add(0, suggestion);
+      } else {
+        result.add(suggestion);
+      }
+    }
+    return result;
   }
 
   // avoid over-accepting words, as the Morfologik approach above might construct

@@ -36,6 +36,8 @@ public class FrenchCompoundAwareHunspellRuleTest {
   public void testSpellcheck() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     TestTools.disableAllRulesExcept(lt, "FR_SPELLING_RULE");
+    assertSuggestion(lt, "Parcontre", "Par contre");  // see #1797
+    assertSuggestion(lt, "parcontre", "par contre");  // see #1797
     assertSuggestion(lt, "Ca", "Ça");  // see #912
     assertSuggestion(lt, "Décu", "Déçu");  // see #912
     assertSuggestion(lt, "etant", "étant");  // see #1633
@@ -44,7 +46,7 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "offe", "effet", "offre");  // "offre" would be better as first suggestion? 
     assertSuggestion(lt, "problemes", "problèmes"); 
     assertSuggestion(lt, "coulurs", "couleurs"); 
-    assertSuggestion(lt, "boton", "bâton", "béton");  // "bouton" would be better? 
+    assertSuggestion(lt, "boton", "bot on", "bâton", "béton");  // "bouton" would be better? 
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
@@ -52,7 +54,7 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertThat(matches.size(), is(1));
     int i = 0;
     for (String s : expected) {
-      assertThat(matches.get(0).getSuggestedReplacements().get(i++), is(s));
+      assertThat("Got " + matches.get(0).getSuggestedReplacements(), matches.get(0).getSuggestedReplacements().get(i++), is(s));
     }
   }
 
