@@ -1348,9 +1348,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="Cordon bleu" id="CORDON_BLEU">
-        <pattern>
+        <pattern case_sensitive="yes">
             <token>Cordon</token>
-            <token>bleu</token>
+            <token regexp="yes">bleu|sanitaire</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2036,7 +2036,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Terra incognita" id="TERRA_INCOGNITA">
         <pattern>
             <token>terra</token>
-            <token regexp="yes">incognita|preta</token>
+            <token regexp="yes">incognita|nova|preta</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2210,7 +2210,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>in-</token>
             <token regexp='yes'>und|oder|beziehungsweise</token>
-            <token regexp='yes'>ausländisch(e|er|es|em|en)?</token>
+            <token regexp='yes'>ausländisch(e[mnrs]?)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2486,7 +2486,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="Fifth Avenue" id="FIFTH_AVENUE">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Fifth|5th</token>
+            <token regexp="yes">Fifth|[4-9]th</token>
             <token>Avenue</token>
         </pattern>
         <disambig action="ignore_spelling"/>
