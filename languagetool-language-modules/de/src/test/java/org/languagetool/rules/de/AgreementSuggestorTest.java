@@ -28,8 +28,11 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.GermanyGerman;
+import org.languagetool.synthesis.Synthesizer;
 
 public class AgreementSuggestorTest {
+
+  private final Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   @Test
   public void testSuggestions() {
@@ -60,7 +63,7 @@ public class AgreementSuggestorTest {
     if (tokenReadings.size() != 2) {
       throw new RuntimeException("Size of input not yet supported: " + tokenReadings.size());
     }
-    AgreementSuggestor suggestor = new AgreementSuggestor(new GermanyGerman().getSynthesizer(), tokenReadings.get(0), tokenReadings.get(1));
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tokenReadings.get(0), tokenReadings.get(1));
     List<String> suggestions = suggestor.getSuggestions();
     assertThat(suggestions.toString(), is(expectedSuggestions));
   }
