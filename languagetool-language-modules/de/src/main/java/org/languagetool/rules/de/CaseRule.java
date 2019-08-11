@@ -60,8 +60,31 @@ public class CaseRule extends Rule {
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
 
+  public static final PatternToken SENT_START = new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_START_TAGNAME).build();
+  
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // https://github.com/languagetool-org/languagetool/issues/1515
+      SENT_START,
+      regex("[:;]"),
+      token(")"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // https://github.com/languagetool-org/languagetool/issues/1515
+      SENT_START,
+      regex("[;:]"),
+      token("-"),
+      token(")"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // https://github.com/languagetool-org/languagetool/issues/1515
+      SENT_START,
+      regex("▶︎|▶|\\*|•|-|★"),
+      regex(".*")
+    ),
     Arrays.asList(
       // see https://www.duden.de/suchen/dudenonline/u-f%C3%B6rmig
       regex("[A-Z]-förmig(e[mnrs]?)?")
@@ -318,7 +341,7 @@ public class CaseRule extends Rule {
   );
 
   private static PatternToken token(String token) {
-    return new PatternTokenBuilder().tokenRegex(token).build();
+    return new PatternTokenBuilder().token(token).build();
   }
 
   private static PatternToken csToken(String token) {

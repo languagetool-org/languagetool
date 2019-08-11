@@ -147,6 +147,17 @@ public class CaseRuleTest {
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
 
+    // https://github.com/languagetool-org/languagetool/issues/1515:
+    assertGood("▶︎ Dies ist ein Test");
+    assertGood("▶ Dies ist ein Test");
+    assertGood("* Dies ist ein Test");
+    assertGood("- Dies ist ein Test");
+    assertGood("• Dies ist ein Test");
+    assertGood(":-) Dies ist ein Test");
+    assertGood(";-) Dies ist ein Test");
+    assertGood(":) Dies ist ein Test");
+    assertGood(";) Dies ist ein Test");
+
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
