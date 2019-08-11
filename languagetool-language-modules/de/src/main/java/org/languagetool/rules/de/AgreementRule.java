@@ -79,6 +79,11 @@ public class AgreementRule extends Rule {
   private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(  // "wird das schwere Konsequenzen haben"
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().token("schwere").build(),
+      new PatternTokenBuilder().token("Konsequenzen").build()
+    ),
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
       new PatternTokenBuilder().posRegex("PRO:DEM:.+").build(),
       new PatternTokenBuilder().posRegex("PA2:.+").build(),
