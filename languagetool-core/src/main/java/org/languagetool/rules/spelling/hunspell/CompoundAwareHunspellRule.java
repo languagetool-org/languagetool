@@ -193,7 +193,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
-      if (suggestion.replace(" ", "").equals(misspelling) && Arrays.stream(suggestion.split(" ")).noneMatch(k -> k.length() == 1)) {
+      if (StringUtils.remove(suggestion, ' ').equals(misspelling)
+          && Arrays.stream(StringUtils.split(suggestion, ' ')).noneMatch(k -> k.length() == 1)) {
         // prefer run-on words unless a single letter is split off:
         result.add(0, suggestion);
       } else {
