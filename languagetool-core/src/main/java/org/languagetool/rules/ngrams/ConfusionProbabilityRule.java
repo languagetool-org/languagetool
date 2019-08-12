@@ -75,12 +75,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final LanguageModel lm;
   private final int grams;
   private final Language language;
+  private final List<String> exceptions;
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
   
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
+    this(messages, languageModel, language, grams, Arrays.asList());
+  }
+
+  /**
+   * @since 4.7
+   */
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams, List<String> exceptions) {
     super(messages);
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
@@ -94,6 +102,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
     }
     this.grams = grams;
+    this.exceptions = exceptions;
   }
 
   @NotNull
@@ -147,9 +156,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 // "Resolves:" (-> "Resolved:")
                 continue;
               }
-              RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
-              match.setSuggestedReplacements(suggestions);
-              matches.add(match);
+              boolean skip = isLocalException(sentence, googleToken);
+              if (!skip) {
+                RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
+                match.setSuggestedReplacements(suggestions);
+                matches.add(match);
+              }
             }
           }
         }
@@ -157,6 +169,27 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  private boolean isLocalException(AnalyzedSentence sentence, GoogleToken googleToken) {
+    for (String exception : exceptions) {
+      int exStartPos = sentence.getText().toLowerCase().indexOf(exception);
+      while (exStartPos != -1) {
+        int exEndPos = exStartPos + exception.length();
+        if (exEndPos == exStartPos) {   // just a protection against "" as exceptions
+          return false;
+        } else if (covers(exStartPos, exEndPos, googleToken.startPos, googleToken.endPos)) {
+          return true;
+        } else {
+          exStartPos = sentence.getText().indexOf(exception, exEndPos);
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean covers(int exceptionStartPos, int exceptionEndPos, int startPos, int endPos) {
+    return exceptionStartPos <= startPos && exceptionEndPos >= endPos;
   }
 
   private List<String> getSuggestions(String message) {
