@@ -90,6 +90,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
+   * Create a rule match with any suggestions in the message overridden by the given suggestions
+   * @since 4.7
+   */
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage, List<String> suggestions) {
+    this(rule, sentence, fromPos, toPos, message, shortMessage, false, null);
+    setSuggestedReplacements(suggestions);
+  }
+  /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage,
