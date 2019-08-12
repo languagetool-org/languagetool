@@ -371,7 +371,7 @@ public class CaseRule extends Rule {
   }
   
   private static final Set<String> sentenceStartExceptions = new HashSet<>(Arrays.asList(
-      "(", "\"", "'", "‘", "„", "«", "»", "."));
+      "(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"));
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
       "viel", "nichts", "wenig", "allerlei"));
