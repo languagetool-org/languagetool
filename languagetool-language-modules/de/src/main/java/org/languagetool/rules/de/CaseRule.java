@@ -56,7 +56,7 @@ public class CaseRule extends Rule {
   // muss also groß geschrieben werden:
   private static final Set<String> nounIndicators = new HashSet<>();
 
-  private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
+  private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben.";
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
 
@@ -163,13 +163,13 @@ public class CaseRule extends Rule {
     Arrays.asList(
         token("das"),
         posRegex("PA2:.*"),
-        posRegex("VER:AUX:.*")
+        posRegex("VER:AUX:.+")
     ),
     Arrays.asList(
         // Er fragte,ob das gelingen wird.
         csToken("das"),
-        posRegex("VER:.*"),
-        posRegex("VER:AUX:.*"),
+        posRegex("VER:.+"),
+        posRegex("VER:AUX:.+"),
         posRegex("PKT|KON:NEB")
     ),
     Arrays.asList(
