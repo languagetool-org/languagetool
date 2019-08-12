@@ -9284,6 +9284,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Soweit"><marker>So weit</marker> ich es beurteilen kann, ist es falsch.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SO_LANG" name="so lang(e) (solang(e))">
+            <url>https://www.korrekturen.de/forum.pl/md/read/id/36144/sbj/solange-so-lange-und-eine-weitere-frage/</url>
+            <rule>
+                <pattern>
+                    <token><exception postag="PKT|SENT_START|UNKNOWN" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">solange?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ol" regexp_replace="o l"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example correction="so lange">Wir sind schon <marker>solange</marker> hier.</example>
+                <example correction="so lang">Er kaufte <marker>solang</marker> Kaugummis, wie er Geld hatte.</example>
+                <example>Solange er lebt, so lange wird er kämpfen.</example>
+                <example correction="so lange">Ich werde <marker>solange</marker> wie möglich warten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes"></token>
+                    <marker>
+                        <token>so</token>
+                        <token regexp="yes"  case_sensitive="yes">lange?</token>
+                    </marker>
+                    <token><exception postag_regexp="yes" postag="VER.+"/></token>
+                </pattern>
+                <message>Meinten Sie die Konjunktion <suggestion>\2\3</suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example correction="Solange"><marker>So lange</marker> er lebt, so lange wird er kämpfen.</example>
+                <example>Solange er lebt, so lange wird er kämpfen.</example>
+                <example correction="Solang"><marker>So lang</marker> er lebt, so lang wird er kämpfen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NACH_DEM_VS_NACHDEM" name="'Nach dem (Nachdem) ...'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -9306,7 +9338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>sobald</token>
                     </marker>
-                    <token>wie</token>
+                    <token regexp="yes">wie|als</token>
                     <token postag="ADJ:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>In Wendungen wie 'so bald wie möglich' wird <suggestion>so bald</suggestion> getrennt geschrieben.</message>
