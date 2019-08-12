@@ -100,6 +100,8 @@ public class VerbAgreementRuleTest {
     assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
     assertGood("Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.");
     assertGood("„Werde ich tun!“");
+    assertGood("Könntest dir mal eine Scheibe davon abschneiden!");
+    assertGood("Müsstest dir das mal genauer anschauen.");
     assertGood("Sie fragte: „Muss ich aussagen?“");
     assertGood("„Können wir bitte das Thema wechseln, denn ich möchte ungern darüber reden?“");
     assertGood("Er sagt: „Willst du behaupten, dass mein Sohn euch liebt?“");
