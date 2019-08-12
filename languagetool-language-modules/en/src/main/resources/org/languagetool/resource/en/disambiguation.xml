@@ -1612,6 +1612,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd pos="VBP" lemma="do"/></disambig>
     </rule>
     <rule name="'s -&gt; be/vbz" id="POS_BE_VBZ">
+        <antipattern><!-- It's can not be. -->
+            <token>it</token>
+            <token regexp="yes">['’]</token>
+            <token spacebefore="no">s</token>
+            <token postag="MD"/>
+            <token>not</token>
+            <token>be</token>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="WP|PRP"/>
             <token regexp="yes">['’]</token>
@@ -1623,7 +1631,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd pos="VBZ" lemma="be"/></disambig>
         <example type="untouched">That's got to be a good sign.</example>
         <example type="untouched">... and who's got the information?</example>
-    </rule>        
+        <example type="untouched">Incorrect grammar. It's can not be correct.</example>
+    </rule>
     <rulegroup name="let's" id="LETS1">    
         <rule>
             <pattern>
