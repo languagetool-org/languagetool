@@ -17973,6 +17973,39 @@ USA
                 <example>There are a few known written works by Augustus that have survived.</example>
                 <example>... there won't be a single building left standing.</example>
             </rule>
+            <rule><!--DT + JJ + VBN + NN + BE: The initial installed software is working -->
+                <pattern>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <marker>
+                        <token postag="JJ">
+                            <exception postag_regexp="yes" postag="RB|NNPS?"/>
+                            <exception regexp="yes">.*(st|nd|rd|th)</exception>
+                            <exception>only</exception>
+                            </token>
+                        <token postag="VBN"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN(S|:UN?)?">
+                        <exception postag="IN"/>
+                        </token>
+                    <token inflected="yes">be</token>
+                </pattern>
+                <message>Make sure that the adjective '\2' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\3'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message>
+                <example correction="">The <marker>initial installed</marker> software is working.</example>
+                <example correction="">Each <marker>new woven</marker> rug is the result of years of experience and dedication from these artisan weavers.</example><!-- 'newly woven' and 'new-woven' are both correct. -->
+                <example>The <marker>initially installed</marker> software is working.</example>
+                <example>The <marker>short red</marker> pencil is broken.</example>
+                <example>The French left flank was protected by broken country, and ...</example>
+                <example type="triggers_error">The basic installed software is sufficient.</example>
+                <example type="triggers_error">The expensive installed software is no better than the cheap software.</example>
+                <example type="triggers_error">... (the full declassified document is [[:Commons:File:Cia oxcart ...</example>
+                <example type="triggers_error">No health risk was seen when all the randomized controlled studies were examined together, but...</example>
+                <example type="triggers_error">The first editions published under the new combined name were those of June 19, 1972.</example>
+                <example type="triggers_error">While no major Allied warships were lost, several fleet carriers ...</example>
+                <example type="triggers_error">First, a three-dimensional stranded structure is assembled, with the amino acids...</example>
+                <example type="triggers_error">...battlecruisers of the World War I era that succeeded armored cruisers were now classified, along with... [? caused by VBN_VBN_NN_JJ]</example>
+                <example type="triggers_error">The possibility of a digital planned economy was explored by Chile with the...</example>
+                <example type="triggers_error">The direct injected process is significantly more internally ...</example>
+            </rule>
         </rulegroup>
     </category>
 
