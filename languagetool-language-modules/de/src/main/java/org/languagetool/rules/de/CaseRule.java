@@ -375,20 +375,15 @@ public class CaseRule extends Rule {
     nounIndicators.add("unser");
   }
   
-  private static final Set<String> sentenceStartExceptions = new HashSet<>(Arrays.asList(
-      "(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"));
+  private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
-  private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
-      "viel", "nichts", "wenig", "allerlei"));
+  private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "wenig", "allerlei"};
 
-  private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
-      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"));
+  private static final String[] INTERROGATIVE_PARTICLES = {"was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"};
 
-  private static final Set<String> POSSESSIVE_INDICATORS = new HashSet<>(Arrays.asList(
-      "einer", "eines", "der", "des", "dieser", "dieses"));
+  private static final String[] POSSESSIVE_INDICATORS = {"einer", "eines", "der", "des", "dieser", "dieses"};
 
-  private static final Set<String> DAS_VERB_EXCEPTIONS = new HashSet<>(Arrays.asList(
-      "nur", "sogar", "auch", "die", "alle", "viele", "zu"));
+  private static final String[] DAS_VERB_EXCEPTIONS = {"nur", "sogar", "auch", "die", "alle", "viele", "zu"};
 
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
@@ -838,7 +833,7 @@ public class CaseRule extends Rule {
             continue;
           }
           if (prevTokenIsDas
-              && (DAS_VERB_EXCEPTIONS.contains(nextToken.getToken()) ||
+              && (StringUtils.equalsAny(nextToken.getToken(), DAS_VERB_EXCEPTIONS) ||
                   isFollowedByRelativeOrSubordinateClause(i, tokens)) ||
                   (i > 1 && hasPartialTag(tokens[i-2], "VER:AUX", "VER:MOD"))) {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
@@ -903,7 +898,7 @@ public class CaseRule extends Rule {
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
     boolean isPotentialError = pos < tokens.length - 3
         && tokens[pos+1].getToken().equals(",")
-        && INTERROGATIVE_PARTICLES.contains(tokens[pos+2].getToken())
+        && StringUtils.equalsAny(tokens[pos+2].getToken(), INTERROGATIVE_PARTICLES)
         && tokens[pos-1].hasPosTagStartingWith("VER:MOD")
         && !tokens[pos-1].hasLemma("mögen")
         && !tokens[pos+3].getToken().equals("zum");
@@ -989,7 +984,7 @@ public class CaseRule extends Rule {
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
-        !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
+        !StringUtils.equalsAny(tokens[i - 1].getToken(), sentenceStartExceptions) &&
         !exceptions.contains(token) &&
         !StringTools.isAllUppercase(token) &&
         !isLanguage(i, tokens, token) &&
@@ -1127,16 +1122,16 @@ public class CaseRule extends Rule {
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     AnalyzedTokenReadings prevLowercaseReadings = null;
 
-    if (i > 1 && sentenceStartExceptions.contains(tokens[i-2].getToken())) {
+    if (i > 1 && StringUtils.equalsAny(tokens[i-2].getToken(), sentenceStartExceptions)) {
       prevLowercaseReadings = lookup(prevToken.getToken().toLowerCase());
     }
 
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
     boolean isPossiblyFollowedByInfinitive = nextReadings != null && nextReadings.getToken().equals("zu");
     boolean isFollowedByInfinitive = nextReadings != null && !isPossiblyFollowedByInfinitive && nextReadings.hasPartialPosTag("EIZ");
-    boolean isFollowedByPossessiveIndicator = nextReadings != null && POSSESSIVE_INDICATORS.contains(nextReadings.getToken());
+    boolean isFollowedByPossessiveIndicator = nextReadings != null && StringUtils.equalsAny(nextReadings.getToken(),POSSESSIVE_INDICATORS);
 
-    boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
+    boolean isUndefQuantifier = prevToken != null && StringUtils.equalsAny(prevToken.getToken().toLowerCase(), UNDEFINED_QUANTIFIERS);
     boolean isPrevDeterminer = prevToken != null
                                && (hasPartialTag(prevToken, "ART", "PRP", "ZAL") || hasPartialTag(prevLowercaseReadings, "ART", "PRP", "ZAL"))
                                && !prevToken.hasPartialPosTag(":STD");
@@ -1197,7 +1192,8 @@ public class CaseRule extends Rule {
 
   private boolean isFollowedByRelativeOrSubordinateClause(int i, AnalyzedTokenReadings[] tokens) {
     if (i < tokens.length - 4) {
-      return ",".equals(tokens[i+1].getToken()) && (INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken()) || tokens[i+2].hasPosTag("KON:UNT"));
+      return ",".equals(tokens[i+1].getToken())
+             && (StringUtils.equalsAny(tokens[i+2].getToken(),INTERROGATIVE_PARTICLES) || tokens[i+2].hasPosTag("KON:UNT"));
     }
     return false;
   }
