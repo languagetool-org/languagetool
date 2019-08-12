@@ -2393,6 +2393,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
            <token postag="PRP"/>
            <token postag="VBD"/>
        </antipattern>
+       <antipattern><!-- a that succeeded armored cruisers were now classified -->
+           <token regexp="yes">that|which</token>
+           <token postag="VBD"/>
+           <token postag_regexp="yes" postag="JJ|VBN"/>
+           <token chunk="E-NP-plural" postag="NNS"/>
+           <token regexp="yes">are|were</token>
+       </antipattern>
         <pattern>
             <marker>
                 <token postag="VBN"><exception regexp="yes">been|had|got</exception></token>
@@ -2405,6 +2412,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">...that is, they <marker>had</marker> become logograms as in Egyptian Demotic.</example>
         <example type="untouched">... and they just <marker>got</marker> carried away.</example>
         <example type="untouched">He <marker>looked</marker> tired then.</example>
+        <example type="untouched">Verb. ... of the World War I era that <marker>succeeded</marker> armored cruisers were now classified...</example>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>
