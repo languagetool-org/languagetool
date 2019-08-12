@@ -91,6 +91,14 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("du").build()
     ),
     Arrays.asList(
+      new PatternTokenBuilder().csToken("Müsstest").build(), // Müsstest dir das mal genauer anschauen.
+      new PatternTokenBuilder().token("dir").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Könntest").build(), // Könntest dir mal eine Scheibe davon abschneiden!
+      new PatternTokenBuilder().token("dir").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().csToken("Sollte").build(),
       new PatternTokenBuilder().tokenRegex("er|sie").build()
     ),
