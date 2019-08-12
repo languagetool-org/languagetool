@@ -141,6 +141,11 @@ public class CaseRule extends Rule {
         pos("UNKNOWN")
     ),
     Arrays.asList(
+      // "Jeremy Schulte"
+      pos("UNKNOWN"),
+      token("Schulte")
+  ),
+    Arrays.asList(
         token(","),
         posRegex(".*ADJ.*|UNKNOWN"),
         regex("[\\.?!]")
