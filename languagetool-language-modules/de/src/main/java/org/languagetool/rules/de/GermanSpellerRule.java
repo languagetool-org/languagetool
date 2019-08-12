@@ -885,6 +885,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return result;
   }
 
+  @Override
   protected List<String> getFilteredSuggestions(List<String> wordsOrPhrases) {
     List<String> result = new ArrayList<>();
     for (String wordOrPhrase : wordsOrPhrases) {
