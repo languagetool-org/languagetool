@@ -9240,6 +9240,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Damit"><marker>Da mit</marker> kannst du den Fleck aufwischen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SO_WEIT" name="so weit (soweit)">
+            <url>https://www.korrekturen.de/wortliste/soweit.shtml</url>
+            <rule>
+                <pattern>
+                    <token><exception postag="PKT|SENT_START|UNKNOWN" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>soweit</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>so weit</suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example correction="so weit">Wir sind schon <marker>soweit</marker> gekommen.</example>
+                <example correction="so weit">Er sah Wüste <marker>soweit</marker> seine Augen reichten.</example>
+                <example correction="so weit">Wir sind schon <marker>soweit</marker> gekommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>soweit</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">blicken|gehen|kommen|sehen|wie|[,.?!]</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so weit</suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example correction="So weit"><marker>Soweit</marker>, so gut.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>so</token>
+                        <token skip="2" case_sensitive="yes">weit<exception scope="next" postag="PKT"/></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">wissen|erinnern|beurteilen</token>
+                </pattern>
+                <message>Meinten Sie die Konjunktion <suggestion>soweit</suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example correction="Soweit"><marker>So weit</marker> ich es beurteilen kann, ist es falsch.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NACH_DEM_VS_NACHDEM" name="'Nach dem (Nachdem) ...'">
             <rule>
                 <pattern case_sensitive="yes">
