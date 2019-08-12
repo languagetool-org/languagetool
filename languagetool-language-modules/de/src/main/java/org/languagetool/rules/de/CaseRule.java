@@ -142,13 +142,13 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // "Jeremy Schulte"
-      pos("UNKNOWN"),
+      posRegex("UNKNOWN|EIG:.+"),
       token("Schulte")
   ),
     Arrays.asList(
-        token(","),
-        posRegex(".*ADJ.*|UNKNOWN"),
-        regex("[\\.?!]")
+      token(","),
+      posRegex(".*ADJ.*|UNKNOWN"),
+      regex("[\\.?!]")
     ),
     Arrays.asList(
         csToken(","),
@@ -161,16 +161,16 @@ public class CaseRule extends Rule {
        regex("Konstanten?")
     ),
     Arrays.asList(
-        token("das"),
-        posRegex("PA2:.*"),
-        posRegex("VER:AUX:.+")
+      token("das"),
+      posRegex("PA2:.+"),
+      posRegex("VER:AUX:.+")
     ),
     Arrays.asList(
-        // Er fragte,ob das gelingen wird.
-        csToken("das"),
-        posRegex("VER:.+"),
-        posRegex("VER:AUX:.+"),
-        posRegex("PKT|KON:NEB")
+      // Er fragte,ob das gelingen wird.
+      csToken("das"),
+      posRegex("VER:.+"),
+      posRegex("VER:AUX:.+"),
+      posRegex("PKT|KON:NEB")
     ),
     Arrays.asList(
         // Er fragte, ob das gelingen oder scheitern wird.
@@ -390,7 +390,7 @@ public class CaseRule extends Rule {
    * The proper solution is to add all those to our Morphy data, but as a simple
    * workaround to avoid false alarms, these words can be added here.
    */
-  private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+  private static final String[] exceptions = {
     "Studierende",
     "Str",
     "Auszubildende",
@@ -628,7 +628,7 @@ public class CaseRule extends Rule {
     "Eurem",
     "Euren",
     "Eures"
-  ));
+  };
   
   private static final Set<String> languages = new HashSet<>();
     static {
@@ -845,7 +845,7 @@ public class CaseRule extends Rule {
           }
         }
         if (isPrevProbablyRelativePronoun(tokens, i) ||
-            (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1)) {// ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
+            (prevTokenIsDas && getTokensWithPosTagStartingWithCount(tokens, "VER") == 1)) {// ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
           continue;
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun, sentence);
@@ -878,8 +878,8 @@ public class CaseRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private int getTokensWithPartialPosTagCount(AnalyzedTokenReadings[] tokens, String partialPosTag) {
-    return Arrays.stream(tokens).filter(token -> token.hasPartialPosTag(partialPosTag)).mapToInt(e -> 1).sum();
+  private int getTokensWithPosTagStartingWithCount(AnalyzedTokenReadings[] tokens, String partialPosTag) {
+    return Arrays.stream(tokens).filter(token -> token.hasPosTagStartingWith(partialPosTag)).mapToInt(e -> 1).sum();
   }
 
   private boolean isPotentialUpperCaseError (int pos, AnalyzedTokenReadings[] tokens,
@@ -985,7 +985,7 @@ public class CaseRule extends Rule {
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
         !StringUtils.equalsAny(tokens[i - 1].getToken(), sentenceStartExceptions) &&
-        !exceptions.contains(token) &&
+        !StringUtils.equalsAny(token, exceptions) &&
         !StringTools.isAllUppercase(token) &&
         !isLanguage(i, tokens, token) &&
         !isProbablyCity(i, tokens, token) &&
@@ -1002,7 +1002,7 @@ public class CaseRule extends Rule {
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
         System.arraycopy(tokens, 0, subarray, 0, i);
-        if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPartialPosTagCount(subarray, "VER") == 0) {
+        if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, "VER") == 0) {
           // no error
         } else {
           addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], fixedWord);
@@ -1021,7 +1021,7 @@ public class CaseRule extends Rule {
     }
     // capitalization after ":" requires an independent clause to follow
     // if there is not a single verb, the tokens cannot be part of an independent clause
-    return getTokensWithPartialPosTagCount(subarray, "VER:") != 0;
+    return getTokensWithPosTagStartingWithCount(subarray, "VER:") != 0;
 }
 
   private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
