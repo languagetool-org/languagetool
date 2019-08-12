@@ -63,29 +63,11 @@ public abstract class RemoteRule extends Rule {
     executors.putIfAbsent(rule, Executors.newCachedThreadPool(threadFactory));
   }
 
-  protected static class Result {
-    private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some
-    private final List<RuleMatch> matches;
-
-    public Result(boolean remote, List<RuleMatch> matches) {
-      this.remote = remote;
-      this.matches = matches;
-    }
-
-    public boolean isRemote() {
-      return remote;
-    }
-
-    public List<RuleMatch> getMatches() {
-      return matches;
-    }
-  }
-
   public static void shutdown() {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  protected abstract Callable<Result> fetchMatches(List<AnalyzedSentence> sentences);
+  protected abstract Callable<RemoteRuleResult> fetchMatches(List<AnalyzedSentence> sentences);
 
   public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences) {
     return new FutureTask<>(() -> {
@@ -103,12 +85,12 @@ public abstract class RemoteRule extends Rule {
       RemoteRuleMetrics.up(rule, true);
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
-        Callable<Result> task = fetchMatches(sentences);
+        Callable<RemoteRuleResult> task = fetchMatches(sentences);
         try {
           long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
             Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
-          Future<Result> future = executors.get(rule).submit(task);
-          Result result;
+          Future<RemoteRuleResult> future = executors.get(rule).submit(task);
+          RemoteRuleResult result;
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
           } else {
