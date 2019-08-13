@@ -84,6 +84,11 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("schwere").build(),
       new PatternTokenBuilder().token("Konsequenzen").build()
     ),
+    Arrays.asList(  // "in dem einen Jahr"
+      new PatternTokenBuilder().token("dem").build(),
+      new PatternTokenBuilder().token("einen").build(),
+      new PatternTokenBuilder().pos("SUB:NOM:SIN:NEU").build()
+    ),
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
       new PatternTokenBuilder().posRegex("PRO:DEM:.+").build(),
       new PatternTokenBuilder().posRegex("PA2:.+").build(),
