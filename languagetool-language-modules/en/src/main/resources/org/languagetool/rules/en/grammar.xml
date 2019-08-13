@@ -3301,8 +3301,12 @@ USA
         </rule>
       <rulegroup id="MISSING_GENITIVE" name="missing genitive (e.g., 'employees's' instead of 'employee's')">
         <!-- Created by Tiago F. Santos, 2018-11-22 -->
-            <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
-      <rule>
+        <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
+        <rule>
+            <antipattern>
+                <token>HTTP</token>
+                <token>code</token>
+            </antipattern>
             <pattern case_sensitive="yes">
               <token postag='SENT_START'/>
               <marker>
@@ -3319,6 +3323,7 @@ USA
             <suggestion>\2's \3</suggestion>
             <example correction="Angela's idea"><marker>Angela idea</marker> is good.</example>
             <example>Klan members adopted masks and robes that hid their identities.</example>
+            <example>HTTP code 414 is not caused by authentication issues.</example>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
