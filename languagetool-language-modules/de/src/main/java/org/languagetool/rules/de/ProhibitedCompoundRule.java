@@ -72,7 +72,9 @@ public class ProhibitedCompoundRule extends Rule {
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
           "Korrekturlösung",
-          "Regelschreiber"
+          "Regelschreiber",
+          "Glasreinigern",
+          "Testbahn"
   ));
 
   // have per-class static list of these and reference that in instance
