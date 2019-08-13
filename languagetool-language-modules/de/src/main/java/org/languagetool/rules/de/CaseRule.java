@@ -65,6 +65,11 @@ public class CaseRule extends Rule {
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // https://github.com/languagetool-org/languagetool/issues/1663
+      token("Großes"),
+      new PatternTokenBuilder().tokenRegex("leisten|erreichen|schaffen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
       regex("[:;]"),

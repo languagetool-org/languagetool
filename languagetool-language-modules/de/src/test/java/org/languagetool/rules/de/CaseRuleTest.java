@@ -147,6 +147,9 @@ public class CaseRuleTest {
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
     assertGood("Jeremy Schulte rannte um sein Leben.");
+    assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
+    assertGood("Dann hat er Großes erreicht.");
+    assertGood("Dann hat er Großes geleistet.");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
