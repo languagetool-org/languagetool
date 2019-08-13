@@ -8999,10 +8999,18 @@ USA
                 <token>download</token>
                 <token>manager</token>
             </antipattern>
+            <antipattern><!-- "I got a write up at work." -->
+                <token>write</token>
+                <token>up</token>
+            </antipattern>
             <antipattern>
                 <token postag="VB|VBP" postag_regexp="yes" />
                 <token>a</token>
                 <token>listen</token>
+            </antipattern>
+            <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
+                <token postag="VB|VBP" postag_regexp="yes" />
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -9024,7 +9032,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|thank</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9032,13 +9040,44 @@ USA
             <short>Grammatical mistake</short>
             <example correction="">This is <marker>a compete</marker> catastrophe.</example>
             <example correction=""><marker>a compete</marker></example>
-            <example correction="">Missing hyphen: Here's <marker>a follow</marker> up task.</example>
             <example correction="">Not a noun in standard English. Only <marker>a reload</marker> of the page will fix this. [https://github.com/languagetool-org/languagetool/issues/1379]</example>
             <example>This is <marker>a complete</marker> catastrophe</example>
             <example>Let's have a listen to what he wants to say</example>
             <example>a show</example>
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
+        </rule>
+        <rule id="A_GOOGLE" name="a/the + google">
+            <pattern>
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
+                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <marker>
+                    <token case_sensitive="yes">google</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
+            </pattern>
+            <message>'Google' is a proper noun and needs to be capitalized.</message>
+            <suggestion>Google</suggestion>
+            <example correction="Google">Have you seen the simplified <marker>google</marker> doc?</example>
+            <example correction="Google">My <marker>google</marker> skills are outstanding!</example>
+            <example>He wanted to <marker>google</marker> for the medicine.</example>
+        </rule>
+        <rule id="A_THANK_YOU" name="a/the + thank you">
+            <pattern>
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
+                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>thank</token>
+                    <token>you</token>
+                </marker>
+                <token postag_regexp="yes" postag="SENT_END|NN(S|:UN?)?"/>
+            </pattern>
+            <message>It appears that 'thank you' is missing a hyphen or needs to be quoted.</message>
+            <suggestion>thank-you</suggestion>
+            <suggestion>“Thank You”</suggestion>
+            <example correction='thank-you|“Thank You”'>Have you seen my <marker>thank you</marker> letter?</example>
+            <example correction='thank-you|“Thank You”'>Did you receive our little <marker>thank you</marker>?</example>
+            <example>He was surprised by the <marker>thank-you</marker> message.</example>
         </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
