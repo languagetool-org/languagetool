@@ -17815,15 +17815,22 @@ USA
         </rule>
         <rule id="SEVERAL_OTHER" name="several other (others)">
             <pattern>
-                <token regexp="yes">all|many|most|several</token>
+                <token regexp="yes">all|many|most|several|those|few</token>
                 <marker>
                     <token>other</token>
                 </marker>
-                <token postag="SENT_END"/>
+                <or>
+                    <token postag="SENT_END"/>
+                    <token postag="VBD" />
+                    <token postag="VB" />
+                </or>
             </pattern>
             <message>Possibly, a noun is missing after '\2'. Or do you mean <suggestion>others</suggestion>?</message>
             <short>Possible grammar error</short>
             <example correction="others">I saw him and and several <marker>other</marker>.</example>
+            <example correction="others">Tom and several <marker>other</marker> did a great job.</example>
+            <example correction="others">Many <marker>other</marker> have been hiding from the police.</example>
+            <example correction="others">All those <marker>other</marker> ran away.</example>
             <example>I saw him and and several <marker>others</marker>.</example>
             <example>I saw him and and several <marker>other people</marker>.</example>
         </rule>
