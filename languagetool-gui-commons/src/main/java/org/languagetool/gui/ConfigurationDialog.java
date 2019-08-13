@@ -150,6 +150,14 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public boolean show(List<Rule> rules) {
+    restartShow = false;
+    do {
+      showPanel(rules);
+    } while (restartShow);
+    return configChanged;
+  }
+    
+  public boolean showPanel(List<Rule> rules) {
     configChanged = false;
     if (original != null && !restartShow) {
       config.restoreState(original);
@@ -423,9 +431,6 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     dialog.setVisible(true);
-    if(restartShow) {
-      return show(rules);
-    }
     return configChanged;
   }
 
@@ -881,12 +886,15 @@ public class ConfigurationDialog implements ActionListener {
     deleteButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        List<String> saveProfiles = new ArrayList<String>(); 
+        saveProfiles.addAll(config.getDefinedProfiles());
         config.initOptions();
         try {
           config.loadConfiguration("");
         } catch (IOException e1) {
         }
         config.setCurrentProfile(null);
+        config.addProfiles(saveProfiles);
         config.removeProfile((String)profileBox.getSelectedItem());
         restartShow = true;
         dialog.setVisible(false);
@@ -901,7 +909,7 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         List<String> saveProfiles = new ArrayList<String>(); 
         saveProfiles.addAll(config.getDefinedProfiles());
-        String saveCurrent = new String(config.getCurrentProfile());
+        String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
         config.initOptions();
         config.addProfiles(saveProfiles);
         config.setCurrentProfile(saveCurrent);
