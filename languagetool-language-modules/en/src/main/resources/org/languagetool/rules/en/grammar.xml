@@ -17814,16 +17814,18 @@ USA
             <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example> -->
         </rule>
         <rule id="SEVERAL_OTHER" name="several other (others)">
+            <antipattern>
+                <token skip="4">other</token>
+                <token postag="NNS|NN:UN?" postag_regexp="yes" />
+            </antipattern>
             <pattern>
-                <token regexp="yes">all|many|most|several|those|few</token>
+                <token regexp="yes">all|many|most|several|those|these|few</token>
                 <marker>
                     <token>other</token>
                 </marker>
-                <or>
-                    <token postag="SENT_END"/>
-                    <token postag="VBD" />
-                    <token postag="VB" />
-                </or>
+                <token postag="SENT_END|VB|VBD" postag_regexp="yes">
+                    <exception postag="JJ|NN.*" postag_regexp="yes" />
+                </token>
             </pattern>
             <message>Possibly, a noun is missing after '\2'. Or do you mean <suggestion>others</suggestion>?</message>
             <short>Possible grammar error</short>
@@ -17832,7 +17834,8 @@ USA
             <example correction="others">Many <marker>other</marker> have been hiding from the police.</example>
             <example correction="others">All those <marker>other</marker> ran away.</example>
             <example>I saw him and and several <marker>others</marker>.</example>
-            <example>I saw him and and several <marker>other people</marker>.</example>
+            <example>As with most <marker>other</marker> liquefied noble gases, argon has a high scintillation lightyield</example>
+            <example>I saw him and and several <marker>other</marker> people.</example>
         </rule>
         <rule id="VE_DIDNT" name="ve didn't"><!--  #1739 -->
             <pattern>
