@@ -957,6 +957,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("ei".equals(word)) {
       return Collections.singletonList("ein");
+    } else if ("is".equals(word)) {
+      return Collections.singletonList("ist");
+    } else if ("Is".equals(word)) {
+      return Collections.singletonList("Ist");
     } else if ("Std".equals(word)) {
       return Collections.singletonList("Std.");
     } else if (word.matches(".*ibel[hk]eit$")) {
