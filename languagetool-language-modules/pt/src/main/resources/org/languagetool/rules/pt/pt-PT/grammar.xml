@@ -1228,6 +1228,12 @@ title="Easy editing stylesheet" ?>
       <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>contra</token>
+          <token regexp='yes'>ventos?</token>
+          <token>e</token>
+          <token>marés</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>contra|justa|para|tetra|penta|hexa|hepta|nona|deca</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
@@ -1424,11 +1430,22 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>circum|pan
             <exception case_sensitive='yes'>PAN</exception></token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^,.!\(\)mnaeiouh\d]\p{L}+</token>
+          <token regexp='yes'>[^,.!\(\)mnaeiouh\d]\p{L}+
+            <exception regexp='yes'>escrev.+</exception></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>circum</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token inflected='yes'>escrever</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>circun<match no='3' regexp_match='esc' regexp_replace='sc'/></suggestion>
+      <example correction='circunscrito'>O fogo está <marker>circum-escrito</marker>.</example>
     </rule>
   </rulegroup>
 
