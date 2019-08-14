@@ -20,10 +20,14 @@ package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.tagging.Tagger;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +37,8 @@ import java.util.Map;
  */
 public class InsertCommaFilter extends RuleFilter {
 
+  private final static Tagger tagger = Languages.getLanguageForShortCode("de").getTagger();
+
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
@@ -41,8 +47,18 @@ public class InsertCommaFilter extends RuleFilter {
     for (String replacement : match.getSuggestedReplacements()) {
       String[] parts = replacement.split("\\s");
       if (parts.length == 2) {
-        // the other cases don't seem to be that easy...
         suggestions.add(parts[0] + ", " + parts[1]);
+      } else if (parts.length == 3) {
+        try {
+          // "Ich hoffe es geht Ihnen gut." -> "Ich hoffe, es geht Ihnen gut."
+          List<AnalyzedTokenReadings> tags1 = tagger.tag(Collections.singletonList(parts[0]));
+          List<AnalyzedTokenReadings> tags2 = tagger.tag(Collections.singletonList(parts[1]));
+          if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("PRO:PER:"))) {
+            suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
     ruleMatch.setSuggestedReplacements(suggestions);
