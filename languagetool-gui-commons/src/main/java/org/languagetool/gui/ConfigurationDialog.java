@@ -262,14 +262,26 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 0;
     cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    
+    jPane.add(getProfilePanel(cons, rules), cons);
+
+    tabpane.addTab(messages.getString("guiProfiles"), new JScrollPane(jPane));
+
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
     
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(getProfilePanel(cons, rules), cons);
-
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getMotherTonguePanel(cons), cons);
@@ -830,9 +842,9 @@ public class ConfigurationDialog implements ActionListener {
     profileChanged = true;
     JPanel profilePanel = new JPanel();
     profilePanel.setLayout(new GridBagLayout());
-    cons.insets = new Insets(8, 8, 0, 8);
+    cons.insets = new Insets(16, 0, 0, 8);
     cons.gridx = 0;
-    cons.anchor = GridBagConstraints.WEST;
+    cons.anchor = GridBagConstraints.NORTHWEST;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
     List<String> profiles = new ArrayList<String>();
@@ -876,9 +888,27 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
       
-    profilePanel.add(new JLabel(messages.getString("guiProfile")), cons);
+    profilePanel.add(new JLabel(messages.getString("guiCurrentProfile")), cons);
+    cons.insets = new Insets(6, 12, 0, 8);
     cons.gridy++;
     profilePanel.add(profileBox, cons);
+    
+    JButton defaultButton = new JButton(defaultOptions);
+    defaultButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        List<String> saveProfiles = new ArrayList<String>(); 
+        saveProfiles.addAll(config.getDefinedProfiles());
+        String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
+        config.initOptions();
+        config.addProfiles(saveProfiles);
+        config.setCurrentProfile(saveCurrent);
+        restartShow = true;
+        dialog.setVisible(false);
+      }
+    });
+    cons.gridy++;
+    profilePanel.add(defaultButton, cons);
     
     JButton deleteButton = new JButton(messages.getString("guiDeleteProfile"));
     deleteButton.setEnabled(!profileBox.getSelectedItem().equals(defaultOptions) 
@@ -900,34 +930,18 @@ public class ConfigurationDialog implements ActionListener {
         dialog.setVisible(false);
       }
     });
-    cons.gridx++;
-    profilePanel.add(deleteButton, cons);
-    
-    JButton defaultButton = new JButton(defaultOptions);
-    defaultButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        List<String> saveProfiles = new ArrayList<String>(); 
-        saveProfiles.addAll(config.getDefinedProfiles());
-        String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
-        config.initOptions();
-        config.addProfiles(saveProfiles);
-        config.setCurrentProfile(saveCurrent);
-        restartShow = true;
-        dialog.setVisible(false);
-      }
-    });
-    cons.gridx++;
-    profilePanel.add(defaultButton, cons);
-    
-    JTextField newProfileName = new JTextField(15);
-    cons.insets = new Insets(0, 16, 0, 0);
-    cons.gridx = 0;
     cons.gridy++;
-    profilePanel.add(new JLabel(messages.getString("guiNewProfile")), cons);
+    profilePanel.add(deleteButton, cons);
+    JTextField newProfileName = new JTextField(15);
+    cons.insets = new Insets(16, 0, 0, 8);
+    cons.gridy++;
+    profilePanel.add(new JLabel(messages.getString("guiAddNewProfile")), cons);
+    cons.insets = new Insets(6, 12, 0, 8);
+    cons.gridy++;
+    profilePanel.add(new JLabel(messages.getString("guiAddProfileName")), cons);
     cons.gridx++;
     profilePanel.add(newProfileName, cons);
-    JButton addNewButton = new JButton(messages.getString("guiAddProfile"));
+    JButton addNewButton = new JButton(messages.getString("guiAddProfileButton"));
     addNewButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -946,9 +960,7 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     cons.gridx++;
-    cons.insets = new Insets(0, 0, 8, 0);
     profilePanel.add(addNewButton, cons);
-    profilePanel.setBorder(BorderFactory.createLoweredBevelBorder());
     return profilePanel;
   }
 
