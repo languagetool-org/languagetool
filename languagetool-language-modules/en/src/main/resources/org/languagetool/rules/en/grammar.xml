@@ -18065,7 +18065,8 @@ USA
                 <example>There are a few known written works by Augustus that have survived.</example>
                 <example>... there won't be a single building left standing.</example>
             </rule>
-            <rule><!--DT + JJ + VBN + NN + BE: The initial installed software is working -->
+<!-- Removed after discussion with Daniel
+            <rule>DT + JJ + VBN + NN + BE: The initial installed software is working 
                 <pattern>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
                     <marker>
@@ -18083,7 +18084,7 @@ USA
                 </pattern>
                 <message>Make sure that the adjective '\2' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\3'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message>
                 <example correction="">The <marker>initial installed</marker> software is working.</example>
-                <example correction="">Each <marker>new woven</marker> rug is the result of years of experience and dedication from these artisan weavers.</example><!-- 'newly woven' and 'new-woven' are both correct. -->
+                <example correction="">Each <marker>new woven</marker> rug is the result of years of experience and dedication from these artisan weavers.</example>*- 'newly woven' and 'new-woven' are both correct. -*
                 <example>The <marker>initially installed</marker> software is working.</example>
                 <example>The <marker>short red</marker> pencil is broken.</example>
                 <example>The French left flank was protected by broken country, and ...</example>
@@ -18097,6 +18098,20 @@ USA
                 <example type="triggers_error">First, a three-dimensional stranded structure is assembled, with the amino acids...</example>
                 <example type="triggers_error">The possibility of a digital planned economy was explored by Chile with the...</example>
                 <example type="triggers_error">The direct injected process is significantly more internally ...</example>
+            </rule>-->
+            <rule><!-- The initial installed software is working -->
+                <pattern>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <marker>
+                        <token>initial</token>
+                        <token>installed</token>
+                    </marker>
+                    <token>software</token>
+                    <token regexp="yes">is|was</token>
+                </pattern>
+                <message>Make sure that the adjective '\2' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\3'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message>
+                <example correction="">The <marker>initial installed</marker> software is working.</example>
+                <example>The <marker>initially installed</marker> software is working.</example>
             </rule>
         </rulegroup>
     </category>
