@@ -28804,7 +28804,6 @@ TODO Write better examples
   <rulegroup id='MISPELLED_NAMES' name="Nomes próprios estrangeiros: p.ex. Jimmy Hendrix → Jimi Hendrix">
     <!--      Localized from French grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-30      -->
       <short>Nome próprio incorreto</short>
-		</rule>
 		      <rule>
         <antipattern>
           <token>Roland</token>
@@ -31051,6 +31050,19 @@ TODO Write better examples
       </pattern>
       <message>'Alias' é uma forma do verbo 'aliar'. O advérbio escreve-se <suggestion>aliás</suggestion>.</message>
       <example correction="Aliás"><marker>Alias</marker>, envie por correio registado.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token postag_regexp='yes' postag='Z.+'/>
+          <token postag_regexp='yes' postag='Z.+'/>
+          <token regexp='yes'>avos?</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>avos?</token>
+      </pattern>
+      <message>'Avo' é uma porção de algo. Os graus de parentesco escrevem-se <suggestion><match no='1' regexp_match='o' regexp_replace='ó'/></suggestion> ou <suggestion><match no='1' regexp_match='o' regexp_replace='ô'/></suggestion>.</message>
+      <example correction="avó|avô">O <marker>avo</marker> foi de férias.</example>
+      <example>Restara um três <marker>avo</marker>.</example>
     </rule>
     <rule>
       <pattern>
