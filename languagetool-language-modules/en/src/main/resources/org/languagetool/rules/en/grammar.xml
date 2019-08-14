@@ -9032,7 +9032,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|thank</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|thank</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9061,6 +9061,22 @@ USA
             <example correction="Google">Have you seen the simplified <marker>google</marker> doc?</example>
             <example correction="Google">My <marker>google</marker> skills are outstanding!</example>
             <example>He wanted to <marker>google</marker> for the medicine.</example>
+        </rule>
+        <rule id="A_EXCEL" name="a/the + excel">
+            <pattern>
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
+                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <marker>
+                    <token case_sensitive="yes">excel</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
+            </pattern>
+            <message>'Excel' (as in 'Microsoft Excel') is a proper noun and needs to be capitalized.</message>
+            <suggestion>Excel</suggestion>
+            <example correction="Excel">Have you seen the simplified <marker>excel</marker> sheet?</example>
+            <example correction="Excel">My <marker>excel</marker> skills are outstanding!</example>
+            <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
+            <example>Her <marker>Excel</marker> spreadsheet has been successfully sent.</example>
         </rule>
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <pattern>
