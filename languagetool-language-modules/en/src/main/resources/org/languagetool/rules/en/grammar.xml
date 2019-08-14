@@ -8999,6 +8999,10 @@ USA
                 <token>download</token>
                 <token>manager</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">write|read</token>
+                <token>access</token>
+            </antipattern>
             <antipattern><!-- "I got a write up at work." -->
                 <token>write</token>
                 <token>up</token>
@@ -9010,7 +9014,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
