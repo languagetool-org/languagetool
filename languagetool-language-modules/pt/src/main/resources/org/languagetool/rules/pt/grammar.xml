@@ -770,6 +770,7 @@ title="Easy editing stylesheet" ?>
       <example>É claro que isso foi há muito tempo atrás.</example>
       <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
       <example>Ela tentou persuadi-lo a ir com ela.</example>
+      <example>Ele começou há seis anos.</example>
     </rule>
     <rule>
       <pattern>
@@ -787,6 +788,7 @@ title="Easy editing stylesheet" ?>
       <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
     <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
+      <example>É um trabalho que vem de há muitos anos.</example>
     </rule>
   </rulegroup>
 
@@ -1850,7 +1852,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|niguém|nada|tudo</token>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
           <token regexp='yes'>de|entre</token>
           <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -1908,7 +1910,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|niguém|nada|tudo</token>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
           <token regexp='yes'>de|entre</token>
           <token>vós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -7624,7 +7626,8 @@ title="Easy editing stylesheet" ?>
           <token>Príncipe</token>
       </antipattern>
       <pattern>
-          <token/>
+          <token>
+            <exception scope='previous'>entre</exception></token>
           <token>e</token>
           <token min='0' postag="[ADP].+" postag_regexp="yes"/>
           <token postag="[AN].+" postag_regexp="yes"/>
@@ -7642,6 +7645,7 @@ title="Easy editing stylesheet" ?>
       <example correction="sul, oeste e o Suriname|sul e oeste, e o Suriname">...esa a norte, o Oceano Atlântico a leste, o Pará a <marker>sul e oeste e o Suriname</marker> a noroeste.</example>
       <example type="correct">Gostava de agradecer aos <marker>pais, presidente, e primeira</marker>-dama.</example>
     <!--example>...inam climas desérticos e semi-desérticos, ao norte, e frios e temperados na regiões mais altas.</example-->
+      <example>O processo demora entre mês e mês e meio e os medicamentos...</example>
     </rule>
   </rulegroup>
 
