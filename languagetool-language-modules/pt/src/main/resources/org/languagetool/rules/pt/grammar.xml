@@ -3732,6 +3732,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes' spacebefore='no'>n[oa]s</token>
       </antipattern>
+      <antipattern>
+          <token>mais</token>
+          <token postag_regexp='yes' postag='A.+'/>
+          <token postag_regexp='yes' postag='N.+'/>
+      </antipattern>
       <pattern>
           <token regexp='yes'>[nd]?[ao]s?</token>
           <token>de</token>
@@ -3740,6 +3745,7 @@ title="Easy editing stylesheet" ?>
       <message>Possível confusão de termos.</message>
         <suggestion>\1 \2\3</suggestion>
       <example correction='Os demais'><marker>Os de mais</marker> intervenientes na conversa, tiveram que ficar calados.</example>
+      <example>Aceita-se que poderá haver pessoas, especialmente entre as de mais baixo risco, que estão a fazer a medicação sem precisarem dela.</example>
     </rule>
 
   <rulegroup id='PARCEIRA_PARCERIA' name="Confusão: 'parceira' com 'parceria'">
@@ -4255,6 +4261,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>uma?</token>
           <token>a</token>
+          <token postag_regexp='yes' postag='Z.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>uma?</token>
+          <token>a</token>
           <token regexp='yes'>uma?</token>
       </antipattern>
       <antipattern>
@@ -4289,6 +4300,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>uma?</token>
           <token regexp='yes'>a</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>u[mn]a?s?</token>
+          <token regexp='yes'>n[ao]s?</token>
+          <token regexp='yes'>outr[ao]s?</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -4311,6 +4327,8 @@ title="Easy editing stylesheet" ?>
       <example>Portugal foi um dos últimos países a adotar o novo método, </example>
       <example>O resgate deve começar a partir da uma da manhã.</example>
       <example>…contradigam de modo algum o que aí se encontra escrito…</example>
+      <example>Isto ocorre entre um a duas vezes por semana.</example>
+      <example>Chocou uma na outra.</example>
     </rule>
     <rule>
       <antipattern>
@@ -4319,13 +4337,13 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>algu[mn]a?s?</token>
-          <token regexp='yes'>del[ea]s?|dest[ea]s?|doutr[ao]s?|daquel[ea]s?|[nd][oa]s?</token>
+          <token regexp='yes'>d(?:el[ea]|es[st][ea]|outr[ao]|aquel[ea])s?|[nd][oa]s?</token>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
-          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
-          <token regexp='yes'>dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|algum|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|alguma|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|algumas</token>
+          <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|pelos|alguns</token>
+          <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|pelos|alguns</token>
         </marker>
       </pattern>
       <message>Possível fragmento.</message>
@@ -8843,6 +8861,10 @@ title="Easy editing stylesheet" ?>
       <example>O CV segue anexo.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>.</token>
+          <token spacebefore='yes'>e</token>
+      </antipattern>        
       <pattern case_sensitive="no">
         <marker>
           <token regexp="yes">a|cu|d|E|f|ft|h|heort|i|Litt|loc|m|n|nav|o|p|Ph|q|S|telef|V</token>
@@ -8856,6 +8878,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1.\3.</suggestion>
       <short>Erro tipográfico</short>
       <example correction="V.Exa.">Peço a <marker>V.Exa</marker>,</example>
+      <example>...tendo diminuído 2,3 p.p. e 4,3 p.p. ...</example>
     </rule>
   </rulegroup>
 
@@ -13499,12 +13522,14 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_339_COMER' name='Clichê: Comer água'>
       <pattern>
-          <token inflected='yes'>comer</token>
+          <token inflected='yes'>comer
+            <exception scope='previous' inflected='yes'>claro</exception></token>
           <token>água</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sair</match> para beber</suggestion>
       <example correction='sair para beber'><marker>comer água</marker>.</example>
+      <example>Clarinho como água.</example>
     </rule>
     <rule id='CLICHE_340_COMER' name='Clichê: Comer como um abade'>
       <pattern>
@@ -27840,10 +27865,11 @@ TODO Write better examples
       <pattern>
           <token regexp="yes">[a-z]*m[aã]</token>
           <token min='0'>,</token>
-          <token regexp="yes">(?:m(?:ai?|ala|inha|aioria|ar.*|ou.+))s?</token>
+          <token regexp="yes">(?:m(?:ai?|ala|inha|aioria|ar([aábcdfgjklmnpqrstvxz].*)?|ou.+))s?</token>
       </pattern>
       <message>Cacofonia. Estas palavras, quando ouvidas, podem ser mal interpretadas.</message>
       <example correction=""><marker>Alma minha</marker> gentil, que te partiste</example>
+      <example>O teste foi realizado com sucesso na plataforma marítima da SpaceX.</example>
     </rule>
     <rule>
       <pattern>
