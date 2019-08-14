@@ -740,6 +740,15 @@ title="Easy editing stylesheet" ?>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
       </antipattern>
+      <antipattern>
+          <token>há</token>
+          <token postag_regexp='yes' postag="Z.+"/>
+      </antipattern>
+      <antipattern>
+          <token>há</token>
+          <token min='0' postag_regexp='yes' postag="RG"/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </antipattern>
     <rule>
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
@@ -2894,7 +2903,8 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='V.+'>
             <exception postag_regexp='yes' postag='V.[NX].+'/></token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;|&pronomes_nao_ambiguos;
+            <exception regexp='yes'>l[ao]s?</exception></token>
       </pattern>
       <message>As palavras de sentido negativo devem ser seguidas de próclise.</message>
         <suggestion>\1 \2 \5 \3</suggestion>
@@ -27958,8 +27968,36 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <!-- À BOCADO há bocado -->
+
+    <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <marker>
+          <token>aos</token>
+          <token regexp="yes">(?:pouc|bocad)(?:os|inhos)</token>
+        </marker>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>gradualmente</suggestion>
+      <example correction="gradualmente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
+    </rule>
+
+    <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>sem</token>
+          <token inflected='yes'>dar</token>
+          <token min="0">muito</token>
+          <token>nas</token>
+          <token>vistas</token>
+      </pattern>
+      <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>discretamente</suggestion>
+      <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
+    </rule>
+
     <rule id='À_BOCADO' name="Há bocado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>à</token>
           <token>bocado</token>
@@ -27968,8 +28006,8 @@ TODO Write better examples
       <example correction="há bocado">Cheguei <marker>à bocado</marker> do Algarve.</example>
     </rule>
 
-    <!-- AFIM DE a fim de -->
     <rule id='AFIM_DE' name="A fim de">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>afim</token>
           <token>de</token>
@@ -27983,8 +28021,8 @@ TODO Write better examples
       <example correction="semelhante a|de modo a|para|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>
     </rule>
 
-    <!-- A POUCO E POUCO aos poucos informal -->
     <rule id='A_POUCO_E_POUCO' name="Aos poucos">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>a</token>
           <token>pouco</token>
@@ -27996,8 +28034,8 @@ TODO Write better examples
       <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>
     </rule>
 
-    <!-- DE ALMA E CORAÇÃO informal -->
     <rule id='DE_ALMA_E_CORAÇÃO' name="De alma e coração">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>de</token>
           <token>alma</token>
@@ -28009,8 +28047,8 @@ TODO Write better examples
       <example>Sou um gestor <marker>com determinação</marker>.</example>
     </rule>
 
-    <!-- ENCRENCA/ENCRENCAS informal -->
     <rule id='ENCRENCA_ENCRENCAS' name="Encrenca(s)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp="yes">encrencas?</token>
       </pattern>
@@ -28019,8 +28057,8 @@ TODO Write better examples
       <example>Que grande <marker>sarilho</marker>.</example>
     </rule>
 
-    <!-- GAJA/S informal -->
   <rulegroup id='GAJA_GAJAS' name="Gaja/gajas">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
       <pattern>
           <token regexp="yes">gajas?</token>
@@ -28039,8 +28077,8 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <!-- BEM DITO DEUS/SATANÁS bem dito Deus/Satanás -->
     <rule id='BEM_DITO_DEUS-SATANÁS' name="Bem dito Deus-Satanás">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
           <token>bem</token>
@@ -28052,8 +28090,8 @@ TODO Write better examples
       <example correction="bendito">És a vida, <marker>bem dito</marker> Deus.</example>
     </rule>
 
-    <!-- BICHA DE ESPERA fila de espera -->
     <rule id='BICHA_DE_ESPERA' name="Fila de espera">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <marker>
           <token>bicha</token>
@@ -28064,22 +28102,6 @@ TODO Write better examples
       <message>Substitua por <suggestion>fila</suggestion>.</message>
       <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
     </rule>
-
-    <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível" default='off'>
-    <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
-    <!-- XXX Is this informal? Please, provide references and a suggestion. -->
-      <pattern>
-          <token>na</token>
-          <token>medida</token>
-          <token>do</token>
-          <token>possível</token>
-      </pattern>
-      <message>Pondere usar uma expressão alternativa.</message>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/na-medida-do-possivel/33734</url>
-      <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
-      <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
-    </rule>
-
  </category>
 
  <category id='EGGCORNS' name="Calinadas">
@@ -28243,23 +28265,24 @@ TODO Write better examples
       <example correction="medicina tradicional chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
     </rule>
   </rulegroup>
-
-    <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <marker>
-          <token>aos</token>
-          <token regexp="yes">poucos|bocados|bocadinhos</token>
-        </marker>
-      </pattern>
-      <message>Melhore a redação.</message>
-        <suggestion>gradualmente</suggestion>
-      <example correction="gradualmente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
-    </rule>
-
  </category>
 
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style' default='off'>
+
+    <rule id='NA_MEDIDA_DO_POSSÍVEL' name="Na medida do possível">
+    <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+      <pattern>
+          <token>na</token>
+          <token>medida</token>
+          <token>do</token>
+          <token>possível</token>
+      </pattern>
+      <message>Pondere usar uma expressão alternativa.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/na-medida-do-possivel/33734</url>
+      <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
+      <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
+    </rule>
+
     <rule id='POR_CAUSA_DE' name="devido a">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -28283,20 +28306,6 @@ TODO Write better examples
       <message>Melhore a redação.</message>
         <suggestion>cujo objetivo <match no='2' postag='V.+' postag_regexp='yes'>ser</match></suggestion>
       <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
-    </rule>
-
-    <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>sem</token>
-          <token inflected='yes'>dar</token>
-          <token min="0">muito</token>
-          <token>nas</token>
-          <token>vistas</token>
-      </pattern>
-      <message>Melhore a redação.</message>
-        <suggestion>discretamente</suggestion>
-      <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
     </rule>
  </category>
 
