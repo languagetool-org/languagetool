@@ -28254,7 +28254,7 @@ TODO Write better examples
       </pattern>
       <message>Melhore a redação.</message>
         <suggestion>gradualmente</suggestion>
-      <example correction="gradualmente">O Rui começa da base <marker>indo aos poucos</marker> aumentando a dificuldade.</example>
+      <example correction="gradualmente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
     </rule>
 
  </category>
@@ -28804,6 +28804,55 @@ TODO Write better examples
   <rulegroup id='MISPELLED_NAMES' name="Nomes próprios estrangeiros: p.ex. Jimmy Hendrix → Jimi Hendrix">
     <!--      Localized from French grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-30      -->
       <short>Nome próprio incorreto</short>
+		</rule>
+		      <rule>
+        <antipattern>
+          <token>Roland</token>
+          <token>Garros</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Roll?an[dt]?</token>
+          <token regexp="yes">Garr?os</token>
+        </pattern>
+        <message>Escreva <suggestion>Roland Garros</suggestion> se se refere ao aviador francês.</message>
+        <url>https://pt.wikipedia.org/wiki/Rolland_Garros</url>
+        <example correction="Roland Garros"><marker>Rolland Garros</marker></example>
+      </rule>
+	    <rule>
+        <antipattern>
+          <token>Edmond</token>
+          <token>Rostand</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]dmon[dt]</token>
+          <token regexp="yes">Rostan[dt]</token>
+        </pattern>
+        <message>Escreva <suggestion>Edmond Rostand</suggestion> se se refere ao poeta e dramaturgo francês.</message>
+        <url>https://pt.wikipedia.org/wiki/Edmond_Rostand</url>
+        <example correction="Edmond Rostand"><marker>Edmond Rostant</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Georges</token>
+          <token>Wolinski</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Georges?</token>
+          <token regexp="yes">Wolink?sk[iy]</token>
+        </pattern>
+        <message>Escreva <suggestion>Georges Wolinski</suggestion> se se refere ao cartonista.</message>
+        <url>https://pt.wikipedia.org/wiki/Georges_Wolinski</url>
+        <example correction="Georges Wolinski"><marker>Georges Wolinsky</marker></example>
+      </rule>
+	  <rule id="PIZZA_MARGARITA" name="pizza margarita → pizza Margherita">
+      <pattern>
+        <token inflected="yes">pizza</token>
+        <marker><token regexp="yes">margaritas?</token></marker>
+      </pattern>
+      <message>Pretende escrever <suggestion>Margherita</suggestion>?</message>
+      <url>https://pt.wikipedia.org/wiki/Pizza_Margherita</url>
+      <example correction="Margherita">Une pizza <marker>margarita</marker>.</example>
+    </rule>
     <rule>
       <antipattern>
           <token>Jimi</token>
