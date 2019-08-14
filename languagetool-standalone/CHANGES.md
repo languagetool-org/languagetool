@@ -14,6 +14,9 @@
 #### German
   * added and improved rules
 
+#### Portuguese
+  * added and improved rules
+
 #### Ukrainian
   * added and improved rules
 
