@@ -4169,26 +4169,26 @@ title="Easy editing stylesheet" ?>
       <antipattern><!-- XXX LibreOffice specific antipattern -->
     <!-- TODO Libreoffice plug-in tokenizes enumerations differently, so, it triggers an error that does not exist in the LT-server, nor LT-standalone. Verify. -->
           <token postag='SENT_START'/>
-          <marker>
-              <token regexp='yes'>\d{1,2}|\p{L}</token>
-              <token regexp='yes'>[\.\)]</token>
-              <token max='3'/>
-              <token regexp='yes'>[.!?]</token>
-          </marker>
+        <marker>
+          <token regexp='yes'>\d{1,2}|\p{L}</token>
+          <token regexp='yes'>[\.\)]</token>
+          <token max='3'/>
+          <token regexp='yes'>[.!?]</token>
+        </marker>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <marker>
-              <token min='2'>
-                <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-              <token skip='-1'>
-                <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
-                <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
-            <and>
-              <token regexp='yes'>[.?!…”»]|&quot;</token>
-              <token postag='SENT_END'/>
-            </and>
-          </marker>
+        <marker>
+          <token min='2'>
+            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+          <token skip='-1'>
+            <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
+            <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/></token>
+        <and>
+          <token regexp='yes'>[.?!…”»]|&quot;</token>
+          <token postag='SENT_END'/>
+        </and>
+        </marker>
       </pattern>
       <message>Esta frase não tem verbo. Confirme que não é uma holófrase.</message>
       <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!-- XXX artigo do Ciberdúvidas está offline -->
@@ -4399,7 +4399,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <pattern>
-        <token postag='SENT_START'/>
+          <token postag='SENT_START'/>
         <marker>
           <token postag='C.|R.' postag_regexp='yes' skip="-1">
             <exception negate_pos='yes' postag='C.|R.' postag_regexp='yes'/>
@@ -4434,7 +4434,7 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
-        <token postag='SENT_START'/>
+          <token postag='SENT_START'/>
         <marker>
           <token regexp='yes'>Mesmo|Então|Portanto</token>
           <token regexp='yes' min='0'>[,:]</token>
@@ -4462,7 +4462,7 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
-        <token postag='SENT_START'/>
+          <token postag='SENT_START'/>
         <marker>
           <token regexp='yes'>Desde|A|Até|Sempre|Enquanto|Onde|O|Quem</token>
           <token regexp='yes' skip='-1'>vez|que|menos|quer</token>
@@ -4488,7 +4488,7 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
-        <token postag='SENT_START'/>
+          <token postag='SENT_START'/>
         <marker>
           <token regexp='yes'>De|A|Considerando|Contando</token>
           <token skip='-1' regexp='yes'>que|menos|quer</token>
@@ -4516,7 +4516,7 @@ title="Easy editing stylesheet" ?>
           <token postag='CC'/>
       </antipattern>
       <pattern>
-        <token postag='SENT_START'/>
+          <token postag='SENT_START'/>
         <marker>
           <token regexp='yes'>Uma|De|Quem|A|Tendo</token>
           <token regexp='yes'>vez|modo|quer|menos|em</token>
@@ -5152,7 +5152,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>devido</suggestion>
       <example correction='devido'>Tudo isto é <marker>derivado</marker> ao calor.</example>
     </rule>
-	
+
     <rule id='ENSINOS_SUPERIORES' name="Ensino superior">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5160,7 +5160,7 @@ title="Easy editing stylesheet" ?>
           <token>superiores</token>
       </pattern>
       <message>Esta palavra é referida no singular.</message>
-      <suggestion>ensino superior</suggestion>
+        <suggestion>ensino superior</suggestion>
       <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
     </rule>
 
@@ -6068,20 +6068,6 @@ title="Easy editing stylesheet" ?>
       <example correction="houve muitos">No passado <marker>houveram muitos</marker> muitos acidentes.</example>
     </rule>
 
-    <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-		  <marker>
-			<token inflected='yes'>ir</token>
-			<token>aos</token>
-			<token regexp="yes">poucos|bocados|bocadinhos</token>
-		  </marker>	
-      </pattern>
-      <message>Melhore a redação.</message>
-	  <suggestion>gradualmente</suggestion>
-      <example correction="gradualmente">O Rui começa da base <marker>indo aos poucos</marker> aumentando a dificuldade.</example>	  
-    </rule>
-
     <rule id='JÁ_MAIS' name="Confusão: já mais - jamais">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -6157,27 +6143,27 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='MINORIAS_ÉTNICAS' name="Minoria(s) Ética(s)/Étnica(s)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
-      <pattern>          
-        <token>minoria</token>
+      <pattern>
+          <token>minoria</token>
         <marker>
-			<token>ética</token>
-		</marker>
+          <token>ética</token>
+        </marker>
       </pattern>
       <message>Substitua por <suggestion>étnica</suggestion>.</message>
       <example correction="étnica">É uma minoria <marker>ética</marker> importante.</example>
     </rule>
     <rule>
-      <pattern>          
-        <token>minorias</token>
+      <pattern>
+          <token>minorias</token>
         <marker>
-			<token>éticas</token>
-		</marker>
+          <token>éticas</token>
+        </marker>
       </pattern>
       <message>Substitua por <suggestion>étnicas</suggestion>.</message>
       <example correction="étnicas">As minorias <marker>éticas</marker> são importantes.</example>
     </rule>
   </rulegroup>
-  
+
     <!-- MULHER CARTEIRO carteira -->
     <rule id='MULHER_CARTEIRO' name="Carteira">
       <pattern>
@@ -6414,18 +6400,6 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>poder-se-iam</suggestion>.</message>
       <example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
     </rule>
-	
-    <rule id='POR_CAUSA_DE' name="devido a">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-		  <token>por</token>
-          <token>causa</token>
-          <token>de</token>
-      </pattern>
-	  <message>Melhore a redação.</message>
-      <suggestion>devido a</suggestion>
-      <example correction="devido a">O Rui perdeu o jogo <marker>por causa de</marker> não saber jogar.</example>      
-    </rule>
 
     <!-- POR CAUSA QUE porque>
     <rule id='POR_CAUSA_QUE' name="Confusão: por causa - porque">
@@ -6540,19 +6514,6 @@ title="Easy editing stylesheet" ?>
       <example correction="puder">Avise quando <marker>possa</marker> ser a melhor altura.</example>
     </rule>
 
-    <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-		  <token>que</token>
-          <token inflected='yes'>ter</token>
-          <token>como</token>
-          <token>objetivo</token>
-      </pattern>
-	  <message>Melhore a redação.</message>
-      <suggestion>cujo objetivo <match no='2' postag='V.+' postag_regexp='yes'>ser</match></suggestion>
-      <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>      
-    </rule>
-
     <rule id='RECOMENDÁVEL_DE' name="recomendável">
     <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
       <pattern>
@@ -6575,20 +6536,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>rio-me</suggestion>.</message>
       <example correction="rio-me">Eu <marker>riu-me</marker> das tuas piadas.</example>
-    </rule>
-	
-    <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-	      <token>sem</token>
-          <token inflected='yes'>dar</token>
-          <token min="0">muito</token>
-          <token>nas</token>
-		  <token>vistas</token>
-      </pattern>      
-      <message>Melhore a redação.</message>
-	  <suggestion>discretamente</suggestion>
-      <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
     </rule>
 
     <rule id='SERVIR_A_FAZER' name="Servir para fazer">
@@ -6666,14 +6613,14 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes' regexp="yes">ser|fazer|ter</token>
-		  <token min="0" >um</token>
+          <token min="0">um</token>
           <token>trabalho</token>
-		  <token min="0" regexp="yes">não|mal</token>
-		  <marker>
-			<token>pago</token>
-		  </marker>	
+          <token min="0" regexp="yes">não|mal</token>
+        <marker>
+          <token>pago</token>
+        </marker>
       </pattern>
-	  <message>Substitua por <suggestion>remunerado</suggestion>.</message>
+      <message>Substitua por <suggestion>remunerado</suggestion>.</message>
       <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
     </rule>
 
@@ -8400,9 +8347,9 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <marker>
-              <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
-          </marker>
+        <marker>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+        </marker>
       </pattern>
       <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
       <example correction=""><marker>Portanto</marker>, não posso sair.</example>
@@ -24367,13 +24314,13 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <marker>
-              <token regexp="yes">\d+|\w</token>
-              <token regexp="yes">[–‒—]|&hifen;</token>
-              <token spacebefore="no">
-                  <exception regexp="yes">\d+</exception>
-              </token>
-          </marker>
+        <marker>
+          <token regexp="yes">\d+|\w</token>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="no">
+            <exception regexp="yes">\d+</exception>
+          </token>
+        </marker>
       </pattern>
       <message>Em enumerações, deve dar um espaço depois do travessão.</message>
         <suggestion>\2 — \4</suggestion>
@@ -24391,10 +24338,10 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <marker>
-              <token regexp="yes">[–‒—]|&hifen;</token>
-              <token spacebefore="yes"/>
-          </marker>
+        <marker>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="yes"/>
+        </marker>
       </pattern>
       <message>Em diálogos, deve remover o espaço depois do travessão.</message>
         <suggestion>—\3</suggestion>
@@ -24415,12 +24362,12 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <marker>
-              <token regexp="yes">[–‒—]|&hifen;</token>
-              <token spacebefore="no">
-                  <exception>,</exception>
-              </token>
-          </marker>
+        <marker>
+          <token regexp="yes">[–‒—]|&hifen;</token>
+          <token spacebefore="no">
+            <exception>,</exception>
+          </token>
+        </marker>
       </pattern>
       <message>Em diálogos, deve dar espaço depois do travessão.</message>
         <suggestion>— \3</suggestion>
@@ -24494,11 +24441,11 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <marker>
-              <token regexp="yes">\d+(?:\.\d+)?</token>
-              <token>.</token>
-              <token regexp="yes" min="1" max="3">[—–‒-]</token>
-          </marker>
+        <marker>
+          <token regexp="yes">\d+(?:\.\d+)?</token>
+          <token>.</token>
+          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+        </marker>
       </pattern>
       <message>Os travessões são desnecessários em enumerações.</message>
         <suggestion>\2.</suggestion>
@@ -26631,9 +26578,9 @@ TODO Write better examples
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <marker>
-            <token regexp="yes">E|Mas|Ou|Porém</token>
-          </marker>
+        <marker>
+          <token regexp="yes">E|Mas|Ou|Porém</token>
+        </marker>
       </pattern>
       <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
@@ -26893,11 +26840,11 @@ TODO Write better examples
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <marker>
-              <token regexp='yes'>(?:&arcaismos;)s?
-                  <exception regexp='yes'>aH|almeida</exception>
-              </token>
-          </marker>
+        <marker>
+          <token regexp='yes'>(?:&arcaismos;)s?
+            <exception regexp='yes'>aH|almeida</exception>
+          </token>
+        </marker>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico. Tente utilizar uma alternativa.</message>
       <example type='incorrect'><marker>Vosmecês</marker> são uns sacanas!</example>
@@ -26945,10 +26892,10 @@ TODO Write better examples
     <rule>
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
-          <marker>
-              <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
-                <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
-          </marker>
+        <marker>
+          <token regexp='yes'>(?:&barbarismos;|&barbarismos2;)s?
+            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
+        </marker>
       </pattern>
       <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
         <suggestion>‘\2’</suggestion>
@@ -28297,6 +28244,60 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <marker>
+          <token>aos</token>
+          <token regexp="yes">poucos|bocados|bocadinhos</token>
+        </marker>
+      </pattern>
+      <message>Melhore a redação.</message>
+        <suggestion>gradualmente</suggestion>
+      <example correction="gradualmente">O Rui começa da base <marker>indo aos poucos</marker> aumentando a dificuldade.</example>
+    </rule>
+
+ </category>
+
+ <category id='REDACTION_TIPS' name='Dicas de redação' type='style' default='off'>
+    <rule id='POR_CAUSA_DE' name="devido a">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>por</token>
+          <token>causa</token>
+          <token>de</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+        <suggestion>devido a</suggestion>
+      <example correction="devido a">O Rui perdeu o jogo <marker>por causa de</marker> não saber jogar.</example>
+    </rule>
+
+    <rule id='QUE_TINHA_COMO_OBJETIVO' name="cujo objetivo era">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>que</token>
+          <token inflected='yes'>ter</token>
+          <token>como</token>
+          <token>objetivo</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+        <suggestion>cujo objetivo <match no='2' postag='V.+' postag_regexp='yes'>ser</match></suggestion>
+      <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
+    </rule>
+
+    <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>sem</token>
+          <token inflected='yes'>dar</token>
+          <token min="0">muito</token>
+          <token>nas</token>
+          <token>vistas</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+        <suggestion>discretamente</suggestion>
+      <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
+    </rule>
  </category>
 
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
