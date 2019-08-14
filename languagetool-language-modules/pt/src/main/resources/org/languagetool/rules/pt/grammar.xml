@@ -28765,6 +28765,42 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+    <rule id="MENAGE_A_TROIS" name="Erro ortográfico: ménage à trois">
+    <!-- Localized from Catalan grammar by Tiago F. Santos, 08-05-2019 -->
+      <antipattern>
+          <token>ménage</token>
+          <token>à</token>
+          <token>trois</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">m[éèêe]nag[éèêe]</token>
+          <token min="0">-</token>
+          <token regexp="yes">[áàâa]</token>
+          <token min="0">-</token>
+          <token regexp="yes">tr[oóòô]is</token>
+      </pattern>
+      <message>Erro ortográfico.</message>
+        <suggestion>ménage à trois</suggestion>
+      <example correction="ménage à trois"><marker>menage a trois</marker>.</example>
+      <example correction="ménage à trois"><marker>ménage a tróis</marker>.</example>
+      <example correction="ménage à trois"><marker>ménagé-â-trois</marker>.</example>
+      <example>ménage à trois</example>
+    </rule>
+
+    <rule id="AU" name="Erro ortográfico: au/Au [unidade astronómica/ouro]">
+    <!-- Localized from English grammar by Tiago F. Santos, 12-08-2019 -->
+      <pattern case_sensitive="yes">
+          <token>au
+            <exception scope="next" regexp="yes">beurre|courant|contraire|fait|fond|gratin|jus|naturel|revoir</exception><!-- French terms that are used in English -->
+          </token>
+      </pattern>
+      <message>Certifique-se que '\1' refere-se a 'unidade astronómica'. Se se refere ao símbolo químico do ouro, utilize <suggestion>Au</suggestion>.</message>
+      <url>https://pt.wikipedia.org/wiki/Unidade_astronómica</url>
+      <short>Possível erro ortográfico</short>
+      <example correction="Au">O símbolo químico do ouro é o <marker>au</marker>.</example>
+    <!--example>Are you <marker>au fait</marker> the LanguageTool?</example-->
+    </rule>
+
   <rulegroup id='MISPELLED_NAMES' name="Nomes próprios estrangeiros: p.ex. Jimmy Hendrix → Jimi Hendrix">
     <!--      Localized from French grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-30      -->
       <short>Nome próprio incorreto</short>
