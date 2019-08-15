@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.uk;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import org.junit.Before;
@@ -567,15 +569,16 @@ public class UkrainianTaggerTest {
 //  TestTools.myAssert("бабці-Австрії",  "", tokenizer, tagger);
   // змагання зі слалому-гіганту
   // голосувати за Тимошенко-прем’єра
-  }   
+  }
 
-  //TODO:
-//  @Test
-//  public void testTaggingMultidash() throws IOException {
-//    TestTools.myAssert("україно-румуно-болгарський", "", tokenizer, tagger);
-//  TestTools.myAssert("синьо-біло-чорний", "", tokenizer, tagger);
-//  TestTools.myAssert("хіп-хоп-гурту", "", tokenizer, tagger);
-//  }
+  @Test
+  public void testTaggingMultidash() throws IOException {
+    TestTools.myAssert("україно-румуно-болгарський", "україно-румуно-болгарський/[україно-румуно-болгарський]adj:m:v_kly|україно-румуно-болгарський/[україно-румуно-болгарський]adj:m:v_naz|україно-румуно-болгарський/[україно-румуно-болгарський]adj:m:v_zna:rinanim", tokenizer, tagger);
+    TestTools.myAssert("синьо-біло-чорному", "синьо-біло-чорному/[синьо-біло-чорний]adj:m:v_dav|синьо-біло-чорному/[синьо-біло-чорний]adj:m:v_mis|синьо-біло-чорному/[синьо-біло-чорний]adj:n:v_dav|синьо-біло-чорному/[синьо-біло-чорний]adj:n:v_mis", tokenizer, tagger);
+    TestTools.myAssert("хіп-хоп-гуртом", "хіп-хоп-гуртом/[хіп-хоп-гурт]noun:inanim:m:v_oru:xp1|хіп-хоп-гуртом/[хіп-хоп-гурт]noun:inanim:m:v_oru:xp2", tokenizer, tagger);
+//    TestTools.myAssert ignores tokens with no letters, need to do manual steps here
+    assertEquals("[–---–[–---–/null*]]", tagger.tag(tokenizer.tokenize("–---–")).toString());
+  }
 
   @Test
   public void testDynamicTaggingNoDash() throws IOException {

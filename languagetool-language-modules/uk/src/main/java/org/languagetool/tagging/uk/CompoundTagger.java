@@ -411,11 +411,14 @@ class CompoundTagger {
     return null;
   }
 
-  private List<TaggedWord> tagEitherCase(String rightWord) {
-    List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
+  private List<TaggedWord> tagEitherCase(String word) {
+    if( word.isEmpty() )
+      return new ArrayList<>();
+    
+    List<TaggedWord> rightWdList = wordTagger.tag(word);
     if( rightWdList.isEmpty() ) {
-      if( Character.isUpperCase(rightWord.charAt(0)) ) {
-        rightWdList = wordTagger.tag(rightWord.toLowerCase());
+      if( Character.isUpperCase(word.charAt(0)) ) {
+        rightWdList = wordTagger.tag(word.toLowerCase());
       }
     }
     return rightWdList;

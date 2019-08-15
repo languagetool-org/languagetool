@@ -34,6 +34,10 @@ import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
 import org.languagetool.tools.StringTools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /** 
  * Ukrainian part-of-speech tagger.
  * See README for details, the POS tagset is described in tagset.txt
@@ -41,6 +45,7 @@ import org.languagetool.tools.StringTools;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static Logger logger = LoggerFactory.getLogger(UkrainianTagger.class);
 
   private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
@@ -98,8 +103,14 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( word.indexOf('-') > 0 ) {
-      List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
-      return guessedCompoundTags;
+      try {
+        List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
+        return guessedCompoundTags;
+      }
+      catch(Exception e) {
+        logger.error("Failed to tag \"" + word + "\"", e);
+        return new ArrayList<>();
+      }
     }
 
     return guessOtherTags(word);
