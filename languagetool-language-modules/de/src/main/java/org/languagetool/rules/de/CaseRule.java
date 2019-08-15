@@ -146,9 +146,9 @@ public class CaseRule extends Rule {
         pos("UNKNOWN")
     ),
     Arrays.asList(
-      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", 
+      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Kühne?|Sauer|Ernst")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|K(ü|ue)hne?|Sauer|Ernst|Fr(ö|oe)hlich|Kurz")
     ),
     Arrays.asList(
       token(","),
@@ -943,7 +943,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isCompany(String token) {
-    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Bäckerei", "Fa");
+    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Bäckerei", "Metzgerei", "Fa");
   }
 
   private boolean isDot(String token) {
