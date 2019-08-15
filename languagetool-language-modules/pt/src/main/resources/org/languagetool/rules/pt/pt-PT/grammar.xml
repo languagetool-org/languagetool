@@ -1291,7 +1291,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&prefixos_i;</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^ihrs].+</token>
+          <token regexp='yes'>[^ihrs].+
+            <exception postag_regexp='yes' postag='[RS].+'/></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
