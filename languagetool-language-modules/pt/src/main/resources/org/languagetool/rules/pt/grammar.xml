@@ -68,6 +68,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY numero_por_extenso "(?:uma?|d(?:ois|uas)|três|quatro|cinco|s(?:eis|ete)|oito|nove|d(?:ez|ezenas?)|onze|doze|treze|catorze|quinze|dez(?:[ae]sseis|[ae]ssete|oito|anove)|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|ce(?:m|ntos?)|duzentos|trezentos|qu(?:atrocentos|inhentos)|se(?:iscentos|tecentos)|oitocentos|novecentos|mil(?:h(?:ão|ões))?|bili(?:ão|ões)|trili(?:ão|ões))">
     <!ENTITY multiplicadores "(?:dúzia|dezena|centena)s?|mil|milhar(?:es)?|(?:milh|bilh?i)(?:ão|ões)">
+    <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿]|\=|\+">
     <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|bpm|ton|kWh|GWa|MWd|MWh|mAh|min)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
@@ -761,6 +762,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
     <!--exception regexp='yes'>quer|fora</exception--></token>
           <token postag="V.+" postag_regexp='yes'>
+            <exception>é</exception><!-- XXX informal and only usually only used in spoken language -->
             <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
       </pattern>
@@ -776,6 +778,7 @@ title="Easy editing stylesheet" ?>
       <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
       <example>Ela tentou persuadi-lo a ir com ela.</example>
       <example>Ele começou há seis anos.</example>
+      <example>Não podem é impor que alguém seja forçado a trabalhar.</example>
     </rule>
     <rule>
       <pattern>
@@ -1381,6 +1384,10 @@ title="Easy editing stylesheet" ?>
       <example>Depois de ter ido ao Convénio, teve novas ideias e projetos.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+          <token case_sensitive='yes' >Pratas</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>(?:falsi|humil|sinceri|leal|bon|cari|mal)dades|fés|pratas|cobres|platinas|brisas|fomes|lenhas|oxig[éê]nios|plebes|profundidades|(cristian|islam|protestant|bud|hindu|xaman|satan|naz)[ií]smos</token>
       </pattern>
@@ -1388,6 +1395,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
       <example correction="prata">Ele tinha muitas <marker>pratas</marker> da casa.</example>
+      <example>Mafalda Pratas</example>
     </rule>
     <rule>
       <pattern>
@@ -2973,7 +2981,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token>por</token>
+          <token>por
+            <exception scope='previous' regexp='yes'>raz(?:ão|ões)|motivos?|causas?</exception></token>
           <token regexp='yes'>qu[eê]</token>
           <token postag_regexp='yes' postag='D.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
@@ -2982,6 +2991,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>porque \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="porque o">Isto <marker>por que o</marker> Raul tinha saído.</example>
+      <example>...motivo por que muitos chineses desejam que o país se torne...</example>
     </rule>
     <rule>
       <pattern>
@@ -3103,7 +3113,7 @@ title="Easy editing stylesheet" ?>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
     <rule id='INF_PP_QUE' name="Infinitivo do tipo convencer + pron.pers + que">
       <pattern>
-          <token regexp="yes">(?:alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)</token>
+          <token regexp="yes">(?:alegrar<!--|saber-->|informar|duvidar|convencer|fartar|queixar|protestar)</token>
           <token regexp='yes'>&tracos_de_separacao;</token>
           <token regexp="yes">(?:me|te|lh[ea][s]?|se|nos|os)</token>
           <token>que</token>
@@ -3163,7 +3173,7 @@ title="Easy editing stylesheet" ?>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
           <token postag="(?:R|A).+" postag_regexp="yes">
             <exception inflected="yes" regexp="yes"><!--seguro|certo|livre|consciente|farto|-->abaixo|acima|longe|perto</exception></token>
-          <token regexp="yes">d[eo]</token>
+          <token regexp="yes">de</token>
           <token>que</token>
       </pattern>
       <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
@@ -3172,6 +3182,7 @@ title="Easy editing stylesheet" ?>
       <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrarmo-nos</example>
       <example>O custo está abaixo do que foi estabelecido.</example>
       <example>É diferente da que foi analisada</example>
+      <example>...foram retirados do que restava...</example>
     </rule>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id='V3_DE_QUE' name="Verbo na 3a pessoa + de que">
@@ -4299,6 +4310,12 @@ title="Easy editing stylesheet" ?>
           <token>depois</token>
           <token>de</token>
           <token>em</token>
+      </antipattern>
+      <antipattern>
+          <token>software</token>
+          <token>as</token>
+          <token>a</token>
+          <token>service</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>pelos?</token>
@@ -9153,6 +9170,12 @@ title="Easy editing stylesheet" ?>
 
     <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Sinal de pontuação perdidos">
     <!-- Created by Tiago F. Santos, 2018-07-14 -->
+      <antipattern>
+    <!-- smileys -->
+          <token regexp="yes">[:;]</token>
+          <token spacebefore="no" min='0'>-</token>
+          <token spacebefore="no" regexp="yes">[()\/S]</token>
+      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
         <marker>
@@ -9162,6 +9185,7 @@ title="Easy editing stylesheet" ?>
       <message>Sinal de pontuação isolado.</message>
         <suggestion/>
       <example correction=""><marker>;</marker> Como estás?</example>
+      <example>Acho que dá! ;)</example>
     </rule>
 
   <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação interrogações: Porquê?">
@@ -11136,14 +11160,14 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>\2</suggestion>
       <example correction='com'><marker>juntamente com</marker>.</example>
     </rule>
-    <rule id='REDUNDANCY_35_LIVRE' name='Pleonasmo: Livre escolha'>
+    <rule id='REDUNDANCY_35_LIVRE' name='Pleonasmo: Livre escolha' default='off'>
       <pattern>
           <token inflected='yes'>livre</token>
           <token>escolha</token>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
-        <suggestion>\1</suggestion>
-      <example correction='livre'><marker>livre escolha</marker>.</example>
+        <suggestion>\2</suggestion>
+      <example correction='escolha'><marker>livre escolha</marker>.</example>
     </rule>
     <rule id='REDUNDANCY_36_METADES' name='Pleonasmo: Metades iguais'>
       <pattern>
@@ -25462,7 +25486,7 @@ TODO Write better examples
     <!-- smiley -->
           <token regexp="yes">[:;]</token>
           <token spacebefore="no" min='0'>-</token>
-          <token spacebefore="no" regexp="yes">[()\/]</token>
+          <token spacebefore="no" regexp="yes">[()\/S]</token>
       </antipattern>
       <pattern>
         <marker>
