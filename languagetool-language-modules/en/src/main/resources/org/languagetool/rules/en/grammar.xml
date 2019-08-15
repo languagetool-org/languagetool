@@ -8242,7 +8242,7 @@ USA
                 <token>people</token>
             </antipattern>
             <pattern>
-                <token>people</token>
+                <token>people<exception scope="previous">no</exception></token>
                 <token min="0">who</token>
                 <marker>
                     <token postag="VBZ"/>
@@ -8260,6 +8260,7 @@ USA
             <example>Helping people <marker>is</marker> our duty.</example>
             <example correction="am|are|aren">Our people <marker>is</marker> being encouraged to find any way to avoid the tax.</example>
             <example>My usual advice to people is just be focused on the problem, learn about the...</example>
+            <example>And that no people has a greater claim to that flag than us.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
@@ -13993,8 +13994,11 @@ USA
                     <token>talk</token>
                 </antipattern>
                 <pattern>
-                    <token>more</token>
-                    <token regexp='yes'>&short_adjectives;<exception scope="next" postag="NNS"/></token>
+                    <marker>
+                        <token>more</token>
+                        <token regexp='yes'>&short_adjectives;<exception scope="next" postag="NNS"/></token>
+                    </marker>
+                    <token>than</token>
                 </pattern>
                 <message>This adjective uses the short comparatives form.</message>
                   <suggestion><match no='2' postag='(.+)' postag_regexp='yes' postag_replace='JJR'/></suggestion>
