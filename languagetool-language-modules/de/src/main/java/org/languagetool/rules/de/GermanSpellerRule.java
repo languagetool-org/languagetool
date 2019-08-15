@@ -959,11 +959,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("ei".equals(word)) {
       return Collections.singletonList("ein");
-    } else if ("jo".equals(word)) {
+    } else if ("jo".equals(word) || "jepp".equals(word) || "jopp".equals(word)) {
       return Collections.singletonList("ja");
-    } else if ("Jo".equals(word)) {
+    } else if ("Jo".equals(word) || "Jepp".equals(word) || "Jopp".equals(word)) {
       return Collections.singletonList("Ja");
     } else if ("Ne".equals(word)) {
+      // "Ne einfach Frage!"
+      // "Ne, das musst du machen!"
       return Arrays.asList("Nein", "Eine");
     } else if ("ne".equals(word)) {
       // "Das warst du, ne?"
