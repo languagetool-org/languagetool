@@ -78,12 +78,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Oke", "Okay");
     put("Mü", "My");
     put("abschiednehmen", "Abschied nehmen");
-    put("wars", w -> Arrays.asList("war's", "war es"));
+    put("wars", w -> Arrays.asList("war's", "war es", "warst"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     putRepl("[oO]key", "ey$", "ay");
     put("packet", "Paket");
+    put("Thanks", "Danke");
     put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     put("gefaked", "gefakt");
@@ -958,6 +959,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("ei".equals(word)) {
       return Collections.singletonList("ein");
+    } else if ("jo".equals(word)) {
+      return Collections.singletonList("ja");
+    } else if ("Jo".equals(word)) {
+      return Collections.singletonList("Ja");
+    } else if ("Ne".equals(word)) {
+      return Arrays.asList("Nein", "Eine");
+    } else if ("ne".equals(word)) {
+      // "Das warst du, ne?"
+      // "Das ist ne einfache Aufgabe!"
+      // "Ne das würde ich anders machen."
+      return Arrays.asList("nein", "eine", "oder");
     } else if ("is".equals(word)) {
       return Collections.singletonList("ist");
     } else if ("Is".equals(word)) {
@@ -1152,6 +1164,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("irgendwie");
     } else if (word.equals("sry")) {
       return Collections.singletonList("sorry");
+    } else if (word.equals("Sry")) {
+      return Collections.singletonList("Sorry");
+    } else if (word.equals("thx")) {
+      return Collections.singletonList("danke");
+    } else if (word.equals("Thx")) {
+      return Collections.singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return Collections.singletonList("Zynismus");
     } else if (word.matches("Email[a-zäöü]{5,}")) {
