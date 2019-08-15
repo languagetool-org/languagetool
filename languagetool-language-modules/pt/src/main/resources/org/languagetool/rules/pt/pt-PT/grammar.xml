@@ -1281,7 +1281,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>&prefixos_i;</token>
-          <token regexp='yes'>i.+</token>
+          <token regexp='yes'>i.+
+            <exception case_sensitive='yes' regexp='yes'>\p{Lu}.+</exception></token>
       </pattern>
       <message>Palavra hifenizada.</message>
         <suggestion>\1-\2</suggestion>
@@ -1292,11 +1293,13 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&prefixos_i;</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ihrs].+
+            <exception case_sensitive='yes' regexp='yes'>\p{Lu}.+</exception>
             <exception postag_regexp='yes' postag='[RS].+'/></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
+      <example>... protestos anti-Maduro ...</example>
     </rule>
     <rule>
       <pattern>
