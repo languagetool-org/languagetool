@@ -135,7 +135,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Neue[ns]?"),
-      token("Jahr(s|es)?|Linken?")
+      regex("Jahr(s|es)?|Linken?")
     ),
     Arrays.asList(
       token("Neues"),
@@ -146,10 +146,10 @@ public class CaseRule extends Rule {
         pos("UNKNOWN")
     ),
     Arrays.asList(
-      // "Jeremy Schulte"
+      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", 
       posRegex("UNKNOWN|EIG:.+"),
-      token("Schulte")
-  ),
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Kühne?|Sauer|Ernst")
+    ),
     Arrays.asList(
       token(","),
       posRegex(".*ADJ.*|UNKNOWN"),
@@ -943,7 +943,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isCompany(String token) {
-    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Fa");
+    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Bäckerei", "Fa");
   }
 
   private boolean isDot(String token) {
