@@ -15641,6 +15641,23 @@ o tomate'>
     </rule>
   </rulegroup>
 
+  <rulegroup id='ACCENTUATED_PARONYMS_DA' name="Confusão: Da - Dá">
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-12      -->
+      <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+      <short>Nesta situação não se acentua a palavra.</short>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>das?</token>
+        </marker>
+          <token postag='_PUNCT' spacebefore='no'/>
+      </pattern>
+      <message>Possível erro de digitação.</message>
+        <suggestion><match no='1' regexp_match='a' regexp_replace='á'/></suggestion>
+      <example correction="dá">Assim não <marker>da</marker>!</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
       <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
       <short>Erro de acentuação.</short>
