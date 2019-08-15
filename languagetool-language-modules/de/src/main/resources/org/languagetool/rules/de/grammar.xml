@@ -9293,7 +9293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/wortliste/soweit.shtml</url>
             <rule>
                 <pattern>
-                    <token><exception postag="PKT|SENT_START|UNKNOWN" postag_regexp="yes"/></token>
+                    <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                     <marker>
                         <token>soweit</token>
                     </marker>
@@ -9328,11 +9328,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Soweit"><marker>So weit</marker> ich es beurteilen kann, ist es falsch.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SO_FERN" name="so fern (sofern)">
+            <url>https://www.korrekturen.de/forum.pl/md/read/id/36144/sbj/solange-so-lange-und-eine-weitere-frage/</url>
+            <rule>
+                <pattern>
+                    <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>sofern</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="of" regexp_replace="o f"/></suggestion> &odkomma; vor '\2'?</message>
+                <short>&getrennt;.</short>
+                <example correction="so fern">Das Gute liegt oft <marker>sofern</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes"></token>
+                    <marker>
+                        <token>so</token>
+                        <token case_sensitive="yes">fern</token>
+                    </marker>
+                    <token><exception postag_regexp="yes" postag="VER.+"/><exception regexp="yes">als|wie</exception></token>
+                </pattern>
+                <message>Meinten Sie die Konjunktion <suggestion>\2\3</suggestion> (=im Fall, dass)?</message>
+                <short>&getrennt;.</short>
+                <example correction="Sofern"><marker>So fern</marker> du tust, was ich sage, ist alles gut.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SO_LANG" name="so lang(e) (solang(e))">
             <url>https://www.korrekturen.de/forum.pl/md/read/id/36144/sbj/solange-so-lange-und-eine-weitere-frage/</url>
             <rule>
                 <pattern>
-                    <token><exception postag="PKT|SENT_START|UNKNOWN" postag_regexp="yes"/></token>
+                    <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">solange?</token>
                     </marker>
