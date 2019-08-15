@@ -49,6 +49,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       new PatternTokenBuilder().token("Moin").build(),
       new PatternTokenBuilder().token("Moin").build()
     ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("Na").build(),
+      new PatternTokenBuilder().token("na").build()
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       new PatternTokenBuilder().csToken(",").build(),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
