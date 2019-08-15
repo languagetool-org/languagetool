@@ -1952,6 +1952,21 @@ USA
             <example correction="of">That's the kind <marker>if</marker> blue I like.</example>
             <example>This is the kind of journalism that I like!</example>
         </rule>
+        <rulegroup id="IF_OF" name="if (of)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token>one</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">if|off</token>
+                    </marker>
+                    <token case_sensitive="yes">the</token>
+                </pattern>
+                <message>Did you mean <suggestion>of</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="of">She is one <marker>if</marker> the most talented students I know.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IF_IS" name="if it if (is)">
             <rule>
                 <pattern>
@@ -8215,6 +8230,35 @@ USA
             <example>What do you think about these <marker>two</marker>?</example>
             <example>Those standing were all men.</example>
         </rule>
+        <rulegroup id="ONE_OF" name="one of the JJR + plural">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>One</token>
+                    <token case_sensitive="yes">of</token>
+                    <token case_sensitive="yes">the</token>
+                    <token postag="JJS"></token>
+                    <marker><token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB[GP]|NNS|CD|JJ.?|MD"/></token></marker>
+                    <token inflected="yes" regexp="yes">\W+|be|to|in</token>
+                </pattern>
+                <message>Please check whether a plural form of '\5' should be used.</message>
+                <suggestion>\5s</suggestion>
+                <example correction="complaints">One of the biggest <marker>complaint</marker> is that...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>One</token>
+                    <token case_sensitive="yes">of</token>
+                    <token case_sensitive="yes">the</token>
+                    <token case_sensitive="yes">most</token>
+                    <token postag="JJ"></token>
+                    <marker><token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB[GP]|NNS|CD|JJ.?|MD"/></token></marker>
+                    <token inflected="yes" regexp="yes">\W+|be|to|in</token>
+                </pattern>
+                <message>Please check whether a plural form of '\6' should be used.</message>
+                <suggestion>\6s</suggestion>
+                <example correction="complaints">One of the most painful <marker>place</marker> to get...</example>
+            </rule>
+        </rulegroup>
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
             <antipattern>
                 <token>of</token>
