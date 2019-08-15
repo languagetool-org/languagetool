@@ -9045,6 +9045,10 @@ USA
                 <token>manager</token>
             </antipattern>
             <antipattern>
+                <token>startle</token>
+                <token regexp='yes'>re(sponse|flex)</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">write|read</token>
                 <token>access</token>
             </antipattern>
@@ -9098,8 +9102,8 @@ USA
         </rule>
         <rule id="A_GOOGLE" name="a/the + google">
             <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
-                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
                     <token case_sensitive="yes">google</token>
                 </marker>
@@ -9113,8 +9117,8 @@ USA
         </rule>
         <rule id="A_EXCEL" name="a/the + excel">
             <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
-                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
                     <token case_sensitive="yes">excel</token>
                 </marker>
@@ -9124,18 +9128,19 @@ USA
             <suggestion>Excel</suggestion>
             <example correction="Excel">Have you seen the simplified <marker>excel</marker> sheet?</example>
             <example correction="Excel">My <marker>excel</marker> skills are outstanding!</example>
+            <example correction="Excel">That's the largest <marker>excel</marker> document I've ever worked on.</example>
             <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
             <example>Her <marker>Excel</marker> spreadsheet has been successfully sent.</example>
         </rule>
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our</token>
-                <token postag="JJ|RB" postag_regexp="yes" min="0" />
+                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
                     <token>thank</token>
                     <token>you</token>
                 </marker>
-                <token postag_regexp="yes" postag="SENT_END|NN(S|:UN?)?"/>
+                <token postag_regexp="yes" postag="SENT_END|NN(S|:UN?)?|PRP"/>
             </pattern>
             <message>It appears that 'thank you' is missing a hyphen or needs to be quoted.</message>
             <suggestion>thank-you</suggestion>
