@@ -50,6 +50,8 @@ public class AdaptSuggestionFilterTest {
   
   @Test
   public void testAcceptRuleMatchWithDet() throws IOException {
+    // MAS (Der Plan):
+    runAcceptRuleMatch("Die Roadmap ist gut.", "Roadmap",       "Plan", "[Den Plan, Der Plan]");
     // MAS (der Plan):
     runAcceptRuleMatch("Hier steht die Roadmap.", "Roadmap",    "Plan", "[den Plan, der Plan]");
     runAcceptRuleMatch("Hier steht eine Roadmap.", "Roadmap",   "Plan", "[einen Plan, ein Plan]");

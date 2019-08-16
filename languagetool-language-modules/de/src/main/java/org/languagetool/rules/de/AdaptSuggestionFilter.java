@@ -29,6 +29,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.de.GermanTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -77,7 +78,11 @@ public class AdaptSuggestionFilter extends RuleFilter {
     AgreementRule agreementRule = new AgreementRule(JLanguageTool.getMessageBundle(), german);
     SuggestionFilter suggestionFilter = new SuggestionFilter(agreementRule, german);
     if (newSugg.size() > 0) {
-      newSugg = suggestionFilter.filter(newSugg, "Das ist {}.");
+      if (StringTools.startsWithUppercase(newSugg.get(0))) {
+        newSugg = suggestionFilter.filter(newSugg, "{} ist das.");
+      } else {
+        newSugg = suggestionFilter.filter(newSugg, "Das ist {}.");
+      }
       newMatch.setSuggestedReplacements(newSugg);
       return newMatch;
     } else {
@@ -100,10 +105,17 @@ public class AdaptSuggestionFilter extends RuleFilter {
         String newDetPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)").replaceFirst(":STV", "");
         String[] replDet = synth.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);
         for (String s : replDet) {
-          if (!s.startsWith(detToken.getToken().substring(0, 1))) {
-            continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
+          if (StringTools.startsWithUppercase(detToken.getToken())) {
+            if (!s.toLowerCase().startsWith(detToken.getToken().substring(0, 1).toLowerCase())) {
+              continue;  // see below
+            }
+            result.add(StringTools.uppercaseFirstChar(s));
+          } else {
+            if (!s.startsWith(detToken.getToken().substring(0, 1))) {
+              continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
+            }
+            result.add(s);
           }
-          result.add(s);
         }
       }
     } catch (IOException e) {
