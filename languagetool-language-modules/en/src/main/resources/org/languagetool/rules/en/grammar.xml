@@ -9052,18 +9052,23 @@ USA
                 <token regexp="yes">write|read</token>
                 <token>access</token>
             </antipattern>
+            <antipattern><!-- "Thanks for the add." (https://www.urbandictionary.com/define.php?term=thanks%20for%20the%20add) -->
+                <token>for</token>
+                <token>the</token>
+                <token>add</token>
+            </antipattern>
             <antipattern><!-- "I got a write up at work." -->
                 <token>write</token>
                 <token>up</token>
             </antipattern>
             <antipattern>
-                <token postag="VB|VBP" postag_regexp="yes" />
+                <token postag="VB|VBP|JJ" postag_regexp="yes" /><!-- "worth a listen", "have/take a listen" -->
                 <token>a</token>
                 <token>listen</token>
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?|parameters?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -15788,7 +15793,7 @@ USA
           <marker>
               <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
               <token postag="NNP"/>
-              <token regexp="yes">Ave(nue)?|Street|Terrace|Square|St|Circle|Drive</token>
+              <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast</token>
            </marker>
           </antipattern>
           <antipattern>
@@ -15825,10 +15830,13 @@ USA
                 <marker><token postag="CD"/></marker>
             </antipattern>
             <antipattern>
-                <token>be</token>
                 <token postag="CD"/>
-                <token>next</token>
-                <token regexp="yes">month|year|birthday|week</token>
+                <token postag="RB|JJ" postag_regexp="yes" />
+                <token regexp="yes">month|year|week|day|century|birthday</token>
+            </antipattern>
+            <antipattern><!-- Postcal code + city, e.g. "22761 Hamburg" or "8004 Zurich" -->
+                <token regexp="yes">\d{4,}</token>
+                <token postag="NNP"/>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -15879,7 +15887,7 @@ USA
                     <exception scope="previous">×</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|foot|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -15936,6 +15944,7 @@ USA
             <example>The right half is split into two silver and black triangles.</example>
             <example>List of players to wear the number 14 shirt since Johan Cruyff's departure</example>
             <example>She said he would be sixteen next month.</example>
+            <example>We can drink beer when you are 21 next month.</example>
             <example>The screen is fixed to the 640 × 400 1-bit mono mode, and no external video port was provided.</example>
             <example>Game board with 108 spaces arranged in a 12 by 9 array</example>
             <example>In the United States, the song peaked at number six on the Billboard Hot 100 chart, paving the way for their first album and their first trip as a group there.</example>
@@ -15945,6 +15954,9 @@ USA
             <example>The MOS Technology 6502 processor is an 8-bit microprocessor.</example>
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
             <example>Where did you two <marker>first</marker> meet each other?</example>
+            <example>I live in 22761 Hamburg</example>
+            <example>He turns 80 next month.</example>
+            <example>We had 200 participants this year and hopefully 300 next year.</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
