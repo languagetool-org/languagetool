@@ -75,6 +75,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
+    put("einzigst", "einzig");
+    put("Einzigst", "Einzig");
+    put("geschumpfen", "geschimpft");
+    put("Geschumpfen", "Geschimpft");
     put("Oke", "Okay");
     put("Mü", "My");
     put("abschiednehmen", "Abschied nehmen");
