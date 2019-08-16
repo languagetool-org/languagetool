@@ -943,7 +943,8 @@ public class CaseRule extends Rule {
   }
 
   private boolean isCompany(String token) {
-    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Bäckerei", "Metzgerei", "Fa");
+    // "Metzger Jung", "Firma Drosch", ...
+    return StringUtils.equalsAny(token, "Firma", "Unternehmen", "Firmen", "Bäckerei", "Bäcker", "Metzger", "Metzgerei", "Fa");
   }
 
   private boolean isDot(String token) {
