@@ -9090,7 +9090,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|thank</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react</exception><!-- many exceptions are caught by other rules ('are', 'advise', 'excel', ...) -->
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9105,37 +9105,38 @@ USA
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
         </rule>
-        <rule id="A_GOOGLE" name="a/the + google">
+        <rule id="THE_ARE" name="the + are">
+            <pattern>
+                <marker>
+                    <token>the</token>
+                    <token>are</token>
+                </marker>
+            </pattern>
+            <message>Did you mean '<suggestion>they are</suggestion>' or '<suggestion>there are</suggestion>'?</message>
+            <example correction="They are|There are"><marker>The are</marker> many people.</example>
+            <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
+            <example><marker>There are</marker> different places to see.</example>
+        </rule>
+        <rule id="A_GOOGLE" name="a/the + proper noun">
             <pattern>
                 <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
                 <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
-                    <token case_sensitive="yes">google</token>
+                    <token case_sensitive="yes" regexp="yes">google|excel|chevy|react</token>
                 </marker>
-                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
+                <token postag_regexp="yes" postag="NN(S|P|:UN?)?"/>
             </pattern>
-            <message>'Google' is a proper noun and needs to be capitalized.</message>
-            <suggestion>Google</suggestion>
+            <message>'<suggestion><match no="3" case_conversion="startupper" /></suggestion>' is a proper noun and needs to be capitalized.</message>
             <example correction="Google">Have you seen the simplified <marker>google</marker> doc?</example>
             <example correction="Google">My <marker>google</marker> skills are outstanding!</example>
-            <example>He wanted to <marker>google</marker> for the medicine.</example>
-        </rule>
-        <rule id="A_EXCEL" name="a/the + excel">
-            <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
-                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
-                <marker>
-                    <token case_sensitive="yes">excel</token>
-                </marker>
-                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
-            </pattern>
-            <message>'Excel' (as in 'Microsoft Excel') is a proper noun and needs to be capitalized.</message>
-            <suggestion>Excel</suggestion>
             <example correction="Excel">Have you seen the simplified <marker>excel</marker> sheet?</example>
             <example correction="Excel">My <marker>excel</marker> skills are outstanding!</example>
             <example correction="Excel">That's the largest <marker>excel</marker> document I've ever worked on.</example>
+            <example correction="Chevy">Their <marker>chevy</marker> impala is the best.</example>
+            <example correction="React">Our new <marker>react</marker> plugin is only working with latest Chrome.</example>
             <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
-            <example>Her <marker>Excel</marker> spreadsheet has been successfully sent.</example>
+            <example>He wanted to <marker>google</marker> for the medicine.</example>
+            <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
         </rule>
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <pattern>
