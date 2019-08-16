@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.awt.XMenuBar;
+import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XFrame;
@@ -130,6 +131,32 @@ public class OfficeTools {
     return null;
   }
   
+  /**
+   * Returns a empty Popup Menu 
+   * Returns null if it fails
+   */
+  @Nullable
+  public static XPopupMenu getPopupMenu(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) {
+        return null;
+      }
+      Object oPopupMenu = xMCF.createInstanceWithContext("com.sun.star.awt.PopupMenu", xContext);
+      if (oPopupMenu == null) {
+        return null;
+      }
+      return UnoRuntime.queryInterface(XPopupMenu.class, oPopupMenu);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+
 
 
 }
