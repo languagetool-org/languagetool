@@ -16315,14 +16315,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>das</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">gute|schlechte|beste|schlechteste</token>
+                        <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                     </marker>
-                    <token regexp="yes" case_sensitive="yes">[ai][mn]</token>
+                    <token regexp="yes" case_sensitive="yes">[ai][mn]|daran</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Gute">Sie hat den Glauben an das <marker>gute</marker> im Menschen verloren.</example>
                 <example correction="Schlechteste">Dies ruft das <marker>schlechteste</marker> im Menschen hervor.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DOPPELPUNKT_GROSS" name="Großschreibung nach Doppelpunkt">
+            <url>https://gfds.de/doppelpunkt-gross-kleinschreibung-nach/</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"><exception postag="VER:INF.*" postag_regexp="yes"></exception></token>
+                    <token>:</token>
+                    <marker>
+                        <token postag="PRO:.+|ART:.+" postag_regexp="yes" regexp="yes" skip="-1" spacebefore="yes">[a-zäöü]+
+                            <exception scope="next" postag="PKT"/>
+                        </token>
+                    </marker>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes"><exception postag="VER:INF.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Folgt nach ':' ein vollständiger Hauptsatz, schreibt man danach groß weiter</message>
+                <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="Sie">Ihr Problem war: <marker>sie</marker> ist zu groß.</example>
             </rule>
         </rulegroup>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
