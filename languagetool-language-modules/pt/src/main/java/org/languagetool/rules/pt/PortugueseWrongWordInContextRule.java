@@ -64,10 +64,11 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
     return "Pretende dizer <suggestion>$SUGGESTION</suggestion> em vez de $WRONGWORD?";
   }
   
-  /*@Override XXX Short string doesn't work well in this rule
+  @Override 
   protected String getShortMessageString() {
-    return "Possível confusão";
-  }*/
+  /*  return "Possível confusão"; XXX Short string doesn't work well in this rule */
+    return "Considere <suggestion>$SUGGESTION</suggestion>, i.e. $EXPLANATION_SUGGESTION, em vez de '$WRONGWORD', i.e. $EXPLANATION_WRONGWORD?";
+  }
   
   @Override
   protected String getLongMessageString() {
