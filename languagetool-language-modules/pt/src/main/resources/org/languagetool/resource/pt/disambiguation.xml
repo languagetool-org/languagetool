@@ -2471,9 +2471,9 @@
     <rule id="LOS_ANGELES" name="Los Angeles">
       <pattern>
           <token>Los</token>
-          <token regexp="yes">Alamos|Angeles</token>
+          <token regexp="yes">A(?:lamos|ngeles)</token>
       </pattern>
-      <disambig action="immunize"/>
+      <disambig action="ignore_spelling"/>
     </rule>
     <rule id="LAS_VEGAS" name="Las Vegas">
       <pattern case_sensitive="yes">
@@ -3172,6 +3172,13 @@
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- radio stations -->
+      <pattern>
+          <token regexp='yes'>\d{2,3}\.\d</token>
+          <token regexp='yes' spacebefore='yes'>AM|FM</token>
+      </pattern>
+      <disambig action="immunize"/>
     </rule>
     <rule><!-- ignore abbreviations -->
       <pattern>
