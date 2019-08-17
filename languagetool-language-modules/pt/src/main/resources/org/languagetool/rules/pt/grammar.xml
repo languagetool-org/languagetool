@@ -3472,7 +3472,8 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[PF].+'/>
+          <token postag_regexp='yes' postag='V..[PF].+'>
+            <exception>ronda</exception>
           <token regexp='yes'>as?</token>
           <token postag_regexp='yes' postag='Z.+|C.' max='3'/>
           <token regexp='yes'>horas?</token>
@@ -3481,6 +3482,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='Chego às vinte e uma horas'><marker>Chego as vinte e uma horas</marker>.</example>
+      <example>...com um horário semanal que ronda as 60 horas ou mais.</example>
     </rule>
     <rule>
       <pattern>
@@ -7850,6 +7852,11 @@ title="Easy editing stylesheet" ?>
           <token postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>[\,\.\!\?]</token>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='V.+'/>
+          <token>na</token>
+          <token>prática</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">“|«</exception>
@@ -7861,6 +7868,7 @@ title="Easy editing stylesheet" ?>
       <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
         <suggestion>\1, <match no='2' case_conversion="startlower"/> \3</suggestion>
       <example correction="mas, na verdade">Foi feito com distinção <marker>mas na verdade</marker>, que não está bem feito.</example>
+      <example>...temos de aguardar que se concretizem na prática porque há um certo fosso entre...</example>
     </rule>
     <rule>
       <antipattern>
@@ -8013,6 +8021,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>&quot;</token>
           <token regexp="yes" spacebefore='no'>aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+      </antipattern>
+      <antipattern>
+          <token>como</token>
+          <token regexp="yes" spacebefore='no'>aliás|entretanto|todavia</token>
       </antipattern>
       <antipattern>
           <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
@@ -23474,6 +23486,10 @@ TODO Write better examples
           <token regexp='yes'>até|de</token>
           <token>onde</token>
       </antipattern>
+      <antipattern><!-- futuro perifrásico -->
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000'/>
+      </antipattern>
       <pattern>
           <token>onde</token>
           <token regexp='yes' inflected='yes'>ir|partir|voar|navegar|voltar
@@ -23482,6 +23498,7 @@ TODO Write better examples
       <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
       <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
       <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas…</example>
+      <example>...o invólucro onde vão assentar os livros encaixa dentro do tronco da árvore.</example>
     </rule>
     <rule>
       <antipattern>
