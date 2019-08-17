@@ -50,7 +50,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_invariaveis "(?:algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere)">
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
-    <!ENTITY precede_nome_proprio_F "(?:a(?:gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
+    <!ENTITY precede_nome_proprio_F "(?:a(?:ditora|gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
     <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
@@ -952,7 +952,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token regexp='yes'>&contracoes_MP;</token>
+          <token regexp='yes'>&contracoes_MP;
+            <exception>neles</exception>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
@@ -1029,7 +1031,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|de|&hifen;</token>
         <marker>
-          <token regexp='yes'>&contracoes_MS;</token>
+          <token regexp='yes'>&contracoes_MS;
+            <exception>nele</exception>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
@@ -1097,7 +1101,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
-          <token regexp='yes'>&contracoes_FS;</token>
+          <token regexp='yes'>&contracoes_FS;
+            <exception>nela</exception>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
@@ -1171,7 +1177,8 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FP;
-            <exception>mas</exception></token>
+            <exception regexp='yes'>mas|nelas</exception>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
@@ -4318,21 +4325,11 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token postag_regexp='yes' postag='Z.+'/>
       </antipattern>
-      <antipattern>
-          <token regexp='yes'>uma?</token>
-          <token>a</token>
-          <token regexp='yes'>uma?</token>
-      </antipattern>
-      <antipattern>
-          <token regexp='yes'>u(ma?s?|ns)</token>
-          <token>nos</token>
-          <token>outros</token>
-      </antipattern>
-      <antipattern>
+      <!-- antipattern>
           <token>depois</token>
           <token>de</token>
           <token>em</token>
-      </antipattern>
+      </antipattern--><!-- XXX Re-add if an example is found -->
       <antipattern>
           <token>software</token>
           <token>as</token>
@@ -4362,9 +4359,14 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>a</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>u[mn]a?s?</token>
+          <token regexp='yes'>u(ma?s?|ns)</token>
           <token regexp='yes'>n[ao]s?</token>
           <token regexp='yes'>outr[ao]s?</token>
+      </antipattern>
+      <antipattern>
+          <token>cada</token>
+          <token regexp='yes'>u[mn]a?s?</token>
+          <token regexp='yes'>n[ao]s?</token>
       </antipattern>
       <pattern>
           <token>
@@ -4868,13 +4870,14 @@ title="Easy editing stylesheet" ?>
         <suggestion>Sra.</suggestion>
       <example correction="Sra.">Exma <marker>sra.</marker> Costa,</example>
     </rule>
-    <rule>
+    <rule id="ABREVIATIONS_DR" name="Abreviaturas: dr. -> Dr.">>
       <pattern>
           <token case_sensitive='yes' regexp='yes'>dra?</token>
           <token spacebefore='no'>.</token>
       </pattern>
-      <message>A abreviatura de 'Doutor' é capitalizada.</message>
+      <message>Esta abreviatura refere-se ao antigo grau de licenciado. Verifique.</message>
         <suggestion><match no='1' case_conversion='startupper'/>.</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/doutor-dr-e-licenciado/179</url>
       <example correction="Dr.">Exmo <marker>dr.</marker> Costa,</example>
     </rule>
   </rulegroup>
@@ -17921,7 +17924,7 @@ o tomate'>
           <token regexp='yes'>&art_detecao_paronimos;
             <exception regexp='yes'>os?</exception></token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>medias?</token>
+          <token regexp='yes' case_sensitive='yes'>medias?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada. Se se refério aos meios de comunicação como estrageirismo, coloque entre aspas ou italize.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> média<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -17929,6 +17932,7 @@ o tomate'>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> “\3”</suggestion>
       <example correction='da média|da ‘media’|da “media”'><marker>da media</marker>.</example>
       <example correction='das médias|das ‘medias’|das “medias”'><marker>das medias</marker>.</example>
+      <example>Se a compra da Media Capital pela Cofina avançar,...</example>
     </rule>
     <rule id='PARONYM_MELODIO_203' name='Parónimo: melodio'>
       <pattern>
@@ -25384,7 +25388,7 @@ TODO Write better examples
       <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/]|[DSP]\b)</regexp>
+      <regexp>\b([\p{L}\d]+) ([:;])(?![\-o]?(?:[()/]|[DSP]\b))</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
