@@ -3473,7 +3473,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag_regexp='yes' postag='V..[PF].+'>
-            <exception>ronda</exception>
+            <exception>ronda</exception></token>
           <token regexp='yes'>as?</token>
           <token postag_regexp='yes' postag='Z.+|C.' max='3'/>
           <token regexp='yes'>horas?</token>
@@ -25384,7 +25384,7 @@ TODO Write better examples
       <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/DSP])</regexp>
+      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/]|[DSP]\b)</regexp>
       <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
       <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
@@ -25394,6 +25394,7 @@ TODO Write better examples
       <example>Um sorriso :-/</example>
       <example>Um sorriso :/</example>
       <example>Um sorriso :D</example>
+      <example correction="Brasil;">Site de Instituto Ludwig von Mises <marker>Brasil ;</marker>Principais portais web</example>
     </rule>
   </rulegroup>
 
