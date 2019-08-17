@@ -3076,7 +3076,7 @@
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
     <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways -->
       <pattern>
-          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|4Chan|G(20|7)|H[₁₂₃₄₅₆₇₈₉₀]|i[357]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}</token>
+          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|[48]Chan|G(1|7|20)|H[₁₂₃₄₅₆₇₈₉₀]|i[3579]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -3187,6 +3187,22 @@
           <token>n</token>
           <token spacebefore='no'>.</token>
           <token spacebefore='no' regexp='yes'>[ºª]ˢ?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- ignore smileys -->
+      <pattern>
+          <token spacebefore='yes' regexp='yes'>[:;8]</token>
+          <token spacebefore='no' case_sensitive='yes' min='0'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[bDoOpPsSxX]</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule><!-- ignore smileys type: X-O-->
+      <pattern>
+          <token spacebefore='yes'>X</token>
+          <token spacebefore='no' case_sensitive='yes'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[()/\[bDoOpPsSxX]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
