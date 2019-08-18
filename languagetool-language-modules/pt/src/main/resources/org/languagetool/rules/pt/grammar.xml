@@ -31343,12 +31343,17 @@ TODO Write better examples
       <example correction="minutos">Demora de 10 a 15 <marker>minutes</marker> a ler.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token inflected='yes' skip='-1'>concertar</token>
+          <token regexp='yes'>(?:bloquistas|comunista|democrata|republicano|socialista|sindica(?:to|lista)|PSD?|BE|CDS|PP|PCP|PAN)s?|líder(?:es)?</token>
+      </antipattern>
       <pattern>
           <token inflected='yes'>concertar
             <exception regexp='yes'>concertos?</exception></token>
       </pattern>
       <message>'\1' refere-se a estar em acordo ou sintonia com algo. O sinónimo de reparar escreve-se <suggestion><match no='1' regexp_match='once' regexp_replace='onse'/></suggestion>.</message>
-      <example correction="consertar">Para <marker>concertar</marker>-lo terá de gastar 100€.</example>
+      <example correction="consertá">Para <marker>concertá</marker>-lo terá de gastar 100€.</example>
+      <example>...concertado na especialidade entre socialistas, bloquistas e comunistas,</example>
     </rule>
   </rulegroup>
 
