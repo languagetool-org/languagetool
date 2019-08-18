@@ -9053,11 +9053,13 @@ title="Easy editing stylesheet" ?>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)</token>
+          <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)
+            <exception scope='next' regexp='yes'>[CF]|graus?</exception></token>
     <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
       <example correction="12.º">O premiado é o <marker>12o</marker> da lista.</example>
+      <example>Temperatura máxima prevista de 38º C.</example>
     </rule>
     <rule>
       <pattern>
