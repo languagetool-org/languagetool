@@ -3880,7 +3880,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
-        <suggestion>\1 \2 <match no='3' regexp_match='(\d*)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\1 \2 <match no='3' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
         <suggestion>\3</suggestion>
       <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
       <example correction="cerca de 10|11">Faltam <marker>cerca de 11</marker> dias para as férias.</example>
@@ -8136,6 +8136,11 @@ title="Easy editing stylesheet" ?>
       <example correction="por assim dizer,">Foi feito com distinção, <marker>por assim dizer</marker> está bem feito.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token postag_regexp='yes' postag='V.+'/>
+          <token>na</token>
+          <token>prática</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>na</token>
@@ -10150,6 +10155,30 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sugerir</match></suggestion>
       <example correction='lembrar|sugerir'>Vamos <marker>trazer à mente</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token>neste</token>
+          <token>momento
+            <exception scope='next' regexp='yes'>d[aeo]s?</exception>
+            <exception scope='next' postag_regexp='yes' postag='A.+'/></token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>agora</suggestion>
+      <example correction='Agora'><marker>Neste momento</marker> não me ocorre nada melhor.</example>
+      <example>Além de lhe ter escrito uma carta a oferecer a sua amizade neste momento difícil...</example>
+    </rule>
+    <!--rule> XXX uncomment if a good example is found, else delete on 4.8
+      <pattern>
+          <token>um</token>
+          <token regexp='yes'>m(?:aior|enor)
+            <exception scope='next' postag_regexp='yes' postag='N..S.+|A...S.+'/></token>
+      </pattern>
+      <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>agora</suggestion>
+      <example correction='mais'><marker>Um maior</marker></example>
+      <example>Estas normas constituem geralmente um maior obstáculo...</example>
+      <example>
+    </rule-->
     <rule>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -23492,7 +23521,7 @@ TODO Write better examples
       </antipattern>
       <antipattern><!-- futuro perifrásico -->
           <token inflected='yes'>ir</token>
-          <token postag='VMN0000'/>
+          <token postag='VMN0000'/><!-- TODO add exceptions. e.g. "Onde vamos comer?" "Nós não decidimos onde vamos descansar."-->
       </antipattern>
       <pattern>
           <token>onde</token>
