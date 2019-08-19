@@ -4662,15 +4662,21 @@ title="Easy editing stylesheet" ?>
 
     <rule id="POSSIVELMENTE_CONJUNTIVO" name="Sintaxe: Possivelmente + conjuntivo">
     <!--    Localized from Catalan grammar.xml by Tiago F. Santos, 2017-11-29      -->
-      <pattern><!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
-          <token regexp="yes">provavelmente|quiçá|possivelmente
+      <antipattern>
+          <token inflected='yes'>ir</token>
+          <token min='0' postag_regexp='yes' postag='R.+'/>
+          <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
+          <token postag='VMN0000'/>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá
             <exception scope="previous" regexp="yes">quando|se</exception></token>
           <token min="0" skip="2" postag="R[NG].*" postag_regexp="yes">
             <exception>quando</exception></token>
           <token postag="V.S.*" postag_regexp="yes">
             <exception postag="(V.I|NP|S).+" postag_regexp="yes"/></token>
       </pattern>
-      <message>Provavelmente faz um verbo no indicativo.</message>
+      <message>'\1' requer um verbo no indicativo.</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
       <short>Tempo verbal incorreto</short>
       <example correction="Provavelmente tens"><marker>Provavelmente tenhas</marker> razão.</example>
@@ -4683,6 +4689,7 @@ title="Easy editing stylesheet" ?>
       <example>Quiçá encontrarei quem mo possa explicar.</example>
       <example>como se quiçá não o tivesse de ver mais</example>
       <example>Quiçá quando se acabe o curso voltará</example>
+      <example>... irá muito provavelmente esbarrar na dinâmica instalada...</example>
     </rule>
 
  </category>
