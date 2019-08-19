@@ -343,6 +343,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
+          <token regexp='yes'>&contracoes_MS;</token>
+          <token regexp='yes'>(?:&precede_nome_proprio_M;)</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
           <token>tão</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
           <token>quanto</token>
@@ -410,6 +415,11 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token regexp='yes'>(?:&precede_nome_proprio_F;|&precede_nome_proprio_M;)s?</token>
           </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&contracoes_MP;</token>
+          <token regexp='yes'>(?:&precede_nome_proprio_M;)e?s</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
@@ -486,6 +496,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
+          <token regexp='yes'>&contracoes_FS;</token>
+          <token regexp='yes'>(?:&precede_nome_proprio_F;)</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
           <token regexp='yes'>zonas?</token>
           <token>euro</token>
       </antipattern>
@@ -535,6 +550,7 @@ title="Easy editing stylesheet" ?>
       <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
       <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
       <example>… da aprovação da Lei n.º54/2017, que procedeu à alteração…</example>
+      <example>Isto foi publicado na revista Domingo.</example>
     </rule>
     <rule>
       <pattern>
@@ -565,6 +581,11 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token regexp='yes'>(?:&precede_nome_proprio_F;|&precede_nome_proprio_M;)s?</token>
           </unify>
+          <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&contracoes_FP;</token>
+          <token regexp='yes'>(?:&precede_nome_proprio_M;)e?s</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
@@ -26242,14 +26263,14 @@ TODO Write better examples
           <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
       </pattern>
       <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
-      <message>Refere-se ao ano atual? \3 \4 {currentYear} não é {day}, mas sim {realDay}.</message>
+      <message>Refere-se ao ano atual? \5 de \7, {currentYear} não é {day}, mas sim {realDay}.</message>
       <example correction="">Festival Pop/Rock - <marker>Segunda-feira, 7 de Outubro</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Segunda, 7 Out</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, 7 Out</marker></example>
-      <example>Festival Pop/Rock - <marker>Tuesday, 7 Outubro</marker></example>
-      <example>Festival Pop/Rock - <marker>Tuesday, 7 Out</marker></example>
+      <example>Festival Pop/Rock - <marker>Terça-feira, 7 Outubro</marker></example>
+      <example>Festival Pop/Rock - <marker>Terça-feira, 7 Out</marker></example>
     </rule>
     <rule>
       <pattern>
@@ -26262,7 +26283,7 @@ TODO Write better examples
           <token regexp="yes">\d\d?</token>
       </pattern>
       <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\6 weekDay:\1"/>
-      <message>Refere-se ao ano atual? \3 \4, {currentYear} não é {day}, mas sim {realDay}.</message>
+      <message>Refere-se ao ano atual? \5 \6, {currentYear} não é {day}, mas sim {realDay}.</message>
       <example correction="">Festival Pop/Rock - <marker>Segunda, Outubro 7</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, Outubro 7</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Seg, Outubro 7</marker></example>
@@ -26273,8 +26294,8 @@ TODO Write better examples
       <example correction="">Festival Pop/Rock - <marker>Sábado, Outubro 7</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Domingo, Outubro 7</marker></example>
       <example correction="">Festival Pop/Rock - <marker>Domingo, Out 7</marker></example>
-      <example>Festival Pop/Rock - <marker>Tuesday, Outubro 7</marker></example>
-      <example>Festival Pop/Rock - <marker>Tuesday, Out 7</marker></example>
+      <example>Festival Pop/Rock - <marker>Terça-feira, Outubro 7</marker></example>
+      <example>Festival Pop/Rock - <marker>Terça-feira, Out 7</marker></example>
     </rule>
     <rule>
     <!-- "Segunda, 31/10" -->
@@ -26288,7 +26309,7 @@ TODO Write better examples
           <token regexp="yes">0?[1-9]|1[0-2]</token>
       </pattern>
       <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
-      <message>Refere-se ao ano atual? \3/\5/{currentYear} não é {day}, mas sim {realDay}.</message>
+      <message>Refere-se ao ano atual? \5/\7/{currentYear} não é {day}, mas sim {realDay}.</message>
       <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 31/10</marker></example>
       <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-Feira, 31/10</marker></example>
       <example>Festival Pop/Rock 2014 - <marker>Sexta, 31/10</marker></example>
@@ -26317,7 +26338,7 @@ TODO Write better examples
           <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
       </pattern>
       <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\7 weekDay:\1"/>
-      <message>Refere-se ao ano atual? \3/\5/{currentYear} não é {day}, mas sim {realDay}.</message>
+      <message>Refere-se ao ano atual? \5/\7/{currentYear} não é {day}, mas sim {realDay}.</message>
       <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 10/31</marker></example>
       <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-Feira, 10/31</marker></example>
       <example>Festival Pop/Rock 2014 - <marker>Sexta, 10/31</marker></example>
