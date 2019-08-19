@@ -9090,7 +9090,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|attach</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9138,6 +9138,33 @@ USA
             <example>He wanted to <marker>google</marker> for the medicine.</example>
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
         </rule>
+        <rulegroup id="A_ATTACH" name="a/the attach">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                    <marker>
+                        <token>attach</token>
+                    </marker>
+                    <token regexp="yes">(file|document|doc|book|form|device|song|archive|package|cv|copy|email)s?</token>
+                </pattern>
+                <message>Did you mean '<suggestion>attached</suggestion>'?</message>
+                <example correction="attached">Have you clicked on the <marker>attach</marker> file?</example>
+                <example correction="attached">Please open one of the <marker>attach</marker> documents.</example>
+                <example>The <marker>attached</marker> archive contains all photos from last weekend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>an?|the</token>
+                    <marker>
+                        <token regexp="yes">attach(es)?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean '<suggestion><match no="2" regexp_match="attach(e)?(s)?" regexp_replace="attachment$2" /></suggestion>'?</message>
+                <example correction="attachment">Have you clicked on the <marker>attach</marker>?</example>
+                <example correction="attachments">By clicking on the <marker>attaches</marker> you will experience what a wonderful weekend I had.</example>
+                <example>The <marker>attachment</marker> is not opening.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <pattern>
                 <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
@@ -9155,6 +9182,55 @@ USA
             <example correction='thank-you|“Thank You”'>Did you receive our little <marker>thank you</marker>?</example>
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
         </rule>
+        <rulegroup id="THOUGH_THOUGHT" name="confusion of though/thought">
+            <rule>
+                <pattern>
+                    <token regexp="yes">he|she|it|they|we|I</token>
+                    <marker>
+                        <token>though</token>
+                    </marker>
+                    <token postag="PRP.*|IN" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>thought</suggestion>?</message>
+                <example correction="thought">I <marker>though</marker> of you.</example>
+                <example>They thought of something easy to accomplish.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP.*" postag_regexp="yes" />
+                    <marker>
+                        <token>though</token>
+                    </marker>
+                    <token regexp="yes">of|for|in|about|to</token>
+                </pattern>
+                <message>Did you mean <suggestion>thought</suggestion>?</message>
+                <example correction="thought">I <marker>though</marker> of you.</example>
+                <example>They <marker>thought</marker> of something else.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="DT|PRP.*" postag_regexp="yes" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" min="1" max="3">
+                        <exception postag="RB|JJS?" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>though</token>
+                    </marker>
+                    <token postag="PRP.*|IN" postag_regexp="yes" />
+                    <token>
+                        <exception regexp="yes">was|were</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>thought</suggestion>?</message>
+                <example correction="thought">A Google employee <marker>though</marker> he could hack the system.</example>
+                <example correction="thought">Peter <marker>though</marker> he could win the lottery.</example>
+                <example correction="thought">My father <marker>though</marker> he is the best father in the world.</example>
+                <example correction="thought">Peter <marker>though</marker> of his beloved ones.</example>
+                <example>Mark <marker>thought</marker> of a better job.</example>
+                <example>Egotist <marker>though</marker> he was, his parents loved him.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
                 <token inflected="yes">be</token>
