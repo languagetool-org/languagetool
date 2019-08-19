@@ -121,6 +121,7 @@ public class Russian extends Language implements AutoCloseable {
             new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
+	    new SentenceWhitespaceRule(messages),
             // specific to Russian :
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages),
