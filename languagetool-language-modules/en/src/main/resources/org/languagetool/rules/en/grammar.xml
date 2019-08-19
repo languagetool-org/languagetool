@@ -14916,11 +14916,17 @@ USA
                     <token>to</token>
                     <token postag_regexp="yes" postag="VBP?"/>
                 </antipattern>
+                <antipattern><!--  Somebody considering the new job must think about these: -->
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
+                    <token postag="VBG"/>
+                    <token skip="-1" postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token postag="MD"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
-                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
+                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD|IN" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -14948,6 +14954,8 @@ USA
                 <example><marker>Nobody having any question</marker>, he ended the lecture.</example>
                 <example>I don't want <marker>anyone touching my car</marker>.</example>
                 <example><marker>Anybody touching my car</marker> will get a black eye!</example>
+                <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
+                <example>Somebody considering the new job must think about these:</example>
                 <example type="triggers_error"><marker>His parents as well as he</marker> are very kind to me.</example>
             </rule>
             <rule>
@@ -15045,7 +15053,8 @@ USA
                     <token postag="VB.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception></token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
                     <marker>
-                        <token postag="VBG"/>
+                        <token postag="VBG">
+                            <exception postag="IN"/></token>
                     </marker>
                 </pattern>
                 <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
@@ -15056,6 +15065,9 @@ USA
                 <example>And why was she crying?</example>
                 <example>What's he going to do?</example>
                 <example>I don't want <marker>anyone touching my car</marker>.</example>
+                <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
+                <example type="triggers_error">You can ask anyone walking to the city about the bus drivers' strike!</example>
+                <example type="triggers_error">She recommended anyone walking to take the bus.</example>
             </rule>
             <rule>
                 <antipattern>
