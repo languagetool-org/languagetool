@@ -18180,6 +18180,25 @@ USA
                 <example correction="">The <marker>initial installed</marker> software is working.</example>
                 <example>The <marker>initially installed</marker> software is working.</example>
             </rule>
+            <rule><!-- is/was one of the most + JJ + VBN + NNS: is one of the most frequent ordered dishes -->
+                <pattern>
+                    <token regexp="yes">is|was|being</token>
+                    <token>one</token>
+                    <token>of</token>
+                    <token chunk="B-NP-plural">the</token>
+                    <token skip="5">most</token><!-- Arbitrary value -->
+                    <marker>
+                        <token postag_regexp="yes" postag="JJ[RS]?"/>
+                        <token postag="VBN"/>
+                    </marker>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </pattern>
+                <message>Make sure that the adjective '\6' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\7'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message>
+                <example correction="">Barbecue Chicken Sandwich is one of the most <marker>frequent ordered</marker> dishes.</example>
+                <example correction="">... and thus being one of the most <marker>unusual complicated</marker> rules I have tried to make is not easy.</example>
+                <example>Barbecue Chicken Sandwich is one of the most <marker>frequently ordered</marker> dishes.</example>
+<!-- False negative. What is the problem with the 'skip' such that this is not found?--><example>Siu Yoke is one of the most well loved and <marker>frequent ordered</marker> meals in our restaurant.</example>
+            </rule>
         </rulegroup>
     </category>
 
