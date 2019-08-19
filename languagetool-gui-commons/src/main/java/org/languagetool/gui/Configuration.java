@@ -94,6 +94,10 @@ public class Configuration {
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
   private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
+  private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
+  private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
+  private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
+  private static final String USE_SERVER_CONFIGURATION_KEY = "useServerConfiguration";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -154,6 +158,10 @@ public class Configuration {
   private boolean useDocLanguage = true;
   private boolean isMultiThreadLO = false;
   private String currentProfile = null;
+  private boolean doRemoteCheck = false;
+  private boolean useServerConfiguration = false;
+  private boolean useOtherServer = false;
+  private String otherServerUrl = null;
 
   /**
    * Uses the configuration file from the default location.
@@ -229,7 +237,10 @@ public class Configuration {
     useDocLanguage = true;
     isMultiThreadLO = false;
     currentProfile = null;
-
+    doRemoteCheck = false;
+    useServerConfiguration = false;
+    useOtherServer = false;
+    otherServerUrl = null;
   }
   /**
    * Returns a copy of the given configuration.
@@ -271,6 +282,11 @@ public class Configuration {
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.currentProfile = configuration.currentProfile;
+    this.doRemoteCheck = configuration.doRemoteCheck;
+    this.useServerConfiguration = configuration.useServerConfiguration;
+    this.useOtherServer = configuration.useOtherServer;
+    this.otherServerUrl = configuration.otherServerUrl;
+    
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
     this.enabledRuleIds.clear();
@@ -395,6 +411,39 @@ public class Configuration {
     this.autoDetect = autoDetect;
   }
 
+  public void setRemoteCheck(boolean doRemoteCheck) {
+    this.doRemoteCheck = doRemoteCheck;
+  }
+
+  public boolean doRemoteCheck() {
+    return doRemoteCheck;
+  }
+
+  public void setUseServerConfiguration(boolean useServerConfiguration) {
+    this.useServerConfiguration = useServerConfiguration;
+  }
+
+  public boolean useServerConfiguration() {
+    return useServerConfiguration;
+  }
+
+  public void setUseOtherServer(boolean useOtherServer) {
+    this.useOtherServer = useOtherServer;
+  }
+
+  public boolean useOtherServer() {
+    return useOtherServer;
+  }
+
+  public void setOtherServerUrl(String otherServerUrl) {
+    this.otherServerUrl = otherServerUrl;
+  }
+
+  public String getServerUrl() {
+    return useOtherServer ? otherServerUrl : null;
+  }
+
+  
   /**
    * Determines whether the tagger window will also print the disambiguation
    * log.
@@ -992,6 +1041,23 @@ public class Configuration {
         isMultiThreadLO = Boolean.parseBoolean(isMultiThreadString);
       }
       
+      String doRemoteCheckString = (String) props.get(prefix + DO_REMOTE_CHECK_KEY);
+      if (doRemoteCheckString != null) {
+        doRemoteCheck = Boolean.parseBoolean(doRemoteCheckString);
+      }
+      
+      String useServerConfigurationString = (String) props.get(prefix + USE_SERVER_CONFIGURATION_KEY);
+      if (useServerConfigurationString != null) {
+        useServerConfiguration = Boolean.parseBoolean(useServerConfigurationString);
+      }
+      
+      String useOtherServerString = (String) props.get(prefix + USE_OTHER_SERVER_KEY);
+      if (useOtherServerString != null) {
+        useOtherServer = Boolean.parseBoolean(useOtherServerString);
+      }
+      
+      otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1157,6 +1223,18 @@ public class Configuration {
         if(isMultiThreadLO) {
           props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
         }
+        if(doRemoteCheck) {
+          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
+        }
+        if(useServerConfiguration) {
+          props.setProperty(prefix + USE_SERVER_CONFIGURATION_KEY, Boolean.toString(useServerConfiguration));
+        }
+        if(useOtherServer) {
+          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
+        }
+        if (otherServerUrl != null) {
+          props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
+        }
         if (fontName != null) {
           props.setProperty(prefix + FONT_NAME_KEY, fontName);
         }
@@ -1242,6 +1320,10 @@ public class Configuration {
     allProfileKeys.add(LT_SWITCHED_OFF_KEY);
     allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);
     allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);
+    allProfileKeys.add(DO_REMOTE_CHECK_KEY);
+    allProfileKeys.add(OTHER_SERVER_URL_KEY);
+    allProfileKeys.add(USE_OTHER_SERVER_KEY);
+    allProfileKeys.add(USE_SERVER_CONFIGURATION_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

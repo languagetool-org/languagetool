@@ -28,7 +28,6 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeModelEvent;
@@ -263,7 +262,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy = 0;
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
-    cons.fill = GridBagConstraints.NONE;
+    cons.fill = GridBagConstraints.BOTH;
     cons.anchor = GridBagConstraints.NORTHWEST;
     
     jPane.add(getProfilePanel(cons, rules), cons);
@@ -574,17 +573,14 @@ public class ConfigurationDialog implements ActionListener {
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
-
       @Override
       public void insertUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
-
       @Override
       public void removeUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
-
       @Override
       public void changedUpdate(DocumentEvent e) {
         try {
@@ -635,9 +631,6 @@ public class ConfigurationDialog implements ActionListener {
     });
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
-//    JLabel dummyLabel = new JLabel(" ");
-//    cons.gridy++;
-//    portPanel.add(dummyLabel, cons);
     cons.gridy++;
     portPanel.add(resetCheckbox, cons);
 
@@ -656,9 +649,6 @@ public class ConfigurationDialog implements ActionListener {
     });
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
-//    cons.gridy++;
-//    JLabel dummyLabel2 = new JLabel(" ");
-//    portPanel.add(dummyLabel2, cons);
     cons.gridy++;
     portPanel.add(fullTextCheckAtFirstBox, cons);
     
@@ -676,6 +666,86 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(isMultiThreadBox, cons);
     
+    JTextField otherServerNameField = new JTextField(config.getServerUrl() ==  null ? "" : config.getServerUrl(), 25);
+    otherServerNameField.setMinimumSize(new Dimension(100, 25));
+    otherServerNameField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String serverName = otherServerNameField.getText();
+        serverName = serverName.trim();
+        if(serverName.isEmpty()) {
+          serverName = null;
+        }
+        config.setOtherServerUrl(serverName);
+      }
+    });
+
+    JCheckBox useServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServer")) + " ");
+    useServerBox.setSelected(config.useOtherServer());
+    useServerBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setUseOtherServer(useServerBox.isSelected());
+        otherServerNameField.setEnabled(useServerBox.isSelected());
+      }
+    });
+
+    JCheckBox useServerSettingsBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServerSettings")));
+    useServerSettingsBox.setSelected(config.useServerConfiguration());
+    useServerSettingsBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setUseServerConfiguration(useServerSettingsBox.isSelected());
+      }
+    });
+
+    JCheckBox useRemoteServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseRemoteServer")));
+    useRemoteServerBox.setSelected(config.doRemoteCheck());
+    useServerBox.setEnabled(useRemoteServerBox.isSelected());
+    otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
+//    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
+    isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+    useRemoteServerBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setRemoteCheck(useRemoteServerBox.isSelected());
+        useServerBox.setEnabled(useRemoteServerBox.isSelected());
+        otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
+//        useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+        isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+      }
+    });
+    
+    cons.gridy++;
+    portPanel.add(useRemoteServerBox, cons);
+    cons.insets = new Insets(0, 30, 0, 0);
+    JPanel serverPanel = new JPanel();
+    serverPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(0, 0, 0, 0);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.anchor = GridBagConstraints.WEST;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.weightx = 0.0f;
+    serverPanel.add(useServerBox, cons1);
+    cons1.gridx++;
+    serverPanel.add(otherServerNameField, cons1);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(serverPanel, cons);
+    cons.gridy++;
+    portPanel.add(useServerSettingsBox, cons);
+
   }
 
   @NotNull
