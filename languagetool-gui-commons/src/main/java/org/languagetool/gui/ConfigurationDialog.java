@@ -711,8 +711,8 @@ public class ConfigurationDialog implements ActionListener {
     useRemoteServerBox.setSelected(config.doRemoteCheck());
     useServerBox.setEnabled(useRemoteServerBox.isSelected());
     otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-//    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
-    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
+    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+//    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
     isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
     useRemoteServerBox.addItemListener(new ItemListener() {
       @Override
@@ -720,7 +720,7 @@ public class ConfigurationDialog implements ActionListener {
         config.setRemoteCheck(useRemoteServerBox.isSelected());
         useServerBox.setEnabled(useRemoteServerBox.isSelected());
         otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-//        useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+        useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
         isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
       }
     });

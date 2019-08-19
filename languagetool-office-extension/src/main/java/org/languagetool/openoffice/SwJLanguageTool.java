@@ -195,11 +195,19 @@ public class SwJLanguageTool {
         allRules = lt.getAllActiveOfficeRules();
         textRules = getAllTextRules();
         nonTextRules = getAllNonTextRules();
-        configBuilder.enabledOnly();
-        if(paraMode == ParagraphHandling.ONLYPARA) {
-          configBuilder.enabledRuleIds(textRules);
+        if(!useServerConfig) {
+          configBuilder.enabledOnly();
+          if(paraMode == ParagraphHandling.ONLYPARA) {
+            configBuilder.enabledRuleIds(textRules);
+          } else {
+            configBuilder.enabledRuleIds(nonTextRules);
+          }
         } else {
-          configBuilder.enabledRuleIds(nonTextRules);
+          if(paraMode == ParagraphHandling.ONLYPARA) {
+            configBuilder.mode("textLevelOnly");
+          } else {
+            configBuilder.mode("allButTextLevelOnly");
+          }
         }
         remoteConfig = configBuilder.build();
       }
