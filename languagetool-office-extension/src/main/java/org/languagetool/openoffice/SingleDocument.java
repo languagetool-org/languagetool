@@ -82,7 +82,9 @@ class SingleDocument {
    *  
    */
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator like in standalone GUI
+  private static final String SINGLE_END_OF_PARAGRAPH = "\n";
+  private static final String END_OF_PARAGRAPH = "\n\n";  //  Paragraph Separator like in standalone GUI
+  private static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
   private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
@@ -589,7 +591,7 @@ class SingleDocument {
    * Change manual linebreak to distinguish from end of paragraph
    */
   private static String fixLinebreak (String text) {
-    return text.replaceAll(END_OF_PARAGRAPH, MANUAL_LINEBREAK);
+    return text.replaceAll(SINGLE_END_OF_PARAGRAPH, MANUAL_LINEBREAK);
   }
 
   /**
@@ -646,7 +648,7 @@ class SingleDocument {
       }
       int pos = 0;
       for (int i = startPos; i < nPara; i++) {
-        pos += allParas.get(i).length() + 1;
+        pos += allParas.get(i).length() + NUMBER_PARAGRAPH_CHARS;
       }
       return pos;
     }

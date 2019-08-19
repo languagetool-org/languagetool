@@ -468,7 +468,9 @@ public class MultiDocumentsHandler {
       langTool = new SwJLanguageTool(docLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config);
       config.initStyleCategories(langTool.getAllRules());
+      /* The next row is only for a single line break marks a paragraph
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
+       */
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
