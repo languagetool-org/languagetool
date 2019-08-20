@@ -92,6 +92,9 @@ public class RemoteLanguageTool {
     if (config.getMode() != null) {
       append(params, "mode", config.getMode());
     }
+    if (config.getRuleValues().size() > 0) {
+      append(params, "ruleValues", String.join(",", config.getRuleValues()));
+    }
     append(params, "useragent", "java-http-client");
     return params.toString();
   }

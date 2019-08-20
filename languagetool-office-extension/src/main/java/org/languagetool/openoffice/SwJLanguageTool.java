@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.languagetool.JLanguageTool;
@@ -54,16 +55,18 @@ public class SwJLanguageTool {
   boolean isRemote = false;
   boolean useServerConfig = false;
   String serverUrl = null;
+  Map<String, Integer> configurableValues = null;
   JLanguageTool lt = null;
   MultiThreadedJLanguageTool mlt = null;
   LORemoteLanguageTool rlt = null;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
-      Configuration config) throws MalformedURLException {
+      Configuration config, boolean testMode) throws MalformedURLException {
     isMultiThread = config.isMultiThread();
-    isRemote = config.doRemoteCheck();
+    isRemote = config.doRemoteCheck() && !testMode;
     useServerConfig = config.useServerConfiguration();
     serverUrl = config.getServerUrl();
+    configurableValues = config.getConfigurableValues();
     if(isRemote) {
       rlt = new LORemoteLanguageTool(language, motherTongue, userConfig);
     } else if(isMultiThread) {
@@ -164,7 +167,7 @@ public class SwJLanguageTool {
       return lt.getLanguage(); 
     }
   }
-
+  
   private class LORemoteLanguageTool {
     private static final String SERVER_URL = "https://languagetool.org/api";
     private static final int SERVER_LIMIT = 20000;
@@ -202,6 +205,7 @@ public class SwJLanguageTool {
           } else {
             configBuilder.enabledRuleIds(nonTextRules);
           }
+          configBuilder.ruleValues(getRuleValues());
         } else {
           if(paraMode == ParagraphHandling.ONLYPARA) {
             configBuilder.mode("textLevelOnly");
@@ -270,6 +274,15 @@ public class SwJLanguageTool {
         }
       }
       return nonTextRules;
+    }
+    
+    List<String> getRuleValues() {
+      List<String> ruleValues = new ArrayList<String>();
+      Set<String> rules = configurableValues.keySet();
+      for (String rule : rules) {
+        ruleValues.add(rule + ":" + configurableValues.get(rule));
+      }
+      return ruleValues;
     }
     
     private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch) throws MalformedURLException {

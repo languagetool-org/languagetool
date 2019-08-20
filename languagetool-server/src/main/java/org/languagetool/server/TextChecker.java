@@ -37,6 +37,7 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -209,7 +210,7 @@ abstract class TextChecker {
 
     UserConfig userConfig = new UserConfig(
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            new HashMap<>(), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
+            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
 
     // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
     if (agent != null && agent.equals("ltorg")) {
@@ -446,6 +447,20 @@ abstract class TextChecker {
         config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
       logger.log(logEntry);
     }
+  }
+  
+  private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
+    Map<String, Integer> ruleValues = new HashMap<>();
+    String parameterString = parameters.get("ruleValues");
+    if(parameterString == null) {
+      return ruleValues;
+    }
+    String[] pairs = parameterString.split("[,]");
+    for (String pair : pairs) {
+      String[] ruleAndValue  = pair.split("[:]");
+      ruleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
+    }
+    return ruleValues;
   }
 
   private List<String> getUserDictWords(Long userId) {

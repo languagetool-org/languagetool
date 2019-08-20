@@ -466,7 +466,7 @@ public class MultiDocumentsHandler {
       switchOff = config.isSwitchedOff();
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new SwJLanguageTool(docLanguage, config.getMotherTongue(),
-          new UserConfig(config.getConfigurableValues(), linguServices), config);
+          new UserConfig(config.getConfigurableValues(), linguServices), config, testMode);
       config.initStyleCategories(langTool.getAllRules());
       /* The next row is only for a single line break marks a paragraph
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);

@@ -37,6 +37,7 @@ public class CheckConfigurationBuilder {
   private List<String> enabledRuleIds = new ArrayList<>();
   private List<String> disabledRuleIds = new ArrayList<>();
   private String mode = null;
+  private List<String> ruleValues = new ArrayList<>();
 
   /**
    * @param langCode a language code like {@code en} or {@code en-US}
@@ -58,7 +59,8 @@ public class CheckConfigurationBuilder {
     if (enabledOnly && enabledRuleIds.isEmpty()) {
       throw new IllegalStateException("You cannot use 'enabledOnly' when you haven't set rule ids to be enabled");
     }
-    return new CheckConfiguration(langCode, motherTongueLangCode, autoDetectLanguage, enabledRuleIds, enabledOnly, disabledRuleIds, mode);
+    return new CheckConfiguration(langCode, motherTongueLangCode, autoDetectLanguage, enabledRuleIds, enabledOnly, 
+        disabledRuleIds, mode, ruleValues);
   }
 
   public CheckConfigurationBuilder setMotherTongueLangCode(String motherTongueLangCode) {
@@ -94,4 +96,9 @@ public class CheckConfigurationBuilder {
     return this;
   }
 
+  public CheckConfigurationBuilder ruleValues(List<String> ruleValues) {
+    this.ruleValues = Objects.requireNonNull(ruleValues);
+    return this;
+  }
+  
 }
