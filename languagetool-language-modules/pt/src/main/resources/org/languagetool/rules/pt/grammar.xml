@@ -710,9 +710,9 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
     <rule>
       <pattern>
-          <token regexp='yes'>a
+          <token>a
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes' regexp='yes'>
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
       </pattern>
       <message>&MSG_ECG;</message>
@@ -723,9 +723,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>a
+          <token>a
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
-          <token postag='(?:[NZ]..|A...)P.+' postag_regexp='yes' regexp='yes'>
+          <token postag='(?:[NZ]..|A...)P.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='(?:[NZ]..|A...)[NS].+'/></token>
       </pattern>
       <message>&MSG_ECN;</message>
@@ -3508,6 +3508,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token inflected='yes' spacebefore='no'>ir</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' spacebefore='no'>ir</token>
+          <token>a</token>
+          <token>eleições</token>
       </antipattern>
       <pattern>
         <marker>
@@ -8679,6 +8684,30 @@ title="Easy editing stylesheet" ?>
       <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
     </rule>
   </rulegroup>
+
+    <rule id='ENUMERATION_COMMAS' name="Vírgulas em enumerações">
+    <!-- Created by Tiago F. Santos, 20-08-2019, Portuguese rule, -->
+      <pattern>
+          <token postag_regexp='yes' postag='D.+'/>
+        <marker>
+          <token postag_regexp='yes' postag='N.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
+          <token postag_regexp='yes' postag='D.+'/>
+        </marker>
+          <token postag_regexp='yes' postag='D.+' min='0'/>
+          <token postag_regexp='yes' postag='N.+'/>
+        <or>
+          <token postag_regexp='yes' postag='D.+'/>
+          <token regexp="yes">e|,</token>
+        </or>
+      </pattern>
+      <message>Separe elementos de uma enumeração com vírgulas.</message>
+        <suggestion>\2, \3</suggestion>
+      <short>Erro de pontuação</short>
+      <example correction="esposa, a">A minha <marker>esposa a</marker> minha filha e a minha mãe foram de férias juntas.</example>
+      <example type='triggers_error'>Minha <marker>avó meu</marker> <marker>avô minha</marker> tia e minha prima foram de férias juntos.</example><!-- #1676 -->
+      <example>A primeira a 10% e a segunda a 15%.</example>
+    </rule>
 
   <rulegroup id="GREETING_COMMA" name="Pontuação: Saudações formais: 'Estimados senhores', etc.">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
@@ -25878,7 +25907,7 @@ TODO Write better examples
         <marker>
           <token regexp='yes'>cerca|perto|volta</token>
           <token>de</token>
-          <token regexp='yes'>1[1289]|[2-9][1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>1[123789]|[2-9][1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
