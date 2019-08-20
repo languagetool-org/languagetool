@@ -665,6 +665,21 @@ title="Easy editing stylesheet" ?>
       <example>…ouvir os partidos nelas representados e o …</example>
       <example>nas coordenadas 20.00ºN, 20.00ºW</example>
     </rule>
+    <rule><!-- XXX Determiner agreement -->
+      <pattern>
+        <unify negate="yes">
+          <feature id="gender"/>
+          <token postag_regexp='yes' postag='D.+'>
+            <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
+          <token postag_regexp='yes' postag='D.+'>
+            <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
+        </unify>
+      </pattern>
+      <message>&MSG_ECG;</message>
+        <suggestion><match no='1' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='1' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/></suggestion>
+      <example correction="O nosso|A nossa"><marker>O nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+    </rule>
   </rulegroup>
 
     <!-- Specific gender concordance errors - A > Masculine Noun -->
@@ -705,6 +720,19 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
       <example>Isto influencia muito negativamente a segurança.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>a
+            <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
+          <token postag='(?:[NZ]..|A...)P.+' postag_regexp='yes' regexp='yes'>
+            <exception postag_regexp='yes' postag='(?:[NZ]..|A...)[NS].+'/></token>
+      </pattern>
+      <message>&MSG_ECN;</message>
+        <suggestion>as \2</suggestion>
+        <suggestion>a <match no='2' postag='(A...|[NZ]..).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction="as proteções|a proteção">...financiamento de projetos para <marker>a proteções</marker> da floresta...</example>
     </rule>
   </rulegroup>
 
@@ -1221,6 +1249,21 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECN;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
       <example correction='numas espécies'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <unify negate="yes">
+          <feature id="number"/>
+          <token postag_regexp='yes' postag='D.+'>
+            <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
+          <token postag_regexp='yes' postag='D.+'>
+            <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
+        </unify>
+      </pattern>
+      <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
+      <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
     </rule>
   </rulegroup>
 
