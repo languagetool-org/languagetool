@@ -15930,6 +15930,25 @@ USA
             <example correction="lots of books">I have got <marker>lots of book</marker>.</example>
             <example>I have got <marker>lots of wine</marker>.</example>
         </rule>
+        <rule id="STARS_AND_STEPS">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token regexp="yes">star|page|slide|step</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="JJ.*|RB.*" postag_regexp="yes" />
+                    <exception regexp="yes">sons?|daughters?|fathers?|mothers?|famil(ies|y)|dads?|m[ou]ms?</exception>
+                </token>
+            </pattern>
+            <message>'<match no="1" /> <match no="2" />' is missing a hyphen.</message>
+            <suggestion><match no="1" />-<match no="2" /></suggestion>
+            <example correction="4-page">Please check my <marker>4 page</marker> survey.</example>
+            <example correction="five-star">I spend my vacation only in <marker>five star</marker> hotels.</example>
+            <example>I would recommend this <marker>5-star</marker> restaurant.</example>
+            <example>My 2 step daughters hate me.</example>
+            <example>I received 5 stars on GitHub.</example>
+        </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
         <antipattern case_sensitive="yes">
             <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
