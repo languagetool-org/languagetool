@@ -2272,6 +2272,13 @@
     </rule>
     <rule>
       <pattern>
+          <token regexp='yes'>\d+[\.&#57347;]?º</token>
+          <token regexp='yes'>\d+(?:[\.,]\d+)?[′']</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMN000"/><wd pos="NCMN000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
           <token regexp="yes">[\d,. ]*[º°′″‴][CFKNSEWO]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2281,6 +2288,10 @@
   <rulegroup id="ORDINALS" name="Ordinais">
     <!-- Created by Tiago F. Santos, Portuguese rule 	-->
     <rule>
+      <antipattern>
+          <token regexp='yes'>\d+[\.&#57347;]?º</token>
+          <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
       </pattern>
