@@ -45,11 +45,14 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iPhone",
           "iOS",
           "eBay",
+          "fMRI",
           "iOS",
           "iPad",
           "iPod",
           "iCloud",
-          "iRobot"
+          "iRobot",
+          "iTunes",
+          "mRNA"
   ));
 
   private final Language language;
