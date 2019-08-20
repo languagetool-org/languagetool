@@ -15,7 +15,9 @@
   * added and improved rules
 
 #### Portuguese
-  * added and improved rules
+  * added rules and significantly improved accuracy
+  * disambiguation improvements
+  * POS and spelling improvements
 
 #### Ukrainian
   * added and improved rules
