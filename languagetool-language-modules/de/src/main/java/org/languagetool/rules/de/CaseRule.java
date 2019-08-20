@@ -1002,7 +1002,8 @@ public class CaseRule extends Rule {
         !isAdverbAndNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &&
-        !isExceptionPhrase(i, tokens)) {
+        !isExceptionPhrase(i, tokens) &&
+        !isNounWithVerbReading(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
@@ -1018,7 +1019,12 @@ public class CaseRule extends Rule {
     }
   }
 
-  private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
+  private boolean isNounWithVerbReading(int i, AnalyzedTokenReadings[] tokens) {
+    return tokens[i].hasPosTagStartingWith("SUB") &&
+    		tokens[i].hasPosTagStartingWith("VER:INF");
+	}
+
+	private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
     System.arraycopy(tokens, i, subarray, 0, subarray.length);
     if (lowercaseReadings != null) {

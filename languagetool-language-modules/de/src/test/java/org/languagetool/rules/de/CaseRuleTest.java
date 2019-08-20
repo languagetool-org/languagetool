@@ -151,7 +151,7 @@ public class CaseRuleTest {
     assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
     assertGood("Dann hat er Großes erreicht.");
     assertGood("Dann hat er Großes geleistet.");
-
+    assertGood("Das Thema Datenaustauschverfahren ist mir wichtig.");
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
 
