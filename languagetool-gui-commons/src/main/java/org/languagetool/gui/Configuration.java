@@ -1169,6 +1169,10 @@ public class Configuration {
       props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));
     }
     
+    try (FileOutputStream fos = new FileOutputStream(configFile)) {
+      props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
+    }
+
     List<String> prefixes = new ArrayList<String>();
     prefixes.add("");
     for(String profile : definedProfiles) {
@@ -1186,6 +1190,7 @@ public class Configuration {
       currentPrefix += PROFILE_DELIMITER;
     }
     for(String prefix : prefixes) {
+      props = new Properties();
       if(currentPrefix.equals(prefix)) {
         addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);
         addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);
@@ -1278,9 +1283,10 @@ public class Configuration {
       } else {
         saveConfigforProfile(props, prefix);
       }
-    }
-    try (FileOutputStream fos = new FileOutputStream(configFile)) {
-      props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
+
+      try (FileOutputStream fos = new FileOutputStream(configFile, true)) {
+        props.store(fos, "Profile: " + (prefix.isEmpty() ? "Default" : prefix.substring(0, prefix.length() - 2)));
+      }
     }
     
     if(oldConfigFile != null && oldConfigFile.exists()) {
