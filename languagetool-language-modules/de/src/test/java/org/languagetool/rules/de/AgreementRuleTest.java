@@ -104,6 +104,7 @@ public class AgreementRuleTest {
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
     assertGood("Da stellt sich die Frage: Ist das Science-Fiction oder moderne Mobilität?");
+    assertGood("Er hat einen Post veröffentlicht.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");

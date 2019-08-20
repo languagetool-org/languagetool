@@ -537,6 +537,7 @@ public class AgreementRule extends Rule {
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
+    "Post", // Ein (Social-Media) Post
     "Kilogramm",
     "Uhr"   // "um ein Uhr"
   ));
