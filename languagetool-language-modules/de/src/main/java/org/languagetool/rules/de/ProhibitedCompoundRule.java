@@ -74,7 +74,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Korrekturlösung",
           "Regelschreiber",
           "Glasreinigern",
-          "Testbahn"
+          "Testbahn",
+          "Reiszwecke"
   ));
 
   // have per-class static list of these and reference that in instance
