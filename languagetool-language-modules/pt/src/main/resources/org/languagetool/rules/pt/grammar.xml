@@ -51,7 +51,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:ditora|gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
-    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
+    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:estival|ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -662,7 +662,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction="das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
       <example correction='Algumas vacas'><marker>Algumas bois</marker> estão no pasto.</example>
-      <example>...ouvir os partidos nelas representados e o ...</example>
+      <example>…ouvir os partidos nelas representados e o …</example>
       <example>nas coordenadas 20.00ºN, 20.00ºW</example>
     </rule>
   </rulegroup>
@@ -684,25 +684,29 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>&MSG_ECG;</message>
         <suggestion>o <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
-        <suggestion>a <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+        <suggestion>a <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='(A..|[NZ].)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction='O boi|A vaca'><marker>A boi</marker> está no pasto.</example>
       <example correction='O mais boi|A mais vaca'><marker>A mais boi</marker> está no pasto.</example>
       <example type='correct'>A vaca está no pasto.</example>
     </rule>
 
-    <rule default='off' id='A_WORD_A' name="Concordância de género: A + palavra terminada em A">
+  <rulegroup default='on' id='A_WORD_A' name="Concordância de género e número: A + palavra">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+    <rule>
       <pattern>
-          <token regexp='yes'>a</token>
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes' regexp='yes'>.+a$
-            <exception regexp='yes'>palavra|letra</exception></token>
+          <token regexp='yes'>a
+            <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes' regexp='yes'>
+            <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
       </pattern>
-      <message>Possível erro de concordância de género.</message>
+      <message>&MSG_ECG;</message>
         <suggestion>o \2</suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction="O dogma"><marker>A dogma</marker> de quem sabe muito.</example>
+      <example>Isto influencia muito negativamente a segurança.</example>
     </rule>
+  </rulegroup>
 
   <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordância: SER + adjetivo + nome">
     <!--      Created by Tiago F. Santos, 2017-09-06      -->
@@ -851,7 +855,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Esta palavra varia entre géneros. Substitua por <suggestion>a juíza</suggestion>.</message>
       <example correction="a juíza">Vamos ver <marker>a juiz</marker>.</example>
-      <example>...chegou a juiz por ter mandado prender...</example>
+      <example>…chegou a juiz por ter mandado prender…</example>
     </rule>
   </rulegroup>
 
@@ -1082,6 +1086,11 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>uma</token>
           <token>vez</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token postag='Z.CN.+' postag_regexp='yes'/>
+          <token regexp='yes'>horas|milhas</token>
       </antipattern>
       <antipattern>
           <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
@@ -1358,6 +1367,10 @@ title="Easy editing stylesheet" ?>
       <example correction="Estados Unidos">A sul do Canadá está o <marker>Estado Unido</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>Gran(?:de)?</token>
+          <token>Canária</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>B[aá]lcã|Canária</token>
       </pattern>
@@ -1451,7 +1464,8 @@ title="Easy editing stylesheet" ?>
       <antipattern><!-- XXX 'pós' as prefix handled by hiphenation rules -->
           <token>pós</token>
           <token>
-            <exception regexp="yes">[-,.!?\(\)]</exception><exception postag="C.|R.|S.+" postag_regexp="yes"/></token>
+            <exception regexp="yes">[-,.!?\(\)]</exception>
+            <exception postag="C.|R.|S.+" postag_regexp="yes"/></token>
       </antipattern>
       <pattern case_sensitive='yes'>
           <token>
@@ -2849,14 +2863,14 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='PHRASAL_VERB_RESIDIR_EM' name='Regência verbal: Residir em'>
     <!--      Created by Tiago F. Santos, 2018-09-19      -->
-      <antipattern>
+    <!--antipattern>
           <token regexp='yes'>residentes?|morador(?:es)?</token>
           <token/>
           <token regexp='yes'>com|em|n[ao]s?</token>
-      </antipattern>
+      </antipattern-->
       <antipattern>
           <token regexp='yes'>residentes?|morador(?:es)?</token>
-          <token regexp='yes'>estrangeiros?|naciona(?:l|is)</token>
+          <token postag_regexp='yes' postag='A.+'/>
       </antipattern>
       <pattern>
           <token inflected='yes' regexp='yes'>residir|morar|residente|morador</token>
@@ -3039,7 +3053,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>porque \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
       <example correction="porque o">Isto <marker>por que o</marker> Raul tinha saído.</example>
-      <example>...motivo por que muitos chineses desejam que o país se torne...</example>
+      <example>…motivo por que muitos chineses desejam que o país se torne…</example>
     </rule>
     <rule>
       <pattern>
@@ -3230,7 +3244,7 @@ title="Easy editing stylesheet" ?>
       <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrarmo-nos</example>
       <example>O custo está abaixo do que foi estabelecido.</example>
       <example>É diferente da que foi analisada</example>
-      <example>...foram retirados do que restava...</example>
+      <example>…foram retirados do que restava…</example>
     </rule>
     <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
     <rule id='V3_DE_QUE' name="Verbo na 3a pessoa + de que">
@@ -3510,7 +3524,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 <match no='2' regexp_match='(a)(s?)' regexp_replace='à$2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='Chego às vinte e uma horas'><marker>Chego as vinte e uma horas</marker>.</example>
-      <example>...com um horário semanal que ronda as 60 horas ou mais.</example>
+      <example>…com um horário semanal que ronda as 60 horas ou mais.</example>
     </rule>
     <rule>
       <pattern>
@@ -4010,7 +4024,7 @@ title="Easy editing stylesheet" ?>
       <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
       <example>Ele disse que quem estabelece a % de incapacidade é o médico a que vou na sexta.</example>
       <example>Já vou na quarta versão.</example>
-      <example>Já vai na terceira temporada..</example>
+      <example>Já vai na terceira temporada.</example>
     </rule>
     <rule>
       <antipattern>
@@ -4110,68 +4124,12 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>quanto[ao]s?</exception></token>
         <marker>
           <token>mais</token>
-          <token regexp='yes'>pior(?:es)?</token>
+          <token regexp='yes'>(?:m(?:aior|enor|elhor)|pior)(?:es)?</token>
         </marker>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\3</suggestion>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token>mais</token>
-          <token>grande</token>
-          <token>que</token>
-          <token>pequeno</token>
-      </antipattern>
-      <pattern>
-          <token>mais</token>
-          <token>grande</token>
-      </pattern>
-      <message>Substitua por <suggestion>maior</suggestion>.</message>
-      <example correction="maior">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token>mais</token>
-          <token>grandes</token>
-          <token>que</token>
-          <token>pequenos</token>
-      </antipattern>
-      <pattern>
-          <token>mais</token>
-          <token>grandes</token>
-      </pattern>
-      <message>Substitua por <suggestion>maiores</suggestion>.</message>
-      <example correction="maiores">Aqueles artigos são <marker>mais grandes</marker> que o outro.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token>mais</token>
-          <token>pequeno</token>
-          <token>que</token>
-          <token>grande</token>
-      </antipattern>
-      <pattern>
-          <token>mais</token>
-          <token>pequeno</token>
-      </pattern>
-      <message>Substitua por <suggestion>menor</suggestion>.</message>
-      <example correction="menor">Aquele artigo é <marker>mais pequeno</marker> que o outro.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token>mais</token>
-          <token>pequenos</token>
-          <token>que</token>
-          <token>grandes</token>
-      </antipattern>
-      <pattern>
-          <token>mais</token>
-          <token>pequenos</token>
-      </pattern>
-      <message>Substitua por <suggestion>menores</suggestion>.</message>
-      <example correction="menores">Aqueles artigos são <marker>mais pequenos</marker> que o outro.</example>
     </rule>
   </rulegroup>
 
@@ -4289,7 +4247,7 @@ title="Easy editing stylesheet" ?>
           <token>a</token>
           <token postag_regexp='yes' postag='Z.+'/>
       </antipattern>
-      <!-- antipattern>
+    <!-- antipattern>
           <token>depois</token>
           <token>de</token>
           <token>em</token>
@@ -4689,7 +4647,7 @@ title="Easy editing stylesheet" ?>
       <example>Quiçá encontrarei quem mo possa explicar.</example>
       <example>como se quiçá não o tivesse de ver mais</example>
       <example>Quiçá quando se acabe o curso voltará</example>
-      <example>... irá muito provavelmente esbarrar na dinâmica instalada...</example>
+      <example>… irá muito provavelmente esbarrar na dinâmica instalada…</example>
     </rule>
 
  </category>
@@ -7728,9 +7686,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-        <token>mais</token>
-        <token>ou</token>
-        <token>menos</token>
+          <token>mais</token>
+          <token>ou</token>
+          <token>menos</token>
       </antipattern>
       <pattern>
           <token>ou</token>
@@ -7875,7 +7833,7 @@ title="Easy editing stylesheet" ?>
       <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
         <suggestion>\1, <match no='2' case_conversion="startlower"/> \3</suggestion>
       <example correction="mas, na verdade">Foi feito com distinção <marker>mas na verdade</marker>, que não está bem feito.</example>
-      <example>...temos de aguardar que se concretizem na prática porque há um certo fosso entre...</example>
+      <example>…temos de aguardar que se concretizem na prática porque há um certo fosso entre…</example>
     </rule>
     <rule>
       <antipattern>
@@ -7899,6 +7857,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&quot;</token>
           <token spacebefore='no'>em</token>
       </antipattern>
+      <antipattern><!-- XXX 'em geral' causes too many false positives for this specific punctuation rule -->
+          <token postag_regexp='yes' postag="N.+"/>
+          <token>em</token>
+          <token>geral</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">“|«</exception>
@@ -7909,7 +7872,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1, <match no='2' case_conversion="startlower"/> \3</suggestion>
-      <example correction="distinção, em geral">Foi feito com <marker>distinção em geral</marker>, está bem feito.</example>
+      <example correction="distinção, em contrapartida">Foi feito com <marker>distinção em contrapartida</marker>, está bem feito.</example>
     </rule>
     <rule>
       <antipattern>
@@ -8171,6 +8134,11 @@ title="Easy editing stylesheet" ?>
       <example correction="no entanto,">Foi feito com distinção mas, <marker>no entanto</marker> que não está bem feito.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token postag_regexp='yes' postag="N.+"/>
+          <token>em</token>
+          <token>geral</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>em</token>
@@ -9058,7 +9026,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)
-            <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?</exception></token>
+            <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception></token>
     <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
@@ -9847,7 +9815,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='WORDINESS' name='Expressão prolixas' type='style'>
+  <rulegroup id='WORDINESS' name='Expressões prolixas' type='style'>
     <!--  Rule group made semi automatically with the Wikipedia list
 tokenizer spreadsheet in the forum	     -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
@@ -10171,7 +10139,7 @@ tokenizer spreadsheet in the forum	     -->
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>agora</suggestion>
       <example correction='Agora'><marker>Neste momento</marker> não me ocorre nada melhor.</example>
-      <example>Além de lhe ter escrito uma carta a oferecer a sua amizade neste momento difícil...</example>
+      <example>Além de lhe ter escrito uma carta a oferecer a sua amizade neste momento difícil…</example>
     </rule>
     <!--rule> XXX uncomment if a good example is found, else delete on 4.8
       <pattern>
@@ -10182,7 +10150,7 @@ tokenizer spreadsheet in the forum	     -->
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>agora</suggestion>
       <example correction='mais'><marker>Um maior</marker></example>
-      <example>Estas normas constituem geralmente um maior obstáculo...</example>
+      <example>Estas normas constituem geralmente um maior obstáculo…</example>
       <example>
     </rule-->
     <rule>
@@ -10197,7 +10165,7 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>para que</suggestion>
       <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
-    <rule id='PREÇOS_ECONÓMICOS' name="Preços baixos">
+    <rule id='PREÇOS_ECONÓMICOS' name="Expressões prolixas: Preços baixos">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp='yes'>preços?</token>
@@ -10208,6 +10176,68 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> baixo<match no='1' regexp_match='(.+)(s)' regexp_replace='$2'/></suggestion>
       <example correction="preços baixos">Temos muitos <marker>preços económicos</marker> na loja.</example>
       <example correction="preços bastante baixos">Temos <marker>preços bastante económicos</marker> na loja.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='POTENTIAL_WORDINESS' name='Expressões potencialmente prolixas' type='style'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
+      <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo</url>
+      <short>Expressão possivelmente prolixa</short>
+    <rule>
+      <antipattern>
+          <token>mais</token>
+          <token>grande</token>
+          <token>que</token>
+          <token>pequeno</token>
+      </antipattern>
+      <pattern>
+          <token>mais</token>
+          <token>grande</token>
+      </pattern>
+      <message>Se não se refere a pessoas, considere substituir por <suggestion>maior</suggestion>.</message>
+      <example correction="maior">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>mais</token>
+          <token>grandes</token>
+          <token>que</token>
+          <token>pequenos</token>
+      </antipattern>
+      <pattern>
+          <token>mais</token>
+          <token>grandes</token>
+      </pattern>
+      <message>Se não se refere a pessoas, considere substituir por <suggestion>maiores</suggestion>.</message>
+      <example correction="maiores">Aqueles artigos são <marker>mais grandes</marker> que o outro.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>mais</token>
+          <token>pequeno</token>
+          <token>que</token>
+          <token>grande</token>
+      </antipattern>
+      <pattern>
+          <token>mais</token>
+          <token>pequeno</token>
+      </pattern>
+      <message>Se não se refere a pessoas, considere substituir por <suggestion>menor</suggestion>.</message>
+      <example correction="menor">Aquele artigo é <marker>mais pequeno</marker> que o outro.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>mais</token>
+          <token>pequenos</token>
+          <token>que</token>
+          <token>grandes</token>
+      </antipattern>
+      <pattern>
+          <token>mais</token>
+          <token>pequenos</token>
+      </pattern>
+      <message>Se não se refere a pessoas, considere substituir por <suggestion>menores</suggestion>.</message>
+      <example correction="menores">Aqueles artigos são <marker>mais pequenos</marker> que o outro.</example>
     </rule>
   </rulegroup>
 
@@ -17967,7 +17997,7 @@ o tomate'>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> “\3”</suggestion>
       <example correction='da média|da ‘media’|da “media”'><marker>da media</marker>.</example>
       <example correction='das médias|das ‘medias’|das “medias”'><marker>das medias</marker>.</example>
-      <example>Se a compra da Media Capital pela Cofina avançar,...</example>
+      <example>Se a compra da Media Capital pela Cofina avançar,…</example>
     </rule>
     <rule id='PARONYM_MELODIO_203' name='Parónimo: melodio'>
       <pattern>
@@ -23537,7 +23567,7 @@ TODO Write better examples
       <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
       <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
       <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas…</example>
-      <example>...o invólucro onde vão assentar os livros encaixa dentro do tronco da árvore.</example>
+      <example>…o invólucro onde vão assentar os livros encaixa dentro do tronco da árvore.</example>
     </rule>
     <rule>
       <antipattern>
@@ -25805,7 +25835,7 @@ TODO Write better examples
         <marker>
           <token regexp='yes'>cerca|perto|volta</token>
           <token>de</token>
-          <token regexp='yes'>\d[19]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>\d[1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
@@ -25831,14 +25861,14 @@ TODO Write better examples
       <pattern>
         <marker>
           <token regexp='yes'>aproximadamente|quase</token>
-          <token regexp='yes'>\d[19]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>\d[1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
             <exception regexp='yes'>&multiplicadores;</exception></token>
       </pattern>
       <message>Se está a fazer uma aproximação, utilize números redondos</message>
-        <suggestion>\1 <match no='2' regexp_match='(\d+)[1-9]' regexp_replace='$10'/></suggestion>
+        <suggestion>\1 <match no='2' regexp_match='(\d+,?)(?:\d+)?[1-9]' regexp_replace='$10'/></suggestion>
         <suggestion>\2</suggestion>
       <url>https://pt.wikipedia.org/wiki/N%C3%BAmero_redondo</url>
       <example correction="aproximadamente 10|11">Faltam <marker>aproximadamente 11</marker> dias para as férias.</example>
@@ -29061,7 +29091,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp='yes'>n|ñ|pq?|q(?:nd|ts)?|lol|vc|b(jos?|lz)|kk+|tbm?
-             <exception case_sensitive='yes'>N</exception></token>
+            <exception case_sensitive='yes'>N</exception></token>
       </pattern>
       <message>Linguagem de Internet. Escreva por extenso.</message>
       <example type="incorrect"><marker>ñ</marker></example>
@@ -31409,7 +31439,7 @@ TODO Write better examples
       </pattern>
       <message>'\1' refere-se a estar em acordo ou sintonia com algo. O sinónimo de reparar escreve-se <suggestion><match no='1' regexp_match='once' regexp_replace='onse'/></suggestion>.</message>
       <example correction="consertá">Para <marker>concertá</marker>-lo terá de gastar 100€.</example>
-      <example>...concertado na especialidade entre socialistas, bloquistas e comunistas,...</example>
+      <example>…concertado na especialidade entre socialistas, bloquistas e comunistas,…</example>
     </rule>
   </rulegroup>
 
