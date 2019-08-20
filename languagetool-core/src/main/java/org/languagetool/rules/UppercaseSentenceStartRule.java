@@ -19,9 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +41,16 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           Pattern.compile("[a-z]|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
+  private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
+          "iPhone",
+          "iOS",
+          "eBay",
+          "iOS",
+          "iPad",
+          "iPod",
+          "iCloud",
+          "iRobot"
+  ));
 
   private final Language language;
 
@@ -143,7 +151,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
       if (checkToken.length() > 0) {
         char firstChar = checkToken.charAt(0);
-        if (!preventError && Character.isLowerCase(firstChar)) {
+        if (!preventError && Character.isLowerCase(firstChar) && !EXCEPTIONS.contains(checkToken)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
                   pos+tokens[matchTokenPos].getEndPos(),
