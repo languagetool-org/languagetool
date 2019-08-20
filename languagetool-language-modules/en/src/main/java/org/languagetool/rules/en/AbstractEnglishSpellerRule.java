@@ -36,7 +36,7 @@ import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
+  private static final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
