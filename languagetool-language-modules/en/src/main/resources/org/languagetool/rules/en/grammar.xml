@@ -12325,6 +12325,10 @@ USA
             <token regexp='yes'>block|level|century</token>
             <token>I</token>
           </antipattern>
+        <antipattern><!-- We Americans / We Germans -->
+            <token>we</token>
+            <token postag="NNPS?" />
+          </antipattern>
           <antipattern><!-- MFU 2019-03-29 I did not find definitive information about the correct capitalization. Thus, the term is here as an AP and not in disambiguation -->
             <token>bipolar</token>
             <token>I</token>
@@ -12344,7 +12348,9 @@ USA
                 <exception case_sensitive='yes'>IT</exception>
                 <exception case_sensitive='yes'>i</exception></token>
               <token postag="N.+" postag_regexp='yes'>
-                <exception postag='V.+|RB|IN' postag_regexp='yes'/></token>
+                <exception postag='V.+|RB|IN' postag_regexp='yes'/>
+                <exception>wont</exception><!-- already caught by WONT_CONTRACTION -->
+              </token>
             </marker>
             <token postag="V.+" postag_regexp='yes'/>
           </pattern>
