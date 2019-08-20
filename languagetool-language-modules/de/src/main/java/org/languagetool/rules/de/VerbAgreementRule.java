@@ -78,6 +78,10 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("du").build(),
       new PatternTokenBuilder().token("anstelle").build()
     ),
+    Arrays.asList( // "Ok bin ab morgen bei euch." (umgangssprachlich, benötigt eigene Regel)
+      new PatternTokenBuilder().tokenRegex("ok|okay|ja|nein|vielleiecht|oh").build(),
+      new PatternTokenBuilder().tokenRegex("bin|sind").build()
+    ),
     Arrays.asList(
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().csToken("Du").build(),
