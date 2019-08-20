@@ -1340,6 +1340,16 @@
     </rule>
   </rulegroup>
 
+    <rule id="ADV_E_ADVMENTE" name="Advérbio curto + conjunção + advérbio de modo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-19  -->
+      <pattern>
+          <token postag="A..[FC].+" postag_regexp="yes"/>
+          <token regexp='yes'>e|ou</token>
+          <token postag="R.+" postag_regexp="yes" regexp='yes'>.+mente</token>
+      </pattern>
+      <disambig action="replace"><wd pos="RM"/><wd pos="RM"/><wd pos="RM"/></disambig>
+    </rule>
+
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule>
