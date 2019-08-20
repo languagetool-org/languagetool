@@ -7510,6 +7510,45 @@ USA
             <example>For information about the <marker>Amazon Appstore</marker>, refer to…</example>
             <example>Get our app from the <marker>App Store</marker>.</example>
         </rule>
+        <rule id="UR" name="Ur (You're)"><!-- #1826 -->
+            <antipattern><!-- quoted text -->
+                <token skip="-1" regexp="yes">['‘"“]</token>
+                <token skip="-1">Ur</token>
+                <token regexp="yes">['’"”]</token>
+            </antipattern>
+            <antipattern><!-- index entry -->
+                <token>Ur</token>
+                <token postag="CD"/>
+                <token>,</token>
+                <token postag="CD"/>
+            </antipattern>
+            <antipattern>
+                <token>Royal</token>
+                <token>Game</token>
+                <token>of</token>
+                <token>Ur</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">archaelolog.*|cit(y|ies)|excavat.*|priest.*|temples?|Abraham|Akkad|Amorite|Assyrian?|Awal|Babylon.*|Basra|BC|Canaan|Chaldees|Dynasty|Egypt|Euphrates|Iraq|Ishtar|Isin|Israel|Kish|Larsa|Mesopotamia|Neo-Sumerian|Nippur|Shu-Sin|Sumer(ian)|Tigris|Zāriqum</exception></token>
+                <marker>
+                     <token skip="-1" case_sensitive="yes">Ur
+                       <exception scope="next" regexp="yes">III|is|was</exception><!-- Keep the rule simple to prevent FP and do not use postags for lexical verbs. -->
+                       <exception scope="next" regexp="yes">archaelolog.*|cit(y|ies)|excavat.*|priest.*|temples?|Abraham|Akkad|Amorite|Assyrian?|Awal|Babylon.*|Basra|BC|Canaan|Chaldees|Dynasty|Egypt|Euphrates|Iraq|Ishtar|Isin|Israel|Kish|Larsa|Mesopotamia|Neo-Sumerian|Nippur|Shu-Sin|Sumer(ian)|Tigris|Zāriqum</exception>
+                       </token>
+                </marker>
+            <token postag="SENT_END"><exception scope="current" regexp="yes">archaelolog.*|cit(y|ies)|excavat.*|priest.*|temples?|Abraham|Akkad|Amorite|Assyrian?|Awal|Babylon.*|Basra|BC|Canaan|Chaldees|Dynasty|Egypt|Euphrates|Iraq|Ishtar|Isin|Israel|Kish|Larsa|Mesopotamia|Neo-Sumerian|Nippur|Shu-Sin|Sumer(ian)|Tigris|Zāriqum</exception></token>
+            </pattern>
+            <message>Make sure that '\2' refers to the ancient city in Iraq. Do you mean <suggestion>You’re</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="You’re"><marker>Ur</marker> a nice guy.</example>
+            <example correction="You’re"><marker>Ur</marker> a nice guy.</example>
+            <example correction="You’re"><marker>Ur</marker> 37, aren't you?</example>
+            <example>Ur was an ancient city.</example>
+            <example>... and other cities, such as Ur in what is now Iraq.</example>
+            <example>... between the Tigris and Euphrates under the Ur III ruler Shu-Sin.</example>
+            <example>... when Missy Elliott released the folkhop-influenced song "Get Ur Freak On".</example>
+            <example>Ur 357, 359</example><!-- Entry in an index. -->
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
