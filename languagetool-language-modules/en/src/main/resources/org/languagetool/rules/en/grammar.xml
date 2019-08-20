@@ -7734,6 +7734,13 @@ USA
                     <token>of</token>
                     <token postag="NN.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern><!-- and most of track 2 -->
+                    <token regexp="yes">and|or</token>
+                    <token>most</token>
+                    <token>of</token>
+                    <token chunk="B-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+                    <token chunk="E-NP-singular" postag="CD"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">all|some|most</token>
@@ -7753,6 +7760,7 @@ USA
             <example>All of the workers were given a pay-rise at the end of the year.</example>
             <example>The class quickly made the most of the teacher's absence.</example>
             <example>Make the most of apples!</example>
+            <example>On a DOS 3.x disk, tracks 0, 1, and most of track 2 were reserved to store the operating system.</example>
             <example correction="all of a sudden|all of the sudden">Where did this confidence appear from <marker>all of sudden</marker>?</example>
         </rule>
         <!--
