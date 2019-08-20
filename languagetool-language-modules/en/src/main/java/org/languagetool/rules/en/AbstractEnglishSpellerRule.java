@@ -256,6 +256,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Sorry");
     } else if ("sry".equals(word)) {
       return Arrays.asList("sorry");
+    } else if ("center".equals(word)) {
+      // For non-US English
+      return Arrays.asList("centre");
     } else if ("ur".equals(word)) {
       return Arrays.asList("your", "you are");
     } else if ("Ur".equals(word)) {
