@@ -62,6 +62,11 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Kannst mich gerne anrufen" (ugs.)
+      new PatternTokenBuilder().pos("VER:MOD:2:SIN:PRÄ").build(),
+      new PatternTokenBuilder().posRegex("PRO:PER:.*").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().tokenRegex("die|welche").build(),
       new PatternTokenBuilder().tokenRegex(".*").build(),
       new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
