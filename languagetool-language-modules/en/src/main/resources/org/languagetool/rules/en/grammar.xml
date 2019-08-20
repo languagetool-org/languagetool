@@ -15931,12 +15931,13 @@ USA
             <example>I have got <marker>lots of wine</marker>.</example>
         </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
-          <antipattern case_sensitive="yes">
-          <marker>
-              <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
-              <token postag="NNP"/>
-              <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast</token>
-           </marker>
+        <antipattern case_sensitive="yes">
+            <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
+            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">\d+</token>
+            <token regexp="yes">step|page|star|sold|slide</token>
           </antipattern>
           <antipattern>
             <token regexp="yes">\d+0</token>
@@ -16097,7 +16098,12 @@ USA
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
             <example>Where did you two <marker>first</marker> meet each other?</example>
             <example>I live in 22761 Hamburg</example>
+            <example>He resides in 5 New Jersey Boulevard.</example>
             <example>He turns 80 next month.</example>
+            <example>He has a 4 page summary.</example>
+            <example>He has a 5 slide presentation.</example>
+            <example>He went to this 5 star restaurant.</example>
+            <example>This 6 step guide helps you accomplish success.</example>
             <example>We had 200 participants this year and hopefully 300 next year.</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
