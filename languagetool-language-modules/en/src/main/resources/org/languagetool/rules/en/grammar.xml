@@ -9152,6 +9152,57 @@ USA
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
         </rule>
+        <rulegroup id="MUST_HAVE" name="Hyphen in 'must have/see'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|of|from</token>
+                    <marker>
+                        <token>must</token>
+                        <token regexp="yes">seen?|try|tried|haves?|read|watch(ed)?|go|do(ne)?|listen(ed)?|buy|bought|eat(en)?|visit(ed)?|know|knew|loved?|play(ed)?|used?</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hypen is missing.</message>
+                <suggestion><match no="2" />-<match no="3" /></suggestion>
+                <example correction="must-seen">That's a <marker>must seen</marker> attraction.</example>
+                <example correction="must-read">A collection of <marker>must read</marker> books.</example>
+                <example correction="must-love">The festival is a world class event and it is a <marker>must love</marker>.</example>
+                <example>Avengers is a <marker>must-see</marker> movie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>must</token>
+                        <token regexp="yes">seen?|try|trie[ds]|haves?|reads?|watch(ed)?|go|do(ne)?|listen(ed)?|buy|bought|eat(en)?|visit(ed)?|known?|loved?|play(ed)?|used?</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">for|from|by</token>
+                </pattern>
+                <message>It appears that a hypen is missing.</message>
+                <suggestion><match no="2" />-<match no="3" /></suggestion>
+                <example correction="Must-haves"><marker>Must haves</marker> for anyone who loves nature.</example>
+                <example correction="Must-listen"><marker>Must listen</marker> songs by the Beatles.</example>
+                <example><marker>Must-visit</marker> places in Amsterdam.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|DT|PRP.*" postag_regexp="yes" />
+                    <token postag="CD"><exception>one</exception></token>
+                    <marker>
+                        <token>must</token>
+                        <token regexp="yes">seen?|try|trie[ds]|haves?|reads?|watch(ed)?|go|do(ne)?|listen(ed)?|buy|bought|eat(en)?|visit(ed)?|known?|loved?|play(ed)?|used?</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>It appears that a hypen is missing.</message>
+                <suggestion><match no="3" />-<match no="4" /></suggestion>
+                <example correction="must-read">Our 9 <marker>must read</marker> blog articles from Techcrunch.</example>
+                <example correction="must-listen">10 <marker>must listen</marker> songs from the Beatles.</example>
+                <example>10 <marker>must-visit</marker> places in Amsterdam.</example>
+                <example>One must go to the library.</example>
+                <example>You must do to your excercises.</example>
+            </rule>
+        </rulegroup>
         <rule id="THE_ARE" name="the + are">
             <pattern>
                 <marker>
@@ -17426,7 +17477,7 @@ USA
             </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
-                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE</exception></token>
+                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE|all</exception></token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
             <short>Possible typo</short>
@@ -17448,6 +17499,8 @@ USA
             <example>This is your chance of a lifetime! For <marker>A ONE</marker> DAY ONLY SALE of exclusive jewellery, visit our store.</example>
             <example>The event is referred to as the My Lai Massacre in the United States</example>
             <example>It's an I/O device.</example>
+            <example>It's an all new design.</example>
+            <example>He's playing in the all star team.</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
