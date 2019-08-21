@@ -202,10 +202,10 @@ title="Easy editing stylesheet" ?>
 
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NS].+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="plural">
-          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NP].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
@@ -670,8 +670,11 @@ title="Easy editing stylesheet" ?>
         <unify negate="yes">
           <feature id="gender"/>
           <token postag_regexp='yes' postag='D.+'>
+            <exception>a</exception><!-- XXX handled by more specific rule A_WORD -->
+            <exception scope='previous' spacebefore='no' regexp='yes'>&hifen;</exception>
             <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
           <token postag_regexp='yes' postag='D.+'>
+            <exception>a</exception><!-- XXX here it has to be SPS00 wrongly disambiguated -->
             <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
         </unify>
       </pattern>
@@ -679,6 +682,9 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/></suggestion>
       <example correction="O nosso|A nossa"><marker>O nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+      <example>...pelo ato", o que inspiraria trabalhadores como um todo a se revoltar e coletivizar forçadamente os meios d...</example>
+      <example>Idealizou-o este barão de Jaraguá, contribuindo dessa forma para o...</example>
+      <example>A este nível, estas metas incluem, entre outros assuntos...</example>
     </rule>
   </rulegroup>
 
@@ -706,13 +712,14 @@ title="Easy editing stylesheet" ?>
       <example type='correct'>A vaca está no pasto.</example>
     </rule>
 
-  <rulegroup default='on' id='A_WORD_A' name="Concordância de género e número: A + palavra">
+  <rulegroup default='on' id='A_WORD' name="Concordância de género e número: A + palavra">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
     <rule>
       <pattern>
           <token>a
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
+            <exception regexp='yes'>&pontos_cardeais;</exception>
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
       </pattern>
       <message>&MSG_ECG;</message>
@@ -2241,8 +2248,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>se</token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
+        <or>
           <token postag_regexp='yes' postag='D...P.+' min='0'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+          <token regexp='yes'>às|aos</token>
+        </or>
           <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/></token>
       </pattern>
@@ -2261,8 +2271,11 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>se</token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
+        <or>
           <token postag_regexp='yes' postag='D...S.+' min='0'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+          <token regexp='yes'>à|ao</token>
+        </or>
           <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)S.+'/></token>
         </marker>
@@ -2272,6 +2285,7 @@ title="Easy editing stylesheet" ?>
       <message>O verbo aqui concorda com o objecto portanto deve utilizar o verbo no singular.</message>
         <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/>\2\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
       <example correction='juntara-se a família|juntou-se a família'>A ele <marker>juntaram-se a família</marker>.</example>
+      <example correction='juntara-se à família|juntou-se à família'>Ele <marker>juntaram-se à família</marker>.</example>
       <example>A ele <marker>juntaram-se uma amiga</marker> e a família.</example>
     </rule>
   </rulegroup>
@@ -3001,6 +3015,10 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
           <token>bem</token>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='D.+'/>
+          <token regexp='yes'>&introduz_proclise;</token>
+      </antipattern>
       <pattern>
         <marker>
           <token regexp='yes'>&introduz_proclise;
@@ -3019,6 +3037,7 @@ title="Easy editing stylesheet" ?>
       <example correction='que ela lhe tenha'>É natural <marker>que ela tenha-lhe</marker> dado notícia.</example>
       <example>…l durante seu governo) e um dos pontos utilizados para atraí-los era, evidentemente, o apoio à construção de rodov…</example>
       <example>…ao juntar-se mostrou-se…</example>
+      <example>O caso tornou-se um escândalo de saúde após a morte de várias crianças imunizadas...</example>
     </rule>
     <rule>
       <pattern>
@@ -8692,10 +8711,11 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag_regexp='yes' postag='N.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
-          <token postag_regexp='yes' postag='D.+'/>
+          <token postag_regexp='yes' postag='D.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
         </marker>
           <token postag_regexp='yes' postag='D.+' min='0'/>
-          <token postag_regexp='yes' postag='N.+'/>
+          <token postag_regexp='yes' postag='N.+' regexp='yes'>\p{Ll}+</token>
         <or>
           <token postag_regexp='yes' postag='D.+'/>
           <token regexp="yes">e|,</token>
@@ -8707,6 +8727,11 @@ title="Easy editing stylesheet" ?>
       <example correction="esposa, a">A minha <marker>esposa a</marker> minha filha e a minha mãe foram de férias juntas.</example>
       <example type='triggers_error'>Minha <marker>avó meu</marker> <marker>avô minha</marker> tia e minha prima foram de férias juntos.</example><!-- #1676 -->
       <example>A primeira a 10% e a segunda a 15%.</example>
+      <example>De qualquer modo o presidente, Robert Kotcharian, quer manter a Armé...</example>
+      <example>Da mesma forma, o jornal O Abolicionista, de Nabuco, e a Revista Ilustrada, ...</example>
+      <example>Gildas, além de tudo um monge muito forte e de conhecimento da magia negra e branca a...</example>
+      <example>É uma área pouco acidentada, cuja altitude sobe lentamente à medid...</example>
+      <example>Liguei para sua casa várias vezes, mas ninguém atendeu.</example>
     </rule>
 
   <rulegroup id="GREETING_COMMA" name="Pontuação: Saudações formais: 'Estimados senhores', etc.">
@@ -9554,7 +9579,7 @@ title="Easy editing stylesheet" ?>
           <token><match no='1'/>
             <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
+            <exception regexp='yes'>e|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -25907,7 +25932,7 @@ TODO Write better examples
         <marker>
           <token regexp='yes'>cerca|perto|volta</token>
           <token>de</token>
-          <token regexp='yes'>1[123789]|[2-9][1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
@@ -25933,7 +25958,7 @@ TODO Write better examples
       <pattern>
         <marker>
           <token regexp='yes'>aproximadamente|quase</token>
-          <token regexp='yes'>1[1289]|[2-9][1-9]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
+          <token regexp='yes'>1[1289]|[2-9][12346789]|(?:\d{2,}|[1-9]\d*,\d*)[1-9]
             <exception regexp='yes'>\d5</exception></token>
         </marker>
           <token>
