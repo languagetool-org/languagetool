@@ -1168,6 +1168,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("vielleicht");
     } else if (word.equals("iwie")) {
       return Collections.singletonList("irgendwie");
+    } else if (word.equals("bau")) {
+      return Collections.singletonList("baue");
     } else if (word.equals("sry")) {
       return Collections.singletonList("sorry");
     } else if (word.equals("Sry")) {
