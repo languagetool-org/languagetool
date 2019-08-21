@@ -369,8 +369,13 @@ public class Main extends WeakBase implements XJobExecutor,
       // soffice[2149:2703] Apple AWT Java VM was loaded on first thread -- can't start AWT.
       if (!System.getProperty("os.name").contains("OS X")) {
          // Cross-Platform Look And Feel @since 3.7
+         if (System.getProperty("os.name").contains("Linux")) {
+         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+         }
+         else {
          UIManager.setLookAndFeel(
             UIManager.getSystemLookAndFeelClassName());
+         }
       }
     } catch (Exception ignored) {
       // Well, what can we do...
