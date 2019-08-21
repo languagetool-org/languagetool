@@ -2203,8 +2203,8 @@
     <rule>
       <pattern case_sensitive="yes">
         <marker>
-          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)
-            <exception>li</exception></token>
+          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -2213,8 +2213,8 @@
       <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
         <marker>
-          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)
-            <exception>li</exception></token>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -2223,8 +2223,8 @@
       <pattern case_sensitive="yes">
           <token>-</token>
         <marker>
-          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|v|viii?)
-            <exception>li</exception></token>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -2237,6 +2237,13 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
+    </rule>
+    <rule>
+      <pattern case_sensitive="no">
+          <token regexp="yes">(?:xc|x?l|l?x{0,3})(?:ix|i{0,3}|iv|v|vi{0,3})</token>
+          <token spacebefore='no'>)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
   </rulegroup>
 
