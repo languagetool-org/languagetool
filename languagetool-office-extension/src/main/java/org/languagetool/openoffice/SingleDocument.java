@@ -122,7 +122,7 @@ class SingleDocument {
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
   private List<Boolean> isChecked;                //  List of status of all flat paragraphs of document
-  private List<Integer> changedParas;             //  List of changed paragraphs after editing the document
+  private List<Integer> changedParas = null;      //  List of changed paragraphs after editing the document
   private int paraNum;                            //  Number of current checked paragraph
   List<Integer> minToCheckPara;                   //  List of minimal to check paragraphs for different classes of text level rules
   List<List<String>> textLevelRules;              //  List of text level rules sorted by different classes
@@ -767,6 +767,9 @@ class SingleDocument {
         if(doResetCheck && resetCheck) {
           if(numParasToCheck < 0) {
             tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
+            if(changedParas == null) {
+              changedParas = new ArrayList<Integer>();
+            }
             for(int chPara : tmpChangedParas) {
               if(!changedParas.contains(chPara)) {
                 changedParas.add(chPara);
@@ -780,6 +783,9 @@ class SingleDocument {
             int lastPara = resetTo;
             if (lastPara > allParas.size()) {
               lastPara = allParas.size();
+            }
+            if(changedParas == null) {
+              changedParas = new ArrayList<Integer>();
             }
             for (int n = firstPara; n < lastPara; n++) {
               if(!changedParas.contains(n)) {
