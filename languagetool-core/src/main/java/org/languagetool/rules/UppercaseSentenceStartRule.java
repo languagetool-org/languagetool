@@ -44,6 +44,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "iPhone",
           "iOS",
+          "iLife",
+          "iWork",
           "iMac",
           "eBay",
           "fMRI",
