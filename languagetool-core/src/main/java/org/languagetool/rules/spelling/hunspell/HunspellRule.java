@@ -198,7 +198,7 @@ public class HunspellRule extends SpellingCheckRule {
             List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
             if (additionalTopSuggestions.isEmpty() && word.endsWith(".")) {
               additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).
-                stream().map(k -> k + ".").collect(Collectors.toList());
+                stream().map(k -> k.endsWith(".") ? k : k + ".").collect(Collectors.toList());
             }
             Collections.reverse(additionalTopSuggestions);
             for (String additionalTopSuggestion : additionalTopSuggestions) {
