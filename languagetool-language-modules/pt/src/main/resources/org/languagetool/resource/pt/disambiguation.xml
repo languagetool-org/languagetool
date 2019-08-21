@@ -1511,7 +1511,7 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="A_PREPOSIÇÂO" name="Verbo + a (preposição)">
+  <rulegroup id="A_PREPOSITION" name="Verbo + a (preposição)">
     <!-- Verbo + Preposição: p.ex. 'a' como preposição depois do verbo	-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
     <!-- https://pt.wikipedia.org/wiki/A_(preposi%C3%A7%C3%A3o)		-->
@@ -1554,6 +1554,18 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="S.+"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>a(?:derir|plicar|ssemelhar)|comprometer|d(?:esobedecer|irigir)|e(?:levar|quivaler|stender)|ir|limitar|o(?:bedecer|bservar)|p(?:[ôo]r|ertencer)|r(?:eagir|eferir|estringir)|sobrep[ôo]r|ver</token><!-- XXX ambiguous: juntar -->
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token postag='P.+' postag_regexp='yes' spacebefore='no'/>
+          <token min='0' postag='R.' postag_regexp='yes'/>
+        <marker>
+          <token>a</token>
+        </marker>
+      </pattern>
+      <disambig action='filter' postag='S.+'/>
     </rule>
     <rule>
       <pattern>
