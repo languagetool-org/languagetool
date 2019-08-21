@@ -43,17 +43,22 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "iPhone",
+          "iPhones",
           "iOS",
           "iLife",
           "iWork",
           "iMac",
+          "iMacs",
           "eBay",
           "fMRI",
           "iOS",
           "iPad",
+          "iPads",
           "iPod",
+          "iPods",
           "iCloud",
           "iRobot",
+          "iRobots",
           "iTunes",
           "mRNA"
   ));
