@@ -17462,6 +17462,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example><marker>Kraft</marker> meines Amtes verfüge ich folgendes.</example>
             <example>Sie sprach: „<marker>Kraft</marker> meines Amtes erkläre ich euch zu Mann und Frau.“</example>
         </rule>
+        <rule id="WUNDER_PUNKT" name="'Wunde (wunde) Punkt'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token inflected="yes" regexp="yes">Wunder?</token>
+                </marker>
+                <token>Punkt</token>
+            </pattern>
+            <message>&inwend;'Wunder Punkt' wird <suggestion><match no="1" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="wunder">Das ist mein <marker>Wunder</marker> Punkt.</example>
+            <example correction="wunden">Sie hat meinen <marker>Wunden</marker> Punkt gefunden.</example>
+        </rule>
         <rulegroup id="DAS_INFINITIV_VON" name="'das importieren (Importieren) von' etc.">
             <!-- Jan: Die Regel hieß vorher IMPORTIEREN_SUBST, ist aber jetzt verallgemeinert auf alle Verben -->
             <!-- im Infinitiv: "Das Löschen der Dateien" etc. Getestet auf 2000 Wikipedia-Artikeln.  -->
