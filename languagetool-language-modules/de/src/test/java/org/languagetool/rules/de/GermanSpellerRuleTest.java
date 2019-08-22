@@ -386,7 +386,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("rethorisch", "rhetorisch", rule, lt);
     assertFirstSuggestion("anschliessliche", "anschließende", rule, lt);
     assertFirstSuggestion("Überstreitung", "Überschreitung", rule, lt);
-    assertFirstSuggestion("werkzeug.", "Werkzeug.", rule, lt);
+    assertFirstSuggestion("werkzeug.", "Werkzeug", rule, lt);
+    assertFirstSuggestion("Wärkzeug.", "Werkzeug", rule, lt);
   }
 
   @Test
