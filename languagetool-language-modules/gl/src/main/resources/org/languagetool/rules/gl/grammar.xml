@@ -38,7 +38,7 @@
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
 
-    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 	
@@ -65,10 +65,10 @@
 
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
+          <token postag="(N..|[ADP]...|V....)[NS].+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="plural">
-          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
+          <token postag="(N..|[ADP]...|V....)[NP].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
@@ -820,7 +820,7 @@
           <token postag='V.[CIS].3S0' postag_regexp='yes'/>
       </antipattern-->
       <pattern>
-          <token regexp='yes'>nós<!--|nosoutr[ao]s--></token>
+          <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
