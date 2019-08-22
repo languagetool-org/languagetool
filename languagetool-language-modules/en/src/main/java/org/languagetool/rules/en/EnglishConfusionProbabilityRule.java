@@ -37,7 +37,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       // See https://github.com/languagetool-org/languagetool/issues/1678
       "your move makes",
       "your move is",
-      "he unchecked the"
+      "he unchecked the",
+      "your fix"  // fix = bug fix
   );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
