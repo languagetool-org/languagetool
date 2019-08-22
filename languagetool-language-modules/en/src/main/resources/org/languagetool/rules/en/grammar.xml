@@ -29536,7 +29536,8 @@ USA
             <rule> <!-- We have visited the client on 7 October 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\4 day:\3"/>
@@ -29549,11 +29550,13 @@ USA
             </rule>
             <rule> <!-- On 7 October 2020, we have visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>7 October 2020</marker>, we have visited the client.</example>
                 <example correction="">On <marker>7 October 2025</marker>, I had already informed the customer.</example>
@@ -29563,7 +29566,8 @@ USA
             </rule>
         <rule> <!-- We visited the client on 7 October 2020 -->
                 <pattern>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
@@ -29576,10 +29580,12 @@ USA
             </rule>
             <rule> <!-- On 7 October 2020, we visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>7 October 2020</marker>, we visited the client.</example>
                 <example correction="">On <marker>7 October 2025</marker>, I already informed the customer.</example>
@@ -29590,7 +29596,8 @@ USA
             <rule> <!-- We have visited the client on October 7, 2020 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:3 day:\4"/>
@@ -29603,11 +29610,13 @@ USA
             </rule>
             <rule> <!-- On October 7, 2020, we have visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:1 day:\2"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:2 day:\3"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>October 7, 2020</marker>, we have visited the client.</example>
                 <example correction="">On <marker>October 7, 2020</marker>, I had already informed the customer.</example>
@@ -29617,7 +29626,8 @@ USA
             </rule>
             <rule> <!-- We visited the client on October 7, 2020 -->
                 <pattern>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\2 day:\3"/>
@@ -29630,10 +29640,12 @@ USA
             </rule>
             <rule> <!-- On October 7, 2020, we visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\1 day:\2"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\2 day:\3"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>October 7, 2020</marker>, we visited the client.</example>
                 <example correction="">On <marker>October 7, 2020</marker>, I already informed the customer.</example>
@@ -29644,7 +29656,8 @@ USA
             <rule> <!-- We have visited the client on 27/10/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\5 day:\3"/>
@@ -29657,11 +29670,13 @@ USA
             </rule>
             <rule> <!-- On 27/10/2040, we have visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>27/10/2040</marker>, we have visited the client.</example>
                 <example correction="">On <marker>27/10/2040</marker>, I had already informed the customer.</example>
@@ -29671,7 +29686,8 @@ USA
             </rule>
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -29684,10 +29700,12 @@ USA
             </rule>
             <rule> <!-- On 27/10/2040, we visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>27/10/2040</marker>, we visited the client.</example>
                 <example correction="">On <marker>27/10/2040</marker>, I already informed the customer.</example>
@@ -29698,7 +29716,8 @@ USA
             <rule> <!-- We have visited the client on 10/27/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\3 day:\5"/>
@@ -29711,11 +29730,13 @@ USA
             </rule>
             <rule> <!-- On 10/27/2040, we have visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\1 day:\2"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>10/27/2040</marker>, we have visited the client.</example>
                 <example correction="">On <marker>10/27/2040</marker>, I had already informed the customer.</example>
@@ -29725,7 +29746,8 @@ USA
             </rule>
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
@@ -29738,10 +29760,12 @@ USA
             </rule>
             <rule> <!-- On 27/10/2040, we visited the client -->
                 <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
-                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\1 day:\3"/>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
                 <example correction="">On <marker>10/27/2040</marker>, we visited the client.</example>
                 <example correction="">On <marker>10/27/2040</marker>, I already informed the customer.</example>
