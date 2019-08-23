@@ -35,6 +35,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
+      "host to five",   // "... is host to five classical music orchestras"
+      "had I known",
+      "is not exactly known",
+      "live duet",
+      "isn't known",
       "your move makes",
       "your move is",
       "he unchecked the",
