@@ -26096,6 +26096,20 @@ Andere Projekte</example>
                 <example>Davon kann keine <marker>Rede</marker> sein.</example>
                 <example correction="Rede">Davon ist noch keine <marker>rede</marker> gewesen.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">lang</token>
+                    <marker>
+                        <token>rede</token>
+                    </marker>
+                    <token>,</token>
+                    <token inflected="yes">kurz</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Rede">Lange <marker>rede</marker>, kurzer Sinn.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SCHULD_SEIN" name="'Schuld (schuld) sein'">
             <rule>
@@ -26284,22 +26298,10 @@ Andere Projekte</example>
                     <marker>
                         <token>neige</token>
                     </marker>
-                    <token inflected="yes">gehen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Neige</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Neige">Der Sauerstoff ist zur <marker>neige</marker> gegangen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">gehen</token>
-                    <token>zur</token>
-                    <marker>
-                        <token>neige</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Neige</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Neige">Der Sauerstoff geht zur <marker>neige</marker>.</example>
             </rule>
         </rulegroup>
