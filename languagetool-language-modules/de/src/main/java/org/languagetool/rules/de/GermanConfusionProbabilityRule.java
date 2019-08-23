@@ -44,7 +44,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "wie erinnern sie sich",
     "dürfen wir nicht",
     "kann dich auch",
-    "wie schicken wir"
+    "wie schicken wir",
+    "ich drei bin" // seit ich drei bin.
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
