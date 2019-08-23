@@ -11290,12 +11290,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hocheffizientes">Er hat ein <marker>hoch effizientes</marker> Heilmittel entwickelt.</example>
         </rule>
         <rule id="HOCH_ZUSAMMENSCHREIBUNG" name="'hoch + bestimmte Verben, Partizipien (und Adjektive, die nicht erkannt werden)' zusammenschreiben">
-            <pattern case_sensitive="yes"><marker>
+            <antipattern>
+                <token>wie</token>
                 <token>hoch</token>
-                <token inflected="yes" regexp="yes">ge(schlossen|schlitzt|stochen)|prozentig|biegen|blicken|bringen|dekoriert|drehen|gehen|gesteckt|gewachsen|gucken|halten|heben|kurbeln|steigen|werfen|ziehen|bekommen|binden|dienen|erfreut|fahren|fliegen|gebildet|glänzend|gradig|hackig|herzig|hieven|holen|hopsen|jagen|jubeln|karätig|klappbar|kommen|kraxeln|langen|leben|mütig|näsig|nehmen|ohmig|päpplen|peitschen|ragen|rangig|rappeln|rechnen|reißen|schalten|schaukeln|scheuchen|schicken|schieben|schnellen|schrauben|schrecken|sehen|spielen|sprachlich|springen|stapeln|stecken|stemmen|trabend|tragen|treiben|verdient|verehrt|wertig|willkommen|wölben|wüchsig|wuchten|zeiten|achtungsvoll|arbeiten|beinig|busig|geboren|gelehrt|gemut|gezüchtet|kant|klettern|krempeln|ländisch|mögend|notpeinlich|preisen|preisig|räderig|rädrig|schulterig|schultrig|stehen|stellen|stilisieren|tönend|tonig|tourig|winden|wirbeln|wohlgeboren|wohllöblich|würdig|auflösend|achtend|bocken|branden|brechen|drücken|dürfen|hüpfen|kämmen|klappen|kochen|können|kriechen|kriegen|schauen|schichten|schießen|schlagen|schleichen|schleudern|schürzen|schwingen|scrollen|sollen|spülen|streben|strecken|streifen|stülpen|türmen|altrig|lagern|befähigt|befriedigt|bejahrt|beladen|bepackt|deckend|differenziert|energetisch|erhoben|feudal|florig|geschürzt|gesinnt|gestimmt|glanzpoliert|kultiviert|mechanisiert</token></marker>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token>hoch</token>
+                <token inflected="yes" regexp="yes">ge(schlossen|schlitzt|stochen)|prozentig|biegen|blicken|bringen|dekoriert|drehen|gehen|gesteckt|gewachsen|gucken|halten|heben|kurbeln|steigen|werfen|ziehen|bekommen|binden|dienen|erfreut|fahren|fliegen|gebildet|glänzend|gradig|hackig|herzig|hieven|holen|hopsen|jagen|jubeln|karätig|klappbar|kommen|kraxeln|langen|leben|mütig|näsig|nehmen|ohmig|päpplen|peitschen|ragen|rangig|rappeln|rechnen|reißen|schalten|schaukeln|scheuchen|schicken|schieben|schnellen|schrauben|schrecken|sehen|spielen|sprachlich|springen|stapeln|stecken|stemmen|trabend|tragen|treiben|verdient|verehrt|wertig|willkommen|wölben|wüchsig|wuchten|zeiten|achtungsvoll|arbeiten|beinig|busig|geboren|gelehrt|gemut|gezüchtet|kant|klettern|krempeln|ländisch|mögend|notpeinlich|preisen|preisig|räderig|rädrig|schulterig|schultrig|stehen|stellen|stilisieren|tönend|tonig|tourig|winden|wirbeln|wohlgeboren|wohllöblich|würdig|auflösend|achtend|bocken|branden|brechen|drücken|dürfen|hüpfen|kämmen|klappen|kochen|können|kriechen|kriegen|schauen|schichten|schießen|schlagen|schleichen|schleudern|schürzen|schwingen|scrollen|sollen|spülen|streben|strecken|streifen|stülpen|türmen|altrig|lagern|befähigt|befriedigt|bejahrt|beladen|bepackt|deckend|differenziert|energetisch|erhoben|feudal|florig|geschürzt|gesinnt|gestimmt|glanzpoliert|kultiviert|mechanisiert</token>
             </pattern>
             <message>Prüfen Sie, ob <suggestion><match no="1"/><match no="2"/></suggestion> zusammengeschrieben werden soll - das ist der Fall, wenn die Betonung auf 'hoch' liegt.</message>
             <example correction="hochgegangen">Die Bombe ist <marker>hoch gegangen</marker>.</example>
+            <example>Wie hoch kannst Du springen?</example>
         </rule>
         <rulegroup id="SCHWERFAELLIG" name="schwer fällig (schwerfällig)">
             <rule>
@@ -21350,7 +21355,7 @@ Andere Projekte</example>
                 <token>und</token>
                 <token>Stiel</token>
             </pattern>
-            <message>&inwend; 'mit Stumpf und Stiel' wird <suggestion>Stumpf</suggestion> großgeschrieben.</message>
+            <message>&inwend;'mit Stumpf und Stiel' wird <suggestion>Stumpf</suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
             <example correction="Stumpf">Mit <marker>stumpf</marker> und Stiel haben Unbekannte den Apparat aus dem Erdreich gerissen.</example>
         </rule>
@@ -36391,22 +36396,22 @@ Andere Projekte</example>
             <!-- TODO needs work -->
             <rule>
                 <pattern>
-                    <token postag="ADJ:PRD:KOM"/>
                     <marker>
+                        <token postag="ADJ:PRD:KOM"/>
                         <token>,</token>
                         <token>als</token>
+                        <token postag="ADJ:PRD:GRU|PA2:PRD:GRU:VER|VER:PA2:SFT" postag_regexp="yes"/>
                     </marker>
-                    <token postag="ADJ:PRD:GRU|PA2:PRD:GRU:VER|VER:PA2:SFT" postag_regexp="yes"/>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>&inwend; '\1<suggestion> als</suggestion> \4' sollte kein Komma stehen.</message>
+                <message>&inwend;<suggestion>\1 als \4</suggestion> sollte kein Komma stehen.</message>
                 <url>http://www.canoonet.eu/services/GermanSpelling/Regeln/Interpunktion/Komma/Nebensatz.html#Anchor-In-47857</url>
                 <short>Falsch gesetztes Komma</short>
-                <example correction=" als">Du fährst schneller<marker>, als</marker> nötig. </example>
-                <example correction=" als">Du fährst schneller<marker>, als</marker> erlaubt. </example>
-                <example correction=" als">Du fährst schneller<marker>, als</marker> erwartet. </example>
-                <example>Du fährst schneller <marker>als</marker> nötig. </example>
-                <example>Du fährst schneller, <marker>als</marker> es nötig ist. </example>
+                <example correction="schneller als nötig">Du fährst <marker>schneller, als nötig</marker>. </example>
+                <example correction="schneller als erlaubt">Du fährst <marker>schneller, als erlaubt</marker>. </example>
+                <example correction="schneller als erwartet">Du fährst <marker>schneller, als erwartet</marker>.</example>
+                <example>Du fährst schneller <marker>als</marker> nötig.</example>
+                <example>Du fährst schneller, <marker>als</marker> es nötig ist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_KONJ_ADV" name="Fehlendes Komma vor bestimmten Adverbien und Konjunktionen">

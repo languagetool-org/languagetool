@@ -84,6 +84,12 @@ public class AgreementRule extends Rule {
       token("schwere"),
       token("Konsequenzen")
     ),
+    Arrays.asList(  // "der Chaos Computer Club"
+      token("der"),
+      token("Chaos"),
+      token("Computer"),
+      token("Club")
+    ),
     Arrays.asList(  // "in dem einen Jahr"
       token("dem"),
       token("einen"),
