@@ -11263,6 +11263,13 @@ USA
                     <token regexp="yes">is|was</token>
                     <token regexp="yes">an?|one|the</token>
                 </antipattern>
+                <antipattern><!-- https://en.wikipedia.org/wiki/Asteroids_(video_game) -->
+                    <token postag="SENT_START"/>
+                    <token skip="-1">Asteroids
+                        <exception regexp="yes">arcade|Atari|game|video</exception></token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token postag="NNS">
@@ -11276,6 +11283,7 @@ USA
                  <example correction="are|were">Cars <marker>is</marker> useful.</example>
                  <example>Gambling is forbidden</example>
                  <example>Windows is a type of computer operating system.</example>
+                 <example>Asteroids was so popular that video arcade operators sometimes ...</example>
             </rule>
             <rule>
                 <pattern>
