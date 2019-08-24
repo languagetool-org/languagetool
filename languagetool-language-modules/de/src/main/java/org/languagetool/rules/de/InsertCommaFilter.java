@@ -26,10 +26,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.Tagger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Specific to {@code KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ} - helps setting the comma suggestion, if easily possible.
@@ -55,6 +52,10 @@ public class InsertCommaFilter extends RuleFilter {
           List<AnalyzedTokenReadings> tags2 = tagger.tag(Collections.singletonList(parts[1]));
           if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("PRO:PER:"))) {
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
+          } else if (parts[0].matches("Sag|Sagt") && parts[1].matches("mal") &&
+                  tagger.tag(Collections.singletonList(parts[2])).stream().anyMatch(k -> k.hasPosTagStartingWith("VER:"))) {
+            // "Sag mal hast du" -> "Sag mal, hast du"
+            suggestions.add(parts[0] + " " + parts[1] + ", " + parts[2]);
           }
         } catch (IOException e) {
           throw new RuntimeException(e);
