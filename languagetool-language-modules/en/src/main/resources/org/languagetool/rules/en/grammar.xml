@@ -11891,6 +11891,10 @@ USA
                 <token postag="VB[DP]?" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z][a-z]+</token>
                 <token case_sensitive="yes" regexp="yes">[A-Z][a-z]+</token>
             </antipattern>
+                <antipattern><!--  human being -->
+                    <token>human</token>
+                    <token chunk="E-NP-singular">being</token>
+                </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">is|are</token>
@@ -11960,6 +11964,7 @@ USA
                 <example>... visited the islands (of whom 443,987 <marker>were cruise ship passengers</marker>).</example>
                 <example>The question is can you do everything we've asked...</example>
                 <example>The question is did she know about the...</example>
+                <example>The Egyptians believed that every human being was composed of ...</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
@@ -11989,6 +11994,11 @@ USA
                     <token>not</token>
                     <token chunk="B-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
                 </antipattern>
+                <antipattern><!-- there's little water -->
+                    <token regexp="yes">i?s|was|am</token>
+                    <token chunk="B-NP-singular" postag="RB"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -12005,7 +12015,7 @@ USA
                 <short>Possible agreement error</short>
                 <example>It has always been <marker>written</marker> like this.</example>
                 <example>The area the center of which is here was bombed.</example>
-                <example correction="written">I must have been always <marker>wrote</marker> that.</example>
+                <example correction="written">It must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated">The president was always <marker>hate</marker> in Moscow.</example>
                 <example>It has always been liked.</example>
                 <example>As they are differentially <marker>phase</marker> modulated...</example>
@@ -12014,6 +12024,7 @@ USA
                 <example>“There is still hope,” said Fernando.</example>
                 <example>That's not butter; it's margarine.</example>
                 <example>What he did next was Truly Mind Blowing.</example><!-- #1701 -->
+                <example>There's little water in the tank, if any.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
