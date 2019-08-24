@@ -6797,10 +6797,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DER_SCHILD" name="das/der Schild">
             <url>https://www.duden.de/rechtschreibung/Schild_Schutzwaffe_Schirm</url>
             <rule>
-                <regexp>\bdas (.*(Schutz|Abfang|Abwehr)schild)</regexp>
+                <pattern>
+                    <token>das</token>
+                    <token postag_regexp="yes" postag="ADJ:.*" min="0" />
+                    <token regexp="yes">(Schutz|Abfang|Abwehr)schild</token>
+                </pattern>
                 <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen.</message>
-                <suggestion>der \1</suggestion>
+                <suggestion>der \2 \3</suggestion>
                 <example correction="der Schutzschild">Hier ist <marker>das Schutzschild</marker>.</example>
+                <example correction="der neue Schutzschild">Hier ist <marker>das neue Schutzschild</marker>.</example>
+                <example>Das ist der unsichtbare Schutzschild.</example>
+                <!--<example correction="der große neue Schutzschild">Hier ist <marker>das große neue Schutzschild</marker>.</example>-->
             </rule>
             <rule>
                 <pattern>
