@@ -945,6 +945,7 @@
           <token postag="P.+" postag_regexp="yes"/>
         </and>
         </marker>
+          <token postag="[AN].+" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="D.+"/>
     </rule>
@@ -1400,25 +1401,48 @@
       <disambig action="unify"/>
     </rule>
 
+  <rulegroup id="DNA" name="Det + Nom + Adj">
     <!-- DNA : Det + Nome + adjetivo-->
-    <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
-    <rule id="DNA" name="Det + Nom + Adj">
+    <!-- 		based on from Spanish disambiguation.xml by Tiago F. Santos		-->
+    <rule>
       <pattern>
         <marker>
           <unify>
             <feature id="gender"/>
             <feature id="number"/>
           <token postag="D.+" postag_regexp="yes"/>
-          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="N.+" postag_regexp="yes">
+            <exception regexp='yes'>m(?:ais|enos)</exception></token>
           <token postag="A.+" postag_regexp="yes">
-            <exception regexp='yes'>[sv]ão|dura</exception></token>
+            <!--exception regexp='yes'>[sv]ão|dura</exception-->
+            <exception postag_regexp='yes' postag='V.+'/></token>
           </unify>
         </marker>
       </pattern>
       <disambig action="unify"/>
       <example inputform="uma[um/DI0FS0,um/NCFS000,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> ocasião romântica.</example>
+      <example type="untouched">É o mais ambicioso projeto.</example>
       <example type="untouched">É uma romântica ocasião.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
+          <token postag="D.+" postag_regexp="yes"/>
+        <unify-ignore>
+          <token postag="R.+" postag_regexp="yes"/>
+        </unify-ignore>
+          <token postag="A.+" postag_regexp="yes"/>
+          </unify>
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
+      <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/DA0MS0]" type="ambiguous">É <marker>o</marker> mais ambicioso projeto.</example>
+      <example type="untouched">É uma ocasião romântica.</example>
+    </rule>
+  </rulegroup>
 
     <!-- DAN : Determinante + Adjetivo + Nome-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -1431,7 +1455,7 @@
           <token postag="D.+" postag_regexp="yes"/>
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes">
-            <exception postag="[DC].+|SPS00" postag_regexp="yes"/>
+            <exception postag="[DC].+|SPS00|(?:A..|N.)CN.+" postag_regexp="yes"/>
             <exception regexp="yes">era|são</exception></token>
           </unify>
         </marker>
@@ -1439,6 +1463,7 @@
       <disambig action="unify"/>
       <example inputform="uma[um/DI0FS0,um/NCFS000,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> romântica ocasião.</example>
       <example type="untouched">É uma ocasião romântica.</example>
+      <example type="untouched">...em 112 Trajano fixa o procedimento contra os cristãos.</example>
     </rule>
 
     <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep -->
