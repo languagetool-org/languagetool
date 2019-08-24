@@ -5079,24 +5079,26 @@ USA
         <rule>
             <pattern>
                 <token>fewer</token>
-                <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|information</token>
+                <token chunk="E-NP-singular" regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|information</token>
             </pattern>
             <message>Did you mean <suggestion>less <match no="2"/></suggestion>?</message>
             <url>https://en.oxforddictionaries.com/grammar/countable-nouns</url>
             <example correction="less information">He gave his enemies <marker>fewer information</marker> than he gave his friends.</example>
             <example correction="less advice">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
             <example>They made less progress towards their goal.</example>
+            <example>If there weren't so many taxis, there would be fewer <marker>traffic accidents</marker>.</example>
         </rule>
         <rule><!-- XXX Some cases from the former rules may be skipped by this generalization. This avoids regressions -->
             <pattern>
                 <token>fewer</token>
-                <token postag="NN:U"><exception negate_pos="yes" postag_regexp="yes" postag="NN:U|V.+"/></token><!-- XXX verbs accepted due to lack of disambiguation -->
+                <token chunk="E-NP-singular" postag="NN:U"><exception negate_pos="yes" postag_regexp="yes" postag="NN:U|V.+"/></token><!-- XXX verbs accepted due to lack of disambiguation -->
             </pattern>
             <message>Did you mean <suggestion>less <match no="2"/></suggestion>?</message>
             <url>https://en.oxforddictionaries.com/grammar/countable-nouns</url>
             <example correction="less information">He gave his enemies <marker>fewer information</marker> than he gave his friends.</example>
             <example correction="less advice">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
             <example>They made less progress towards their goal.</example>
+            <example>If there weren't so many taxis, there would be fewer <marker>traffic accidents</marker>.</example>
         </rule>
       </rulegroup>
         <!-- am loathe to::word=am loath to::pivots=loathe,loath::options=loathe,loath -->
