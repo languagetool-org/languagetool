@@ -1087,6 +1087,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     	<example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">Among the things that AI needs to represent <marker>are</marker>: objects, properties, categories and relations.</example>
     </rule>
     <rule name="committee/jury/class + VBP => NNS" id="NN_are_NNS">
+      <antipattern><!-- statements in this class -->
+        <token postag="NNS"/>
+        <token postag="IN"/>
+        <token postag_regexp="yes" postag="DT|PRP\$"/>
+        <token regexp="yes">jury|committee|class</token>
+      </antipattern>
       <pattern>
         <marker>
         <token regexp="yes">jury|committee|class<exception scope="previous">a</exception></token>
@@ -1096,6 +1102,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig postag="NNS"/>
       <example type="untouched">The jury is still out.</example>
       <example type="untouched">Traditionally, amphibians as a class are defined as all tetrapods with a larval stage.</example>
+      <example type="untouched">Statements in this class include the...</example>
       <example type="ambiguous" inputform="committee[committee/NN]" outputform="committee[committee/NNS]">The <marker>committee</marker> are all present.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
