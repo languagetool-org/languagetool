@@ -2756,6 +2756,12 @@ USA
             </rule>
             <rule>
                 <!-- TODO: its of, its to -->
+                <antipattern><!-- Leading its first rally -->
+                    <token postag="VBG" />
+                    <token>its</token>
+                    <token postag="RB"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="IN|CC|PCT" postag_regexp="yes"/><exception regexp="yes">[tw]hat</exception></token>
                     <marker>
@@ -2773,6 +2779,7 @@ USA
                 <example>But mostly, I feel it because I see its poison working its way out of me and on to those around me as repercussions of my actions.</example>
                 <example>London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
                 <example>India is aiming to launch Chandrayaan-2, its first attempt to reach the moon.</example>
+                <example>Leading its first rally it went off the road...</example>
             </rule>
             <rule>
                 <pattern>
