@@ -33418,6 +33418,10 @@ Andere Projekte</example>
                 <example correction="worden">Nachdem du besiegt <marker>würden</marker> bist, gabst du völlig auf.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">w[euü]rden</token>
+                    <token postag_regexp="yes" postag="VER:MOD:.*"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
                     <token postag_regexp="yes" postag="PA2:PRD.*"/>
