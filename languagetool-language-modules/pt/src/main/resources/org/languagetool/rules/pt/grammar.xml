@@ -51,8 +51,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY expressoes_invariaveis "(?:algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere)">
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
-    <!ENTITY precede_nome_proprio_F "(?:a(?:ditora|gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição|upla)|es(?:cola|tação)|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
-    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:estival|ilme|uracão)|g(?:alardão|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
+    <!ENTITY precede_nome_proprio_F "(?:a(?:gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição|upla)|e(?:ditora|s(?:cola|tação))|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|m(?:onte|useu)|novela|o(?:bra|rquestra)|pr(?:aça|ograma)|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
+    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:estival|ilme|uracão)|g(?:alardão|énero|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
     <!ENTITY divisas "(?:bol[ií]vares|c(?:êntimos|oroas)|d(?:inares|ólares)|euros|f(?:rancos|lorins)|i(?:uanes|enes)|kwanzas|libras|meticais|p(?:atacas|esos)|r(?:andes|ublos|rupias)|zlótis|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -542,8 +542,8 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa|sanduíche demasiado, bom'>Estão a comer uma <marker>sanduíche demasiado bom</marker>.</example>
       <example correction='Um boi|Uma vaca|Uma, boi'><marker>Uma boi</marker> está no pasto.</example>
-      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa|sanduíche demasiado, bom'>Estão comendo um <marker>sanduíche demasiado bom</marker>.</example>
       <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Uma vaca está no pasto.</example>
       <example correction="um terrível inchaço|uma terrível (inchaço)|uma terrível, inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
@@ -736,7 +736,7 @@ title="Easy editing stylesheet" ?>
             <exception scope='previous'>não</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
-            <exception regexp='yes'>&pontos_cardeais;|contrário|escassos|nível</exception>
+            <exception regexp='yes'>&pontos_cardeais;|contrário|escassos|nível|um</exception>
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
       </pattern>
       <message>&MSG_ECG;</message>
@@ -3886,6 +3886,12 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/></token>
           <token postag='_PUNCT'/>
       </antipattern>
+      <antipattern>
+          <token>,</token>
+          <token regexp='yes'>tod[ao]s</token>
+          <token/>
+          <token postag='_PUNCT'/>
+      </antipattern>
       <pattern>
           <token regexp='yes'>tod[ao]s</token>
           <token postag_regexp='yes' postag='(?:N|A).+'>
@@ -3903,6 +3909,7 @@ title="Easy editing stylesheet" ?>
       <example correction='todos os felizes'>Onde estão <marker>todos felizes</marker> convidados?</example>
       <example>Nisso somos todos iguais.</example>
       <example>Somos todos uns mimados.</example>
+      <example>Os sócios, todos portugueses, fizeram o investimento inicial.</example>
     </rule>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais' com 'demais'">
@@ -4384,6 +4391,10 @@ title="Easy editing stylesheet" ?>
           <token>com</token>
           <token regexp='yes'>(?:alg)?u[mn]a?s?</token>
           <token>a</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>[a-zA-Z]\p{Ll}+</token>
+          <token regexp='yes' case_sensitive='yes'>[A-Z]+</token><!-- acronyms -->
       </antipattern>
       <pattern>
           <token>
@@ -4892,9 +4903,9 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. -> Sr.">
+  <rulegroup id="ABREVIATIONS" name="Abreviaturas: AO45 p.ex. sr. -> Sr.">
     <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2018-07-13      -->
-      <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-o-uso-de-maiusculas-e-de-minusculas/30160</url>
     <rule>
       <pattern>
           <token case_sensitive='yes'>sr</token>
@@ -4902,6 +4913,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>A abreviatura de 'Senhor' é capitalizada. A abreviatura 'sr.' refere-se a 'sénior'.</message>
         <suggestion>Sr.</suggestion>
+      <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
       <example correction="Sr.">Exmo <marker>sr.</marker> Costa,</example>
     </rule>
     <rule>
@@ -4911,6 +4923,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>A abreviatura de 'Senhora' é capitalizada.</message>
         <suggestion>Sra.</suggestion>
+      <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
       <example correction="Sra.">Exma <marker>sra.</marker> Costa,</example>
     </rule>
     <rule id="ABREVIATIONS_DR" name="Abreviaturas: dr. -> Dr.">
@@ -9051,11 +9064,10 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp="yes">&abreviaturas;
             <exception postag="NP.*" postag_regexp="yes"/>
-            <exception regexp="yes" case_sensitive='yes'>[ad]C|DJ|cv|CV</exception>
-            <exception regexp="yes" case_sensitive='yes'>\p{Lu}+</exception></token>
+            <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[ad]C|cv|Il</exception></token>
         </marker>
           <token>
-            <exception regexp='yes'>\.|&hifen;</exception></token>
+            <exception regexp='yes' spacebefore='no'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion><match no='1'/>.</suggestion>
@@ -9080,7 +9092,7 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">a|C|m|ft|yd|adv|aport|nom|parl|port|red|verb|p|cont|mod|sag|f|e|s|v|perf|pr|t|fl|k|ae|al|ext|B|D|Exas?|Sas?</token>
         </marker>
           <token>
-            <exception regexp='yes'>\.|&hifen;</exception></token>
+            <exception regexp='yes' spacebefore='no'>\.|&hifen;</exception></token>
       </pattern>
       <message>Se é uma abreviatura, falta um ponto.</message>
         <suggestion>\1.\3.</suggestion>
@@ -27522,10 +27534,17 @@ TODO Write better examples
       <example>Leva as pás, ao Sr. António.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>soldadinhos?</token>
+          <token regexp='yes' spacebefore='no' min='0'>&hifen;</token>
+          <token regexp='yes' spacebefore='no'>d[eo]</token>
+          <token regexp='yes' spacebefore='no' min='0'>&hifen;</token>
+          <token regexp='yes' spacebefore='no' min='0'>araripe|chumbo</token>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='AQC.+|N.....[AD]'>
             <exception negate_pos='yes' postag_regexp='yes' postag='AQC.+|N.....[AD]'/>
-            <exception regexp='yes'>(?:sozinh[ao]|finit[ao]|ca(?:pita|[mn]arinh[ao])|perita|retinha)s?</exception></token>
+            <exception regexp='yes'>(?:burrito|ca(?:pita|[mn]arinh[ao])|finit[ao]|p(?:erita|intainho)|r(?:etinha|atinho)|sozinh[ao]|tainha)s?</exception></token>
     <!-- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
