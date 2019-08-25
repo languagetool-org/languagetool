@@ -1982,14 +1982,14 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">which|who</token>
+                    <token regexp="yes">which|who(se)?</token>
                     <marker>
                         <token>if</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>is</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="is">The rules are testes, which <marker>if</marker> quite fast.</example>
+                <example correction="is">The rules are tested, which <marker>if</marker> quite fast.</example>
             </rule>
         </rulegroup>
         <rule id="BED_ENGLISH" name="bed/bat (bad) English/...">
@@ -25043,6 +25043,28 @@ The accident victim died from her injuries.
             <example correction="Public"><marker>Pubic</marker> Affairs is a term for the formal offices of the branches of the US Department of Defense.</example>
             <example><marker>Pubic</marker> hair is the hair in the frontal genital area of adolescent and adult humans.</example>
         </rule>
+        <rulegroup id="TESTES" name="testes (tested)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">be|get<exception>Are</exception></token>
+                    <marker>
+                        <token>testes</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>tested</suggestion> instead of testes (=male reproductive glands)?</message>
+                <example correction="tested">Everyone is being <marker>testes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>testes</token>
+                    </marker>
+                    <token regexp="yes">negative|positive|the</token>
+                </pattern>
+                <message>Did you mean <suggestion>tested</suggestion> instead of testes (=male reproductive glands)?</message>
+                <example correction="tested">Tom has <marker>testes</marker> negative for HIV.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WAR_WART" name="war (wart)">
             <rule>
                 <pattern>
