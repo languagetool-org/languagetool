@@ -1136,10 +1136,10 @@ public class JLanguageTool {
     for (Rule rule : rules) {
       if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
         rulesActive.add(rule);
-      } else if (rule.isOfficeDefaultOn()) {
+      } else if (rule.isOfficeDefaultOn() && !disabledRules.contains(rule.getId())) {
         rulesActive.add(rule);
         enableRule(rule.getId());
-      } else if (!ignoreRule(rule) && rule.isOfficeDefaultOff()) {
+      } else if (!ignoreRule(rule) && rule.isOfficeDefaultOff() && !enabledRules.contains(rule.getId())) {
         disableRule(rule.getId());
       }
     }    

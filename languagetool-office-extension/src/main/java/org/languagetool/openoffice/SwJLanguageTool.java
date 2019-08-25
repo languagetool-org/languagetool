@@ -42,7 +42,6 @@ import org.languagetool.remote.RemoteRuleMatch;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
 
 /**
  * Class to switch between running LanguageTool in multi or single thread mode
@@ -178,8 +177,6 @@ public class SwJLanguageTool {
     private RemoteLanguageTool remoteLanguageTool;
     private List<String> enabledRules = new ArrayList<String>();
     private List<String> disabledRules = new ArrayList<String>();
-    private List<String> textRules;
-    private List<String> nonTextRules;
     private List<Rule> allRules;
     private CheckConfiguration remoteConfig;
     private CheckConfigurationBuilder configBuilder;
@@ -196,22 +193,15 @@ public class SwJLanguageTool {
     List<RuleMatch> check(String text, ParagraphHandling paraMode) throws MalformedURLException {
       if(!initDone) {
         allRules = lt.getAllActiveOfficeRules();
-        textRules = getAllTextRules();
-        nonTextRules = getAllNonTextRules();
         if(!useServerConfig) {
-          configBuilder.enabledOnly();
-          if(paraMode == ParagraphHandling.ONLYPARA) {
-            configBuilder.enabledRuleIds(textRules);
-          } else {
-            configBuilder.enabledRuleIds(nonTextRules);
-          }
+          configBuilder.enabledRuleIds(enabledRules);
+          configBuilder.disabledRuleIds(disabledRules);
           configBuilder.ruleValues(getRuleValues());
+        }
+        if(paraMode == ParagraphHandling.ONLYPARA) {
+          configBuilder.mode("textLevelOnly");
         } else {
-          if(paraMode == ParagraphHandling.ONLYPARA) {
-            configBuilder.mode("textLevelOnly");
-          } else {
-            configBuilder.mode("allButTextLevelOnly");
-          }
+          configBuilder.mode("allButTextLevelOnly");
         }
         remoteConfig = configBuilder.build();
       }
@@ -253,29 +243,6 @@ public class SwJLanguageTool {
       lt.disableRule(ruleId);
       initDone = false;
     }
-    
-    private List<String> getAllTextRules() {
-      textRules = new ArrayList<String>();
-      Set<String> disRules = lt.getDisabledRules();
-      for(Rule rule : allRules) {
-        if(rule instanceof TextLevelRule && !disRules.contains(rule.getId()) && !disabledRules.contains(rule.getId())) {
-          textRules.add(rule.getId());
-        }
-      }
-      return textRules;
-    }
-    
-    private List<String> getAllNonTextRules() {
-      nonTextRules = new ArrayList<String>();
-      Set<String> disRules = lt.getDisabledRules();
-      for(Rule rule : allRules) {
-        if(!(rule instanceof TextLevelRule) && !disRules.contains(rule.getId()) && !disabledRules.contains(rule.getId())) {
-          nonTextRules.add(rule.getId());
-        }
-      }
-      return nonTextRules;
-    }
-    
     List<String> getRuleValues() {
       List<String> ruleValues = new ArrayList<String>();
       Set<String> rules = configurableValues.keySet();
