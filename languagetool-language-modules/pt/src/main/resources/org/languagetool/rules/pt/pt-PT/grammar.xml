@@ -457,6 +457,10 @@ title="Easy editing stylesheet" ?>
           <token>caros</token>
           <token postag='_PUNCT'/>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>saudades?</token>
+          <token regexp='yes'>suas?|vossas</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -474,6 +478,7 @@ title="Easy editing stylesheet" ?>
       <example>Apesar de reafirmar que vai prosseguir o “seu dever” no acolhimento às vagas de migrantes.</example>
     <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
       <example>Isto é uma característica tipicamente sua.</example>
+      <example>Sentimos muita saudade sua.</example>
     </rule>
     <rule>
       <antipattern>
@@ -928,7 +933,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
-            <exception regexp='yes'>ambientes|boates|corretas|desertas|gomes|soares|rodrigues|transplantes</exception>
+            <exception regexp='yes'>ambientes|boates|corretas|desertas|gomes|r(?:edes|odrigues)|soares|transplantes</exception>
             <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/></token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -1436,11 +1441,12 @@ title="Easy editing stylesheet" ?>
             <exception case_sensitive='yes'>PAN</exception></token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^,.!\(\)mnaeiouh\d]\p{L}+
-            <exception regexp='yes'>escrev.+</exception></token>
+            <exception regexp='yes'>escrev.+|paniscus|troglodytes</exception></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+      <example> O chimpanzé, Pan troglodytes, e o bonobo, Pan paniscus, são encontrados nas proximidades do rio Congo.</example>
     </rule>
     <rule>
       <pattern>
