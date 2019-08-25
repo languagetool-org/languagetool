@@ -4511,20 +4511,31 @@ USA
         <!-- light weight::word=lightweight -->
         <rule id="LIGHT_WEIGHT" name="light weight (lightweight)">
             <pattern>
-                <token>light</token>
-                <token>weight</token>
+                <marker>
+                    <token>light</token>
+                    <token>weight</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN.*"/>
             </pattern>
             <message>Did you mean <suggestion>lightweight</suggestion>?</message>
             <example correction="lightweight">He is the best <marker>light weight</marker> boxer in the world.</example>
+            <example>He is the best <marker>light-weight</marker> boxer in the world.</example>
+            <example>... in technical details such as aerodynamics, light weight, and safety.</example>
+            <example>A light weight was necessary to prevent the...</example>
         </rule>
         <!-- heavy weight::word=heavyweight -->
         <rule id="HEAVY_WEIGHT" name="heavy weight (heavyweight)">
             <pattern>
-                <token>heavy</token>
-                <token>weight</token>
+                <marker>
+                    <token>heavy</token>
+                    <token>weight</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN.*"/>
             </pattern>
             <message>Did you mean <suggestion>heavyweight</suggestion>?</message>
             <example correction="heavyweight">He is the best <marker>heavy weight</marker> boxer in the world.</example>
+            <example>He is the best <marker>heavy-weight</marker> boxer in the world.</example>
+            <example>A heavy weight was necessary to prevent the...</example>
         </rule>
         <!-- free lance::word=freelance -->
         <rule id="FREE_LANCE" name="free lance (freelance)">
