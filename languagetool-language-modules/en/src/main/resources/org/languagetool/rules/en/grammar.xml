@@ -26483,6 +26483,12 @@ The accident victim died from her injuries.
                 <example correction="Every day"><marker>Everyday</marker>, he gets up early.</example>
             </rule>
             <rule>
+                <antipattern><!-- the everyday spoken language -->
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token>everyday</token>
+                    <token postag="VBN"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>everyday</token>
@@ -26492,6 +26498,9 @@ The accident victim died from her injuries.
                 <message>'Everyday' is an adjective. Did you mean <suggestion>every day</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="every day">He gets up early <marker>everyday</marker>.</example>
+                <example correction="every day">Ambiguous. ... and <marker>everyday</marker> spoken language is used to communicate.</example>
+                <example>He gets up early <marker>every day</marker>.</example>
+                <example>... or regional varieties which constitute the <marker>everyday</marker> spoken language.</example>
             </rule>
         </rulegroup>
         <rule id="EVERYONE_EVERY_ONE" name="everyone (every one)">
