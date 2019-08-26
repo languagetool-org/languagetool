@@ -16433,6 +16433,15 @@ USA
         </rulegroup>
         <rulegroup id="MANY_NN_U" name="Possible agreement error: 'many/several/few' + uncountable noun">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>many</token>
+                        <token chunk="I-NP-plural" postag="NN:U" postag_regexp="yes"/>
+                        <token chunk="I-NP-plural" postag="JJ|NN:UN?" postag_regexp="yes"/>
+                        <token chunk="E-NP-plural" postag="NNS"/>
+                    </marker>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>many</token>
@@ -16445,6 +16454,7 @@ USA
                 <example correction="much wine|a good deal of wine">I have <marker>many wine</marker>.</example>
                 <example>How many wine bars are there in Cheshire?</example>
                 <example>This ended in death-like trances with many lying exhausted and panting on chair and floor.</example>
+                <example>... Amsterdam Museum, its red-light district, and its <marker>many cannabis coffee shops</marker> draw more than 3.66 million ...</example>
             </rule>
             <rule>
                 <pattern>
