@@ -31753,6 +31753,255 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='LOWERCASE_RARE_WORDS_GEOGRAPHICAL' name="Palavras raras: Capitalização de nomes geográficos">
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-25      -->
+    <rule>
+      <pattern>
+          <token case_sensitive='yes' regexp='yes'>açores|angola|barbados|brasil|china|croácia|cuba|lituânia|moçambique|palestina|polónia|togo|havana|paris</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/></suggestion>
+      <example correction="Paris"><marker>paris</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Antígua</token>
+          <token>e</token>
+          <token>Barbuda</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>Antiga|Antígua</token>
+          <token>e</token>
+          <token>Barbuda</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico, escreve-se <suggestion>Antígua e <match no='3' case_conversion='startupper'/></suggestion>.</message>
+      <example correction="Antígua e Barbuda"><marker>Antiga e Barbuda</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Arábia</token>
+          <token>Saudita</token>
+      </antipattern>
+      <pattern>
+          <token>Arábia</token>
+          <token>Saudita</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Arábia Saudita"><marker>arábia saudita</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Cabo</token>
+          <token>Verde</token>
+      </antipattern>
+      <pattern>
+          <token>Cabo</token>
+          <token>Verde</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Cabo Verde"><marker>cabo verde</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Costa</token>
+          <token>do</token>
+          <token>Marfim</token>
+      </antipattern>
+      <pattern>
+          <token>Costa</token>
+          <token>do</token>
+          <token>Marfim</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> do <match no='3' case_conversion='startupper'/></suggestion>
+      <example correction="Costa do Marfim"><marker>costa do marfim</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Costa</token>
+          <token>Rica</token>
+      </antipattern>
+      <pattern>
+          <token>Costa</token>
+          <token>Rica</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Costa Rica"><marker>costa rica</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Emirados</token>
+          <token>Árabes</token>
+          <token>Unidos</token>
+      </antipattern>
+      <pattern>
+          <token>Emirados</token>
+          <token>Árabes</token>
+          <token>Unidos</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/> <match no='3' case_conversion='startupper'/></suggestion>
+      <example correction="Emirados Árabes Unidos"><marker>emirados árabes unidos</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Estado</token>
+          <token>da</token>
+          <token>Palestina</token>
+      </antipattern>
+      <pattern>
+          <token>Estado</token>
+          <token>da</token>
+          <token>Palestina</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> da <match no='3' case_conversion='startupper'/></suggestion>
+      <example correction="Estado da Palestina"><marker>estado da palestina</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Estados</token>
+          <token>Unidos</token>
+      </antipattern>
+      <pattern>
+          <token>Estados</token>
+          <token>Unidos</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Estados Unidos"><marker>estados unidos</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Ilhas</token>
+          <token>Marechal</token>
+      </antipattern>
+      <pattern>
+          <token>Ilhas</token>
+          <token>Marechal</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Ilhas Marechal"><marker>ilhas marechal</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Países</token>
+          <token>Baixos</token>
+      </antipattern>
+      <pattern>
+          <token>Países</token>
+          <token>Baixos</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+        <suggestion>Holanda</suggestion>
+      <example correction="Países Baixos|Holanda"><marker>países baixos</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Porto</token>
+          <token regexp='yes'>Príncipe|Rico</token>
+      </antipattern>
+      <pattern>
+          <token>Porto</token>
+          <token regexp='yes'>Príncipe|Rico</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Porto Rico"><marker>porto rico</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Reino</token>
+          <token>Unido</token>
+      </antipattern>
+      <pattern>
+          <token>Reino</token>
+          <token>Unido</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Reino Unido"><marker>reino unido</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>República</token>
+          <token regexp='yes'>Checa|Dominicana</token>
+      </antipattern>
+      <pattern>
+          <token>República</token>
+          <token regexp='yes'>Checa|Dominicana</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="República Checa"><marker>república checa</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>República</token>
+          <token>Democrática</token>
+          <token>do</token>
+          <token>Congo</token>
+      </antipattern>
+      <pattern>
+          <token>República</token>
+          <token>Democrática</token>
+          <token>do</token>
+          <token>Congo</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/> do Congo</suggestion>
+      <example correction="República Democrática do Congo"><marker>república Democrática do Congo</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>São</token>
+          <token regexp='yes'>Marinh?o</token>
+      </antipattern>
+      <pattern>
+          <token>São</token>
+          <token regexp='yes'>Marinh?o</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="São Marinho"><marker>são marinho</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>São</token>
+          <token>Tomé</token>
+          <token>e</token>
+          <token>Príncipe</token>
+      </antipattern>
+      <pattern>
+          <token>São</token>
+          <token>Tomé</token>
+          <token>e</token>
+          <token>Príncipe</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/> e Príncipe</suggestion>
+      <example correction="São Tomé e Príncipe"><marker>são tomé e príncipe</marker></example>
+    </rule>
+    <rule>
+      <antipattern case_sensitive='yes'>
+          <token>Serra</token>
+          <token>Leoa</token>
+      </antipattern>
+      <pattern>
+          <token>Serra</token>
+          <token>Leoa</token>
+      </pattern>
+      <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
+        <suggestion><match no='1' case_conversion='startupper'/> <match no='2' case_conversion='startupper'/></suggestion>
+      <example correction="Serra Leoa"><marker>serra leoa</marker></example>
+    </rule>
+  </rulegroup>
+
  </category>
 
  <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
