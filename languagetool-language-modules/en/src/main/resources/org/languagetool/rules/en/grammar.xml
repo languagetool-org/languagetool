@@ -9155,7 +9155,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?|parameters?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?|parameters?|options?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -9182,7 +9182,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|attach</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|attach</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9266,7 +9266,7 @@ USA
                 <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
                 <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop</token>
+                    <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle</token>
                 </marker>
                 <token postag_regexp="yes" postag="NN(S|P|:UN?)?"/>
             </pattern>
@@ -9278,6 +9278,7 @@ USA
             <example correction="Excel">That's the largest <marker>excel</marker> document I've ever worked on.</example>
             <example correction="Chevy">Their <marker>chevy</marker> impala is the best.</example>
             <example correction="React">Our new <marker>react</marker> plugin is only working with latest Chrome.</example>
+            <example correction="Kindle">The <marker>kindle</marker> is a popular e-book reader from Amazon</example>
             <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
             <example>He wanted to <marker>google</marker> for the medicine.</example>
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
