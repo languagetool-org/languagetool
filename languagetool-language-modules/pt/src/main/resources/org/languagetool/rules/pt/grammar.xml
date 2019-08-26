@@ -31699,6 +31699,25 @@ TODO Write better examples
       <example correction="sensores">O olho é composto por inúmeros <marker>censores</marker> de luz.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes' skip='-1'>Amaz[ôó]nia|envenen.+|(.+índi[ao]|tribo|veneno)s?</token>
+          <token>curare</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token>curare</token>
+        </marker>
+          <token skip='-1'>
+            <exception regexp='yes'>Amaz[ôó]nia|envenen.+|(.+índi[ao]|tribo|veneno)s?</exception>
+            <exception regexp='yes' scope='next'>Amaz[ôó]nia|envenen.+|(.+índi[ao]|tribo|veneno)s?</exception></token>
+      </pattern>
+      <message>'\1' é um tipo de veneno tribal. Confirme.</message>
+        <suggestion>curar e</suggestion>
+        <suggestion>curar</suggestion>
+      <example correction="curar e|curar">No hospital vão-te <marker>curare</marker> fazer-te descontrair.</example>
+      <example>Aquela tribo era perita em caça, graças ao curare.</example>
+    </rule>
+    <rule>
       <pattern>
           <token regexp='yes'>furaç(?:ão|ões)</token>
       </pattern>
