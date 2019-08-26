@@ -24,12 +24,19 @@ import org.languagetool.language.English;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class EnglishPatternRuleTest extends PatternRuleTest {
 
   @Test
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();
+  }
+  
+  @Test
+  public void testL2Languages() throws IOException {
+    validatePatternFile(Arrays.asList("en/grammar-l2-de.xml"));
+    validatePatternFile(Arrays.asList("en/grammar-l2-fr.xml"));
   }
 
   // used to cause an ArrayIndexOutOfBoundsException in MatchState.setToken()

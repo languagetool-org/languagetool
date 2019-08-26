@@ -195,8 +195,11 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   private void validatePatternFile(Language lang) throws IOException {
+    validatePatternFile(getGrammarFileNames(lang));
+  }
+  
+  protected void validatePatternFile(List<String> grammarFiles) throws IOException {
     XMLValidator validator = new XMLValidator();
-    List<String> grammarFiles = getGrammarFileNames(lang);
     for (String grammarFile : grammarFiles) {
       System.out.println("Running XML validation for " + grammarFile + "...");
       String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
@@ -512,7 +515,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         fail(lang + ": Did not expect error in:\n" +
                 "  " + goodSentence + "\n" +
                 "  " + sb + "\n" +
-                "Matching Rule: " + rule.getFullId());
+                "Matching Rule: " + rule.getFullId() + " from " + rule.getSourceFile());
       }
       // avoid matches with all the *other* rules:
       /*
