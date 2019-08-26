@@ -75,6 +75,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
+    put("Komplexheit", "Komplexität");
     put("einzigst", "einzig");
     put("Einzigst", "Einzig");
     put("geschumpfen", "geschimpft");
