@@ -15185,7 +15185,7 @@ USA
                     <token postag="MD"/>
                 </antipattern>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes">
@@ -15223,6 +15223,7 @@ USA
                 <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
                 <example>Somebody considering the new job must think about these:</example>
                 <example type="triggers_error"><marker>His parents as well as he</marker> are very kind to me.</example>
+                <example>The girl noticed someone go out of the door.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15425,6 +15426,8 @@ USA
                 <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
                 <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
                 <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
+                <example type="triggers_error">... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
+                <example type="triggers_error">...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -15464,6 +15467,13 @@ USA
                 <example>Why has anyone done this?</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="no"><!-- Which are Taro's? -->
+                    <token>Which</token>
+                    <token>are</token>
+                    <token postag="NNP"/>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s</token>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
                     <token postag="W(RB|P)" postag_regexp="yes"/>
@@ -15475,6 +15485,7 @@ USA
                 <message>The singular proper name <match no="4"/> must be used with <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
                 <example correction="has">When <marker>have</marker> Mary bought a ticket?</example>
                 <example>Why has Mary done this?</example>
+                <example>Which are Taro's?</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
