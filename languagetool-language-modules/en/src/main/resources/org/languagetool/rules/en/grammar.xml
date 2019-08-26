@@ -26161,12 +26161,17 @@ The accident victim died from her injuries.
             <url>https://grammar.yourdictionary.com/style-and-usage/affect-effect-grammar.html</url>
             <rule>
                 <pattern>
-                    <token>affect</token>
-                    <token postag='RP'/>
+                    <marker>
+                        <token>affect</token>
+                    </marker>
+                    <token postag='RP'>
+                        <exception postag="DT"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>effect</suggestion>?</message>
-                <example correction="effect">The primary <marker>affect on</marker> property values.</example>
-                <example>The primary effect on property values.</example>
+                <example correction="effect">The primary <marker>affect</marker> on property values is…</example>
+                <example correction="effect">This <marker>affect</marker> under influence of drugs poses a problem.</example>
+                <example>The primary <marker>effect</marker> on property values is…</example>
+                <example>So, how does anything about Republicans affect that?</example><!-- #1858 -->
             </rule>
             <rule> <!-- to no affect, to the affect -->
                 <pattern>
