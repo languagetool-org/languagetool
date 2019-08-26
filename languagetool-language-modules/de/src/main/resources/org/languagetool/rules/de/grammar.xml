@@ -10632,12 +10632,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>klar</token>
-                    <token inflected="yes">machen</token>
+                    <token inflected="yes" regexp="yes">kommen|machen</token>
                 </pattern>
-                <message>Formen des Verbs 'klarmachen' (=erklären) werden zusammengeschrieben.</message>
+                <message>Formen des Verbs 'klarmachen' (=erklären) und 'klarkommen' (=zurechtkommen) werden zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="klargemacht">Er hat <marker>klar gemacht</marker>, dass er es nicht will.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>klar</token>
+                    <token>zu</token>
+                    <token regexp="yes">kommen|machen</token>
+                </pattern>
+                <message>Formen des Verbs 'klarmachen' (=erklären) und 'klarkommen' (=zurechtkommen) werden zusammengeschrieben.</message>
+                <suggestion>\1\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="klarzumachen">Er versuchte, es ihr <marker>klar zu machen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
