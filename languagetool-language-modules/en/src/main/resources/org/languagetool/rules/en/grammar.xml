@@ -16176,6 +16176,15 @@ USA
                 <token postag="RB"/><!-- Is not E-NP-singular -->
                 <token postag_regexp="yes" postag="VBP?"/>
             </antipattern>
+            <antipattern><!-- Mariner 9 probe / Hayabusa 2 space probe -->
+                <token regexp="yes">\p{Lu}\p{L}+</token>
+                <token postag="CD" regexp="yes">[0-9]+</token>
+                <token postag_regexp="yes" postag="JJ|NN.*"/>
+            </antipattern>
+            <antipattern><!-- 433 Eros -->
+                <token postag="CD" regexp="yes">[0-9]+</token>
+                <token postag="NNP" regexp="yes">\p{Lu}\p{L}+</token>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -16212,6 +16221,7 @@ USA
             <example>I have five <marker>books</marker>.</example>
             <example correction="chapters">Additionally, there are over 500 college and university <marker>chapter</marker>.</example>
             <example correction="chapters">There are 500 college and university <marker>chapter</marker>.</example>
+            <example correction="chapters">There are 400 College and university <marker>chapter</marker>.</example>
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
@@ -16262,6 +16272,10 @@ USA
             <example>He went to this 5 star restaurant.</example>
             <example>This 6 step guide helps you accomplish success.</example>
             <example>We had 200 participants this year and hopefully 300 next year.</example>
+            <example>...objects were taken in 1971 when the <marker>Mariner 9 probe</marker> imaged Phobos and Deimos, the two small moons of ...</example>
+            <example>... launch around 2015 the improved <marker>Hayabusa 2 space probe</marker> and to return asteroid samples by 2020.</example>
+            <example>... was commissioned by BMW to paint a <marker>Group 4 race version</marker> of the then elite supercar BMW M1 for the fourth ...</example>
+            <example>... in 1997, before entering into orbit around <marker>433 Eros</marker>, finally landing on its surface in 2001.</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
