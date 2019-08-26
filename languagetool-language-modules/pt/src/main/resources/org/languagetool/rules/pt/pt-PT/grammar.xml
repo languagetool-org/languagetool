@@ -28,10 +28,10 @@ title="Easy editing stylesheet" ?>
 
   <!DOCTYPE rules [
 
-    <!ENTITY meses_ano_abrev "(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)">
-    <!ENTITY meses_ano "(?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)">
-    <!ENTITY dias_semana_abrev "(?:seg|ter|qua|qui|sex|sáb|dom)">
-    <!ENTITY dias_semana "(?:segunda|terça|quarta|quinta|sexta|sábado|domingo)">
+    <!ENTITY meses_ano_abrev "(?:j(?:an|u[nl])|fev|ma[ir]|a(?:br|go)|set|out|nov|dez)">
+    <!ENTITY meses_ano "(?:j(?:aneiro|u[nl]ho)|fevereiro|ma(?:rço|io)|a(?:bril|gosto)|setembro|outubro|novembro|dezembro)">
+    <!ENTITY dias_semana_abrev "(?:s(?:e[gx]|áb)|ter|qu[ai]|dom)">
+    <!ENTITY dias_semana "(?:s(?:e(?:gunda|xta)|ábado)|terça|qu(?:arta|inta)|domingo)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY hifen "[-‑]">
@@ -712,6 +712,14 @@ title="Easy editing stylesheet" ?>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>Pai Natal</suggestion>.</message>
       <example correction="Pai Natal">O <marker>Papai Noel</marker> vive na Lapónia.</example>
     </rule>
+    <rule id="SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
+      <pattern>
+          <token>sobrado
+            <exception postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
+      <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
+    </rule>
     <rule id="TIRO_DE_META" name="Brasileirismo: Tiro de Meta - Pontapé de Baliza">
       <pattern>
           <token>tiro</token>
@@ -1189,7 +1197,7 @@ title="Easy editing stylesheet" ?>
 
     <rule>
       <pattern>
-          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
+          <token regexp='yes'>co|p(?:r[eo]|os)|re|bi|tri|tetra|penta|hexa</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes' case_sensitive="yes" spacebefore='no'>[^hrs].+</token>
       </pattern>
@@ -1213,7 +1221,7 @@ title="Easy editing stylesheet" ?>
           <token>extra</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
+          <token regexp='yes'>in(?:fra|tra)|supra|ultra|mega</token>
     <!-- contra are better dealt by PortugueseCompoundRule.java -->
           <token regexp='yes'>a.+
             <exception postag='C.|R.|S.+' postag_regexp='yes'/>
@@ -1225,7 +1233,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>infra|intra|supra|ultra|mega</token>
+          <token regexp='yes'>in(?:fra|tra)|supra|ultra|mega</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
@@ -1240,8 +1248,13 @@ title="Easy editing stylesheet" ?>
           <token>e</token>
           <token>marés</token>
       </antipattern>
+      <antipattern>
+          <token>para</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>a(?:pendicite|xial)|b(?:alas|risas?)|c(?:entelhas|hispas|hoques?|huvas?|inzas|ostas)|e(?:stilhaços|stopilhas?)|f(?:ios|ogos?)|h(?:élio|idrog[êé]nic?[ao]|istória)|l(?:amas?|uz(?:es)?)|muros?|pelotes?|raios|s(?:ol|óis)|ventos?</token>
+      </antipattern>
       <pattern>
-          <token regexp='yes'>contra|justa|para|tetra|penta|hexa|hepta|nona|deca</token>
+          <token regexp='yes'>contra|justa|tetra|p(?:ara|enta)|h(?:exa|epta)|nona|deca</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
