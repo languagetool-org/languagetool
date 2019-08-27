@@ -18117,17 +18117,18 @@ steenwijk;Steenwijk
 					<token inflected="yes" regexp="yes">worden|zijn<exception>zij</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
                 </pattern>
-				<message>U bedoelt vast <suggestion>\1, \2</suggestion> of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
+				<message>U bedoelt vast <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
                 <example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
             </rule>
         </rulegroup>
 		<rulegroup id="VERWAARLOOST_WERD" name="verkeerde werkwoordvorm invers" default="on">
             <rule>
+				<antipattern><token>wat</token><token>mij</token><token>betreft</token></antipattern>
                 <pattern>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-					<token inflected="yes" regexp="yes">worden|zijn<exception>zij</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn<exception regexp="yes">zij|zijn</exception></token>
                 </pattern>
-				<message>U bedoelt vast <suggestion>\1, \2</suggestion> of <suggestion><match no="1" postag="WKW:VTD:ONV"/> \2</suggestion></message>
+				<message>U bedoelt mogelijk <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion><match no="1" postag="WKW:VTD:ONV"/> \2</suggestion></message>
                 <example correction="verwaarloost, werd|verwaarloosd werd">Toen het restaurant <marker>verwaarloost werd</marker>.</example>
             </rule>
         </rulegroup>		
