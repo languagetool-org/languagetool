@@ -36,6 +36,7 @@ public class SearcherResult {
   private int maxDocChecked;
   private boolean hasTooManyLuceneMatches;
   private int luceneMatchCount;
+  private int skipHits;
 
   public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Query relaxedQuery) {
     this.matchingSentences = matchingSentences;
@@ -93,5 +94,13 @@ public class SearcherResult {
 
   public int getMaxDocChecked() {
     return maxDocChecked;
+  }
+
+  public void setSkipHits(int skipHits) {
+    this.skipHits = skipHits;
+  }
+
+  public int getSkipHits() {
+    return this.skipHits;
   }
 }

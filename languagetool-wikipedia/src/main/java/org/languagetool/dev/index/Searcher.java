@@ -167,11 +167,11 @@ public class Searcher {
       }
 
       List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
-      int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
-      SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
+      SearcherResult searcherResult = new SearcherResult(matchingSentences, runnable.docsChecked, query);
       searcherResult.setMaxDocChecked(runnable.getMaxDocChecked());
       searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());
       searcherResult.setLuceneMatchCount(runnable.getLuceneMatchCount());
+      searcherResult.setSkipHits(skipHits);
       if (runnable.hasTooManyLuceneMatches()) {
         // more potential matches than we can check in an acceptable time :-(
         searcherResult.setDocCount(maxHits);
@@ -239,17 +239,10 @@ public class Searcher {
     }
   }
 
-  private int getSentenceCheckCount(Query query, IndexSearcher indexSearcher) {
-    int indexSize = indexSearcher.getIndexReader().numDocs();
-    // we actually check up to maxHits sentences:
-    // TODO: ??
-    int sentencesChecked = Math.min(maxHits, indexSize);
-    return sentencesChecked;
-  }
-
   private MatchingSentencesResult findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
     List<MatchingSentence> matchingSentences = new ArrayList<>();
     int i = 0;
+    int docsChecked = 0;
     for (ScoreDoc match : topDocs.scoreDocs) {
       i++;
       if (i < skipHits) {
@@ -259,6 +252,7 @@ public class Searcher {
       Document doc = indexSearcher.doc(match.doc);
       String sentence = doc.get(FIELD_NAME);
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
+      docsChecked++;
       if (ruleMatches.size() > 0) {
         String source = doc.get(SOURCE_FIELD_NAME);
         String title = doc.get(Indexer.TITLE_FIELD_NAME);
@@ -267,15 +261,17 @@ public class Searcher {
         matchingSentences.add(matchingSentence);
       }
     }
-    return new MatchingSentencesResult(matchingSentences, i);
+    return new MatchingSentencesResult(matchingSentences, i, docsChecked);
   }
   
   class MatchingSentencesResult {
     List<MatchingSentence> matchingSentences;
     int maxDocChecked;
-    MatchingSentencesResult(List<MatchingSentence> matchingSentences, int maxDocChecked) {
+    int docsChecked;
+    MatchingSentencesResult(List<MatchingSentence> matchingSentences, int maxDocChecked, int docsChecked) {
       this.matchingSentences = matchingSentences;
       this.maxDocChecked = maxDocChecked;
+      this.docsChecked = docsChecked;
     }
   }
 
@@ -324,6 +320,7 @@ public class Searcher {
     private boolean tooManyLuceneMatches;
     private int luceneMatchCount;
     private int maxDocChecked;
+    private int docsChecked;
 
     SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
@@ -347,6 +344,7 @@ public class Searcher {
         MatchingSentencesResult res = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         matchingSentences = res.matchingSentences;
         maxDocChecked = res.maxDocChecked;
+        docsChecked = res.docsChecked;
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
             + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
       } catch (Exception e) {
