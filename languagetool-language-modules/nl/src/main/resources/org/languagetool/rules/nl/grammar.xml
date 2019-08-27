@@ -13369,9 +13369,6 @@ onwaarschijnlijk
 <!--
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
 			<rule>
-				<antipattern raw_pos="yes"> 
-					<token postag="UNKNOWN"/>
-				</antipattern>
 				<pattern raw_pos="yes"> 
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*<exception postag="UNKNOWN"/></token>
@@ -18114,10 +18111,10 @@ steenwijk;Steenwijk
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm" default="on">
             <rule>
                 <pattern>
-					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception>zij</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
                 </pattern>
-				<message>U bedoelt vast <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
+				<message>U bedoelt mogelijk <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
                 <example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
             </rule>
         </rulegroup>
@@ -18126,7 +18123,7 @@ steenwijk;Steenwijk
 				<antipattern><token>wat</token><token/><token>betreft</token></antipattern>
                 <pattern>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|zijn</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|zijn|wil</exception></token>
                 </pattern>
 				<message>U bedoelt mogelijk <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion><match no="1" postag="WKW:VTD:ONV"/> \2</suggestion></message>
                 <example correction="verwaarloost, werd|verwaarloosd werd">Toen het restaurant <marker>verwaarloost werd</marker>.</example>
