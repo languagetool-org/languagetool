@@ -43,7 +43,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your move makes",
       "your move is",
       "he unchecked the",
-      "your fix"  // fix = bug fix
+      "your fix",  // fix = bug fix
+      "on point"
   );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
