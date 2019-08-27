@@ -9195,7 +9195,7 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|attach</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|attach|add|((un|auto|re|pre)\-?)?installs?</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9274,9 +9274,66 @@ USA
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example><marker>There are</marker> different places to see.</example>
         </rule>
+        <rule id="THE_ADD_ON" name="the + add on">
+            <pattern>
+                <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>add</token>
+                    <token regexp="yes">in|on</token>
+                </marker>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion><match no="3" />-<match no="4" /></suggestion>
+            <example correction="add-on">The newest <marker>add on</marker> was released yesterday</example>
+            <example>Our <marker>add-on</marker> has more than 1,000,000 users.</example>
+        </rule>
+        <rulegroup id="A_INSTALL" name="a/the + install">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                    <token postag="JJS?|RB|VBD" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">((un|auto|re|pre)\-?)?installs?</token>
+                    </marker>
+                    <token postag="VB.*|JJ|RB|SENT_END" postag_regexp="yes" />
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun.</message>
+                <suggestion><match no="3" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <example correction="installations">The <marker>installs</marker> are dropping since March.</example>
+                <example correction="uninstallation">My attempted <marker>uninstall</marker> worked.</example>
+                <example correction="re-installation">Have you tried a <marker>re-install</marker>?</example>
+                <example correction="installation">He performed that <marker>install</marker> recently.</example>
+                <example correction="installation">Their <marker>install</marker> is working.</example>
+                <example>Their <marker>installation</marker> worked fine.</example>
+                <example>The British <marker>install</marker> the son of Sharif Hussein bin Ali.</example>
+                <example>He <marker>installs</marker> their app.</example>
+                <example type="triggers_error">My install button is functional.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="CD" />
+                    <token postag="JJS?|RB|VBD" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">(un|auto-?|re-?)?installs?</token>
+                    </marker>
+                    <token postag="VB.*|JJ|RB|SENT_END" postag_regexp="yes" />
+                </pattern>
+                <message>The word '<match no="4" />' is not a noun.</message>
+                <suggestion><match no="4" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <example correction="installations">Yesterday we had more than 1000 new <marker>installs</marker>.</example>
+                <example correction="uninstallations">Only five <marker>uninstalls</marker> on average.</example>
+                <example>Number 4 <marker>installs</marker> their app.</example>
+                <example>Windows 10 <marker>installs</marker> just fine on my machine.</example>
+                <example>Now google <marker>installs</marker> an app on my machine.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_GOOGLE" name="a/the + proper noun">
             <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
                     <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle</token>
@@ -9292,6 +9349,7 @@ USA
             <example correction="Chevy">Their <marker>chevy</marker> impala is the best.</example>
             <example correction="React">Our new <marker>react</marker> plugin is only working with latest Chrome.</example>
             <example correction="Kindle">The <marker>kindle</marker> tablet is a popular e-book reader from Amazon</example>
+            <example correction="Google">Peter's <marker>google</marker> doc contains some spelling mistakes</example>
             <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
             <example>He wanted to <marker>google</marker> for the medicine.</example>
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
@@ -9299,7 +9357,7 @@ USA
         <rulegroup id="A_ATTACH" name="a/the attach">
             <rule>
                 <pattern>
-                    <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                    <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                     <marker>
                         <token>attach</token>
                     </marker>
@@ -9325,7 +9383,7 @@ USA
         </rulegroup>
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <pattern>
-                <token regexp='yes'>an?|the|that|this|those|my|his|her|their|our|your</token>
+                <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                 <marker>
                     <token>thank</token>
@@ -9389,6 +9447,21 @@ USA
                 <example>Egotist <marker>though</marker> he was, his parents loved him.</example>
             </rule>
         </rulegroup>
+        <rule id="MAN_MADE" name="hyphen in 'man made'">
+            <pattern>
+                <marker>
+                    <token regexp="yes">(wo)?man</token>
+                    <token>made</token>
+                </marker>
+                <token min="0">natural</token>
+                <token regexp="yes">islands?|fibres?|disasters?|crisis|diamonds?|diseases?|damages?|earthquakes?|eggs?|elements?|forests?|fruits?|lakes?|beach(es)?|resources?|attractions?|jewels|jewelr(y|ies)|jungle|products?|nature|clouds?|honey?|hybrids?|hazards?|hurricanes?|animals?|galler(y|ies)|granite|greenhouse|materials?|monsters?|mountains?|noise?|objects?|pollution|rivers?|rain|rocks|radiation|risks?|structures?|storms?|snow|satellites?|sources?|tsunamis?|tourist|textiles?|tornados?|vegetables?|virus(es)?|waterfalls?|wood|wonders|water|zoo</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion><match no="1" />-<match no="2" /></suggestion>
+            <example correction="man-made">A <marker>man made</marker> island.</example>
+            <example correction="man-made">The <marker>man made</marker> natural diseases are spreading.</example>
+            <example>The <marker>man-made</marker> beach attracts a lot of tourists.</example>
+        </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
                 <token inflected="yes">be</token>
