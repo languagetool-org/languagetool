@@ -18121,6 +18121,16 @@ steenwijk;Steenwijk
                 <example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
             </rule>
         </rulegroup>
+		<rulegroup id="VERWAARLOOST_WERD" name="verkeerde werkwoordvorm invers" default="on">
+            <rule>
+                <pattern>
+					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+					<token inflected="yes" regexp="yes">worden|zijn<exception>zij</exception></token>
+                </pattern>
+				<message>U bedoelt vast <suggestion>\1, \2</suggestion> of <suggestion><match no="1" postag="WKW:VTD:ONV"/> \2</suggestion></message>
+                <example correction="verwaarloost, werd|verwaarloosd werd">Toen het restaurant <marker>verwaarloost werd</marker>.</example>
+            </rule>
+        </rulegroup>		
 		
 		<rulegroup id="DIKKEN_MAN" name="een n te veel">
             <rule>
