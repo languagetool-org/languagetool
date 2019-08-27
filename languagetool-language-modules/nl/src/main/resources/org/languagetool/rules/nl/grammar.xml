@@ -13366,15 +13366,15 @@ onwaarschijnlijk
                 <example type="incorrect">Hij is <marker>éénzaam</marker>.</example>
             </rule>
         </rulegroup>
-
-		<!--
+<!--
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
 			<rule>
-				<antipattern><token postag="UNKNOWN"/></antipattern>
-				<antipattern><token regexp="yes">^(adjunct|aspirant|assistent)-</antipattern>
-				<pattern raw_pos="yes">
+				<antipattern raw_pos="yes"> 
+					<token postag="UNKNOWN"/>
+				</antipattern>
+				<pattern raw_pos="yes"> 
 					<marker>
-						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
+						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*<exception postag="UNKNOWN"/></token>
 					</marker>
 				</pattern>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat je het consequent doet voor een woord.</message>
@@ -34925,6 +34925,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me">
             <rule>
+				<antipattern><token>volgens</token><token>mij</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
 				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
