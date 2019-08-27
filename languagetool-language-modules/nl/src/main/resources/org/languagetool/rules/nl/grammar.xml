@@ -18114,7 +18114,7 @@ steenwijk;Steenwijk
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm" default="on">
             <rule>
                 <pattern>
-					<token inflected="yes" regexp="yes">worden|zijn<exception>zij</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception>zij</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
                 </pattern>
 				<message>U bedoelt vast <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
@@ -18123,10 +18123,10 @@ steenwijk;Steenwijk
         </rulegroup>
 		<rulegroup id="VERWAARLOOST_WERD" name="verkeerde werkwoordvorm invers" default="on">
             <rule>
-				<antipattern><token>wat</token><token>mij</token><token>betreft</token></antipattern>
+				<antipattern><token>wat</token><token/><token>betreft</token></antipattern>
                 <pattern>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-					<token inflected="yes" regexp="yes">worden|zijn<exception regexp="yes">zij|zijn</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|zijn</exception></token>
                 </pattern>
 				<message>U bedoelt mogelijk <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion><match no="1" postag="WKW:VTD:ONV"/> \2</suggestion></message>
                 <example correction="verwaarloost, werd|verwaarloosd werd">Toen het restaurant <marker>verwaarloost werd</marker>.</example>
