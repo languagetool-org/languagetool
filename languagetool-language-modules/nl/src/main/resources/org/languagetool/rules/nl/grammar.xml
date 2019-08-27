@@ -13367,9 +13367,11 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
 
+		<!--
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
 			<rule>
 				<antipattern><token postag="UNKNOWN"/></antipattern>
+				<antipattern><token regexp="yes">^(adjunct|aspirant|assistent)-</antipattern>
 				<pattern raw_pos="yes">
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
@@ -13379,7 +13381,7 @@ onwaarschijnlijk
 				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
 			</rule>
         </rulegroup>
-
+		-->
     </category>
     <category id="CASING" name="Hoofdletters">
 		
@@ -18112,11 +18114,11 @@ steenwijk;Steenwijk
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm" default="on">
             <rule>
                 <pattern>
-					<token inflected="yes" regexp="yes">worden|zijn<exception regexp="yes">zij</exception></token>
+					<token inflected="yes" regexp="yes">worden|zijn<exception>zij</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
                 </pattern>
 				<message>U bedoelt vast <suggestion>\1, \2</suggestion> of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion></message>
-                <example correction="verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
+                <example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
             </rule>
         </rulegroup>
 		
