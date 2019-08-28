@@ -2513,13 +2513,15 @@
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
+            <exception scope='next' postag_regexp='yes' postag='A.+'/>
             <exception regexp='yes'>1[&#37;&#8240;&#8241;]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">1 ?[&#37;&#8240;&#8241;]</token>
+          <token regexp="yes">1 ?[&#37;&#8240;&#8241;]
+            <exception scope='next' postag_regexp='yes' postag='A.+'/></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMC000"/></disambig>
     </rule>
@@ -3313,7 +3315,7 @@
     <rule id="VISUAL_STUDIO" name="Visual Studio/Basic">
       <pattern case_sensitive="yes">
           <token>Visual</token>
-          <token regexp="yes">Studio|Basic</token>
+          <token regexp="yes">Studio|Basic|[CJ](?:#|\+\+)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -3338,13 +3340,21 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule id="T-SHIRT" name="T-shirts">
+    <rule id="T-SHIRT" name="T-shirt">
       <pattern>
           <token>t</token>
           <token regexp="yes" spacebefore='no'>&hifen;</token>
-          <token regexp="yes" spacebefore='no'>shirts?</token>
+          <token spacebefore='no'>shirt</token>
       </pattern>
-      <disambig action="ignore_spelling"/>
+      <disambig action="replace"><wd pos="NCFS000_"/><wd pos="_PUNCT"/><wd pos="NCFS000_"/></disambig>
+    </rule>
+    <rule id="T-SHIRTS" name="T-shirts">
+      <pattern>
+          <token>t</token>
+          <token regexp="yes" spacebefore='no'>&hifen;</token>
+          <token spacebefore='no'>shirts</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFP000_"/><wd pos="_PUNCT"/><wd pos="NCFP000_"/></disambig>
     </rule>
     <rule id="STAND-UP_COMEDY" name="Stand-up comedy">
       <pattern>
@@ -3374,11 +3384,11 @@
     </rule>
   </rulegroup>
 
-    <rule id='WORDS_WITH_NUMBERS' name='Palavras com números'>
+    <rule id='WORDS_WITH_NUMBERS' name='Palavras com números ou símbolos'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
     <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways -->
       <pattern>
-          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|[48]Chan|G(1|7|20)|H[₁₂₃₄₅₆₇₈₉₀]|i[3579]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}</token>
+          <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|[48]Chan|G(1|7|20)|H[₁₂₃₄₅₆₇₈₉₀]|i[3579]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}|[CJ](?:#|\+\+)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
