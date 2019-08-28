@@ -137,11 +137,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
   private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
-  
+
   private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
   private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";
   // url
-  private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].[^\\s]*$", Pattern.CASE_INSENSITIVE);
+  private static final Pattern URL_PATTERN = Pattern.compile("((https?|ftp)://|www\\.)[^\\s/$.?#),]+\\.[^\\s),]*|(mailto:)?[\\p{L}\\d._-]+@[\\p{L}\\d_-]+(\\.[\\p{L}\\d_-]+)+", Pattern.CASE_INSENSITIVE);
   private static final int URL_START_REPLACE_CHAR = 0xE300;
 
 
@@ -159,10 +159,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     // check for urls
-    if( text.contains("tp") ) { // https?|ftp
+    if( text.contains("http") || text.contains("ftp") || text.contains("www") || text.contains("@") ) { // https?|ftp
       Matcher matcher = URL_PATTERN.matcher(text);
       int urlReplaceChar = URL_START_REPLACE_CHAR;
-      
+
       while( matcher.find() ) {
         String urlGroup = matcher.group();
         String replaceChar = String.valueOf((char)urlReplaceChar);
