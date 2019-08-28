@@ -4500,7 +4500,7 @@ title="Easy editing stylesheet" ?>
           <token postag='SPS00'>
             <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
           <token postag='SPS00'>
-            <exception regexp='yes' case_sensitive='yes'>a|A|De|Sem</exception>
+            <exception regexp='yes' case_sensitive='yes'>a|A|De|Sem|['’]</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
       </pattern>
       <message>Duas preposição seguidas. Verifique.</message>
@@ -4573,7 +4573,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <message>Se não é uma transcrição de discurso oral, “\2” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Apesar</marker> de o cão gostar de ladrar.</example>
       <example correction=""><marker>Depois</marker> de jantar.</example>
@@ -4609,7 +4609,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2<match no='3' include_skipped='all'/> \4” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <message>Se não é uma transcrição de discurso oral, “\2 <match no='3' include_skipped='all'/> \4” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Mesmo se</marker> o cão gosta de ladrar.</example>
       <example>Mesmo se o cão gosta de ladrar, continua a ser simpático.</example>
@@ -4635,7 +4635,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2 \3” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <message>Se não é uma transcrição de discurso oral, “\2 \3” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Desde que</marker> o cão ladre.</example>
       <example>Desde que o cão ladre, consegue guardar a casa.</example>
@@ -4661,7 +4661,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2 \3” no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <message>“\2 \3” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Considerando que</marker> o cão guarda a minha casa.</example>
       <example>Considerando que o cão guarda a minha casa, eu não me importo que ladre alto.</example>
@@ -4695,7 +4695,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2 \3 \4”  no início de uma frase, requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estão em falta, ou a frase está incompleta e deve ser ligada à frase que a precede, ou à seguinte.</message>
+      <message>Se não é uma transcrição de discurso oral, “\2 \3 \4” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Tendo em conta</marker> que o cão guarda a casa.</example>
       <example>Tendo em conta que o cão guarda a casa, ladrando ruidosamente.</example>
@@ -24100,14 +24100,14 @@ TODO Write better examples
           <token regexp='yes'>&hifen;</token>
       </antipattern>
       <pattern>
-        <marker>
-          <token regexp="yes">\d+\d{3}(?:,\d+)?</token>
-        </marker>
+          <token regexp="yes">\d+\d{3}(?:,\d{1,3})?</token>
       </pattern>
       <message>Se não é um ano, os algarismos devem ser agrupados em grupos de 3.</message>
-        <suggestion><match no='2' regexp_match="(\d+)(\d{3})(,\d+)?" regexp_replace="$1 $2$3"/></suggestion>
+        <suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion>
       <example correction='10 341'>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
-      <example correction='1 034'><marker>1034</marker> 133 corresponde a um décimo dos habitantes portugueses</example>
+      <example correction='1 034 133'><marker>1034133</marker> corresponde a um décimo dos habitantes portugueses</example>
+      <example correction='1 034 133,00'><marker>1034133,00</marker> não é um número redondo.</example>
+      <example><marker>1034133,0000</marker> também não é um número redondo.</example>
       <example>O ano tem exatamente 365,24219858156 dias.</example>
       <example>É o ano de <marker>1989</marker>.</example>
       <example>É o ano de <marker>1989</marker></example>
@@ -24115,12 +24115,48 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d+\,\d{3}\d+</token>
+          <token regexp="yes">\d{1,3}\,\d{3}\d+</token>
       </pattern>
       <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no='3' regexp_match="(\d+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
       <example correction='17,103 41'>A média exata é de <marker>17,10341</marker> valores.</example>
       <example correction='365,242 19858156'>O ano tem exatamente <marker>365,24219858156</marker> dias.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token spacebefore='no'>,</token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{4}</token>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
+      </antipattern>
+      <antipattern>
+          <token>
+            <exception regexp="yes">\d+</exception></token>
+          <token postag='SENT_END' regexp="yes">\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp="yes">\d+</token>
+          <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token regexp="yes">\d+\d{3},\d{4,}</token>
+        </marker>
+      </pattern>
+      <message>Se não é um ano, os algarismos devem ser agrupados em grupos de 3.</message>
+        <!--suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion-->
+        <!-- TODO find a regexp that works here to activate suggestion-->
+      <example correction=''><marker>1034133,0000</marker> também não é um número redondo.</example>
+      <example>É o ano de <marker>1989</marker>.</example>
+      <example>É o ano de <marker>1989</marker></example>
+      <example>O ano tem exatamente 365,24219858156 dias.</example>
+      <example>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
+      <example><marker>1034133</marker> corresponde a um décimo dos habitantes portugueses</example>
+      <example>ISBN 0-522-85317-X.</example>
     </rule>
   </rulegroup>
 
