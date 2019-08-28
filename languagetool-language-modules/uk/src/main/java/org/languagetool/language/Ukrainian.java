@@ -30,23 +30,22 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
 import org.languagetool.rules.uk.MissingHyphenRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
+import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
-import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
 import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
-import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
-import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
 import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
 import org.languagetool.rules.uk.TokenAgreementNounVerbRule;
+import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
 import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -171,7 +170,10 @@ public class Ukrainian extends Language {
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
 
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
-        //            new UppercaseSentenceStartRule(messages),
+        new UppercaseSentenceStartRule(messages, this,
+            Example.wrong("<marker>речення</marker> має починатися з великої."),
+            Example.fixed("<marker>Речення</marker> має починатися з великої")),
+
         new MultipleWhitespaceRule(messages, this),
         new UkrainianWordRepeatRule(messages, this),
 
