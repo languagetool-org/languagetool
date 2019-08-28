@@ -42,7 +42,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
             + "\u2400-\u27FF"                                                       // Control Pictures
-            + String.valueOf(Character.toChars(0x1F400)) + "-" + String.valueOf(Character.toChars(0x1F64F))          // Emojis
+            + String.valueOf(Character.toChars(0x1F300)) + "-" + String.valueOf(Character.toChars(0x1F64F))          // Emojis
             + "\ufeff\uffa0\ufff9\ufffa\ufffb"
             + "\ufe00-\uffff"
             + "\uE110]";
