@@ -2742,6 +2742,47 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token regexp="yes">free|great|pretty|me</token>
+                    <token postag="SENT_END|PCT" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="it's|it is">But <marker>its</marker> free!</example>
+                <example correction="It's|It is"><marker>Its</marker> me, your old friend from high school.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="JJ" />
+                    <token>man</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> cool man!</example>
+                <example correction="It's|It is"><marker>Its</marker> awesome man.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>you</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> you!</example>
+                <example correction="it's|it is">I can't believe <marker>its</marker> you.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>on</token>
                     <marker>
                         <token>it</token>
@@ -9139,6 +9180,17 @@ USA
             <example correction="who is a participant">A student <marker>who participant</marker> in the program</example>
             <example>To all who haven't given up: ...</example>
         </rule>
+        <rule id="THEY_WARE" name="'they ware' vs 'they were'">
+            <pattern>
+                <token regexp="yes">they|we|you</token>
+                <marker>
+                    <token>ware</token>
+                </marker>
+            </pattern>
+            <message>'ware' is a noun. Did you mean <suggestion>were</suggestion>?</message>
+            <example correction="were">They <marker>ware</marker> busy</example>
+            <example type="triggers_error">We <marker>ware</marker> totally amazed by the sight.</example>
+        </rule>
         <rule id="A_INFINITIVE" name="a/the + infinitive">
             <antipattern>
                 <token>download</token>
@@ -9200,7 +9252,8 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|attach|add|((un|auto|re|pre)\-?)?installs?</exception>
+                    <!-- Many of the excluded words are handled by different/better rules -->
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|attach|add|((un|auto|re|pre)\-?)?installs?|lose</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -24462,13 +24515,15 @@ The accident victim died from her injuries.
         <rulegroup id="LOSE_LOSS" name="at a lose (at a loss)">
             <rule>
                 <pattern>
-                    <token>at</token>
-                    <token>a</token>
-                    <token>lose</token>
+                    <token regexp="yes">a|the</token>
+                    <marker>
+                        <token>lose</token>
+                    </marker>
                 </pattern>
-                <message>Did you mean <suggestion>at a loss</suggestion> (=puzzled, without any idea)?</message>
+                <message>Did you mean <suggestion>loss</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="at a loss">Feeling <marker>at a lose</marker> and frustrated.</example>
+                <example correction="loss">Feeling at a <marker>lose</marker> and frustrated.</example>
+                <example correction="loss">The <marker>lose</marker> of a good friend.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GIVE_ADVISE" name="give/any/of advise (advice)">
