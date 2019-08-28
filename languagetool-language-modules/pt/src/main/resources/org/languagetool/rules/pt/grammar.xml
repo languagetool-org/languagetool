@@ -23792,6 +23792,36 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='MANDATO_MANDADO' name="Confusão: mandado - mandato">
+    <!-- Created by Tiago F. Santos, 2019-08-27 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/mandato-e-mandado/694</url>
+    <rule>
+      <pattern>
+          <token regexp='yes'>mandatos?</token>
+          <token>de</token>
+          <token regexp='yes'>busca|captura|detenção|prisão|segurança</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='t' regexp_replace='d'/> de \3</suggestion>.</message>
+      <example correction="mandado de captura">O <marker>mandato de captura</marker> internacional foi emitido esta semana.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>mandatos?</token>
+          <token regexp='yes'>judicia(?:l|is)</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='t' regexp_replace='d'/> \2</suggestion>.</message>
+      <example correction="mandados judiciais">Quando caducam os <marker>mandatos judiciais</marker>?</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>mandados?</token>
+          <token regexp='yes'>parlamentar(?:es)?|eleitora(?:l|is)</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' regexp_match='ado' regexp_replace='ato'/> \2</suggestion>.</message>
+      <example correction="mandato parlamentar">Este ano termina o <marker>mandado parlamentar</marker> do Costa.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='DOSE_DOZE' name="Confusão: dose - doze">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-09 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/utilizacao-de-s-ou-z/7335</url>
