@@ -9192,6 +9192,11 @@ USA
                 <token>be</token>
                 <token>ce</token>
             </antipattern>
+            <antipattern><!-- Technical talk: "The delete request failed." -->
+                <token regexp="yes">an?|the</token>
+                <token regexp="yes">put|delete|get|post|patch</token>
+                <token>request</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -9210,6 +9215,7 @@ USA
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
             <example>... that script the way abecedary derives from Latin a be ce de.</example>
+            <example><marker>The add/drop</marker> transaction is not final until the changes have been processed</example>
         </rule>
         <rulegroup id="MUST_HAVE" name="Hyphen in 'must have/see'">
             <rule>
@@ -16198,6 +16204,10 @@ USA
             <token>decade</token>
           </antipattern>
           <antipattern>
+            <token regexp="yes">16|32|64</token>
+            <token>bit</token>
+          </antipattern>
+          <antipattern>
             <token regexp="yes">\d+</token>
             <token>to</token>
             <token regexp="yes">\d+</token>
@@ -16248,6 +16258,14 @@ USA
             <antipattern>
                 <token>top</token>
                 <token regexp="yes">ten|10</token>
+            </antipattern>
+            <antipattern>
+                <token>windows</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token>page</token>
+                <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -16364,7 +16382,9 @@ USA
             <example>I live in 22761 Hamburg</example>
             <example>He resides in 5 New Jersey Boulevard.</example>
             <example>He turns 80 next month.</example>
+            <example>He was switching from 32 to 64 bit.</example>
             <example>He has a 4 page summary.</example>
+            <example>The windows 10 update failed.</example>
             <example>He has a 5 slide presentation.</example>
             <example>He went to this 5 star restaurant.</example>
             <example>This 6 step guide helps you accomplish success.</example>
