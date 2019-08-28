@@ -37,6 +37,7 @@ public class SearcherResult {
   private boolean hasTooManyLuceneMatches;
   private int luceneMatchCount;
   private int skipHits;
+  private int numDocs;
 
   public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Query relaxedQuery) {
     this.matchingSentences = matchingSentences;
@@ -102,5 +103,13 @@ public class SearcherResult {
 
   public int getSkipHits() {
     return this.skipHits;
+  }
+
+  public void setNumDocs(int numDocs) {
+    this.numDocs = numDocs;
+  }
+
+  public int getNumDocs() {
+    return this.numDocs;
   }
 }

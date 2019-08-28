@@ -172,6 +172,7 @@ public class Searcher {
       searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());
       searcherResult.setLuceneMatchCount(runnable.getLuceneMatchCount());
       searcherResult.setSkipHits(skipHits);
+      searcherResult.setNumDocs(runnable.numDocs);
       if (runnable.hasTooManyLuceneMatches()) {
         // more potential matches than we can check in an acceptable time :-(
         searcherResult.setDocCount(maxHits);
@@ -321,6 +322,7 @@ public class Searcher {
     private int luceneMatchCount;
     private int maxDocChecked;
     private int docsChecked;
+    private int numDocs;
 
     SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
@@ -345,6 +347,7 @@ public class Searcher {
         matchingSentences = res.matchingSentences;
         maxDocChecked = res.maxDocChecked;
         docsChecked = res.docsChecked;
+        numDocs = indexSearcher.getIndexReader().numDocs();
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
             + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
       } catch (Exception e) {
