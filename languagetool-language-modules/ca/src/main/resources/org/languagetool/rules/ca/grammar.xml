@@ -11478,7 +11478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PP_PAG" name="PP/Pàg.">
             <pattern case_sensitive="yes">
                 <marker>
-                    <token>Pàg</token>
+                    <token>Pàg<exception scope="previous" regexp="yes">Av|Re</exception></token>
                 </marker>
                 <token postag="SENT_END">.</token>
             </pattern>
@@ -11486,6 +11486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="PP">És militant del <marker>Pàg</marker>.</example>
             <example>Vegeu la pàg. 26.</example>
             <example>Pàg. 23-24.</example>
+            <example>Premeu la tecla Av Pàg.</example>
         </rule>
         <rule id="ADRECA_DIRECCIO" name="*adreça/direcció">
             <pattern>
@@ -16702,6 +16703,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Probablement cal escriure <suggestion>\1 per què</suggestion>.</message>
                 <example correction="de per què">una breu justificació <marker>de perquè</marker> no està en perill.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>s'</token>
+                        <token min="0" inflected="yes">haver</token>
+                        <token inflected="yes">explicar</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">explicar</token>
+                    <marker>
+                        <token>perquè</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>per què</suggestion> (=per quin motiu).</message>
+                <example correction="per què">Això explica <marker>perquè</marker> no volia venir.</example>
+                <example>També s'explica perquè feien festa dilluns.</example>
+                <example>També s'ha explicat perquè feien festa dilluns.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -37200,10 +37220,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&noms_ABAIXAR_APUJAR;<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
                 </pattern>
-                <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern abaixa els imposts).</message>
+                <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1" case_conversion="alllower"/></suggestion> (El govern abaixa els imposts).</message>
                 <url>http://esadir.cat/entrades/fitxa/id/1437</url>
                 <short>Possible error</short>
                 <example correction="abaixar">Llavors va <marker>baixar</marker> la vista</example>
+                <example correction="Abaixa"><marker>Baixa</marker> el volum de la música, si et plau.</example>
                 <example>Baixar la roba eixuta del terrat.</example>
                 <example>La vitalitat baixava de to.</example>
                 <example>Que feien baixar els preus</example>
