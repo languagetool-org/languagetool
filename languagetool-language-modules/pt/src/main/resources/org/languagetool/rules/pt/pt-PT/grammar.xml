@@ -555,7 +555,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
-            <exception inflected='yes' regexp='yes'>medida|votar</exception></token>
+            <exception inflected='yes' regexp='yes'>medida|votar</exception>
             <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
           <token postag='V.G0+' postag_regexp='yes'>
             <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
@@ -1420,7 +1420,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>hiper|inter|super</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^hr\d]\p{L}+
-            <token case_sensitive='yes'>AMOLED</token></token>
+            <exception case_sensitive='yes'>AMOLED</exception></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
