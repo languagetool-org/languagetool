@@ -13369,16 +13369,22 @@ onwaarschijnlijk
 <!--
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
 			<rule>
+                <antipattern><token regexp="yes">^(btw|ex|tv)-</token></antipattern>
+                <antipattern><token regexp="yes">-(btw|ex|tv)$</token></antipattern>
+                <antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
 				<pattern raw_pos="yes"> 
 					<marker>
-						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*<exception postag="UNKNOWN"/></token>
+                        <token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
 				</pattern>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat je het consequent doet voor een woord.</message>
 				<example type="incorrect">De <marker>muziek-industrie</marker> is overspannen.</example>
+				<example type="correct">De <marker>muziekindustrie</marker> is overspannen.</example>
+				<example type="correct">Het <marker>auto-onderdeel</marker> is kapot.</example>
+				<example type="correct">De <marker>btw-aanslag</marker> was foutief.</example>
 			</rule>
         </rulegroup>
-		-->
+        -->
     </category>
     <category id="CASING" name="Hoofdletters">
 		
@@ -17613,6 +17619,7 @@ steenwijk;Steenwijk
                 <antipattern><token>op</token><token>zoek</token><token inflected="yes">gaan</token></antipattern>
                 <antipattern><token>schuil</token><token inflected="yes">gaan</token></antipattern>
                 <antipattern><token>zal</token><token>jou</token></antipattern>
+                <antipattern><token>is</token><token>welk</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
