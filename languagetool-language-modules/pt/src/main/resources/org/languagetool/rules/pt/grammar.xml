@@ -359,8 +359,16 @@ title="Easy editing stylesheet" ?>
           <token>o</token>
           <token>quão</token>
       </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d[eo]</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
-          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -428,6 +436,14 @@ title="Easy editing stylesheet" ?>
           <token>tão</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'/>
           <token>quanto</token>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d(?:e|os)</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -519,6 +535,14 @@ title="Easy editing stylesheet" ?>
           <token>.</token>
           <token regexp='yes'>º.*</token>
       </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d[eo]</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -609,6 +633,14 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>coordenadas</token>
           <token regexp='yes'>\d.+</token>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d[eo]</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
@@ -729,7 +761,7 @@ title="Easy editing stylesheet" ?>
             <exception scope='previous'>não</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'>
-            <exception regexp='yes'>&pontos_cardeais;|contrário|nível|um</exception><!-- |escassos -->
+            <exception regexp='yes'>&pontos_cardeais;|contrário|nível|solo|um</exception><!-- |escassos -->
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
       </pattern>
       <message>&MSG_ECG;</message>
@@ -971,6 +1003,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>d[eao]s?</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
@@ -1069,6 +1102,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>d[eao]</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -1161,6 +1195,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>d[eao]</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -1223,6 +1258,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>d[eao]s?</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
@@ -1732,7 +1768,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">[(,;:]</exception></token>
         <marker>
           <token case_sensitive="yes">Costa
-            <exception scope="previous" postag="DA.+|DD.FS.+" postag_regexp="yes"/></token>
+            <exception scope="previous" postag="D..FS.+" postag_regexp="yes"/></token>
           <token min='0'>do</token>
           <token case_sensitive="yes" regexp='yes'>Rica|Marfim</token>
         </marker>
@@ -1768,7 +1804,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">[(,;:]</exception></token>
         <marker>
           <token case_sensitive="yes">Reino
-            <exception scope="previous" postag="DA.+|DD.MS.+" postag_regexp="yes"/></token>
+            <exception scope="previous" postag="D..MS.+" postag_regexp="yes"/></token>
           <token case_sensitive="yes">Unido</token>
         </marker>
       </pattern>
@@ -1790,7 +1826,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp="yes">[(,;:]</exception></token>
         <marker>
           <token case_sensitive="yes">Nova
-            <exception scope="previous" postag="DA.+|DD.FS.+|SENT_START" postag_regexp="yes"/></token>
+            <exception scope="previous" postag="D..FS.+|SENT_START" postag_regexp="yes"/></token>
           <token case_sensitive="yes" regexp='yes'>Zelândia|Guiné</token>
         </marker>
       </pattern>
@@ -2156,8 +2192,8 @@ title="Easy editing stylesheet" ?>
       <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
       <example correction='Os médicos saíram'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
-      <example correction='meus amigos não bebem'>Os <marker>meus amigos não bebe</marker> café.</example>
-      <example correction='meus amigos ainda não bebem'>Os <marker>meus amigos ainda não bebe</marker> café.</example>
+      <example correction='Os meus amigos não bebem'><marker>Os meus amigos não bebe</marker> café.</example>
+      <example correction='Os meus amigos ainda não bebem'><marker>Os meus amigos ainda não bebe</marker> café.</example>
       <example>Nenhum dos meus amigos bebe café.</example>
       <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
       <example>Outros governos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
@@ -2827,6 +2863,11 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Tiago F. Santos, 2017-03-05      -->
       <antipattern>
           <token regexp='yes' skip='-1'>&negacoes;</token>
+          <token>sequer</token>
+      </antipattern>
+      <antipattern>
+          <token>antes</token>
+          <token skip='-1'>de</token>
           <token>sequer</token>
       </antipattern>
       <pattern>
@@ -3768,12 +3809,14 @@ title="Easy editing stylesheet" ?>
     <rule id="LP_NAO_A" name="Confusão: A - Há">
     <!-- Based on Lightproof by Tiago F. Santos, 2017-07-05 -->
       <antipattern>
-          <token inflected='yes' regexp='yes'>dizer|do|e|no|o|ou|para|pro|sonoro|um</token>
+          <token>que</token>
           <token>não</token>
-          <token regexp='yes'>a|à</token>
+          <token regexp='yes'>a</token>
+          <token>de</token>
       </antipattern>
       <pattern>
-          <token>não</token>
+          <token>não
+            <exception scope='previous' inflected='yes' regexp='yes'>dizer|do|e|no|o|ou|para|pro|sonoro|um</exception></token>
           <token regexp='yes'>a|à</token>
           <token regexp='yes'>(?:c(?:a(?:m(?:i(?:nhos?|sas)|a(?:rada|s)?|elos|po)|r(?:t(?:ilha|as?)|ác?ter|amujo|ros?|ne)|s(?:t(?:el(?:hanos|o)|igo)|as?|os?|ca)|p(?:it(?:a(?:is|l)|ães)|richos?|as)|b(?:reiros|otino|eça)|l(?:deiradas|çado|or)|ch(?:orrinho|aça)|(?:ntinh|gaç)o|u(?:dal|sas)|valos?|tarse|ça|os)|o(?:n(?:t(?:r(?:abandistas|ole)|estar)|f(?:iança|orto)|se(?:lhos|nso))|m(?:p(?:romisso|anhia)|bate|ida|um|o)?|(?:b(?:r(?:anç)?|ertur)|us|v)a|i(?:sa(?:-ruim)?|ros)|adjutor)|h(?:a(?:ma(?:riz)?|nce|ves)|e(?:(?:iro|que)s|fes?)|oque|uva|á)|r(?:i(?:a(?:(?:nça|do)s|tura)|m(?:inoso|es?)|se)|ase)|e(?:r(?:t(?:ezas?|as)|imônia)|go(?:nha)?|ntro)|l(?:a(?:ro-escuro|sse)|i(?:entel|m)a|ube)|i(?:n(?:e(?:asta|mas?)|co)|úmes|pó)|u(?:l(?:pado|tura)|ra)|á(?:lculo)?|éu)|a(?:l(?:g(?:u(?:ma?|ns)|as)|(?:caid|arm|fac)e|t(?:ernativas|a)|m(?:oço|a)|deias|vará|i)|m(?:(?:bulante|igo|pla)s|a(?:nuense|rgura)|or)|t(?:a(?:ques?|lhos)|mosfera|rasos?|eus|é)|p(?:e(?:tite|nas)|o(?:ios?|sta)|lausos)|r(?:istocracias|t(?:ista|e)|voredo|ma)|s(?:s(?:i(?:stentes|m)|adura)|pas)?|(?:g(?:ricultur|end)|ind)a|c(?:(?:úmul|ord)o|ademias)|(?:n(?:imai|o)|forismo)s|u(?:to(?:móvel|r)|las)|qu(?:el(?:as?|es?)|i)|b(?:ertura|rigo)|ju(?:ste|da)|z(?:uis|ar)|(?:vanç)?o|dmirar|í)|d(?:e(?:s(?:e(?:(?:mpreg|rt)o|jar)|(?:graçad|leix|tin)o|c(?:ulpas?|anso)|(?:vio|sa)s|pedida|ordem|ar)|(?:u(?:se)?|talhe)s|n(?:úncias|tro)|certo|ver|z)?|i(?:v(?:i(?:dendos|nas?)|ergências)|f(?:iculdades|erenças?)|s(?:[st]o|farce)|a(?:(?:bo)?s)?|(?:plom|et)a|rec?tor|álogo)|o(?:u(?:tr(?:ina|os)|s)|r(?:mi(?:mos|r))?|(?:ming|l)o|enças?|çura|ce|is)?|u(?:(?:que|a)s|vidar)|(?:r(?:am|og)|ívid)a|a(?:dos|ta)|úvidas?)|e(?:s(?:t(?:(?:(?:údi|ud)o|ratégia)s|a(?:tísticas)?|ômago|es?)|c(?:ol(?:as|ha)|ândalo|ravos|apar)|p(?:erança|écies|aços?)|s(?:es?|a)|forços)|m(?:p(?:a(?:t(?:es|ia)|das)|(?:lastr|reg)o|enhos?)|bargo)?|n(?:c(?:arregados|ontro)|fermidades|ganos?|ergia|tre)|(?:x(?:ager|empl)|goísm)o|(?:vidência|lefante)s|pi(?:demias?|sódio)|r(?:ros?|mos|va)|conomia|quipes?)?|p(?:r(?:o(?:gr(?:esso|ama)|blemas?|dígio|tetor|vas?)|a(?:z(?:er|o)|xe)|incípios?|essas?)|e(?:r(?:(?:plexidade|spec?tiva|íodo)s|igo|da)|s(?:soa[ls]?|ar)|nedos|ixe)|o(?:r(?:tugueses|que|ém)?|lí(?:ticas?|cias)|(?:esi|t)a|der|sse|is|vo)|a(?:(?:ciênci|lavr)a|r(?:tidos?|a)|ssagem|pel|ís|i)|i(?:o(?:lhos|r)|stas)|úblico|lanos)|b(?:a(?:n(?:(?:h(?:eir)?o|quete|ana)s|[cd]o)|l(?:a(?:nça|s)|iza)|r(?:racas|co)|i(?:le|a)|gatelas|se)|o(?:n(?:ança|de|zo|s)|t(?:equim|a)|m(?:bas)?|(?:rd)?a|gas)|e(?:l(?:(?:ez)?a|os)|rnarda|ijo|m)|r(?:aços?|uxas)|i(?:cho|rra)|álsamo|uracos)|m(?:e(?:n(?:digo|ina)|d(?:ida|o)|s(?:as|mo)|ios?|lhor)|o(?:t(?:orista|ivos)|l(?:éstia|hos)|delos?|rte|ça)|a(?:l(?:andro|es)?|(?:nhã)?s|i(?:or|s)|rgem)|(?:á(?:scar|go)|úsic)a|u(?:danças|itas?|lher)|é(?:dicos?|todos?)|i(?:lagre|ster)|ãos)|r(?:e(?:c(?:u(?:rsos?|os)|ei(?:tas|o))|f(?:(?:erência|ugiado)s|orma)|g(?:ist(?:ros?|o)|ra)|s(?:postas?|ervas)|m(?:édi|ors)o|i)|a(?:ci(?:ocínios|smo)|ças|paz)|i(?:queza|scos?)|osas|ua)|s(?:e(?:n(?:ti(?:do|r)|ador)|g(?:redos?|unda)|r(?:viço|eia)?|mpre|quer|is)|u(?:b(?:tileza|sídio)s|rf)|o(?:(?:cia)?l|bre|no|m)|i(?:na(?:is|l)|mpatia)|a(?:ngue|ída|las)|ó)|t(?:e(?:(?:r(?:apêutic|r)|cnologi)a|m(?:or|po)|stemunhas)|r(?:a(?:balho|gédia)|(?:eva|ê)s|istezas?|áfico|opa)|a(?:(?:ref|nt)a|l(?:vez)?|mbém)|(?:o[dl]|ip)o)|n(?:e(?:nhu(?:ma?|ns)|s(?:t[ae]|sa)|g(?:ros|ar)|l(?:es?|a)|m)|o(?:(?:v(?:idade|o)|t(?:íci)?a)?s|mes?|ite)?|a(?:(?:scente)?s|da)?|i(?:nguém|sso)|úmeros)|f(?:o(?:r(?:ças?|mas?|tuna)|me)|a(?:l(?:ar|ta)|mília|to)|i(?:dalgos|lósofo|m)|u(?:(?:tur|m)o|gir)|e(?:stas?|bre)|é(?:rias)?|órmulas?)|v(?:e(?:r(?:(?:dadeir|s)os)?|stígio|detas)|i(?:n(?:gança|ho)|slumbrar|zinhos|da)|a(?:ci(?:lar|na)|idades|gas?|lor)|o(?:ltas?|z)|éu)|i(?:(?:m(?:possívei|agen)|deologia)s|n(?:teresse|dícios|imigo)|gual)|g(?:r(?:a(?:ndes?|des|ça)|upos)|o(?:nçalinh|vern|st)o|arantias?)|l(?:i(?:nguagem|mites?|vros?|ames|xo)|u(?:[az]|tas?|gar)|eis?|á)|o(?:u(?:tr(?:os?|a)|ro)?|(?:bstácul|lh)os|fensa|rdem|nde)?|h(?:o(?:me(?:ns|m)|nra|je)|ipótese)|qu(?:a(?:(?:is|l)quer|se)|em?)|j(?:o(?:rnai|go)s|ustiça|á)|á(?:r(?:vore|ea)|lbum|gua)|u(?:m(?:as?)?|topias)|é(?:pocas?)?|ânimo)</token>
       </pattern>
@@ -3782,6 +3825,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1, \2 \3</suggestion>
       <example correction='Não há paciência|Não, a paciência'><marker>Não a paciência</marker> para este tipo de coisas</example>
       <example>Digam não à droga.</example>
+      <example>Não tem opção que não a de ficar calado.</example>
     </rule>
 
   <rulegroup id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO'>
@@ -4661,7 +4705,7 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token postag='SENT_END'/>
       </pattern>
-      <message>“\2 \3” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
+      <message>Se não é uma transcrição de discurso oral, “\2 \3” no início de uma frase requer uma segunda oração. Talvez uma vírgula, ponto de interrogação ou de exclamação estejam em falta, ou a frase está incompleta e deve ser ligada à frase que a precede ou à seguinte.</message>
       <short>Falta uma vírgula ou a frase é um fragmento</short>
       <example correction=""><marker>Considerando que</marker> o cão guarda a minha casa.</example>
       <example>Considerando que o cão guarda a minha casa, eu não me importo que ladre alto.</example>
@@ -8011,6 +8055,11 @@ title="Easy editing stylesheet" ?>
           <token>na</token>
           <token>prática</token>
       </antipattern>
+      <antipattern>
+          <token>na</token>
+          <token>prática</token>
+          <token postag_regexp='yes' postag='A..FS.+'/>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">“|«</exception>
@@ -8303,6 +8352,11 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='V.+'/>
           <token>na</token>
           <token>prática</token>
+      </antipattern>
+      <antipattern>
+          <token>na</token>
+          <token>prática</token>
+          <token postag_regexp='yes' postag='A..FS.+'/>
       </antipattern>
       <pattern>
         <marker>
@@ -8843,14 +8897,14 @@ title="Easy editing stylesheet" ?>
     <rule id='ENUMERATION_COMMAS' name="Vírgulas em enumerações">
     <!-- Created by Tiago F. Santos, 20-08-2019, Portuguese rule, -->
       <pattern>
-          <token postag_regexp='yes' postag='D.+'/>
+          <token postag_regexp='yes' postag='(D|AP).+'/>
         <marker>
           <token postag_regexp='yes' postag='N.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
           <token postag_regexp='yes' postag='D.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
         </marker>
-          <token postag_regexp='yes' postag='D.+' min='0'/>
+          <token postag_regexp='yes' postag='(D|AP).+' min='0'/>
           <token postag_regexp='yes' postag='N.+' regexp='yes'>\p{Ll}+</token>
         <or>
           <token postag_regexp='yes' postag='D.+'/>
@@ -9271,7 +9325,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:\d+)\.o(?:[sˢ]?)</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o(?:[sˢ]?)</token>
     <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.o([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
@@ -9281,7 +9335,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:\d+)[ªa]\.?([sˢ]?)</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+)[ªa]\.?([sˢ]?)</token>
     <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ªa]\.?([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
@@ -9291,7 +9345,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:\d+)\.a(?:[sˢ]?)</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+)\.a(?:[sˢ]?)</token>
     <!--token min='0' spacebefore='no'>.</token-->
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.a([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
@@ -9301,7 +9355,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:\d+\.[aoªº])s</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+\.[aoªº])s</token>
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='s' regexp_replace='ˢ'/></suggestion>.</message>
       <example correction="12.ªˢ">A entrada é a <marker>12.ªs</marker> da lista.</example>
@@ -9309,10 +9363,10 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>(?:\d+\.?[aoªº])[sˢ]?</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+\.?[aoªº])[sˢ]?</token>
           <token>.</token>
         </marker>
-          <token regexp='yes'>\p{Ll}+|[,;]</token>
+          <token regexp='yes' case_sensitive='yes'>\p{Ll}+|[,;]</token>
       </pattern>
       <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
       <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
@@ -10382,6 +10436,18 @@ tokenizer spreadsheet in the forum	     -->
       <example correction='Agora'><marker>Neste momento</marker> não me ocorre nada melhor.</example>
       <example>Além de lhe ter escrito uma carta a oferecer a sua amizade neste momento difícil…</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag_regexp='yes' postag='V.+'/>
+        <marker>
+          <token>sempre</token>
+          <token regexp='yes'>melhor(?:es)?</token>
+        </marker>
+      </pattern>
+      <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\3</suggestion>
+      <example correction='melhor'>É <marker>sempre melhor</marker> verificar.</example>
+    </rule>
     <!--rule> XXX uncomment if a good example is found, else delete on 4.8
       <pattern>
           <token>um</token>
@@ -10406,7 +10472,7 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>para que</suggestion>
       <example correction="para que">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
     </rule>
-    <rule id='PREÇOS_ECONÓMICOS' name="Expressões prolixas: Preços baixos">
+    <rule>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp='yes'>preços?</token>
@@ -24100,7 +24166,7 @@ TODO Write better examples
           <token regexp='yes'>&hifen;</token>
       </antipattern>
       <pattern>
-          <token regexp="yes">\d+\d{3}(?:,\d{1,3})?</token>
+          <token regexp="yes">[1-9]\d*\d{3}(?:,\d{1,3})?</token>
       </pattern>
       <message>Se não é um ano, os algarismos devem ser agrupados em grupos de 3.</message>
         <suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion>
@@ -24112,13 +24178,14 @@ TODO Write better examples
       <example>É o ano de <marker>1989</marker>.</example>
       <example>É o ano de <marker>1989</marker></example>
       <example>ISBN 0-522-85317-X.</example>
+      <example>08111930</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\d{1,3}\,\d{3}\d+</token>
+          <token regexp="yes">(\d{1,3}[\. ]?)+,\d{3}\d+</token>
       </pattern>
       <message>Os algarismos devem ser agrupados em grupos de 3.</message>
-        <suggestion><match no='3' regexp_match="(\d+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+        <suggestion><match no='3' regexp_match="((?:\d{1,3}[\. ]?)+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
       <example correction='17,103 41'>A média exata é de <marker>17,10341</marker> valores.</example>
       <example correction='365,242 19858156'>O ano tem exatamente <marker>365,24219858156</marker> dias.</example>
     </rule>
@@ -24147,10 +24214,11 @@ TODO Write better examples
           <token regexp="yes">\d+\d{3},\d{4,}</token>
         </marker>
       </pattern>
-      <message>Se não é um ano, os algarismos devem ser agrupados em grupos de 3.</message>
+      <message>Os algarismos devem ser agrupados em grupos de 3.</message>
         <!--suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion-->
         <!-- TODO find a regexp that works here to activate suggestion-->
-      <example correction=''><marker>1034133,0000</marker> também não é um número redondo.</example>
+      <example type='incorrect'><marker>1034133,0000</marker> também não é um número redondo.</example>
+      <example type='correct'><marker>1 034 133,000 0</marker> também não é um número redondo.</example>
       <example>É o ano de <marker>1989</marker>.</example>
       <example>É o ano de <marker>1989</marker></example>
       <example>O ano tem exatamente 365,24219858156 dias.</example>
