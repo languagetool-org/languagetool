@@ -9253,7 +9253,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9332,6 +9332,18 @@ USA
             <example correction="They are|There are"><marker>The are</marker> many people.</example>
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example><marker>There are</marker> different places to see.</example>
+        </rule>
+        <rule id="A_COMPLAIN" name="a + complain">
+            <pattern>
+                <token regexp="yes">an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                <marker>
+                    <token regexp="yes">complains?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="complain" regexp_replace="complaint" /></suggestion>?</message>
+            <example correction="complaint">He sent his <marker>complain</marker> to the mailing list.</example>
+            <example correction="complaints">The <marker>complains</marker> are totally valid!</example>
+            <example>A <marker>complaint</marker> is better than receiving no feedback at all.</example>
         </rule>
         <rule id="THE_ADD_ON" name="the + add on">
             <pattern>
@@ -24521,10 +24533,11 @@ The accident victim died from her injuries.
                         <token>lose</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>loss</suggestion>?</message>
+                <message>Did you mean <suggestion>loose</suggestion> (adjective) or <suggestion>loss</suggestion> (noun)?</message>
                 <short>Possible typo</short>
-                <example correction="loss">Feeling at a <marker>lose</marker> and frustrated.</example>
-                <example correction="loss">The <marker>lose</marker> of a good friend.</example>
+                <example correction="loose|loss">Feeling at a <marker>lose</marker> and frustrated.</example>
+                <example correction="loose|loss">The <marker>lose</marker> of a good friend.</example>
+                <example correction="loose|loss">A <marker>lose</marker> tooth in a child often signals an exciting rite of passage.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GIVE_ADVISE" name="give/any/of advise (advice)">
