@@ -153,7 +153,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|K(ü|ue)hne?|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Schick")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|K(ü|ue)hne?|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Schick|Frisch")
     ),
     Arrays.asList(
       token(","),
