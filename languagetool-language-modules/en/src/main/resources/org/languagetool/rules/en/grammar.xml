@@ -8124,6 +8124,13 @@ USA
                 <token regexp='yes'>do|did</token>
                 <token regexp='yes'>I|you|we|they</token>
             </antipattern>
+            <antipattern><!-- references to the concept of atoms -->
+                <token postag='NNS'/>
+                <token>to</token>
+                <token postag='DT'/>
+                <token postag='NN'/>
+                <token>of</token>
+            </antipattern>
             <pattern>
                 <token postag='NN'>
                     <exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'/>
@@ -8145,6 +8152,7 @@ USA
             <example>...involvement of the inhabitants drove the band of thugs <marker>out</marker> of the town.</example>
             <example>I'm taking a couple of days <marker>off</marker>.</example>
             <example>What sort of curtains <marker>do</marker> you think would go with the carpet?</example>
+            <example><marker>References to the concept of atoms</marker> date back to ancient Greece and India.</example>
             <example type="triggers_error">Only a handful of activists <marker>are</marker> articulate in our union.</example>
             <example type="triggers_error">A couple of swallows <marker>are</marker> flying overhead.</example>
             <example type="triggers_error">Only a handful of men <marker>want</marker> to take childcare leave.</example>
