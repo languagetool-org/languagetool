@@ -15657,6 +15657,11 @@ USA
                     <token postag="SENT_START"/>
                     <token postag="VB"/>
                 </antipattern>
+                <antipattern><!-- #1886. Add your Google calendar to your mobile phone. -->
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token postag="NNP"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -15673,6 +15678,7 @@ USA
                 </pattern>
                 <message>The singular proper name '<match no="2"/>' must be used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">Ann <marker>walk</marker> to the building.</example>
+                <example correction="speaks|spake|spoke">Microsoft <marker>speak</marker> to the customers.</example>
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
@@ -15701,8 +15707,9 @@ USA
                 <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
                 <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
                 <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
-                <example type="triggers_error">... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
+                <example>... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
                 <example type="triggers_error">...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
+                <example>Add your <marker>Google calendar</marker> to your mobile phone.</example><!-- #1886 -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
