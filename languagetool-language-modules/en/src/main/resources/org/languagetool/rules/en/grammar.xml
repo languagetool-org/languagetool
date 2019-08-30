@@ -13075,6 +13075,11 @@ USA
                 <example correction="Knowledge"><marker>A knowledge</marker> is power.</example>
             </rule>
             <rule>
+                <antipattern><!-- Fix for a sentence that does not end with a punctuation mark:  ... an artificial intelligence program -->
+                    <token postag="JJ"/>
+                    <token/>
+                    <token chunk="E-NP-singular" postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">an?</token>
@@ -13091,6 +13096,7 @@ USA
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example correction="Nice accommodation"><marker>A nice accommodation</marker> is too expensive.</example>
                 <example>This was mentioned in a German research.</example>
+                <example>Automated Mathematician, an artificial intelligence program</example>
             </rule>
             <rule>
                 <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
