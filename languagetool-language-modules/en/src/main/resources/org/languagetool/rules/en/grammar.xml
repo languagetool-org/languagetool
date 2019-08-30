@@ -14390,6 +14390,12 @@ USA
             <example correction="less hard">This is <marker>less harder</marker>.</example>
         </rule>
         <rule id="LEAST_COMPARATIVE" name="'least' before comparative or superlative">
+            <antipattern><!-- http://mathworld.wolfram.com/LeastUpperBound.html -->
+                <token>least</token>
+                <token>upper</token>
+                <token regexp="yes">bounds?</token>
+                <token/>
+            </antipattern>
             <pattern>
                 <token>least<exception scope="previous">at</exception></token>
                 <token postag="JJ[RS]" postag_regexp="yes"><exception>most</exception></token>
@@ -14399,6 +14405,7 @@ USA
             <example>This is the <marker>least hard</marker> task.</example>
             <example correction="least hard">This is the <marker>least harder</marker> task.</example>
             <example>This is at <marker>least harder</marker> than the trivial task.</example>
+            <example>...empty set of real numbers with an upper bound has a <marker>least upper bound</marker>.</example>
             <example correction="least hard">This is the <marker>least hardest</marker>.</example>
         </rule>
         <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
@@ -14418,6 +14425,17 @@ USA
                 <token>.</token>
                 <token/>
             </antipattern>
+            <antipattern><!-- http://mathworld.wolfram.com/LeastUpperBound.html -->
+                <token>least</token>
+                <token>upper</token>
+                <token>bound</token>
+                <token/>
+            </antipattern>
+                <antipattern><!-- voted "hottest female athlete" -->
+                    <token regexp="yes">['‘"“]</token>
+                    <token skip="-1" postag="JJS"/>
+                    <token spacebefore="no" regexp="yes">['’"”]</token>
+                </antipattern>
             <rule>
                 <antipattern>
                     <marker><token>best</token></marker>
@@ -14435,6 +14453,7 @@ USA
                 <example>Kyoto is <marker>the</marker> oldest city.</example>
                 <example>And Truly It Is <marker>a</marker> Most Glorious Thing</example>
                 <example>He made a fortune by writing a best selling novel.</example>
+                <example>...empty set of real numbers with an upper bound has a <marker>least upper bound</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14456,6 +14475,7 @@ USA
                 <example>Historian Samuel Walker writes that the ACLU’s “greatest impact on American life” was its role in persuading the Supreme Court to constitutionalize so many public controversies.</example>
                 <example><marker>…largest</marker> animals known to exist.</example>
                 <example>...in 1984: "<marker>... wisest</marker> animals on the farm, and one of the few who can read properly."</example>
+                <example>...50 Most Beautiful People in 1998 and was voted "hottest female athlete" on ESPN.com.</example>
             </rule>
             <rule>
                 <antipattern>
