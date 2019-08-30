@@ -1902,13 +1902,22 @@
       <disambig action="filterall"/>
     </rule>
 
-  <rulegroup id="GARANTE_VERB" name="Garante como verbo">
+  <rulegroup id="ERA_GARANTE_VERB" name="Era/Garante como verbo">
     <!-- 		Created by Tiago F. Santos, 2019-08-25		-->
     <rule>
       <pattern>
           <token postag='N.(F.|.P).+' postag_regexp='yes'/>
         <marker>
           <token>garante</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag='V.+'/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag='(?:N|A.).(M.|.P).+' postag_regexp='yes'/>
+        <marker>
+          <token regexp='yes'>era</token>
         </marker>
       </pattern>
       <disambig action="filter" postag='V.+'/>
