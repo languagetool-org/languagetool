@@ -644,7 +644,7 @@ public class AgreementRule extends Rule {
               continue;
             }
             RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
-                nextToken, tokens[tokenPos], sentence);
+                nextToken, tokens[tokenPos], sentence, i);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
@@ -798,31 +798,56 @@ public class AgreementRule extends Rule {
     if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
       if (StringTools.startsWithUppercase(nextToken.getToken())) {
-        try {
-          String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
-          String testPhrase = token1.getToken() + " " + potentialCompound;
-          if (lt == null) {
-            lt = new JLanguageTool(language);
-            for (Rule rule : lt.getAllActiveRules()) {
-              if (!rule.getId().equals("DE_AGREEMENT") && !rule.getId().equals("GERMAN_SPELLER_RULE")) {
-                lt.disableRule(rule.getId());
-              }
-            }
-          }
-          List<RuleMatch> matches = lt.check(testPhrase);
-          if (matches.size() == 0) {
-            String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
-            RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
-            ruleMatch.setSuggestedReplacement(testPhrase);
-            ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
-            return ruleMatch;
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+        String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+        String testPhrase = token1.getToken() + " " + potentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, testPhrase);
       }
     }
     return null;
+  }
+
+  // z.B. "die neue Original Mail" -> "die neue Originalmail"
+  @Nullable
+  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
+                                     int tokenPos, AnalyzedSentence sentence) {
+    if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
+      if (StringTools.startsWithUppercase(nextToken.getToken())) {
+        String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+        String testPhrase = token1.getToken() + " " + token2.getToken() + " " + potentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, testPhrase);
+      }
+    }
+    return null;
+  }
+
+  @Nullable
+  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase) {
+    try {
+      initLt();
+      List<RuleMatch> matches = lt.check(testPhrase);
+      if (matches.size() == 0) {
+        String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
+        ruleMatch.setSuggestedReplacement(testPhrase);
+        ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
+        return ruleMatch;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
+  }
+  
+  private void initLt() {
+    if (lt == null) {
+      lt = new JLanguageTool(language);
+      for (Rule rule : lt.getAllActiveRules()) {
+        if (!rule.getId().equals("DE_AGREEMENT") && !rule.getId().equals("GERMAN_SPELLER_RULE")) {
+          lt.disableRule(rule.getId());
+        }
+      }
+    }
   }
 
   private boolean isException(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
@@ -841,7 +866,7 @@ public class AgreementRule extends Rule {
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence) {
+      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if(token3 == null || token3.getToken().length() < 2) {
@@ -850,6 +875,10 @@ public class AgreementRule extends Rule {
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
+      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, tokenPos, sentence);
+      if (compoundMatch != null) {
+        return compoundMatch;
+      }
       // TODO: more detailed error message:
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +

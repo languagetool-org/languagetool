@@ -49,7 +49,9 @@ public class AgreementRuleTest {
   @Test
   public void testCompoundMatch() throws IOException {
     assertBad("Das ist die Original Mail", "die Originalmail");
+    assertBad("Das ist die neue Original Mail", "die neue Originalmail");
     assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität");
+    assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität");
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
   }
   
