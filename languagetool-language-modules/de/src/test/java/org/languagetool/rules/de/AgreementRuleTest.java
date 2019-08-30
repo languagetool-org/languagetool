@@ -47,6 +47,13 @@ public class AgreementRuleTest {
   }
 
   @Test
+  public void testCompoundMatch() throws IOException {
+    assertBad("Das ist die Original Mail", "die Originalmail");
+    assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität");
+    //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
+  }
+  
+  @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
     assertGood("So ist es in den USA.");

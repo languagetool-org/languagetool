@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,10 +30,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
 import org.languagetool.language.German;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -44,6 +42,8 @@ import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -64,6 +64,8 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 public class AgreementRule extends Rule {
 
   private final German language;
+
+  private JLanguageTool lt;
 
   private enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
@@ -648,7 +650,7 @@ public class AgreementRule extends Rule {
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence);
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence, i);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -739,7 +741,7 @@ public class AgreementRule extends Rule {
 
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
+      AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token2.isImmunized() || NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
@@ -765,6 +767,10 @@ public class AgreementRule extends Rule {
     set1.retainAll(set2);
     RuleMatch ruleMatch = null;
     if (set1.isEmpty() && !isException(token1, token2)) {
+      RuleMatch compoundMatch = getCompoundError(token1, token2, tokenPos, sentence);
+      if (compoundMatch != null) {
+        return compoundMatch;
+      }
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
@@ -784,6 +790,39 @@ public class AgreementRule extends Rule {
       ruleMatch.setSuggestedReplacements(suggestions);
     }
     return ruleMatch;
+  }
+
+  // z.B. "die Original Mail" -> "die Originalmail"
+  @Nullable
+  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, int tokenPos, AnalyzedSentence sentence) {
+    if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
+      if (StringTools.startsWithUppercase(nextToken.getToken())) {
+        try {
+          String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
+          String testPhrase = token1.getToken() + " " + potentialCompound;
+          if (lt == null) {
+            lt = new JLanguageTool(language);
+            for (Rule rule : lt.getAllActiveRules()) {
+              if (!rule.getId().equals("DE_AGREEMENT") && !rule.getId().equals("GERMAN_SPELLER_RULE")) {
+                lt.disableRule(rule.getId());
+              }
+            }
+          }
+          List<RuleMatch> matches = lt.check(testPhrase);
+          if (matches.size() == 0) {
+            String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
+            ruleMatch.setSuggestedReplacement(testPhrase);
+            ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
+            return ruleMatch;
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+    return null;
   }
 
   private boolean isException(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
