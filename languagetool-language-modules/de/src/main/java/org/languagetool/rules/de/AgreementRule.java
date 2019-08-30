@@ -800,7 +800,9 @@ public class AgreementRule extends Rule {
       if (StringTools.startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String testPhrase = token1.getToken() + " " + potentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase);
+        String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken();
+        String hyphenTestPhrase = token1.getToken() + " " + hyphenPotentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -815,21 +817,24 @@ public class AgreementRule extends Rule {
       if (StringTools.startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String testPhrase = token1.getToken() + " " + token2.getToken() + " " + potentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase);
+        String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken();
+        String hyphenTestPhrase = token1.getToken() + " " + token2.getToken() + " " + hyphenPotentialCompound;
+        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
   }
 
   @Nullable
-  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase) {
+  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
       List<RuleMatch> matches = lt.check(testPhrase);
       if (matches.size() == 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
-        ruleMatch.setSuggestedReplacement(testPhrase);
+        ruleMatch.addSuggestedReplacement(testPhrase);
+        ruleMatch.addSuggestedReplacement(hyphenTestPhrase);
         ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
         return ruleMatch;
       }
