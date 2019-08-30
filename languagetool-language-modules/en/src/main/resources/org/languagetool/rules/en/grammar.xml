@@ -2106,7 +2106,7 @@ USA
         </rule>
         <rule id="VARY_VERY" name="vary (very)">
             <pattern>
-                <token inflected="yes" regexp="yes">be|of</token>
+                <token inflected="yes" regexp="yes">be|of|the|an?|my|his|her|their|our|your</token>
                 <marker><token>vary</token></marker>
                 <token postag="JJ"/>
             </pattern>
@@ -2114,6 +2114,7 @@ USA
             <short>Possible typo</short>
             <example correction="very">They were <marker>vary</marker> happy.</example>
             <example correction="very">A lot of <marker>vary</marker> happy people live in this town.</example>
+            <example correction="very">A <marker>vary</marker> cool project.</example>
         </rule>
         <rule id="WEATHER_WHETHER" name="weather (whether)">
             <pattern>
@@ -9220,7 +9221,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|features?|parameters?|options?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|parameters?|options?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -9253,7 +9254,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?</exception>
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9335,35 +9336,88 @@ USA
         </rule>
         <rule id="A_COMPLAIN" name="a + complain">
             <pattern>
-                <token regexp="yes">an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                 <marker>
                     <token regexp="yes">complains?</token>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="2" regexp_match="complain" regexp_replace="complaint" /></suggestion>?</message>
+            <message>Did you mean <suggestion><match no="3" regexp_match="complain" regexp_replace="complaint" /></suggestion>?</message>
             <example correction="complaint">He sent his <marker>complain</marker> to the mailing list.</example>
             <example correction="complaints">The <marker>complains</marker> are totally valid!</example>
             <example>A <marker>complaint</marker> is better than receiving no feedback at all.</example>
         </rule>
-        <rule id="THE_ADD_ON" name="the + add on">
+        <rule id="A_REBRAND" name="a + rebrand">
             <pattern>
-                <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
-                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
+                <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                 <marker>
-                    <token>add</token>
-                    <token regexp="yes">in|on</token>
+                    <token>rebrand</token>
                 </marker>
             </pattern>
-            <message>It appears that a hyphen is missing.</message>
-            <suggestion><match no="3" />-<match no="4" /></suggestion>
-            <example correction="add-on">The newest <marker>add on</marker> was released yesterday</example>
-            <example>Our <marker>add-on</marker> has more than 1,000,000 users.</example>
+            <message>The word 'rebrand' is not a noun. Did you mean <suggestion>rebranding</suggestion>?</message>
+            <example correction="rebranding">Their <marker>rebrand</marker> is pretty.</example>
+            <example>A <marker>rebranding</marker> of our Corporate Design might be necessary soon.</example>
         </rule>
+        <rule id="A_REQUIRE" name="a + require">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>requires</token>
+                </marker>
+            </pattern>
+            <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="require" regexp_replace="requirement" /></suggestion>?</message>
+            <example correction="requirements">One of the new <marker>requires</marker> is ...</example>
+            <example>A <marker>requriement</marker> needs to be fulfilled.</example>
+        </rule>
+        <rule id="A_RESPOND" name="a + respond">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|RB|VBD" postag_regexp="yes" min="0" />
+                <marker>
+                    <token regexp="yes">responds?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" regexp_match="respond" regexp_replace="response" /></suggestion>?</message>
+            <example correction="response">He sent his <marker>respond</marker> to the mailing list.</example>
+            <example correction="responses">The <marker>responds</marker> were overall positive.</example>
+            <example>A <marker>response</marker> will be prepared.</example>
+        </rule>
+        <rulegroup id="THE_ADD_ON" name="the + add on">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>add</token>
+                        <token regexp="yes">in|on</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion><match no="3" />-<match no="4" /></suggestion>
+                <example correction="add-on">The newest <marker>add on</marker> was released yesterday</example>
+                <example>Our <marker>add-on</marker> has more than 1,000,000 users.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>firefox|mozilla|google|chrome|safari|docs|browser|edge|opera|software|system|hardware|game|third\-party|windows|word</token>
+                    <marker>
+                        <token>add</token>
+                        <token regexp="yes">in|on</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion><match no="2" />-<match no="3" /></suggestion>
+                <example correction="add-on">The Firefox <marker>add on</marker> was released yesterday</example>
+                <example>Our word <marker>add-in</marker> has more than 1,000,000 users.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_INSTALL" name="a/the + install">
             <rule>
                 <pattern>
                     <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
-                    <token postag="JJS?|RB|VBD" postag_regexp="yes" min="0" />
+                    <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                     <marker>
                         <token regexp="yes">((un|auto|re|pre)\-?)?installs?</token>
                     </marker>
@@ -9387,7 +9441,7 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <token postag="CD" />
-                    <token postag="JJS?|RB|VBD" postag_regexp="yes" min="0" />
+                    <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                     <marker>
                         <token regexp="yes">(un|auto-?|re-?)?installs?</token>
                     </marker>
@@ -9405,7 +9459,7 @@ USA
         <rule id="A_GOOGLE" name="a/the + proper noun">
             <pattern>
                 <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
-                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
+                <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                 <marker>
                     <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle|discover</token>
                 </marker>
@@ -18370,6 +18424,15 @@ USA
                 <token/>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern><!-- you bastards, you guys -->
+                <token>you</token>
+                <token regexp="yes">bastards|guys</token>
+            </antipattern>
+            <antipattern><!-- you son of a bitch -->
+                <token>you</token>
+                <token>son</token>
+                <token>of</token>
+            </antipattern>
             <antipattern><!-- you fool!," he shouted -->
                 <token>you</token>
                 <token/>
@@ -18439,7 +18502,9 @@ USA
                 <marker>
                     <token postag_regexp="yes" postag="NN.*">
                         <exception postag_regexp="yes" postag="VB.*|RB.*|JJR?|NNP"/>
-                        </token>
+                        <!-- our confusion rule will find 'he things it's great' and offer a suggestion -->
+                        <exception regexp="yes">things?</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Do not use a noun immediately after the pronoun '\2'. Use a verb or an adverb, or possibly some other part of speech.</message>
