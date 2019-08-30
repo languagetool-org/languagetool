@@ -308,5 +308,46 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filter" postag="V.[^MNPG].*"/>
     </rule>
   </rulegroup>
-  
+
+    <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
+    <!-- Localized from English by Tiago F. Santos, 2018-09-15  -->
+      <pattern>
+          <token/>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&extensoes_de_ficheiros;</token><!-- For more extensions, refer to https://fileinfo.com -->
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
+      <pattern>
+          <token regexp="yes">@.+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
+    <rule>
+      <pattern>
+          <token spacebefore="yes">#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token>#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+    <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+      <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Za-z0-9\-]+</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
 </rules>
