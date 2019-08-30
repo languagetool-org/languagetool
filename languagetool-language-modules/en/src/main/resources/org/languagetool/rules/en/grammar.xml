@@ -114,10 +114,17 @@ USA
     <category id="TYPOS" name="Possible Typo" type="misspelling">
 
         <rule id="LIGATURES" name="Word contains a ligature">
+            <antipattern case_sensitive="yes"><!-- Assume that ligatures in text about Old English are correct -->
+                <token skip="-1" postag="SENT_START"/>
+                <token regexp="yes">Old|Middle</token>
+                <token skip="-1">English</token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern><!-- Don't add all known ligatures. Wait for real errors reported by users. -->
                 <token regexp="yes">.*(æ|ﬀ|ﬁ|ﬂ).*
                     <exception regexp="yes">.</exception><!-- Ignore a token that is a single ligature -->
                     <exception postag_regexp="yes" postag="NNPS?"/>
+                    <exception scope="previous">nihilque</exception><!-- Add to this list when an FP is found, but only if the word is clearly not English. This is not an ideal solution, but it works.(The spell checker still finds the target word and this word.) -->
                     </token>
             </pattern>
             <message>The word '\1' contains a ligature (joined letters). Modern English does not usually use ligatures. A ligature in a word causes a spelling error. If the word is an English  word, write it with standard characters.</message><!-- A ligature can also cause a disambiguation error, but the average reader does not need to know that. -->
@@ -131,6 +138,8 @@ USA
           <example>LanguageTool <marker>【Upgraded</marker> version...</example><!-- Not a ligature. Need a different rule. -->
           <example>The correct spelling of the proper noun '<marker>Encyclopædia Britannica</marker>' uses a ligature (https://corporate.britannica.com/contact/).</example>
           <example>The Danish and Norwegian alphabets end with <marker>æ</marker>—ø—å, whereas the Icelandic...</example>
+          <example>... from its Old English meaning, dægesege, from dæges eage meaning "day's eye," and this was...</example>
+          <example>... accensum ardeat donec totum consumatur, nihilque fæcum aut phlegmatis in fundo remaneat.</example>
         </rule>
 
        <rulegroup id="IN_LAWS" name="brother-in-laws (brothers-in-law)">
