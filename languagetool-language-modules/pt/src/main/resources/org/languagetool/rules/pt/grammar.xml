@@ -759,6 +759,10 @@ title="Easy editing stylesheet" ?>
         <token inflected='yes' regexp='yes' skip='-1'>&requer_crase;|&requer_crase_verbos;|chegar|limitar</token><!-- ambiguous: ir -->
         <token>a</token>
       </antipattern>
+      <antipattern>
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token>a</token>
+      </antipattern>
     <rule>
       <pattern>
           <token>a
@@ -7945,7 +7949,7 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
     <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
-      <url>https://pt.wikipedia.org/wiki/V%C3%ADrgula</url>
+      <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/a-virgula-em-4-regras-simples/3191</url>
       <short>Separe com vírgulas</short>
       <antipattern>
           <token regexp="yes">[\.!?]</token>
@@ -8251,13 +8255,13 @@ title="Easy editing stylesheet" ?>
           <token>bem</token>
           <token postag='_PUNCT'/>
       </antipattern>
-      <antipattern>
+      <!--antipattern>
         <marker>
           <token/>
           <token>mas</token>
         </marker>
           <token>,</token>
-      </antipattern>
+      </antipattern-->
       <pattern>
         <marker>
           <token>
@@ -8272,6 +8276,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
         <suggestion>\1, <match no='2' case_conversion="startlower"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/pontuacao-virgula-antes-de-mas/7047</url>
       <example correction="digas, portanto">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
       <example correction="distinção, portanto">Foi feito com <marker>distinção portanto</marker>, está bem feito.</example>
       <example correction="distinção, outrossim">Foi feito com <marker>distinção outrossim</marker>, que está bem feito.</example>
@@ -8281,7 +8286,7 @@ title="Easy editing stylesheet" ?>
       <example correction='devendo, contudo'>…símbolos nacionais, <marker>devendo contudo</marker> ser dada precedência a estes.</example>
       <example correction='", mas'>...muitos escritores que "ninguém lê<marker>" mas</marker> que esgotam edições atrás de edições.</example>
       <example>Tchecov lembra, "mas nossa alma recebemos de nossa mãe."</example>
-      <example>…as políticas são feitas com as melhores intenções mas, porque não preveem os resultados colaterais, muitas vezes geram os resultados contrários…</example>
+      <example correction='intenções, mas'>…as políticas são feitas com as melhores <marker>intenções mas</marker>, porque não preveem os resultados colaterais, muitas vezes geram os resultados contrários…</example>
     </rule>
     <rule>
       <pattern>
@@ -8514,16 +8519,24 @@ title="Easy editing stylesheet" ?>
       <example correction="com efeito,">Foi feito com distinção, <marker>com efeito</marker> está bem feito.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token negate_pos='yes' postag_regexp='yes' postag='[CV].+'/>
+          <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+      </antipattern>
       <pattern>
+          <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
+        <marker>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
           <token>
             <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
+        </marker>
       </pattern>
       <message>Esta conjugação deve ser separada por vírgulas.</message>
-        <suggestion>\1, \2</suggestion>
-      <example correction="portanto, que">Terminei a prova com antecedência, não me digas <marker>portanto que</marker> não posso sair.</example>
-      <example correction="portanto, está">Foi feito com distinção, <marker>portanto está</marker> bem feito.</example>
-      <example correction="outrossim, que">Foi feito com distinção, <marker>outrossim que</marker> está bem feito.</example>
+        <suggestion>\2, \3</suggestion>
+      <example correction="portanto, que">Terminei a prova com antecedência, não me digas, <marker>portanto que</marker> não posso sair.</example>
+      <example correction="portanto, bem">Foi feito com distinção, está, <marker>portanto bem</marker> feito.</example>
+      <example>Foi feito com distinção, <marker>outrossim que</marker> está bem feito.</example>
       <example correction="aliás, está">Foi feito com distinção e, <marker>aliás está</marker> bem feito.</example>
     </rule>
   </rulegroup>
@@ -31935,6 +31948,14 @@ TODO Write better examples
       </pattern>
       <message>'\1' é um verbo referente a fazer uma minuta. A unidade de tempo escreve-se <suggestion><match no='1' regexp_match='ute' regexp_replace='uto'/></suggestion>.</message>
       <example correction="minutos">Demora de 10 a 15 <marker>minutes</marker> a ler.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>núncios?
+            <exception scope='next' regexp='yes'>apostólicos?|papa(?:l|is)</exception></token>
+      </pattern>
+      <message>'\1' é um título eclesiástico. A forma de divulgação de algo escreve-se <suggestion>a\1</suggestion>.</message>
+      <example correction="anúncio">O <marker>núncio</marker> foi pago ao jornal ontem.</example>
     </rule>
     <rule>
       <antipattern>
