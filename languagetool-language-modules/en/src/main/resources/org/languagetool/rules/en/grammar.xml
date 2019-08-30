@@ -16216,6 +16216,14 @@ USA
                 <example>There're many problems in Iraq.</example>
             </rule>
             <rule>
+            <antipattern><!-- many Taxicab and Hackney carriage services [Taxicab/E-NP-singular, thus cannot use the chunker.] -->
+                <token regexp="yes">many|several|few</token>
+                <token/>
+                <token regexp="yes">and|or</token>
+                <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
+                <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
+                <token postag="NNS"/>
+            </antipattern>
                 <pattern>
                     <token>there</token>
                     <token>are</token>
@@ -16243,6 +16251,7 @@ USA
                 <example>There are never fewer than eight of them on stage.</example>
                 <example>There are some even now.</example>
                 <example>There are <marker>food</marker> and waterborne diseases, bacterial and protozoal diarrhea, ...</example>
+                <example>There are many Taxicab and Hackney carriage services on the Island.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THERE_WAS_MANY" name="Possible agreement error 'there was' + plural noun"><!-- modified copy of THERE_S_MANY -->
@@ -16660,10 +16669,20 @@ USA
                 <token postag="VB"/>
                 <token>to</token>
             </antipattern>
+            <antipattern><!-- many Taxicab and Hackney carriage services [Taxicab/E-NP-singular, thus cannot use the chunker.] -->
+                <token regexp="yes">many|several|few</token>
+                <token/>
+                <token regexp="yes">and|or</token>
+                <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
+                <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
+                <token postag="NNS"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
-                    <token postag="NN:UN|NNP?" postag_regexp="yes"><exception postag="NN:U|NNP?S|JJ.*|MD|CC|VBG|IN" postag_regexp="yes"/><exception inflected="yes">be</exception></token>
+                    <token postag="NN:UN|NNP?" postag_regexp="yes">
+                        <exception postag="NN:U|NNP?S|JJ.*|MD|CC|VBG|IN|RB" postag_regexp="yes"/>
+                        <exception inflected="yes">be</exception></token>
                 </marker>
                 <token><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
@@ -16685,6 +16704,9 @@ USA
             <example>LanguageTool finds <marker>many style and grammar issues</marker>.</example>
             <example>Many spring- and summer-flowering bulbs grown in gardens in...</example>
             <example>In exploring Warhol's biography, many turn to this period — the late 1950s and early 1960s —...</example>
+            <example>...lanthanum and actinium compounds differ by only a few percent.</example>
+            <example>There are many Taxicab and Hackney carriage services on the Island.</example>
+            <example>Are there many taxi and hackney carriage services here?</example>
         </rule>
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
