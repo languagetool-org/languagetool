@@ -440,10 +440,17 @@ USA
         <!-- Created by Tiago F. Santos, 2018-11-25 -->
           <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
           <rule>
+<!-- Cannot use antipattern with regexp            <antipattern>
+              <token>hell</token>
+              <token spacebefore="no" regexp="yes">['’]</token>
+              <token spacebefore="no">s</token>
+            </antipattern>-->
             <regexp>\b((a[im]|are|ca|could|dares?|das|did|do(es)?|has|have|is|ought|sha|should|was|wo)(['’]n?t|n['’][^t])|(?:I|you|s?he|it|we|they)([ds]['’]|l['’]l|l?l['’]|v['’]e|ve['’])|(oc['’]lock))\b</regexp>
-            <message>This contractions is incorrect. Please, check the apostrophe position.</message>
+            <message>This contraction is incorrect. Please, check the apostrophe position.</message>
             <example type='incorrect'>...it <marker>did'nt</marker> work.</example>
             <example>... it didn't work.</example>
+            <example type="triggers_error">Have you seen the film Hell's Angels (https://www.imdb.com/title/tt0020960/)?</example>
+            <example type="triggers_error">Sometimes, I think about hell's deep symbolism.</example>
           </rule>
         </rulegroup>
         <rulegroup id="PERS_PRON_CONTRACTION" name="I'l (I'll) etc.">
