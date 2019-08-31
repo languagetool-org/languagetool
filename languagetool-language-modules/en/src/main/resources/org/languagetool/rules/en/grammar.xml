@@ -21369,6 +21369,10 @@ The accident victim died from her injuries.
       <example correction='returning to'>While we were <marker>returning in</marker> the office, I have been arrested for speeding.</example>
     </rule>
     <rule>
+      <antipattern>
+        <token>at</token>
+        <token>night</token>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected="yes">return
@@ -21376,12 +21380,15 @@ The accident victim died from her injuries.
           <token regexp="yes">in|at</token>
         </marker>
           <token postag="NNP">
-            <exception regexp="yes">[0-9].*|January|February|March|April|May|June|July|August|September|October|November|December|night</exception></token>
+            <exception regexp="yes">[0-9].*|(mid-)?(January|February|March|April|May|June|July|August|September|October|November|December)</exception></token>
           <token>
             <exception postag="POS"/></token>
       </pattern>
       <message>The usual collocation for "\1" is "to" not "\2" with. Did you mean <suggestion>\1 to</suggestion>.</message>
-      <example correction='returning to'>While we were <marker>returning in</marker> Montreal, I have been arrested for speeding.</example>
+      <example correction='returning to'>While we were <marker>returning in</marker> Montreal, I was arrested for speeding.</example>
+      <example correction='return to'>I will <marker>return in</marker> Night.</example><!-- The rule finds an error, but the suggestion is not correct. -->
+      <example>While we were <marker>returning to</marker> Montreal, I was arrested for speeding.</example>
+      <example>...are herded up to the pastures and again when they return <marker>in mid-September</marker>.</example>
     </rule>
   </rulegroup>
 
