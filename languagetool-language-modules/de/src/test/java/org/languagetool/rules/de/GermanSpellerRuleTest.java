@@ -388,6 +388,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Überstreitung", "Überschreitung", rule, lt);
     assertFirstSuggestion("werkzeug.", "Werkzeug", rule, lt);
     assertFirstSuggestion("Wärkzeug.", "Werkzeug", rule, lt);
+    assertFirstSuggestion("Fußgängerunterweg", "Fußgängerunterführung", rule, lt);
+    assertFirstSuggestion("Ingineuer", "Ingenieur", rule, lt);
+    assertFirstSuggestion("Panacotta", "Panna cotta", rule, lt);
+    assertFirstSuggestion("Ärcker", "Erker", rule, lt);
   }
 
   @Test
