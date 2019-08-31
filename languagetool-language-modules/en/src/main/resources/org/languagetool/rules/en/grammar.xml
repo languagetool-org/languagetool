@@ -7328,12 +7328,15 @@ USA
                 <token spacebefore="no">Th</token>
                 <token spacebefore="no">)</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">[A-Z][a-z]</token><!-- For 2-letter chemical symbols -->
+            <antipattern case_sensitive="yes"><!-- Cd, Th -->
+                <token postag="NNP" regexp="yes">[A-Z][a-z]</token><!-- 2-letter chemical symbols -->
                 <token spacebefore="no">,</token>
                 <token>Th</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- Th, Pa -->
+                <token>Th</token>
                 <token spacebefore="no">,</token>
-                <token regexp="yes">[A-Z][a-z]</token>
+                <token postag="NNP" regexp="yes">[A-Z][a-z]</token>
             </antipattern>
             <antipattern>
                 <token case_sensitive="yes">Th</token>
@@ -7354,13 +7357,14 @@ USA
             <example correction="The" type="incorrect">... but if <marker>Th</marker> water is hot, stop the test.</example>
             <example correction="The" type="incorrect"><marker>Th</marker> is in my handbag. [Missing noun.]</example>
             <example correction="The" type="incorrect"><marker>Th</marker> thorium was contaminated.</example>
-            <example type="correct">Thorium (<marker>Th</marker>) has the atomic number 90.</example>
-            <example type="correct">... but elements such as Al, <marker>Th</marker>, Mg and Nb are ...</example>
-            <example type="correct">... but thorium (<marker>Th</marker>) and the related ...</example>
-            <example type="correct"><marker>Th</marker> is the chemical symbol for thorium.</example>
-            <example type="correct">The chemical symbol for Thorium is <marker>Th</marker>.</example>
-            <!-- False negative --><example type="correct"><marker>Th</marker> contaminated thorium caused a problem.</example>
-            <example type="triggers_error">These elements (Al, Cd, <marker>Th</marker>) are ...</example>
+            <example>Thorium (<marker>Th</marker>) has the atomic number 90.</example>
+            <example>... but elements such as Al, <marker>Th</marker>, Mg and Nb are ...</example>
+            <example>... but thorium (<marker>Th</marker>) and the related ...</example>
+            <example><marker>Th</marker> is the chemical symbol for thorium.</example>
+            <example>The chemical symbol for Thorium is <marker>Th</marker>.</example>
+<!-- False negative --><example><marker>Th</marker> contaminated thorium caused a problem.</example>
+            <example>These elements (Al, Cd, <marker>Th</marker>) are ...</example>
+            <example>... than the actinides before it: Th, Pa, U, Np and Pu.</example>
             <example type="triggers_error"><marker>Th</marker> was found in the sample.</example>
             <example type="triggers_error"><marker>Th</marker> must not...</example>
             <example type="triggers_error"><marker>Th</marker> usually produces 220Ra and actinium as the principal decay products.</example>
