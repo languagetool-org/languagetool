@@ -3696,6 +3696,11 @@ USA
             <example correction="had">I <marker>had of</marker> bought this house.</example>
         </rule>
         <rule id="ONES" name="ones (one's)" type="typographical">
+            <antipattern><!-- https://www.lexico.com/en/definition/loved_one -->
+                <token>loved</token>
+                <token>ones</token>
+                <token postag="IN"/>
+            </antipattern>
             <pattern>
                 <token><exception postag="JJ.*|DT|WP" postag_regexp="yes"/></token>
                 <marker>
@@ -3707,8 +3712,10 @@ USA
             <short>Possible typo</short>
             <example>The common ones clashing with the noble ones</example>
             <example correction="one's">One should always wash <marker>ones</marker> feet in the morning.</example>
+            <example correction="one's">Carer information: how to care for your loved <marker>ones</marker> feet.</example>
             <example>These were the ones Keith sought out.</example>
             <example>They could predict which islands would become vulnerable with warming, and which ones might become better habitats.</example>
+            <example>... nameless citizens who are separated from loved ones in other towns.</example>
         </rule>
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <rule>
