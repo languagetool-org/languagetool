@@ -1907,6 +1907,15 @@
       <disambig action="filterall"/>
     </rule>
 
+    <rule id="AVANCA_NUMEROS" name="avança números">
+    <!-- 		Created by Tiago F. Santos, 2019-08-30		-->
+      <pattern>
+          <token>avança</token>
+          <token>números</token>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/><wd pos="NCMP000"/></disambig>
+    </rule>
+
   <rulegroup id="ERA_GARANTE_VERB" name="Era/Garante como verbo">
     <!-- 		Created by Tiago F. Santos, 2019-08-25		-->
     <rule>
@@ -1920,9 +1929,18 @@
     </rule>
     <rule>
       <pattern>
+        <marker>
+          <token>garante</token>
+        </marker>
+          <token postag='N.(F.|.P).+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="filter" postag='V.+'/>
+    </rule>
+    <rule>
+      <pattern>
           <token postag='(?:N|A.).(M.|.P).+' postag_regexp='yes'/>
         <marker>
-          <token regexp='yes'>era</token>
+          <token>era</token>
         </marker>
       </pattern>
       <disambig action="filter" postag='V.+'/>
