@@ -152,43 +152,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
-    System.out.println("Checking regexp syntax of " + rules.size() + " rules for " + lang + "...");
-    for (AbstractPatternRule rule : rules) {
-      // Test the rule pattern.
-      /* check for useless 'marker' elements commented out - too slow to always run:
-      PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
-      String xml = creator.toXML(rule.getPatternRuleId(), lang);
-      if (PATTERN_MARKER_START.matcher(xml).matches() && PATTERN_MARKER_END.matcher(xml).matches()) {
-        System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
-      }*/
-
-      // too aggressive for now:
-      //PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
-              
-      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
-              rule.getId(), rule.getSubId(), lang);
-
-      // Test the rule antipatterns.
-      List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
-      for (DisambiguationPatternRule antiPattern : antiPatterns) {
-        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
-            antiPattern.getId(), antiPattern.getSubId(), lang);
-      }
-      if (rule.getCorrectExamples().isEmpty()) {
-        boolean correctionExists = false;
-        for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
-          if (incorrectExample.getCorrections().size() > 0) {
-            correctionExists = true;
-            break;
-          }
-        }
-        if (!correctionExists) {
-          fail("Rule " + rule.getFullId() + " in language " + lang
-                  + " needs at least one <example> with a 'correction' attribute"
-                  + " or one <example> of type='correct'.");
-        }
-      }
-    }
+    testRegexSyntax(lang, rules);
+    testExamplesExist(lang, rules);
     testGrammarRulesFromXML(rules, lt, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();
@@ -267,6 +232,51 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     for (Rule rule : allRules) {
       if (rule instanceof SpellingCheckRule) {
         lt.disableRule(rule.getId());
+      }
+    }
+  }
+
+  private void testRegexSyntax(Language lang, List<AbstractPatternRule> rules) {
+    System.out.println("Checking regexp syntax of " + rules.size() + " rules for " + lang + "...");
+    for (AbstractPatternRule rule : rules) {
+      // Test the rule pattern.
+      /* check for useless 'marker' elements commented out - too slow to always run:
+      PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
+      String xml = creator.toXML(rule.getPatternRuleId(), lang);
+      if (PATTERN_MARKER_START.matcher(xml).matches() && PATTERN_MARKER_END.matcher(xml).matches()) {
+        System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
+      }*/
+
+      // too aggressive for now:
+      //PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
+
+      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
+              rule.getId(), rule.getSubId(), lang);
+
+      // Test the rule antipatterns.
+      List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
+      for (DisambiguationPatternRule antiPattern : antiPatterns) {
+        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
+                antiPattern.getId(), antiPattern.getSubId(), lang);
+      }
+    }
+  }
+
+  private void testExamplesExist(Language lang, List<AbstractPatternRule> rules) {
+    for (AbstractPatternRule rule : rules) {
+      if (rule.getCorrectExamples().isEmpty()) {
+        boolean correctionExists = false;
+        for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
+          if (incorrectExample.getCorrections().size() > 0) {
+            correctionExists = true;
+            break;
+          }
+        }
+        if (!correctionExists) {
+          fail("Rule " + rule.getFullId() + " in language " + lang
+                  + " needs at least one <example> with a 'correction' attribute"
+                  + " or one <example> of type='correct'.");
+        }
       }
     }
   }
