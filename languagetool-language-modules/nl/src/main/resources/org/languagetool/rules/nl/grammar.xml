@@ -12304,7 +12304,7 @@ onwaarschijnlijk
             <!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
             <rule>
                 <pattern>
-                    <token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*|spleetoo?g|nikker|neger).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita|godsvrezend|oorlogshitsers|negeren</exception></token>
+                    <token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*|spleetoo?g|nikker|neger).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">knikker.*|[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita|godsvrezend|oorlogshitsers|negeren</exception></token>
                 </pattern>
                 <message>Dit taalgebruik kan als ongepast, grof of beledigend worden ervaren.</message>
                 <short>ongepast</short>
@@ -13355,7 +13355,7 @@ onwaarschijnlijk
         <rulegroup id="NADRUKTEKENS" name= "optionele accenten">
             <rule>
                 <pattern>
-					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">^één.{3,}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
+					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">á|^één.{3,}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
 				<message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk.</message>
                 <example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
@@ -17524,9 +17524,8 @@ steenwijk;Steenwijk
 		
         <rulegroup id="KOMMA_HOEWEL" name=", hoewel">
             <rule>
-                <antipattern><token regexp="yes">en|of|alleen</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
                 <pattern>
-					<token><exception postag="SENT_START"/><exception>,</exception></token>
+					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|[(]</exception></token>
                     <token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
                 </pattern>
                 <message>Voor '\2' komt meestal een komma: <suggestion>\1, \2</suggestion></message>
@@ -18162,7 +18161,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>een</token>
                     <marker>
-                        <token postag=".*BNW:.*VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe</exception></token>
+                        <token postag=".*BNW:.*VRB.*" postag_regexp="yes"><exception regexp="yes">.*n|luxe|online</exception><exception postag="BNW:STL:ONV"/></token>
                     </marker>
                     <token postag_regexp="yes" postag=".*ZNW.*HET.*"><exception postag=".*ZNW.*DE_" postag_regexp="yes"/></token>
                     <token><exception postag=".*ZNW.*" postag_regexp="yes"/></token>
@@ -25898,6 +25897,7 @@ steenwijk;Steenwijk
         <rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
             <rule>
                 <antipattern><token regexp="yes">social|sociale</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
+                <antipattern><token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
                 <pattern>
                     <token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
@@ -30921,8 +30921,8 @@ steenwijk;Steenwijk
         <rulegroup id="GROEP_DEED" name="groep deed">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
-                    <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+                    <token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
+                    <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"></token>
                     <token postag="WKW.*INF.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="WKW:VLT:1EP"/></suggestion>.</message>
@@ -31082,10 +31082,18 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="LOOPT_JIJ" name="loopt jij">
             <rule>
-                <pattern>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token postag="WKW:TGW:3EP" regexp="yes">.*t$<exception postag="WKW:TGW:1EP"/></token>
+                        <token>je</token>
+                        <token postag="ZNW.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="WKW:TGW:3EP" regexp="yes">.*t$<exception postag_regexp="yes" postag="WKW:TGW:1EP|WKW:VLT:1EP"/></token>
                         <token regexp="yes">jij|je</token>
                     </marker>
                 </pattern>
@@ -34924,6 +34932,7 @@ steenwijk;Steenwijk
             <rule>
 				<antipattern><token postag="SENT_START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en</token></antipattern>
 				<antipattern><token>volgens</token><token>mij</token></antipattern>
+				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
 				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
