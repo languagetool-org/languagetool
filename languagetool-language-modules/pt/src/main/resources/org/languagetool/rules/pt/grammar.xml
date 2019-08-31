@@ -476,7 +476,6 @@ title="Easy editing stylesheet" ?>
       <example correction="As escolas|Os (escolas)|Os, escolas"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
       <example>Cento e oitenta línguas indígenas são faladas em áreas remotas e diversas...</example>
       <example>...gicos exibem a notável similaridade de unidades e processos discutida na secção anterior.</example>
-
     </rule>
     <rule>
       <pattern>
@@ -540,7 +539,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
-          <token regexp='yes'>e|d[eo]</token>
+          <token regexp='yes'>e|d[ea]</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
@@ -639,7 +638,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
-          <token regexp='yes'>e|d[eo]</token>
+          <token regexp='yes'>e|d(?:e|as)</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
@@ -2811,8 +2810,8 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="MUITOS_MUITO" name="Advérbios: muitos/muito contentes">
-    <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
+  <rulegroup id="MUITOS_MUITO" name="Advérbios: muitos/muito contentes">
+    <!-- Based on Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
       <antipattern>
         <marker>
           <token regexp="yes">muit[ao]s|pouc[ao]s</token>
@@ -2834,9 +2833,10 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">molts|pocs</token>
         </marker>
       </antipattern-->
+    <rule>
       <pattern>
         <marker>
-          <token regexp="yes">muit[ao]s|pouc[ao]s
+          <token regexp="yes">muit(?:a|os)|pouc(?:a|os)
             <exception scope="previous" inflected='yes'>haver</exception>
             <exception postag="DA0MP0|SPS00" postag_regexp="yes" scope="previous"/></token>
         </marker>
@@ -2854,6 +2854,28 @@ title="Easy editing stylesheet" ?>
       <example>…há muitos disponíveis por outros meios.</example>
       <example>Trabalhamos com muitos autónomos.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">muit(?:a|[ao]s)|pouc(?:a|[ao]s)
+            <exception scope="previous" inflected='yes'>haver</exception>
+            <exception postag="DA0FP0|SPS00" postag_regexp="yes" scope="previous"/></token>
+        </marker>
+          <token postag="AQ.[FC][PN]." postag_regexp="yes">
+            <exception postag="N.[FC][PN].*|PI.[FC]P.*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>"Muito" e "pouco" são invariáveis como advérbio. Pretende dizer <suggestion><match no='1' regexp_match="(muit|pouc)[ao]s" regexp_replace="$1o"/></suggestion>?</message>
+      <example correction="muito">Estamos <marker>muitas</marker> embriagadas.</example>
+      <example correction="pouco">São <marker>poucas</marker> escassas.</example>
+      <example>Muitos grandes cantores.</example>
+      <example>Entre muitos outros, mencionam-se os seguintes.</example>
+      <example>Com muitos outros curiosos animais.</example>
+      <example>O primeiro dos muitos famosos entrevistados.</example>
+      <example>Muitos asiáticos e uns poucos europeus.</example>
+      <example>…há muitos disponíveis por outros meios.</example>
+      <example>Trabalhamos com muitos autónomos.</example>
+    </rule>
+  </rulegroup>
 
     <rule id="MUITO_POUCOS" name="Advérbios: muitos poucos / muito poucos">
     <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
@@ -3618,6 +3640,12 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='A...P.+' min='0'/>
           <token>eleições</token>
       </antipattern>
+      <antipattern>
+          <token>assim</token>
+          <token inflected='yes' spacebefore='no'>ir</token>
+          <token>a</token>
+          <token>campanha</token>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes' regexp='yes'>&requer_crase_verbos;
@@ -3856,7 +3884,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>ti|contigo</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception>há</exception></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
@@ -3873,7 +3902,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>si</token> <!-- XXX consigo removed. consigo->conseguir -->
           <token postag_regexp='yes' postag='V.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception>há</exception></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
@@ -3886,7 +3916,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>con?nosco</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception>há</exception></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
@@ -3898,7 +3929,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>convosco</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception>há</exception></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
@@ -6330,8 +6362,9 @@ title="Easy editing stylesheet" ?>
           <token>mais</token>
         </marker>
       </pattern>
-      <message>Será que pretende dizer <suggestion>jamais</suggestion>?</message>
-      <example correction="jamais">Eu <marker>já mais</marker> faria mal a um animal.</example>
+      <message>Pretende dizer <suggestion>jamais</suggestion>? Caso contrário, é uma redundância.</message>
+        <suggestion>mais</suggestion>
+      <example correction="jamais|mais">Eu <marker>já mais</marker> faria mal a um animal.</example>
     </rule>
 
     <!-- MAIOR maiores -->
@@ -8262,6 +8295,12 @@ title="Easy editing stylesheet" ?>
         </marker>
           <token>,</token>
       </antipattern-->
+      <antipattern><!--  [NA] mas [NA], CC -->
+          <token regexp='yes'>mas|porám</token>
+          <token/>
+          <token postag='_PUNCT'/>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>
