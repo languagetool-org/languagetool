@@ -222,11 +222,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   private void validateRuleIds(Language lang, JLanguageTool languageTool) {
     List<Rule> allRules = languageTool.getAllRules();
-    Set<String> ids = new HashSet<>();
-    Set<Class> ruleClasses = new HashSet<>();
     Set<String> categoryIds = new HashSet<>();
+    new RuleIdValidator(lang).validateUniqueness();
+    System.out.println("Checking examples of all rules...");
     for (Rule rule : allRules) {
-      assertIdUniqueness(ids, ruleClasses, lang, rule);
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
@@ -260,16 +259,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         }
       }
     }
-  }
-
-  private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
-    String ruleId = rule.getId();
-    Class relevantClass = rule instanceof AbstractPatternRule ? AbstractPatternRule.class : rule.getClass();
-    if (ids.contains(ruleId) && !ruleClasses.contains(relevantClass)) {
-      throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
-    }
-    ids.add(ruleId);
-    ruleClasses.add(relevantClass);
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
