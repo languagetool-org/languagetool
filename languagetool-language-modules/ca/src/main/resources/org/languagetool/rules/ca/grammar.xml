@@ -13655,20 +13655,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example> de sorra molt fina a partir de la part occidental</example>
             <example>Es fa més fina a mesura que avancem.</example>
         </rule>
-        <rule id="HELENA" name="hel·lena/Helena">
-            <antipattern>
-                <marker>
-                    <token regexp="yes">república|lliga|federació|constitució</token>
-                    <token>hel·lena</token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <token postag="_possible_nompropi">hel·lena</token>
-            </pattern>
-            <message>Si és un nom propi, cal escriure <suggestion>Helena</suggestion>.</message>
-            <example correction="Helena">Ella es diu <marker>Hel·lena</marker>.</example>
-            <example>President de la Segona República Hel·lena.</example>
-        </rule>
+        <rulegroup id="HELENA" name="hel·lena/Helena">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">república|lliga|federació|constitució|assemblea</token>
+                        <token>hel·lena</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag="_possible_nompropi">hel·lena</token>
+                </pattern>
+                <message>Si és un nom propi, cal escriure <suggestion>Helena</suggestion>.</message>
+                <example correction="Helena">Ella es diu <marker>Hel·lena</marker>.</example>
+                <example>President de la Segona República Hel·lena.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">república|lliga|federació|constitució|assemblea</token>
+                    <marker>
+                        <token>helena</token>
+                    </marker>
+                </pattern>
+                <message>Si equival a "grega", cal escriure <suggestion>hel·lena</suggestion>.</message>
+                <example correction="Hel·lena">President de l'Assemblea <marker>Helena</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEN" name="sen/se'n">
             <antipattern>
                 <marker>
@@ -25329,6 +25341,108 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="OPTIONAL_CHECKINGS" name="D1) Revisions opcionals" type="style">
+        <rulegroup id="HO_EL" name="revisió ho/el" default="off">
+            <antipattern>
+                <pattern>
+                    <token>ho</token>
+                    <token min="1" max="4" postag="V.*|SPS00" postag_regexp="yes"/>
+                    <token>tot</token>
+                </pattern>
+            </antipattern>
+            <antipattern>
+                <pattern>
+                    <token regexp="yes" skip="5">això|açò</token>
+                    <token>ho</token>
+                </pattern>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="D[ADI].[MC]S." postag_regexp="yes"/>
+                    <token postag="NC[MC]S.*" postag_regexp="yes" skip="20"/>
+                    <marker>
+                        <token>ho</token>
+                        <token regexp="yes">h?[aeiouàéèíóòú].*</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>l'\4</suggestion>?</message>
+                <example correction="l'amplio">L'informe jo no <marker>ho amplio</marker>.</example>
+                <example correction="l'amplio">Un informe jo no <marker>ho amplio</marker>.</example>
+                <example correction="l'amplio">Aquest informe jo no <marker>ho amplio</marker>.</example>
+                <example>D'aquest informe ho amplio tot</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[ADI].[MC]S." postag_regexp="yes"/>
+                    <token postag="NC[MC]S.*" postag_regexp="yes" skip="20"/>
+                    <marker>
+                        <token>ho</token>
+                        <token><exception regexp="yes">h?[aeiou].*</exception></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>el \4</suggestion>?</message>
+                <example correction="el tinc">L'informe jo no <marker>ho tinc</marker>.</example>
+                <example correction="el tinc">Un informe jo no <marker>ho tinc</marker>.</example>
+                <example correction="el tinc">Aquest informe jo no <marker>ho tinc</marker>.</example>
+                <example>D'aquest informe ho tinc tot</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[ADI].[MC]S." postag_regexp="yes"/>
+                    <token postag="NC[MC]S.*" postag_regexp="yes" skip="20"/>
+                    <marker>
+                        <token regexp="yes">.*(r|t|u)</token>
+                        <token>-ho</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\3-lo</suggestion>?</message>
+                <example correction="tenir-lo">I aquest informe has de <marker>tenir-ho</marker> demà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[ADI].[MC]S." postag_regexp="yes"/>
+                    <token postag="NC[MC]S.*" postag_regexp="yes" skip="20"/>
+                    <marker>
+                        <token regexp="yes">.*[aei]</token>
+                        <token>-ho</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\3'l</suggestion>?</message>
+                <example correction="pengi'l">I aquest informe <marker>pengi-ho</marker> demà.</example>
+            </rule> 
+            <rule>
+                <pattern>
+                    <token>ho</token>
+                    <token regexp="yes">h?[aeiouàéèíóòú].*</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>l'\2</suggestion>?</message>
+                <example correction="l'amplia">I <marker>ho amplia</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ho</token>
+                    <token><exception regexp="yes">h?[aeiouàéèíóòú].*</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>el \2</suggestion>?</message>
+                <example correction="el tinc">I <marker>ho tinc</marker>.</example>
+                <example>Això ho explica.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">.*[aei]</exception></token>
+                    <token>-ho</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1-lo</suggestion>?</message>
+                <example correction="tingueu-lo">I <marker>tingueu-ho</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[aei]</token>
+                    <token>-ho</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1'l</suggestion>?</message>
+                <example correction="pregunta'l">I <marker>pregunta-ho</marker>.</example>
+            </rule> 
+        </rulegroup>
         <rule id="CONCORDANCA_PARTICIPI" name="Revisa les concordances de participi: l'ha portat/portada" default="off">
             <pattern>
                 <token regexp="yes">l'|els|les</token>
@@ -25349,12 +25463,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                     <token>per</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Podria ser: <suggestion>per a</suggestion>.</message>
+            <message>Podria ser: <suggestion>per a \2</suggestion>.</message>
             <short>Reviseu 'per + infinitiu'</short>
-            <example correction="per a">Eines <marker>per</marker> treballar la fusta</example>
+            <example correction="per a treballar">Eines <marker>per treballar</marker> la fusta</example>
             <example>Eines <marker>per a</marker> treballar la fusta</example>
         </rule>
         <rule id="PERA_INFINITIU" name="Revisa 'per a + infinitiu'" default="off">
@@ -30920,6 +31034,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>pesos pesants</example>
         </rule>
         <rule id="RESPECTE_AMB" name="respecte amb">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">manca|falta|relació</token>
+                    <token>de</token>
+                    <token>respecte</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>afecte</token>
+                    <token>i</token>
+                    <token>respecte</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token>respecte<exception postag="_GN_MS"/></token>
                 <token>amb</token>
@@ -34969,7 +35097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="TERROSOS_TERROSSOS" name="terrosos/terrossos">
             <pattern>
-                <token postag="D..MP.|PX.MP.*" postag_regexp="yes"></token>
+                <token postag="D..MP.|PX.MP.*" postag_regexp="yes"><exception>tons</exception></token>
                 <marker>
                     <token>terrosos</token>
                 </marker>
@@ -35817,7 +35945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                  <marker>
                      <token postag="SENT_START" skip="-1"/>
-                     <token regexp="yes" inflected="yes" skip="-1">te2|cafè|llet</token>
+                     <token regexp="yes" inflected="yes" skip="-1">te2|cafè|llet|bol</token>
                      <token postag="SENT_END"/>
            </marker>
          </antipattern>
