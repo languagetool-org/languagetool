@@ -25968,6 +25968,13 @@ The accident victim died from her injuries.
                 <example correction="where">Go back to <marker>were</marker> you came from.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/And_Then_There_Were_None -->
+                    <token>And</token>
+                    <token>Then</token>
+                    <token>There</token>
+                    <token>Were</token>
+                    <token>None</token>
+                </antipattern>
                 <pattern>
                     <token>were</token>
                     <token postag="NN.*" postag_regexp="yes"><exception postag="JJ.?" postag_regexp="yes"/></token>
@@ -25976,6 +25983,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>where \2 \3</suggestion>?</message>
                 <example correction="where people are">I guess you are getting a lot of mails <marker>were people are</marker> asking the same.</example>
                 <example>Those who were present were glad at the news.</example>
+                <example><marker>And Then There Were None</marker> is Christie's best-selling novel with 100 million...</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALTER_BOY" name="alter (altar)">
