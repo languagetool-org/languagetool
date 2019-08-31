@@ -392,6 +392,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Ingineuer", "Ingenieur", rule, lt);
     assertFirstSuggestion("Panacotta", "Panna cotta", rule, lt);
     assertFirstSuggestion("Ärcker", "Erker", rule, lt);
+    assertFirstSuggestion("genrealistischer", "generalistischer", rule, lt);
   }
 
   @Test
