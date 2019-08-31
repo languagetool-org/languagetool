@@ -17943,6 +17943,11 @@ USA
                 <token spacebefore="no">/</token>
                 <token spacebefore="no">O</token>
             </antipattern>
+            <antipattern><!-- a mine manager -->
+                <token regexp="yes">a|the</token>
+                <token>mine</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
                 <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE|all</exception></token>
@@ -17969,6 +17974,7 @@ USA
             <example>It's an I/O device.</example>
             <example>It's an all new design.</example>
             <example>He's playing in the all star team.</example>
+            <example>... evidence of the Hallstatt culture was found by a mine manager in the 19th century.</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
@@ -20732,6 +20738,11 @@ The accident victim died from her injuries.
           <token>or</token>
           <token>another</token>
       </antipattern>
+      <antipattern><!-- a mine manager -->
+          <token postag="DT"/>
+          <token>mine</token>
+          <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+      </antipattern>
       <pattern>
           <token postag="DT">
             <exception regexp="yes">neither|either|that|all|much</exception></token>
@@ -20747,6 +20758,7 @@ The accident victim died from her injuries.
       <example>Are <marker>those your</marker> pictures?</example>
       <example>"Were <marker>those your</marker> best options?" he asked.</example>
       <example><marker>For one reason or another</marker> their holiday in France didn't come up to expectations.</example>
+      <example>... evidence of the Hallstatt culture was found by a mine manager in the 19th century.</example>
     </rule>
     <rule id="ENROLLED_IN_FOR" name="I enrolled international school">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
