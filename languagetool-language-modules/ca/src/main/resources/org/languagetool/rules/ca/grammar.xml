@@ -5121,6 +5121,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No cal indicar que</example>
             </rule>
             <rule id="DEURE" name="Comprova: «deure» seguit de verb en infinitiu">
+                <antipattern>
+                    <token>una</token>
+                    <token>deu</token>
+                    <token postag="V.P..SF." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="SPS00"/></token>
                     <token inflected="yes">deure<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -5137,6 +5142,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Deu escollits del clergat responen</example>
                 <example>dels favors que es deuen neix el trencament</example>
                 <example>A elll es deuen destacats exemples</example>
+                <example>Una deu anomenada així.</example>
+                <example>en la qual deu desconeguts es troben</example>
+                <example>després que deu presos van arribar a morir de fam</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
@@ -14570,6 +14578,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fent servir les eines adequades.</example>
         </rule>
         <rule id="CONSTAR_COSTAR" name="constar/costar">
+            <antipattern>
+                <token regexp="yes">un|el|repetició|forma|manera|fet</token>
+                <token>constant</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">constar</token>
@@ -16718,22 +16730,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>s'</token>
-                        <token min="0" inflected="yes">haver</token>
-                        <token inflected="yes">explicar</token>
-                    </marker>
+                    <token regexp="yes">s'|ho</token>
+                    <token min="0" inflected="yes">haver</token>
+                    <token inflected="yes">explicar</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4">perquè</token>
+                    <token postag="V.S.*" postag_regexp="yes"><exception>volen</exception></token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes">explicar</token>
+                    <token inflected="yes">explicar<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>perquè</token>
                     </marker>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>per què</suggestion> (=per quin motiu).</message>
                 <example correction="per què">Això explica <marker>perquè</marker> no volia venir.</example>
+                <example correction="per què">Ens explicava <marker>perquè</marker> passava això.</example>
                 <example>També s'explica perquè feien festa dilluns.</example>
                 <example>També s'ha explicat perquè feien festa dilluns.</example>
+                <example>ens explicava perquè entenguéssim què volia dir</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -18862,6 +18878,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule> -->
         </rulegroup>
         <rule id="NO_REPETIT" name="'no' repetit">
+            <antipattern>
+                <token>que</token>
+                <token>no</token>
+                <token>pas</token>
+                <token>no</token>
+            </antipattern>
             <pattern>
                 <token>no</token>
                 <token postag="RG"><exception regexp="yes">sols|solament|només</exception></token>
@@ -18872,6 +18894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 \2</suggestion>
             <example correction="pràcticament no|no pràcticament"><marker>no pràcticament no</marker>.</example>
             <example>No només no</example>
+            <example>Val més fer això que no pas no fer-ho.</example>
         </rule>
         <rule id="ELEMENTS_REPETITS" name="repetició: també... també">
             <antipattern>
@@ -36201,6 +36224,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Unes xacres.</example>
         </rule>
         <rule id="TENDIR_ESTENDRE" name="*tendir/*estendre/bastir ponts">
+            <antipattern>
+                <token regexp="yes" inflected="yes">per|el</token>
+                <token regexp="yes" inflected="yes">llaç</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes" skip="1">tendir|estendre</token>
@@ -37675,6 +37702,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>revetlla</example>
         </rule>
         <rulegroup id="DISCIPLINAR" name="disciplinar">
+            <antipattern>
+                <marker>
+                    <token>disciplinar</token>
+                    <token spacebefore="no" regexp="yes">-.*</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -37685,6 +37718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Cal dir: <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">disciplinari</match></suggestion>.</message>
                 <example correction="disciplinària">Ha estat una mesura <marker>disciplinar</marker></example>
                 <example>Ha de disciplinar els soldats</example>
+                <example>Impedeixen als infants disciplinar-se.</example>
             </rule>
             <rule>
                 <pattern>
@@ -40541,17 +40575,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="SEGUT" name="segut/sigut">
+            <antipattern>
+                <token skip="3">segut</token>
+                <token regexp="yes">seients?|costats?|taul(a|es)|cadir(a|es)</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">haver</token>
                 <marker>
                     <token>segut</token>
                 </marker>
             </pattern>
-            <message>Si és del verb 'ser', val més dir <suggestion>sigut</suggestion>.</message>
-            <suggestion>estat</suggestion>
+            <message>Si és del verb 'ser', val més dir <suggestion>estat</suggestion>.</message>
+            <suggestion>sigut</suggestion>
             <short>Forma preferible.</short>
-            <example correction="sigut|estat">Havien <marker>segut</marker> molt bons.</example>
+            <example correction="estat|sigut">Havien <marker>segut</marker> molt bons.</example>
             <example>Havien sigut bons.</example>
+            <example>Ha segut al costat de reis i prínceps.</example>
         </rule>
         <rule id="MILLORIA" name="milloria/millora">
             <pattern>
