@@ -15381,6 +15381,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sóc capaç.</example>
         </rule>
         <rulegroup id="GRAU_GREU" name="*grau/greu">
+            <antipattern>
+                <token>grau</token>
+                <token>alcohòlic</token>
+            </antipattern>
+            <antipattern>
+                <token>grau</token>
+                <token regexp="yes">de|d'</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <or>
@@ -15392,7 +15400,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>greu</suggestion>?</message>
-                <short>Possible confusió</short>
                 <example correction="greu">Va ser especialment <marker>grau</marker>.</example>
                 <example correction="greu">No va ser tan <marker>grau</marker>.</example>
                 <example correction="greu">Va ser molt <marker>grau</marker>.</example>
@@ -16112,6 +16119,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>1 tona de petroli</example>
         </rule>
         <rule id="LLUSTRES" name="llustres/lustres">
+            <antipattern>
+                <token regexp="yes">llustres?</token>
+                <token regexp="yes" inflected="yes">brillant|vitri|mineral|semblant|permanent|platejat</token>
+            </antipattern>
             <pattern>
                 <token><exception>entre</exception></token>
                 <token postag="D[NI].*" postag_regexp="yes"/>
@@ -34321,8 +34332,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>això</token>
-                    <token skip="1">,</token>
-                    <token inflected="yes">afegir</token>
+                    <token skip="4">,</token>
+                    <token inflected="yes" regexp="yes">afegir|sumar</token>
                 </marker>
             </antipattern>
             <pattern>
@@ -34346,6 +34357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A més a més, tingué temps.</example>
             <example>A tot això, cal afegir una altra cosa.</example>
             <example>A tot això, hi afegirem una altra cosa.</example>
+            <example>A tot això, s'hi han de sumar altres qüestions.</example>
         </rule>
         <rule id="TREBALLAR_DUR" name="treballar *dur/de valent/intensament">
             <pattern>
