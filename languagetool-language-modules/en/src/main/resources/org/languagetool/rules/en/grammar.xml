@@ -7390,6 +7390,12 @@ USA
             <example correction="soon">It was too <marker>son</marker>.</example>
         </rule>
         <rule id="AU" name="au [astonomical unit] (Au=gold)">
+            <antipattern case_sensitive="yes"><!-- both 'artiste' and 'travail' are English words. Thus, this AP is necessary. -->
+                <token>l</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">artiste</token>
+                <token>au</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token>au
                     <exception scope="next" regexp="yes">beurre|courant|contraire|fait|fond|gratin|jus|naturel|revoir</exception><!-- French terms that are used in English -->
@@ -7401,6 +7407,7 @@ USA
             <example correction="Au">The chemical symbol for gold is <marker>au</marker>.</example>
             <example>The chemical symbol for gold is <marker>Au</marker>.</example>
             <example>Are you <marker>au fait</marker> the LanguageTool?</example>
+            <example>...Jonas or the Artist at Work" ("Jonas ou l’artiste au travail")</example>
         </rule>
         <rule id="IT_S_EVENT_JJ" name="it's event (even) possible">
             <pattern>
