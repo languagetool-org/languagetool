@@ -8454,6 +8454,23 @@ USA
                 <token>to</token>
                 <token>people</token>
             </antipattern>
+            <antipattern><!-- the freedom given to people -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="VBN"/>
+                <token>to</token>
+                <token>people</token>
+            </antipattern>
+            <antipattern><!-- Anxiety when meeting or interacting with unknown people -->
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="WRB"/>
+                <token postag="VBG"/>
+                <token regexp="yes">and|or</token>
+                <token postag="VBG"/>
+                <token postag="IN"/>
+                <token postag="JJ" min="0" max="1"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous">no</exception></token>
                 <token min="0">who</token>
@@ -8474,6 +8491,8 @@ USA
             <example correction="am|are|aren">Our people <marker>is</marker> being encouraged to find any way to avoid the tax.</example>
             <example>My usual advice to people is just be focused on the problem, learn about the...</example>
             <example>And that no people has a greater claim to that flag than us.</example>
+            <example>... believed that <marker>the freedom given to people</marker> leaves the human in a constant fear of failing his/her ...</example>
+            <example><marker>Anxiety when meeting or interacting with unknown people</marker> is a common stage of development in young people.</example>
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
