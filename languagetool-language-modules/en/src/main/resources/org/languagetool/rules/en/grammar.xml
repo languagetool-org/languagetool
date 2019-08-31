@@ -16031,13 +16031,18 @@ USA
                     <token>of</token>
                     <token postag="JJ.*" postag_regexp="yes"><exception postag="NNP?S" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="NN:.*" postag_regexp="yes"><exception postag="NNP?S" postag_regexp="yes"/></token>
+                        <token postag="NN"><exception postag="NNP?S" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
                 <short>Grammatical problem: use a plural noun</short>
-                <example correction="spaces">I'm afraid of open <marker>space</marker>.</example>
+                <example correction="spiders">I'm even afraid of small <marker>spider</marker>.</example>
+                <example>I'm even afraid of small <marker>spiders</marker>.</example>
+                <example>Jim was afraid of physical <marker>labor</marker>.</example>
+                <example>I'm not afraid of hard work.</example>
+                <example>I'm afraid of dirty water.</example>
+                <example>I'm afraid of <marker>open space</marker>.</example><!-- Can parse as JJ + NN:U, but is probably countable: www.lexico.com/en/definition/open_space. Refer to rule 4. -->
             </rule>
             <rule>
                 <pattern>
@@ -16051,6 +16056,20 @@ USA
                 <message>You probably should use this form here: <suggestion>the \3</suggestion>.</message>
                 <short>Grammatical problem: missing 'the'</short>
                 <example correction="the dark">I'm afraid of <marker>dark</marker>.</example>
+            </rule>
+            <rule><!-- open space -->
+                <pattern>
+                    <token>afraid</token>
+                    <token>of</token>
+                    <marker>
+                        <token>open</token>
+                        <token chunk="E-NP-singular">space</token>
+                    </marker>
+                </pattern>
+                <message>The noun should be probably in the plural form: <suggestion>\3 <match no="4" postag="NNS"/></suggestion>.</message>
+                <url>https://www.lexico.com/en/definition/open_space</url>
+                <short>Grammatical problem: use a plural noun</short>
+                <example correction="open spaces">I'm afraid of <marker>open space</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="I_AFRAID" name="'I afraid of' (I'm afraid of)">
