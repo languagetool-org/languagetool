@@ -13282,6 +13282,7 @@ onwaarschijnlijk
         <rulegroup id="GROTE_GETALLEN" name="grote getallen">
             <!-- 2014-08-19 TaalTik -->
             <rule>
+                <antipattern><token>biljardtafel</token></antipattern> <!-- moet als spelfout worden gemeld -->
                 <pattern>
                     <token regexp="yes">.*(m|b|tr)ilj(oen|ard)(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend).*</token>
                 </pattern>
@@ -13293,6 +13294,7 @@ onwaarschijnlijk
                 <example correction="duizend miljoen honderd">Rebekka gokte <marker>duizendmiljoenhonderd</marker>, maar dat leek Maud aan de magere kant.</example>
             </rule>
             <rule>
+                <antipattern><token>biljardtafel</token></antipattern> <!-- moet als spelfout worden gemeld -->
                 <pattern>
                     <!-- 2014-08-19 TaalTik -->
                     <token regexp="yes">.*(m|b|tr)ilj(oen|ard).*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|tig|honderd|duizend).*<exception regexp="yes">(miljarden|miljoenen).*</exception></token>
@@ -13321,6 +13323,7 @@ onwaarschijnlijk
         <rulegroup id="JOEN_JARD" name="-jard is onduidelijk">
             <!-- 2014-08-22 TaalTik -->
             <rule>
+                <antipattern><token>biljardtafel</token></antipattern> <!-- moet als spelfout worden gemeld -->
                 <pattern>
                     <token regexp="yes">.*(b|tr)ilj(oen|ard).*</token>
                 </pattern>
@@ -34930,7 +34933,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me">
             <rule>
-				<antipattern><token postag="SENT_START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
 				<antipattern><token>volgens</token><token>mij</token></antipattern>
 				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
 				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
