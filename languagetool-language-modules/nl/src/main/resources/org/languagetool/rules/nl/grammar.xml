@@ -12362,7 +12362,22 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HET_WORD" name="vangen">
+        <rulegroup id="DESONDANKS_ONDANKS" name="desondanks -> ondanks">
+			<rule>
+				<pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>desondanks</token>
+                    </marker>
+                    <token negate_pos="yes" postag_regexp="yes" postag="WKW.*"/>
+				</pattern>
+                <message>U bedoelt vast <suggestion>Ondanks</suggestion></message>
+				<short>Ondanks</short>
+				<example correction="Ondanks"><marker>Desondanks</marker> de deur liepen we weg.</example>
+			</rule>
+		</rulegroup>
+
+        <rulegroup id="HET_WORD" name="vangen">
 			<rule>
 				<pattern>
 					<token regexp="yes">het|dit|dat|die|deze</token>
