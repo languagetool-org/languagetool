@@ -1336,7 +1336,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token>a</token>
-          <token regexp='yes'>est[ea]s</token>
+          <token regexp='yes'>ambos|est[ea]s</token>
       </antipattern>
       <pattern>
         <unify negate="yes">
@@ -2857,7 +2857,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token regexp="yes">muit(?:a|[ao]s)|pouc(?:a|[ao]s)
+          <token regexp="yes">muita?|poucas?
             <exception scope="previous" inflected='yes'>haver</exception>
             <exception postag="DA0FP0|SPS00" postag_regexp="yes" scope="previous"/></token>
         </marker>
@@ -2874,6 +2874,10 @@ title="Easy editing stylesheet" ?>
       <example>Muitos asiáticos e uns poucos europeus.</example>
       <example>…há muitos disponíveis por outros meios.</example>
       <example>Trabalhamos com muitos autónomos.</example>
+      <example>Tinhamos muitos móveis.</example>
+      <example>Morrerei contente, pois tive muitos instantes feliz perto de quem amo.</example>
+      <!-- XXX Try raw_pos -->
+      <example type='triggers_error'>Também se construíram <example>muitas novas</example> igrejas e palácios, outros foram reformados...</example>
     </rule>
   </rulegroup>
 
@@ -4486,13 +4490,13 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token regexp='yes'>u(ma?s?|ns)</token>
-          <token regexp='yes'>n[ao]s?</token>
+          <token regexp='yes'>[dn][ao]s?</token>
           <token regexp='yes'>outr[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token>cada</token>
-          <token regexp='yes'>u[mn]a?s?</token>
-          <token regexp='yes'>n[ao]s?</token>
+          <token>apenas|cada</token>
+          <token regexp='yes'>uma?</token>
+          <token regexp='yes'>[dn][ao]s?</token>
       </antipattern>
       <antipattern>
           <token>com</token>
@@ -4527,6 +4531,7 @@ title="Easy editing stylesheet" ?>
       <example>…contradigam de modo algum o que aí se encontra escrito…</example>
       <example>Isto ocorre entre um a duas vezes por semana.</example>
       <example>Chocou uma na outra.</example>
+      <example>Dizem que acabou apenas uma das obras a tempo.</example>
     </rule>
     <rule>
       <antipattern>
@@ -8296,7 +8301,7 @@ title="Easy editing stylesheet" ?>
           <token>,</token>
       </antipattern-->
       <antipattern><!--  [NA] mas [NA], CC -->
-          <token regexp='yes'>mas|porám</token>
+          <token regexp='yes'>mas|porém</token>
           <token/>
           <token postag='_PUNCT'/>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
