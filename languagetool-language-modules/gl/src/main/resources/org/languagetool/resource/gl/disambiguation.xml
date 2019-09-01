@@ -1868,6 +1868,22 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule><!-- ignore smileys -->
+      <pattern>
+          <token spacebefore='yes' regexp='yes'>[:;8]</token>
+          <token spacebefore='no' case_sensitive='yes' min='0'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[bDoOpPsSxX]</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule><!-- ignore smileys type: X-O-->
+      <pattern>
+          <token spacebefore='yes'>X</token>
+          <token spacebefore='no' case_sensitive='yes'>-</token>
+          <token spacebefore='no' regexp='yes' case_sensitive='yes'>[()/\[bDoOpPsSxX]</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
     <rule>
     <!-- Based on English disambiguation.xml -->
       <pattern case_sensitive="yes">
