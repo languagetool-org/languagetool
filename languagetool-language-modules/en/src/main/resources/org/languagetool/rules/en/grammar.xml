@@ -10916,6 +10916,17 @@ USA
                 <example>The media has a lot of influence on the outcome of an election.</example>
             </rule>
             <rule>
+                <antipattern><!-- The families of flowering plants -->
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token/>
+                    <token/>
+                    <token chunk="B-NP-plural" postag="NN.*" postag_regexp="yes"/>
+                    <and>
+                        <token chunk="E-NP-plural" postag="NNS"/>
+                        <token postag="SENT_END"/>
+                    </and>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
@@ -10930,6 +10941,7 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="want">Many users in Asia <marker>wants</marker> to learn English.</example>
                 <example>The children of American soldiers staying in Japan and Japanese women were...</example>
+                <example>The families of flowering plants</example><!-- No closing punctuation: -->
             </rule>
             <rule>
                 <pattern>
@@ -11064,6 +11076,16 @@ USA
                 <example correction="want">Many users in Asia, for example, <marker>wants</marker> to learn English.</example>
             </rule>
             <rule>
+                <antipattern><!-- Its festive pageants, shows, contests and other -->
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="JJ"/>
+                    <token postag="NNS"/>
+                    <token>,</token>
+                    <token postag="NNS"/>
+                    <token>,</token>
+                    <token postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
@@ -11079,6 +11101,7 @@ USA
                 <short>Possible agreement error</short>
                 <example>The dogs, for instance, <marker>are</marker> released.</example>
                 <example correction="bark">The black dogs, mostly dachshunds and terrier mixes, <marker>barks</marker> loudly.</example>
+                <example>Its festive pageants, shows, <marker>contests</marker> and other activities are a...</example>
             </rule>
             <rule>
                 <pattern>
