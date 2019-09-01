@@ -8120,7 +8120,7 @@ USA
             <example>You guys wait here.</example>
         </rule>
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (could should)">
-        <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU -->
+        <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU 2019-08-31.-->
             <antipattern>
                  <token/>
                  <token><match no='0'/></token>
@@ -8129,7 +8129,7 @@ USA
                 <token>whose</token>
                 <token postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
-            <antipattern>
+            <antipattern><!-- MFU 2019-08-31. -->
                 <token chunk="B-VP" postag="MD"/>
                 <token chunk="I-VP" postag="VB" regexp="yes">can|will</token><!-- lexical verbs -->
             </antipattern>
@@ -17177,13 +17177,14 @@ USA
                 <example correction="for my">I realize there's no excuse <marker>form y</marker> words.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment" default="off">
+        <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment" default="on">
+          <!-- 31-08-2019 Check temporarily false positive, disable, improve, re-enable -->
             <url>http://www.chompchomp.com/rules/fragrules.htm</url>
             <!--rule R0.1A Single word list, likely to start a fragment -->
             <!-- Note: 
                 I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
                 -->
-            <rule>
+            <rule id="SENTENCE_FRAGMENT_SINGLE_WORDS" name="Sentence is a fragment: single words" default="off">
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
