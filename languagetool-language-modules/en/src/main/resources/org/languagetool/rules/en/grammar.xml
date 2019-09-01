@@ -18004,6 +18004,17 @@ USA
                 <token>mine</token>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
+            <antipattern><!-- https://orthodoxwiki.org/One_Holy_Catholic_and_Apostolic_Church -->
+                <token>the</token>
+                <token>One</token>
+                <token min="0" max="1">,</token><!-- Although the term usually contains commas, the rule must not give an error message if there are no commas --> 
+                <token>Holy</token>
+                <token min="0" max="1">,</token>
+                <token>Catholic</token>
+                <token>and</token>
+                <token>Apostolic</token>
+                <token>Church</token>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
                 <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE|all</exception></token>
@@ -18031,6 +18042,7 @@ USA
             <example>It's an all new design.</example>
             <example>He's playing in the all star team.</example>
             <example>... evidence of the Hallstatt culture was found by a mine manager in the 19th century.</example>
+            <example>...Anglican Communion considers itself to be part of the One, Holy, Catholic and Apostolic Church and...</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
