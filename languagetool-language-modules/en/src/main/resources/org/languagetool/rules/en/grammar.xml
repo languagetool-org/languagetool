@@ -16177,6 +16177,15 @@ USA
             <example>He <marker>payed</marker> the deck with tar.</example>
         </rule>
         <rule id="BOTH_AS_WELL_AS" name="both... as well as (and)">
+            <antipattern><!-- The phrases X and Y as well as -->
+                <token skip="-1" postag="NNS" regexp="yes">phrases|words</token>
+                <token>and</token>
+                <token skip="-1"/>
+                <token skip="-1">both</token>
+                <token>as</token>
+                <token>well</token>
+                <token>as</token>
+            </antipattern>
             <pattern>
                 <token skip="-1">both<exception scope="next">and</exception></token>
                 <marker>
@@ -16191,6 +16200,7 @@ USA
             <example>He is both rich and smart <marker>as well as</marker> handsome.</example>
             <example>He is both very rich and smart <marker>as well as</marker> handsome.</example>
             <example correction="and">He is both very rich <marker>as well as</marker> handsome.</example>
+            <example>The phrases "eyeball kick" and "hydrogen jukebox" both show up in "Howl", as well as a direct quote from Cézanne:</example>
         </rule>
         <rule id="ACCORDING_TO_ME" name="according to me (in my opinion)">
             <pattern>
