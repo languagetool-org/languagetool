@@ -923,11 +923,23 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">please|will</token>
+                    <token>the</token>
                     <marker>
                         <token>us</token>
                     </marker>
-                    <token regexp="yes">the|an?|our|their|my|his|her|that</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>use</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="use">The <marker>us</marker> of semicolons is prohibited.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">please|will|can|should|[cw]ould|must|might|we|you|they|i</token>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                    <token regexp="yes">the|an?|our|their|my|his|her|that|this|its</token>
                 </pattern>
                 <message>Did you mean <suggestion>use</suggestion>?</message>
                 <short>Possible typo</short>
@@ -935,6 +947,24 @@ USA
                 <example correction="use">Can you please <marker>us</marker> his car?</example>
                 <example correction="use">He will <marker>us</marker> their new technique.</example>
                 <example>Please <marker>use</marker> an umbrella.</example>
+                <example>She did us a favor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">going|has|have|had|got|need(ed)?|willing|required|permitted|prohibited|recommended|allowed|how|wanted|when</token>
+                    <token>to</token>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                    <token regexp="yes">the|an?|our|their|my|his|her|that|this|its</token>
+                </pattern>
+                <message>Did you mean <suggestion>use</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="use">I'm going to <marker>us</marker> that paycheck for my vacation.</example>
+                <example correction="use">She has to <marker>us</marker> the next chance.</example>
+                <example correction="use">He is required to <marker>us</marker> a new tool.</example>
+                <example correction="use">Learn how to <marker>us</marker> a semicolon.</example>
+                <example>We are willing to <marker>use</marker> your old car.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ON_OF_THE" name="on (one) of the most/least/...">
