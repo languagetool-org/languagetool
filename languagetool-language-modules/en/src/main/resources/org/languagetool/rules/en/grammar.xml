@@ -3751,6 +3751,10 @@ USA
             <example>... nameless citizens who are separated from loved ones in other towns.</example>
         </rule>
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
+            <antipattern><!-- Applicable to rules 1 and 2. I did not find a dictionary reference, but the terms are on many tennis websites. -->
+                <token regexp="yes">singles|doubles</token>
+                <token regexp="yes">players?</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- Allow "Tom hates / likes / play ...." -->
                     <token postag="SENT_START"/>
@@ -3780,6 +3784,12 @@ USA
                 <antipattern><!-- boundaries on spaces comes the question of -->
                     <token postag_regexp="yes" postag="NNP?S"/>
                     <token chunk="B-VP"/>
+                </antipattern>
+                <antipattern case_sensitive="yes"><!-- the City Lights manager -->
+                    <token chunk="B-NP-plural" regexp="yes" postag="DT">\p{Ll}+</token>
+                    <token postag_regexp="yes" postag="JJ.*" regexp="yes">\p{Lu}\p{Ll}+</token>
+                    <token postag="NNS" regexp="yes">\p{Lu}\p{Ll}+</token>
+                    <token regexp="yes">\p{Ll}+</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
@@ -3815,6 +3825,7 @@ USA
                 <example>This will make the malicious <marker>programs</marker> spam the persons who have an entry in the address book.</example><!-- http://forum.languagetool.org/t/en-possible-false-positive-2017-05-31/1727/1 -->
                 <example>The <marker>arms shipment</marker> is not satisfactory.</example>
                 <example>With the ability to impose boundaries on <marker>spaces</marker> comes the question of how...</example>
+                <example>Ginsberg and Shig Murao, the <marker>City Lights</marker> manager who was jailed for selling "Howl," became...</example>
                 <example>The <marker>devices</marker> comes in a number of variations where they can be...</example><!-- 'comes' is the start of a verb phrase. AGREEMENT_SENT_START[1] finds the problem -->
                 <example>The <marker>samples</marker> tests were not satisfactory.</example><!-- False negative, not related to the addition of the antipattern for 'boundaries on spaces' on 2019-01-18 -->
                 <example>The <marker>standards</marker> committee decided against shifting, and so ASCII ...</example><!-- False negative? The term 'standards committee' is possible, but in some contexts, the term is possibly incorrect. Cause: the chunker incorrectly gives 'B-VP' to committee. -->
@@ -3828,6 +3839,17 @@ USA
                 <antipattern>
                     <token>antiques</token>
                     <token>dealer</token>
+                </antipattern>
+                <antipattern><!-- the minerals beryl, cryolite, garnet ... and turquoise -->
+                    <token>the</token>
+                    <token postag="NNS"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token skip="-1" postag="NN(:.+)?" postag_regexp="yes"/>
+                    <token>and</token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/></token>
@@ -3851,6 +3873,9 @@ USA
                 <example>Last night an explosion took place at a fireworks factory.</example>
                 <example>Everybody in the world desires peace.</example>
                 <example>...surrounds an attempt to buy a sword from an <marker>antiques dealer</marker>, with another twist ending.</example>
+                <example>It also occurs in the minerals beryl, cryolite, garnet, spinel and turquoise.</example>
+                <example>... of the AmX type are known for the elements phosphorus, arsenic, antimony and bismuth.</example>
+                <example>... hype as compared to actual accomplishments as a singles player—ranked Kournikova...</example>
             </rule>
             <rule>
                 <pattern>
