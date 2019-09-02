@@ -15610,6 +15610,24 @@ USA
                     <token skip="-1" postag_regexp="yes" postag="DT|PRP\$"/>
                     <token postag="MD"/>
                 </antipattern>
+                <antipattern><!-- sent everyone rushing out -->
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
+                    <token postag="VBG"/>
+                    <token postag="IN"/>
+                </antipattern>
+                <antipattern><!--  someone possessing legal responsibility -->
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
+                    <token postag="VBG"/>
+                    <token min="0" max="1" postag_regexp="yes" postag="JJR?"/> 
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
+                <antipattern><!-- Imperative: Nobody move! -->
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">(every|no|some)(one|body)</token>
+                    <token postag="VB"/>
+                    <token postag="SENT_END" regexp="yes">[!\.]</token><!-- An imperative does not need an exclamation mark. -->
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
@@ -15635,7 +15653,8 @@ USA
                 <example>He was busy, he said, in having someone submit to a monkey-gland operation.</example>
                 <example>What's he going to do?</example>
                 <example correction="hates|hated">Everybody <marker>hate</marker> to hear bad news.</example>
-                <example type="triggers_error">Nobody move!</example>
+                <example correction="moves|moved">Nobody <marker>move</marker>?</example>
+                <example>Nobody move!</example>
                 <example>The bride came into the room, with everyone staring at her.</example>
                 <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
                 <example>Only supply information that you are comfortable with anyone <marker>seeing</marker>.</example>
@@ -15650,6 +15669,10 @@ USA
                 <example>Somebody considering the new job must think about these:</example>
                 <example type="triggers_error"><marker>His parents as well as he</marker> are very kind to me.</example>
                 <example>The girl noticed someone go out of the door.</example>
+                <example>The alarm sent everyone rushing out of the room.</example>
+                <example>Will everybody talking please just listen for a moment?</example>
+                <example>... and not someone possessing legal responsibility for the process of its...</example>
+                <example>... and anyone possessing information is asked to contact the police.</example>
             </rule>
             <rule>
                 <pattern>
