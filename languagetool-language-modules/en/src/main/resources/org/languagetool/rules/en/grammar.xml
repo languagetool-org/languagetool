@@ -12070,6 +12070,12 @@ USA
                     <token>far</token>
                     <token>better</token>
                 </antipattern>
+                <antipattern><!-- has only ray florets -->
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
+                    <token postag="RB"/><!-- If necessary, make this more strict: only, merely, and possibly others -->
+                    <token chunk="I-NP-plural" postag="NN(:UN?)?" postag_regexp="yes"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <token postag="RB"><exception regexp="yes">no|little|much</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
@@ -12093,6 +12099,8 @@ USA
                 <example>That dinner they had together <marker>was</marker> delicious.</example>
                 <example>The tea we had there <marker>was</marker> excellent.</example>
                 <example>You had <marker>far better</marker> stay here.</example>
+                <example>The Cichorioidea has only <marker>ray florets</marker>, with a 5+0 scheme – all five petals form...</example>
+                <example>... are diffusible ligands and thus can have long range effects.</example>
 <!-- False negative --><example>... but had there <marker>was</marker> sufficient information, we could have...</example>
             </rule>
             <rule>
