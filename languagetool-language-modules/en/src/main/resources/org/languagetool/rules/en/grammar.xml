@@ -12882,6 +12882,20 @@ USA
             <token>so</token>
             <token regexp="yes">happen(s|ed)</token>
           </antipattern>
+          <antipattern><!-- MFU 2019-09-02: in it -->
+            <token postag="IN"/>
+            <token>it</token>
+          </antipattern>
+          <antipattern case_sensitive="yes"><!-- MFU 2019-09-02: Shall I Say... Disambiguation UPPER_NNP gives postag NNP to 'Say'. In the context of a title, 'Say' is NNP as part of the title. Thus, I did not change the disambiguation. -->
+            <token postag="MD" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token/>
+            <token>Say</token>
+          </antipattern>
+          <antipattern case_sensitive="yes"><!-- MFU 2019-09-02: Tier I Family Circle -->
+            <token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token>I</token>
+            <token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -12896,6 +12910,7 @@ USA
           </pattern>
           <message>Possible fragment. Please, verify.</message>
           <example correction=""><marker>I downtown</marker> went yesterday.</example><!-- XXX home is also a verb. fixing it may mess with disambiguation -->
+          <example correction=""><marker>It alpha</marker> decays to the extremely long-lived (in practice, ...</example><!-- 'Alpha decay' is a noun, not a verb: www.merriam-webster.com/dictionary/alpha%20decay -->
           <example>I went downtown yesterday.</example>
           <example>Sarah was discerning enough to realize that her friends were trying to prank her.</example>
           <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
@@ -13030,6 +13045,10 @@ USA
           <example>The essential feature of <marker>bipolar I disorder</marker> is a clinical course characterized by the ...</example>
           <example><marker>I so</marker> loved this spot, that when I sold the house, I kept the island.</example>
           <example>It so happened that they were not there.</example>
+          <example>This group worked against the Nazis, and in it Camus assumed the nom de guerre Beauchard.</example>
+          <example>The position carried with it extraordinary powers over the Berlin city government and made S...</example>
+          <example>Who Shall I Say is Calling &amp; Other Stories S. Deziemianowicz, ed....</example>
+          <example>At the Tier I Family Circle Cup, Kournikova reached her second WTA Tou...</example>
         </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
