@@ -24607,6 +24607,18 @@ The accident victim died from her injuries.
                 <example correction="too">But I see the problem of <marker>two</marker> many files.</example>
             </rule>
             <rule>
+                <antipattern><!-- material is to melting -->
+                    <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+                    <token regexp="yes">is|was</token>
+                    <token>to</token>
+                    <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- people were to flying -->
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token regexp="yes">are|were</token>
+                    <token>to</token>
+                    <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">be|['´]</token>
                     <token min="0" regexp="yes">not|t</token>
@@ -24621,6 +24633,8 @@ The accident victim died from her injuries.
                 <example correction="too">It's <marker>to</marker> early.</example>
                 <example>I've never been <marker>to</marker> Paris.</example>
                 <example>Perhaps we are <marker>to</marker> blame for this.</example>
+                <example>... no visual signs reveal how close the material is to melting.</example>
+                <example>... 18th century documents show how close some people were to flying.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24690,7 +24704,7 @@ The accident victim died from her injuries.
                     <marker><token>to</token></marker>
                     <token postag="RB">
                       <exception regexp="yes">anyhow|outside</exception><!-- 'too X' is not standard English. -->
-                      <exception postag="JJR"/></token>
+                      <exception postag_regexp="yes" postag="JJR?"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
@@ -24702,6 +24716,7 @@ The accident victim died from her injuries.
                 <example>What was he <marker>up to</marker> then?</example>
                 <example>... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
                 <example>[https://en.wikipedia.org/wiki/Outside_(Alaska)]: The Alaska Rail network is not connected to Outside.</example>
+                <example>Adjective. ...and reduce his studies to part-time.</example>
             </rule>
             <rule>
                 <pattern>
