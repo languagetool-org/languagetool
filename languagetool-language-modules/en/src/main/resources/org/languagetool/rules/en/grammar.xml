@@ -9473,20 +9473,20 @@ USA
                     <token postag="JJS?|RB" postag_regexp="yes" min="0" />
                     <marker>
                         <token>add</token>
-                        <token regexp="yes">in|on</token>
+                        <token regexp="yes">(in|on)s?</token>
                     </marker>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion><match no="3" />-<match no="4" /></suggestion>
                 <example correction="add-on">The newest <marker>add on</marker> was released yesterday</example>
-                <example>Our <marker>add-on</marker> has more than 1,000,000 users.</example>
+                <example>Our <marker>add-ons</marker> in total have more than 1,000,000 users.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp='yes'>firefox|mozilla|google|chrome|safari|docs|browser|edge|opera|software|system|hardware|game|third\-party|windows|word</token>
                     <marker>
                         <token>add</token>
-                        <token regexp="yes">in|on</token>
+                        <token regexp="yes">(in|on)s?</token>
                     </marker>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
@@ -14578,10 +14578,14 @@ USA
                 <example>...empty set of real numbers with an upper bound has a <marker>least upper bound</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">kindest|warmest</token>
+                    <token>regards</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                     <marker>
-                        <token postag="JJS"><exception regexp="yes">most|least|best</exception></token>
+                        <token postag="JJS"><exception regexp="yes">most|least|best|dearest</exception></token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
@@ -14598,6 +14602,7 @@ USA
                 <example><marker>…largest</marker> animals known to exist.</example>
                 <example>...in 1984: "<marker>... wisest</marker> animals on the farm, and one of the few who can read properly."</example>
                 <example>...50 Most Beautiful People in 1998 and was voted "hottest female athlete" on ESPN.com.</example>
+                <example>Kindest regards</example>
             </rule>
             <rule>
                 <antipattern>
