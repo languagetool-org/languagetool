@@ -18345,6 +18345,13 @@ USA
                     <token>as</token>
                     <token postag="PRP"/>
                 </antipattern>
+                <antipattern><!-- comparison with a repeated adjective -->
+                    <token>as</token>
+                    <token postag="JJ"/>
+                    <token>as</token>
+                    <token chunk="B-NP-singular"><match no="1"/></token>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>and</exception>\p{L}+</token>
                     <token regexp="yes"><exception>and</exception>\p{L}+</token>
@@ -18356,6 +18363,7 @@ USA
                 <example correction="at the">Hepatology <marker>at the at the</marker> turn of centuries.</example>
                 <example correction="on the">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
                 <example correction="from the">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
+                <example correction="as dark">The house was <marker>as dark as dark</marker>.</example><!-- MFU 2019-09-02. The sentence "The house was as dark." is not correct. -->
                 <example>All we wanted to do was to stand very quietly <marker>and look and look and look</marker>.</example>
                 <example>In an era where bond yields are already as <marker>low as low can be</marker>, quantitative easing promises to be...</example>
                 <example>The white spots are saturated -- <marker>as white as white can be</marker> -- and all the enhancements that everyone is...</example>
@@ -18366,9 +18374,9 @@ USA
                 <example>I saw Jim and Mary taking a <marker>walk hand in hand</marker> in the park.</example>
                 <example>Jane <marker>calls a spade a spade</marker>.</example>
                 <example>It is very <marker>far as far as I</marker> know.</example>
-                <example type="triggers_error">Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
-                <example type="triggers_error">No credit is almost <marker>as bad as</marker> bad credit.</example>
-                <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
+                <example>Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
+                <example>No credit is almost <marker>as bad as</marker> bad credit.</example>
+                <example>He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
         <rule id="ACCORDING_TO" name="according to">
