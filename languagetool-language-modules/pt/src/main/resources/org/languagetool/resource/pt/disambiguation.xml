@@ -1805,7 +1805,7 @@
     <rule>
     <!-- 		Created by Tiago F. Santos, 2017-07-15		-->
       <antipattern><!-- e.g. 'Só a olhar' and other 'continuous' infinitives -->
-        <token postag='R.' postag_regexp='yes'/>
+        <token postag='[VR].+' postag_regexp='yes'/>
         <token>a</token>
         <token postag='VMN0000'/>
       </antipattern>
@@ -1828,6 +1828,17 @@
       <example inputform="impacto[impactar/VMIP1S0,impacto/AQ0MS0,impacto/NCMS000]" outputform="impacto[impacto/AQ0MS0,impacto/NCMS000]" type="ambiguous">É uma obra com <marker>impacto</marker> ecológico relevante.</example>
       <example type="untouched">Ele não o fez de bom grado, mas era necessário.</example>
       <example type="untouched">Só a olhar.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='[VR].+' postag_regexp='yes'/>
+        <token>a</token>
+        <marker>
+        <token postag='VMN0000'/>
+        </marker>
+      </pattern>
+      <disambig action='filter' postag="VMN0000"/>
+      <!-- e.g. Estavam 'a sentir pressões' -->
     </rule>
     <rule>
       <pattern>
@@ -2568,7 +2579,7 @@
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]
             <exception scope='next' postag_regexp='yes' postag='A.+'/>
-            <exception regexp='yes'>1[&#37;&#8240;&#8241;]</exception></token>
+            <exception regexp='yes'>1 ?[&#37;&#8240;&#8241;]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
@@ -2577,33 +2588,37 @@
           <token regexp="yes">1 ?[&#37;&#8240;&#8241;]
             <exception scope='next' postag_regexp='yes' postag='A.+'/></token>
       </pattern>
-      <disambig action="replace"><wd pos="NCMC000"/></disambig>
+      <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
-          <token postag_regexp='yes' postag='A..MS.+'/>
+          <token postag_regexp='yes' postag='A..MS.+'>
+            <exception>são</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="AQ0MS0"/><wd pos="AQ0MS0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
-          <token postag_regexp='yes' postag='A..FS.+'/>
+          <token postag_regexp='yes' postag='A..FS.+'>
+            <exception>são</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="AQ0FS0"/><wd pos="AQ0FS0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
-          <token postag_regexp='yes' postag='A..MP.+'/>
+          <token postag_regexp='yes' postag='A..MP.+'>
+            <exception>são</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="AQ0MP0"/><wd pos="AQ0MP0"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
-          <token postag_regexp='yes' postag='A..FP.+'/>
+          <token postag_regexp='yes' postag='A..FP.+'>
+            <exception>são</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="AQ0FP0"/><wd pos="AQ0FP0"/></disambig>
     </rule>
