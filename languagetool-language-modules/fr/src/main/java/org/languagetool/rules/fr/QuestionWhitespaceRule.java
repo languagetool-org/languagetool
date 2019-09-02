@@ -65,6 +65,10 @@ public class QuestionWhitespaceRule extends Rule {
         new PatternTokenBuilder().tokenRegex("\\d{1,2}").build(),
         new PatternTokenBuilder().token(":").build(),
         new PatternTokenBuilder().tokenRegex("\\d{1,2}").build()
+      ),
+      Arrays.asList( // "??"
+        new PatternTokenBuilder().tokenRegex("[?!]").build(),
+        new PatternTokenBuilder().tokenRegex("[?!]").build()
       )
     );
 
