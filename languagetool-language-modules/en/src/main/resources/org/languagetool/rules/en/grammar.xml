@@ -908,18 +908,35 @@ USA
             <example correction="same">It happened on the <marker>some</marker> day.</example>
             <example>The Some Mothers Do 'Ave 'Em Episode Guide</example>
         </rule>
-        <rule id="MAKE_US_OF" name="make us (use) of">
-            <pattern>
-                <token inflected="yes">make</token>
-                <marker>
-                    <token>us</token>
-                </marker>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>use</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="use">He made <marker>us</marker> of the new tools.</example>
-        </rule>
+        <rulegroup id="US_USE" name="confusion of 'us' vs. 'use'">
+            <rule>
+                <pattern>
+                    <token inflected="yes">make</token>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>use</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="use">He made <marker>us</marker> of the new tools.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">please|will</token>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                    <token regexp="yes">the|an?|our|their|my|his|her|that</token>
+                </pattern>
+                <message>Did you mean <suggestion>use</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="use">Please <marker>us</marker> the bathroom.</example>
+                <example correction="use">Can you please <marker>us</marker> his car?</example>
+                <example correction="use">He will <marker>us</marker> their new technique.</example>
+                <example>Please <marker>use</marker> an umbrella.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ON_OF_THE" name="on (one) of the most/least/...">
             <rule>
                 <pattern>
@@ -23198,6 +23215,11 @@ The accident victim died from her injuries.
                     <token postag="JJ"/>
                     <token>and</token>
                     <token postag="JJ"/>
+                </antipattern>
+                <antipattern><!-- "Still here!", "Still here, the Beatles!" -->
+                    <token>still</token>
+                    <token>here</token>
+                    <token postag="SENT_END|PCT" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
