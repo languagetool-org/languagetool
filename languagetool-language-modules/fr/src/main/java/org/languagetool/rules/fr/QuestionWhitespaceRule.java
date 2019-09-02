@@ -34,7 +34,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches spaces before ?,:,; and ! (required for correct French
@@ -61,6 +60,11 @@ public class QuestionWhitespaceRule extends Rule {
       Arrays.asList( // ignore smileys, such as :)
         new PatternTokenBuilder().tokenRegex("[:;]").build(),
         new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
+      ),
+      Arrays.asList( // times like 23:20
+        new PatternTokenBuilder().tokenRegex("\\d{1,2}").build(),
+        new PatternTokenBuilder().token(":").build(),
+        new PatternTokenBuilder().tokenRegex("\\d{1,2}").build()
       )
     );
 

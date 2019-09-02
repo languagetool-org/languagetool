@@ -46,6 +46,7 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est ?")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple : philosophique")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bonjour :)")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("5/08/2019 23:30")).length);
       
       // errors:
       matches = rule.match(langTool.getAnalyzedSentence("C'est vrai!"));
