@@ -1209,6 +1209,12 @@ USA
                 <example>To begin with, she's a spy.</example>
             </rule>
             <rule>
+                <antipattern><!--  American forces begin sustained air strikes -->
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token>begin</token>
+                    <token postag="VBN|JJ" postag_regexp="yes"/>
+                    <token chunk="B-NP-plural"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>begin</token>
@@ -1218,6 +1224,9 @@ USA
                 <message>Did you mean <suggestion>being</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="being">I was willing to risk <marker>begin</marker> interrogated about what I was going to do with the information.</example>
+                <example>I was willing to risk <marker>being</marker> interrogated about what I was going to do with the information.</example>
+                <example>Vietnam War: Easter Offensive – American forces begin sustained air strikes and naval bombardments.</example>
+                <example>If the workers begin prolonged strikes, the company will...</example>
             </rule>
         </rulegroup>
         <rulegroup id="CA_PRP" name="ca I (can I)">
