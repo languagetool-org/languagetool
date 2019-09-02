@@ -17215,14 +17215,14 @@ USA
                 <example correction="for my">I realize there's no excuse <marker>form y</marker> words.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment" default="on">
-          <!-- 31-08-2019 Check temporarily false positive, disable, improve, re-enable -->
+        <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment">
             <url>http://www.chompchomp.com/rules/fragrules.htm</url>
             <!--rule R0.1A Single word list, likely to start a fragment -->
             <!-- Note: 
                 I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
                 -->
-            <rule id="SENTENCE_FRAGMENT_SINGLE_WORDS" name="Sentence is a fragment: single words" default="off">
+            <rule id="SENTENCE_FRAGMENT_SINGLE_WORDS" name="Sentence is a fragment: single words" default="on">
+          <!-- 01-09-2019 All other rulegroup rules look good. Check false positives on this one, disable, improve, re-enable -->
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
@@ -17370,6 +17370,8 @@ USA
                 <short>Punctuation error, sentence looks like a fragment</short>
                 <example correction=""><marker>So if</marker> the dog likes to bark.</example>
                 <example>So if the dog likes to bark; it's still a nice dog.</example>
+                <example correction=""><marker>So that</marker> through him all man might believe.</example>
+                <example><marker>So that</marker> through him, all man might believe.</example>
             </rule>
             <!--rule R0.1D phrase 'So, [list]', likely to start a fragment -->
             <!-- Note:
