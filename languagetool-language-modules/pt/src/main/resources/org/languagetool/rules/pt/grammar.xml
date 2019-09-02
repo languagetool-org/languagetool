@@ -701,6 +701,10 @@ title="Easy editing stylesheet" ?>
       <example>nas coordenadas 20.00ºN, 20.00ºW</example>
     </rule>
     <rule><!-- XXX Determiner agreement -->
+      <antipattern>
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;</token>
+      </antipattern>
       <pattern>
         <unify negate="yes">
           <feature id="gender"/>
@@ -3849,6 +3853,12 @@ title="Easy editing stylesheet" ?>
     <rule id="LP_NAO_A" name="Confusão: A - Há">
     <!-- Based on Lightproof by Tiago F. Santos, 2017-07-05 -->
       <antipattern>
+          <token inflected='yes'>dizer</token>
+          <token>que</token>
+          <token>não</token>
+          <token regexp='yes'>a|à</token>
+      </antipattern>
+      <antipattern>
           <token>que</token>
           <token>não</token>
           <token regexp='yes'>a</token>
@@ -5104,6 +5114,14 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='2' case_conversion="startupper"/></suggestion>
       <example correction="TJ">Estimaram-se forças de 30 <marker>tJ</marker> por m².</example>
       <example correction="GW">120 <marker>gW</marker> de potência</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token regexp='yes'>K[glm]</token>
+      </pattern>
+      <message>Unidades do Sistema Internacional são escritas com minúsculas.</message>
+        <suggestion><match no='2' case_conversion="startlower"/></suggestion>
+      <example correction="km">Os últimos <marker>Km</marker> feitos foram sentidos.</example>
     </rule>
   </rulegroup>
 
@@ -7949,7 +7967,7 @@ title="Easy editing stylesheet" ?>
       <short>Separe com vírgulas</short>
     <rule>
       <pattern>
-          <token regexp="yes">já|o(?:ra|u)|nem|qu(?:al|er)|seja|tal(?:vez)?</token>
+          <token regexp="yes">ora|nem|qu(?:al|er)|seja|tal(?:vez)?</token><!-- XXX já| -->
           <token skip='-1'>
             <exception regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
             <exception scope='next' regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception></token>
@@ -7968,6 +7986,13 @@ title="Easy editing stylesheet" ?>
           <token>mais</token>
           <token>ou</token>
           <token>menos</token>
+      </antipattern>
+      <antipattern>
+          <token>ou</token>
+          <token skip='-1'/>
+          <token postag_regexp='yes' postag='Z.+'/>
+          <token>ou</token>
+          <token postag_regexp='yes' postag='Z.+'/>
       </antipattern>
       <pattern>
           <token>ou</token>
@@ -9664,6 +9689,11 @@ title="Easy editing stylesheet" ?>
           <token>hip</token>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no'>hop</token>
+      </antipattern>
+      <antipattern>
+          <token>tá</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no'>se</token>
       </antipattern>
       <antipattern>
           <token skip='3'>,</token>
@@ -29516,6 +29546,15 @@ TODO Write better examples
         <suggestion>leão<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <url>https://pt.wiktionary.com/wiki/leoa</url>
       <example correction='leoa|leão'><marker>leã</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>maestra?</token>
+      </pattern>
+      <message>O feminino de maestro é <suggestion>maestrina<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+        <suggestion>maestro<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.com/wiki/monja</url>
+      <example correction='maestrina|maestro'><marker>maestra</marker></example>
     </rule>
     <rule>
       <pattern>
