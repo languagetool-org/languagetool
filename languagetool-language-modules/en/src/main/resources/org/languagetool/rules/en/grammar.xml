@@ -9737,6 +9737,23 @@ USA
             <example correction='thank-you|“Thank You”'>Did you receive our little <marker>thank you</marker>?</example>
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
         </rule>
+        <rule id="A_GOOD_BYE" name="a/the + good bye">
+            <pattern>
+                <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                <token postag="JJS?|RB" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>good</token>
+                    <token>bye</token>
+                </marker>
+                <token postag_regexp="yes" postag="SENT_END|NN(S|:UN?)?|PRP"/>
+            </pattern>
+            <message>It appears that 'good bye' is missing a hyphen or needs to be quoted.</message>
+            <suggestion>good-bye</suggestion>
+            <suggestion>“Good Bye”</suggestion>
+            <example correction='good-bye|“Good Bye”'>Have you seen my <marker>good bye</marker> letter?</example>
+            <example correction='good-bye|“Good Bye”'>Did you receive our little <marker>good bye</marker>?</example>
+            <example>He was surprised by the <marker>good-bye</marker> message.</example>
+        </rule>
         <rulegroup id="THOUGH_THOUGHT" name="confusion of though/thought">
             <rule>
                 <pattern>
@@ -9800,6 +9817,16 @@ USA
             <example correction="man-made">A <marker>man made</marker> island.</example>
             <example correction="man-made">The <marker>man made</marker> natural diseases are spreading.</example>
             <example>The <marker>man-made</marker> beach attracts a lot of tourists.</example>
+        </rule>
+        <rule id="OPERATION_SYSTEM" name="operation (operating) system">
+            <pattern>
+                <token>operation</token>
+                <token regexp="yes">systems?|income|margins?|cash|profits?|expenses?</token>
+            </pattern>
+            <message>The word 'operation' doesn't fit in this context.</message>
+            <suggestion>operating <match no="2" /></suggestion>
+            <example correction='operating system'>The Windows <marker>operation system</marker> was invented by Bill Gates.</example>
+            <example>The <marker>operating system</marker> has a Linux kernel.</example>
         </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
@@ -27346,15 +27373,44 @@ The accident victim died from her injuries.
                 <example>... or regional varieties which constitute the <marker>everyday</marker> spoken language.</example>
             </rule>
         </rulegroup>
-        <rule id="EVERYONE_EVERY_ONE" name="everyone (every one)">
-            <pattern>
-                <token>each</token>
-                <token>and</token>
-                <marker><token>everyone</token></marker>
-            </pattern>
-            <message>Did you mean <suggestion>every one</suggestion>?</message>
-            <example correction="every one">The space in which each and <marker>everyone</marker> of us lives has taken on a new shape.</example>
-        </rule>
+        <rulegroup id="EVERYONE_OF" name="everyone (every one) of">
+            <rule>
+                <pattern>
+                    <token>each</token>
+                    <token>and</token>
+                    <marker><token>everyone</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>every one</suggestion>?</message>
+                <example correction="every one">The space in which each and <marker>everyone</marker> of us lives has taken on a new shape.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>everyone</token>
+                    </marker>
+                    <token>of</token>
+                    <token postag="PRP.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>every one</suggestion>?</message>
+                <url>https://writingexplained.org/everyone-vs-every-one-difference</url>
+                <example correction="every one">My mother would like to thank <marker>everyone</marker> of you who offered assistance during her illness.</example>
+                <example correction="every one">For <marker>everyone</marker> of them there's a little present under the tree.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>everyone</token>
+                    </marker>
+                    <token>of</token>
+                    <token regexp="yes">the|these|those</token>
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>every one</suggestion>?</message>
+                <url>https://writingexplained.org/everyone-vs-every-one-difference</url>
+                <example correction="Every one"><marker>Everyone</marker> of these apples is rotten.</example>
+                <example><marker>Every one</marker> of the brothers was there last night.</example>
+            </rule>
+        </rulegroup>
         <rule id="NIECE_NICE" name="niece (nice) day etc.">
             <pattern>
                 <marker>
