@@ -925,7 +925,7 @@ USA
                 <pattern>
                     <token>the</token>
                     <marker>
-                        <token>us</token>
+                        <token case_sensitive="yes">us</token>
                     </marker>
                     <token>of</token>
                 </pattern>
@@ -9421,8 +9421,8 @@ USA
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <!-- Many of the excluded words are handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand</exception>
+                    <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
+                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9503,6 +9503,63 @@ USA
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example><marker>There are</marker> different places to see.</example>
         </rule>
+        <rulegroup id="BEG_BAG" name="confusion of 'beg' vs 'bag'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes" min="0">paper|plastic|tea|laptop|messenger|duffel|clutch|beach|grocery|shopping|i?phone|shoulder|lunch|tote|hobo|hand|bucket|baguette|basket|school</token>
+                    <marker>
+                        <token regexp="yes">begs?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4" regexp_match="beg" regexp_replace="bag" /></suggestion>?</message>
+                <example correction="bags">Santa has some presents in his big <marker>begs</marker>.</example>
+                <example correction="bag">I was carrying the stuff in a green grocery <marker>beg</marker>.</example>
+                <example>The cat is in the <marker>bag</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">paper|plastic|tea|laptop|messenger|duffel|clutch|beach|grocery|shopping|i?phone|shoulder|lunch|tote|hobo|hand|bucket|baguette|basket|school</token>
+                    <marker>
+                        <token regexp="yes">begs?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4" regexp_match="beg" regexp_replace="bag" /></suggestion>?</message>
+                <example correction="bags">Reusable shopping <marker>begs</marker> are good for the nature.</example>
+                <example correction="bags">Brown <marker>begs</marker> are not so modern anymore.</example>
+                <example correction="bags">Plastic <marker>begs</marker> were sold more often before the climate crisis became awareness.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">begs?</token>
+                    </marker>
+                    <token regexp="yes" min="0">is|are</token>
+                    <token regexp="yes">full|filled</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="beg" regexp_replace="bag" /></suggestion>?</message>
+                <example correction="bag">He had a <marker>beg</marker> full of chocolate.</example>
+                <example correction="bags">My <marker>begs</marker> are filled with clothes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">bag</token>
+                    </marker>
+                    <token>for</token>
+                    <token min="0" regexp="yes">your|his|her|their|our|my|its</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">attention|mercy|money|scraps|forgiveness|change|help|love|life|justice|compliments?|food|gas|bread|alcohol|beer|drugs|death</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="bag" regexp_replace="beg" /></suggestion>?</message>
+                <example correction="begging">He is <marker>bagging</marker> for mercy.</example>
+                <example correction="begged">They <marker>bagged</marker> for his attention.</example>
+                <example>He <marker>begged</marker> for money when he was young.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_COMPLAIN" name="a + complain">
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
