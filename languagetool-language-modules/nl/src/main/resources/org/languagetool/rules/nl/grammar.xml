@@ -31100,11 +31100,9 @@ steenwijk;Steenwijk
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <marker>
-                        <token postag="WKW:TGW:3EP" regexp="yes">.*t$<exception postag="WKW:TGW:1EP"/></token>
-                        <token>je</token>
-                        <token postag="ZNW.*" postag_regexp="yes"/>
-                    </marker>
+                    <token postag="WKW:TGW:3EP" regexp="yes">.*t$<exception postag="WKW:TGW:1EP"/></token>
+                    <token>je</token>
+                    <token postag="ZNW.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -31963,8 +31961,8 @@ steenwijk;Steenwijk
         </rulegroup>
 		<rulegroup id="DANKJE" name="dankje / dank je">
             <rule>
-                <antipattern><marker><token>dankje</token><token>wel</token></marker></antipattern>
-                <antipattern><token regexp="yes" skip="1">een|het</token><marker><token>dankje</token></marker></antipattern>
+                <antipattern><token>dankje</token><token>wel</token></antipattern>
+                <antipattern><token regexp="yes" skip="1">een|het</token><token>dankje</token></antipattern>
                 <pattern>
                     <marker>
                         <token>dankje</token>
