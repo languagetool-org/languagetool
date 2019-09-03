@@ -52,7 +52,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY legendas "(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?">
     <!ENTITY precede_nome_proprio_F "(?:a(?:gência|ssociação|venida)|balneário|c(?:anção|o(?:lec?ção|ligação|meta|ndecoração|pa))|d(?:esignadas?|istribuição|upla)|e(?:ditora|s(?:cola|tação))|f(?:amília|ragata|undação)|g(?:aleria|eração)|herdade|i(?:lha|niciativa|intitulada)|l(?:agoa|ei)|marca|novela|o(?:bra|rquestra)|praça|quinta|r(?:evista|ua)|s(?:aga|erra|érie|onda)|t(?:aça|empestade)|universidade|versão)">
-    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:estival|ilme|undo|uracão)|g(?:alardão|énero|rupo)|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
+    <!ENTITY precede_nome_proprio_M "(?:bairro|c(?:afé|oncurso|urso)|d(?:esigna(?:ção|dos?))|estilo|f(?:estival|ilme|undo|uracão)|g(?:alardão|énero|rupo)|hospital|i(?:mpério|nstituto|ntitulado)|jornal|l(?:ago|iceu|ivro)|m(?:onte|useu)|na(?:u|vio)|p(?:artido|r(?:|émio|ojec?to|ograma))|r(?:egistr?o|eino|elatório|io)|t(?:ema|ipo|eatro))">
     <!ENTITY divisas "(?:bol[ií]vares|c(?:êntimos|oroas)|d(?:inares|ólares)|euros|f(?:rancos|lorins)|i(?:uanes|enes)|kwanzas|libras|meticais|p(?:atacas|esos)|r(?:andes|ublos|rupias)|zlótis|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -1785,9 +1785,9 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Este nome geográfico é precedido de um artigo.</message>
-        <suggestion>a Costa <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
-      <example correction="A Costa Rica">Vão para <marker>Costa Rica</marker>.</example>
-      <example correction="A Costa do Marfim"><marker>Costa do Marfim</marker>.</example>
+        <suggestion><match no='2' postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> Costa <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
+      <example correction="a Costa Rica">Vão para <marker>Costa Rica</marker>.</example>
+      <example correction="a Costa do Marfim"><marker>Costa do Marfim</marker>.</example>
       <example>É natural da Costa Rica.</example>
       <example>Belize, Cuba, Costa Rica</example>
     </rule>
@@ -1803,9 +1803,9 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Este nome geográfico é precedido de um artigo.</message>
-        <suggestion>os Estados Unidos</suggestion>
-      <example correction="Os Estados Unidos">Vão a <marker>Estados Unidos</marker>.</example>
-      <example correction="Os Estados Unidos"><marker>Estados Unidos</marker>.</example>
+        <suggestion><match no='2' postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> Estados Unidos</suggestion>
+      <example correction="os Estados Unidos">Vão a <marker>Estados Unidos</marker>.</example>
+      <example correction="os Estados Unidos"><marker>Estados Unidos</marker>.</example>
       <example>Michigan, Estados Unidos</example>
     </rule>
     <rule>
@@ -1820,9 +1820,9 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Este nome geográfico é precedido de um artigo.</message>
-        <suggestion>o Reino Unido</suggestion>
-      <example correction="O Reino Unido">Vão a <marker>Reino Unido</marker>.</example>
-      <example correction="O Reino Unido"><marker>Reino Unido</marker>.</example>
+        <suggestion><match no='2' postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> Reino Unido</suggestion>
+      <example correction="o Reino Unido">Vão a <marker>Reino Unido</marker>.</example>
+      <example correction="o Reino Unido"><marker>Reino Unido</marker>.</example>
       <example>Michigan, Estados Unidos</example>
     </rule>
     <rule>
@@ -1842,11 +1842,11 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Este nome geográfico é precedido de um artigo.</message>
-        <suggestion>a \2 \3</suggestion>
-      <example correction="A Nova Zelândia">A série é gravada em <marker>Nova Zelândia</marker> .</example>
-      <example correction="A Nova Guiné">São os habitantes nativos de <marker>Nova Guiné</marker>.</example>
+        <suggestion><match no='2' postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2 \3</suggestion>
+      <example correction="a Nova Zelândia">A série é gravada em <marker>Nova Zelândia</marker> .</example>
+      <example correction="a Nova Guiné">São os habitantes nativos de <marker>Nova Guiné</marker>.</example>
     </rule>
-    <rule id="ARTICLES_PRECEDING_LOCATIONS_EL" name="Nomes geográficos: El Salvador">
+    <rule>
       <pattern case_sensitive="yes">
           <token>El</token>
           <token>Salvador</token>
@@ -2914,6 +2914,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>'Sequer' deve ser precedido de uma negação.</message>
         <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
+      <url>https://duvidas.dicio.com.br/sequer-ou-nem-sequer/</url>
       <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
       <example>Nem sequer vi o que estava a fazer.</example>
     </rule>
@@ -4594,6 +4595,12 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token postag='SPS00' spacebefore='no'/>
+      </antipattern>
+      <antipattern>
+          <token>depois</token>
+          <token>de</token>
+          <token>em</token>
+          <token regexp='yes'>&meses_ano;|\d{2,4}</token>
       </antipattern>
       <pattern>
           <token postag='SPS00'>
