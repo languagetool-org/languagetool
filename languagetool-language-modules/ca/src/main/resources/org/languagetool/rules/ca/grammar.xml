@@ -34975,6 +34975,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="LLEGAT_LEGAT" name="llegat/legat">
+            <pattern>
+                <marker>
+                    <token regexp="yes" skip="2">llegats?</token>
+                </marker>
+                <token regexp="yes" inflected="yes">pontifici|papal|pontificial|papa|papat</token>
+            </pattern>
+            <message>Cal dir <suggestion><match no="1" regexp_match="(?iu)l(legats?)" regexp_replace="$1"/></suggestion> (= enviat del papa).</message>
+            <example correction="legat">Era el <marker>llegat</marker> pontifici.</example>
+        </rule>
         <rule id="MENYSPREABLE" name="menyspreable / negligible">
             <pattern>
                 <token inflected="yes" regexp="yes" skip="3">valor|quantitat|nombre|número|xifra|suma|import|dosi|porció|part|càrrega|ració|partida|total|volum|duració|durada|pes|errors?</token>
