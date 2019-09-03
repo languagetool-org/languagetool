@@ -16765,25 +16765,24 @@ USA
                 <token postag="CD"/>
                 <token>hit</token>
             </antipattern>
-            <antipattern>   <!-- *two sliver and black triangles* -->
-                <marker><token postag="CD"/>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                    <token regexp="yes">and|or</token>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                </marker>
+            <antipattern><!-- two silver and black triangles -->
+                <token postag="CD"/>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                <token regexp="yes">and|or</token>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 <token postag="NNS"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">the|another</token>
                 <token>number</token>
-                <marker><token postag="CD"/></marker>
+                <token postag="CD"/>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
                 <token postag="RB|JJ" postag_regexp="yes" />
                 <token regexp="yes">month|year|week|day|century|birthday</token>
             </antipattern>
-            <antipattern><!-- Postcal code + city, e.g. "22761 Hamburg" or "8004 Zurich" -->
+            <antipattern><!-- Postal code + city, e.g. "22761 Hamburg" or "8004 Zurich" -->
                 <token regexp="yes">\d{4,}</token>
                 <token postag="NNP"/>
             </antipattern>
@@ -16795,7 +16794,7 @@ USA
             <antipattern case_sensitive="yes">
                 <token>Billboard</token>
                 <token min="0" max="1">Hot</token>
-                <marker><token regexp="yes">[12]00</token></marker>
+                <token regexp="yes">[12]00</token>
             </antipattern>
             <antipattern>
                 <token>top</token>
@@ -16842,17 +16841,11 @@ USA
                 <token postag="CD" regexp="yes">[0-9]+</token>
                 <token postag="NNP" regexp="yes">\p{Lu}\p{L}+</token>
             </antipattern>
-<!--            <antipattern> 1556 book by Agricola 
+            <antipattern><!-- 1556 book by Agricola -->
                 <token postag="CD" regexp="yes">[0-9]+</token>
                 <token/>
                 <token>by</token>
                 <token postag="NNP"/>
-            </antipattern>-->
-            <antipattern><!-- 1556 book by Agricola. This AP does not work. Why? -->
-                <token postag="CD"/>
-                <token>book</token>
-                <token>by</token>
-                <token>Agricola</token>
             </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
@@ -16948,7 +16941,7 @@ USA
             <example>... launch around 2015 the improved <marker>Hayabusa 2 space probe</marker> and to return asteroid samples by 2020.</example>
             <example>... was commissioned by BMW to paint a <marker>Group 4 race version</marker> of the then elite supercar BMW M1 for the fourth ...</example>
             <example>... in 1997, before entering into orbit around <marker>433 Eros</marker>, finally landing on its surface in 2001.</example>
-            <example type="triggers_error">... this predates the more famous 1556 book by Agricola...</example>
+            <example>... this predates the more famous 1556 book by Agricola...</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
