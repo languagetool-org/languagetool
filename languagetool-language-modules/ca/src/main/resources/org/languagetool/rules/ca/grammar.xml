@@ -14419,9 +14419,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">mig|mitjan</token>
                 <token>camí</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">obra</token>
+                <token>que</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token skip="3">obra<exception postag="_GN_FS"/></token>
+                    <token skip="3">obra<exception postag="_GN_FS"/><exception scope="previous" postag="SPS00"/></token>
                 </marker>
                 <token regexp="yes" inflected="yes">porta|camí|via|ull|boca</token>
             </pattern>
@@ -14434,6 +14438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ens obrin les portes.</example>
             <example>, obra a mig camí entre el reportatge i l'assaig.</example>
             <example>vam veure l'obra davant dels ulls</example>
+            <exmple>Hi ha una part d'obra i una porta.</exmple>
         </rule>
         <rule id="ALL_LLARG" name="*all/al llarg">
             <pattern>
@@ -15621,7 +15626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">circuïts?<exception postag="_GV_"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="circuït(.?)" regexp_replace="circuit$1"/></suggestion>? Correcte com a participi de "circuir".</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)circuït(.?)" regexp_replace="circuit$1"/></suggestion>? Correcte com a participi de "circuir".</message>
             <example correction="circuits">Van construir-hi dos <marker>circuïts</marker>.</example>
             <example correction="circuit">Hi han fet un <marker>circuït</marker>.</example>
             <example>Han circuït el castell.</example>
