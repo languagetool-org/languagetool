@@ -14097,6 +14097,10 @@ USA
         </rulegroup>
         <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'learn', 'strive' and 'struggle' used with gerund instead of infinitive">
             <rule>
+                <antipattern><!-- MFU 2019-09-03. In the marked token, <exception scope="next" postag="SENT_END"/> does not work. -->
+                    <token postag="VBG"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
                     <marker>
@@ -14108,6 +14112,7 @@ USA
                 <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in the Alps.</example>
                 <example>We cannot afford <marker>to spend</marker> the whole month in the Alps.</example>
                 <example>He didn't deserve to lose his job.</example>
+                <example>This book deserves preserving.</example>
             </rule>
             <rule>
                 <pattern>
