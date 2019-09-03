@@ -15924,6 +15924,7 @@ USA
                 <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
                 <example type="triggers_error">You can ask anyone walking to the city about the bus drivers' strike!</example>
                 <example type="triggers_error">She recommended anyone walking to take the bus.</example>
+                <example type="triggers_error">The fearful noise astonished anyone coming for the first time.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -15976,6 +15977,24 @@ USA
                     <token postag="NNP"/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
+                <antipattern><!-- and his sister, Dorothy see -->
+                    <token regexp="yes">and|&amp;|or</token>
+                    <token postag="PRP$"/>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>,</token>
+                    <token postag="NNP"/>
+                </antipattern>
+                <antipattern><!-- people of Antigua & Barbuda enjoy  -->
+                    <token postag="NNS"/>
+                    <token postag="IN"/>
+                    <token postag="NNP"/>
+                    <token regexp="yes">and|&amp;|or</token>
+                    <token postag="NNP"/>
+                </antipattern>
+                <antipattern><!-- having Parker teach https://dictionary.cambridge.org/grammar/british-grammar/passive/have-something-done -->
+                    <token inflected="yes">have</token>
+                    <token postag="NNP"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -16024,6 +16043,11 @@ USA
                 <example>... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
                 <example type="triggers_error">...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
                 <example>Add your <marker>Google calendar</marker> to your mobile phone.</example><!-- #1886 -->
+                <example>...1802 – William Wordsworth and his sister, Dorothy see a "long belt" of daffodils, inspiring the former ...</example>
+                <example>The people of Antigua &amp; Barbuda enjoy a more-than-90% literacy rate.</example>
+                <example>... gave Spider-Man a new profession, having Parker teach at his former high school.</example>
+                <example type="triggers_error">Milne extract in the Guardian</example>
+                <example type="triggers_error">Asteraceae have a cosmopolitan distribution, and are found...</example><!-- MFU 2019-09-03. Possibly, Asteraceae is NNPS, but I did not find a reference. -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
