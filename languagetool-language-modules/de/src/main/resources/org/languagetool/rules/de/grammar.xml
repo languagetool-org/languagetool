@@ -339,17 +339,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DE_KOMMA" name="de, (dem)">
             <antipattern>
-                <token>.</token>
+                <token regexp="yes">[.,]</token>
                 <token>de</token>
                 <token>,</token>
             </antipattern>
             <pattern>
-                <token>de</token>
+                <token case_sensitive="yes">de</token>
                 <token>,</token>
             </pattern>
             <message>Meinten Sie <suggestion>dem</suggestion>?</message>
             <example correction="dem">Wir kommen mit <marker>de,</marker> Plan gut voran.</example>
             <example>Ich war auf heise.<marker>de,</marker> dort fanden die jährlichen Trollweltmeisterschaften statt.</example>
+            <example>Das funktioniert in allen drei Sprachen (EN, FR, DE).</example>
         </rule>
         <rule id="EUCH_ALL" name="euch all (alle)">
             <pattern>
