@@ -249,18 +249,14 @@ USA
         <rulegroup id="APOS_RE" name="we'Re' (we're) etc">
           <rule>
             <antipattern>
-              <marker>
-                <token regexp="yes">\p{Lu}+</token>
-                <token regexp="yes">['’]</token>
-                <token case_sensitive="yes">RE</token>
-              </marker>
+              <token regexp="yes">\p{Lu}+</token>
+              <token regexp="yes">['’]</token>
+              <token case_sensitive="yes">RE</token>
             </antipattern>
             <pattern>
-              <marker>
-                <token regexp="yes">you|we|they|who</token>
-                <token regexp="yes">['’]</token>
-                <token case_sensitive="yes" regexp="yes">Re|RE</token>
-              </marker>
+              <token regexp="yes">you|we|they|who</token>
+              <token regexp="yes">['’]</token>
+              <token case_sensitive="yes" regexp="yes">Re|RE</token>
             </pattern>
             <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
             <short>Possible typo</short>
@@ -747,7 +743,7 @@ USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <marker><token>Him</token></marker>
+                    <token>Him</token>
                     <token skip="2">and</token>
                     <token postag="SENT_END"/>
                  </antipattern>
@@ -765,7 +761,7 @@ USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <marker><token>Her</token></marker>
+                    <token>Her</token>
                     <token skip="2">and</token>
                     <token postag="SENT_END"/>
                  </antipattern>
@@ -1776,9 +1772,7 @@ USA
         <rule>
         <antipattern>
           <token postag="CD"/>
-          <marker>
           <token postag="NN.*" postag_regexp="yes"><exception postag="NNS"/></token>
-          </marker>
           <token regexp="yes">&apos;</token>
           <token>s</token>
           <token postag="NNS"></token>
@@ -1809,28 +1803,22 @@ USA
         </rule>
         <rule>
         <antipattern>
-        <marker>
         <token>s</token>        
-        </marker>        
         <token postag="RB"/>
         <token postag="VBG"/>
         </antipattern>
         <antipattern>
         <token regexp="yes">some|both|no|any</token>
-        <marker>
         <token postag="NN.*" postag_regexp="yes"></token>
         <token regexp="yes">&apos;</token>
         <token>s</token>
-        </marker>
         <token postag="NN.*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
         <token regexp="yes">some|both|no|any</token>
-        <marker>
         <token postag="NN.*" postag_regexp="yes"></token>
         <token regexp="yes">&apos;</token>
         <token>s</token>
-        </marker>
         <token postag="JJ"/>
         <token postag="NN.*" postag_regexp="yes"/>
         </antipattern>
@@ -2210,7 +2198,7 @@ USA
         <rule id="I_IF" name="I (if)">
             <antipattern><!-- https://en.oxforddictionaries.com/definition/no_longer -->
                 <token postag="SENT_START"/>
-                <marker><token>I</token></marker>
+                <token>I</token>
                 <token>no</token>
                 <token>longer</token>
             </antipattern>
@@ -12134,9 +12122,7 @@ USA
                 <antipattern>
                     <token regexp="yes">['’]</token>
                     <token regexp="yes">ve|s</token>
-                    <marker>
-                        <token>go</token>
-                    </marker>
+                    <token>go</token>
                     <token>to</token>
                     <token postag="VB"/>
                 </antipattern>
@@ -13889,9 +13875,7 @@ USA
             <rule>
                 <antipattern>
                     <token>on</token>
-                    <marker>
-                        <token>autopilot</token>
-                    </marker>
+                    <token>autopilot</token>
                 </antipattern>
                 <pattern>
                     <token>on</token>
@@ -14768,7 +14752,7 @@ USA
                 </antipattern>
             <rule>
                 <antipattern>
-                    <marker><token>best</token></marker>
+                    <token>best</token>
                     <token inflected="yes">sell</token>
                 </antipattern>
                 <pattern>
@@ -16970,18 +16954,14 @@ USA
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
                <token postag="CD"><exception regexp="yes">one|1</exception></token>
-                <marker>
                 <token regexp="yes">week|month|hour</token>
-                </marker>
                 <token regexp="yes">['’]</token>
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
           <token postag="CD"/>
-          <marker>
           <token postag="NN.*" postag_regexp="yes"><exception postag="NNS"/></token>
-          </marker>
           <token regexp="yes">&apos;</token>
           <token>s</token>
           <token postag="NNS"></token>
@@ -17152,12 +17132,10 @@ USA
         <rulegroup id="MANY_NN_U" name="Possible agreement error: 'many/several/few' + uncountable noun">
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>many</token>
-                        <token chunk="I-NP-plural" postag="NN:U"/>
-                        <token chunk="I-NP-plural" postag="JJ|NN:UN?" postag_regexp="yes"/>
-                        <token chunk="E-NP-plural" postag="NNS"/>
-                    </marker>
+                    <token>many</token>
+                    <token chunk="I-NP-plural" postag="NN:U"/>
+                    <token chunk="I-NP-plural" postag="JJ|NN:UN?" postag_regexp="yes"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
                     <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </antipattern>
                 <pattern>
@@ -17588,23 +17566,19 @@ USA
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <marker>
-                        <token>Even</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose</token>
-                        <!-- start search after 2nd token in case it is a comma -->
-                        <token regexp='yes'>[,;:!\?]</token>
-                    </marker>
+                    <token>Even</token>
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose</token>
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <marker>
-                        <token>Even</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                        </token>
-                        <!-- start search after 2nd token in case it is a comma -->
-                        <token postag='CC'/>
-                    </marker>
+                    <token>Even</token>
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC'/>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
@@ -17970,11 +17944,9 @@ USA
         </rulegroup>
         <rule id="BEWARE_PREPOSITION" name="beware PREPOSITION">
             <antipattern>
-               <marker>
                <token inflected="yes">beware</token><!-- Inflection is probably not necessary. In modern English, usually only imperative and infinitive is used.-->
                <token>as</token>
                <token regexp="yes">well(-.+)?</token>
-              </marker>
             </antipattern>
             <pattern>
                <marker>
@@ -18628,8 +18600,8 @@ USA
             </rule>
             <rule id="CA_COAST_TO_COAST" name="Compound adjective: coast to coast">
                 <antipattern case_sensitive="yes"><!-- www.coasttocoastam.com -->
-                     <token>Coast</token>
-                     <token>to</token>
+                    <token>Coast</token>
+                    <token>to</token>
                     <token>Coast</token>
                     <token>AM</token>
                 </antipattern>
@@ -23438,14 +23410,14 @@ The accident victim died from her injuries.
                     <token regexp="yes">than|sooner|later</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token chunk="B-PP">besides</token></marker>
+                    <token chunk="B-PP">besides</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token regexp="yes">also|elsewhere</token></marker>
+                    <token regexp="yes">also|elsewhere</token>
                     <token regexp="yes">in|since</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token regexp="yes">thus|still</token></marker>
+                    <token regexp="yes">thus|still</token>
                     <token postag="VB." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -26232,36 +26204,28 @@ The accident victim died from her injuries.
         </rule>
         <rule id="THEY_WHERE" name="where (were)">
             <antipattern>
-                <marker>
-                  <token>there</token>
-                  <token>where</token>
-                </marker>
+                <token>there</token>
+                <token>where</token>
                 <token postag="PRP"/>
             </antipattern>
             <antipattern>
-                <marker>
-                  <token>there</token>
-                  <token>where</token>
-                </marker>
+                <token>there</token>
+                <token>where</token>
                 <token>there</token>
                 <token regexp="yes">is|are|were|was</token>
             </antipattern>
             <antipattern>
               <token postag="PRP"/>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token>there</token>
               <token regexp="yes">were|are</token>
               <token postag="JJ.*" postag_regexp="yes"/>
               <token postag="NNS"/>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token>there</token>
@@ -26269,50 +26233,38 @@ The accident victim died from her injuries.
               <token postag="DT"></token>
               <token postag="JJ.*" postag_regexp="yes"/>
               <token postag="NN(:.+)?" postag_regexp="yes"/>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token>there</token>
               <token regexp="yes">was|is</token>
               <token postag="DT"></token>              
               <token postag="NN(:.+)?" postag_regexp="yes"/>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token>to</token>
               <token>be</token>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token>take</token>
               <token postag="PRP"/>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>              
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>              
               <token regexp="yes">out|over|in|up</token>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>              
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <antipattern>
               <token inflected="yes" regexp="yes">be|head|hold</token>
-              <marker>
-                  <token>there</token>
-                  <token>where</token>
-              </marker>
+              <token>there</token>
+              <token>where</token>
             </antipattern>
             <pattern>
                 <token regexp='yes'>the(y|re)|we</token>
@@ -33182,11 +33134,9 @@ The accident victim died from her injuries.
     </rule>
     <rule id="R_SYMBOL" name="(R) instead of ®">
         <antipattern case_sensitive="yes">
-            <marker>
             <token>(</token>        
         <token>R</token>
         <token skip="-1">)</token>        
-        </marker>
         <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
         </antipattern>
@@ -33194,10 +33144,8 @@ The accident victim died from her injuries.
             <token>(</token>        
         <token regexp="yes">[\p{Lu}^R]</token>
         <token skip="-1">)</token>        
-        <marker>
         <token>R<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
-        </marker>
         </antipattern>
      <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{Lu}.*</token>
@@ -33219,10 +33167,8 @@ The accident victim died from her injuries.
         <token skip="-1">)</token>        
         <token>b<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
-        <marker>        
         <token>c<exception scope="previous" negate="yes">(</exception></token>
         <token>)</token>
-        </marker>
         </antipattern>    
       <pattern>
       <marker>
@@ -33275,7 +33221,7 @@ The accident victim died from her injuries.
                 <antipattern> <!-- don't beautify inches -->
                     <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
                     <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
-                    <marker><token postag="''"/></marker>
+                    <token postag="''"/>
                 </antipattern>
                 <pattern>
                     <token postag="''"/>
