@@ -16837,6 +16837,18 @@ USA
                 <token postag="CD" regexp="yes">[0-9]+</token>
                 <token postag="NNP" regexp="yes">\p{Lu}\p{L}+</token>
             </antipattern>
+<!--            <antipattern> 1556 book by Agricola 
+                <token postag="CD" regexp="yes">[0-9]+</token>
+                <token/>
+                <token>by</token>
+                <token postag="NNP"/>
+            </antipattern>-->
+            <antipattern><!-- 1556 book by Agricola. This AP does not work. Why? -->
+                <token postag="CD"/>
+                <token>book</token>
+                <token>by</token>
+                <token>Agricola</token>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -16874,6 +16886,7 @@ USA
             <example correction="chapters">Additionally, there are over 500 college and university <marker>chapter</marker>.</example>
             <example correction="chapters">There are 500 college and university <marker>chapter</marker>.</example>
             <example correction="chapters">There are 400 College and university <marker>chapter</marker>.</example>
+            <example correction="elements">... if we group 5 <marker>element</marker> in this manner.</example><!-- If the correct typography is used, the rule does not trigger an error. https://en.wikipedia.org/wiki/Group_5_element -->
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
@@ -16930,6 +16943,7 @@ USA
             <example>... launch around 2015 the improved <marker>Hayabusa 2 space probe</marker> and to return asteroid samples by 2020.</example>
             <example>... was commissioned by BMW to paint a <marker>Group 4 race version</marker> of the then elite supercar BMW M1 for the fourth ...</example>
             <example>... in 1997, before entering into orbit around <marker>433 Eros</marker>, finally landing on its surface in 2001.</example>
+            <example type="triggers_error">... this predates the more famous 1556 book by Agricola...</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
