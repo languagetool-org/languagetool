@@ -3798,15 +3798,16 @@ regexp case-insensitive maken : (?i)
                 <example correction="zolen">Het woord <marker>solen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="SEN_ZEN" name="waarschuwing bij gebruik sen i.p.v. zen">
             <rule>
+                <antipattern><token regexp="yes">tus|men|[(]</token><token>sen</token></antipattern>
                 <pattern><token>sen</token></pattern>
                 <message>Bedoelt u wellicht <suggestion>zen</suggestion> of toch de sen (Japanse munt)? Of wellicht is er een woord in tweeën gevallen?</message>
                 <example correction="zen">Het woord <marker>sen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
 <!--
 		<rulegroup id="SA_ZA" name="waarschuwing bij gebruik sa i.p.v. za">
             <rule>
@@ -6493,7 +6494,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="CAVA_KAVA" name="waarschuwing bij gebruik kava i.p.v. cava">
             <rule>
-                <pattern><token inflected="yes">kava</token></pattern>
+                <pattern><token case_sensitive="yes" inflected="yes">kava</token></pattern>
 				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kav" regexp_replace="cav"/></suggestion> (wijnhuis)? Een kava (=kawa) is een plant (en zeldzaam).</message>
                 <example correction="cava">Het woord <marker>kava</marker> kan een vergissing zijn.</example>
             </rule>
@@ -6522,6 +6523,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+<!--
         <rulegroup id="ROCKEN_ROKKEN" name="waarschuwing bij gebruik rokken i.p.v. rocken">
             <rule>
 				<antipattern><token regexp="yes">de|lange|korte</token><token>rokken</token></antipattern>
@@ -6532,6 +6534,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="rocken">Het woord <marker>rokken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        -->
 <!--
         <rulegroup id="VERDICT_VERDIKT" name="waarschuwing bij gebruik verdikt i.p.v. verdict">
             <rule>
@@ -6543,6 +6546,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 		-->
+<!--
         <rulegroup id="LOCKER_LOKKER" name="waarschuwing bij gebruik lokker i.p.v. locker">
             <rule>
                 <pattern><token inflected="yes">lokker</token></pattern>
@@ -6550,7 +6554,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="locker">Het woord <marker>lokker</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="CULT_KULT" name="waarschuwing bij gebruik kult i.p.v. cult">
             <rule>
                 <pattern>
@@ -6762,7 +6766,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="croppen">Het woord <marker>kroppen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="CAMMEN_KAMMEN" name="waarschuwing bij gebruik kammen i.p.v. cammen">
             <rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">uit|haar|.*borstel.*</token><token postag="SENT_END"/></antipattern>
@@ -6771,7 +6775,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="cammen">Het woord <marker>kammen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="DISCMAN_DISKMAN" name="waarschuwing bij gebruik diskman i.p.v. discman">
             <rule>
                 <pattern>
@@ -12359,19 +12363,6 @@ onwaarschijnlijk
 				<message>Hier staat iets zeer vreemds.</message>
 				<short>Vreemd!</short>
 				<example type="incorrect"><marker>aan hij</marker></example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="VREEMD_DE_DIE" name="vang">
-			<!-- de Die is ook een achternaam -->
-			<rule>
-				<pattern>
-					<token>de</token>
-					<token regexp="yes" case_sensitive="yes">die|dit|dat|deze</token>
-				</pattern>
-				<message>Vreemde woordvolgorde. Wellicht een woord te veel of ontbrekende punten of komma's?</message>
-				<short>Vreemd!</short>
-				<example type="incorrect"><marker>de die</marker></example>
 			</rule>
 		</rulegroup>
 
