@@ -17428,33 +17428,61 @@ USA
                     <token regexp="yes">['’]</token>
                     <token regexp="yes">s|ll|ve</token>
                 </antipattern>
-                <antipattern case_sensitive="yes">
+                <!--antipattern case_sensitive="yes"> XXX transformed in a less strict pattern
                     <token>If</token>
                     <token skip="2">only</token>
                     <token postag="VBD"></token>
+                </antipattern-->
+                <antipattern case_sensitive="yes">
+                    <token skip='-1'>If</token>
+                    <token>then</token>
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
+                <!-- Colloquial speech exceptions. Still incorrect in written speech but this is a pragmatic compromise -->
+                <antipattern>
+                    <token postag='SENT_START' skip='5'/>
+                    <token postag='SENT_END'/>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' skip='-1'/>
+                    <token postag='SENT_END'>…</token>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' skip='-1'/>
+                    <token>.</token>
+                    <token>.</token>
+                    <token postag='SENT_END'>.</token>
+                </antipattern>
+                <antipattern case_sensitive="yes"><!-- Colloquial expression -->
+                    <token>If</token>
+                    <token skip="2">only</token>
+                </antipattern>
                 <pattern>
                     <token postag='SENT_START'/>
                     <marker>
-                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
-                            <exception postag="DT"/>
-                        </token>
+                        <token skip="-1" regexp='yes' case_sensitive='yes'>A(?:fter|lthough|s)|B(?:ecause|efore)|If|Once|Since|Th(?:a[nt]|ough)|U(?:nless|ntil)|Wh(?:en(?:ever)?|ere(?:as|ver)?|ether|ich|ichever|ile|om?(?:ever)?|ose)
+                            <exception postag="DT"/></token>
                     </marker>
                     <token postag='SENT_END'/>
                 </pattern>
                 <message>“\2” at the beginning of a sentence usually requires a 2nd clause. Maybe a comma, question or exclamation mark is missing, or the sentence is incomplete and should be joined with the following sentence.</message><!-- Not for subject-verb inversion: www.englishgrammar.org/inversion-subject-verb/. Not for all adverbial clauses: https://guidetogrammar.org/grammar/commas_intro.htm. For those adverbial clauses that have a comma, people do not agree about the length of the clause (compare the guidetogrammar.org page with https://theeditorsblog.net/2016/02/21/a-tale-of-adverbs-and-the-comma/. -->
                 <short>Possible punctuation error, sentence looks like a fragment</short>
-                <example correction=""><marker>Though</marker> the dog likes to bark.</example>
-                <example correction=""><marker>After</marker> we had dinner.</example>
+                <example correction=""><marker>Though</marker> the dog likes to bark loudly.</example>
+                <example correction=""><marker>After</marker> we had a lovely dinner.</example>
                 <example>Though the dog likes to bark, it's still a nice dog.</example>
                 <example>After we had dinner, we went to the cinema.</example>
                 <example type="triggers_error"><marker>Whichever</marker> college he wants to go to is fine with me.</example>
-                <example type="triggers_error">After rain comes fair weather.</example>
+                <example>After rain comes fair weather.</example>
                 <example type="triggers_error">As soon as I get paid I will pay you back.</example>
+                <example>As soon as I get paid, I will pay you back.</example>
+                <example>As soon as I get paid...</example>
+                <example>As soon as I get paid…</example>
                 <example type="triggers_error">Because of the rain they had to cancel the game.</example>
                 <example type="triggers_error">After a month's stay here I will get much better.</example>
-                <example>If only he knew the truth.</example>
+                <example>If only he knew.</example>
+                <example>After returning home, I will inquire into the matter.</example>
+                <example><!-- formula + line end -->where C is an arbitrary constant of integration.</example>
+                <!--example>If only we'd stop trying to be happy we could have a...</example> XXX This would be a valid correction -->
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 

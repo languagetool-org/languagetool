@@ -280,6 +280,8 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_AU":     return -1;  // more specific rules (e.g. L2 rules) have priority
       case "TWO_CONNECTED_MODAL_VERBS": return -5;
       case "CONFUSION_RULE":            return -10;
+      case "SENTENCE_FRAGMENT":         return -50; // prefer other more important sentence start corrections.
+      case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
     }
