@@ -9534,6 +9534,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>[,;:]
             <exception postag='SENT_END'/></token>
       </antipattern>
+      <antipattern><!-- sentence ends in an abreviation -->
+          <token regexp='yes'>\p{L}|&abreviaturas;|etc</token>
+          <token spacebefore='no'>.</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">[.,;:!?…]</token>
           <token regexp="yes">[.,;:!?…]</token>
@@ -9868,7 +9872,7 @@ title="Easy editing stylesheet" ?>
           <token><match no='1'/>
             <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-            <exception regexp='yes'>e|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
+            <exception regexp='yes'>e|d[aeo]s?|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -9918,7 +9922,7 @@ title="Easy editing stylesheet" ?>
           <token><match no='1'/>
             <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-            <exception regexp='yes'>são|&divisas;|&unidades_de_medida_por_extenso;</exception>
+            <exception regexp='yes'>e|d[aeo]s?|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
