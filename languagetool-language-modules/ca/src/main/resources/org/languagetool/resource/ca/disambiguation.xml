@@ -6995,6 +6995,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^V].*"/>
         </rule>
     </rulegroup>
+    <rule id="SET" name="set">
+        <pattern>
+            <token postag="D...P.*" postag_regexp="yes"/>
+            <token postag="A...P.*" postag_regexp="yes" min="0"/>
+            <marker>
+                <token>set</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NC.S.*"/>
+    </rule>
     <rulegroup id="ALTRE" name="l'altre determinant/adjectiu/pronom">
         <rule>
             <pattern>
