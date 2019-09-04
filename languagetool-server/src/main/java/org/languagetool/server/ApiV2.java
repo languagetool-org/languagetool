@@ -62,6 +62,11 @@ class ApiV2 {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("check")) {
+      // check for CORS preflight options request
+      if (httpExchange.getRequestMethod().equalsIgnoreCase("options")) {
+        handleOptionsRequest(new String[]{"POST", "OPTIONS"}, httpExchange);
+        return;
+      }
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
       handleWordsRequest(httpExchange, parameters, config);
@@ -194,6 +199,15 @@ class ApiV2 {
       g.writeEndObject();
     }
     sendJson(httpExchange, sw);
+  }
+
+  private void handleOptionsRequest(final String[] allowedOptions, final HttpExchange httpExchange) throws IOException {
+    ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);
+    ServerTools.setAccessControlAllowMethods(httpExchange, allowedOptions);
+    ServerTools.setAccessControlMaxAge(httpExchange, 86400L);
+    ServerTools.setAccessControlAllowHeaders(httpExchange, new String[]{"*"});
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NO_CONTENT, 0L);
+    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_NO_CONTENT);
   }
 
   private void ensureGetMethod(HttpExchange httpExchange, String url) {

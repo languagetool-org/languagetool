@@ -24,10 +24,12 @@ import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 /**
  * @since 3.4
@@ -81,6 +83,20 @@ final class ServerTools {
     if (allowOriginUrl != null) {
       httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
     }
+  }
+
+  static void setAccessControlAllowMethods(final HttpExchange httpExchange, final String[] allowedMethods) {
+    final String allowed = String.join(", ", allowedMethods);
+    httpExchange.getResponseHeaders().set("Access-Control-Allow-Methods", allowed);
+  }
+
+  static void setAccessControlMaxAge(final HttpExchange httpExchange, final long maxAge) {
+    httpExchange.getResponseHeaders().set("Access-Control-Max-Age", String.valueOf(maxAge));
+  }
+
+  static void setAccessControlAllowHeaders(final HttpExchange httpExchange, final String[] allowedMethods) {
+    final String allowed = String.join(", ", allowedMethods);
+    httpExchange.getResponseHeaders().set("Access-Control-Allow-Headers", allowed);
   }
 
   static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config) {
