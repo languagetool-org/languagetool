@@ -11507,19 +11507,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>herum</token>
             </antipattern>
             <antipattern>
-                <token skip="-1" regexp="yes">vor|hinter|neben<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                <token skip="-1" regexp="yes">vor|hinter|neben<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|"|»|«|"|und|oder</exception></token>
                 <token>her</token>
             </antipattern>
             <antipattern>
-                <token skip="-1" regexp="yes">vo[nm]<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                <token skip="-1" regexp="yes">vo[nm]<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|"|»|«|"|und|oder</exception></token>
                 <token regexp="yes">her(aus)?</token>
             </antipattern>
             <antipattern>
-                <token skip="-1">aus<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                <token skip="-1">aus<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|"|»|«|"|und|oder</exception></token>
                 <token>heraus</token>
             </antipattern>
+            <antipattern>
+                <token>rein</token>
+                <token>machen</token>
+            </antipattern>
             <pattern>
-                <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
+                <token>
+                    <exception regexp="yes">;|:</exception>
+                    <exception postag="SENT_START"/>
+                </token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|raus|rein|ru(nter|m)|rüber|umh(er|in)</token>
                     <token postag="VER:.*" postag_regexp="yes">
@@ -11543,6 +11550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die chirurgischen Instrumente muss man absolut rein aufbewahren.</example>
             <example>Wir müssen die Luft rein halten.</example>
             <example>Man kommt nicht umhin einzuräumen, dass dieser Ausspruch absurd ist.</example>
+            <example>Er wollte das Zimmer ordentlich rein machen.</example>
         </rule>
         <rule id="ZUSAMMENSCHREIBUNG_HIERHER" name="Zusammenschreibung von Verben mit dem Präfix 'hierher'">
             <antipattern>
