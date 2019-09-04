@@ -548,6 +548,7 @@ public class AgreementRule extends Rule {
     "Post", // Ein (Social-Media) Post
     "Kilogramm",
     "Meter", // Das Meter (Objekt zum Messen)
+    "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
     "Bild", // die Bild (Zeitung)
     "Uhr"   // "um ein Uhr"
