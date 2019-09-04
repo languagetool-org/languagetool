@@ -43,6 +43,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your move makes",
       "your move is",
       "he unchecked the",
+      "thank you for the patience",
       "your fix",  // fix = bug fix
       "on point"
   );
