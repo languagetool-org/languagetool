@@ -1144,6 +1144,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("ca.");
     } else if (word.equals("Jezt")) {
       return Collections.singletonList("Jetzt");
+    } else if (word.equals("Wollst")) {
+      return Collections.singletonList("Wolltest");
+    } else if (word.equals("wollst")) {
+      return Collections.singletonList("wolltest");
     } else if (word.equals("Rolladen")) {
       return Collections.singletonList("Rollladen");
     } else if (word.equals("Maßname")) {
