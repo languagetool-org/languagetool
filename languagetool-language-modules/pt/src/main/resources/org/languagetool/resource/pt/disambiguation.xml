@@ -2653,14 +2653,16 @@
     <rule>
       <pattern>
           <token regexp="yes">1[º°′″‴]</token>
-          <token regexp="yes" spacebefore='yes'>[CFKNSEWO]</token>
+          <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
+            <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">[\d,. ]+[º°′″‴]</token>
-          <token regexp="yes" spacebefore='yes'>[CFKNSEWO]</token>
+          <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
+            <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/><wd pos="NCMN000"/></disambig>
     </rule>
