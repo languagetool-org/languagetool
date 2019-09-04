@@ -16722,8 +16722,13 @@ USA
                 <token>a</token>
                 <token regexp="yes">lot|bunch</token>
                 <token>of</token>
-                <token postag="NNP?" postag_regexp="yes"></token>
+                <token postag="NNP?" postag_regexp="yes"/>
                 <token postag="VBG"/>
+            </antipattern>
+            <antipattern><!-- a lot of CPU power -->
+                <token>of</token>
+                <token chunk="B-NP-singular" postag="NNP?" postag_regexp="yes"/>
+                <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
@@ -16739,6 +16744,7 @@ USA
             <example correction="a lot of cars">I have <marker>a lot of car</marker>.</example>
             <example>I have <marker>a lot of wine</marker>.</example>
             <example>I did <marker>a lot of rat</marker> killing.</example>
+            <example>It steals a lot of <marker>CPU power</marker> just like Facebook...</example><!-- https://forum.languagetool.org/t/en-possible-false-positive-2019-08-27/4662 -->
             <example type="triggers_error">A lack of vowel marking (often with ambiguity between no vowel an...</example>
         </rule>
         <rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
