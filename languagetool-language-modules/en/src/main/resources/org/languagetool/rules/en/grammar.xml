@@ -9410,7 +9410,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg</exception>
+                    <exception regexp="yes">commit|remix|long-running|spend|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -16890,7 +16890,7 @@ USA
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
                     <exception regexp="yes" scope="previous">&months;|season|category|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
-                    <exception scope="previous">×</exception>
+                    <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
                     <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
@@ -16954,6 +16954,7 @@ USA
             <example>She said he would be sixteen next month.</example>
             <example>We can drink beer when you are 21 next month.</example>
             <example>The screen is fixed to the 640 × 400 1-bit mono mode, and no external video port was provided.</example>
+            <example>We sleep in a 20 x 40 tent.</example>
             <example>Game board with 108 spaces arranged in a 12 by 9 array</example>
             <example>In the United States, the song peaked at number six on the Billboard Hot 100 chart, paving the way for their first album and their first trip as a group there.</example>
             <example>Since then the corporate headquarters have moved to New York City at 1 Park Avenue in Manhattan, before moving to the Financial District to the former JP Morgan Chase headquarters at 4 New York Plaza.</example>
@@ -23572,7 +23573,7 @@ The accident victim died from her injuries.
         <rulegroup id="MISSING_HYPHEN" name="Missing hyphens in compounds">
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the</token>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
                     <marker>
                         <token postag="CD"/>
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
@@ -23588,7 +23589,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the</token>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
                     <marker>
                         <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y)</token>
                         <token regexp="yes">high|old|long</token>
@@ -23603,7 +23604,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the</token>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
                     <token postag="JJ" min="0"/>
                     <marker>
                         <token postag="CD"></token>
@@ -27402,12 +27403,25 @@ The accident victim died from her injuries.
                         <token>everyone</token>
                     </marker>
                     <token>of</token>
-                    <token regexp="yes">the|these|those</token>
-                    <token postag="NNP?S" postag_regexp="yes" />
+                    <token regexp="yes">th(o|e)se</token>
                 </pattern>
                 <message>Did you mean <suggestion>every one</suggestion>?</message>
                 <url>https://writingexplained.org/everyone-vs-every-one-difference</url>
                 <example correction="Every one"><marker>Everyone</marker> of these apples is rotten.</example>
+                <example><marker>Every one</marker> of those rich kids was there last night.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>everyone</token>
+                    </marker>
+                    <token>of</token>
+                    <token>the</token>
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>every one</suggestion>?</message>
+                <url>https://writingexplained.org/everyone-vs-every-one-difference</url>
+                <example correction="Every one"><marker>Everyone</marker> of the cards was unfolded.</example>
                 <example><marker>Every one</marker> of the brothers was there last night.</example>
             </rule>
         </rulegroup>
