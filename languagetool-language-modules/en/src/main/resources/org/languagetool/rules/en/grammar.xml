@@ -13044,6 +13044,11 @@ USA
             <token>I</token>
             <token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token>
           </antipattern>
+          <antipattern><!--  #1869 MFU 2019-09-04: He was calling you several times today -->
+            <token postag="VBG"/>
+            <token regexp="yes">you|it</token>
+            <token chunk="B-NP-plural" postag="JJ"/>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -13197,6 +13202,7 @@ USA
           <example>The position carried with it extraordinary powers over the Berlin city government and made S...</example>
           <example>Who Shall I Say is Calling &amp; Other Stories S. Deziemianowicz, ed....</example>
           <example>At the Tier I Family Circle Cup, Kournikova reached her second WTA Tou...</example>
+          <example>He was calling you several times today.</example><!-- #1869 -->
         </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
