@@ -16883,6 +16883,13 @@ USA
                 <token>by</token>
                 <token postag="NNP"/>
             </antipattern>
+            <antipattern><!-- #1903. slide 8 and click on -->
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="CD" regexp="yes">[0-9]+</token>
+                <token>and</token>
+                <token postag="VB"/>
+                <token postag="IN"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -16979,6 +16986,7 @@ USA
             <example>... was commissioned by BMW to paint a <marker>Group 4 race version</marker> of the then elite supercar BMW M1 for the fourth ...</example>
             <example>... in 1997, before entering into orbit around <marker>433 Eros</marker>, finally landing on its surface in 2001.</example>
             <example>... this predates the more famous 1556 book by Agricola...</example>
+            <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
