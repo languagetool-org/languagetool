@@ -11742,7 +11742,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 
         <rulegroup id="Dvojnoe_negate_s_NE" name="Двойное отрицание с частицей «НЕ»">
-            <rule>   
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>не</token>
+                        <token inflected="yes">мочь</token>
+                        <token>ни</token>
+                        <token postag_regexp="yes" postag="VB:INF:.*" skip="-1"/>
+                    </marker>
+                    <token>,</token>
+                    <token>ни</token> 
+                </antipattern>   
+   
                 <pattern>
                     <marker>
                         <token>не</token>
@@ -11750,13 +11761,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>ни</token>
                         <token postag_regexp="yes" postag="VB:INF:.*" />
                     </marker>
+                <!--    
                 <token negate="yes">,</token>
-                <token negate="yes">ни</token>                         
+                <token negate="yes">ни</token>
+                -->                         
                 </pattern>
                 <message>Двойное отрицание с частицей «не»: <suggestion>не \2 не \4</suggestion></message>
                 <short>Правильно два «НЕ»</short>
                 <example correction="не мог не заметить">Он <marker>не мог ни заметить</marker> этого.</example>
                 <example>Он не мог не заметить этого.</example>
+                <example>Я не могу ни сделать превью, ни на рендер отправить.</example>
             </rule>   
 
           
