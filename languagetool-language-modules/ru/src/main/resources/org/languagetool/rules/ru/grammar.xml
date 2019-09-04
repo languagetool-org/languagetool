@@ -9102,14 +9102,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token postag="NN:.*:PL:V"  postag_regexp="yes" ></token>   
             </antipattern>    -->
             <pattern case_sensitive="yes">
-                <token>по</token>
-                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token regexp="yes">по|По</token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" >
+                    <exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:V" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
             </pattern>
             <message>Предлог «по» предполагает употребление существительного в дательном падеже, но возможен предложный или винительный падеж.</message>
             <short>Требуется дательный (винительный, предложный) падеж.</short>
             <example>Я шёл по снегу.</example>
             <example>Я ходил в лес по грибы.</example>
             <example>Я ходил по грибы.</example>
+            <example correction=""><marker>По улица</marker> пойду.</example>
             <example correction="">Я шёл <marker>по снегом</marker>.</example>
         </rule>
         <rule default="on" id="grammar_bez_ucheta_and_Noun" name="Оборот «без учёта» и существительное">
