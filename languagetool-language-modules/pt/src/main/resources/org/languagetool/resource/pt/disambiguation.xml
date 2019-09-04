@@ -3504,14 +3504,25 @@
     </rule>
   </rulegroup>
 
-    <rule id='WORDS_WITH_NUMBERS' name='Palavras com números ou símbolos'>
+  <rulegroup id='WORDS_WITH_NUMBERS' name='Palavras com números ou símbolos'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->
-    <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways -->
+    <rule>
+    <!-- XXX TV dimensions|3D|networks|4Chan|G20|G7|hypothesis|intel CPUs|P2P|number of rooms|highways|programming languages -->
       <pattern>
           <token case_sensitive='yes' regexp='yes'>[248]K|[2345][DG]|[48]Chan|G(1|7|20)|H[₁₂₃₄₅₆₇₈₉₀]|i[3579]|P2P|T[1234560]|(?:A|EN|IC)\d{1,3}|[CJ](?:#|\+\+)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>vitaminas?</token>
+        <marker>
+          <token case_sensitive='yes' regexp='yes'>B(?:[1235679]|12)|D3</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
 
     <rule id='TAUTONYMS' name='Toutónimos'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-19  	-->
