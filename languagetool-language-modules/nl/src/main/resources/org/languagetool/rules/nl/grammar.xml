@@ -8133,7 +8133,7 @@ onwaarschijnlijk
             </rule>                
             <rule>
                 <pattern>
-                    <token regexp="yes">pilot....*</token>
+                    <token regexp="yes">pilot....*<exception regexp="yes">piloten....*</exception></token>
                 </pattern>
                 <message>Dit is ongebruikelijk in België. Standaardtaal in heel het taalgebied is 'proef-', 'model-' of 'test-'.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/657</url>
@@ -8279,7 +8279,7 @@ onwaarschijnlijk
         <rulegroup id="LANG_WOORD" name="Lang woord" default="off">
             <rule>
                 <pattern>
-                    <token regexp="yes">^\P{M}{20,29}$</token>
+                    <token regexp="yes">^\P{M}{20,29}$<exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
                 <example type="incorrect">Ander woord voor <marker>beleggingsdekkingswaarde</marker>.</example>
@@ -8289,7 +8289,7 @@ onwaarschijnlijk
             <!-- TODO uitzonderingen voor websites en urls -->
             <rule>
                 <pattern>
-                    <token regexp="yes">^\p{L}{30,}$</token>
+                    <token regexp="yes">^\p{L}{30,}$<exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
                 <example type="incorrect">Dit conform de wet op <marker>landsverzekeringsovereenkomsten</marker>.</example>
@@ -11468,7 +11468,7 @@ onwaarschijnlijk
                         <token>temeer</token>
                     </marker>
                 </pattern>
-                <message>Hoewel'<match no="1"/> 'vooral ook' betekent, moet hier waarschijnlijk <suggestion>te meer</suggestion> staan.</message>
+                <message>Hoewel '<match no="1"/>' 'vooral ook' betekent, moet hier waarschijnlijk <suggestion>te meer</suggestion> staan.</message>
                 <example correction="te meer">Het is eens <marker>temeer</marker> een fout.</example>
                 <example>Het is prima, <marker>temeer</marker> je geen tijd had.</example>
                 <example correction="te meer">Eens <marker>temeer</marker> wordt bij de publieke opinie de mentaliteit van Oog om oog, tand om tand aangewakkerd.</example>
@@ -11529,7 +11529,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token regexp="yes">a|à</token>
-                    <token regexp="yes">(capella|priori|vista|posteriori).+</token>
+                    <token regexp="yes">(capella|priori|vista|posteriori).+<exception>priorie</exception></token>
                 </pattern>
                 <message>U bedoelt vast <suggestion>a-<match no="2"/></suggestion>.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/1283/a_la_cartevakantie_lacartevakantie/</url>
@@ -12114,7 +12114,7 @@ onwaarschijnlijk
                         <token>ten</token>
                         <token>einde</token>
                     </marker>
-                    <token><exception postag="SENT_END"/></token>
+                    <token><exception postag="SENT_END"/><exception>,</exception></token>
                 </pattern>
                 <message>Schrijf liever <suggestion>afgelopen</suggestion> als u dat bedoelt, of <suggestion>om</suggestion> als u 'teneinde' bedoelde.</message>
                 <short>ten einde</short>
@@ -12170,7 +12170,7 @@ onwaarschijnlijk
                     <marker>
                         <token spacebefore="yes" regexp="yes">(mm|cm|km|mg|kg|kW|mW)</token>
                         <!-- TODO h voor uur (geeft te veel false positives -->
-                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">.<exception postag="SENT_END"/></token>
                     </marker>
                     <token><exception postag="SENT_END"/></token>
                 </pattern>
@@ -12347,6 +12347,7 @@ onwaarschijnlijk
 				<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
 				<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
 				<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
+                <antipattern><token>te</token><token>Den</token><token regexp="yes">Haag|Bosch</token></antipattern>
 				
 				<pattern><token>des</token><token>te</token><token/></pattern>
 				<message>\1 \2 \3</message>
@@ -12383,6 +12384,7 @@ onwaarschijnlijk
 
         <rulegroup id="HET_WORD" name="vangen">
 			<rule>
+                <antipattern><token>dat</token><token regexp="yes">Word</token></antipattern>
 				<pattern>
 					<token regexp="yes">het|dit|dat|die|deze</token>
 					<marker>
@@ -12846,6 +12848,10 @@ onwaarschijnlijk
 					<token postag="GET:(EKV|MRV)" postag_regexp="yes"/>
 				</antipattern>
 				<antipattern>
+					<token regexp="yes">per|als|soort</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+				</antipattern>
+				<antipattern>
 					<token>een</token>
 					<token postag_regexp="yes" postag="BNW.*" />
 					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
@@ -13034,6 +13040,7 @@ onwaarschijnlijk
             <!-- 2014-08-22 TaalTik -->
             <rule>
                 <antipattern><token>de</token><token>ronde</token><token>van</token></antipattern>
+                <antipattern><token>de</token><token>ronde</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>de</token>
@@ -16432,6 +16439,7 @@ steenwijk;Steenwijk
         <rulegroup id="EIGENNAMEN_HOOFDLETTER" name="Namen van organisatie met spatie">
             <rule>
                 <antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>
+                <antipattern case_sensitive="yes"><token>centrale</token><token>banken</token></antipattern>
                 <pattern>
                     <token regexp="yes">tweede|eerste</token>
                     <token regexp="yes">kamer.*<exception regexp="yes">.*tje$|.*tjes$</exception></token>
