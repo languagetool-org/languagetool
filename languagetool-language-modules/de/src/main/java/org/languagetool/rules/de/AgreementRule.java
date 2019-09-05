@@ -304,6 +304,11 @@ public class AgreementRule extends Rule {
       csToken("First"),
       csToken("Lady")
     ),
+    Arrays.asList( // "der Super Nintendo"
+      tokenRegex("[dD](ie|er)"),
+      csToken("Super"),
+      csToken("Nintendo")
+    ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
       csToken(","),
       csToken("beides"),
@@ -548,6 +553,7 @@ public class AgreementRule extends Rule {
     "Post", // Ein (Social-Media) Post
     "Kilogramm",
     "Meter", // Das Meter (Objekt zum Messen)
+    "Token", // "Der / Das Token" laut Duden
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
     "Bild", // die Bild (Zeitung)
