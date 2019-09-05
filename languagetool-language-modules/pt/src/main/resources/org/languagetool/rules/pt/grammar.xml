@@ -8846,6 +8846,20 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id='WEEKDAY_COMMA_DATE' name="Datas: pontuação depois de dias da semana">
+    <!--       Created by Tiago F. Santos,  2019-09-05      -->
+      <pattern>
+          <token regexp='yes'>&dias_semana;</token>
+          <token regexp='yes' min='0' spacebefore='no'>&hifen;</token>
+          <token min='0' spacebefore='no'>feira</token>
+          <token regexp='yes'>\d{1,2}|&meses_ano;|&meses_ano_abrev;</token>
+      </pattern>
+      <message>Erro de pontuação.</message>
+        <suggestion>\1<match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>, \4</suggestion>
+      <short>Erro de pontuação</short>
+      <example correction="sexta-feira, 13">A peça estreia na <marker>sexta-feira 13</marker> de agosto.</example>
+    </rule>
+
   <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, -->
     <rule>
