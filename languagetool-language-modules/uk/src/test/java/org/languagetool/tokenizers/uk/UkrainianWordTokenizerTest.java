@@ -33,19 +33,7 @@ public class UkrainianWordTokenizerTest {
   @Test
   public void testTokenizeUrl() {
     String url = "http://youtube.com:80/herewego?start=11&quality=high%3F";
-    List<String> testList = w.tokenize(url + " ");
-    assertEquals(Arrays.asList(url, " "), testList);
-
-    url = "http://example.org";
-    testList = w.tokenize(" " + url);
-    assertEquals(Arrays.asList(" ", url), testList);
-
-    url = "www.example.org";
-    testList = w.tokenize(url);
-    assertEquals(Arrays.asList(url), testList);
-
-    url = "elect@ombudsman.gov.ua";
-    testList = w.tokenize(url);
+    List<String> testList = w.tokenize(url);
     assertEquals(Arrays.asList(url), testList);
   }
 
