@@ -1873,7 +1873,7 @@
         <token inflected='yes'>ser</token>
         <token regexp='yes'>tod[ao]s?</token>
       </antipattern>
-      <!-- TODO fix bug in antipattern. Antipattern does not trigger here -->
+      <!-- TODO fix bug in antipattern. Antipattern base code does not trigger here -->
       <!--antipattern>
         <token inflected='yes'>abrir</token>
         <token skip='-1'>espaço</token>
@@ -1892,6 +1892,11 @@
         <token>ambos</token>
         <token postag='N.(F.|MS).+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+        <token regexp='yes'>[,;—]|&hifen;|e</token>
+        <token>a</token>
+        <token postag='N.(M.|FP).+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
         <marker>
           <token postag="D.+" postag_regexp="yes">
@@ -1904,6 +1909,7 @@
       <example type='untouched'>Éramos todos família.</example>
       <example type='untouched'>Quantos aderiram realmente a essa greve?</example>
       <example type='untouched'>Os cigarros eletrónicos a vapor também comportam riscos.</example>
+      <example type='untouched'>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
       <!--example type='untouched'>A decisão de abrir espaço a eleições antecipadas é dele.</example-->
       <!-- TODO fix bug in antipattern. Antipattern does not trigger here -->
     </rule>
