@@ -455,9 +455,7 @@ public class MultiDocumentsHandler {
 
   private void initLanguageTool() {
     try {
-      if(xContext != null) {
-        linguServices = new LinguisticServices(xContext);
-      }
+      linguServices = new LinguisticServices(xContext);
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
       fixedLanguage = config.getDefaultLanguage();
       if(fixedLanguage != null) {

@@ -53,7 +53,7 @@ public class CompoundInfinitivRule extends Rule {
   private static Dictionary dict;
   
   private final LinguServices linguServices;
-  private final Speller speller;
+  private Speller speller = null;
   private final Language lang;
 
   public CompoundInfinitivRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
@@ -66,11 +66,6 @@ public class CompoundInfinitivRule extends Rule {
       linguServices = userConfig.getLinguServices();
     } else {
       linguServices = null;
-    }
-    if (linguServices == null) {
-      speller = new Speller(getDictionary());
-    } else {
-      speller = null;
     }
     setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
   }
@@ -181,6 +176,11 @@ public class CompoundInfinitivRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    if (linguServices == null && speller == null) {
+      // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
+      // which leads to problems in LO/OO extension
+      speller = new Speller(getDictionary());
+    }
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (int i = 2; i < tokens.length - 1; i++) {
