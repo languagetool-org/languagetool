@@ -361,6 +361,13 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token>o</token>
+          <token>mais</token>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token>possível</token>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
           <token regexp='yes'>e|d[eo]</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
@@ -396,6 +403,7 @@ title="Easy editing stylesheet" ?>
       <example correction="uma grande erupção|um grande (erupção)|um grande, erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
       <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
       <example>Não parece haver má notícia capaz de…</example>
+      <example>...tecnologia o mais rápida possível...</example>
     </rule>
     <rule>
       <pattern>
@@ -1234,6 +1242,7 @@ title="Easy editing stylesheet" ?>
       <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
       <example>…odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
       <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
+      <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
     </rule>
     <rule>
       <antipattern>
@@ -2189,6 +2198,15 @@ title="Easy editing stylesheet" ?>
           <token>
             <exception postag_regexp='yes' postag='V.P.+'/></token>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token>de</token>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
+          <token postag='V.[CIS].3S.' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -2213,6 +2231,7 @@ title="Easy editing stylesheet" ?>
       <example>Entre os resíduos há substâncias perigosas.</example>
       <example correction='Os médicos haviam'><marker>Os médicos havia</marker> saído sem saber como dar a notícia.</example>
       <example>Os venezuelanos não conseguem ingerir três refeições por dia a horas certas.</example>
+      <example>A aterragem de outros aviões foi interrompida temporariamente.</example>
     </rule>
     <rule>
       <antipattern>
@@ -2603,6 +2622,11 @@ title="Easy editing stylesheet" ?>
       <example correction="faz duas semanas|fá duas semanas">Rui, <marker>fazem duas semanas</marker> que não falamos.</example>
     </rule>
     <rule>
+      <antipattern><!-- XXX Excluí casos em que os verbos se referem ao sujeito. Considerar toramar mais estrito --> 
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag_regexp='yes' postag='N..P.+'/>
+          <token postag_regexp='yes' postag='V....P.+'/>
+      </antipattern>
       <pattern>
           <token regexp='yes' postag_regexp='yes' postag='V....P.+' inflected='yes'>dever|ir|poder</token>
           <token>fazer</token>
@@ -3729,6 +3753,13 @@ title="Easy editing stylesheet" ?>
       <example>São dez minutos para as onze horas.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>entre</token>
+          <token>as</token>
+          <token/>
+          <token>e</token>
+          <token>as</token>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='V..[PFS].+' skip='3'>
             <exception scope='next' postag_regexp='yes' postag='_PUNCT|Z.+'/>
@@ -3743,6 +3774,7 @@ title="Easy editing stylesheet" ?>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <example correction='Cheguei ao cinema às 19h50'><marker>Cheguei ao cinema as 19h50</marker>.</example>
       <example correction='Chego a casa às 19h50'><marker>Chego a casa as 19h50</marker>.</example>
+      <example>Entre as 12h e as 13h.</example>
     </rule>
     <rule>
       <pattern>
@@ -23793,7 +23825,7 @@ TODO Write better examples
     <rule id='HOMONYM_VIAGEM_2' name='Homófona: viagem - viajem'>
       <pattern>
           <token>
-            <exception regexp='yes'>&art_detecao_paronimos;</exception>
+            <exception regexp='yes'>&art_detecao_paronimos;|\d+\.?ª</exception>
             <exception postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/></token>
           <token>viagem</token>
       </pattern>
