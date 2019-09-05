@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# You need to have recode, hunspell and hunspell-tools installed.
+# Set LT_VERSION to the version you are currently building on.
+# Download or create the files for ADDITIONAL_DICT_FILE, UNKNOWN_TO_HUNSPELL and FREQ_FILE.
+
 echo "Create morfologik spelling dictionary, based on Hunspell dictionary"
 echo "This script assumes you have the full LanguageTool build environment"
 echo "Please call this script from the LanguageTool top-level directory"
@@ -14,7 +18,7 @@ then
 fi
 
 REPO=/home/dnaber/.m2/repository
-LT_VERSION=3.9-SNAPSHOT
+LT_VERSION=4.7-SNAPSHOT
 # see https://sourceforge.net/projects/germandict/files/ (conversion to UTF-8 needed):
 ADDITIONAL_DICT_FILE=/home/dnaber/data/corpus/jan_schreiber/20170702/german/german.dic.utf8
 # see https://sourceforge.net/p/germandict/code/HEAD/tree/hunspell_words.txt?format=raw (conversion to UTF-8 needed):
