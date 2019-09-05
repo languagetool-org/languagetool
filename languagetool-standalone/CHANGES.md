@@ -7,7 +7,8 @@
 
 #### English
   * added and improved rules
-
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.76 - 2019-09-01)
+  
 #### French
   * improved rules
 
@@ -18,6 +19,9 @@
   * added rules and significantly improved accuracy
   * disambiguation improvements
   * POS and spelling improvements
+
+#### Russian
+  * improved rules
 
 #### Ukrainian
   * added and improved rules
