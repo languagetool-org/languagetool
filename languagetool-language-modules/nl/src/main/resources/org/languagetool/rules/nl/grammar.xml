@@ -14000,6 +14000,7 @@ onwaarschijnlijk
 
 		<rule>
 			<antipattern case_sensitive="yes"><token>De</token><token>Punt</token></antipattern>
+			<antipattern><token>op</token><token>de</token><token>punt</token></antipattern>
 			<pattern><token>de</token><token>punt</token></pattern>
 			<message>U bedoelt misschien de plaats <suggestion>De Punt</suggestion>.</message>
 			<short>Plaatsnaam verkeerd</short>
@@ -16427,6 +16428,7 @@ steenwijk;Steenwijk
         <rulegroup id="KERSTMAN" name="een kerstman, de Kerstman">
             <rule>
                 <antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">god|sinterklaas|kerstman</token>
                 </pattern>
@@ -17554,7 +17556,7 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_HOEWEL" name=", hoewel">
             <rule>
                 <pattern>
-					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|[(]</exception></token>
+					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|[(]|–</exception></token>
                     <token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
                 </pattern>
                 <message>Voor '\2' komt meestal een komma: <suggestion>\1, \2</suggestion></message>
@@ -17568,6 +17570,7 @@ steenwijk;Steenwijk
                 <antipattern><token>blijven</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
                 <antipattern><token>dat</token><token regexp="yes">hij|ik|je|jij|we|wij</token><token>maar</token></antipattern>
                 <antipattern><token>alleen</token><token>maar</token></antipattern>
+                <antipattern><token>maar</token><token>al</token><token>te</token><token>vaak</token></antipattern>
                 <antipattern><token>maar</token><token>een</token></antipattern>
                 <antipattern><token>het</token><token regexp="yes">je|zich|me</token><token>maar</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="WKW:.*"/><token>alleen</token><token>maar</token></antipattern>
@@ -18160,6 +18163,7 @@ steenwijk;Steenwijk
                 <example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
             </rule>
         </rulegroup>
+        <!-- too many false positives
 		<rulegroup id="VERWAARLOOST_WERD" name="verkeerde werkwoordvorm invers" default="on">
             <rule>
 				<antipattern><token>wat</token><token/><token>betreft</token></antipattern>
@@ -18171,9 +18175,10 @@ steenwijk;Steenwijk
                 <example correction="verwaarloost, werd|verwaarloosd werd">Toen het restaurant <marker>verwaarloost werd</marker>.</example>
             </rule>
         </rulegroup>		
-		
+        -->
 		<rulegroup id="DIKKEN_MAN" name="een n te veel">
             <rule>
+                <antipattern><token>van</token><token>goeden</token><token>huize</token></antipattern>
                 <pattern>
 					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden</exception></token>
 					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen</exception></token>
@@ -18379,7 +18384,7 @@ steenwijk;Steenwijk
         <rulegroup id="POSTCODE" name="In Nederlandse postcode hoort een spatie">
             <!-- 2014-08-22 TaalTik -->
             <rule>
-                <pattern case_sensitive="yes">
+                <antipattern case_sensitive="yes"><token regexp="yes">[0-9]{4}[MKT]B</token></antipattern>                <pattern case_sensitive="yes">
                     <token regexp="yes">[0-9]{4}[A-Z]{2}</token>
                 </pattern>
                 <message>Als dit een Nederlandse postcode is, dan hoort deze met spatie <suggestion><match no="1" regexp_match="([0-9])([A-Z])" regexp_replace="$1 $2"/></suggestion>.</message>
@@ -19531,8 +19536,9 @@ steenwijk;Steenwijk
                 <example correction="lukte">De verzameling welke het <marker>gelukte</marker> te doen was tamelijk misvormd.</example>
             </rule>
             <rule>
-                <antipattern><token>is</token><token>gelukt</token></antipattern>
-                <antipattern><token>gelukt</token><token>is</token></antipattern>
+                <antipattern><token regexp="yes">is|was</token><token>gelukt</token></antipattern>
+                <antipattern><token>gelukt</token><token regexp="yes">is|was</token></antipattern>
+                <antipattern><token>is</token><token>het</token><token>gelukt</token></antipattern>
                 <pattern>
                     <token>het</token>
                     <marker>
