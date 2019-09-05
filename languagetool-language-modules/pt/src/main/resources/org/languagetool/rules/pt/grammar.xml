@@ -25979,7 +25979,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <rule id='APOSTROPHE_IN_DATES' name="Apóstrofe em datas">
+    <rule id='APOSTROPHE_IN_DATES' name="Datas: Apóstrofe em datas">
       <pattern>
           <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0
             <exception regexp='yes'>2[1-9]\d0</exception></token>
@@ -26587,6 +26587,20 @@ TODO Write better examples
       <example correction="cheques em branco">São <marker>xeques em branco</marker>.</example>
     </rule>
   </rulegroup>
+
+    <rule id='WEEKDAY_TO_WEEKDAY' name="Datas: redundâcia de '-feira'">
+    <!--       Created by Tiago F. Santos,  2019-09-05      -->
+      <pattern>
+          <token regexp='yes'>&dias_semana;</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token spacebefore='no'>feira</token>
+          <token regexp='yes'>a|à</token>
+          <token regexp='yes'>&dias_semana;</token>
+      </pattern>
+      <message>Redundância não gramatical.</message>
+        <suggestion>\1 a \5</suggestion>
+      <example correction="segunda a sexta">Podem visitar o museu de <marker>segunda-feira a sexta</marker>-feira.</example>
+    </rule>
 
   <rulegroup id="DATE_FUTURE_VERB_PAST" name="Datas: Data futura + verbo no passado">
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
