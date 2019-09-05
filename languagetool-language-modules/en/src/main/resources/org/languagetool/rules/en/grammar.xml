@@ -15713,6 +15713,7 @@ USA
                     <token>do</token>
                 </marker>
                 <token regexp="yes">he|she|it</token>
+                <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                 <token postag="VB"><exception regexp="yes">well|even|better</exception></token>
             </pattern>
             <message>Did you mean <suggestion>does</suggestion>?</message>
@@ -15789,6 +15790,7 @@ USA
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes">
                             <exception postag="VB[ND]|JJ.*|RB|MD|IN" postag_regexp="yes"/>
@@ -15798,7 +15800,7 @@ USA
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">He <marker>walk</marker> to the building every day.</example>
                 <example>He <marker>walks</marker> to the building every day.</example>
                 <example>He cannot hear you.</example>
@@ -15836,25 +15838,29 @@ USA
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">s?he|it|(any|every|no|some)(one|body)</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">['’]</token>
                         <token>t</token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>, <suggestion><match no="3" postag="VBD"/>n<match no="4"/><match no="5"/></suggestion>.</message>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/>n<match no="5"/><match no="6"/></suggestion>, <suggestion><match no="4" postag="VBD"/>n<match no="5"/><match no="6"/></suggestion>.</message>
                 <example correction="doesn't|didn't">He <marker>don't</marker> like fish.</example>
                 <example correction="doesn't|didn't">At her party, everybody <marker>don't</marker> like the music.</example>
                 <example correction="doesn't|didn't">At my party, nobody <marker>don't</marker> like the music.</example>
                 <example correction="doesn't|didn't">It <marker>don't</marker> work correctly.</example>
                 <example>He <marker>doesn't</marker> like fish.</example>
                 <example>She <marker>didn't</marker> like fish when she was young, but she likes it now.</example>
+                <example correction="doesn't|didn't">He really <marker>don't</marker> like it.</example><!-- #1907 -->
+                <example>He really doesn't like it.</example>
+                <example>He really didn't like it.</example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
-                    <token postag="RB"><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/>
                           <exception regexp='yes'>don|haven|aren</exception></token>
@@ -15867,22 +15873,6 @@ USA
                 <example>He always <marker>walked</marker> to the building.</example>
                 <example>He really don't like it.</example><!-- #1907 -->
             </rule>
-            <rule><!-- Created by Tiago F. Santos, 04-09-2019 -->
-            <!-- #1907 https://github.com/languagetool-org/languagetool/commit/653b885ea8261f259f565b484c674b30481291a4#r34950962 -->
-                <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
-                    <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
-                    <token postag="RB"><exception postag="VBD"/></token>
-                    <marker>
-                        <token regexp='yes'>don|haven|aren</token>
-                    </marker>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                </pattern>
-                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/>n</suggestion>, <suggestion><match no="4" postag="VBD"/>n</suggestion>.</message>
-                <example correction="doesn|didn">He really <marker>don</marker>'t like it.</example><!-- #1907 -->
-                <example>He really doesn't like it.</example>
-                <example>He really didn't like it.</example>
-            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">with(out)?</token>
@@ -15894,11 +15884,12 @@ USA
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|h(ave|ear)|make|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">(?:any|no|some)(?:one|body)</token>
                     <token>else</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="5" postag="VBZ"/></suggestion>, <suggestion><match no="5" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">Someone else <marker>walk</marker> to the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example correction="enters|entered">Somebody else <marker>enter</marker> the building.</example><!-- Semantic ambiguity. The verb can be parsed as an imperative. -->
                 <example>Nobody else <marker>walks</marker> to the building.</example>
@@ -15907,18 +15898,6 @@ USA
                 <example>Annie was uncomfortable with anyone else <marker>being</marker> in charge.</example>
                 <example>God has given you too much money when you have someone else tend your vegetable garden.</example>
                 <example type="triggers_error">... and anyone else <marker>finding</marker> the work too difficult must tell the manager.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|let|was|dare|lest|without)</token>
-                    <token regexp="yes">(?:any|no|some)(?:one|body)</token>
-                    <token>else</token>
-                    <token postag="RB"/>
-                    <marker>
-                        <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="5" postag="VBZ"/></suggestion>, <suggestion><match no="5" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">Someone else always <marker>walk</marker> to the building.</example>
                 <example correction="enters|entered">Somebody else usually <marker>enter</marker> the building.</example>
                 <example>Nobody else usually <marker>walks</marker> to the building.</example>
@@ -15930,11 +15909,12 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                     <token>that</token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="5" postag="VB"/></suggestion>.</message>
                 <example>She recommended that he <marker>walk</marker> to the building.</example>
                 <example correction="walk">She recommended that he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
@@ -15944,12 +15924,13 @@ USA
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception></token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VBG">
                             <exception postag="IN"/></token>
                     </marker>
                 </pattern>
-                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
+                <message>With the word '<match no="2"/>' in a subjunctive clause, use the base form of a verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
                 <example>She recommended he <marker>walk</marker> to the building.</example>
                 <example correction="walk">She recommended he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
