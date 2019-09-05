@@ -32190,6 +32190,16 @@ steenwijk;Steenwijk
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">d</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW:.*MRV|ZNW:EKV|ZNW:EKV:DE_"/>
+                </pattern>
+                <message>U bedoelt vast <suggestion>de</suggestion>.</message>
+                <example correction="de">Ik eet <marker>d</marker> chocola.</example>
+            </rule>
+            <rule>
+                <pattern>
                      <token case_sensitive="yes" spacebefore="yes">m</token>
                      <token spacebefore="yes">3</token>
                 </pattern>
@@ -36978,10 +36988,10 @@ steenwijk;Steenwijk
         <rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken">
             <rule>
                 <pattern>
-                    <token regexp="yes">!|\?|,|;|:</token>
+                    <token regexp="yes">[!?,;:]</token>
                     <token><match no="0"/></token>
                 </pattern>
-				<message>Meerder leestekens, dat is overbodig. <suggestion>\1</suggestion></message>
+				<message>Meerdere leestekens, dat is overbodig. <suggestion>\1</suggestion></message>
                 <example correction="!">Ik zie het<marker>!!</marker></example>
             </rule>
         </rulegroup>
