@@ -8846,19 +8846,38 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='WEEKDAY_COMMA_DATE' name="Datas: pontuação depois de dias da semana">
+  <rulegroup id='WEEKDAY_COMMA_DATE' name="Datas: pontuação depois de dias da semana">
     <!--       Created by Tiago F. Santos,  2019-09-05      -->
+    <rule>
       <pattern>
+        <marker>
           <token regexp='yes'>&dias_semana;</token>
           <token regexp='yes' min='0' spacebefore='no'>&hifen;</token>
           <token min='0' spacebefore='no'>feira</token>
-          <token regexp='yes'>\d{1,2}|&meses_ano;|&meses_ano_abrev;</token>
+        </marker>
+          <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
       </pattern>
       <message>Erro de pontuação.</message>
-        <suggestion>\1<match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>, \4</suggestion>
+        <suggestion>\1<match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>,</suggestion>
       <short>Erro de pontuação</short>
-      <example correction="sexta-feira, 13">A peça estreia na <marker>sexta-feira 13</marker> de agosto.</example>
+      <example correction="sexta-feira,">A peça estreia na <marker>sexta-feira</marker> agosto 13, 2020.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>&dias_semana;</token>
+          <token regexp='yes' min='0' spacebefore='no'>&hifen;</token>
+          <token min='0' spacebefore='no'>feira</token>
+        </marker>
+          <token regexp='yes'>\d{1,2}</token>
+          <token regexp='yes'>de|&meses_ano;|&meses_ano_abrev;</token>
+      </pattern>
+      <message>Erro de pontuação.</message>
+        <suggestion>\1<match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>,</suggestion>
+      <short>Erro de pontuação</short>
+      <example correction="sexta-feira,">A peça estreia na <marker>sexta-feira</marker> 13 de agosto.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, -->
