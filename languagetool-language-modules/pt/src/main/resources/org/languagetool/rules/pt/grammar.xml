@@ -2337,6 +2337,39 @@ title="Easy editing stylesheet" ?>
       <example>Apesar de a maioria do país não saber muito.</example>
     </rule>
 
+  <rulegroup id='IRREGULAR_PAST_PARTICIPLES' name='Convenções linguísticas: participio regular/irregular'>
+    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-09-05      -->
+    <url>http://radames.manosso.nom.br/linguagem/gramatica/morfologia/verbos-abundantes/</url>
+    <!-- TODO encontrar outra lista de verbos abundantes e formas alternativas -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/os-participios-passados-regulares-e-irregulares/20960</url-->
+    <rule>
+      <pattern>
+          <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
+          <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
+          <token regexp='yes'>(?:(?:a(?:ces|nex|ntepag)|bent|ch(?:ei|go)|d(?:efes|esenvolt|espert|istint)|e(?:leit|mers)|e(?:nvolt|nxut|ret|xpuls|xpress|xpress|xpuls|xtint)|f(?:ind|ix|rit|rit)|g(?:anh|ast)|i(?:mers|mpress|nclus|nsert|sent)|limp|m(?:algast|alquist|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|rot|s(?:egur|epult|olt|ubmers|ujeit|upress|urpres|uspens)|tint|v(?:ag|olt))[ao]|a(?:ceite|ssente)|entregue)s?
+             <exception regexp='yes'>(?:ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?</exception></token>
+      </pattern>
+      <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado irregular.</message>
+        <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' postag_match='VMP00(.)(.)' postag_replace='VMIP1$20' suppress_misspelled='yes'/></suggestion-->
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao]s?)' regexp_replace='$1ad$2' suppress_misspelled='yes'/></suggestion>
+      <example correction='ter discretamente limpado'>Depois de <marker>ter discretamente limpo</marker> o carro, foi desculpado.</example>
+      <example>Depois de <marker>ter discretamente limpado</marker> o carro, foi desculpado.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes' inflected='yes'>ser|estar</token><!-- TODO testar ficar -->
+          <token min="0" max="3" postag_regexp='yes' postag='R.'/>
+          <token regexp='yes'>(?:a(?:ceitad|cendid|nexad|ntepagad|ssentad)|benzid|d(?:efendid|esenvolvid|espertad|istinguid)|e(?:legid|mergid)|e(?:nchid|ntregad|nvolvid|nxugad|rigid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncluíd|nserid|sentad)|limpad|m(?:algastad|alquerid|atad)|o(?:cultad|mitid|primid)|p(?:agad|asmad|egad|rendid)|rompid|s(?:egurad|epultad|oltad|ubmergid|ujeitad|uprimid|urpreendid|uspendid)|tingid|v(?:agad|olvid))[ao]s?</token>
+      </pattern>
+      <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado regular.</message>
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1$2' suppress_misspelled='yes'/></suggestion>
+        <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
+      <example correction='foi gasto'>O dinheiro <marker>foi gastado</marker> o mês passado.</example>
+      <example type='triggers_error'>A piscina <marker>foi enchida</marker> o mês passado.</example>
+      <example>A piscina <marker>foi cheia</marker> o mês passado.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-07-19      -->
       <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
