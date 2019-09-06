@@ -19,6 +19,7 @@
 
 package org.languagetool.tokenizers.uk;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -33,8 +34,24 @@ public class UkrainianWordTokenizerTest {
   @Test
   public void testTokenizeUrl() {
     String url = "http://youtube.com:80/herewego?start=11&quality=high%3F";
-    List<String> testList = w.tokenize(url);
+    List<String> testList = w.tokenize(url + " ");
+    assertEquals(Arrays.asList(url, " "), testList);
+
+    url = "http://example.org";
+    testList = w.tokenize(" " + url);
+    assertEquals(Arrays.asList(" ", url), testList);
+
+    url = "www.example.org";
+    testList = w.tokenize(url);
     assertEquals(Arrays.asList(url), testList);
+
+    url = "elect@ombudsman.gov.ua";
+    testList = w.tokenize(url);
+    assertEquals(Arrays.asList(url), testList);
+    
+    List<String> parts = Arrays.asList("https://www.foo.com/foo", " ", "https://youtube.com", " ", "Зе");
+    testList = w.tokenize(StringUtils.join(parts, ""));
+    assertEquals(parts, testList);
   }
 
   @Test

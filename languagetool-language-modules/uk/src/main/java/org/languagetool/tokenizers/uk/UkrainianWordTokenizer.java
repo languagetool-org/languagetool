@@ -141,7 +141,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
   private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";
   // url
-  private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].[^\\s]*$", Pattern.CASE_INSENSITIVE);
+  private static final Pattern URL_PATTERN = Pattern.compile("((https?|ftp)://|www\\.)[^\\s/$.?#),]+\\.[^\\s),]*|(mailto:)?[\\p{L}\\d._-]+@[\\p{L}\\d_-]+(\\.[\\p{L}\\d_-]+)+", Pattern.CASE_INSENSITIVE);
   private static final int URL_START_REPLACE_CHAR = 0xE300;
 
 
@@ -159,7 +159,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     // check for urls
-    if( text.contains("tp") ) { // https?|ftp
+    if( text.contains("http") || text.contains("www") || text.contains("@") || text.contains("ftp") ) { // https?|ftp
       Matcher matcher = URL_PATTERN.matcher(text);
       int urlReplaceChar = URL_START_REPLACE_CHAR;
       
@@ -167,8 +167,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
         String urlGroup = matcher.group();
         String replaceChar = String.valueOf((char)urlReplaceChar);
         urls.put(replaceChar, urlGroup);
-        text = matcher.replaceAll(replaceChar);
+        text = matcher.replaceFirst(replaceChar);
         urlReplaceChar++;
+        matcher = URL_PATTERN.matcher(text);
       }
     }
 

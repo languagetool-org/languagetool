@@ -46,7 +46,7 @@ public class UppercaseSentenceStartRuleTest {
 
     assertEquals(0, rule.match(lt.analyzeText("Він приїхав в с. Вижівка.")).length);
 
-    //assertEquals(0, rule.match(lt.analyzeText("         http://narodna.pravda.com.ua")).length);
+    assertEquals(0, rule.match(lt.analyzeText("         http://narodna.pravda.com.ua")).length);
 
     RuleMatch[] matches = rule.match(lt.analyzeText("автор написав це речення з маленької літери."));
     assertEquals(1, matches.length);
