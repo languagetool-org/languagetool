@@ -9773,7 +9773,7 @@ USA
             <example correction="month-to-month">My lease is up, so now I'm on the ordinary <marker>month to month</marker> portion of the contract.</example>
             <example correction="day-to-day">My <marker>day to day</marker> routine during finals weeks did not change dramatically</example>
         </rule>
-        <rule id="LOGGED_IN_HYPHEN">
+        <rule id="LOGGED_IN_HYPHEN" name="missing hyphen in 'logged in user'">
             <pattern>
                 <marker>
                     <token regexp="yes">logged|signed</token>
@@ -9785,7 +9785,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
-        <rule id="PASSWORD_PROTECTED_HYPHEN">
+        <rule id="PASSWORD_PROTECTED_HYPHEN" name="missing hyphen in 'password protected area'">
             <antipattern>
                 <token>protected</token>
                 <token min="1" max="3" postag="NN.*" postag_regexp="yes" />
@@ -9793,10 +9793,10 @@ USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">password</token>
-                    <token regexp="yes">protected</token>
+                    <token>password</token>
+                    <token>protected</token>
                 </marker>
-                <token regexp="yes">area|doc(ument)?|(spread)?sheet|archive|zip|pdf|folder|system|page|(web)?site|file|account|drive|stick|usb|excel|app|cd|dropbox|email|gallery|iphone</token>
+                <token regexp="yes">area|doc(ument)?|(spread)?sheet|archive|zip|pdf|folder|system|page|(web)?site|file|accounts?|drive|stick|usb|excel|app|cd|dropbox|email|gallery|iphone</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
