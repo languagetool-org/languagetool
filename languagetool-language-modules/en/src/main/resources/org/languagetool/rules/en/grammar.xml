@@ -28932,13 +28932,14 @@ The accident victim died from her injuries.
             <example correction="but">I should not have, <marker>but nevertheless</marker> I did.</example>
         </rule>
         <rule id="CD_DISC" name="CD disc (CD)">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">CD|DVD</token>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">CD|DVD</token>
                 <token regexp="yes">dis[kc]</token>
             </pattern>
             <message>Consider using <suggestion>\1</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="CD">I ordered a <marker>CD disk</marker> with their software.</example>
+            <example correction="DVD">This <marker>DVD Disk</marker> is defective.</example>
             <example>I ordered a <marker>CD</marker> with their software.</example>
             <example>I ordered a <marker>DVD</marker> with their software.</example>
         </rule>
