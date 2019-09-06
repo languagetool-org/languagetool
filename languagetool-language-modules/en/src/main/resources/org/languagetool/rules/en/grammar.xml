@@ -9756,7 +9756,10 @@ USA
         </rule>
         <rule id="DAY_TO_DAY_HYPHEN" name="missing hyphens in 'day to day'">
             <pattern>
-                <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                <or>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                    <token postag="JJ.*|RB" postag_regexp="yes" />
+                </or>
                 <marker>
                     <token regexp="yes">day|town|month|year|week|job|eye|door</token>
                     <token>to</token>
@@ -9767,8 +9770,38 @@ USA
             <message>It appears that two hyphens are missing.</message>
             <suggestion>\2-\3-\4</suggestion>
             <example>I'm living from <marker>day to day</marker>.</example>
-            <example correction="month-to-month">My lease is up, so now I'm on the <marker>month to month</marker> portion of the contract.</example>
+            <example correction="month-to-month">My lease is up, so now I'm on the ordinary <marker>month to month</marker> portion of the contract.</example>
             <example correction="day-to-day">My <marker>day to day</marker> routine during finals weeks did not change dramatically</example>
+        </rule>
+        <rule id="LOGGED_IN_HYPHEN">
+            <pattern>
+                <marker>
+                    <token regexp="yes">logged|signed</token>
+                    <token regexp="yes">in|up</token>
+                </marker>
+                <token regexp="yes">users?|sessions?|usernames?|emails?|experience|economy</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
+        </rule>
+        <rule id="PASSWORD_PROTECTED_HYPHEN">
+            <antipattern>
+                <token>protected</token>
+                <token min="1" max="3" postag="NN.*" postag_regexp="yes" />
+                <token>from</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">password</token>
+                    <token regexp="yes">protected</token>
+                </marker>
+                <token regexp="yes">area|doc(ument)?|(spread)?sheet|archive|zip|pdf|folder|system|page|(web)?site|file|account|drive|stick|usb|excel|app|cd|dropbox|email|gallery|iphone</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example type="triggers_error">The password protected dropbox folders from being viewed by others.</example>
+            <example correction="password-protected">I will share the <marker>password protected</marker> PDF with you.</example>
         </rule>
         <rulegroup id="THOUGH_THOUGHT" name="confusion of though/thought">
             <rule>
