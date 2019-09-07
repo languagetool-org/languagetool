@@ -30680,11 +30680,25 @@ Andere Projekte</example>
                     </marker>
                     <token><exception postag="PA.+" postag_regexp="yes"/></token>
                 </pattern>
-                <message>In dieser Wendung '\2' als Substantiv gebraucht zu werden und ist deshalb großzuschreiben.</message>
+                <message>In dieser Wendung scheint '\2' als Substantiv gebraucht zu werden und ist deshalb großzuschreiben.</message>
                 <suggestion><match case_conversion="startupper" no="2"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Weiß">Sie trug <marker>weiß</marker>.</example>
                 <example>Sie trug <marker>weiß</marker> gepunktete Socken.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">das</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">(&farbadj;)e</token>
+                    </marker>
+                    <token>vom</token>
+                </pattern>
+                <message>In dieser Wendung scheint '\2' als Substantiv gebraucht zu werden und ist deshalb großzuschreiben.</message>
+                <suggestion><match case_conversion="startupper" no="2"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Blaue">Er versprach ihr das <marker>blaue</marker> vom Himmel.</example>
+                <example correction="Gelbe">Das ist aber nicht das <marker>gelbe</marker> vom Ei.</example>
             </rule>
         </rulegroup>
         <rule id="DAS_FARBE_GENITIV" name="das + 'Farbe' + Genitiv ('das Weiß ihres Kleides')">
