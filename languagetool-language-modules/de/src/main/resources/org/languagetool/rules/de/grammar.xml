@@ -39434,18 +39434,33 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?|.*Paragraph(en|s)?</token>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">[\wäöüÄÖÜß-]*graph[\wäöüÄÖÜß-]*</token>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*graph[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
                 <example correction="geografischen">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
                 <example correction="Geografie">Sie hat <marker>Geographie</marker> studiert.</example>
-                <example>Die Abbildung zeigt den <marker>Graph</marker> der genannten Funktion.</example>
+                <example>Die Abbildung zeigt den <marker>Graphen</marker> der genannten Funktion.</example>
                 <example correction="Kryptografie">Sie galt als Spezialistin für <marker>Kryptographie</marker> in ihrem Unternehmen.</example>
                 <example>GUI = Graphical User Interface</example>
                 <example>http://www.graphical-illustration.com</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\wäöüÄÖÜß-]*GRAPH[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)RAPH(.*)" regexp_replace="$1$2RAF$3"/></suggestion> verwenden?</message>
+                <example correction="GEOGRAFISCHEN">Er vertrieb sich die Zeit mit <marker>GEOGRAPHISCHEN</marker> Studien.</example>
+                <example correction="GEOGRAFIE">Sie hat <marker>GEOGRAPHIE</marker> studiert.</example>
+                <example>Die Abbildung zeigt den <marker>GRAPHEN</marker> der genannten Funktion.</example>
+                <example correction="KRYPTOGRAFIE">Sie galt als Spezialistin für <marker>KRYPTOGRAPHIE</marker> in ihrem Unternehmen.</example>
+                <example>GUI = GRAPHICAL USER INTERFACE</example>
+                <example>http://www.GRAPHICAL-ILLUSTRATION.com</example>
             </rule>
             <rule>
                 <pattern>
