@@ -30,6 +30,7 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
@@ -55,7 +56,7 @@ public class CatalanTagger extends BaseTagger {
   }
 
   public CatalanTagger(Language language) {
-    super("/ca/" + language.getShortCodeWithCountryAndVariant() + ".dict",  new Locale("ca"), false);
+    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
     variant = language.getVariant();
   }
   

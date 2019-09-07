@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -38,7 +39,7 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
     for (Language language : Languages.get()) {
       String langCode = language.getShortCode();
       File dir = new File("./languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool/resource/" + langCode);
-      File oldBinaryFile = new File(dir, language.getName().toLowerCase() + ".dict");
+      File oldBinaryFile = new File(dir, language.getName().toLowerCase() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION);
       File infoFile = new File(dir, language.getName().toLowerCase() + ".info");
       File exportFile = exportDictionaryContents(oldBinaryFile);
       if (exportFile.length() == 0) {
@@ -69,7 +70,7 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   public void testPOSBuilder() throws Exception {
     Path inputFile = Files.createTempFile("dictTest", ".txt");
     Path infoFile = Files.createTempFile("dictTest", ".info");
-    Path outFile = Files.createTempFile("dictTest", ".dict");
+    Path outFile = Files.createTempFile("dictTest", JLanguageTool.DICTIONARY_FILENAME_EXTENSION);
     try {
       Files.write(inputFile, Arrays.asList("word\tlemma\ttag"));
       Files.write(infoFile, Arrays.asList(INFO));

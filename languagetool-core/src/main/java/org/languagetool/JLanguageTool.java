@@ -89,6 +89,8 @@ public class JLanguageTool {
   public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
   /** Name of the message bundle for translations. */
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
+  /** Extension of dictionary files read by Spellers */
+  public static final String DICTIONARY_FILENAME_EXTENSION = ".dict";
 
   private final ResultCache cache;
   private final UserConfig userConfig;

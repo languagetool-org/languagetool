@@ -18,13 +18,21 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import morfologik.fsa.FSA;
-import morfologik.fsa.builders.FSABuilder;
-import morfologik.fsa.builders.CFSA2Serializer;
-import morfologik.stemming.Dictionary;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -34,11 +42,14 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
-import static java.nio.charset.StandardCharsets.*;
+import morfologik.fsa.FSA;
+import morfologik.fsa.builders.CFSA2Serializer;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.stemming.Dictionary;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -57,6 +68,17 @@ public class MorfologikMultiSpeller {
               if (reader.languageVariantReader != null) {
                 lines.addAll(getLines(reader.languageVariantReader));
                 lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes());  // adding here so it's also used for suggestions
+              }
+              return lines;
+            }
+
+            private List<byte[]> getLines(BufferedReader br) throws IOException {
+              List<byte[]> lines = new ArrayList<>();
+              String line;
+              while ((line = br.readLine()) != null) {
+                if (!line.startsWith("#")) {
+                  lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
+                }
               }
               return lines;
             }
@@ -139,15 +161,15 @@ public class MorfologikMultiSpeller {
     for (String line : userWords) {
       byteLines.add(line.getBytes(UTF_8));
     }
-    Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(".dict", ".info"), false);
+    Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(JLanguageTool.DICTIONARY_FILENAME_EXTENSION, ".info"), false);
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
   private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) {
-    if (binaryDictPath.endsWith(".dict")) {
+    if (binaryDictPath.endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
       return new MorfologikSpeller(binaryDictPath, maxEditDistance);
     } else {
-      throw new RuntimeException("Unsupported dictionary, binary Morfologik file needs to have suffix .dict: " + binaryDictPath);
+      throw new IllegalArgumentException("Unsupported dictionary, binary Morfologik file needs to have suffix .dict: " + binaryDictPath);
     }
   }
 
@@ -158,19 +180,8 @@ public class MorfologikMultiSpeller {
     if (lines.isEmpty()) {
       return null;
     }
-    Dictionary dictionary = getDictionary(lines, plainTextReaderPath, dictPath.replace(".dict", ".info"), true);
+    Dictionary dictionary = getDictionary(lines, plainTextReaderPath, dictPath.replace(JLanguageTool.DICTIONARY_FILENAME_EXTENSION, ".info"), true);
     return new MorfologikSpeller(dictionary, maxEditDistance);
-  }
-
-  private static List<byte[]> getLines(BufferedReader br) throws IOException {
-    List<byte[]> lines = new ArrayList<>();
-    String line;
-    while ((line = br.readLine()) != null) {
-      if (!line.startsWith("#")) {
-        lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
-      }
-    }
-    return lines;
   }
 
   private Dictionary getDictionary(List<byte[]> lines, String dictPath, String infoPath, boolean allowCache) throws IOException {

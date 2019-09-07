@@ -837,7 +837,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new IllegalArgumentException("Language is not a variant of German: " + language);
     }
     try {
-      String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
+      String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
         List<String> paths = Arrays.asList("/de/hunspell/spelling.txt");

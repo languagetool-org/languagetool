@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -265,7 +266,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           }
           // "g oing-> "going"
           String sugg = prevWord + word;
-          if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
+          if (StringUtils.isAllLowerCase(word) && !isMisspelled(speller1, sugg)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
                 ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
@@ -289,10 +290,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           int nextStartPos = tokens[idx + 1].getStartPos();
           String sugg1a = word.substring(0, word.length() - 1);
           String sugg1b = word.substring(word.length() - 1) + nextWord;
-          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b)) {
-            if (getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
-              ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
-            }
+          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b) &&
+              getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
+            ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
           }
           String sugg2a = word + nextWord.substring(0, 1);
           String sugg2b = nextWord.substring(1);
@@ -306,7 +306,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
           }
           String sugg = word + nextWord;
-          if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
+          if (StringUtils.isAllLowerCase(nextWord) && !isMisspelled(speller1, sugg)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
                 ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),

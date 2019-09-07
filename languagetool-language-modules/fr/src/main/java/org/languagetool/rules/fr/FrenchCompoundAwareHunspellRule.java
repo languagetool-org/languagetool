@@ -58,7 +58,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       throw new RuntimeException("Language is not a variant of French: " + language);
     }
     try {
-      String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + ".dict";
+      String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
         String path = "/fr/hunspell/spelling.txt";

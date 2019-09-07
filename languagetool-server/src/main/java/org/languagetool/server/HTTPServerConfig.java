@@ -302,8 +302,8 @@ public class HTTPServerConfig {
         if (!dictPathFile.exists() || !dictPathFile.isFile()) {
           throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
         }
-        if (!dictPathFile.getName().endsWith(".dict")) {
-          throw new IllegalArgumentException("dictionary file is supposed to be named *.dict: '" + dictPath + "'");
+        if (!dictPathFile.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
+          throw new IllegalArgumentException("dictionary file is supposed to have the filename extension '.dict': '" + dictPath + "'");
         }
         ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
         Language lang = Languages.addLanguage(name, code, new File(dictPath));
