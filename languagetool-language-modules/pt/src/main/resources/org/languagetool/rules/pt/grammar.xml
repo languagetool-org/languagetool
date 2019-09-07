@@ -2337,29 +2337,39 @@ title="Easy editing stylesheet" ?>
       <example>Apesar de a maioria do país não saber muito.</example>
     </rule>
 
-  <rulegroup id='IRREGULAR_PAST_PARTICIPLES' name='Convenções linguísticas: participio regular/irregular'>
+  <rulegroup id='IRREGULAR_PAST_PARTICIPLES' name='Convenções linguísticas: particípio regular/irregular'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-09-05      -->
     <url>http://radames.manosso.nom.br/linguagem/gramatica/morfologia/verbos-abundantes/</url>
     <!-- TODO encontrar outra lista de verbos abundantes e formas alternativas -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/os-participios-passados-regulares-e-irregulares/20960</url-->
+    <!--url>https://www.conjugacao.com.br/</url-->
     <rule>
+      <antipattern>
+          <token>há</token>
+          <token>volta</token>
+          <token>de</token>
+      </antipattern>
       <pattern>
-          <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
+          <token regexp='yes' inflected='yes'>ter|haver
+            <exception>seres</exception></token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
-          <token regexp='yes'>(?:(?:a(?:ces|nex|ntepag)|bent|ch(?:ei|go)|d(?:efes|esenvolt|espert|istint)|e(?:leit|mers)|e(?:nvolt|nxut|ret|xpuls|xpress|xpress|xpuls|xtint)|f(?:ind|ix|rit|rit)|g(?:anh|ast)|i(?:mers|mpress|nclus|nsert|sent)|limp|m(?:algast|alquist|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|rot|s(?:egur|epult|olt|ubmers|ujeit|upress|urpres|uspens)|tint|v(?:ag|olt))[ao]|a(?:ceite|ssente)|entregue)s?
-             <exception regexp='yes'>(?:ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?</exception></token>
+          <token regexp='yes'>(?:(?:a(?:bsort|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpuls|xpress|xpress|xpuls|xtint)|f(?:ind|ix|rit|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[oe]|ssente)|entregue)s?
+             <exception regexp='yes'>(?:ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto</exception></token><!-- XXX significado distintos. Removidos: acesa|incluso|tinto -->
       </pattern>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado irregular.</message>
         <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' postag_match='VMP00(.)(.)' postag_replace='VMIP1$20' suppress_misspelled='yes'/></suggestion-->
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao]s?)' regexp_replace='$1ad$2' suppress_misspelled='yes'/></suggestion>
       <example correction='ter discretamente limpado'>Depois de <marker>ter discretamente limpo</marker> o carro, foi desculpado.</example>
       <example>Depois de <marker>ter discretamente limpado</marker> o carro, foi desculpado.</example>
+      <example>..., seguidos pelos primeiros amniotas, os mamíferos há volta de 200 milhões de anos e as aves há cerca de 100 ...</example>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes' inflected='yes'>ser|estar</token><!-- TODO testar ficar -->
+          <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer</token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-          <token regexp='yes'>(?:a(?:ceitad|cendid|nexad|ntepagad|ssentad)|benzid|d(?:efendid|esenvolvid|espertad|istinguid)|e(?:legid|mergid)|e(?:nchid|ntregad|nvolvid|nxugad|rigid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncluíd|nserid|sentad)|limpad|m(?:algastad|alquerid|atad)|o(?:cultad|mitid|primid)|p(?:agad|asmad|egad|rendid)|rompid|s(?:egurad|epultad|oltad|ubmergid|ujeitad|uprimid|urpreendid|uspendid)|tingid|v(?:agad|olvid))[ao]s?</token>
+          <token regexp='yes'>(?:a(?:bsorvid|ceitad||ntepagad|ssentad)|benzid|c(?:onclu[ií]d|ultivad)|d(?:espertad|ispersad|issolvid)|e(?:legid|mergid|nchid|ntregad|nxugad|xaurid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncurrid|sentad)|limpad|m(?:algastad|alquerid|anifestad|atad|orrido)|o(?:mitid|primid)|p(?:agad|asmad|rendid)|r(?:reelegid|epelid|evolvid|ompid)|s(?:alvad|egurad|oltad|ubmergid|ujad|ujeitad|urpreendid|uspendid)|v(?:agad|olvid))[ao]s?</token>
+      <!-- XXX Removidos: acendido|anexado|defendido|desenvolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
+           Formas não reconhecido como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado regular.</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1$2' suppress_misspelled='yes'/></suggestion>
@@ -2367,6 +2377,10 @@ title="Easy editing stylesheet" ?>
       <example correction='foi gasto'>O dinheiro <marker>foi gastado</marker> o mês passado.</example>
       <example type='triggers_error'>A piscina <marker>foi enchida</marker> o mês passado.</example>
       <example>A piscina <marker>foi cheia</marker> o mês passado.</example>
+      <example>Em algumas fontes, alguns territórios não estão incluídos na Europa, enquanto noutras incluem-nos.</example>
+      <example>O mais recente estado, o Havaí, foi anexado em 21 de agosto de 1959.</example>
+      <example>O jazz foi desenvolvido por artistas inovadores, tais como Louis Armstrong.</example>
+      <example>No totalitarismo, as liberdades do indivíduo eram suprimidas e o povo era subordinado ao poder sem limites do ...</example>
     </rule>
   </rulegroup>
 
@@ -3768,6 +3782,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='V..[PFS].+' skip='3'>
+            <exception inflected='yes'>reverter</exception>
             <exception scope='next' postag_regexp='yes' postag='_PUNCT|Z.+'/>
             <exception scope='next' regexp='yes'>às?</exception>
             <exception>ronda</exception></token>
@@ -4318,7 +4333,7 @@ title="Easy editing stylesheet" ?>
             <exception regexp='yes'>foi|fora|indo</exception></token>
           <token>na</token>
           <token postag='N.F.+' postag_regexp='yes'>
-            <exception regexp='yes'>cabeça|primeira|última</exception>
+            <exception regexp='yes'>cabeça|direc?ção|primeira|última</exception>
             <exception postag='(AO|Z).+' postag_regexp='yes'/></token>
       </pattern>
       <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
@@ -5326,6 +5341,16 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>que</suggestion>.</message>
       <example correction="que">Vamos ambicionar <marker>a que</marker> seja uma vitória.</example>
+    </rule>
+
+    <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
+    <!--      Created by Tiago F. Santos, 2019-09-07      -->
+      <pattern>
+          <token regexp="yes">image(?:m|ns)</token>
+          <token regexp='yes'>satélites?</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 de satélite</suggestion>.</message>
+      <example correction="imagens de satélite"><marker>imagens satélite</marker>.</example>
     </rule>
 
     <rule id='AO_PAR_COM' name="A par com">
@@ -9925,7 +9950,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>cara|dia|face|lado|passo|pouco|terra</token>
+          <token regexp='yes'>ano|cara|dia|face|lado|mês|p(?:asso|ouco)|semana|terra</token>
           <token>a</token>
           <token><match no='0'/></token>
       </antipattern>
@@ -18144,7 +18169,7 @@ o tomate'>
       <example correction='pela impronúncia'><marker>pela impronuncia</marker>.</example>
       <example correction='pelas impronúncias'><marker>pelas impronuncias</marker>.</example>
     </rule>
-    <rule id='PARONYM_INDICIA_164' name='Parónimo: indicia'>
+    <rule id='PARONYM_INDICIA_164' name='Parónimo: indicia' default='off'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;
             <exception regexp='yes'>os?</exception></token>
@@ -23805,7 +23830,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:à|a(?:guardada|lguma)?|b(?:ela|oa)|c(?:antar|uja)|d(?:a|aquela|e|essa|esta|uma)|É|e(?:ntre|ssa|sta)?|f(?:amosa|azer|utebol|utura)|g(?:raciosa|rande)|inclui|n(?:a|ossa|uma)|p(?:ara|ela|or|róxima)|qualquer|s(?:em|obre|umptuosa)|última|v(?:er|i|ês|iu|iram)|vejam)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhes?|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:à|a(?:guardada|lguma)?|b(?:ela|oa)|c(?:antar|uja)|d(?:a|aquela|e|essa|esta|uma)|É|e(?:ntre|ssa|sta)|f(?:amosa|azer|utebol|utura)|g(?:raciosa|rande)|inclui|n(?:a|ossa|uma)|p(?:ara|ela|or|róxima)|qualquer|s(?:em|obre|umptuosa)|última|v(?:er|i|ês|iu|iram)|vejam)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhes?|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>operas?</token>
         </marker>
@@ -24172,7 +24197,7 @@ TODO Write better examples
           <token regexp='yes' inflected='yes'>ir|partir|voar|navegar|voltar
             <exception inflected='yes'>ser</exception></token>
       </pattern>
-      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
+      <message>'<match no='1' case_conversion='startupper'/>' pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \2</suggestion> ou <suggestion>donde \2</suggestion>?</message>
       <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
       <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas…</example>
       <example>…o invólucro onde vão assentar os livros encaixa dentro do tronco da árvore.</example>
@@ -24182,11 +24207,17 @@ TODO Write better examples
           <token regexp='yes'>até|de</token>
           <token>onde</token>
       </antipattern>
+      <antipattern><!-- vir como auxiliar -->
+          <token>onde</token>
+          <token inflected='yes'>vir</token>
+          <token>a</token>
+          <token postag='VMN0000'/>
+      </antipattern>
       <pattern>
           <token>onde</token>
           <token inflected='yes'>vir</token>
       </pattern>
-      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>donde \2</suggestion> ou <suggestion>de onde \2</suggestion>?</message>
+      <message>'<match no='1' case_conversion='startupper'/>' pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>donde \2</suggestion> ou <suggestion>de onde \2</suggestion>?</message>
       <example correction="Donde vens|De onde vens"><marker>Onde vens</marker>?</example>
     </rule>
   </rulegroup>
@@ -26052,7 +26083,7 @@ TODO Write better examples
           <token min='0'>de</token>
           <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
       </pattern>
-      <message>A convenção padrão não utiliza o zero no dia do mês.</message>
+      <message>A convenção padrão não utiliza o zero no dia do mês em datas escritas por extenso.</message>
         <suggestion><match no='1' include_skipped='all' regexp_match='0(.)' regexp_replace='$1'/> <match no='2' include_skipped='all'/> \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/datas-grafia/13231</url>
       <example correction="3 de agosto">A peça estreia na sexta-feira, <marker>03 de agosto</marker>.</example>
@@ -26519,6 +26550,11 @@ TODO Write better examples
 
     <rule id='EMIGRAR_DE' name="Confusão: Emigrar + de">
     <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <antipattern>
+          <token inflected='yes' regexp='yes'>emigrantes?</token>
+          <token>de
+            <exception postag_regexp='yes' postag='R.+'/></token>
+      </antipattern>
       <pattern>
           <token inflected='yes' regexp='yes'>emigr(?:ar|antes?|ação)</token>
           <token inflected='yes' regexp='yes' min='0'>vir|vindo</token>
@@ -26674,7 +26710,8 @@ TODO Write better examples
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token spacebefore='no'>feira</token>
           <token regexp='yes'>a|à|e|,</token>
-          <token regexp='yes'>&dias_semana;</token>
+          <token regexp='yes'>&dias_semana;
+            <exception regexp='yes'>sábado|domingo</exception></token>
       </pattern>
       <message>Redundância não gramatical.</message>
         <suggestion>\1 a \5</suggestion>
@@ -26957,7 +26994,7 @@ TODO Write better examples
           <token>,</token>
           <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
           <token regexp="yes">\d\d?</token>
-          <token>,</token>
+          <token regexp='yes'>,|de</token>
           <token regexp="yes">\d\d\d\d</token>
       </antipattern>
       <antipattern>
