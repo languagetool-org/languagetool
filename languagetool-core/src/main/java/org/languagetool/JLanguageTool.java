@@ -1154,12 +1154,12 @@ public class JLanguageTool {
    * @return a List of {@link Rule} objects
    * @since 2.3
    */
-  public List<AbstractPatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
+  public List<AbstractPatternRule> getPatternRulesByIdAndSubId(String id, String subId) {
     List<Rule> rules = getAllRules();
     List<AbstractPatternRule> rulesById = new ArrayList<>();   
     for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule &&
-          rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
+          rule.getId().equals(id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
         rulesById.add((AbstractPatternRule) rule);
       }
     }    
