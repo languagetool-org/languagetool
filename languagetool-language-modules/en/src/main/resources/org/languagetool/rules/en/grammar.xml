@@ -40,6 +40,7 @@ USA
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|fa[rt]|fast|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|nea[rt]|new|nice|o[dl]d|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|sa[fn]e|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
     <!ENTITY extreme_qualifiers "ex(?:treme(?:ly)?|ceedingly|ceptionally|tra(ordinarily)?)|fault|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
+    <!ENTITY ambiguous_past_tense_forms "babysat|backlighted|backlit|bare|bended|bet|bid|bode|book|bore|bound|brake|breastfed|burst|bust|clang|clave|could|crew|drunk|fell|felt|fit|forbid|found|girt|green-lighted|green-lit|grove|hand-fed|hand-knit|hand-knitted|hew|hoist|knit|lay|let|lope|low|misfit|missaw|outdrank|outdrunk|outflew|overbred|overdrank|overdrunk|overgot|overlay|overstrung|quick-froze|quit|quod|quoth|read|re-laid|rent|resent|reshowed|retread|retrodden|rewed|rid|rove|sate|self-fed|saw|sew|shitted|shore|should|shove|slang|slayed|slew|smelt|sod|span|spat|spit|spoke|straight|stringed|sublet|sung|swank|sweat|swum|test-flew|thrust|tow|tread|trodden|underlay|underlet|unheard|upheaved|upswept|was|wed|were|wet|worth|worthed|would|wrack|writ|wrought|beat|beset|broadcast|clad|clearcut|crosscut|foreread|forspread|hit|lipread|mishit|misset|overbeat|recut|reshut|underhit|underspread|withset">
 
     <!ENTITY hyphen "(?:[-‑])">
 
@@ -10113,6 +10114,24 @@ USA
             <example>Do all <marker>plants</marker> carry out photosynthesis?</example>
             <example>Will Durant wrote an article.</example>
         </rule>
+        <rule id="DO_VBZ_AMBIGUOUS_VERB" name="do you found (find)">
+        <!-- Created by Tiago F. Santos, 2019-09-07 -->
+        <!-- https://forum.languagetool.org/t/en-did-you-found-find-it/4694 -->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" regexp="yes">wh(at|ere)</token>
+                <token regexp="yes">Do(es)?|did</token>
+                <token postag="P?RP|NN.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">&ambiguous_past_tense_forms;</token>
+                </marker>
+            </pattern>
+            <message>This form is ambiguous and can be used as past tense. Confirm that you are using the intended base form of the main verb after 'to do' as an auxiliary verb.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>-->.</message>
+            <url>https://www.learnenglish.de/grammar/verbtodo.html</url>
+            <example correction="">Do you <marker>found</marker> the pen?</example>
+            <example>Do you find the pen?</example><!-- suggestion mandatorily trigger error and testrule does not accept this -->
+            <!-- TODO improve 'testrules' code to allow this-->
+        </rule>
         <rule id="MD_BE_NON_VBP" name="could/should/must be does (done)">
             <pattern>
                 <token postag="MD"/>
@@ -15207,6 +15226,25 @@ USA
                 <example>Talking to the bully did not stop him. And neither did <marker>hitting</marker> him.</example>
                 <example>They were both scared: neither did <marker>confronting</marker> the bully.</example><!-- False negative with emphatic 'do'. -->
                 <example>The intensive course <marker>did marvels</marker> for my French.</example>
+            </rule>
+        <rule id='DID_FOUND_AMBIGUOUS' name='Auxiliary verb + ambiguous past tense'>
+        <!-- Created by Tiago F. Santos, 2019-09-07 -->
+        <!-- https://forum.languagetool.org/t/en-did-you-found-find-it/4694 -->
+            <pattern>
+                    <token>
+                      <exception scope="previous" regexp="yes">than|what</exception>
+                      <exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
+                    <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
+                <marker>
+                    <token regexp="yes">&ambiguous_past_tense_forms;</token>
+                </marker>
+            </pattern>
+            <message>This form is ambiguous and can be used as past tense. Confirm that you are using the intended base form of the main verb after 'to do' as an auxiliary verb.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>-->.</message>
+            <url>https://www.learnenglish.de/grammar/verbtodo.html</url>
+            <!--url>https://en.wikipedia.org/wiki/List_of_English_irregular_verbs</url-->
+            <example correction="">You did <marker>found</marker> it!</example><!-- suggestion mandatorily trigger error and testrule does not accept this -->
+            <!-- TODO improve 'testrules' code to allow this-->
+        </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll|must</token>
