@@ -1741,7 +1741,7 @@
     </rule>
     <rule>
       <pattern>
-          <token postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>&requer_crase_verbos;|a(?:plicar|ssemelhar)|comprometer|dirigir|e(?:levar|stender)|ir|limitar|observar|p(?:[ôo]r|ertencer)|r(?:eagir|eferir|estringir|ecorrer)|sobrep[ôo]r|ver</token><!-- XXX ambiguous: juntar|alagar -->
+          <token postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>&requer_crase_verbos;|a(?:plicar|ssemelhar)|comprometer|d(?:edicar|irigir)|e(?:levar|stender)|ir|limitar|observar|p(?:[ôo]r|ertencer)|r(?:eagir|ecorrer|eferir|estringir)|sobrep[ôo]r|ver</token><!-- XXX ambiguous: juntar|alagar -->
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token postag='P.+' postag_regexp='yes' spacebefore='no'/>
           <token min='0' postag='R.' postag_regexp='yes'/>
@@ -2796,6 +2796,10 @@
       <example type="untouched">Costa alentejana... que saudades…</example>
     </rule>
     <rule>
+      <antipattern>
+        <token>Iniciativa</token>
+        <token>Liberal</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>Dona|Santa|Montanha|&precede_nome_proprio_F;</token>
           <token postag='NP.+' postag_regexp='yes' regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
