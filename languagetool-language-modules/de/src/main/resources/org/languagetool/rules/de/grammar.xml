@@ -4301,11 +4301,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">groß|klein</token>
                     <token inflected="yes">schreiben</token>
                 </pattern>
-                <message>Ist hier die Groß-/Kleinschreibnung von Wörtern gemeint (nicht bezogen auf die Schriftgröße)? Dann schreiben Sie beide Wörter zusammen.</message>
+                <message>Ist hier die Groß-/Kleinschreibung von Wörtern gemeint (nicht bezogen auf die Schriftgröße)? Dann schreiben Sie beide Wörter zusammen.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="großgeschrieben">Substanitive werden immer <marker>groß geschrieben</marker>.</example>
                 <example correction="kleingeschrieben">Verben werden meist <marker>klein geschrieben</marker>.</example>
                 <example>Du musst größer schreiben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zusammen<exception scope="previous" postag=".*DAT.*" postag_regexp="yes"/></token>
+                    <token inflected="yes">schreiben</token>
+                </pattern>
+                <message>Ist hier die Getrennt-/Zusammenschreibung von Wörtern gemeint? Dann schreiben Sie beide Wörter zusammen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="zusammengeschrieben">Zusammenschreiben wird <marker>zusammen geschrieben</marker>.</example>
+                <example>Wir haben Oma zusammen geschrieben.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INFOLGEDESSEN" name="infolge dessen (infolgedessen)">
+            <url>https://www.korrekturen.de/beliebte_fehler/infolge_dessen.shtml</url>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>folge</token>
+                    <token>dessen</token>
+                </pattern>
+                <message>Schreiben Sie das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/>\3</suggestion></message>
+                <example correction="infolgedessen">Der Unfall, <marker>in Folge dessen</marker> er ins Krankenhaus musste...</example>
             </rule>
         </rulegroup>
     </category>
@@ -4403,6 +4425,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Fragewort <suggestion>Wessen</suggestion>?</message>
                 <example correction="Wessen"><marker>Wesen</marker> Kleid trug sie gestern?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>im</token>
+                    <marker>
+                        <token>Wessen</token>
+                    </marker>
+                    <token postag=".+:GEN:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Wesen</suggestion>?</message>
+                <example correction="Wesen">Es liegt im <marker>Wessen</marker> des Menschen, so zu handeln.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TOT_GEWEIHT" name="tot geweiht (todgeweiht)">
@@ -4750,7 +4783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">dezidiert</token>
                   </marker>
-                <token regexp="yes">.*server|Server|Rechner|Computer</token>
+                <token regexp="yes">.*server[ns]?|Server[ns]?|Rechner[ns]?|Computer[ns]?</token>
             </pattern>
             <message>Meinten Sie <suggestion>dediziert</suggestion>? 'dezidiert' bedeutet 'entschieden, energisch'.</message>
             <url>https://de.wiktionary.org/wiki/dediziert</url>
@@ -4794,7 +4827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">harmonisieren</token>
                   </marker>
-                <token postag_regexp="yes" postag="ADJ:.*"/>
+                <token postag_regexp="yes" postag="ADJ:.+"/>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="harmonisier" regexp_replace="harmonier"/></suggestion> (übereinstimmen) statt 'harmonisieren' (in Übereinstimmung bringen)?</message>
             <url>https://www.korrekturen.de/beliebte_fehler/harmonisieren.shtml</url>
