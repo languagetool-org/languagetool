@@ -4295,6 +4295,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vielgelesener">Er ist ein <marker>viel gelesener</marker> Autor.</example>
             <example>Sie hat früher viel gelesen.</example>
         </rule>
+        <rulegroup id="GROSSSCHREIBEN" name="groß / klein schreiben (großschreiben / kleinschreiben)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">groß|klein</token>
+                    <token inflected="yes">schreiben</token>
+                </pattern>
+                <message>Ist hier die Groß-/Kleinschreibnung von Wörtern gemeint (nicht bezogen auf die Schriftgröße)? Dann schreiben Sie beide Wörter zusammen.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="großgeschrieben">Substanitive werden immer <marker>groß geschrieben</marker>.</example>
+                <example correction="kleingeschrieben">Verben werden meist <marker>klein geschrieben</marker>.</example>
+                <example>Du musst größer schreiben.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -34028,6 +34041,18 @@ Andere Projekte</example>
                 <example correction="in">Danach lernte er ab 1910 <marker>im</marker> der Hamburger Niederlassung.</example>
                 <example correction="in">Luxusurlaub <marker>im</marker> dem wohl besten Hotel der Türkei.</example>
                 <example correction="in">Er ging <marker>im</marker> das Haus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token regexp="yes">Nullkommani(chts|x)</token>
+                </pattern>
+                <message>&inwend;'<suggestion><match no="1" regexp_match="n" regexp_replace="m"/></suggestion> \2' muss 'im' statt 'in' verwendet werden.</message>
+                <url>https://www.korrekturen.de/beliebte_fehler/in_nullkommanichts.shtml</url>
+                <example correction="im">Er erledigte es <marker>in</marker> Nullkommanichts.</example>
+                <example correction="im">Er erledigte es <marker>in</marker> Nullkommanix.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDER_OF_WORDS" name="falsche Wortreihenfolge">
