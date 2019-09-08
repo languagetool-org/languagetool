@@ -13089,9 +13089,9 @@ USA
             <token>Say</token>
           </antipattern>
           <antipattern case_sensitive="yes"><!-- MFU 2019-09-02: Tier I Family Circle -->
-            <token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token>Tier</token><!--token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token-->
             <token>I</token>
-            <token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <!--token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token-->
           </antipattern>
           <antipattern><!--  #1869 MFU 2019-09-04: He was calling you several times today -->
             <token postag="VBG"/>
@@ -15207,7 +15207,6 @@ USA
                 <example>Talking to the bully did not stop him. And neither did <marker>hitting</marker> him.</example>
                 <example>They were both scared: neither did <marker>confronting</marker> the bully.</example><!-- False negative with emphatic 'do'. -->
                 <example>The intensive course <marker>did marvels</marker> for my French.</example>
-            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll|must</token>
@@ -16043,12 +16042,13 @@ USA
                     <token postag="NNP"/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
-                <antipattern><!-- and his sister, Dorothy see -->
+                <antipattern><!-- and his sister, Dorothy, see -->
                     <token regexp="yes">and|&amp;|or</token>
                     <token postag="PRP$"/>
                     <token postag_regexp="yes" postag="NN(:UN?)?"/>
                     <token>,</token>
-                    <token postag="NNP"/>
+                    <token postag="NNP"/><!-- apposition -->
+                    <token>,</token>
                 </antipattern>
                 <antipattern><!-- people of Antigua & Barbuda enjoy  -->
                     <token postag="NNS"/>
@@ -16109,7 +16109,7 @@ USA
                 <example>... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
                 <example type="triggers_error">...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
                 <example>Add your <marker>Google calendar</marker> to your mobile phone.</example><!-- #1886 -->
-                <example>...1802 – William Wordsworth and his sister, Dorothy see a "long belt" of daffodils, inspiring the former ...</example>
+                <example>...1802 – William Wordsworth and his sister, Dorothy, see a "long belt" of daffodils, inspiring the former ...</example>
                 <example>The people of Antigua &amp; Barbuda enjoy a more-than-90% literacy rate.</example>
                 <example>... gave Spider-Man a new profession, having Parker teach at his former high school.</example>
                 <example type="triggers_error">Milne extract in the Guardian</example>
@@ -16364,6 +16364,7 @@ USA
                 <token>and</token>
                 <token skip="-1"/>
                 <token skip="-1">both</token>
+                <token skip="-1" postag='PCT'/>
                 <token>as</token>
                 <token>well</token>
                 <token>as</token>
@@ -16773,11 +16774,11 @@ USA
                 <token postag="NNP?" postag_regexp="yes"/>
                 <token postag="VBG"/>
             </antipattern>
-            <antipattern><!-- a lot of CPU power -->
+            <!--antipattern>< a lot of CPU power >
                 <token>of</token>
-                <token chunk="B-NP-singular" postag="NNP?" postag_regexp="yes"/>
-                <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
-            </antipattern>
+                <token>CPU</token><token chunk="B-NP-singular" postag="NNP?" postag_regexp="yes"/>
+                <token>power</token><token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+            </antipattern-->
             <pattern>
                 <marker>
                     <token>a</token>
@@ -24894,13 +24895,17 @@ The accident victim died from her injuries.
                 <example correction="too">But I see the problem of <marker>two</marker> many files.</example>
             </rule>
             <rule>
-                <antipattern><!-- material is to melting -->
+                <antipattern><!-- *close* the material is *to* melting
+                            /i.e. *close to* melting the material is-->
+                    <token skip='-1'>close</token>
                     <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
                     <token regexp="yes">is|was</token>
                     <token>to</token>
                     <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern><!-- people were to flying -->
+                <antipattern><!-- *close* people were *to* flying 
+                            / i.e. close to flying people were-->
+                    <token skip='-1'>close</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
                     <token regexp="yes">are|were</token>
                     <token>to</token>
@@ -24921,7 +24926,13 @@ The accident victim died from her injuries.
                 <example>I've never been <marker>to</marker> Paris.</example>
                 <example>Perhaps we are <marker>to</marker> blame for this.</example>
                 <example>... no visual signs reveal how close the material is to melting.</example>
+                <example type="triggers_error">This material is to melting.</example><!-- this sentence is indeed incorrect. The 'to' particle has probably been forgotten while rephrasing -->
+                <example>This material is melting.</example>
+                <example>This material is to melt in the oven.</example>
+                <example>This material is too melted.</example>
                 <example>... 18th century documents show how close some people were to flying.</example>
+                <example type="triggers_error">They were <marker>to</marker> flying.</example><!-- The 'to' particle has probably been forgotten while rephrasing -->
+                <example>They were flying.</example>
             </rule>
             <rule>
                 <pattern>
