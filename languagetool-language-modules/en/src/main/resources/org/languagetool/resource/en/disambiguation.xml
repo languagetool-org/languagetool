@@ -4311,6 +4311,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
+          <antipattern><!-- This component parts the wires -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag="NN"/>
+            <token postag="VBZ"/>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+          </antipattern>
           <pattern>
             <token postag="JJ">
               <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -4332,6 +4338,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Hard work causes fitness and vice versa.</example>
           <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
           <example type="untouched">Tom wishes that were true.</example>
+          <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
 
@@ -4792,6 +4799,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="MD"/>
             <token>have</token>
           </antipattern>
+          <antipattern><!-- This component parts the wires -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag="NN"/>
+            <token postag="VBZ"/>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -4808,6 +4821,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
           <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
           <example type="untouched">His <marker>party</marker> may have brought the disease with them from Egypt.</example>
+          <example type="untouched">This <marker>component</marker> parts the wires automatically.</example>
         </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
