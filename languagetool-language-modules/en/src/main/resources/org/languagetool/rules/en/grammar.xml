@@ -9878,6 +9878,15 @@ USA
             <example correction='operating system'>The Windows <marker>operation system</marker> was invented by Bill Gates.</example>
             <example>The <marker>operating system</marker> has a Linux kernel.</example>
         </rule>
+        <rule id="HOVER_BOARD" name="hover board (hoverboard)">
+            <pattern>
+                <token>hover</token>
+                <token regexp="yes">boards?</token>
+            </pattern>
+            <message>The word 'hoverboard' is written as one word.</message>
+            <suggestion><match no="1" /><match no="2" /></suggestion>
+            <example correction='Hoverboards'><marker>Hover boards</marker> are mainly used by millenials.</example>
+        </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
                 <token inflected="yes">be</token>
@@ -16875,7 +16884,7 @@ USA
         </antipattern>
         <antipattern>
             <token regexp="yes">\d+</token>
-            <token regexp="yes">step|page|star|sold|slide</token>
+            <token regexp="yes">step|page|star|sold|slide|sept|version</token>
           </antipattern>
           <antipattern>
             <token regexp="yes">\d+0</token>
@@ -16943,6 +16952,10 @@ USA
             <antipattern>
                 <token>page</token>
                 <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token>six</token>
+                <token>sigma</token>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -17046,6 +17059,7 @@ USA
             <example>Middle East peace after Israel's 1956 invasion of Egypt</example>
             <example>The Apollo 8 mission was well covered in the British documentary.</example>
             <example>This is 3 H2O.</example>
+            <example>The concept of six sigma has a simple goal.</example>
             <example>A dramatic series in 1956 saw a record that will probably never be beaten.</example>
             <example>Those with five or six are most common.</example>
             <example>I'll be in my office from ten tomorrow.</example>
@@ -17078,7 +17092,9 @@ USA
             <example>He has a 4 page summary.</example>
             <example>The windows 10 update failed.</example>
             <example>He has a 5 slide presentation.</example>
+            <example>Have you installed the iOS 10 version?</example>
             <example>He went to this 5 star restaurant.</example>
+            <example>Let's meet on 08 sept.</example>
             <example>This 6 step guide helps you accomplish success.</example>
             <example>We had 200 participants this year and hopefully 300 next year.</example>
             <example>...objects were taken in 1971 when the <marker>Mariner 9 probe</marker> imaged Phobos and Deimos, the two small moons of ...</example>
@@ -33814,15 +33830,17 @@ The accident victim died from her injuries.
       <example type="triggers_error">Oxyhalides of americium in the form AmVIO2X2, AmVO2X, AmIVOX2 and AmIIIOX can be obtained by reacting...</example>
     </rule>
     <rule>
-      <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+      <regexp>(?&lt;=(\b|\=|\+|\-))([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
       <message>Replace by the typographical symbol.</message>
-        <suggestion>\1×\2</suggestion>
-        <suggestion>\1·\2</suggestion>
+        <suggestion>\2×\3</suggestion>
+        <suggestion>\2·\3</suggestion>
       <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
       <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+      <example correction="5x×5|5x·5">a=7+<marker>5x*5</marker></example>
       <example correction="a×b|a·b"><marker>a*b</marker></example>
       <example>a=2·x²+5</example>
       <example>4,5×2,5=11,25</example>
+      <example>Number 1Z1141X30370035113</example>
     </rule>
   </rulegroup>
 

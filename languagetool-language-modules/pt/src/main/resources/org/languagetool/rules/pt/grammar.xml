@@ -24906,15 +24906,17 @@ TODO Write better examples
       <example>4,5×2,5=11,25</example>
     </rule>
     <rule>
-      <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+      <regexp>(?&lt;=(\b|\=|\+|\-))([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
       <message>Prefira o símbolo de multiplicação.</message>
-        <suggestion>\1×\2</suggestion>
-        <suggestion>\1·\2</suggestion>
+        <suggestion>\2×\3</suggestion>
+        <suggestion>\2·\3</suggestion>
       <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
       <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+      <example correction="5x×5|5x·5">a=7+<marker>5x*5</marker></example>
       <example correction="a×b|a·b"><marker>a*b</marker></example>
       <example>a=2·x²+5</example>
       <example>4,5×2,5=11,25</example>
+      <example>Number 1Z1141X30370035113</example>
     </rule>
   </rulegroup>
 
