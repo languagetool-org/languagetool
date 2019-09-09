@@ -93,7 +93,7 @@ public class MixedAlphabetsRule extends Rule {
       if( i<tokens.length-1
           && tokenString.equals("i")
           && CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches() ) {
-        String msg = "Вжито латинську «і» замість кирилічної";
+        String msg = "Вжито латинську «і» замість кириличної";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
@@ -103,7 +103,7 @@ public class MixedAlphabetsRule extends Rule {
           List<String> replacements = new ArrayList<>();
           replacements.add( toLatin(tokenString) );
 
-          String msg = "Вжито кирилічну літеру замість латинської";
+          String msg = "Вжито кириличну літеру замість латинської";
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
@@ -126,7 +126,7 @@ public class MixedAlphabetsRule extends Rule {
         }
 
         if (replacements.size() > 0) {
-          String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
+          String msg = "Вжито кириличні літери замість латинських на позначення римської цифри";
           msg = adjustForInvalidSuffix(tokenString, msg);
 
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
@@ -139,7 +139,7 @@ public class MixedAlphabetsRule extends Rule {
         converted = adjustForInvalidSuffix(converted);
         replacements.add( converted );
 
-        String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
+        String msg = "Вжито кириличні літери замість латинських на позначення римської цифри";
         msg = adjustForInvalidSuffix(tokenString, msg);
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
@@ -149,7 +149,7 @@ public class MixedAlphabetsRule extends Rule {
         int length = tokenString.length();
         replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1, tokenString.length())) );
 
-        String msg = "Вжито кирилічну літеру замість латинської";
+        String msg = "Вжито кириличну літеру замість латинської";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }

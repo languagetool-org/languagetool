@@ -301,12 +301,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
-    <!--
       <antipattern>
-        <token negate_pos="yes" postag="SENT_START"/>
-        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'].*</token>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]([а-яіїєґ']+|\.)</token>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
       </antipattern>
-      -->
       <pattern>
         <token postag_regexp="yes" postag="verb.*?subst.*">
           <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?subst.*|SENT_END"/>
@@ -318,9 +316,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
       <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
       <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
-      <!--
+      <example>прозвали Сергієм Підрахуєм</example>
       <example>В.Кукольником, П.Подієм, І.Орлом</example>
-      -->
     </rule>
 
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
@@ -910,7 +907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс]трит</token>
       </pattern>
-      <message>Чинний правопис передбачає -стріт (також укр. літера і ближча до англ. звуку [i:] в слові street)</message>
+      <message>Чинний правопис передбачає -стріт (також укр. літера і ближча до англ. звука [i:] в слові street)</message>
       <example correction=""><marker>Бейкер-стрит</marker>.</example>
     </rule>
 
@@ -918,7 +915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс][иі]ті</token>
       </pattern>
-      <message>Чинний правопис передбачає -сіті, однак в мовній практиці поширений також варіант -ситі, адже укр. літера и ближча до англ. звуку [ɪ] в слові city</message>
+      <message>Чинний правопис передбачає -сіті, однак в мовній практиці поширений також варіант -ситі, адже укр. літера и ближча до англ. звука [ɪ] в слові city</message>
       <example correction=""><marker>Канзас-Сіті</marker>.</example>
       <example correction=""><marker>Канзас-Ситі</marker>.</example>
     </rule>

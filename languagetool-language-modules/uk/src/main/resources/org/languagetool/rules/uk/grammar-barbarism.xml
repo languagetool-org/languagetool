@@ -42,11 +42,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="adj.*" min="0"/>
-          <token>участь</token>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:v_(naz|rod).*">участь</token>
         </pattern>
         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion></message>
         <example correction="брати|взяти"><marker>приймав</marker> участь</example>
         <example correction="брати|взяти"><marker>приймав</marker> активну участь</example>
+        <example correction="брати|взяти">не <marker>приймаючи</marker> участі</example>
         <example>брав участь</example>
       </rule>
 
@@ -3140,13 +3141,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="власним коштом"><marker>за власний рахунок</marker></example>
         <example>коштом держави</example>
       </rule>
+
       <rule>
         <pattern>
           <token>за</token>
           <token>рахунок</token>
         </pattern>
         <message>Краще: <suggestion>коштом</suggestion>, <suggestion>шляхом</suggestion>, <suggestion>користуючись з</suggestion>, <suggestion>ким/чим</suggestion>, <suggestion>внаслідок</suggestion></message>
-        <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок"><marker>за рахунок</marker> держави</example>
+        <suggestion>завдяки</suggestion>
+        <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок|завдяки"><marker>за рахунок</marker> держави</example>
         <example>коштом держави</example>
       </rule>
     </rulegroup>
@@ -4003,6 +4006,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Загалом (кажучи)|В цілому|До росту|Підходячи з суворими мірками|Якнайсерйозніше|Якнайсуворіше"><marker>По великому рахунку</marker>, ніхто не проти</example>
     </rule>
 
+    <rule id="v_obtyazhku" name="В обтяжку">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>обтяжку</token>
+      </pattern>
+      <message>Правильно: <suggestion>облиплий</suggestion></message>
+      <example correction="облиплий">Штани <marker>в обтяжку</marker>.</example>
+    </rule>
+
     <rulegroup id="V_CHYSLI" name="В числі">
       <rule>
         <pattern>
@@ -4077,17 +4089,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="NA_POVNOMU_SERYOZI" name="На повному серйозі">
-      <pattern>
-        <token>на</token>
-        <token>повному</token>
-        <token>серйозі</token>
-      </pattern>
-      <message>Краще: <suggestion>цілком серйозно</suggestion></message>
-      <suggestion>з усією серйозністю</suggestion>
-      <suggestion>без жартів</suggestion>
-      <example correction="цілком серйозно|з усією серйозністю|без жартів"> так <marker>на повному серйозі</marker> твердять чиновники Київради</example>
-    </rule>
+    <rulegroup id="NA_POVNOMU_SERYOZI" name="На повному серйозі">
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token>повному</token>
+          <token>серйозі</token>
+        </pattern>
+        <message>Краще: <suggestion>цілком серйозно</suggestion></message>
+        <suggestion>з усією серйозністю</suggestion>
+        <suggestion>без жартів</suggestion>
+        <example correction="цілком серйозно|з усією серйозністю|без жартів"> так <marker>на повному серйозі</marker> твердять чиновники Київради</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>серйоз</token>
+        </pattern>
+        <message>Краще: <suggestion>серйозно</suggestion></message>
+        <suggestion>правдиво</suggestion>
+        <suggestion>(брати) за правду</suggestion>
+        <example correction="серйозно|правдиво|(брати) за правду">так <marker>в серйоз</marker> твердять чиновники Київради</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="BYTKOM_NABYTO" name="Битком набито">
       <rule>
