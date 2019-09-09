@@ -9804,6 +9804,24 @@ USA
             <example type="triggers_error">The password protected dropbox folders from being viewed by others.</example>
             <example correction="password-protected">I will share the <marker>password protected</marker> PDF with you.</example>
         </rule>
+        <rule id="SIMPLE_TO_USE_HYPHEN" name="missing hyphen in 'simple to use computer'">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|their|our|your</token>
+                <marker>
+                    <token regexp="yes">simple|easy|hard</token>
+                    <token>to</token>
+                    <token regexp="yes">use|read|follow|make|draw|understand|wear|reach|access</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes" />
+            </pattern>
+            <message>It appears that two hyphens are missing.</message>
+            <suggestion>\2-\3-\4</suggestion>
+            <example>The computer is simple to use.</example>
+            <example>It's simple to use.</example>
+            <example correction="simple-to-use">The Mac is a <marker>simple to use</marker> computer.</example>
+            <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
+            <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
+        </rule>
         <rulegroup id="THOUGH_THOUGHT" name="confusion of though/thought">
             <rule>
                 <pattern>
