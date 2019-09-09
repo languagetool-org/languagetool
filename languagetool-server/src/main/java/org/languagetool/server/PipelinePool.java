@@ -34,6 +34,7 @@ import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -160,14 +161,14 @@ class PipelinePool {
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
         //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user);
+        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
       } else {
         pipelinesUsed++;
         //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
-      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user);
+      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
     }
   }
 
@@ -181,14 +182,15 @@ class PipelinePool {
   /**
    * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
    * Uses Pipeline wrapper to safely share objects
-   *
-   * @param lang the language to be used
+   *  @param lang the language to be used
    * @param motherTongue the user's mother tongue or {@code null}
    */
-  Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig)
+  Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig,
+                          UserConfig userConfig, List<String> disabledRuleIds)
     throws Exception { // package-private for mocking
     Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
+    lt.disableRules(disabledRuleIds);
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

@@ -92,6 +92,7 @@ public class HTTPServerConfig {
   protected boolean prometheusMonitoring = false;
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
+  protected List<String> disabledRuleIds = new ArrayList<>();
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -271,6 +272,7 @@ public class HTTPServerConfig {
         }
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
           "slowRuleLoggingThreshold", "-1"));
+        disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
         globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
@@ -883,6 +885,13 @@ public class HTTPServerConfig {
     return skipLoggingChecks;
   }
 
+  /**
+   * @since 4.7
+   */
+  public List<String> getDisabledRuleIds() {
+    return disabledRuleIds;
+  }
+  
   /**
    * @since 4.4
    * See if a specific A/B-Test is to be run

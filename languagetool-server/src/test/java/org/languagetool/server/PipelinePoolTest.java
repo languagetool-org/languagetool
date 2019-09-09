@@ -56,11 +56,11 @@ public class PipelinePoolTest {
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
       null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World, second time around.").build(), new FakeHttpExchange(), params, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
   }
 
@@ -88,18 +88,18 @@ public class PipelinePoolTest {
 
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
     PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, gConfig, user1);
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
 
     verify(pool, times(1)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(1)).returnPipeline(eq(settings1), notNull());
 
     verify(pool).getPipeline(settings2);
-    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings2), notNull());
 
     TextChecker.QueryParams queryParams2 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), Collections.singletonList("DE_CASE"),
@@ -112,7 +112,7 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params3, null, null);
 
     verify(pool).getPipeline(settings3);
-    verify(pool).createPipeline(lang2, null, queryParams2, gConfig, user1);
+    verify(pool).createPipeline(lang2, null, queryParams2, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings3), notNull());
   }
 
@@ -143,27 +143,27 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params1, null, null);
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
     PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, gConfig, user1);
     verify(pool, times(1)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(1)).returnPipeline(eq(settings1), notNull());
 
     verify(pool).getPipeline(settings2);
-    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings2), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params1, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
     verify(pool, times(2)).getPipeline(settings2);
-    verify(pool, times(2)).createPipeline(lang2, null, queryParams1, gConfig, user1);
+    verify(pool, times(2)).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings2), notNull());
   }
 
@@ -189,14 +189,14 @@ public class PipelinePoolTest {
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
       null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
     Thread.sleep(expireTime * 1000L * 2);
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World, second time around.").build(), new FakeHttpExchange(), params, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1);
+    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
   }
 
