@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -39,7 +40,9 @@ import org.languagetool.remote.CheckConfigurationBuilder;
 import org.languagetool.remote.RemoteLanguageTool;
 import org.languagetool.remote.RemoteResult;
 import org.languagetool.remote.RemoteRuleMatch;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -260,7 +263,10 @@ public class SwJLanguageTool {
         }
       }
       if(matchRule == null) {
-        return null;
+        matchRule = new DummyRule(remoteMatch.getRuleId(), remoteMatch.getRuleDescription(),
+            remoteMatch.getCategoryId().isPresent() ? remoteMatch.getCategoryId().get() : null,
+            remoteMatch.getCategory().isPresent() ? remoteMatch.getCategory().get() : null);
+        allRules.add(matchRule);
       }
       RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset(), 
           remoteMatch.getErrorOffset() + remoteMatch.getErrorLength(), remoteMatch.getMessage(), 
@@ -286,6 +292,36 @@ public class SwJLanguageTool {
         }
       }
       return ruleMatches;
+    }
+    
+    class DummyRule extends Rule {
+      
+      private final String ruleId;
+      private final String description;
+      
+      DummyRule(String ruleId, String description, String categoryId, String categoryName) {
+        this.ruleId = ruleId;
+        this.description = description != null ? description : "unknown rule name";
+        if (categoryId != null && categoryName != null) {
+          setCategory(new Category(new CategoryId(categoryId), categoryName));
+        }
+      }
+
+      @Override
+      public String getId() {
+        return ruleId;
+      }
+
+      @Override
+      public String getDescription() {
+        return description;
+      }
+
+      @Override
+      public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+        return null;
+      }
+      
     }
     
   }

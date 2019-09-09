@@ -25,7 +25,7 @@ public class RemoteRuleMatchTest {
 
   @Test
   public void testToStringOutput() {
-    Assert.assertEquals("ruleId@0-1", new RemoteRuleMatch("ruleId", "msg", "context", 0, 0, 1).toString());
+    Assert.assertEquals("ruleId@0-1", new RemoteRuleMatch("ruleId", "ruleName", "msg", "context", 0, 0, 1).toString());
   }
 
 }
