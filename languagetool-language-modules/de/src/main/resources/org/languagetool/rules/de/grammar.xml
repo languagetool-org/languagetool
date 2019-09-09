@@ -37541,6 +37541,67 @@ Andere Projekte</example>
 <!--                 <example correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
             </rule>
         </rulegroup>
+  <rulegroup id='MULTIPLICATION_SIGN' name="Mathematik: Multiplikation: x - × ">
+    <!-- Localised from Portuguese by Tiago F. Santos, 2019-09-09  -->
+    <rule>
+      <antipattern>
+          <token regexp='yes'>[,o]</token>
+          <token>x</token>
+          <token regexp='yes'>[,e]</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>\p{Lu}</token>
+          <token spacebefore='no'>.</token>
+          <token regexp='yes' spacebefore='yes'>\p{Lu}</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+        <marker>
+          <token regexp='yes'>[x\*]</token>
+        </marker>
+          <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+      </pattern>
+      <message>RErsetzen Sie durch das typografische Symbol.</message>
+        <suggestion>×</suggestion>
+        <suggestion>·</suggestion>
+      <example correction="×|·">h = 6,626 <marker>x</marker> 10⁻³⁴ J.s</example>
+      <example correction="×|·">h = 6.626 <marker>x</marker> 10⁻³⁴ J.s</example>
+      <example correction="×|·">5 <marker>*</marker> 2 = 10</example>
+      <example correction="×|·">a = 5 <marker>*</marker> x + 7</example>
+      <example correction="×|·">a = 5x <marker>*</marker> 5 + 7</example>
+      <example correction="×|·">a <marker>*</marker> b</example>
+      <example>a = 2 · x² + 5</example>
+      <example>4,5 × 2,5 = 11,25</example>
+      <!--example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
+      <example>Rodrigues Fernandes, X. L.</example-->
+    </rule>
+    <rule>
+      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <message>Ersetzen Sie durch das typografische Symbol.</message>
+        <suggestion>\2×\3</suggestion>
+        <suggestion>\2·\3</suggestion>
+      <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
+      <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
+      <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+      <example>a=2·x²+5</example>
+      <example>4,5×2,5=11,25</example>
+      <example>AmVIO2X2, AmVO2X, AmIVOX2 et AmIIIOX</example>
+      <example>Nummer 1Z1141X30370035113</example>
+    </rule>
+    <rule>
+      <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+      <message>Ersetzen Sie durch das typografische Symbol.</message>
+        <suggestion>\1×\2</suggestion>
+        <suggestion>\1·\2</suggestion>
+      <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
+      <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+      <example correction="5x×5|5x·5">a=7+<marker>5x*5</marker></example>
+      <example correction="a×b|a·b"><marker>a*b</marker></example>
+      <example>a=2·x²+5</example>
+      <example>4,5×2,5=11,25</example>
+      <example>Nummer 1Z1141X30370035113</example>
+    </rule>
+  </rulegroup>
         <rulegroup id="FALSCHES_ANFUEHRUNGSZEICHEN" name="Falsches Anführungszeichen ('” [99]' statt '“ [66]')">
             <rule>
                 <regexp>”</regexp>
