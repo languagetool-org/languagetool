@@ -411,10 +411,18 @@
       <disambig postag="NN:UN"/>    
     </rule>
 
-    <rule id="CPU_POWER" name="CPU power => NN:UN">
+    <rule id="CPU_POWER" name="CPU power => NN:U">
       <pattern>
         <token>CPU</token>
         <token>power</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
+    </rule>
+
+    <rule id="BANK_TRANSPARENCY" name="Bank transperancy => NN:U">
+      <pattern>
+        <token>bank</token>
+        <token>transparency</token>
       </pattern>
       <disambig action="replace"><wd pos="NN:U"/><wd pos="NN:U"/></disambig>
     </rule>
