@@ -441,6 +441,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("estimad es")); 
         assertEquals("estima des", matches[0].getSuggestedReplacements().get(0));
         assertEquals("estimades", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("co nstel·lació")); 
+        assertEquals("constel·lació", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("rà dio")); 
         assertEquals("ràdio", matches[0].getSuggestedReplacements().get(0));

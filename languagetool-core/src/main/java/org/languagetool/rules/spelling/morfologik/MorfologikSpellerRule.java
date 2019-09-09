@@ -29,7 +29,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -266,7 +265,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           }
           // "g oing-> "going"
           String sugg = prevWord + word;
-          if (StringUtils.isAllLowerCase(word) && !isMisspelled(speller1, sugg)) {
+          if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
                 ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
@@ -306,7 +305,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
           }
           String sugg = word + nextWord;
-          if (StringUtils.isAllLowerCase(nextWord) && !isMisspelled(speller1, sugg)) {
+          if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
                 ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
