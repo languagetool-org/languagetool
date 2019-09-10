@@ -1281,9 +1281,18 @@
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
     <rule>
       <antipattern>
-          <token regexp='yes'>[,o]</token>
-          <token>x</token>
-          <token regexp='yes'>[,e]</token>
+          <token regexp='yes'>x|\*</token>
+          <token regexp='yes'>[,;e]</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>[,;o]</token>
+          <token regexp='yes'>x|\*</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes' skip='2'>versión(?:es)?|series?|v</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore='no'>.</token>
+          <token spacebefore='no'>x</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>\p{Lu}</token>
@@ -1312,10 +1321,10 @@
       <example>Regueira Fernández, X. L.</example>
     </rule>
     <rule>
-      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
       <message>Prefira o símbolo de multiplicación.</message>
-        <suggestion>\2×\3</suggestion>
-        <suggestion>\2·\3</suggestion>
+        <suggestion>\4×\5</suggestion>
+        <suggestion>\4·\5</suggestion>
       <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
       <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
       <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>

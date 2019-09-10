@@ -24971,9 +24971,18 @@ TODO Write better examples
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
     <rule>
       <antipattern>
-          <token regexp='yes'>[,o]</token>
-          <token>x</token>
-          <token regexp='yes'>[,e]</token>
+          <token regexp='yes'>x|\*</token>
+          <token regexp='yes'>[,;e]</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>[,;o]</token>
+          <token regexp='yes'>x|\*</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes' skip='2'>vers(?:ão|ões)|séries?|v</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore='no'>.</token>
+          <token spacebefore='no'>x</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>\p{Lu}</token>
@@ -25000,12 +25009,13 @@ TODO Write better examples
       <example>4,5 × 2,5 = 11,25</example>
       <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
       <example>Rodrigues Fernandes, X. L.</example>
+      <example>UHCI: a versão USB 1.x</example>
     </rule>
     <rule>
-      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
       <message>Prefira o símbolo de multiplicação.</message>
-        <suggestion>\2×\3</suggestion>
-        <suggestion>\2·\3</suggestion>
+        <suggestion>\4×\5</suggestion>
+        <suggestion>\4·\5</suggestion>
       <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
       <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
       <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
@@ -25013,6 +25023,7 @@ TODO Write better examples
       <example>4,5×2,5=11,25</example>
       <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX...</example>
       <example>Número 1Z1141X30370035113</example>
+      <example>- 1 X, 2 X, 4 X</example>
     </rule>
     <rule>
       <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
