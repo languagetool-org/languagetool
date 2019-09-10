@@ -91,7 +91,6 @@ class SingleDocument {
   private static final int PARA_CHECK_DEFAULT = 50;  //  Factor for parameter checked at once at iteration (no text change)
   private static final int MAX_SUGGESTIONS = 15;
 
-
   private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
   
   private Configuration config;
@@ -140,7 +139,7 @@ class SingleDocument {
     this.mDocHandler = mDH;
     this.sentencesCache = new ResultCache();
     this.singleParaCache = new ResultCache();
-    this.paragraphsCache = new ArrayList<ResultCache>();
+    this.paragraphsCache = new ArrayList<>();
     if (config != null) {
       setConfigValues(config);
     }
@@ -246,7 +245,7 @@ class SingleDocument {
   void resetCache() {
     sentencesCache.removeAll();
     singleParaCache.removeAll();
-    paragraphsCache = new ArrayList<ResultCache>();
+    paragraphsCache = new ArrayList<>();
     if(doFullCheckAtFirst || numParasToCheck < 0) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       for(int i = 0; i < minToCheckPara.size(); i++) {
@@ -715,7 +714,7 @@ class SingleDocument {
     if(ignoredMatches.containsKey(paraNum)) {
       List<Integer> xIgnoredMatches = ignoredMatches.get(paraNum);
 //      MessageHandler.printToLogFile("Ignored Matches: paragraph: " + paraNum + ", number matches: "+ xIgnoredMatches.size());
-      List<SingleProofreadingError> filteredErrors = new ArrayList<SingleProofreadingError>();
+      List<SingleProofreadingError> filteredErrors = new ArrayList<>();
       for (SingleProofreadingError error : errorArray) {
         boolean noFilter = true;
         for (int nIgnore : xIgnoredMatches) {
@@ -733,10 +732,9 @@ class SingleDocument {
     return errorArray;
   }
 
-  @Nullable
   private List<SingleProofreadingError[]> checkTextRules( String paraText, int paraNum, 
       int startSentencePos, int endSentencePos, boolean isParallelThread, SwJLanguageTool langTool) {
-    List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
+    List<SingleProofreadingError[]> pErrors = new ArrayList<>();
 
     if(paraNum < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst)) {
       pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, 0));
@@ -746,7 +744,7 @@ class SingleDocument {
       List<Integer> tmpChangedParas;
       int maxParasToCheck = numParasToCheck;
       if(doResetCheck && resetCheck) {
-        changedParas = new ArrayList<Integer>();
+        changedParas = new ArrayList<>();
       }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         numParasToCheck = minToCheckPara.get(i);
@@ -768,7 +766,7 @@ class SingleDocument {
           if(numParasToCheck < 0) {
             tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
             if(changedParas == null) {
-              changedParas = new ArrayList<Integer>();
+              changedParas = new ArrayList<>();
             }
             for(int chPara : tmpChangedParas) {
               if(!changedParas.contains(chPara)) {
@@ -785,7 +783,7 @@ class SingleDocument {
               lastPara = allParas.size();
             }
             if(changedParas == null) {
-              changedParas = new ArrayList<Integer>();
+              changedParas = new ArrayList<>();
             }
             for (int n = firstPara; n < lastPara; n++) {
               if(!changedParas.contains(n)) {
@@ -1112,12 +1110,12 @@ class SingleDocument {
       charNums.add(x);
       ignoredMatches.put(y, charNums);
     } else {
-      List<Integer> charNums = new ArrayList<Integer>();
+      List<Integer> charNums = new ArrayList<>();
       charNums.add(x);
       ignoredMatches.put(y, charNums);
     }
     if(doFullCheckAtFirst || numParasToCheck < 0) {
-      changedParas = new ArrayList<Integer>();
+      changedParas = new ArrayList<>();
       changedParas.add(y);
     } else {
       resetFrom = y;
@@ -1140,10 +1138,9 @@ class SingleDocument {
     private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
     private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
 
-    public ContextMenuInterceptor() {};
+    public ContextMenuInterceptor() {}
     
-    public ContextMenuInterceptor(XComponentContext xContext)
-    {
+    public ContextMenuInterceptor(XComponentContext xContext) {
       try {
         XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
         if (xTextDocument == null) {
@@ -1244,9 +1241,9 @@ class SingleDocument {
     }
     
     private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
-      Property propInfo[] = props.getPropertySetInfo().getProperties();
-      for(int j = 0; j < propInfo.length; j++) {
-        MessageHandler.printToLogFile("Property: Name: " + propInfo[j].Name + ", Type: " + propInfo[j].Type);
+      Property[] propInfo = props.getPropertySetInfo().getProperties();
+      for (Property property : propInfo) {
+        MessageHandler.printToLogFile("Property: Name: " + property.Name + ", Type: " + property.Type);
       }
       if(props.getPropertySetInfo().hasPropertyByName("Text")) {
         MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text").toString());
@@ -1257,6 +1254,5 @@ class SingleDocument {
     }
 
   }
-  
   
 }
