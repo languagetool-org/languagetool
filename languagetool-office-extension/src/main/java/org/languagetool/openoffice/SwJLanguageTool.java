@@ -130,6 +130,14 @@ public class SwJLanguageTool {
     }
   }
 
+  public void activateWord2VecModelRules(File indexDir) throws IOException {
+    if(isMultiThread && !isRemote) {
+      mlt.activateWord2VecModelRules(indexDir); 
+    } else {
+      lt.activateWord2VecModelRules(indexDir); 
+    }
+  }
+
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if(isRemote) {
       return rlt.check(text, paraMode); 

@@ -476,6 +476,13 @@ public class MultiDocumentsHandler {
           langTool.activateLanguageModelRules(ngramDirectory);
         }
       }
+      File word2VecDirectory = config.getWord2VecDirectory();
+      if (word2VecDirectory != null) {
+        File word2VecLangDir = new File(config.getWord2VecDirectory(), docLanguage.getShortCode());
+        if (word2VecLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
+          langTool.activateWord2VecModelRules(word2VecDirectory);
+        }
+      }
       for (Rule rule : langTool.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
