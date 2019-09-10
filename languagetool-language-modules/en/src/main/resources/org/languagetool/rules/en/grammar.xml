@@ -10846,6 +10846,12 @@ USA
             </rule>
         </rulegroup>
         <rule id="THE_SENT_END" name="Sentence ending with 'the' or 'a'">
+            <antipattern case_sensitive="yes">
+                 <token regexp="yes">\p{Ll}</token>
+                 <token regexp="yes">−|-</token><!-- minus sign, hyphen -->
+                 <token>a</token>
+                 <token postag="SENT_END">.</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"/></token>
                 <marker>
@@ -10862,6 +10868,7 @@ USA
             <example>I read the Qur'an.</example>
             <example>He was taken to Chang’an.</example>
             <example>I got up at 3 a.m.</example>
+            <example>... root a and therefore p(x) is a multiple of x − a.</example>
             <example correction="">I am going to <marker>an.</marker></example>
             <example correction="">I am going to <marker>the.</marker></example>
         </rule>
