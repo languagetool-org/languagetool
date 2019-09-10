@@ -14612,6 +14612,16 @@ USA
         </rulegroup>
         <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
             <rule>
+                <antipattern><!-- this class will -->
+                    <token>this</token>
+                    <token chunk="E-NP-singular"/><!-- Disambiguation NN_are_NNS gives class/NNS -->
+                    <token postag="MD"/>
+                </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/take-place-->
+                    <token>this</token>
+                    <token chunk="B-VP">takes</token>
+                    <token>place</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>this</token>
@@ -14627,6 +14637,8 @@ USA
                 <example>I cannot lift this stone.</example>
                 <example>This fish is big.</example>
                 <example>I will do this afterwards.</example>
+                <example>This class will be over in ten minutes.</example>
+                <example>This takes place on shale or tarmac tracks – usually a...</example>
             </rule>
             <rule>
                 <antipattern>
