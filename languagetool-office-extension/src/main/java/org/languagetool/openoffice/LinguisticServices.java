@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.Language;
@@ -182,13 +183,11 @@ public class LinguisticServices extends LinguServices {
         return null;
       }
       PropertyValue[] properties = new PropertyValue[0];
-      XMeaning meanings[] = thesaurus.queryMeanings(word, locale, properties);
+      XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
       List<String> synonyms = new ArrayList<String>();
       for (XMeaning meaning : meanings) {
-        String singleSynonyms[] = meaning.querySynonyms();
-        for (String synonym : singleSynonyms) {
-          synonyms.add(synonym);
-        }
+        String[] singleSynonyms = meaning.querySynonyms();
+        Collections.addAll(synonyms, singleSynonyms);
       }
       return synonyms;
     } catch (Throwable t) {

@@ -39,16 +39,16 @@ import com.sun.star.uno.XComponentContext;
  */
 class ConfigThread extends Thread {
 
-  private Language docLanguage;
+  private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
-
   private final ConfigurationDialog cfgDialog;
   
   ConfigThread(Language docLanguage, Configuration config, Main main) {
-    this.docLanguage = config.getDefaultLanguage();
-    if(this.docLanguage == null) {
+    if(config.getDefaultLanguage() == null) {
       this.docLanguage = docLanguage;
+    } else {
+      this.docLanguage = config.getDefaultLanguage();
     }
     this.config = config;
     this.mainThread = main; 

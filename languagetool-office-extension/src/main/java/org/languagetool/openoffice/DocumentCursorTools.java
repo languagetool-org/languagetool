@@ -89,7 +89,7 @@ class DocumentCursorTools {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
-}
+  }
   
   /** 
    * Returns ParagraphCursor from TextCursor 

@@ -53,14 +53,15 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SwJLanguageTool {
   
-  boolean isMultiThread = false;
-  boolean isRemote = false;
-  boolean useServerConfig = false;
-  String serverUrl = null;
-  Map<String, Integer> configurableValues = null;
-  JLanguageTool lt = null;
-  MultiThreadedJLanguageTool mlt = null;
-  LORemoteLanguageTool rlt = null;
+  private final boolean isMultiThread;
+  private final boolean isRemote;
+  private final boolean useServerConfig;
+  private final String serverUrl;
+  private final Map<String, Integer> configurableValues;
+  private final MultiThreadedJLanguageTool mlt;
+  private final LORemoteLanguageTool rlt;
+
+  private JLanguageTool lt;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
       Configuration config, boolean testMode) throws MalformedURLException {
@@ -70,11 +71,17 @@ public class SwJLanguageTool {
     serverUrl = config.getServerUrl();
     configurableValues = config.getConfigurableValues();
     if(isRemote) {
+      lt = null;
+      mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, userConfig);
     } else if(isMultiThread) {
-      mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig); 
+      lt = null;
+      mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);
+      rlt = null;
     } else {
-      lt = new JLanguageTool(language, motherTongue, null, userConfig); 
+      lt = new JLanguageTool(language, motherTongue, null, userConfig);
+      mlt = null;
+      rlt = null;
     }
   }
 
@@ -186,13 +193,13 @@ public class SwJLanguageTool {
     private URL serverBaseUrl;
     private Language language;
     private RemoteLanguageTool remoteLanguageTool;
-    private List<String> enabledRules = new ArrayList<String>();
-    private List<String> disabledRules = new ArrayList<String>();
+    private List<String> enabledRules = new ArrayList<>();
+    private List<String> disabledRules = new ArrayList<>();
     private List<Rule> allRules;
     private CheckConfiguration remoteConfig;
     private CheckConfigurationBuilder configBuilder;
     
-    public LORemoteLanguageTool(Language language, Language motherTongue, UserConfig userConfig) throws MalformedURLException {
+    LORemoteLanguageTool(Language language, Language motherTongue, UserConfig userConfig) throws MalformedURLException {
       this.language = language;
       configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
@@ -216,7 +223,7 @@ public class SwJLanguageTool {
         }
         remoteConfig = configBuilder.build();
       }
-      List<RemoteRuleMatch> remoteRulematches = new ArrayList<RemoteRuleMatch>();
+      List<RemoteRuleMatch> remoteRulematches = new ArrayList<>();
       int limit = SERVER_LIMIT;
       for (int nStart = 0; text.length() > nStart; nStart += limit) {
         String subText;
@@ -255,7 +262,7 @@ public class SwJLanguageTool {
       initDone = false;
     }
     List<String> getRuleValues() {
-      List<String> ruleValues = new ArrayList<String>();
+      List<String> ruleValues = new ArrayList<>();
       Set<String> rules = configurableValues.keySet();
       for (String rule : rules) {
         ruleValues.add(rule + ":" + configurableValues.get(rule));
@@ -289,7 +296,7 @@ public class SwJLanguageTool {
     }
     
     private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches) throws MalformedURLException {
-      List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+      List<RuleMatch> ruleMatches = new ArrayList<>();
       if(remoteRulematches == null || remoteRulematches.isEmpty()) {
         return ruleMatches;
       }
@@ -333,6 +340,5 @@ public class SwJLanguageTool {
     }
     
   }
-  
 
 }

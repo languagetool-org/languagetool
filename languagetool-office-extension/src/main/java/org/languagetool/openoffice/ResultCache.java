@@ -35,14 +35,7 @@ class ResultCache {
   ResultCache() {
     entries = new ArrayList<>();
   }
-  
-  ResultCache( ResultCache cache) {
-    entries = new ArrayList<>();
-    for (int i = 0; i < entries.size(); i++) {
-      entries.add(cache.entries.get(i));
-    }
-  }
-  
+
   /**
    *  Remove a cache entry for a sentence
    */
@@ -177,10 +170,10 @@ class ResultCache {
     return null;
   }
   
-/**
- * get an ResultCache entry by the number of paragraph
- */
-  CacheEntry getEntrybyParagraph(int nPara) {
+  /**
+   * get an ResultCache entry by the number of paragraph
+   */
+  CacheEntry getEntryByParagraph(int nPara) {
     for (CacheEntry anEntry : entries) {
       if(anEntry.numberOfParagraph == nPara) {
         return anEntry;
@@ -221,7 +214,7 @@ class ResultCache {
     List<Integer> differentParas = new ArrayList<Integer>();
     CacheEntry oEntry;
     for (CacheEntry nEntry : entries) {
-      oEntry = oldCache.getEntrybyParagraph(nEntry.numberOfParagraph);
+      oEntry = oldCache.getEntryByParagraph(nEntry.numberOfParagraph);
       boolean isDifferent = areDifferentEntries(nEntry, oEntry);
       if(isDifferent) {
         differentParas.add(nEntry.numberOfParagraph);
@@ -263,6 +256,5 @@ class ResultCache {
       this.errorArray = errorArray;
     }
   }
-
 
 } 
