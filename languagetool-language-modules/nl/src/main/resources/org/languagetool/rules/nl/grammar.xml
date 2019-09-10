@@ -36873,7 +36873,7 @@ steenwijk;Steenwijk
                     <token negate="yes" regexp="yes">volgens|die</token>
                     <marker>
                         <token>jou</token>
-                        <token postag=".*ZNW.*" postag_regexp="yes"><exception postag="WKW.*|BNW:STL:ONV" postag_regexp="yes"/><exception regexp="yes">gewoon|immers|van|over|wat|nu|bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
+                        <token postag=".*ZNW.*" postag_regexp="yes"><exception postag="WKW.*|BNW:STL:ONV" postag_regexp="yes"/><exception regexp="yes">tegen|gewoon|immers|van|over|wat|nu|bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
                     </marker>
                 </pattern>
                 <message>Bedoelt u misschien <suggestion>jouw <match no="3"/></suggestion>?</message>
@@ -37180,6 +37180,7 @@ steenwijk;Steenwijk
 				<antipattern><token>veels</token><token>te</token></antipattern>	
 				<antipattern><token>ups</token><token>en</token><token>downs</token></antipattern>	
 				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z].*</token></antipattern>	
+                <antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<pattern case_sensitive="yes">
 					<token/>
 					<token postag_regexp="yes" postag="BNW:.*:IET"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:.*:IET"/><exception>anders</exception></token>
