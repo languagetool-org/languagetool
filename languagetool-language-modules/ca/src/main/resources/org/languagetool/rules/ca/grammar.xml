@@ -12055,6 +12055,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="PER_LA_A" name="per la a/per a la">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                    <token>la</token>
+                    <token>a</token>
+                </marker>
+                <token postag="NCFS000|A..FS." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>per a la</suggestion>?</message>
+            <example correction="per a la">Això és <marker>per la a</marker> germana.</example>
+        </rule>
         <rule id="FA_VER" name="fa ver/va fer">
             <pattern>
                 <token>fa</token>
@@ -12488,7 +12500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PUBIC_PUBLIC" name="púbic/públic">
             <pattern>
                 <!--<token inflected="yes" regexp="yes">espai|domini|relació|servei|administració|biblioteca|corporació|dret|educació|empresa|esfera|obra|opinió|sector|col·legi|escola|art|deute|enemic|jardí|ordre|transport|ens|interès|tresor|poder</token>-->
-                <token><exception inflected="yes" regexp="yes">cresta|articulació|símfisi|artèria|vena|escabiosi|espina|os|pèl|zona|regió|borrissol|triangle|vellós|arc|poll|moixí</exception></token>
+                <token><exception inflected="yes" regexp="yes">cresta|articulació|símfisi|artèria|vena|escabiosi|espina|os|pèl|zona|regió|borrissol|triangle|vellós|arc|poll|moixí|pírcing|perruca|cabell</exception></token>
                 <marker>
                     <token inflected="yes">púbic</token>
                 </marker>
@@ -12497,6 +12509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="públics">En espais <marker>púbics</marker>.</example>
             <example correction="públiques">Treballa en relacions <marker>púbiques</marker>.</example>
             <example>El pèl púbic</example>
+            <example>Un pírcing púbic</example>
         </rule>
         <rulegroup id="BEURE_VEURE" name="beure/veure">
             <antipattern>
