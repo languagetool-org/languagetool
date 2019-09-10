@@ -65,7 +65,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
         dirs.add(name);
       }
     }
-    if (dirs.size() == 0) {
+    if (dirs.isEmpty()) {
       throw new RuntimeException("Directory must contain at least '1grams', '2grams', and '3grams': " + topIndexDir.getAbsolutePath());
     }
     if (dirs.size() < 3) {
@@ -94,7 +94,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
     addIndex(topIndexDir, 2);
     addIndex(topIndexDir, 3);
     addIndex(topIndexDir, 4);
-    if (luceneSearcherMap.size() == 0) {
+    if (luceneSearcherMap.isEmpty()) {
       throw new RuntimeException("No directories '1grams' ... '3grams' found in " + topIndexDir);
     }
     maxNgram = Collections.<Integer>max(luceneSearcherMap.keySet());

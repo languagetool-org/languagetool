@@ -25,22 +25,23 @@ import org.languagetool.rules.WordCoherencyDataLoader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Dutch version of {@link AbstractWordCoherencyRule}.
  */
 public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
-  private static final Map<String, String> wordMap = new WordCoherencyDataLoader().loadWords("/nl/coherency.txt");
+  private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/nl/coherency.txt");
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    addExamplePair(Example.wrong("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hiv-test</marker> te schrijven."),
-                   Example.fixed("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hivtest</marker> te schrijven."));
+    addExamplePair(Example.wrong("We raden af om in één tekst zowel <marker>organogram</marker> als <marker>organigram</marker> te schrijven."),
+                   Example.fixed("We raden af om in één tekst zowel <marker>organogram</marker> als <marker>organogram</marker> te schrijven."));
   }
 
   @Override
-  protected Map<String, String> getWordMap() {
+  protected Map<String, Set<String>> getWordMap() {
     return wordMap;
   }
 

@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.disambiguation.uk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -325,7 +327,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       "/[null]SENT_START"
       +  " у/[у]prep"
       + "  /[null]null"
-      + " XIX/[XIX]number"
+      + " XIX/[XIX]number:latin"
       + "  /[null]null"
       + " ст./[ст.]noun:inanim:n:v_dav:nv:abbr|ст./[ст.]noun:inanim:n:v_mis:nv:abbr|ст./[ст.]noun:inanim:n:v_naz:nv:abbr|ст./[ст.]noun:inanim:n:v_oru:nv:abbr|ст./[ст.]noun:inanim:n:v_rod:nv:abbr|ст./[ст.]noun:inanim:n:v_zna:nv:abbr",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -416,7 +418,20 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     assertTrue(tokens[3].getReadings().toString().contains("<insert>"));
     assertTrue(tokens[5].getReadings().toString().contains("<insert>"));
   }
+
   
+  @Test
+  public void testIgnoredCharacters() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
+
+    // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
+    assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
+        + " Петрович[Петрович/noun:anim:f:v_dav:nv:np:prop:lname,Петрович/noun:anim:f:v_kly:nv:np:prop:lname,Петрович/noun:anim:f:v_mis:nv:np:prop:lname,Петрович/noun:anim:f:v_naz:nv:np:prop:lname,Петрович/noun:anim:f:v_oru:nv:np:prop:lname,Петрович/noun:anim:f:v_rod:nv:np:prop:lname,Петрович/noun:anim:f:v_zna:nv:np:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname:xp2,Петрович/noun:anim:m:v_naz:prop:pname]"
+        + ".[</S>]",
+        analyzedSentence.toString());
+
+  }
 
 }
 

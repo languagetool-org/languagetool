@@ -24,7 +24,7 @@ import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.ConfusionString;
 
@@ -33,7 +33,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,10 +63,10 @@ public class ShortDescriptionProvider {
   private static void loadConfusionSet(Map<String, String> map, String path, ResourceDataBroker dataBroker) {
     ConfusionSetLoader loader = new ConfusionSetLoader();
     try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-      Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(confusionSetStream);
-      for (List<ConfusionSet> confSets : confusionSet.values()) {
-        for (ConfusionSet confSet : confSets) {
-          Set<ConfusionString> set = confSet.getSet();
+      Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(confusionSetStream);
+      for (List<ConfusionPair> confPairs : confusionSet.values()) {
+        for (ConfusionPair confPair : confPairs) {
+          List<ConfusionString> set = confPair.getTerms();
           for (ConfusionString confString : set) {
             if (confString.getDescription() != null) {
               map.put(confString.getString(), confString.getDescription());

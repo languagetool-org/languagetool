@@ -124,12 +124,20 @@ class InflectionHelper {
   }
 
   static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings) {
+    return getNounInflections(nounTokenReadings, null);
+  }
+
+  static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings, String ignoreTag) {
     List<Inflection> slaveInflections = new ArrayList<>();
     for (AnalyzedToken token: nounTokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 == null )
         continue;
-  
+
+      if( ignoreTag != null && posTag2.contains(ignoreTag) ) {
+        continue;
+      }
+
       Matcher matcher = TokenAgreementAdjNounRule.NOUN_INFLECTION_PATTERN.matcher(posTag2);
       if( ! matcher.find() ) {
         //  			System.err.println("Failed to find slave inflection tag in " + posTag2 + " for " + nounTokenReadings);
@@ -138,7 +146,7 @@ class InflectionHelper {
       String gen = matcher.group(2);
       String vidm = matcher.group(3);
       String animTag = matcher.group(1);
-  
+
       Inflection inflection = new Inflection(gen, vidm, animTag);
       if( ! slaveInflections.contains(inflection) ) {
         slaveInflections.add(inflection);

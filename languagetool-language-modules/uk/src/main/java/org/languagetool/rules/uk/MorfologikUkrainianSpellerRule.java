@@ -25,7 +25,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -37,8 +41,9 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
   private static final Pattern DO_NOT_SUGGEST_SPACED_PATTERN = Pattern.compile(
         "(авіа|авто|анти|аудіо|відео|водо|гідро|екстра|квазі|кіно|лже|мета|моно|мото|псевдо|пост|радіо|стерео|супер|ультра|фото) .*");
+  private static final Pattern INFIX_PATTERN = Pattern.compile("-[а-яіїєґ]{1,5}-");
 
-
+  
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
                                         Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
@@ -57,13 +62,25 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   
   @Override
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
-    if( word.endsWith("-") )
+    if( word.endsWith("-") ) {
+      if( word.startsWith("-") && INFIX_PATTERN.matcher(word).matches() )
+        return false;
+
       return true;
+    }
   
     if( word.endsWith("²") || word.endsWith("³") ) {
       word = word.substring(0, word.length() - 1); 
     }
 
+    // in some places disambiguator may leave tokens with ignored characters
+    // so we have to ignore them here
+    // we fixed "filter" action but if this problem still happens we can uncomment code below
+//    Matcher matcher = language.getIgnoredCharactersRegex().matcher(word);
+//    if( matcher.find() ) {
+//      word = matcher.replaceAll("");
+//    }
+    
     return super.isMisspelled(speller, word);
   }
 

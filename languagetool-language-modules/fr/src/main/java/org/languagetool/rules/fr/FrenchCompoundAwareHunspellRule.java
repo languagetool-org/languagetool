@@ -28,6 +28,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -57,12 +58,12 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       throw new RuntimeException("Language is not a variant of French: " + language);
     }
     try {
-      String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + ".dict";
+      String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
         String path = "/fr/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-             BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+             BufferedReader br = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
           return new MorfologikMultiSpeller(morfoFile, br, path, null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
@@ -77,6 +78,15 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
     @Override
     public List<String> tokenize(String text) {
       return Collections.singletonList(text);
+    }
+  }
+
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+    switch (word) {
+      case "Jai": return Collections.singletonList("J'ai");
+      case "jai": return Collections.singletonList("j'ai");
+      default: return Collections.emptyList();
     }
   }
 }

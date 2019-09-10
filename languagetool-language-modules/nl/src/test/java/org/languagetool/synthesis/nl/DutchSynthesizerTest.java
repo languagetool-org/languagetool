@@ -21,6 +21,7 @@ package org.languagetool.synthesis.nl;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Dutch;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class DutchSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    DutchSynthesizer synth = new DutchSynthesizer();
+    DutchSynthesizer synth = new DutchSynthesizer(new Dutch());
     assertEquals(synth.synthesize(dummyToken("blablabla"), 
         "blablabla").length, 0);
     

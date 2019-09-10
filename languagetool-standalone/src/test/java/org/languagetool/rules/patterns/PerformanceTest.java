@@ -32,7 +32,7 @@ import java.io.IOException;
  */
 final class PerformanceTest {
   
-  private static final long RUNS = 1;
+  private static final long RUNS = 5;
 
   private PerformanceTest() {
   }
@@ -76,12 +76,12 @@ final class PerformanceTest {
     String languageCode = args[0];
     File textFile = new File(args[1]);
     //ResultCache cache = new ResultCache(1000, 5, TimeUnit.MINUTES);
-    //JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode));
     //JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
-    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode));
+    //MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode));
     //MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
     test.run(lt, textFile);
-    lt.shutdown();
+    //lt.shutdown();
   }
 
 }

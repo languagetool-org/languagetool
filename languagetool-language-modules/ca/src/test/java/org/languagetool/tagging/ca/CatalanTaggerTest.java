@@ -55,5 +55,7 @@ public class CatalanTaggerTest {
         "inajornablement/[inajornablement]RG", tokenizer, tagger);
     TestTools.myAssert("Acomplexadament",
         "Acomplexadament/[acomplexadament]RG", tokenizer, tagger);
+    TestTools.myAssert("FRANÇA",
+        "FRANÇA/[França]NPFSG00", tokenizer, tagger);
   }
 }

@@ -84,7 +84,7 @@ public class PolishWordRepeatRule extends AdvancedWordRepeatRule {
       .compile("&quot|&gt|&lt|&amp|[0-9].*|"
           + "M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
-  public PolishWordRepeatRule(final ResourceBundle messages) {
+  public PolishWordRepeatRule(ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("Mówiła długo, bo lubiła robić wszystko <marker>długo</marker>."),
                    Example.fixed("Mówiła długo, bo lubiła robić wszystko <marker>powoli</marker>."));

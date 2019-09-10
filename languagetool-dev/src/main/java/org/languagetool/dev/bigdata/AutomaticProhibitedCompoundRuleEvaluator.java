@@ -31,7 +31,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
@@ -54,7 +54,7 @@ class AutomaticProhibitedCompoundRuleEvaluator {
   private static final String LUCENE_CONTENT_FIELD = "fieldLowercase";
 
   private final IndexSearcher searcher;
-  private final Map<String, List<ConfusionSet>> knownSets;
+  private final Map<String, List<ConfusionPair>> knownSets;
   private final Set<String> finishedPairs = new HashSet<>();
 
   private int ignored = 0;
@@ -63,7 +63,7 @@ class AutomaticProhibitedCompoundRuleEvaluator {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + LANGUAGE + "/confusion_sets.txt");
-    knownSets = new ConfusionSetLoader().loadConfusionSet(confusionSetStream);
+    knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
   }
 
   private void run(List<String> lines, File indexDir) throws IOException {
@@ -106,11 +106,11 @@ class AutomaticProhibitedCompoundRuleEvaluator {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
     }
-    for (Map.Entry<String, List<ConfusionSet>> entry : knownSets.entrySet()) {
+    for (Map.Entry<String, List<ConfusionPair>> entry : knownSets.entrySet()) {
       if (entry.getKey().equals(part1)) {
-        List<ConfusionSet> confusionSet = entry.getValue();
-        for (ConfusionSet set : confusionSet) {
-          Set<String> stringSet = set.getSet().stream().map(l -> l.getString()).collect(Collectors.toSet());
+        List<ConfusionPair> confusionPair = entry.getValue();
+        for (ConfusionPair pair : confusionPair) {
+          Set<String> stringSet = pair.getTerms().stream().map(l -> l.getString()).collect(Collectors.toSet());
           if (stringSet.containsAll(Arrays.asList(part1, part2))) {
             System.out.println("Ignoring: " + part1 + "/" + part2 + ", in active confusion sets already");
             ignored++;

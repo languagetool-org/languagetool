@@ -67,7 +67,7 @@ public class Chinese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
     return Arrays.asList(
             new DoublePunctuationRule(messages),
             new MultipleWhitespaceRule(messages, this)
@@ -101,10 +101,7 @@ public class Chinese extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
-    return languageModel;
+    return initLanguageModel(indexDir, languageModel);
   }
 
   /** @since 3.1 */

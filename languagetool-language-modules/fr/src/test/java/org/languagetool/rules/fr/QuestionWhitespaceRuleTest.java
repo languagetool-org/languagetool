@@ -36,7 +36,7 @@ public class QuestionWhitespaceRuleTest {
 
     @Test
     public final void testRule() throws IOException {
-    	Language french = new French();
+      Language french = new French();
       QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages(), french);
       RuleMatch[] matches;
       JLanguageTool langTool = new JLanguageTool(french);
@@ -46,32 +46,25 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est ?")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple : philosophique")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bonjour :)")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("5/08/2019 23:30")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'est vrai !!")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'est vrai ??")).length);
       
       // errors:
       matches = rule.match(langTool.getAnalyzedSentence("C'est vrai!"));
-      assertEquals(1, matches.length);
-      matches = rule.match(langTool.getAnalyzedSentence("C'est vrai !"));
-      assertEquals(1, matches.length);
-      matches = rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est ?"));
       assertEquals(1, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est?"));
       assertEquals(1, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
       assertEquals(2, matches.length);
-      assertEquals(1, rule.match(langTool.getAnalyzedSentence("Bonjour : )")).length);
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
-      assertEquals(2, matches.length);
+      assertEquals(1, matches.length);
       // check match positions:
-      assertEquals(2, matches.length);
       assertEquals(29, matches[0].getFromPos());
       assertEquals(36, matches[0].getToPos());
-      assertEquals(50, matches[1].getFromPos());
-      assertEquals(52, matches[1].getToPos());
       //guillemets
-      matches = rule.match(langTool.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : « mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature »."));
-      assertEquals(2, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
-      assertEquals(2, matches.length);
+      assertEquals(1, matches.length);
     }
     
 }

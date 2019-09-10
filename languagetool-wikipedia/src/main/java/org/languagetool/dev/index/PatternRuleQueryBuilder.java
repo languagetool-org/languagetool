@@ -80,7 +80,7 @@ public class PatternRuleQueryBuilder {
       }
     }
     BooleanQuery query = builder.build();
-    if (query.clauses().size() == 0) {
+    if (query.clauses().isEmpty()) {
       throw new UnsupportedPatternRuleException("No items found in rule that can be used to build a search query: " + rule);
     }
     return query;

@@ -41,6 +41,8 @@ import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
 
+  static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
+  
   private static final String ENCODING = "utf-8";
 
   private final Set<String> allowedIps;  
@@ -70,6 +72,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     int reqId = reqCounter.incrementRequestCount();
+    ServerMetricsCollector.getInstance().logRequest();
     boolean incrementHandleCount = false;
     try {
       URI requestedUri = httpExchange.getRequestURI();
@@ -78,12 +81,14 @@ class LanguageToolHttpHandler implements HttpHandler {
         String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
           if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
+            ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
             String ok = "OK";
             httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
             httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
             return;
           }
         }
@@ -102,6 +107,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (errorMessage != null) {
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
+          ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_FORBIDDEN);
           return;
         }
       }
@@ -138,6 +144,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (workQueueFull(httpExchange, parameters, "Error: There are currently too many parallel requests. Please try again later.")) {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.QUEUE_FULL);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -148,13 +155,13 @@ class LanguageToolHttpHandler implements HttpHandler {
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else if (requestedUri.getRawPath().equals("/")) {
-          throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see https://languagetool.org/http-api/swagger-ui/#/default");
+          throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
         } else if (requestedUri.getRawPath().contains("/v2/")) {
           throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
         } else if (requestedUri.getRawPath().equals("/favicon.ico")) {
           sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
-          throw new IllegalArgumentException("Seems like you're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
+          throw new IllegalArgumentException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -181,6 +188,9 @@ class LanguageToolHttpHandler implements HttpHandler {
         logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
+        response = e.getMessage();
+      } else if (e instanceof PathNotFoundException || rootCause instanceof PathNotFoundException) {
+        errorCode = HttpURLConnection.HTTP_NOT_FOUND;
         response = e.getMessage();
       } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -284,6 +294,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (params.get("apiKey") != null) {
       message += "apiKey: " + params.get("apiKey") + ", ";
     }
+    if (params.get("tokenV2") != null) {
+      message += "tokenV2: " + params.get("tokenV2") + ", ";
+    }
     message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");
     if (text != null) {
@@ -360,6 +373,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());
     httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(httpReturnCode);
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {

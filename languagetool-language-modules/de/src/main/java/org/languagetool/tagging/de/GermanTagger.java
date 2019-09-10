@@ -142,14 +142,15 @@ public class GermanTagger extends BaseTagger {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
+    String prevWord = null;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
 
-      //Only first iteration
-      if (firstWord && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
+      //Only first iteration. Consider ":" as a potential sentence start marker
+      if ((firstWord || ":".equals(prevWord)) && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
-        firstWord = word.matches("^\\W?$");
+        firstWord = !StringUtils.isAlphanumeric(word);
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       } else if (pos > 1 && taggerTokens.isEmpty() && ignoreCase) {
@@ -163,15 +164,15 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        if (!StringTools.isEmpty(word.trim())) {
+        if (!StringUtils.isAllBlank(word)) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
             List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens, pos);
-            if (imperativeFormList != null && imperativeFormList.size() > 0) {
+            if (imperativeFormList.size() > 0) {
               readings.addAll(imperativeFormList);
-            } else if (substantivatedFormsList != null && substantivatedFormsList.size() > 0) {
+            } else if (substantivatedFormsList.size() > 0) {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
@@ -187,7 +188,7 @@ public class GermanTagger extends BaseTagger {
               }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
-              if (word.split(" ").length == 1 && !Character.isDigit(word.charAt(0))) {
+              if (StringUtils.split(word, ' ').length == 1 && !Character.isDigit(word.charAt(0))) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
@@ -243,6 +244,7 @@ public class GermanTagger extends BaseTagger {
       }
       tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
       pos += word.length();
+      prevWord = word;
     }
     return tokenReadings;
   }
@@ -251,7 +253,8 @@ public class GermanTagger extends BaseTagger {
    * Tag alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
    * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
    * [a] words at the start of a sentence ("Geh bitte!") if the sentence counts more than one word
-   * [b] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+   * [b1] words preceded by ich/ihr/er/es/sie to catch some real errors ("Er geh jetzt.") by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+   * [b2] words preceded by aber/nun/jetzt (e.g., "Bitte geh!", "Jetzt sag schon!" etc.)
    * @param word to be checked
    */
   private List<AnalyzedToken> getImperativeForm(String word, List<String> sentenceTokens, int pos) {
@@ -259,18 +262,18 @@ public class GermanTagger extends BaseTagger {
     String previousWord = "";
     while (--idx > -1) {
       previousWord = sentenceTokens.get(idx);
-      if (StringUtils.isWhitespace(previousWord)) {
-        continue;
+      if (!StringUtils.isWhitespace(previousWord)) {
+        break;
       }
-      break;
     }
-    if (!(pos == 0 && sentenceTokens.size() > 1) && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie")) {
-      return null;
+    if (!(pos == 0 && sentenceTokens.size() > 1)
+        && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie", "bitte", "aber", "nun", "jetzt", "„")) {
+      return Collections.emptyList();
     }
-    String w = pos == 0 ? word.toLowerCase() : word;
+    String w = pos == 0 || "„".equals(previousWord) ? word.toLowerCase() : word;
     List<TaggedWord> taggedWithE = getWordTagger().tag(w.concat("e"));
     for (TaggedWord tagged : taggedWithE) {
-      if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
+      if (tagged.getPosTag().startsWith("VER:IMP:SIN")) {
         // do not overwrite manually removed tags
         if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
           return getAnalyzedTokens(Arrays.asList(tagged), word);
@@ -278,7 +281,7 @@ public class GermanTagger extends BaseTagger {
         break;
       }
     }
-    return null;
+    return Collections.emptyList();
   }
 
   /*
@@ -291,7 +294,7 @@ public class GermanTagger extends BaseTagger {
       List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
       // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
       if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
-        return null;
+        return Collections.emptyList();
       }
       int idx = sentenceTokens.indexOf(word);
       // is followed by an uppercase word? If 'yes', the word is probably not substantivated
@@ -301,7 +304,7 @@ public class GermanTagger extends BaseTagger {
           continue;
         }
         if (nextWord.length() > 0 && (Character.isUpperCase(nextWord.charAt(0)) || "als".equals(nextWord))) {
-          return null;
+          return Collections.emptyList();
         }
         break;
       }
@@ -312,11 +315,10 @@ public class GermanTagger extends BaseTagger {
         List<AnalyzedToken> list = new ArrayList<>();
         list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
         list.add(new AnalyzedToken(word, "SUB:GEN:PLU:MAS:ADJ", word));
-        //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));
         return list;
       }
     }
-    return null;
+    return Collections.emptyList();
   }
 
   private synchronized void initializeIfRequired() throws IOException {

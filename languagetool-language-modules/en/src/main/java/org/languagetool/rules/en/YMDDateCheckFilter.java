@@ -33,11 +33,11 @@ public class YMDDateCheckFilter extends DateCheckFilter {
   private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokens);
+    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokenPos, patternTokens);
   }
 
 }

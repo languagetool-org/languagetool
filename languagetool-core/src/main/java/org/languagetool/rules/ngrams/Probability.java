@@ -51,6 +51,9 @@ public class Probability {
     return prob;
   }
 
+  public double getLogProb() {
+    return Math.log(prob);
+  }
   /**
    * The fraction of lookups that had occurrence counts &gt; 0. This
    * might be used to ignore the whole probability for low coverage items.

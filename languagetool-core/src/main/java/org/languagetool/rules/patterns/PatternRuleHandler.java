@@ -43,6 +43,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private static final String EXTERNAL = "external";
 
+  protected final String sourceFile;
+
   protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
@@ -72,7 +74,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
 
-  private final String sourceFile;
+  private String idPrefix;
 
   public PatternRuleHandler() {
     this.sourceFile = null;
@@ -113,6 +115,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
+        idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
         break;
       case "regexp":
@@ -139,6 +142,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
             name = ruleGroupDescription;
           }
         }
+        if (id == null) {
+          throw new RuntimeException("id is null for rule with name '" + name + "'");
+        }
+        id = idPrefix != null ? idPrefix + id : id;
 
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
           throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
@@ -566,6 +573,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
         rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
+        rule.setSourceFile(sourceFile);
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
@@ -620,6 +628,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
 
   protected void prepareRule(AbstractPatternRule rule) {
+    rule.setSourceFile(sourceFile);
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
       rule.setEndPositionCorrection(endPos - tokenCountForMarker);

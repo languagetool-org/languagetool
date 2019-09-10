@@ -67,6 +67,21 @@ Copyright (C) 2009-2019 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>
+    <rule name="NOUN_V4" id="NOUN_V4">
+        <pattern>	 
+            <!-- после отпуска -->
+
+            <token  postag="PREP"></token>  <!-- после -->
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
+
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->

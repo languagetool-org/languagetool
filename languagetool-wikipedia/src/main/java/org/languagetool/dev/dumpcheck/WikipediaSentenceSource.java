@@ -46,7 +46,6 @@ public class WikipediaSentenceSource extends SentenceSource {
 
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
-  private static final int MAX_ARTICLE_SIZE = -1;
 
   private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
@@ -55,16 +54,15 @@ public class WikipediaSentenceSource extends SentenceSource {
   private final Language language;
 
   private int articleCount = 0;
-  private int skipCount = 0;
   private int namespaceSkipCount = 0;
   private int redirectSkipCount = 0;
 
-  public WikipediaSentenceSource(InputStream xmlInput, Language language) {
+  WikipediaSentenceSource(InputStream xmlInput, Language language) {
     this(xmlInput, language, null);
   }
 
   /** @since 3.0 */
-  public WikipediaSentenceSource(InputStream xmlInput, Language language, Pattern filter) {
+  WikipediaSentenceSource(InputStream xmlInput, Language language, Pattern filter) {
     super(language, filter);
     textFilter.enableMapping(false);  // improves performance
     try {
@@ -93,7 +91,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   public Sentence next() {
     try {
       fillSentences();
-      if (sentences.size() == 0) {
+      if (sentences.isEmpty()) {
         throw new NoSuchElementException();
       }
       WikipediaSentence wikiSentence = sentences.remove(0);
@@ -112,7 +110,7 @@ public class WikipediaSentenceSource extends SentenceSource {
   private void fillSentences() throws XMLStreamException {
     String title = null;
     String namespace = null;
-    while (sentences.size() == 0 && reader.hasNext()) {
+    while (sentences.isEmpty() && reader.hasNext()) {
       XMLEvent event = reader.nextEvent();
       if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
         String elementName = event.asStartElement().getName().getLocalPart();
@@ -122,7 +120,7 @@ public class WikipediaSentenceSource extends SentenceSource {
             title = event.asCharacters().getData();
             articleCount++;
             if (articleCount % 100 == 0) {
-              System.out.println("Article: " + articleCount + " (skipped so far: " + skipCount + ")");
+              System.out.println("Article: " + articleCount);
             }
             break;
           case "ns":
@@ -148,11 +146,6 @@ public class WikipediaSentenceSource extends SentenceSource {
     while (event.isCharacters()) {
       sb.append(event.asCharacters().getData());
       event = reader.nextEvent();
-      if (MAX_ARTICLE_SIZE != -1 && sb.length() > MAX_ARTICLE_SIZE) {
-        System.out.println("Skipping " + title + ", longer than " + MAX_ARTICLE_SIZE + " chars");
-        skipCount++;
-        return;
-      }
     }
     try {
       if (sb.toString().trim().toLowerCase().startsWith("#redirect")) {

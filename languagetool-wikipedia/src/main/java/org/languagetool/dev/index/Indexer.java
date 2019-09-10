@@ -227,6 +227,8 @@ public class Indexer implements AutoCloseable {
   }
 
   public void commit() throws IOException {
-    writer.commit();
+    if (writer.isOpen()) {
+      writer.commit();
+    }
   }
 }

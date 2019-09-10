@@ -112,11 +112,11 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(final String word, final int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar)
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens)
           throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (isMisspelled(speller1, word) && isNotCompound(word)) {
-      final RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    if ((isMisspelled(speller1, word) && isNotCompound(word)) || isProhibited(word)) {
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
               + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
       //If lower case word is not a misspelled word, return it as the only suggestion
@@ -161,8 +161,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     List<String> testedTokens = new ArrayList<>(2);
     for (int i = 2; i < word.length(); i++) {
       // chop from left to right
-      final String first = word.substring(0, i);
-      final String second = word.substring(i, word.length());
+      String first = word.substring(0, i);
+      String second = word.substring(i);
       if (prefixes.contains(first.toLowerCase(conversionLocale))
               && !isMisspelled(speller1, second)
               && second.length() > first.length()) { // but not for short words such as "premoc"
@@ -195,9 +195,9 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
    * Remove suggestions -- not really runon words using a list of non-word suffixes
    * @return A list of pruned suggestions.
    */
-    private List<String> pruneSuggestions(final List<String> suggestions) {
+    private List<String> pruneSuggestions(List<String> suggestions) {
       List<String> prunedSuggestions = new ArrayList<>(suggestions.size());
-      for (final String suggestion : suggestions) {
+      for (String suggestion : suggestions) {
         if (suggestion.indexOf(' ') == -1) {
           prunedSuggestions.add(suggestion);
         } else {

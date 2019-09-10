@@ -21,6 +21,7 @@ package org.languagetool.synthesis.es;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Spanish;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class SpanishSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    SpanishSynthesizer synth = new SpanishSynthesizer();
+    SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
     assertEquals(synth.synthesize(dummyToken("blablabla"),
             "blablabla").length, 0);
 

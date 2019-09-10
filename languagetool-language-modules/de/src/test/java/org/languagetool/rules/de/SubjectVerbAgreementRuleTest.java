@@ -138,7 +138,7 @@ public class SubjectVerbAgreementRuleTest {
         "Drei Katzen ist im Haus.",
         "Drei kleine Katzen ist im Haus.",
         "Viele Katzen ist schön.",
-        "Drei Viertel der Erdoberfläche ist Wasser.",  // http://canoo.net/blog/2012/04/02/ein-drittel-der-schueler-istsind/
+        "Drei Viertel der Erdoberfläche ist Wasser.",  // http://canoonet.eu/blog/2012/04/02/ein-drittel-der-schueler-istsind/
         "Die ältesten und bekanntesten Maßnahmen ist die Einrichtung von Schutzgebieten.",
         "Ein Gramm Pfeffer waren früher wertvoll.",
         "Isolation und ihre Überwindung ist ein häufiges Thema in der Literatur."
@@ -300,7 +300,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft.",
         "Knapp acht Monate ist die Niederlage nun her.",
         "Vier Monate ist die Niederlage nun her.",
-        "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen."
+        "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
+        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -411,7 +412,8 @@ public class SubjectVerbAgreementRuleTest {
         "Der See und das Marschland sind ein Naturschutzgebiet",
         "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
         "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
-        "Sie sind so erfolgreich, weil sie eine Einheit sind."
+        "Sie sind so erfolgreich, weil sie eine Einheit sind.",
+        "Auch Polizisten zu Fuß sind unterwegs."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -421,7 +423,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularAndPluralVerb() throws IOException {
     // Manchmal sind beide Varianten korrekt:
-    // siehe http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html
+    // siehe http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html
     List<String> sentences = Arrays.asList(
         "So mancher Mitarbeiter und manche Führungskraft ist im Urlaub.",
         "So mancher Mitarbeiter und manche Führungskraft sind im Urlaub.",

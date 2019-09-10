@@ -49,6 +49,24 @@
   </unification>
 
 
+  <rule name="Паралельні погані форми" id="parallel_bad_forms">
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="adj.*" regexp="yes">.*(воротн|заробітн|двірн|природн|дорожн)(і[йхм]?)</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adj.*?:bad.*" />
+    <example type="ambiguous"
+        inputform="природній[природний/adj:f:v_dav:compb,природний/adj:f:v_mis:compb,природній/adj:f:v_dav:bad,природній/adj:f:v_mis:bad,природній/adj:m:v_kly:bad,природній/adj:m:v_naz:bad,природній/adj:m:v_zna:rinanim:bad]"
+        outputform="природній[природний/adj:f:v_dav:compb,природний/adj:f:v_mis:compb]"><marker>природній</marker> силі.</example>
+    <example type="ambiguous"
+        inputform="дорожній[дорожний/adj:f:v_dav:bad,дорожний/adj:f:v_mis:bad,дорожній/adj:f:v_dav,дорожній/adj:f:v_mis,дорожній/adj:m:v_kly,дорожній/adj:m:v_naz,дорожній/adj:m:v_zna:rinanim]"
+        outputform="дорожній[дорожній/adj:f:v_dav,дорожній/adj:f:v_mis,дорожній/adj:m:v_kly,дорожній/adj:m:v_naz,дорожній/adj:m:v_zna:rinanim]">на <marker>дорожній</marker> розмітці.</example>
+    <example type="untouched">природня</example>
+    <example type="untouched">дорожному</example>
+  </rule>
+
+
   <rule name="Коли" id="koly_not_verb">
     <pattern>
       <marker>
@@ -1108,6 +1126,9 @@
       </marker>
     </pattern>
     <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
+    <example type="ambiguous" 
+        inputform="По[&lt;/S&gt;,по/prep]"
+        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
     <example type="ambiguous"
         inputform="По[&lt;/S&gt;,по/prep]" 
         outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
@@ -1116,16 +1137,12 @@
 
   <rule name="Едгар Аллан По" id="DIS_EDGAR_PO_2">
     <pattern case_sensitive="yes">
-      <!-- temporary, until we add Аллан to the dictionary -->
-      <token regexp="yes">Аллан.*|[А-ЯІЇЄҐ]\.|ім'я|родина</token>
+      <token regexp="yes">[А-ЯІЇЄҐ]\.|ім'я|родина</token>
       <marker>
         <token>По</token>
       </marker>
     </pattern>
     <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
-    <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep]"
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
     <example type="ambiguous" 
         inputform="По[&lt;/S&gt;,по/prep]"
         outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара А. <marker>По</marker></example>
@@ -1653,6 +1670,8 @@
     <example type="untouched">Ото завше так — як сперва дуже весело, то після будеш плакать</example>
   </rule>
 
+
+  <!-- TODO: need to handle rare поруч[поруччя/noun:inanim:p:v_rod] -->
   <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_1">
     <pattern>
       <marker>
@@ -1664,7 +1683,7 @@
     </pattern>
     <disambig action="filter" postag="prep.*"/>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep]"
+        inputform="поруч[поруч/adv,поруч/prep,поруччя/noun:inanim:p:v_rod]"
         outputform="поруч[поруч/prep]"
             >пливти <marker>поруч</marker> із судном</example>
     <example type="untouched">пливти поруч</example>
@@ -1680,7 +1699,7 @@
     </pattern>
     <disambig action="filter" postag="prep.*"/>
     <example type="ambiguous"
-        inputform="поруч[поруч/adv,поруч/prep]"
+        inputform="поруч[поруч/adv,поруч/prep,поруччя/noun:inanim:p:v_rod]"
         outputform="поруч[поруч/prep]"
             >поставив відро <marker>поруч</marker> стільця</example>
     <example type="untouched">пливти поруч</example>
@@ -1849,6 +1868,35 @@
     <example type="untouched">Всі проголосували за.</example>
     <example type="untouched">Тетяна розуміла, чому Малий не виступає ні за, ні проти.</example>
     <example type="untouched">Зважити, обдумати всі за і всі проти.</example>
+  </rule>
+
+  <rule name="Дієслово та частка 'дер'" id="VERB_OR_PART_DER_1">
+    <pattern>
+      <token regexp="yes">ван|фон</token>
+      <marker>
+        <token>дер</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="part:pers"/>
+    <example type="ambiguous"
+        inputform="дер[дер/part:pers,дерти/verb:imperf:past:m]"
+        outputform="дер[дер/part:pers]"
+            >для ван <marker>дер</marker> Вала</example>
+    <example type="untouched">В Ван приїхав султан.</example>
+  </rule>
+
+  <rule name="Дієслово та частка 'дер'" id="VERB_OR_PART_DER_2">
+    <pattern>
+      <marker>
+        <token>дер</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="verb:imperf:past:m"/>
+    <example type="ambiguous"
+        inputform="дер[дер/part:pers,дерти/verb:imperf:past:m]"
+        outputform="дер[дерти/verb:imperf:past:m]"
+            >і <marker>дер</marker> Галі в горлі</example>
+    <example type="untouched">В Ван приїхав султан.</example>
   </rule>
 
   <rule name="Іменник та частка 'ван'" id="NOUN_OR_PART_VAN">
@@ -2347,8 +2395,8 @@
     </pattern>
     <disambig action="remove"><wd lemma="рівня"/></disambig>
     <example type="ambiguous"
-        inputform="рівня[рівень/noun:inanim:m:v_rod,рівня/noun:anim:f:v_naz:xp1,рівня/noun:anim:m:v_naz:xp1,рівня/noun:inanim:f:v_naz:xp2]"
-        outputform="рівня[рівень/noun:inanim:m:v_rod]"
+        inputform="рівня[рівень/noun:inanim:m:v_rod,рівень/noun:inanim:m:v_zna:var,рівня/noun:anim:f:v_naz:xp1,рівня/noun:anim:m:v_naz:xp1,рівня/noun:inanim:f:v_naz:xp2]"
+        outputform="рівня[рівень/noun:inanim:m:v_rod,рівень/noun:inanim:m:v_zna:var]"
             >досягти такого <marker>рівня</marker>.</example>
     <example type="untouched">і він не рівня брату</example>
     <example type="untouched">тут він рівня всім боярам</example>
@@ -2545,6 +2593,22 @@
         outputform="ґрата[ґрата/noninfl]"
             >персона нон <marker>ґрата</marker>.</example>
     <example type="untouched">велика ґрата</example>
+  </rule>
+
+  <rule name="І т.д." id="i_t_d">
+    <pattern>
+      <token regexp="yes">[ій]</token>
+      <token>т.</token>
+      <marker>
+        <token>д.</token>
+      </marker>
+    </pattern>
+    <disambig action="replace" postag="adv:abbr"></disambig>
+    <example type="ambiguous"
+        inputform="д.[&lt;/S&gt;]"
+        outputform="д.[&lt;/S&gt;,д./adv:abbr]"
+            >і т.<marker>д.</marker></example>
+    <example type="untouched">д.м.н.</example>
   </rule>
 
 

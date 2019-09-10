@@ -235,7 +235,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     if( tokens.length > i+2 ) {
       // на лише їм відомому ...
       if ( token.matches("лиш(е(нь)?)?")
-          && PosTagHelper.hasPosTag(tokens[i+1].getReadings(), Pattern.compile("noun:.:v_dav:&pron:pers:.*"))
+          && PosTagHelper.hasPosTag(tokens[i+1].getReadings(), Pattern.compile("noun:(un)?anim:.:v_dav:&pron:pers:.*"))
           && PosTagHelper.hasPosTag(tokens[i+2].getReadings(), Pattern.compile("adj.*"))
           ) {
         return new RuleException(1);

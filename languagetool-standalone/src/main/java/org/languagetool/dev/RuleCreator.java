@@ -21,7 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
-import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.ConfusionString;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -56,14 +56,14 @@ public class RuleCreator {
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
-    Map<String,List<ConfusionSet>> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,List<ConfusionPair>> confusionPairsMap = confusionSetLoader.loadConfusionPairs(inputStream);
     initMaps(homophoneOccurrences);
     int groupCount = 0;
     if (XML_MODE) {
       System.out.println("<rules lang='en'>\n");
       System.out.println("<category name='Auto-generated rules'>\n");
     }
-    for (Map.Entry<String, List<ConfusionSet>> entry : confusionSetMap.entrySet()) {
+    for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairsMap.entrySet()) {
       System.err.println(" === " + entry + " === ");
       if (entry.getValue().size() > 1) {
         System.err.println("WARN: will use only first pair of " + entry.getValue().size() + ": " + entry.getValue().get(0));
@@ -73,7 +73,7 @@ public class RuleCreator {
         System.err.println("Could not find occurrence infos for '" + entry.getKey() + "', skipping");
         continue;
       }
-      Set cleanSet = new HashSet<>(entry.getValue().get(0).getSet());
+      Set cleanSet = new HashSet<>(entry.getValue().get(0).getTerms());
       cleanSet.remove(entry.getKey());
       String name = StringUtils.join(cleanSet, "/") + " -> " + entry.getKey();
       if (XML_MODE) {
@@ -82,7 +82,7 @@ public class RuleCreator {
       groupCount++;
       for (OccurrenceInfo occurrenceInfo : infos) {
         String[] parts = occurrenceInfo.ngram.split(" ");
-        for (ConfusionString variant : entry.getValue().get(0).getSet()) {
+        for (ConfusionString variant : entry.getValue().get(0).getTerms()) {
           if (variant.getString().equals(entry.getKey())) {
             continue;
           }

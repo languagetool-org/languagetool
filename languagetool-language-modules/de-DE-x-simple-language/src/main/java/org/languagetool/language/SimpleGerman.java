@@ -56,7 +56,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
     rules.add(lengthRule);
@@ -64,7 +64,7 @@ public class SimpleGerman extends GermanyGerman {
   }
   
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
   }
 
@@ -74,7 +74,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
   }
 

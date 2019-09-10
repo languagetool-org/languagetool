@@ -18,11 +18,13 @@
  */
 package org.languagetool.rules.en;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.English;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
@@ -34,7 +36,7 @@ import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer();
+  private static final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
@@ -44,15 +46,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.4
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
-    super.ignoreWordsWithLength = 1;
-    setCheckCompound(true);
-    addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
-                   Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
-    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
-    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
-      addIgnoreWords(ignoreWord);
-    }
+    this(messages, language, userConfig, altLanguages, null);
   }
 
   protected static Map<String,String> loadWordlist(String path, int column) {
@@ -61,8 +55,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     Map<String,String> words = new HashMap<>();
     try (
-        InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
+      InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(isr);
     ) {
       String line;
       while ((line = br.readLine()) != null) {
@@ -81,12 +75,31 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     return words;
   }
-  
+
+
+  /**
+   * @since 4.5
+   * optional: language model for better suggestions
+   */
+  @Experimental
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+                                    List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
+    super.ignoreWordsWithLength = 1;
+    setCheckCompound(true);
+    addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
+                   Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
+    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
+    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
+      addIgnoreWords(ignoreWord);
+    }
+  }
+
   @Override
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
-    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (ruleMatches.size() > 0) {
-      // so 'word' is misspelled: 
+      // so 'word' is misspelled:
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
         String message = "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
@@ -97,7 +110,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
           String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
-          replaceFormsOfFirstMatch(message, sentence, ruleMatches, Collections.singletonList(variantInfo.otherVariant()));
+          replaceFormsOfFirstMatch(message, sentence, ruleMatches, variantInfo.otherVariant());
         }
       }
     }
@@ -111,8 +124,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected VariantInfo isValidInOtherVariant(String word) {
     return null;
   }
-  
+
   private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     List<String> allSuggestions = new ArrayList<>(forms);
@@ -125,10 +140,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     ruleMatches.set(0, newMatch);
   }
 
-  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> suggestions) {
+  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, String suggestion) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
-    newMatch.setSuggestedReplacements(suggestions);
+    SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
+    sugg.setShortDescription(language.getName());
+    newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));
     ruleMatches.set(0, newMatch);
   }
 
@@ -201,11 +220,80 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("the");
     } else if ("todays".equals(word)) {
       return Arrays.asList("today's");
+    } else if ("Todays".equals(word)) {
+      return Arrays.asList("Today's");
     } else if ("heres".equals(word)) {
-    	return Arrays.asList("here's");
+      return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
+    } else if ("McDonalds".equals(word)) {
+      return Arrays.asList("McDonald's");
+    } else if ("ecommerce".equals(word)) {
+      return Arrays.asList("e-commerce");
+    } else if ("Ecommerce".equals(word)) {
+      return Arrays.asList("E-Commerce");
+    } else if ("eCommerce".equals(word)) {
+      return Arrays.asList("e-commerce");
+    } else if ("elearning".equals(word)) {
+      return Arrays.asList("e-learning");
+    } else if ("eLearning".equals(word)) {
+      return Arrays.asList("e-learning");
+    } else if ("ebook".equals(word)) {
+      return Arrays.asList("e-book");
+    } else if ("eBook".equals(word)) {
+      return Arrays.asList("e-book");
+    } else if ("Ebook".equals(word)) {
+      return Arrays.asList("E-Book");
+    } else if ("ie".equals(word)) {
+      return Arrays.asList("i.e.");
+    } else if ("eg".equals(word)) {
+      return Arrays.asList("e.g.");
+    } else if ("Thx".equals(word)) {
+      return Arrays.asList("Thanks");
+    } else if ("thx".equals(word)) {
+      return Arrays.asList("thanks");
+    } else if ("Sry".equals(word)) {
+      return Arrays.asList("Sorry");
+    } else if ("sry".equals(word)) {
+      return Arrays.asList("sorry");
+    } else if ("Lil".equals(word)) {
+      return Arrays.asList("Little");
+    } else if ("lil".equals(word)) {
+      return Arrays.asList("little");
+    } else if ("Sucka".equals(word)) {
+      return Arrays.asList("Sucker");
+    } else if ("sucka".equals(word)) {
+      return Arrays.asList("sucker");
+    } else if ("center".equals(word)) {
+      // For non-US English
+      return Arrays.asList("centre");
+    } else if ("ur".equals(word)) {
+      return Arrays.asList("your", "you are");
+    } else if ("Ur".equals(word)) {
+      return Arrays.asList("Your", "You are");
+    } else if ("ure".equals(word)) {
+      return Arrays.asList("your", "you are");
+    } else if ("Ure".equals(word)) {
+      return Arrays.asList("Your", "You are");
+    } else if ("mins".equals(word)) {
+      return Arrays.asList("minutes", "min");
+    } else if ("addon".equals(word)) {
+      return Arrays.asList("add-on");
+    } else if ("addons".equals(word)) {
+      return Arrays.asList("add-ons");
+    } else if ("afterparty".equals(word)) {
+      return Arrays.asList("after-party");
+    } else if ("Afterparty".equals(word)) {
+      return Arrays.asList("After-party");
+    } else if ("wellbeing".equals(word)) {
+      return Arrays.asList("well-being");
+    } else if (word.endsWith("ys")) {
+      String suggestion = word.replaceFirst("ys$", "ies");
+      if (!speller1.isMisspelled(suggestion)) {
+        return Arrays.asList(suggestion);
+      }
     }
+
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
 

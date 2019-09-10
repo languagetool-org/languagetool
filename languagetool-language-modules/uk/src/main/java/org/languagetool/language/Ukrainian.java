@@ -34,16 +34,18 @@ import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
 import org.languagetool.rules.uk.MissingHyphenRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
+import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
-import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
-import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
+import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
 import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
 import org.languagetool.rules.uk.TokenAgreementNounVerbRule;
+import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
 import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -64,11 +66,13 @@ public class Ukrainian extends Language {
       "grammar-punctuation.xml"
       );
 
+  public static final Ukrainian DEFAULT_VARIANT = new Ukrainian();
   private Tagger tagger;
   private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
+
 
   public Ukrainian() {
   }
@@ -98,6 +102,16 @@ public class Ukrainian extends Language {
     return new String[]{"UA"};
   }
 
+//  @Override
+//  public String getVariant() {
+//    return "2019";
+//  }
+//
+//  @Override
+//  public Language getDefaultLanguageVariant() {
+//    return DEFAULT_VARIANT;
+//  }
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
@@ -109,7 +123,7 @@ public class Ukrainian extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new UkrainianSynthesizer();
+      synthesizer = new UkrainianSynthesizer(this);
     }
     return synthesizer;
   }
@@ -147,23 +161,28 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    MorfologikUkrainianSpellerRule morfologikSpellerRule = new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages);
+
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
 
-        // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
-        //            new UppercaseSentenceStartRule(messages),
+        // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
+        new UppercaseSentenceStartRule(messages, this,
+            Example.wrong("<marker>речення</marker> має починатися з великої."),
+            Example.fixed("<marker>Речення</marker> має починатися з великої")),
+
         new MultipleWhitespaceRule(messages, this),
         new UkrainianWordRepeatRule(messages, this),
 
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages),
+        morfologikSpellerRule,
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
-        
+
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages),
         new TokenAgreementPrepNounRule(messages),
@@ -172,10 +191,15 @@ public class Ukrainian extends Language {
 
         new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
-        new SimpleReplaceRule(messages),
+        getSpellingReplacementRule(messages),
+        new SimpleReplaceRule(messages, morfologikSpellerRule),
 
         new HiddenCharacterRule(messages)
     );
+  }
+
+  protected Rule getSpellingReplacementRule(ResourceBundle messages) throws IOException {
+    return new SimpleReplaceSpelling1992Rule(messages);
   }
 
   @Override
@@ -192,6 +216,11 @@ public class Ukrainian extends Language {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public List<String> getDefaultDisabledRulesForVariant() {
+    return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
   }
 
 }

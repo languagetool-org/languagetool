@@ -28,7 +28,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 
 /**
- * Check if a word is repeated twice, e.g. "the the".
+ * Check if a word is repeated, e.g. "the the".
  *   
  * @author Daniel Naber
  */
@@ -76,7 +76,7 @@ public class WordRepeatRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       if (tokens[i].isImmunized()) {
-      	prevToken = "";
+        prevToken = "";
         continue;
       }
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {
@@ -100,7 +100,7 @@ public class WordRepeatRule extends Rule {
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;
-    if (token.isEmpty() || StringUtils.isNumeric(token)) {
+    if (StringUtils.isNumericSpace(token)) {
       isWord = false;
     } else if (token.length() == 1) {
       char c = token.charAt(0);

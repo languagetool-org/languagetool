@@ -37,6 +37,40 @@ public abstract class BaseLanguageModel implements LanguageModel {
   public BaseLanguageModel()  {
   }
 
+
+  private long tryGetCount(List<String> context) {
+    try {
+      return getCount(context);
+    } catch(RuntimeException ignored) { // TODO: custom exception
+      return 0;
+    }
+  }
+
+  //@Override
+  public Probability getPseudoProbabilityStupidBackoff(List<String> context) {
+    // stupid backoff, see Brants et al. (2007)
+    List<String> backoffContext = context;
+    int maxCoverage = context.size();
+    int coverage = maxCoverage;
+    double lambda = 1.0;
+    final double lambdaFactor = 0.4;
+    while (backoffContext.size() != 0) {
+      long count = tryGetCount(backoffContext);
+      if (count != 0) {
+        long baseCount = tryGetCount(backoffContext.subList(0, backoffContext.size() - 1));
+        double prob = (double) count / baseCount;
+        float coverageRate = (float) coverage / maxCoverage;
+        return new Probability(lambda * prob, coverageRate);
+      } else {
+        coverage--;
+        backoffContext = backoffContext.subList(0, backoffContext.size() - 1);
+        lambda *= lambdaFactor;
+      }
+    }
+    return new Probability(0.0, 0.0f);
+  }
+
+
   @Override
   public Probability getPseudoProbability(List<String> context) {
     if (this.totalTokenCount == null) {
@@ -53,7 +87,7 @@ public abstract class BaseLanguageModel implements LanguageModel {
     // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
     // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
     double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
-    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
+    debug("P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
     long totalCount = 0;
     for (int i = 2; i <= context.size(); i++) {
       List<String> subList = context.subList(0, i);
@@ -68,13 +102,13 @@ public abstract class BaseLanguageModel implements LanguageModel {
         thisP = 100;
       }*/
       maxCoverage++;
-      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
+      debug("P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
       if (phraseCount > 0) {
         coverage++;
       }
       p *= thisP;
     }
-    debug("  " + String.join(" ", context) + " => %.20f\n", p);
+    debug("  " + String.join(" ", context) + " => %.20f (coverage/maxCoverage: %d / %d = %.2f)\n", p, coverage, maxCoverage, (float)coverage/maxCoverage);
     return new Probability(p, (float)coverage/maxCoverage, totalCount);
   }
 

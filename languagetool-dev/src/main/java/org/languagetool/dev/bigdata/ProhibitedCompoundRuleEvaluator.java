@@ -268,7 +268,7 @@ class ProhibitedCompoundRuleEvaluator {
     long startTime = System.currentTimeMillis();
     String confusionSetFile = args[0];
     ConfusionSetLoader loader = new ConfusionSetLoader();
-    Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(new FileInputStream(confusionSetFile));
+    Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(new FileInputStream(confusionSetFile));
     String langCode = args[1];
     Language lang = Languages.getLanguageForShortCode(langCode);
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[2], lang.getShortCode()));
@@ -280,11 +280,11 @@ class ProhibitedCompoundRuleEvaluator {
       inputsFiles.add(args[4]);
     }
     ProhibitedCompoundRuleEvaluator generator = new ProhibitedCompoundRuleEvaluator(lang, languageModel);
-    for (List<ConfusionSet> entries : confusionSet.values()) {
-      for (ConfusionSet set : entries) {
-          ConfusionString[] words  = set.getSet().toArray(new ConfusionString[0]);
+    for (List<ConfusionPair> entries : confusionSet.values()) {
+      for (ConfusionPair pair : entries) {
+          ConfusionString[] words  = pair.getTerms().toArray(new ConfusionString[0]);
           if (words.length < 2) {
-            throw new RuntimeException("Invalid confusion set entry: " + set);
+            throw new RuntimeException("Invalid confusion set entry: " + pair);
           }
           generator.run(inputsFiles, words[0].getString(), words[1].getString(), MAX_SENTENCES, EVAL_FACTORS);
       }

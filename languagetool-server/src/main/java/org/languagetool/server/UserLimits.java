@@ -32,6 +32,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -64,31 +65,27 @@ class UserLimits {
    */
   static UserLimits getLimitsFromToken(HTTPServerConfig config, String jwtToken) {
     Objects.requireNonNull(jwtToken);
-    try {
-      String secretKey = config.getSecretTokenKey();
-      if (secretKey == null) {
-        throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
-      }
-      Algorithm algorithm = Algorithm.HMAC256(secretKey);
-      DecodedJWT decodedToken;
-      try {
-        JWT.require(algorithm).build().verify(jwtToken);
-        decodedToken = JWT.decode(jwtToken);
-      } catch (JWTDecodeException e) {
-        throw new AuthException("Could not decode token '" + jwtToken + "'", e);
-      }
-      Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
-      Claim premiumClaim = decodedToken.getClaim("premium");
-      boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
-      Claim uidClaim = decodedToken.getClaim("uid");
-      long uid = uidClaim.isNull() ? -1 : uidClaim.asLong();
-      return new UserLimits(
-              maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
-              config.maxCheckTimeMillis,
-              hasPremium ? uid : null);
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
+    String secretKey = config.getSecretTokenKey();
+    if (secretKey == null) {
+      throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
     }
+    Algorithm algorithm = Algorithm.HMAC256(secretKey);
+    DecodedJWT decodedToken;
+    try {
+      JWT.require(algorithm).build().verify(jwtToken);
+      decodedToken = JWT.decode(jwtToken);
+    } catch (JWTDecodeException e) {
+      throw new AuthException("Could not decode token '" + jwtToken + "'", e);
+    }
+    Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
+    Claim premiumClaim = decodedToken.getClaim("premium");
+    boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
+    Claim uidClaim = decodedToken.getClaim("uid");
+    long uid = uidClaim.isNull() ? -1 : uidClaim.asLong();
+    return new UserLimits(
+            maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
+            config.maxCheckTimeMillis,
+            hasPremium ? uid : null);
   }
 
   /**
@@ -126,7 +123,7 @@ class UserLimits {
                 .append('=')
                 .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
       }
-      byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+      byte[] postDataBytes = postData.toString().getBytes(StandardCharsets.UTF_8);
       HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
       try {
         conn.setRequestMethod("POST");

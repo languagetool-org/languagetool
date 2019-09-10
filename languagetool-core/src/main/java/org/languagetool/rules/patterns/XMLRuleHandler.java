@@ -276,7 +276,7 @@ public class XMLRuleHandler extends DefaultHandler {
         for (PatternToken pToken : curPhrTokens) {
           pToken.setPhraseName(phraseIdRef);
         }
-        List<PatternToken> copy = (List<PatternToken>) ObjectUtils.clone(curPhrTokens);
+        List<PatternToken> copy = ObjectUtils.clone(curPhrTokens);
         for (PatternToken patternToken : copy) {
           patternToken.setInsideMarker(inMarker);
         }

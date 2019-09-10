@@ -23,6 +23,7 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
@@ -64,6 +65,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
+  private boolean noLmWarningPrinted;
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -99,7 +101,7 @@ public abstract class Language {
    * Get the rules classes that should run for texts in this language.
    * @since 4.3
    */
-  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException;
+  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException;
 
   // -------------------------------------------------------------------------
 
@@ -153,6 +155,19 @@ public abstract class Language {
     return null;
   }
 
+  protected LanguageModel initLanguageModel(File indexDir, LanguageModel languageModel) {
+    if (languageModel == null) {
+      File topIndexDir = new File(indexDir, getShortCode());
+      if (topIndexDir.exists()) {
+        languageModel = new LuceneLanguageModel(topIndexDir);
+      } else if (!noLmWarningPrinted) {
+        System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
+        noLmWarningPrinted = true;
+      }
+    }
+    return languageModel;
+  }
+
   /**
    * Get a list of rules that require a {@link LanguageModel}. Returns an empty list for
    * languages that don't have such rules.
@@ -170,7 +185,7 @@ public abstract class Language {
    * @param languageModel null if no language model is available
    */
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
-                                                         UserConfig userConfig, List<Language> altLanguages) throws IOException {
+                                                         UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
   }
 
@@ -199,6 +214,14 @@ public abstract class Language {
    * @since 4.4
    */
   public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
+    return Collections.emptyList();
+  }
+
+  /**
+   * Get the rules classes that should run for texts in this language.
+   * @since 4.6
+   */
+  public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
   }
 
@@ -528,6 +551,14 @@ public abstract class Language {
    * @since 4.5
    */
   public boolean isSpellcheckOnlyLanguage() {
+    return false;
+  }
+
+  /**
+   * Return true if language has ngram-based false friend rule returned by {@link #getRelevantLanguageModelCapableRules}.
+   * @since 4.6
+   */
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
     return false;
   }
 

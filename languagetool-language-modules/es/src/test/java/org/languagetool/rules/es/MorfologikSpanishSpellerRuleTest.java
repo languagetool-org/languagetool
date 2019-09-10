@@ -39,6 +39,10 @@ public class MorfologikSpanishSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Escriba un texto aquí. LanguageTool le ayudará a afrontar algunas dificultades propias de la escritura.")).length);
     
+    // ignore tagged words not in the speller dictionary ("anillos")
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Del libro de los cinco anillos")).length);
+
+    
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales."));
     assertEquals(1, matches.length);
     assertEquals(59, matches[0].getFromPos());

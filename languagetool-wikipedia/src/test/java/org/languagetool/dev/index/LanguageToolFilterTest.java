@@ -43,11 +43,11 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
 
     String start = "_POS_SENT_START";
     assertTokenStreamContents(filter, 
-        new String[] { start, "How", "_LEMMA_how", "_POS_WRB", "to",   "_LEMMA_to", "_POS_TO", "_LEMMA_to", "_POS_IN", "?",    "_POS_SENT_END" },
-        new int[]    { 0,     0,     0,            0,          4,      4,           4,         4,           4,         6,      6 }, 
-        new int[]    { 0,     3,     3,            3,          6,      6,           6,         6,           6,         7,      7 },
-        new String[] { "pos", "word", "pos",       "pos",      "word", "pos",       "pos",     "pos",       "pos",     "word", "pos" },
-        new int[]    { 1,     1,     0,            0,          1,      0,           0,         0,           0,         1,      0 },
+        new String[] { start, "How", "_LEMMA_how", "_POS_WRB", "to",   "_LEMMA_to", "_POS_TO", "_LEMMA_to", "_POS_IN", "?", "_LEMMA_?", "_POS_PCT",  "_POS_SENT_END" },
+        new int[]    { 0,     0,     0,            0,          4,      4,           4,         4,           4,         6,   6,           6,          6 }, 
+        new int[]    { 0,     3,     3,            3,          6,      6,           6,         6,           6,         7,   7,           7,          7},
+        new String[] { "pos", "word", "pos",       "pos",      "word", "pos",       "pos",     "pos",       "pos",     "word", "pos",   "pos",       "pos" },
+        new int[]    { 1,     1,     0,            0,          1,      0,           0,         0,           0,         1,      0,        0,          0 },
         7);
   }
 

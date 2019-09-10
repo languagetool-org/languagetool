@@ -54,7 +54,7 @@ public class ResultCache {
    * @param maxSize maximum cache size in number of sentences
    * @param expireAfter time to expire sentences from the cache after last read access 
    */
-  public ResultCache(long maxSize, int expireAfter, TimeUnit timeUnit) {
+  public ResultCache(long maxSize, long expireAfter, TimeUnit timeUnit) {
     if (maxSize < 0) {
       throw new IllegalArgumentException("Result cache size must be >= 0: " + maxSize);
     }
@@ -115,12 +115,12 @@ public class ResultCache {
   }
 
   /** @since 4.1 */
-  protected Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
+  public Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
     return matchesCache;
   }
 
   /** @since 4.1 */
-  protected Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
+  public Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
     return sentenceCache;
   }
 }

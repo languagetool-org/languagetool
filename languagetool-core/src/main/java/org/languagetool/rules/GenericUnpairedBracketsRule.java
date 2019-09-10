@@ -162,7 +162,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
     }
     for (SymbolLocator sLoc : symbolStack) {
-      RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol(), sLoc.getSentence());
+      RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol(), sLoc.getSentence(), sentences);
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -254,7 +254,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   }
 
   @Nullable
-  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol, AnalyzedSentence sentence) {
+  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol, AnalyzedSentence sentence, List<AnalyzedSentence> sentences) {
     if (!ruleMatchStack.empty()) {
       int index = findSymbolNum(symbol, endSymbols);
       if (index >= 0) {
@@ -271,6 +271,23 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos, sentence));
     String otherSymbol = findCorrespondingSymbol(symbol);
     String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
+    StringBuilder fullText =new StringBuilder();
+    for (AnalyzedSentence aSentence : sentences) {
+      fullText.append(aSentence.getText());
+    }
+    if (startPos + symbol.length() < fullText.length()) {
+      if (startPos >= 2 && startPos + symbol.length() < fullText.length()) {
+        String context = fullText.substring(startPos - 2, startPos + symbol.length());
+        if (context.matches("\n[a-zA-Z]\\)")) {  // prevent error for "b) foo item"
+          return null;
+        }
+      } else if (startPos >= 1) {
+        String context = fullText.substring(startPos - 1, startPos + symbol.length());
+        if (context.matches("[a-zA-Z]\\)")) {   // prevent error for "a) foo item" at text start
+          return null;
+        }
+      }
+    }
     return new RuleMatch(this, sentence, startPos, startPos + symbol.length(), message);
   }
 
@@ -291,6 +308,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       int idx2 = findSymbolNum(symbol, endSymbols);
       return startSymbols[idx2];
     }
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return -1;
   }
 
 }

@@ -164,7 +164,7 @@ public class JLanguageToolTest {
     assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
         "is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
         "test­ed[tested/JJ,I-NP-singular] " +
-        "sentence[sentence/NN,E-NP-singular].[./.,</S>,O]",
+        "sentence[sentence/NN,E-NP-singular].[./.,</S>./PCT,O]",
         tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
@@ -269,6 +269,10 @@ public class JLanguageToolTest {
     @Override
     public String getDescription() {
       return "Test rule";
+    }
+    @Override
+    public int minToCheckParagraph() {
+      return -1;
     }
   }
 }

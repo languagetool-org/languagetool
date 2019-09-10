@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -86,10 +87,8 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
     return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
-        && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*")
-        && !token.getToken().equals("sicher")
-        && !token.getToken().equals("Sie")
-        && !token.getToken().equals("Ich"))
+        && !token.matchesPosTagRegex("(PRO|A(RT|DV)|VER:(AUX|MOD)):.*")
+        && !StringUtils.equalsAny(token.getToken(), "sicher", "weit", "Sie", "Ich"))
         || isUnknownWord(token);
   }
 
@@ -98,15 +97,15 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    */
   protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
     if (before) {
-      if ((tokens[n-2].hasPosTagStartingWith("SUB:") && tokens[n-1].hasPosTagStartingWith("PRP:")
-              && tokens[n].hasPosTagStartingWith("SUB:"))
+      if ((tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
+              && tokens[n].hasPosTagStartingWith("SUB"))
           || (!tokens[n-2].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n].getToken().equals("hart"))
          ) {
         return true;
       }
     } else {
-      if ((tokens[n].hasPosTagStartingWith("SUB:") && tokens[n+1].hasPosTagStartingWith("PRP:")
-              && tokens[n+2].hasPosTagStartingWith("SUB:"))
+      if ((tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
+              && tokens[n+2].hasPosTagStartingWith("SUB"))
           || (!tokens[n].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n + 2].getToken().equals("hart"))
          ) {
         return true;

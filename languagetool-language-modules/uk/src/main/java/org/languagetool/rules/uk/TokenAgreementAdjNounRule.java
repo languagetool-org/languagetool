@@ -54,7 +54,7 @@ public class TokenAgreementAdjNounRule extends Rule {
   private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
 
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
-  static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
+  static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("((?:[iu]n)?anim):([mfnps]):(v_...)");
 
   private final Ukrainian ukrainian = new Ukrainian();
 
@@ -188,7 +188,7 @@ public class TokenAgreementAdjNounRule extends Rule {
 
       List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(adjTokenReadings);
 
-      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(slaveTokenReadings);
+      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(slaveTokenReadings, "v_zna:var");
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
 
@@ -313,7 +313,7 @@ public class TokenAgreementAdjNounRule extends Rule {
       }
       String caseStr = PosTagHelper.VIDMINKY_MAP.get(inflection._case);
       if( adj && inflection.animTag != null ) {
-        caseStr += " (" + (inflection.animTag.equals("ranim") ? "іст." : "неіст.") + ")";
+        caseStr += " (" + (inflection.animTag.equals("anim") ? "іст." : "неіст.") + ")";
       }
       map.get(inflection.gender).add(caseStr);
     }

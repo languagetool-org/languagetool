@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -99,6 +100,15 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(3, matches2[0].getFromPos());
     assertEquals(10, matches2[0].getToPos());
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
+    
+    RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("I'm g oing"));
+    Assert.assertThat(matches3.length, is(1));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
+    Assert.assertThat(matches3[0].getFromPos(), is(4));
+    Assert.assertThat(matches3[0].getToPos(), is(10));
+    
+    
   }
 
   private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {

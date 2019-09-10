@@ -89,6 +89,12 @@ public class RemoteLanguageTool {
     if (config.getDisabledRuleIds().size() > 0) {
       append(params, "disabledRules", String.join(",", config.getDisabledRuleIds()));
     }
+    if (config.getMode() != null) {
+      append(params, "mode", config.getMode());
+    }
+    if (config.getRuleValues().size() > 0) {
+      append(params, "ruleValues", String.join(",", config.getRuleValues()));
+    }
     append(params, "useragent", "java-http-client");
     return params.toString();
   }
@@ -196,7 +202,7 @@ public class RemoteLanguageTool {
     
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
-    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
+    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(rule, "description"), getRequiredString(match, "message"),
             getRequiredString(context, "text"), contextOffset, offset, errorLength);
     remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
     remoteMatch.setRuleSubId(getOrNull(rule, "subId"));

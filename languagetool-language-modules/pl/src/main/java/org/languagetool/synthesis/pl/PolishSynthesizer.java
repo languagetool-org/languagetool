@@ -26,14 +26,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.SynthesizerTools;
@@ -54,21 +55,18 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
   private static final String COMP_TAG = "com";
   private static final String SUP_TAG = "sup";
 
-  private volatile Dictionary dictionary;
   private List<String> possibleTags;
 
-
-  public PolishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public PolishSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   @Override
-  public final String[] synthesize(final AnalyzedToken token,
-      final String posTag) throws IOException {
+  public final String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag == null) {
       return null;
     }
-    final IStemmer synthesizer = new DictionaryLookup(getDictionary());
+    IStemmer synthesizer = new DictionaryLookup(getDictionary());
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(NEGATION_TAG) > 0
@@ -78,13 +76,12 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
     if (posTag.indexOf('+') > 0) {
       return synthesize(token, posTag, true);
     }
-    final List<String> forms = getWordForms(token, posTag, isNegated, synthesizer);
-    return forms.toArray(new String[forms.size()]);
+    List<String> forms = getWordForms(token, posTag, isNegated, synthesizer);
+    return forms.toArray(new String[0]);
   }
 
   @Override
-  public final String[] synthesize(final AnalyzedToken token, final String pos,
-      final boolean posTagRegExp) throws IOException {
+  public final String[] synthesize(AnalyzedToken token, String pos, boolean posTagRegExp) throws IOException {
     if (pos == null) {
       return null;
     }
@@ -95,8 +92,8 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
           possibleTags = SynthesizerTools.loadWords(stream);
         }
       }
-      final IStemmer synthesizer = new DictionaryLookup(getDictionary());
-      final List<String> results = new ArrayList<>();
+      IStemmer synthesizer = new DictionaryLookup(getDictionary());
+      List<String> results = new ArrayList<>();
 
       boolean isNegated = false;
       if (token.getPOSTag() != null) {
@@ -110,31 +107,38 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
         posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
       }
 
-      final Pattern p = Pattern.compile(posTag.replace('+', '|'));
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          final List<String> wordForms = getWordForms(token, tag, isNegated, synthesizer);
-          if (wordForms != null) {
-            results.addAll(wordForms);
+      try {
+        Pattern p = Pattern.compile(posTag.replace('+', '|'));
+        for (String tag : possibleTags) {
+          Matcher m = p.matcher(tag);
+          if (m.matches()) {
+            List<String> wordForms = getWordForms(token, tag, isNegated, synthesizer);
+            if (wordForms != null) {
+              results.addAll(wordForms);
+            }
           }
         }
+      } catch (PatternSyntaxException e) {
+        // catch this rare error which I couldn't fix yet (https://github.com/languagetool-org/languagetool/issues/1651):
+        //java.util.regex.PatternSyntaxException: Unclosed group near index 17
+        //(.*)(sg|pl.*acc.*
+        //                 ^
+        e.printStackTrace();
       }
       //remove duplicates
-      Set<String> hs = new HashSet<>();
-      hs.addAll(results);
+      Set<String> hs = new HashSet<>(results);
       results.clear();
       results.addAll(hs);     
       
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
     return synthesize(token, posTag);
   }
 
   @Override
-  public final String getPosTagCorrection(final String posTag) {
+  public final String getPosTagCorrection(String posTag) {
     if (posTag.contains(".")) {
-      final String[] tags = posTag.split(":");
+      String[] tags = posTag.split(":");
       int pos = -1;
       for (int i = 0; i < tags.length; i++) {
         if (tags[i].matches(".*[a-z]\\.[a-z].*")) {
@@ -145,7 +149,7 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
       if (pos == -1) {
         return posTag;
       }
-      final StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       sb.append(tags[0]);
       for (int i = 1; i < tags.length; i++) {
         sb.append(':');
@@ -156,10 +160,10 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
     return posTag;
   }
 
-  private List<String> getWordForms(final AnalyzedToken token, final String posTag,
-      final boolean isNegated, final IStemmer synthesizer) {
-    final List<String> forms = new ArrayList<>();
-    final List<WordData> wordForms;
+  private List<String> getWordForms(AnalyzedToken token, String posTag,
+      boolean isNegated, IStemmer synthesizer) {
+    List<String> forms = new ArrayList<>();
+    List<WordData> wordForms;
     if (isNegated) {
       wordForms = synthesizer.lookup(token.getLemma() + "|"
           + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));

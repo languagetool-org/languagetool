@@ -21,10 +21,7 @@ package org.languagetool.server;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Experimental;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 import java.io.File;
@@ -79,6 +76,7 @@ public class HTTPServerConfig {
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
+  protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
@@ -91,7 +89,13 @@ public class HTTPServerConfig {
   protected String dbUsername = null;
   protected String dbPassword = null;
   protected boolean dbLogging;
+  protected boolean prometheusMonitoring = false;
+  protected int prometheusPort = 9301;
+  protected GlobalConfig globalConfig = new GlobalConfig();
+  protected List<String> disabledRuleIds = new ArrayList<>();
+
   protected boolean skipLoggingRuleMatches = false;
+  protected boolean skipLoggingChecks = false;
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
@@ -235,6 +239,10 @@ public class HTTPServerConfig {
         if (cacheSize < 0) {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
         }
+        if (props.containsKey("cacheTTLSeconds") && !props.containsKey("cacheSize")) {
+          throw new IllegalArgumentException("Use of cacheTTLSeconds without also setting cacheSize has no effect.");
+        }
+        cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         if (props.containsKey("warmUp")) {
           System.err.println("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
         }
@@ -255,12 +263,19 @@ public class HTTPServerConfig {
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
+        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false"));
+        prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
         skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
+        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false"));
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
           "slowRuleLoggingThreshold", "-1"));
+        disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
+        globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
+        globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
+        globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
@@ -289,8 +304,8 @@ public class HTTPServerConfig {
         if (!dictPathFile.exists() || !dictPathFile.isFile()) {
           throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
         }
-        if (!dictPathFile.getName().endsWith(".dict")) {
-          throw new IllegalArgumentException("dictionary file is supposed to be named *.dict: '" + dictPath + "'");
+        if (!dictPathFile.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
+          throw new IllegalArgumentException("dictionary file is supposed to have the filename extension '.dict': '" + dictPath + "'");
         }
         ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
         Language lang = Languages.addLanguage(name, code, new File(dictPath));
@@ -304,7 +319,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void setLanguageModelDirectory(String langModelDir) {
+  public void setLanguageModelDirectory(String langModelDir) {
     SuggestionsOrdererConfig.setNgramsPath(langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
@@ -643,6 +658,22 @@ public class HTTPServerConfig {
   }
 
   /**
+   * Cache entry TTL; refreshed on access; in seconds
+   * @since 4.6
+   */
+  long getCacheTTLSeconds() {
+    return cacheTTLSeconds;
+  }
+
+  /**
+   * Set cache entry TTL in seconds
+   * @since 4.6
+   */
+  void setCacheTTLSeconds(long cacheTTLSeconds) {
+    this.cacheTTLSeconds = cacheTTLSeconds;
+  }
+
+  /**
    * Maximum errors per word rate, checking will stop if the rate is higher.
    * For example, with a rate of 0.33, the checking would stop if the user's
    * text has so many errors that more than every 3rd word causes a rule match.
@@ -813,6 +844,23 @@ public class HTTPServerConfig {
     return this.dbLogging;
   }
 
+
+  /**
+   * @since 4.6
+   * @return
+   */
+  public boolean isPrometheusMonitoring() {
+    return prometheusMonitoring;
+  }
+
+  /**
+   * @since 4.6
+   * @return
+   */
+  public int getPrometheusPort() {
+    return prometheusPort;
+  }
+
   /**
    * @since 4.5
    * @return threshold for rule computation time until a warning gets logged, in milliseconds
@@ -825,12 +873,25 @@ public class HTTPServerConfig {
   /**
    * @since 4.5
    */
-  @Experimental
   boolean isSkipLoggingRuleMatches() {
     return this.skipLoggingRuleMatches;
   }
 
 
+  /**
+   * @since 4.6
+   */
+  public boolean isSkipLoggingChecks() {
+    return skipLoggingChecks;
+  }
+
+  /**
+   * @since 4.7
+   */
+  public List<String> getDisabledRuleIds() {
+    return disabledRuleIds;
+  }
+  
   /**
    * @since 4.4
    * See if a specific A/B-Test is to be run
@@ -847,7 +908,7 @@ public class HTTPServerConfig {
    */
   @Experimental
   public void setAbTest(@Nullable String abTest) {
-    List<String> values = Arrays.asList("SuggestionsOrderer");
+    List<String> values = Arrays.asList("SuggestionsOrderer", "SuggestionsRanker");
     if (abTest != null && !values.contains(abTest)) {
         throw new IllegalConfigurationException("Unknown value for 'abTest' property: Must be one of: " + values);
     }

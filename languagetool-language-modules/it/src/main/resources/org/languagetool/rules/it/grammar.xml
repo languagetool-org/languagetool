@@ -393,7 +393,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="CON"/>
+                    <marker>
+                        <token postag="CON"/>
+                    </marker>
                 </pattern>
                 <message>Si consiglia di non iniziare una frase con una congiunzione.</message>
                 <example correction=""><marker>E</marker> non si capisce il perché di tanta paura.</example>
@@ -1355,15 +1357,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token skip="-1"/>
-                    <token postag="SENT_END" />
+                    <marker>
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token skip="-1"/>
+                        <token postag="SENT_END" />
+                    </marker>
                 </pattern>
                 <message>Si suggerisce di frammentare questa frase perché risulta troppo lunga.</message>
                 <example correction=""><marker>La casa aveva tante cose da vedere e da toccare con mano attenta a non romperle e occhio pronto ad ammirarle in tutto lo splendore infuso loro dalla cura maniacale per la perfezione che la padrona esibiva in qualunque sua attività ogni giorno che passava.</marker></example>

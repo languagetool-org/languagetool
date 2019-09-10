@@ -26,6 +26,7 @@ import com.sun.net.httpserver.HttpPrincipal;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 public class FakeHttpExchange extends HttpExchange {
   
@@ -97,7 +98,7 @@ public class FakeHttpExchange extends HttpExchange {
   }
 
   public String getOutput() throws UnsupportedEncodingException {
-    return new String(bos.toByteArray(), "utf-8");
+    return new String(bos.toByteArray(), StandardCharsets.UTF_8);
   }
 
 }

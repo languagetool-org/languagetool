@@ -135,4 +135,18 @@ public class MorfologikSpeller {
     return speller.convertsCase();
   }
 
+  @Override
+  public String toString() {
+    return "dist=" + maxEditDistance;
+  }
+
+  public int getFrequency(String word) {
+    CharSequence w = word;
+    int freq = speller.getFrequency(w);
+    if (freq == 0 && word != word.toLowerCase()) {
+      w = word.toLowerCase();
+      freq = speller.getFrequency(w);
+    }
+    return freq;
+  }
 }

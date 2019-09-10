@@ -44,9 +44,9 @@ public class BritishEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
+    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new BritishReplaceRule(messages));
     rules.add(new MorfologikBritishSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new UnitConversionRuleImperial(messages));
@@ -60,6 +60,6 @@ public class BritishEnglish extends English {
       case "OXFORD_SPELLING_ISE_VERBS":     return -21;
       case "OXFORD_SPELLING_IZE":           return -22;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

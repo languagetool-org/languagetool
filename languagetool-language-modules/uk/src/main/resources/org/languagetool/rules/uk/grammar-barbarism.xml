@@ -42,11 +42,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="adj.*" min="0"/>
-          <token>участь</token>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:v_(naz|rod).*">участь</token>
         </pattern>
         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion></message>
         <example correction="брати|взяти"><marker>приймав</marker> участь</example>
         <example correction="брати|взяти"><marker>приймав</marker> активну участь</example>
+        <example correction="брати|взяти">не <marker>приймаючи</marker> участі</example>
         <example>брав участь</example>
       </rule>
 
@@ -156,7 +157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">прийматися|прийнятися|приймаючись|приймавшись|прийнявшись</token>
           </marker>
           <token regexp="yes" min="0">би?</token>
-          <token postag_regexp="yes" postag="(noun:anim:.*?|noun:.):v_oru.*" min="0"/>
+          <token postag_regexp="yes" postag="(noun:(:?un)?anim:.*?):v_oru.*" min="0"/>
           <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
           <token>до</token>
           <token>уваги</token>
@@ -173,7 +174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>до</token>
           <token>уваги</token>
           <token regexp="yes" min="0">би?</token>
-          <token postag_regexp="yes" postag="noun(:anim)?:.:v_oru.*" min="0"/>
+          <token postag_regexp="yes" postag="noun(:(?:un)?anim)?:.:v_oru.*" min="0"/>
           <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
           <token min="0">не</token>
           <marker>
@@ -1154,11 +1155,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes" min="0">би?</token>
           <token regexp="yes" skip="1">[ву]|до</token>
-          <token inflected="yes" regexp="yes">університет|інститут|технікум|училище|школу|виш|вуз</token>
+          <token inflected="yes" regexp="yes">університет|інститут|технікум|училище|школу|виш|вуз|ВНЗ|коледж</token>
         </pattern>
         <message>Правильно: <suggestion>вступати</suggestion></message>
         <suggestion>іти</suggestion>
         <example correction="вступати|іти">Він <marker>поступив</marker> до військового училища.</example>
+        <example correction="Вступати|Іти"><marker>Поступив</marker> у ВНЗ.</example>
         <example>Він поступив негарно</example>
       </rule>
 
@@ -1568,6 +1570,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">відміна</token>
       </antipattern>
       <antipattern>
+        <token postag="number:latin"/>
+        <token inflected="yes">відміна</token>
+      </antipattern>
+      <antipattern>
         <token>на</token>
         <token skip="3">відміну</token>
         <token regexp="yes">від|од</token>
@@ -1585,6 +1591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>на відміну від</example>
       <example>на відміну, скажімо, від них</example>
       <example>на відміну хоча б від Ялти</example>
+      <example>II відміна</example>
     </rule>
 
     <rule id="PROPADOM" name="Пропадом">
@@ -1930,7 +1937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <feature id="case"/>
             <marker>
               <token inflected="yes">любий
-                <exception case_sensitive="yes" inflected="yes" postag_regexp="yes" postag="noun:f:.*">Люба</exception>
+                <exception case_sensitive="yes" inflected="yes" postag_regexp="yes" postag="noun:anim:f:.*">Люба</exception>
               </token>
             </marker>
             <token postag="noun.*" postag_regexp="yes">
@@ -2351,24 +2358,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Це зайняло нам два тижні.</example>
       <example>провів одну неділю без внучки</example>
     </rule>
-
-    <!-- чоловік можна вживати у значенні «осіб» (http://r2u.org.ua/forum/viewtopic.php?f=6&t=5224#p21262)
-        <rule>
-        <pattern>
-        <token postag="numr.*" postag_regexp="yes"><exception>обидва</exception></token>
-        <marker>
-        <token regexp="yes" skip="-1"><exception scope="next" regexp="yes">жінок|жінки|жінка</exception>чоловік|чоловіка|чоловіки</token>
-        </marker>
-        <token postag="SENT_END"/>
-        </pattern>
-        <message>Правильно: \1 <suggestion>осіб</suggestion></message>
-        <url>http://mova.kreschatic.kiev.ua/32.php</url>
-        <example type="incorrect">На заході побувало триста <marker>чоловік</marker>.</example>
-        <example>На заході побувало триста осіб.</example>
-        <example>На заході побувало 21 чоловік і 15 жінок.</example>
-        <example>791 чоловік, 43 жінки</example>
-        </rule>
-    -->
 
     <rulegroup id="VIROGIDNIST_VS_YMOVIRNIST" name="Вірогідність замість ймовірність">
       <rule>
@@ -3152,13 +3141,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="власним коштом"><marker>за власний рахунок</marker></example>
         <example>коштом держави</example>
       </rule>
+
       <rule>
         <pattern>
           <token>за</token>
           <token>рахунок</token>
         </pattern>
         <message>Краще: <suggestion>коштом</suggestion>, <suggestion>шляхом</suggestion>, <suggestion>користуючись з</suggestion>, <suggestion>ким/чим</suggestion>, <suggestion>внаслідок</suggestion></message>
-        <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок"><marker>за рахунок</marker> держави</example>
+        <suggestion>завдяки</suggestion>
+        <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок|завдяки"><marker>за рахунок</marker> держави</example>
         <example>коштом держави</example>
       </rule>
     </rulegroup>
@@ -4015,6 +4006,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Загалом (кажучи)|В цілому|До росту|Підходячи з суворими мірками|Якнайсерйозніше|Якнайсуворіше"><marker>По великому рахунку</marker>, ніхто не проти</example>
     </rule>
 
+    <rule id="v_obtyazhku" name="В обтяжку">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>обтяжку</token>
+      </pattern>
+      <message>Правильно: <suggestion>облиплий</suggestion></message>
+      <example correction="облиплий">Штани <marker>в обтяжку</marker>.</example>
+    </rule>
+
     <rulegroup id="V_CHYSLI" name="В числі">
       <rule>
         <pattern>
@@ -4089,17 +4089,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="NA_POVNOMU_SERYOZI" name="На повному серйозі">
-      <pattern>
-        <token>на</token>
-        <token>повному</token>
-        <token>серйозі</token>
-      </pattern>
-      <message>Краще: <suggestion>цілком серйозно</suggestion></message>
-      <suggestion>з усією серйозністю</suggestion>
-      <suggestion>без жартів</suggestion>
-      <example correction="цілком серйозно|з усією серйозністю|без жартів"> так <marker>на повному серйозі</marker> твердять чиновники Київради</example>
-    </rule>
+    <rulegroup id="NA_POVNOMU_SERYOZI" name="На повному серйозі">
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token>повному</token>
+          <token>серйозі</token>
+        </pattern>
+        <message>Краще: <suggestion>цілком серйозно</suggestion></message>
+        <suggestion>з усією серйозністю</suggestion>
+        <suggestion>без жартів</suggestion>
+        <example correction="цілком серйозно|з усією серйозністю|без жартів"> так <marker>на повному серйозі</marker> твердять чиновники Київради</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>серйоз</token>
+        </pattern>
+        <message>Краще: <suggestion>серйозно</suggestion></message>
+        <suggestion>правдиво</suggestion>
+        <suggestion>(брати) за правду</suggestion>
+        <example correction="серйозно|правдиво|(брати) за правду">так <marker>в серйоз</marker> твердять чиновники Київради</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="BYTKOM_NABYTO" name="Битком набито">
       <rule>
@@ -4170,7 +4183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <feature id="gender"/>
               <feature id="case"/>
           -->
-          <token postag_regexp="yes" postag="(adj|numr):[fp]:v_(dav|mis).*"/>
+          <token postag_regexp="yes" postag="adj:[fp]:v_(dav|mis).*"/>
           <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis).*" inflected="yes">причина</token>
           <!--
               </unify>
@@ -4182,13 +4195,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             /></suggestion>
             </message>
         -->
-        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="((?:adj|numr).*:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_zna(:rinanim)?$2"/> <match
+        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="(adj:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_zna(:rinanim)?$2"/> <match
           no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_zna$2"/></suggestion>, <suggestion>з <match
-          no="2" postag_regexp="yes" postag="((?:adj|numr).*:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
+          no="2" postag_regexp="yes" postag="(adj:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
           no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
         <example correction="через технічні причини|з технічних причин"><marker>по технічним причинам</marker></example>
         <example correction="через таку причину|з такої причини"><marker>по такій причині</marker></example>
-        <example correction="через багато причини|через багатьох (причинах)|з (багатьох) (причинах)"><marker>по багатьох причинах</marker></example>
+        <example>через технічні причини</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token postag_regexp="yes" postag="numr:p:v_(dav|mis).*"/>
+          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis).*" inflected="yes">причина</token>
+        </pattern>
+        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="(numr:p):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_naz?$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:p):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion>, <suggestion>з <match
+          no="2" postag_regexp="yes" postag="(numr:p):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:p):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+        <example correction="через багато причин|з багатьох причин"><marker>по багатьох причинах</marker></example>
         <example>через технічні причини</example>
       </rule>
     </rulegroup>
@@ -5291,8 +5317,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>принаймні</suggestion></message>
         <suggestion>хоча б</suggestion>
         <suggestion>бодай</suggestion>
-        <example correction="принаймні|хоча б|бодай">У нас люди <marker>по крайній мірі</marker> не голодують</example>
-        <example correction="принаймні|хоча б|бодай">Ця цифра буде <marker>по крайній мірі</marker> удвічі більшою</example>
+        <suggestion>у всякому разі</suggestion>
+        <example correction="принаймні|хоча б|бодай|у всякому разі">У нас люди <marker>по крайній мірі</marker> не голодують</example>
+        <example correction="принаймні|хоча б|бодай|у всякому разі">Ця цифра буде <marker>по крайній мірі</marker> удвічі більшою</example>
       </rule>
 
       <rule>
@@ -5415,18 +5442,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="в пригоді">він став йому <marker>в нагоді</marker>.</example>
     </rule>
 
-    <rule id="po_krainiy_miri" name="По крайній мірі">
-      <pattern>
-        <token>по</token>
-        <token>крайній</token>
-        <token>мірі</token>
-      </pattern>
-      <message>Правильно: <suggestion>принаймні</suggestion></message>
-      <suggestion>щонайменше</suggestion>
-      <suggestion>у всякому разі</suggestion>
-      <example correction="принаймні|щонайменше|у всякому разі">і <marker>по крайній мірі</marker> він там жив.</example>
-    </rule>
-
     <rule id="perenoska" name="Переноска">
       <pattern>
         <marker>
@@ -5466,7 +5481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Для позначення головного убору потрібно вживати <suggestion><match
-         no="1" postag_regexp="yes" postag="(noun:inanim:[mp]:v_...).*" postag_replace="$1.*">шолом</match></suggestion></message>
+         no="1" postag_regexp="yes" postag="(noun:inanim:[mp]:v_...):bad:xp." postag_replace="$1">шолом</match></suggestion></message>
       <example correction="шоломи">тримав авіаційні <marker>шлеми</marker>.</example>
       <example correction="шолом">мав великий <marker>шлем</marker>.</example>
       <example>серії «<marker>шлему</marker>».</example>

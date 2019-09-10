@@ -40,17 +40,20 @@ public class WordListValidatorTest {
           "[0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
+          "ÍÚÑ" + // for Spanish
           "õ" +   // for Portuguese
           "·" +   // for Catalan
-          "'ÅıøğåšĝÇİŞŠśčžć" +   // for Dutch (inhabitants) proper names mostly
+          "'ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*"
+          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
   );
 
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Mondelēz",
+          "chef-d’œuvre",
+          "chefs-d’œuvre",
           "Brač",
           "Djuveč",
           "Djuvečreis",

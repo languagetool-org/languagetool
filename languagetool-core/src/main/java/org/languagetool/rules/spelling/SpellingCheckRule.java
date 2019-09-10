@@ -27,8 +27,12 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
+import org.languagetool.rules.spelling.suggestions.SuggestionsRanker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -94,14 +98,105 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.4
    */
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    this(messages, language, userConfig, altLanguages, null);
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;
     this.userConfig = userConfig;
+    this.languageModel = languageModel;
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
     }
     this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
+
+  /**
+   *
+   * @param word misspelled word that suggestions should be generated for
+   * @param userCandidates candidates from personal dictionary
+   * @param candidates candidates from default dictionary
+   * @param orderer model to rank suggestions / extract features, or null
+   * @param match rule match to add suggestions to
+   */
+  protected static void addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
+                                                  @Nullable SuggestionsOrderer orderer, RuleMatch match) {
+    AnalyzedSentence sentence = match.getSentence();
+    int startPos = match.getFromPos();
+    //long startTime = System.currentTimeMillis();
+    if (orderer != null && orderer.isMlAvailable()) {
+      if (orderer instanceof SuggestionsRanker) {
+        // don't rank words form user dictionary, assign confidence 0.0, but add at start
+        // hard to ensure performance on unknown words
+        SuggestionsRanker ranker = (SuggestionsRanker) orderer;
+        List<SuggestedReplacement> defaultSuggestions = ranker.orderSuggestions(
+          candidates, word, sentence, startPos);
+        if (defaultSuggestions.isEmpty()) {
+          // could not rank for some reason
+        } else {
+          if (userCandidates.isEmpty()) {
+            match.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
+            match.setSuggestedReplacementObjects(defaultSuggestions);
+          } else {
+            List<SuggestedReplacement> combinedSuggestions = new ArrayList<>();
+            for (String wordFromUserDict : userCandidates) {
+              SuggestedReplacement s = new SuggestedReplacement(wordFromUserDict);
+              // confidence is null
+              combinedSuggestions.add(s);
+            }
+            combinedSuggestions.addAll(defaultSuggestions);
+            match.setSuggestedReplacementObjects(combinedSuggestions);
+            // no auto correct when words from personal dictionaries are included
+            match.setAutoCorrect(false);
+          }
+        }
+      } else if (orderer instanceof SuggestionsOrdererFeatureExtractor) {
+        // disable user suggestions here
+        // problem: how to merge match features when ranking default and user suggestions separately?
+        if (userCandidates.size() != 0) {
+          throw new IllegalStateException(
+            "SuggestionsOrdererFeatureExtractor does not support suggestions from personal dictionaries at the moment.");
+        }
+        SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) orderer;
+        Pair<List<SuggestedReplacement>, SortedMap<String, Float>> suggestions =
+          featureExtractor.computeFeatures(candidates, word, sentence, startPos);
+
+        match.setSuggestedReplacementObjects(suggestions.getLeft());
+        match.setFeatures(suggestions.getRight());
+      } else {
+        List<SuggestedReplacement> combinedSuggestions = new ArrayList<>();
+        combinedSuggestions.addAll(orderer.orderSuggestions(userCandidates, word, sentence, startPos));
+        combinedSuggestions.addAll(orderer.orderSuggestions(candidates, word, sentence, startPos));
+        match.setSuggestedReplacementObjects(combinedSuggestions);
+      }
+    } else { // no reranking
+      List<String> combinedSuggestions = new ArrayList<>();
+      combinedSuggestions.addAll(userCandidates);
+      combinedSuggestions.addAll(candidates);
+      match.setSuggestedReplacements(combinedSuggestions);
+    }
+    /*long timeDelta = System.currentTimeMillis() - startTime;
+    System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/
+  }
+
+  protected RuleMatch createWrongSplitMatch(AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
+    if (ruleMatchesSoFar.size() > 0) {
+      RuleMatch prevMatch = ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1);
+      if (prevMatch.getFromPos() == prevPos) {
+        // we'll later create a new match that covers the previous misspelled word and the current one:
+        ruleMatchesSoFar.remove(ruleMatchesSoFar.size()-1);
+      }
+    }
+    RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + coveredWord.length(),
+            messages.getString("spelling"), messages.getString("desc_spelling_short"));
+    ruleMatch.setSuggestedReplacement((suggestion1 + " " + suggestion2).trim());
+    return ruleMatch;
   }
 
   @Override
@@ -209,17 +304,6 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     return ignoreWord(words.get(idx));
-  }
-
-  /**
-   * Used to check whether the dictionary will use case conversions for
-   * spell checking.
-   * @return true if the dictionary converts case
-   * @since 2.5
-   * @deprecated deprecated as there's no internal use in LT, complain and describe your use case if you need this (deprecated since 3.9)
-   */
-  public boolean isConvertsCase() {
-    return convertsCase;
   }
 
   /**
@@ -372,9 +456,9 @@ public abstract class SpellingCheckRule extends Rule {
     for (Language altLanguage : alternativeLanguages) {
       List<Rule> rules;
       try {
-        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList()));
+        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
         rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
-          userConfig, Collections.emptyList()));
+          userConfig, null, Collections.emptyList()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -388,6 +472,10 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   protected Language acceptedInAlternativeLanguage(String word) throws IOException {
+    if (word.length() <= 2) {
+      // it's strange if single characters are suddenly considered English
+      return null;
+    }
     for (RuleWithLanguage altRule : altRules) {
       AnalyzedToken token = new AnalyzedToken(word, null, null);
       AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
@@ -398,9 +486,9 @@ public abstract class SpellingCheckRule extends Rule {
         return altRule.getLanguage();
       } else {
         if (word.endsWith(".")) {
-          Language language = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
-          if (language != null) {
-            return language;
+          Language altLanguage = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
+          if (altLanguage != null) {
+            return altLanguage;
           }
         }
       }

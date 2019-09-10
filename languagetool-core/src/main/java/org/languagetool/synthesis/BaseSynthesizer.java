@@ -18,6 +18,14 @@
  */
 package org.languagetool.synthesis;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,14 +34,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
-
 public class BaseSynthesizer implements Synthesizer {
 
   protected volatile List<String> possibleTags;
@@ -41,22 +41,44 @@ public class BaseSynthesizer implements Synthesizer {
   private final String tagFileName;
   private final String resourceFileName;
   private final IStemmer stemmer;
-
+  private final ManualSynthesizer manualSynthesizer;
+  private final ManualSynthesizer removalSynthesizer;
+  
   private volatile Dictionary dictionary;
 
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
    */
-  public BaseSynthesizer(String resourceFileName, String tagFileName) {
+  public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
     this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
     this.stemmer = createStemmer();
+    try {
+      String path = "/" + lang.getShortCode() + "/added.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(path)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
+          this.manualSynthesizer = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.manualSynthesizer = null;
+      }
+      String removalPath = "/" + lang.getShortCode() + "/removed.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(removalPath)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath)) {
+          this.removalSynthesizer = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.removalSynthesizer = null;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
    * Returns the {@link Dictionary} used for this synthesizer.
-   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
+   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String, Language) constructor}.
    * @throws IOException In case the dictionary cannot be loaded.
    */
   protected Dictionary getDictionary() throws IOException {
@@ -99,6 +121,18 @@ public class BaseSynthesizer implements Synthesizer {
         results.add(wd.getStem().toString());
       }
     }
+    if (manualSynthesizer != null) {
+      List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
+      if (manualForms != null) {
+        results.addAll(manualForms);
+      }
+    }
+    if (removalSynthesizer != null) {
+      List<String> removeForms = removalSynthesizer.lookup(lemma, posTag);
+      if (removeForms != null) {
+        results.removeAll(removeForms);
+      }
+    }
   }
 
   /**
@@ -116,8 +150,7 @@ public class BaseSynthesizer implements Synthesizer {
   }
 
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag,
-      boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
       Pattern p = Pattern.compile(posTag);
@@ -154,6 +187,14 @@ public class BaseSynthesizer implements Synthesizer {
         if (tags == null) {
           try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {
             possibleTags = SynthesizerTools.loadWords(stream);
+          }
+        }
+        // needed to be moved into synchronized block, should fix ConcurrentModificationException in synthesize
+        if (manualSynthesizer != null) {
+          for (String tag : manualSynthesizer.getPossibleTags()) {
+            if (!possibleTags.contains(tag)) {
+              possibleTags.add(tag);
+            }
           }
         }
       }

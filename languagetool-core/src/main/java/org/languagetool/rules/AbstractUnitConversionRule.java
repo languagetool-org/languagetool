@@ -74,11 +74,13 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected static final Unit<Volume> IMP_FL_OUNCE = IMP_PINT.divide(20);
 
   protected static final Unit<Temperature> FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);
-  protected static final String NUMBER_REGEX = "(-?[0-9]+[0-9,.]*)";
+  // limit size of matched number to (possibly) avoid hangups
+  protected static final String NUMBER_REGEX = "(-?[0-9]{1,32}[0-9,.]{0,32})";
   
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
   private static final int MAX_SUGGESTIONS = 5;
+  private static final int WHITESPACE_LIMIT = 5;
 
   protected Map<Pattern, Unit> unitPatterns = new HashMap<>();
 
@@ -180,7 +182,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
    */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
     Unit unit = base.multiply(factor);
-    unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "\\s*" + pattern + "\\b"), unit);
+    unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "\\s{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
     unitSymbols.putIfAbsent(unit, new ArrayList<>());
     unitSymbols.get(unit).add(symbol);
     if (metric && !metricUnits.contains(unit)) {
@@ -300,7 +302,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
     }
     sortByNaturalness(conversions);
-    if (conversions.size() == 0) {
+    if (conversions.isEmpty()) {
       return null;
     } else {
       return conversions;
@@ -314,7 +316,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       return null;
     }
     List<String> formatted = getFormattedConversions(equivalents);
-    if (formatted.size() == 0) {
+    if (formatted.isEmpty()) {
       return null;
     }
     return formatted;
@@ -483,7 +485,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
           }
         } else { // found conversion to metric, check for accuracy
           List<Map.Entry<Unit, Double>> metricEquivalents = getMetricEquivalent(value, unit);
-          if (metricEquivalents == null || metricEquivalents.size() == 0) {
+          if (metricEquivalents == null || metricEquivalents.isEmpty()) {
             return;
           }
           Map.Entry<Unit, Double> metricEquivalent = metricEquivalents.get(0);

@@ -61,7 +61,7 @@ abstract class Server {
   public void run() {
     String hostName = host != null ? host : "localhost";
     ServerTools.print("Starting LanguageTool " + JLanguageTool.VERSION +
-            " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
+            " (build date: " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
     isRunning = true;
     ServerTools.print("Server started");
@@ -144,6 +144,7 @@ abstract class Server {
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
+    System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
   }
 
   protected static void printCommonOptions() {

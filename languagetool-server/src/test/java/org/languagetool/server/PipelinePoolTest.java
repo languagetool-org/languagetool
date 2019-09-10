@@ -22,10 +22,7 @@
 package org.languagetool.server;
 
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.util.*;
@@ -35,6 +32,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class PipelinePoolTest {
+
+  private final GlobalConfig gConfig = new GlobalConfig();
 
   @Test
   public void testPipelineCreatedAndUsed() throws Exception {
@@ -51,17 +50,17 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
-
+    
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
-      null, queryParams1, user1);
+      null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World, second time around.").build(), new FakeHttpExchange(), params, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
   }
 
@@ -84,36 +83,36 @@ public class PipelinePoolTest {
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
 
-    PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, user1);
+    PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
-    PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, user1);
+    PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, gConfig, user1);
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
 
     verify(pool, times(1)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(1)).returnPipeline(eq(settings1), notNull());
 
     verify(pool).getPipeline(settings2);
-    verify(pool).createPipeline(lang2, null, queryParams1, user1);
+    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings2), notNull());
 
     TextChecker.QueryParams queryParams2 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), Collections.singletonList("DE_CASE"),
-      new LinkedList<>(), new LinkedList<>(), false, true, false, false, JLanguageTool.Mode.ALL);
+      new LinkedList<>(), new LinkedList<>(), false, true, false, false, JLanguageTool.Mode.ALL, null);
     Map<String, String> params3 = new HashMap<>();
     params3.put("language", "de-DE");
     params3.put("text", "not used");
     params3.put("disabledRules", "DE_CASE");
-    PipelinePool.PipelineSettings settings3 = new PipelinePool.PipelineSettings(lang2, null, queryParams2, user1);
+    PipelinePool.PipelineSettings settings3 = new PipelinePool.PipelineSettings(lang2, null, queryParams2, gConfig, user1);
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params3, null, null);
 
     verify(pool).getPipeline(settings3);
-    verify(pool).createPipeline(lang2, null, queryParams2, user1);
+    verify(pool).createPipeline(lang2, null, queryParams2, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings3), notNull());
   }
 
@@ -132,7 +131,7 @@ public class PipelinePoolTest {
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
 
@@ -142,29 +141,29 @@ public class PipelinePoolTest {
     // size = 1 -> needs to create new pipeline when language changes
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params1, null, null);
-    PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, user1);
+    PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
-    PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, user1);
+    PipelinePool.PipelineSettings settings2 = new PipelinePool.PipelineSettings(lang2, null, queryParams1, gConfig, user1);
     verify(pool, times(1)).getPipeline(settings1);
-    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool, times(1)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(1)).returnPipeline(eq(settings1), notNull());
 
     verify(pool).getPipeline(settings2);
-    verify(pool).createPipeline(lang2, null, queryParams1, user1);
+    verify(pool).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings2), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params1, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hallo Welt!").build(), new FakeHttpExchange(), params2, null, null);
     verify(pool, times(2)).getPipeline(settings2);
-    verify(pool, times(2)).createPipeline(lang2, null, queryParams1, user1);
+    verify(pool, times(2)).createPipeline(lang2, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings2), notNull());
   }
 
@@ -184,27 +183,27 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
 
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
-      null, queryParams1, user1);
+      null, queryParams1, gConfig, user1);
     verify(pool).getPipeline(settings1);
-    verify(pool).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool).returnPipeline(eq(settings1), notNull());
 
     Thread.sleep(expireTime * 1000L * 2);
 
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World, second time around.").build(), new FakeHttpExchange(), params, null, null);
     verify(pool, times(2)).getPipeline(settings1);
-    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, user1);
+    verify(pool, times(2)).createPipeline(lang1, null, queryParams1, gConfig, user1, Collections.emptyList());
     verify(pool, times(2)).returnPipeline(eq(settings1), notNull());
   }
 
   @Test
   public void testPipelineMutation() {
     Pipeline pipeline = new Pipeline(Languages.getLanguageForShortCode("en-US"),
-      new ArrayList<>(), null, null, null);
+      new ArrayList<>(), null, null, gConfig, null);
     pipeline.addRule(null);
     pipeline.setupFinished();
     boolean thrown = false;

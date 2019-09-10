@@ -70,6 +70,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hipocrit", "hypocrite");
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
+    assertFirstMatch("ur", "your");
     //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     
@@ -79,6 +80,8 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("alot", "a lot");
     // currently solved as a special case (AbstractEnglishSpellerRule.getAdditionalTopSuggestions()):
     assertFirstMatch("speach", "speech");
+    assertFirstMatch("qualifys", "qualifies");
+    assertFirstMatch("nicefys", "nicely");
 
     // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
     //assertFirstMatch("rythem", "them", "rather", "rhythm"); // suggests Ryther now, has been added to en_GB

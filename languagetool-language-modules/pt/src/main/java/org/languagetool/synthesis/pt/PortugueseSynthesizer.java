@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis.pt;
 
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -29,8 +30,8 @@ public class PortugueseSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/pt/portuguese_synth.dict";
   private static final String TAGS_FILE_NAME = "/pt/portuguese_tags.txt";
 
-  public PortugueseSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public PortugueseSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
   
 }

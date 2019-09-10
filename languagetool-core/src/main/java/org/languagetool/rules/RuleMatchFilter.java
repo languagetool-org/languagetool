@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.markup.AnnotatedText;
+
 import java.util.List;
 
 /**
@@ -27,6 +29,24 @@ import java.util.List;
  */
 public interface RuleMatchFilter {
 
-  List<RuleMatch> filter(List<RuleMatch> ruleMatches);
+  /**
+   * @deprecated use and implement {@code filter(List<RuleMatch> ruleMatches, AnnotatedText text)}
+   */
+  @Deprecated
+  default List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
+    throw new RuntimeException("Method not implemented");
+  }
+
+  /**
+   * @since 4.7
+   * post-processing of rule matches
+   * @param ruleMatches matches to transform/filter
+   * @param text corresponding text
+   * @return transformed matches
+   */
+  default List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
+    //noinspection deprecation
+    return filter(ruleMatches);
+  }
 
 }

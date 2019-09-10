@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.Experimental;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,36 +40,18 @@ import java.util.regex.Pattern;
 public class RuleMatch implements Comparable<RuleMatch> {
 
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
-
-  /**
-   * Unlike {@link Category}, this is specific to a RuleMatch, not to a rule.
-   * It is mainly used for selecting the underline color in clients.
-   * Note: this is experimental and might change soon (types might be added, deleted or renamed
-   * without deprecating them first)
-   * @since 4.3
-   */
-  @Experimental
-  public enum Type {
-    /** Spelling errors, typically red. */
-    UnknownWord,
-    /** Style errors, typically light blue. */
-    Hint,
-    /** Other errors (including grammar), typically yellow/orange. */
-    Other
-  }
-
   private final Rule rule;
-  private final OffsetPosition offsetPosition;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
   private final AnalyzedSentence sentence;
-
+  private OffsetPosition offsetPosition;
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private List<SuggestedReplacement> suggestedReplacements = new ArrayList<>();
   private URL url;
   private Type type = Type.Other;
-
+  private SortedMap<String, Float> features = Collections.emptySortedMap();
+  private boolean autoCorrect = false;
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -80,7 +62,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this(rule, fromPos, toPos, message, null, false, null);
   }
-
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -91,7 +72,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message) {
     this(rule, sentence, fromPos, toPos, message, null, false, null);
   }
-
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -105,6 +85,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this(rule, sentence, fromPos, toPos, message, shortMessage, false, null);
   }
 
+
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
@@ -112,13 +93,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
                    boolean startWithUppercase, String suggestionsOutMsg) {
     this(rule, null, fromPos, toPos, message, shortMessage, startWithUppercase, suggestionsOutMsg);
   }
-  
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
-   * to get suggested fixes for the problem detected by this rule. 
-   * 
+   * to get suggested fixes for the problem detected by this rule.
+   *
    * @param fromPos error start position in original text
    * @param toPos error end position in original text
    * @param shortMessage used for example in OpenOffice/LibreOffice's context menu (may be null)
@@ -126,11 +106,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
    *    of the match starts with an uppercase character
    * @since 4.0
    */
-  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage, 
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage,
       boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = Objects.requireNonNull(rule);
     if (toPos <= fromPos) {
-      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+      throw new IllegalArgumentException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
     this.offsetPosition = new OffsetPosition(fromPos, toPos);
     this.message = Objects.requireNonNull(message);
@@ -152,15 +132,52 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.sentence = sentence;
   }
 
-  public Rule getRule() {
-    return rule;
+  public RuleMatch(RuleMatch clone) {
+    this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setSuggestedReplacementObjects(clone.getSuggestedReplacementObjects());
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
+  }
+  
+  //clone with new replacements
+  public RuleMatch(RuleMatch clone, List<String> replacements) {
+    this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setSuggestedReplacements(replacements);
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
   }
 
-  /**
-   * Set the line number in which the match occurs (zero-based).
-   */
-  public void setLine(int fromLine) {
-    linePosition = new LinePosition(fromLine, linePosition.getEnd());
+  @NotNull
+  public SortedMap<String, Float> getFeatures() {
+    return features;
+  }
+
+  public void setFeatures(@NotNull SortedMap<String, Float> features) {
+    this.features = features;
+  }
+
+  public boolean isAutoCorrect() {
+    return autoCorrect;
+  }
+
+  public void setAutoCorrect(boolean autoCorrect) {
+    this.autoCorrect = autoCorrect;
+  }
+  
+  public Rule getRule() {
+    return rule;
   }
 
   /**
@@ -172,10 +189,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Set the line number in which the match ends (zero-based).
+   * Set the line number in which the match occurs (zero-based).
    */
-  public void setEndLine(int endLine) {
-    linePosition = new LinePosition(linePosition.getStart(), endLine);
+  public void setLine(int fromLine) {
+    linePosition = new LinePosition(fromLine, linePosition.getEnd());
   }
 
   /**
@@ -187,11 +204,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Set the column number in which the match occurs (zero-based).
-   * @deprecated (deprecated since 3.5)
+   * Set the line number in which the match ends (zero-based).
    */
-  public void setColumn(int column) {
-    this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
+  public void setEndLine(int endLine) {
+    linePosition = new LinePosition(linePosition.getStart(), endLine);
   }
 
   /**
@@ -203,11 +219,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Set the column number in which the match ends (zero-based).
+   * Set the column number in which the match occurs (zero-based).
    * @deprecated (deprecated since 3.5)
    */
-  public void setEndColumn(int endColumn) {
-    this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
+  public void setColumn(int column) {
+    this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
   }
 
   /**
@@ -216,6 +232,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public int getEndColumn() {
     return columnPosition.getEnd();
+  }
+
+  /**
+   * Set the column number in which the match ends (zero-based).
+   * @deprecated (deprecated since 3.5)
+   */
+  public void setEndColumn(int endColumn) {
+    this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
   }
 
   /**
@@ -232,6 +256,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return offsetPosition.getEnd();
   }
 
+  public void setOffsetPosition(int fromPos, int toPos) {
+    if (toPos <= fromPos) {
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+    }
+    offsetPosition = new OffsetPosition(fromPos, toPos);
+  }
+
   /**
    * A human-readable explanation describing the error. This may contain
    * one or more corrections marked up with &lt;suggestion&gt;...&lt;/suggestion&gt;.
@@ -240,7 +271,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public String getMessage() {
     return message;
-  }  
+  }
 
   /**
    * A shorter human-readable explanation describing the error or an empty string
@@ -264,23 +295,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
   }
-
-  /**
-   * @see #getSuggestedReplacements()
-   */
-  public void setSuggestedReplacements(List<String> replacements) {
-    Objects.requireNonNull(replacements, "replacements may be empty but not null");
-    this.suggestedReplacements.clear();
-    for (String replacement : replacements) {
-      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+  
+  public void addSuggestedReplacement(String replacement) {
+    Objects.requireNonNull(replacement, "replacement may be empty but not null");
+    List<String> l = new ArrayList<>();
+    for (SuggestedReplacement repl : suggestedReplacements) {
+      l.add(repl.getReplacement());
     }
-  }
-
-  /**
-   * @see #getSuggestedReplacements()
-   */
-  public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
-    this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    l.add(replacement);
+    setSuggestedReplacements(l);
   }
 
   /**
@@ -293,12 +316,30 @@ public class RuleMatch implements Comparable<RuleMatch> {
     List<String> l = new ArrayList<>();
     for (SuggestedReplacement repl : suggestedReplacements) {
       l.add(repl.getReplacement());
-    } 
+    }
     return Collections.unmodifiableList(l);
+  }
+
+  /**
+   * @see #getSuggestedReplacements()
+   */
+  public void setSuggestedReplacements(List<String> replacements) {
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    this.suggestedReplacements.clear();
+    for (String replacement : replacements) {
+      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+    }
   }
 
   public List<SuggestedReplacement> getSuggestedReplacementObjects() {
     return Collections.unmodifiableList(suggestedReplacements);
+  }
+
+  /**
+   * @see #getSuggestedReplacements()
+   */
+  public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
+    this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
   }
 
   /**
@@ -322,6 +363,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public AnalyzedSentence getSentence() {
     return sentence;
   }
+
+  /**
+   * @since 4.3
+   */
+  @Experimental
+  public Type getType() {
+    return this.type;
+  }
   
   /**
    * @since 4.3
@@ -331,19 +380,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.type = Objects.requireNonNull(type);
   }
 
-  /**
-   * @since 4.3
-   */
-  @Experimental
-  public Type getType() {
-    return this.type;
-  }
-
   @Override
   public String toString() {
     if (rule instanceof PatternRule) {
+      //String covered = getSentence().getText().substring(getFromPos(), getToPos());
+      //return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();
       return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message;
     } else {
+      //String covered = getSentence().getText().substring(getFromPos(), getToPos());
+      //return rule.getId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();
       return rule.getId() + ":" + offsetPosition + ":" + message;
     }
   }
@@ -371,6 +416,23 @@ public class RuleMatch implements Comparable<RuleMatch> {
   @Override
   public int hashCode() {
     return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence, type);
+  }
+
+  /**
+   * Unlike {@link Category}, this is specific to a RuleMatch, not to a rule.
+   * It is mainly used for selecting the underline color in clients.
+   * Note: this is experimental and might change soon (types might be added, deleted or renamed
+   * without deprecating them first)
+   * @since 4.3
+   */
+  @Experimental
+  public enum Type {
+    /** Spelling errors, typically red. */
+    UnknownWord,
+    /** Style errors, typically light blue. */
+    Hint,
+    /** Other errors (including grammar), typically yellow/orange. */
+    Other
   }
 
   static class OffsetPosition extends MatchPosition {

@@ -36,6 +36,13 @@ class ResultCache {
     entries = new ArrayList<>();
   }
   
+  ResultCache( ResultCache cache) {
+    entries = new ArrayList<>();
+    for (int i = 0; i < entries.size(); i++) {
+      entries.add(cache.entries.get(i));
+    }
+  }
+  
   /**
    *  Remove a cache entry for a sentence
    */
@@ -55,6 +62,18 @@ class ResultCache {
   void remove(int numberOfParagraph) {
     for(int i = 0; i < entries.size(); i++) {
       if(entries.get(i).numberOfParagraph == numberOfParagraph) {
+        entries.remove(i);
+        i--;
+      }
+    }
+  }
+  
+  /**
+   *  Remove all cache entries between firstParagraph and lastParagraph
+   */
+  void removeRange(int firstParagraph, int lastParagraph) {
+    for(int i = 0; i < entries.size(); i++) {
+      if(entries.get(i).numberOfParagraph >= firstParagraph && entries.get(i).numberOfParagraph <= lastParagraph) {
         entries.remove(i);
         i--;
       }
@@ -158,6 +177,59 @@ class ResultCache {
     return null;
   }
   
+/**
+ * get an ResultCache entry by the number of paragraph
+ */
+  CacheEntry getEntrybyParagraph(int nPara) {
+    for (CacheEntry anEntry : entries) {
+      if(anEntry.numberOfParagraph == nPara) {
+        return anEntry;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Compares to Entries
+   * true if the both entries are identically 
+   */
+  private boolean areDifferentEntries (CacheEntry newEntry, CacheEntry oldEntry) {
+    if(newEntry == null || oldEntry == null || newEntry.errorArray.length != oldEntry.errorArray.length) {
+      return true;
+    }
+    for (SingleProofreadingError nError : newEntry.errorArray) {
+      boolean found = false;
+      for (SingleProofreadingError oError : oldEntry.errorArray) {
+        if(nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength 
+            && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Compares paragraph cache with an other
+   * Gives back a list of entries for every paragraph: true if the both entries are identically 
+   */
+  List<Integer> differenceInCaches(ResultCache oldCache) {
+    List<Integer> differentParas = new ArrayList<Integer>();
+    CacheEntry oEntry;
+    for (CacheEntry nEntry : entries) {
+      oEntry = oldCache.getEntrybyParagraph(nEntry.numberOfParagraph);
+      boolean isDifferent = areDifferentEntries(nEntry, oEntry);
+      if(isDifferent) {
+        differentParas.add(nEntry.numberOfParagraph);
+      }
+    }
+    return differentParas;
+  }
+  
   /**
    *  get number of paragraphs stored in cache
    */
@@ -170,7 +242,7 @@ class ResultCache {
     }
     return number;
   }
-
+  
   /**
    *  get number of entries
    */

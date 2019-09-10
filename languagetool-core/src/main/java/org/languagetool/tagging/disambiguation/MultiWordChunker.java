@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -242,7 +243,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   private List<String> loadWords(InputStream stream) {
     List<String> lines = new ArrayList<>();
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
       String line;
       while ((line = reader.readLine()) != null) {
         line = line.trim();

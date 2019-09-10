@@ -30,7 +30,7 @@ import java.util.Map;
 public class DMYDateCheckFilter extends DateCheckFilter {
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + DMYDateCheckFilter.class.getSimpleName());
     }
@@ -42,7 +42,7 @@ public class DMYDateCheckFilter extends DateCheckFilter {
     args.put("day", parts[0]);
     args.put("month", parts[1]);
     args.put("year", parts[2]);
-    return super.acceptRuleMatch(match, args, patternTokens);
+    return super.acceptRuleMatch(match, args, patternTokenPos, patternTokens);
   }
 
 }

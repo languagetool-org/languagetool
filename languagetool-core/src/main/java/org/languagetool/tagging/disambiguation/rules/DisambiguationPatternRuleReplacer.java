@@ -164,15 +164,11 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       PatternRule disambigRule = new PatternRule("fake-disambig-id", rule.getLanguage(), antiPattern.getPatternTokens(), "desc", "msg", "short");
       RuleMatch[] matches = disambigRule.match(sentence);
       if (matches != null) {
-        //System.out.println(matches.length + " matches");
         for (RuleMatch disMatch : matches) {
-          //System.out.println("disambig match: " + disMatch.getFromPos() + " - " + disMatch.getToPos());
-          //System.out.println("rule match    : " + ruleMatchFromPos + " - " + ruleMatchToPos);
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
               (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end
               (disMatch.getFromPos() >= ruleMatchFromPos && disMatch.getToPos() <= ruleMatchToPos)  // inside longer rule match
           ) {
-            //System.out.println("skipping!");
             return false;
           }
         }
@@ -189,9 +185,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       for (int tokenPosition : tokenPositions) {
         tokensPos.add(tokenPosition);
       }
-      Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, tokensPos);
+      Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, firstMatchToken, tokensPos);
       AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-      return filter.matches(resolvedArguments, relevantTokens);
+      return filter.matches(resolvedArguments, relevantTokens, firstMatchToken);
     }
     return true;
   }
@@ -278,23 +274,22 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     switch (disAction) {
     case UNIFY:
-      if (unifiedTokens != null) {
+      if (unifiedTokens != null &&
+          unifiedTokens.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
         //TODO: unifiedTokens.length is larger > matchingTokensWithCorrection in cases where there are no markers...
-        if (unifiedTokens.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
-          if (whTokens[sentence.getOriginalPosition(firstMatchToken
-              + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {
-            unifiedTokens[unifiedTokens.length - 1].setSentEnd();
-          }
-          for (int i = 0; i < unifiedTokens.length; i++) {
-            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-            unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
-            String prevValue = whTokens[position].toString();
-            String prevAnot = whTokens[position].getHistoricalAnnotations();
-            List<ChunkTag> chTags = whTokens[position].getChunkTags();
-            whTokens[position] = unifiedTokens[i];
-            whTokens[position].setChunkTags(chTags);
-            annotateChange(whTokens[position], prevValue, prevAnot);
-          }
+        if (whTokens[sentence.getOriginalPosition(firstMatchToken
+            + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {
+          unifiedTokens[unifiedTokens.length - 1].setSentEnd();
+        }
+        for (int i = 0; i < unifiedTokens.length; i++) {
+          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+          unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
+          String prevValue = whTokens[position].toString();
+          String prevAnot = whTokens[position].getHistoricalAnnotations();
+          List<ChunkTag> chTags = whTokens[position].getChunkTags();
+          whTokens[position] = unifiedTokens[i];
+          whTokens[position].setChunkTags(chTags);
+          annotateChange(whTokens[position], prevValue, prevAnot);
         }
       }
       break;
