@@ -35784,6 +35784,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="STEKKER_ER_UIT" name="De stekker er uit trekken">
             <rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token>stopcontact</token></antipattern>
                 <pattern>
                     <token skip="4">stekker</token>
                     <token regexp="yes">eruit|uit</token>
@@ -35883,7 +35884,7 @@ steenwijk;Steenwijk
                 <example type="incorrect">De <marker>maat is niet alleen vol</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BIEZEN" name="Zijn biezen pakken">
+        <rulegroup id="BIEZEN_PAKKEN" name="Zijn biezen pakken">
             <rule>
                 <pattern>
                     <token>zijn</token>
@@ -35894,7 +35895,7 @@ steenwijk;Steenwijk
                 <example>Er is geen correct voorbeeld van.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NEUZEN" name="De neuzen dezelfde kant op">
+        <rulegroup id="NEUZEN_KANT" name="De neuzen dezelfde kant op">
             <rule>
                 <pattern>
                     <token>neuzen</token>
@@ -35927,26 +35928,6 @@ steenwijk;Steenwijk
                 <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
                 <example type="incorrect">Ze <marker>zetten de klokken gelijk</marker> voor het overleg.</example>
                 <example>Er is geen correct voorbeeld van.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="DE_BAKENS" name="De bakens verzetten">
-            <rule>
-                <pattern>
-                    <token>de</token>
-                    <token>bakens</token>
-                    <token inflected="yes">verzetten</token>
-                </pattern>
-                <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
-                <example type="incorrect">Of dat leidt tot een democratischer Cuba moet nog blijken, maar hoe dan ook heeft Obama ook daar <marker>de bakens verzet</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="2">verzetten</token>
-                    <token>de</token>
-                    <token>bakens</token>
-                </pattern>
-                <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
-                <example type="incorrect">Het project <marker>verzet de bakens</marker> op het vlak van duurzame stadsontwikkeling en probeert een alternatief te bieden voor de typische Vlaamse verkaveling.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEMOEDEREN_BEZIG" name="De gemoederen bezighouden">
