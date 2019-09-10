@@ -3098,22 +3098,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>d'un original titella</example>
             </rule>
             <rule id="MOLT_DE_MOLTA" name="molt de/molta">
+                <antipattern>
+                    <token inflected="yes" regexp="yes">dependre|tenir</token>
+                    <token>molt</token>
+                    <token>de</token>
+                </antipattern>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">canviar|deixar|saber|variar|aprendre|parlar</exception></token>
                     <marker>
                         <token>molt</token>
                         <token regexp="yes">de|d'</token>
                     </marker>
-                    <token postag="N.FS.*" postag_regexp="yes"><exception postag="N.[MC]S.*" postag_regexp="yes"/><exception regexp="yes">matinada|manera</exception></token>
+                    <token postag="NCFS.*" postag_regexp="yes"><exception postag="N.[MC]S.*" postag_regexp="yes"/><exception regexp="yes">matinada|manera|voga</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>molta</suggestion>?</message>
                 <suggestion>molta <match no="3"/></suggestion>
-                <example correction="molta|molta de">Tenia <marker>molt de</marker> sort.</example>
+                <example correction="molta|molta de">Fa <marker>molt de</marker> feina.</example>
                 <example>Tenia molt de son pare.</example>
                 <example>Allò requeria molt de valor.</example>
                 <example>No espero que canviï molt d'opinió.</example>
                 <example>Ho han deixat molt de banda.</example>
                 <example>Veig que saps molt d'història antiga.</example>
+                <example>Depenien molt de Sèrbia.</example>
             </rule>
             <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
                 <antipattern>
@@ -11502,13 +11508,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
                 </marker>
                 <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
-                <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?|\p{Lu}+</token>
+                <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?|\p{Lu}+<exception regexp="yes" case_sensitive="yes">RAM|IP|IANA</exception></token>
             </pattern>
             <message>Possible error de traducció automàtica.</message>
             <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
             <example correction="direcció">Forma part de l'<marker>adreça</marker> del PSOE.</example>
             <example correction="direccions">Les <marker>adreces</marker> dels partits.</example>
             <example>S'adreça al NW.</example>
+            <example>Sol·licitar una adreça a la IANA.</example>
         </rule>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
             <pattern>
@@ -13019,6 +13026,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>tot</token>
                     <token regexp="yes">estirar|córrer|tardar|trigar</token>
                 </marker>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token>l</token>
+                <token>tot</token>
             </antipattern>
             <pattern>
                 <token>tot</token>
@@ -16201,7 +16213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CAP_COT" name="cap cot">
             <pattern>
-                <token><exception regexp="yes">el|un</exception></token>
+                <token postag="V.[^P].*" postag_regexp="yes"/><!--<exception regexp="yes">el|un</exception></token>-->
                 <marker>
                     <token>cap<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token> <!-- Eliminat: lletra, alt, buit -->
                     <token regexp="yes" inflected="yes">cot|baix|damunt|davant|davanter|davall|ficat|ficar|fluix|girar|foguer|jup|moix<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">baixa|cota|gira</exception></token>
@@ -16213,6 +16225,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>amb el cap cot</example>
             <example>un cap buit no pot adquirir saviesa</example>
             <example>pel cap baix</example>
+        </rule>
+        <rule id="CAP_DAMUNT" name="cap damunt/capdamunt">
+            <pattern>
+                <token>a</token>
+                <token>l</token>
+                <marker>
+                    <token>cap</token>
+                    <token regexp="yes">damunt|davall|davant</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>cap<match no="4"/></suggestion>?</message>
+            <example correction="capdamunt">Al <marker>cap damunt</marker> del tossal.</example>
         </rule>
         <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
             <antipattern>
@@ -40436,7 +40460,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>molt</token>
                 <token>de</token>
-                <token regexp="yes">por|son|barra</token>
+                <token regexp="yes">por|son|barra|voga</token>
             </pattern>
             <message>Error de concordança si s'usa com a nom femení. <match no="3"/> també existeix com a nom masculí.</message>
             <suggestion>molta <match no="3"/></suggestion>
