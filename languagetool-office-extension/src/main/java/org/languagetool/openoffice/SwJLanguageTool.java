@@ -189,7 +189,6 @@ public class SwJLanguageTool {
   private class LORemoteLanguageTool {
     private static final String SERVER_URL = "https://languagetool.org/api";
     private static final int SERVER_LIMIT = 20000;
-    private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator like in standalone GUI
     private boolean initDone = false;
     private URL serverBaseUrl;
     private Language language;
@@ -228,7 +227,7 @@ public class SwJLanguageTool {
         }
         remoteConfig = configBuilder.build();
       }
-      List<RemoteRuleMatch> remoteRulematches = new ArrayList<>();
+      List<RuleMatch> ruleMatches = new ArrayList<>();
       int limit = SERVER_LIMIT;
       for (int nStart = 0; text.length() > nStart; nStart += limit) {
         String subText;
@@ -236,7 +235,7 @@ public class SwJLanguageTool {
           subText = text.substring(nStart);
           limit = SERVER_LIMIT;
         } else {
-          int nEnd = text.lastIndexOf(END_OF_PARAGRAPH, nStart + SERVER_LIMIT);
+          int nEnd = text.lastIndexOf(SingleDocument.END_OF_PARAGRAPH, nStart + SERVER_LIMIT) + SingleDocument.NUMBER_PARAGRAPH_CHARS;
           if(nEnd <= nStart) {
             nEnd = nStart + SERVER_LIMIT;
           }
@@ -244,9 +243,9 @@ public class SwJLanguageTool {
           limit = nEnd;
         }
         RemoteResult remoteResult = remoteLanguageTool.check(subText, remoteConfig);
-        remoteRulematches.addAll(remoteResult.getMatches()); 
+        ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
       }
-      return toRuleMatches(remoteRulematches);
+      return ruleMatches;
     }
     
     Language getLanguage() {
@@ -279,7 +278,7 @@ public class SwJLanguageTool {
       return ruleValues;
     }
     
-    private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch) throws MalformedURLException {
+    private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
       Rule matchRule = null;
       for (Rule rule : allRules) {
         if(remoteMatch.getRuleId().equals(rule.getId())) {
@@ -293,8 +292,8 @@ public class SwJLanguageTool {
         allRules.add(matchRule);
         extraRemoteRules.add(matchRule);
       }
-      RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset(), 
-          remoteMatch.getErrorOffset() + remoteMatch.getErrorLength(), remoteMatch.getMessage(), 
+      RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
+          remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
           remoteMatch.getShortMessage().isPresent() ? remoteMatch.getShortMessage().get() : null);
       if(remoteMatch.getUrl().isPresent()) {
         ruleMatch.setUrl(new URL(remoteMatch.getUrl().get()));
@@ -305,13 +304,13 @@ public class SwJLanguageTool {
       return ruleMatch;
     }
     
-    private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches) throws MalformedURLException {
+    private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       if(remoteRulematches == null || remoteRulematches.isEmpty()) {
         return ruleMatches;
       }
       for(RemoteRuleMatch remoteMatch : remoteRulematches) {
-        RuleMatch ruleMatch = toRuleMatch(remoteMatch);
+        RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
         if(ruleMatch != null) {
           ruleMatches.add(ruleMatch);
         }
