@@ -319,6 +319,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="на ангіну">Він хворіє <marker>ангіною</marker></example>
       <example correction="на страшну ангіну">Він хворіє <marker>страшною ангіною</marker></example>
       <example correction="на неї|на її">хворітиме <marker>нею</marker> на відстані.</example>
+      <!-- TODO:
+      <example correction="на щось">хворітиме <marker>чимсь</marker> дивним.</example>
+      -->
       <!--
           <example correction="на себе">Перестати хворіти <marker>собою</marker></example>
       -->
@@ -665,11 +668,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="(adj|numr):[mp]:v_(naz|rod).*" min="0" max="2"/>
           <token inflected="yes" regexp="yes">екзамен|іспит|тест</token>
         </pattern>
-        <message>Правильно: <suggestion>складати</suggestion></message>
-        <example correction="складати">Він <marker>здав</marker> складний екзамен</example>
-        <example correction="Складати"><marker>Здаючи</marker> іспит весь спітнів.</example>
-        <example correction="складати">Треба <marker>здавати</marker> також складний екзамен в школі.</example>
-        <example correction="складати">при вступі до ВНЗ <marker>здавали</marker> два–три екзамени.</example>
+        <message>Правильно: <suggestion>складати</suggestion>, <suggestion>скласти</suggestion></message>
+        <example correction="складати|скласти">Він <marker>здав</marker> складний екзамен</example>
+        <example correction="Складати|Скласти"><marker>Здаючи</marker> іспит весь спітнів.</example>
+        <example correction="складати|скласти">Треба <marker>здавати</marker> також складний екзамен в школі.</example>
+        <example correction="складати|скласти">при вступі до ВНЗ <marker>здавали</marker> два–три екзамени.</example>
         <example>Тоді на іспити здавали по 50 гривень.</example>
         <example>Він склав екзамен</example>
       </rule>
@@ -684,9 +687,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">здавати|здати|зданий|здаваний</token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion>складати</suggestion></message>
-        <example correction="складати">Екзамен <marker>здав</marker> на відмінно.</example>
-        <example correction="складати">Екзамен би швидко не <marker>здав</marker>.</example>
+        <message>Правильно: <suggestion>складати</suggestion>, <suggestion>скласти</suggestion></message>
+        <example correction="складати|скласти">Екзамен <marker>здав</marker> на відмінно.</example>
+        <example correction="складати|скласти">Екзамен би швидко не <marker>здав</marker>.</example>
         <example>Він склав екзамен</example>
       </rule>
     </rulegroup>
@@ -3932,6 +3935,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Порушення порядка</example>
     </rule>
 
+    <rule id="jakscho_b" name="Якщо б">
+      <pattern>
+        <token>якщо</token>
+        <token regexp="yes">би?</token>
+      </pattern>
+      <message>Правильно: <suggestion>якби</suggestion></message>
+      <example correction="якби">І <marker>якщо б</marker> це відбулося</example>
+    </rule>
+
     <rule id="RUKOYU_PODATY" name="Рукою подати">
       <pattern>
         <token>рукою</token>
@@ -5514,6 +5526,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>тимчасом як</suggestion>, <suggestion>тоді як</suggestion></message>
       <example correction="тимчасом як|тоді як"><marker>між тим як</marker> в інших випадках</example>
+    </rule>
+
+    <rule id="postupok" name="Вчинок">
+      <pattern>
+        <token postag_regexp="yes" postag="adj:m:v_(naz|oru).*"/>
+        <marker>
+          <token regexp="yes">поступ(ок|ком)</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>вчинок</suggestion></message>
+      <example correction="вчинок">чесний <marker>поступок</marker></example>
+      <example correction="вчинок">своїм <marker>поступком</marker></example>
+      <example>серйозних поступок</example>
     </rule>
 
     <rulegroup id="vechorom" name="Вечором і увечері">
