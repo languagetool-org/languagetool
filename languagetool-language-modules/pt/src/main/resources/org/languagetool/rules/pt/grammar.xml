@@ -2394,7 +2394,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
-          <token regexp='yes'>(?:(?:a(?:bsort|ces|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpress|xpuls|xtint)|f(?:ind|ix|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[oe]|ssente)|entregue)s?
+          <token regexp='yes'>(?:(?:a(?:bsort|ces|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpress|xpuls|xtint)|f(?:ind|ix|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[aoe]|ssente)|entregue)s?
              <exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?</exception></token><!-- XXX significado distintos. Removidos: incluso|tinto -->
       </pattern>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado irregular.</message>
@@ -2434,7 +2434,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-          <token regexp='yes'>aceitos?</token>
+          <token regexp='yes'>aceit[ao]s?</token>
       <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
            Formas não reconhecidas como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
@@ -28056,7 +28056,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token inflected='yes'>adir</token>
+          <token inflected='yes'>adir
+            <exception case_sensitive='yes' regexp='yes'>Ad(?:[ai]|idas)|[Aa]diras?</exception></token>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico.</message>
         <suggestion><match no='1' postag='V.+'>adicionar</match></suggestion>
