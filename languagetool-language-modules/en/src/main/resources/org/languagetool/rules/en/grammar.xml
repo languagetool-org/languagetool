@@ -9360,6 +9360,18 @@ USA
                 <token>manager</token>
             </antipattern>
             <antipattern>
+                <token>lynch</token>
+                <token regexp="yes">mobs?</token>
+            </antipattern>
+            <antipattern>
+                <token>redeem</token>
+                <token regexp="yes">code|gift</token>
+            </antipattern>
+            <antipattern><!-- already covered by OPT_IN_HYPHEN (including a suggestion) -->
+                <token>opt</token>
+                <token regexp="yes">in|out</token>
+            </antipattern>
+            <antipattern>
                 <token>startle</token>
                 <token regexp='yes'>re(sponse|flex)</token>
             </antipattern>
@@ -9433,6 +9445,8 @@ USA
             <example>... that script the way abecedary derives from Latin a be ce de.</example>
             <example><marker>The add/drop</marker> transaction is not final until the changes have been processed</example>
             <example>...Dutch sailor Jan van Riebeeck establishes a <marker>resupply camp</marker> that eventually becomes Cape Town.</example>
+            <example>The <marker>lynch mob</marker> was coming to town to kill all enemies.</example>
+            <example>How do I get a <marker>redeem code</marker>?</example>
         </rule>
         <rulegroup id="MUST_HAVE" name="Hyphen in 'must have/see'">
             <rule>
@@ -9856,6 +9870,35 @@ USA
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
+        </rule>
+        <rulegroup id="OPT_IN_HYPHEN" name="hyphen in 'opt in/out'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s|double|single</token>
+                    <marker>
+                        <token>opt</token>
+                        <token regexp="yes">in|out</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="opt-in">The <marker>opt in</marker> functionality.</example>
+                <example correction="opt-out">My <marker>opt out</marker> attempt wasn't working.</example>
+                <example>My attempt to <marker>opt out</marker> failed.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>opt</token>
+                        <token regexp="yes">in|out</token>
+                    </marker>
+                    <token regexp="yes">e?mails?|newsletters?|programs?|functionalit(y|ies)|accounts?|features?|elections?|systems?|principles?|rules?|agreements?|polic(y|ies)|confirmations?|consents?|forms?|laws?|models?|process(es)?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="opt-in">We have many new <marker>opt in</marker> newsletter subscribers.</example>
+                <example>My attempt to <marker>opt out</marker> failed.</example>
+            </rule>
         </rule>
         <rule id="PASSWORD_PROTECTED_HYPHEN" name="missing hyphen in 'password protected area'">
             <antipattern>
@@ -17092,7 +17135,7 @@ USA
                     <token regexp="yes">8|16|32|64|128|256|512|1024|2048|4096</token>
                     <token>bit</token>
                 </marker>
-                <token regexp="yes">systems?|computers?|processors?|games?|apple|windows|intel|crc|arm|rsa|ssh|ssl|aes|sha|cpus?|gpus?|pcs?|monitors?|hash(es)?|music|arts?|floats?|pixels?|wep|decimal|random|keys?|encryption|encrypted|signed|memory|operating|os|data|personal|audio|address|graphics?|colou?rs?|coin|integers?|units?|java|jre|jdk|microprocessors?|linux|kernels?|arch(itectures)?s?|check|android|numbers?</token>
+                <token regexp="yes">systems?|computers?|processors?|tokens?|games?|apple|windows|intel|crc|arm|rsa|ssh|ssl|aes|sha|cpus?|ids?|gpus?|pcs?|monitors?|hash(es)?|music|arts?|floats?|pixels?|wep|decimal|random|keys?|encryption|encrypted|signed|memory|operating|os|data|personal|audio|address|graphics?|colou?rs?|coin|integers?|units?|java|jre|jdk|microprocessors?|microcontrollers?|linux|kernels?|arch(itectures)?s?|check|android|numbers?</token>
             </pattern>
             <message>It appears a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
