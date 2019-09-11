@@ -18395,7 +18395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">metres?|centímetres?|m|cm</exception></token>
+                    <token><exception regexp="yes">metres?|centímetres?|m|cm|píxels|peus</exception></token>
                     <marker>
                         <token>d'</token>
                         <token>alt</token>
@@ -39129,6 +39129,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
+            <antipattern>
+                <token regexp="yes">deixar|quedar|restar|mostrar|sentir</token>
+                <token min="0">molt</token>
+                <token>descontent</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="D..[MC]S.|SPS00|PX.MS...|DP3CSP" postag_regexp="yes"/>
@@ -40816,7 +40821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">diferents?|distints?|distinta|distintes</token>
                     <token>a</token>
-                    <token regexp="yes">més|causa|nivell|banda|part</token>
+                    <token regexp="yes">més|causa|nivell|banda|part|partir</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -45876,6 +45881,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SYNTAX" name="Sintaxi" type="grammar">
+        <rulegroup id="EXEMPLE_NES" name="un exemple n'és/n'és un exemple">
+            <rule>
+                <pattern>
+                    <token regexp="yes">un|una</token>
+                    <token regexp="yes">exemple|prova|evidència</token>
+                    <token>n'</token>
+                    <token inflected="yes">ser</token>
+                </pattern>
+                <message>Ordenació incorrecta amb el pronom 'en'.</message>
+                <suggestion>n'\4 <match no="1" case_conversion="alllower"/> \2</suggestion>
+                <suggestion>\1 \2 \4</suggestion>
+                <example correction="N'és un exemple|Un exemple és"><marker>Un exemple n'és</marker>.</example>
+                <example correction="N'era un exemple|Un exemple era"><marker>Un exemple n'era</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">un|una</token>
+                    <token regexp="yes">clara?</token>
+                    <token regexp="yes">exemple|prova|evidència</token>
+                    <token>n'</token>
+                    <token inflected="yes">ser</token>
+                </pattern>
+                <message>Ordenació incorrecta amb el pronom 'en'.</message>
+                <suggestion>n'\5 <match no="1" case_conversion="alllower"/> \2 \3</suggestion>
+                <suggestion>\1 \2 \3 \5</suggestion>
+                <example correction="N'és un clar exemple|Un clar exemple és"><marker>Un clar exemple n'és</marker>.</example>
+                <example correction="N'era un clar exemple|Un clar exemple era"><marker>Un clar exemple n'era</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMA_SUBJECTE_PREDICAT" name="coma innecessària entre subjecte i predicat">
             <antipattern>
                 <marker>
