@@ -21,14 +21,10 @@ package org.languagetool.openoffice;
 import java.util.List;
 import java.util.Set;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.UserConfig;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.rules.Rule;
-
-import com.sun.star.uno.XComponentContext;
 
 /**
  * A thread that shows the configuration dialog which lets the
@@ -58,21 +54,7 @@ class ConfigThread extends Thread {
   @Override
   public void run() {
     try {
-      XComponentContext xContext = mainThread.getContext();
-      LinguisticServices linguServices = null;
-      if(xContext != null) {
-        linguServices = new LinguisticServices(xContext);
-      }
-      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
-          new UserConfig(config.getConfigurableValues(), linguServices));
-      List<Rule> allRules = langTool.getAllRules();
-      for (Rule rule : allRules) {
-        if (rule.isOfficeDefaultOn()) {
-          rule.setDefaultOn();
-        } else if(rule.isOfficeDefaultOff()) {
-          rule.setDefaultOff();
-        }
-      }
+      List<Rule> allRules = mainThread.getJLanguageTool().getAllRules();
       Set<String> disabledRulesUI = null;
       if (mainThread != null) {
         disabledRulesUI = mainThread.getDisabledRules();
