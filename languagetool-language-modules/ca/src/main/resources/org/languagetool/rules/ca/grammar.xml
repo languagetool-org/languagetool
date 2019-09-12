@@ -11784,7 +11784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>des de darrere</suggestion>
             <example correction="Des de darrere"><marker>Des d'arrere</marker>.</example>
         </rule>
-        <rule id="PATEIX_PART" name="*parteix/part">
+        <rule id="PARTEIX_PART" name="*parteix/part">
             <pattern>
                 <token>la</token>
                 <marker>
@@ -11797,7 +11797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="part">A la <marker>parteix</marker> nord la ciutat.</example>
             <example>La parteix en dues meitats.</example>
         </rule>
-        <rule id="PATEIX_INTENGRANT" name="*parteix/part integrant">
+        <rule id="PARTEIX_INTENGRANT" name="*parteix/part integrant">
             <pattern>
                 <marker>
                     <token regexp="yes">parteix|partix</token>
@@ -31157,7 +31157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>un</token>
                     <token>tant</token>
                 </marker>
-                <token><exception regexp="yes">cada|alçat|per|a</exception><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">fix|cada|alçat|per|a</exception><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>una mica</suggestion>
@@ -35838,6 +35838,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ARXIU_ARXIVAMENT" name="arxiu/arxivament">
+            <antipattern>
+                <token inflected="yes">arxiu</token>
+                <token regexp="yes" inflected="yes">nacional|provincial|comarcal|obert|XML|informàtic</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">recurs</token>
+                <token inflected="yes" regexp="yes">pedagògic|humà|patrimonial|digital</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">arxiu</token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">processos|investigació|recerca|cas</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">arxiu</token>
+                <token inflected="yes">de</token>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">recurs</token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">arxiu|càrrega</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -35880,6 +35903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="arxivament">Va ordenar el sobreseïment i l'<marker>arxiu</marker>.</example>
                 <example correction="arxivament">La fiscalia recorre al TSJC l'<marker>arxiu</marker>.</example>
                 <example>Va organitzar el tribunal judicial i l'arxiu.</example>
+                <example>Recursos Humans, Recursos Patrimonials i Arxius, Estudis i Informació</example>
             </rule>
         </rulegroup>
         <rule id="SOBAT" name="sobat"> <!-- remove "sobatre" from dictionary? -->
