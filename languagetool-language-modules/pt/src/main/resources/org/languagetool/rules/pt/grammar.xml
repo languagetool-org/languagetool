@@ -2440,7 +2440,7 @@ title="Easy editing stylesheet" ?>
           <token>de</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes' inflected='yes'>ter</token>
+          <token inflected='yes'>ter</token>
           <token regexp='yes'>seguros?</token>
           <token>
             <exception>a</exception>
@@ -2493,10 +2493,12 @@ title="Easy editing stylesheet" ?>
       <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
            Formas não reconhecidas como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
-      <message>A forma correta deste particípio é <match no='3' regexp_match='o' regexp_replace='e'/>.</message>
-        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='o' regexp_replace='e'/></suggestion>
+      <message>A forma correta deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
         <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
       <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
+      <example correction='foi aceite'>O China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
+      <example correction='serem aceites'>... que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
     </rule>
   </rulegroup>
 
