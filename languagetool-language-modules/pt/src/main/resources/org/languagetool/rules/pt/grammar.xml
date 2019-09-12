@@ -375,12 +375,19 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>base|chave</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)F[NS].+' postag_regexp='yes'/>
           <token regexp='yes'>e|d[eo]</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)F[NS].+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d[eo]</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
@@ -461,12 +468,20 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>base|chave</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)F[NS].+' postag_regexp='yes'/>
           <token regexp='yes'>e|d(?:e|os)</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)F[NS].+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d(?:e|os)</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
@@ -497,7 +512,7 @@ title="Easy editing stylesheet" ?>
       <example>Os rios Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
       <example correction="As escolas|Os (escolas)|Os, escolas"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
       <example>Cento e oitenta línguas indígenas são faladas em áreas remotas e diversas...</example>
-      <example>...gicos exibem a notável similaridade de unidades e processos discutida na secção anterior.</example>
+      <example type='triggers_error'>...gicos exibem a notável similaridade de unidades e processos discutida na secção anterior.</example>
     </rule>
     <rule>
       <pattern>
@@ -564,12 +579,20 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>º.*</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)M[NS].+' postag_regexp='yes'/>
           <token regexp='yes'>e|d[ea]</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)M[NS].+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d[ea]</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
@@ -667,12 +690,18 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>\d.+</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)M[NS].+' postag_regexp='yes'/>
           <token regexp='yes'>e|d(?:e|as)</token>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)M[NS].+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
+          <token regexp='yes'>e|d(?:e|as)</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
@@ -1040,12 +1069,18 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
-          <token regexp='yes'>d[eao]s?</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eo]s?</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eo]s?</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token>entre</token>
@@ -1147,12 +1182,18 @@ title="Easy editing stylesheet" ?>
           <token>possível</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
-          <token regexp='yes'>d[eao]</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eo]</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eo]</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
@@ -1240,12 +1281,18 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>&expressoes_de_tempo;|milhas|toneladas</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:D[ADIP].|NC|A..|Z.).P.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
@@ -1304,12 +1351,20 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]s?</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes' max='2'/>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
-          <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]S.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[eao]s?</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]S.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token>distribuições</token>
@@ -2394,7 +2449,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
-          <token regexp='yes'>(?:(?:a(?:bsort|ces|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpress|xpuls|xtint)|f(?:ind|ix|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg|res)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[aoe]|ssente)|entregue)s?
+          <token regexp='yes'>(?:(?:a(?:bsort|ces|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpress|xpuls|xtint)|f(?:ind|ix|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[aoe]|ssente)|entregue)s?
              <exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?</exception></token><!-- XXX significado distintos. Removidos: incluso|tinto -->
       </pattern>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado regular.</message>
@@ -2411,7 +2466,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-          <token regexp='yes'>(?:a(?:ceitad|ntepagad|ssentad)|benzid|d(?:espertad|ispersad)|e(?:legid|mergid|nchid|ntregad|nxugad|xaurid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncurrid|sentad)|limpad|m(?:algastad|alquerid|anifestad|atad|orrido)|o(?:mitid|primid)|p(?:agad|asmad|rendid)|r(?:reelegid|epelid|evolvid|ompid)|s(?:alvad|egurad|oltad|ubmergid|ujad|ujeitad|urpreendid|uspendid)|v(?:agad|olvid))[ao]s?</token>
+          <token regexp='yes'>(?:a(?:ceitad|ntepagad|prisionad|ssentad)|benzid|d(?:espertad|ispersad)|e(?:legid|mergid|nchid|ntregad|nxugad|xaurid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncurrid|sentad)|limpad|m(?:algastad|alquerid|anifestad|atad|orrido)|o(?:mitid|primid)|p(?:agad|asmad|rendid)|r(?:reelegid|epelid|evolvid|ompid)|s(?:alvad|egurad|oltad|ubmergid|ujad|ujeitad|urpreendid|uspendid)|v(?:agad|olvid))[ao]s?</token>
       <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
            Formas não reconhecidas como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
@@ -2822,6 +2877,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token postag='V.IP.+|V.[NG].+' postag_regexp='yes' inflected='yes' skip='4' regexp="yes">esperar|evitar
+            <exception>como</exception>
             <exception scope="next" postag="CC|N.+|DI.+|NP.+|V.[^P].*" postag_regexp="yes"/>
             <exception scope="next" regexp="yes">[;,«“”»]|&quot;</exception>
             <exception scope="previous" postag="P0[12].{5}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
