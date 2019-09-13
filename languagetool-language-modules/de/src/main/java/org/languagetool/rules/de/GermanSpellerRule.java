@@ -92,7 +92,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Thanks", "Danke");
     put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
-    put("gefaked", "gefakt");
+    //put("gefaked", "gefakt");  -- don't suggest
     put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
