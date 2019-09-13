@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
@@ -52,8 +53,9 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SwJLanguageTool {
   
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private final boolean isMultiThread;
-  private final boolean isRemote;
+  private boolean isRemote;
   private final boolean useServerConfig;
   private final String serverUrl;
   private final Map<String, Integer> configurableValues;
@@ -187,6 +189,7 @@ public class SwJLanguageTool {
   }
   
   private class LORemoteLanguageTool {
+    private static final String BLANK = " ";
     private static final String SERVER_URL = "https://languagetool.org/api";
     private static final int SERVER_LIMIT = 20000;
     private boolean initDone = false;
@@ -213,7 +216,7 @@ public class SwJLanguageTool {
       allRules.addAll(extraRemoteRules);
     }
     
-    List<RuleMatch> check(String text, ParagraphHandling paraMode) throws MalformedURLException {
+    List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
       if(!initDone) {
         if(!useServerConfig) {
           configBuilder.enabledRuleIds(enabledRules);
@@ -237,12 +240,22 @@ public class SwJLanguageTool {
         } else {
           int nEnd = text.lastIndexOf(SingleDocument.END_OF_PARAGRAPH, nStart + SERVER_LIMIT) + SingleDocument.NUMBER_PARAGRAPH_CHARS;
           if(nEnd <= nStart) {
-            nEnd = nStart + SERVER_LIMIT;
+            nEnd = text.lastIndexOf(BLANK, nStart + SERVER_LIMIT) + 1;
+            if(nEnd <= nStart) {
+              nEnd = nStart + SERVER_LIMIT;
+            }
           }
           subText = text.substring(nStart, nEnd);
           limit = nEnd;
         }
-        RemoteResult remoteResult = remoteLanguageTool.check(subText, remoteConfig);
+        RemoteResult remoteResult = null;
+        try {
+          remoteResult = remoteLanguageTool.check(subText, remoteConfig);
+        } catch (Throwable t) {
+          MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
+          isRemote = false;
+          return lt.check(text, true, paraMode);
+        }
         ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
       }
       return ruleMatches;
