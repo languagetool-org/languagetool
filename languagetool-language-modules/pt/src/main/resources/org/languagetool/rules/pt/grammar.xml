@@ -543,7 +543,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token postag='(?:NC|A..)FS.+' postag_regexp='yes'/>
-          <token regexp='yes'>alvo|padrão</token>
+          <token regexp='yes'>alvo|padrão|standard</token>
       </antipattern>
       <antipattern>
           <unify>
@@ -673,7 +673,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token postag='(?:NC|A..)FP.+' postag_regexp='yes'/>
-          <token regexp='yes'>alvo|padrão</token>
+          <token regexp='yes'>alvo|padrão|standard</token>
       </antipattern>
       <antipattern>
           <token>alíneas</token>
@@ -2490,14 +2490,12 @@ title="Easy editing stylesheet" ?>
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
           <token regexp='yes'>aceit[ao]s?</token>
-      <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
-           Formas não reconhecidas como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
       <message>A forma correta deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
         <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
       <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
-      <example correction='foi aceite'>O China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
+      <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
       <example correction='serem aceites'>... que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
     </rule>
   </rulegroup>
@@ -8573,6 +8571,12 @@ title="Easy editing stylesheet" ?>
           <token>bem</token>
           <token postag='_PUNCT'/>
       </antipattern>
+      <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token>no</token>
+          <token>entretanto</token>
+          <token postag='_PUNCT'/>
+      </antipattern>
       <!--antipattern>
         <marker>
           <token/>
@@ -8585,6 +8589,10 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token postag='_PUNCT'/>
           <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+      </antipattern>
+      <antipattern>
+          <token>mas</token>
+          <token>também</token>
       </antipattern>
       <pattern>
         <marker>
