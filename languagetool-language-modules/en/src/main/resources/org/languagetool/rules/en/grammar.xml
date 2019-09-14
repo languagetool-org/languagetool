@@ -30687,13 +30687,17 @@ The accident victim died from her injuries.
       <example>When the dog tried to bite me, I held him down by the neck...</example>
     </rule>
         <rule>
+            <antipattern>
+                <token regexp="yes">Magna|Summa|Egregia|Maxima</token>
+                <token>cum</token>
+                <token>laude</token>
+            </antipattern>
             <pattern>
-                <token regexp='yes'>cums?
-                   <exception scope='previous'>Magna|Summa|Egregia|Maxima</exception></token>
+                <token regexp='yes'>cums?</token>
             </pattern>
           <message>This expression can be considered offensive.</message>
           <example correction=""><marker>cum</marker></example>
-          <example correction="">Summa <marker>Cum</marker> Laude</example>
+          <example>Summa <marker>Cum</marker> Laude</example>
         </rule>
         <rule>
           <pattern>
