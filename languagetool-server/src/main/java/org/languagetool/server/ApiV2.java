@@ -61,6 +61,8 @@ class ApiV2 {
   void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
+    } else if (path.equals("maxtextlength")) {
+      handleMaxTextLengthRequest(httpExchange, config);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
@@ -82,6 +84,14 @@ class ApiV2 {
 
   private void handleLanguagesRequest(HttpExchange httpExchange) throws IOException {
     String response = getLanguages();
+    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
+  }
+
+  private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
+    String response = Integer.toString(config.maxTextLength);
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
