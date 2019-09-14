@@ -26920,10 +26920,12 @@ TODO Write better examples
           <token regexp='yes'>a|à|e|,</token>
           <token regexp='yes'>&dias_semana;
             <exception regexp='yes'>sábado|domingo</exception></token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token spacebefore='no'>feira</token>
       </pattern>
       <message>Redundância não gramatical.</message>
-        <suggestion>\1 a \5</suggestion>
-      <example correction="segunda a sexta">Podem visitar o museu de <marker>segunda-feira a sexta</marker>-feira.</example>
+        <suggestion>\1 a \5\6\7</suggestion>
+      <example correction="segunda a sexta-feira">Podem visitar o museu de <marker>segunda-feira a sexta-feira</marker>.</example>
     </rule>
 
   <rulegroup id="DATE_FUTURE_VERB_PAST" name="Datas: Data futura + verbo no passado">
