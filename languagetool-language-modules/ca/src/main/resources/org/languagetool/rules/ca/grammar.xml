@@ -39346,14 +39346,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PEL_GENERAL" name="*pel general/en general">
             <antipattern>
-                <marker>
-                    <token>pe</token>
-                    <token>l</token>
-                    <token>general</token>
-                    <token regexp="yes">de|d'</token>
-                    <token regexp="yes">\p{Lu}.+</token>
-                </marker>
+                <token>general</token>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes" min="0">el|l|l'|la|les</token>
+                <token regexp="yes">\p{Lu}.+|brigada|de|divisió|al-.*|orde|marina|califa|rei|exèrcit|consell</token>
             </antipattern>
+            <antipattern>
+                <token>general</token>
+                <token>en</token>
+                <token>cap</token>
             <pattern>
                 <token><exception postag="V.P.*" postag_regexp="yes"/><!--<exception inflected="yes" regexp="yes">dirigir|comandar|encapçalar|derrotar|bombardejar|manar|capitanejar|liderar|vèncer</exception>--></token>
                 <marker>
@@ -39361,7 +39362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l</token>
                     <token>general</token>
                 </marker>
-                <token><exception postag="A..[MC][SN].|N.[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|que</exception></token>
+                <token><exception postag="A..[MC][SN].|N.[MC][SN].*|V.P..SM." postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|que</exception></token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>en general</suggestion>
@@ -39369,6 +39370,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="En general|Generalment"><marker>Pel general</marker> són una farsa.</example>
             <example>Encapçalats pel general en cap Ramon Cabrera.</example>
             <example>Les tropes dirigides pel general Franco.</example>
+            <example>Dirigida pel general de brigada.</example>
+            <example>Fou convidat a Roma pel general de l'orde. </example>
+            <example>Pel general retirat</example>
         </rule>
         <rule id="PEL_MOMENT" name="*pel moment">
             <pattern>
