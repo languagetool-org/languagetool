@@ -47,6 +47,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "wie schicken wir",
     "wie benutzen sie",
     "wir ja nicht",
+    "wie wir oder",
     "ich drei bin" // seit ich drei bin.
   );
 
