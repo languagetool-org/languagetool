@@ -30660,7 +30660,7 @@ The accident victim died from her injuries.
             <example type="correct">... by American publishers, for example Ten Little Niggers to Ten Little Indians, were kept the same across ...</example>
         </rule>
     <rule>
-      <regexp>\b((?!(?-i)Crips)&profanity;)\b</regexp>
+      <regexp>\b(&profanity;)\b</regexp>
       <message>This expression is considered offensive.</message>
         <url>https://en.wiktionary.org/wiki/Category:English_offensive_terms</url>
       <example type="incorrect"><marker>Fuck off</marker>!</example>
@@ -30669,6 +30669,7 @@ The accident victim died from her injuries.
       <example type='triggers_error'>-1993 - "Welcher Pfad führt zur Geschichte" (12"/MCD, MZEE</example>
       <example type="incorrect">You son of a <marker>bitch</marker>!</example>
       <example type='triggers_error'>...ond Washington, American gang leader, founder the Crips (b. 1953)</example>
+      <!-- https://www.thefreedictionary.com/crip -->
     </rule>
         <rule>
       <regexp>^(?:bite me)[\.!]</regexp>
@@ -30707,12 +30708,12 @@ The accident victim died from her injuries.
         <rule>
             <pattern>
                 <token>jim</token>
-                <token>crows
+                <token regexp='yes'>crows?
                   <exception scope='next' regexp='yes'>laws?</exception></token>
             </pattern>
           <message>This expression is considered offensive.</message>
-          <example type="incorrect"><marker>Jim Crow</marker></example>
-          <example type="correct"><marker>Jim Crow</marker> laws</example>
+          <example type="incorrect"><marker>Jim Crow</marker>.</example>
+          <example type="correct"><marker>Jim Crow</marker> laws.</example>
         </rule>
   </rulegroup>
 
