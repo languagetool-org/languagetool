@@ -47,6 +47,7 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 class ApiV2 {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
+  private static final String TEXT_CONTENT_TYPE = "text/plain";
   private static final String ENCODING = "UTF-8";
 
   private final TextChecker textChecker;
@@ -92,7 +93,7 @@ class ApiV2 {
 
   private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
     String response = Integer.toString(config.maxTextLength);
-    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
+    ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
