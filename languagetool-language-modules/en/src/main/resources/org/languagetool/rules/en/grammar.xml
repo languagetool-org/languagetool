@@ -22499,6 +22499,48 @@ The accident victim died from her injuries.
     </rule>
   </rulegroup>
 
+  <rulegroup id='ATD_VERBS_TO_COLLOCATION' name='Collocation: Word + to + PRP|NNP|DT'>
+     <!-- Conversion from AtD by Tiago F. Santos, 2019-09-13 -->
+     <rule>
+      <antipattern>
+          <token regexp="yes">attempt|attempting</token>
+          <token inflected="yes">be</token>
+          <token postag='DT'/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">references?</token>
+          <token inflected="yes">have</token>
+          <token postag='DT'/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">wants?</token>
+          <token inflected="yes">help</token>
+          <token postag_regexp='yes' postag='PRP|NNP'/>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">ability|able|access|according|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|applies|apt|attempt|attempting|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|corresponds?|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|pretending|pretend|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|references?|refusal|refuses?|refusing|regard|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|seeks|seems?|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|tries|trying|try|unable|unwilling|wants?|willingness|willing|wishing</token>
+          <token postag_regexp="yes" postag='PRP|NNP|DT'/>
+      </pattern>
+      <message>Probably a preposition is missing after '\1'.</message>
+        <suggestion>\1 to \2</suggestion>
+      <example correction='According to Angela'><marker>According Angela</marker>, they are dating.</example>
+    </rule>
+     <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token regexp="yes" inflected="yes">Epistle|Guide|Jump|Ode|Prior|Welcome</token>
+          <token postag_regexp='yes' postag='VBG?'/>
+        </marker>
+      </pattern>
+      <message>Probably a preposition is missing after '\1'.</message>
+        <suggestion>\2 to \3</suggestion>
+      <example correction='Prior to leaving'><marker>Prior leaving</marker>, he had a good time.</example>
+    </rule>
+    <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
+  </rulegroup>
+
+
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
     <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
