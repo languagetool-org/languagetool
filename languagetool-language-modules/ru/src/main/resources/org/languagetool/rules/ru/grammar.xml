@@ -3408,7 +3408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Видишь ли, эта"><marker>Видишь ли эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: «к счастью», ...">
+        <rulegroup default="on" id="KAK_VVODNOE" name="Слова, которые могут выступать в роли вводных: «к счастью», ...">
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
@@ -3473,7 +3473,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="no">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>   <!-- temp remove однако -->           
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->           
                     <and>
                         <token negate="yes">,</token>
                         <token negate="yes">же</token>
@@ -3490,10 +3490,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="работа, несомненно, представляет">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
-                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
+                <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако, наверное, наверно   ...-->
                 <pattern case_sensitive="no">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
                     <token>,</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2\3</suggestion>.</message>
@@ -3507,7 +3507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>,<exception postag="SENT_START"></exception></token>
                     <marker>
-                        <token regexp="yes">конечно|несомненно|вероятно|кажется</token>  <!-- temp remove однако --> 
+                        <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако --> 
                     </marker>
                     <token negate="yes" regexp="yes" skip="-1"><exception regexp= "yes" >если|же|ж</exception><exception scope="next" postag_regexp="yes" postag="VB:.*"></exception>[\p{Punct}]|-|—|–</token>
                     <token regexp="yes">[.,:;!?]</token>
@@ -3528,7 +3528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное</token>
+                        <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно</token>
                         <token negate="yes" regexp="yes">[\p{Punct}]|же</token>
                     </marker>
                 </pattern>
