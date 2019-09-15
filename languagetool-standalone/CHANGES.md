@@ -24,6 +24,9 @@
   * improved rules
 
 #### Ukrainian
+  * 2k of new words in the dictionary
+  * improved tokenization
+  * improved dynamic tagging
   * added and improved rules
 
 #### General
