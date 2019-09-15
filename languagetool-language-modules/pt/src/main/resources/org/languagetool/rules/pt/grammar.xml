@@ -2772,7 +2772,8 @@ title="Easy editing stylesheet" ?>
           <token postag='NP.+|_PUNCT' postag_regexp='yes' min='0' max='2'/>
         <marker>
           <token inflected='yes' regexp='yes' postag_regexp='yes' postag='V....P.+'>fazer|ir|poder</token>
-          <token min="0" skip="3" postag_regexp='yes' postag='(?:D|R|C|Z).+'/>
+          <token min="0" skip="3" postag_regexp='yes' postag='(?:D|R|C|Z).+'>
+            <exception scope='next' postag='_PUNCT'/></token>
           <token regexp='yes'>&expressoes_de_tempo;
             <exception regexp='yes'>tempos?</exception></token>
         </marker>
@@ -3098,7 +3099,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token>sequer
-            <exception scope='previous'>antes</exception></token>
+            <exception scope='previous' regexp='yes'>antes|ou</exception></token>
       </pattern>
       <message>'Sequer' deve ser precedido de uma negação.</message>
         <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
