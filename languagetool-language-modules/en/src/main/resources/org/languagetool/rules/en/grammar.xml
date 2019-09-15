@@ -22499,8 +22499,8 @@ The accident victim died from her injuries.
     </rule>
   </rulegroup>
 
-  <rulegroup id='ATD_VERBS_TO_COLLOCATION' name='Collocation: Word + to + PRP|NNP|DT' default="off">
-     <!-- Conversion from AtD by Tiago F. Santos, 2019-09-13 -->
+  <rulegroup id='ATD_VERBS_TO_COLLOCATION' name='Collocation: Word + to + PRP|NNP|DT' default="on">
+     <!-- Based on AtD by Tiago F. Santos, 2019-09-13 -->
      <rule>
       <antipattern>
           <token regexp="yes">attempt|attempting</token>
@@ -22513,19 +22513,58 @@ The accident victim died from her injuries.
           <token postag='DT'/>
       </antipattern>
       <antipattern>
-          <token regexp="yes">wants?</token>
-          <token inflected="yes">help</token>
-          <token postag_regexp='yes' postag='PRP|NNP'/>
+          <token>reference</token>
+          <token regexp="yes">cent(?:er|re)</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">adds?|adding|prepares?|refuse|regard|tendenc(y|ies)</token>
+          <token postag='PRP'/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">adds?|adding|dedicated|prepares?|refuse|regards?|relates?</token>
+          <token regexp="yes">an?|the|some</token>
+      </antipattern>
+      <antipattern>
+          <token postag_regexp="yes" postag='PRP|NNP|DT'/>
+          <token regexp="yes" spacebefore='no'>['’]</token>
+      </antipattern>
+      <antipattern>
+          <token>due</token>
+          <token regexp="yes">&weekdays;|\d{1,2}|&months;|\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token>percent</token>
+          <token>a</token>
+          <token regexp="yes">day|week|month|year</token>
       </antipattern>
       <pattern>
-          <token regexp="yes">ability|able|access|according|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|applies|apt|attempt|attempting|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|corresponds?|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|pretending|pretend|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|references?|refusal|refuses?|refusing|regard|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|seeks|seems?|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|tries|trying|try|unable|unwilling|wants?|willingness|willing|wishing</token>
-          <token postag_regexp="yes" postag='PRP|NNP|DT'/>
+          <token regexp="yes">ability|able|access|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|corresponds?|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|pretending|pretend|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|references?|refusal|refuses?|refusing|regard|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|seeks|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing</token>
+            <!-- |wishing -->
+          <token postag_regexp="yes" postag='PRP|NNP|DT'>
+            <exception regexp='yes'>both|some|this|that</exception></token>
       </pattern>
       <message>Probably a preposition is missing after '\1'.</message>
         <suggestion>\1 to \2</suggestion>
       <example correction='According to Angela'><marker>According Angela</marker>, they are dating.</example>
     </rule>
      <rule>
+      <antipattern>
+          <token inflected='yes'>jump</token>
+          <token>rope</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>welcome</token>
+          <token>back</token>
+      </antipattern>
+      <antipattern>
+          <token>Guided</token>
+          <token postag='VBG'/>
+      </antipattern>
+      <antipattern>
+          <token>Prior</token>
+          <token postag='VBG'/>
+          <token>of</token>
+      </antipattern>
       <pattern>
           <token postag='SENT_START'/>
         <marker>
@@ -22533,9 +22572,28 @@ The accident victim died from her injuries.
           <token postag_regexp='yes' postag='VBG?'/>
         </marker>
       </pattern>
-      <message>Probably a preposition is missing after '\1'.</message>
+      <message>Probably a preposition is missing after '\2'.</message>
         <suggestion>\2 to \3</suggestion>
       <example correction='Prior to leaving'><marker>Prior leaving</marker>, he had a good time.</example>
+    </rule>
+     <rule>
+      <antipattern>
+          <token regexp="yes">wants?</token>
+          <token inflected="yes">help</token>
+          <token postag_regexp='yes' postag='PRP|NNP'/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">an|the|various|some</token>
+          <token regexp="yes">attempts?</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes" inflected="yes">apply|attempt|want|try|attemp|seem</token>
+          <token postag='VB'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>Probably a preposition is missing after '\1'.</message>
+        <suggestion>\1 to \2</suggestion>
+      <example correction='wants to redecorate'>She <marker>wants redecorate</marker> the house again.</example>
     </rule>
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
