@@ -9389,9 +9389,9 @@ USA
                 <token>the</token>
                 <token>add</token>
             </antipattern>
-            <antipattern><!-- "I got a write up at work." -->
+            <antipattern><!-- "I got a write up at work." (see WRITE_UP_HYPHEN) -->
                 <token>write</token>
-                <token>up</token>
+                <token regexp="yes">(up|down|in|off)s?</token>
             </antipattern>
             <antipattern>
                 <token postag="VB|VBP|JJ" postag_regexp="yes" /><!-- "worth a listen", "have/take a listen" -->
@@ -9411,6 +9411,12 @@ USA
                 <token postag="CD"/>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no">a</token>
+            </antipattern>
+            <antipattern><!-- "Let's start with the do's" (already caught by VERB_APOSTROPHE_S) -->
+                <token>the</token>
+                <token>do</token>
+                <token regexp="yes">['´]</token>
+                <token>s</token>
             </antipattern>
             <antipattern><!-- the merge process/es to be/become -->
                 <token>the</token>
@@ -9946,6 +9952,21 @@ USA
             <example correction="simple-to-use">The Mac is a <marker>simple to use</marker> computer.</example>
             <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
             <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
+        </rule>
+        <rule id="WRITE_UP_HYPHEN" name="hyphen in 'write up'">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|their|our|your</token>
+                <marker>
+                    <token>write</token>
+                    <token regexp="yes">(up|in|off|down)s?</token>
+                </marker>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\2-\3</suggestion>
+            <example correction="write-down">If the market value recovers by year-end, the <marker>write down</marker> (provision) should be reversed either by reversing the expense itself or creating an income or a revenue.</example>
+            <example correction="write-up">Finally, every program should have a <marker>write up</marker>.</example>
+            <example>He wanted to <marker>write down</marker> his thoughts.</example>
+            <example>Let's write in turns.</example>
         </rule>
         <rulegroup id="THOUGH_THOUGHT" name="confusion of though/thought">
             <rule>
