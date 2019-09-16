@@ -3471,8 +3471,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
-                <pattern case_sensitive="no">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|«|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->           
                     <and>
                         <token negate="yes">,</token>
@@ -3485,14 +3485,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая.</short>
                 <example>Эта работа, несомненно, представляет огромную научную ценность.</example>
+                <example>Мне кажется, твой ответ правилен.</example>
                 <example>Звук кажется выше на октаву.</example>
                 <example>Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
                 <example correction="работа, несомненно, представляет">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако, наверное, наверно   ...-->
-                <pattern case_sensitive="no">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|«|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
                     <token>,</token>
                 </pattern>
@@ -3500,6 +3501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая.</short>
                 <example>Эта работа, несомненно, представляет огромную научную ценность.</example>
+                <example>Мне кажется, твой ответ правилен.</example>
                 <example>Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
                 <example correction="работа, несомненно,">Эта <marker>работа несомненно,</marker> представляет огромную научную ценность.</example>
             </rule>
