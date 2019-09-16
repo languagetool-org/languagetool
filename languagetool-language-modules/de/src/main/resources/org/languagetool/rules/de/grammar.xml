@@ -30630,9 +30630,9 @@ Andere Projekte</example>
             <url>https://www.duden.de/rechtschreibung/Mal_Zeitpunkt</url>
             <rule>
                 <antipattern>
-                    <token postag="ZAL.*" postag_regexp="yes" />
+                    <token postag="ZAL"/>
                     <token case_sensitive="yes">mal</token>
-                    <token postag="ZAL.*" postag_regexp="yes" />
+                    <token postag="ZAL"/>
                 </antipattern>
                 <pattern>
                     <token postag="PRO:.*:SIN:NEU:.*|ADJ:AKK:...:NEU:.*|ZAL" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
@@ -30790,9 +30790,9 @@ Andere Projekte</example>
             <example>Das alles sind Indizien, dass du der Täter warst.</example>
         </rule>
         <rulegroup id="EIN_UND_ALLES" name="Großschreibung 'Ein und Alles'">
+            <url>https://www.korrekturen.de/wortliste/ein_und_alles.shtml</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">das|[dms]ein|unser|ihr|euer</token>
                     <marker>
                     <token case_sensitive="yes">ein</token>
                     </marker>
@@ -30819,7 +30819,7 @@ Andere Projekte</example>
         <rule id="DAS_ETWAS" name="das gewisse etwas (Etwas)">
             <pattern>
                 <token regexp="yes">das|ein</token>
-                <token postag="ADJ:AKK:SIN:.*" postag_regexp="yes"/>
+                <token postag="ADJ:AKK:SIN:.+" postag_regexp="yes"/>
                 <marker><token case_sensitive="yes">etwas</token></marker>
             </pattern>
             <message>&subanfang;<suggestion>Etwas</suggestion>&subende;</message>
