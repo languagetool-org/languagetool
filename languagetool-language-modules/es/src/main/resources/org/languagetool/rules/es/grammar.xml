@@ -99,6 +99,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rule id="TOMAS" name="tomas/Tomás">
+            <pattern case_sensitive="yes">
+                <token>Tomas<exception scope="previous" regexp="yes">[¿¡"]</exception><exception scope="previous" postag="SENT_START"/></token>
+            </pattern>
+            <message>Si es un nombre de persona, se escribe <suggestion>Tomás</suggestion>?</message>
+            <example correction="Tomás">Voy a ver a <marker>Tomas</marker>.</example>
+            <example>¿Tomas una copa conmigo?</example>
+            <example>Tomas el mando.</example>
+            <example>¿Tomas café?</example>
+        </rule>
         <rulegroup id="SINGLE_CHARACTER" name="single lowercase character"><!-- copied and adapted from English rule -->
             <antipattern><!-- A series of single characters or digits -->
                 <token regexp="yes">[a-z]|[0-9]</token>
