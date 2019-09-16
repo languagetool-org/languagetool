@@ -1065,6 +1065,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB:.+:SIN:NEU:INF"/>
         </rule>
     </rulegroup>
+    <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="PRP.+"></token>
+                <marker>
+                    <and>
+                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag=".+:NOM:.+"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="ZURATE" name="'zurate' keine Verbform in Verbindung mit 'ziehen'">
         <rule>
             <pattern case_sensitive="yes">

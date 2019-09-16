@@ -2261,8 +2261,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mit</token>
                     </marker>
-                    <token postag="PRO:IND:NOM:SIN:ALG:STV"/>
-                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token postag="PRO:IND:AKK:SIN:ALG:STV"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>mir</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -2276,7 +2276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mit</token>
                     </marker>
-                    <token postag="ADJ:.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0"/>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>mir</suggestion>?</message>
@@ -17346,7 +17346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <marker>
-                    <token case_sensitive="yes" postag="VER:INF:NON|ADJ:NOM:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
+                    <token case_sensitive="yes" postag="VER:INF:NON|ADJ:AKK:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
                 </marker>
                 <token><exception postag="SUB:NOM:SIN:NEU" /><exception>,</exception></token>
             </pattern>
@@ -30635,7 +30635,7 @@ Andere Projekte</example>
                     <token postag="ZAL.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:NOM:...:NEU:.*|ADJ:AKK:SIN:NEU:.*|ZAL.*" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
+                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:AKK:...:NEU:.*|ZAL" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
                     <marker>
                     <token case_sensitive="yes">mal</token>
                     </marker>
