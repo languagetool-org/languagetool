@@ -3973,6 +3973,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-singular"/>
             <token postag="VB[DZ]" postag_regexp="yes"/>
         </antipattern>
+        <antipattern><!-- His proposed plan to remove -->
+            <token postag="DT|PRP\$" postag_regexp="yes"/>
+            <token postag="JJ.?" postag_regexp="yes"/>
+            <token postag="NN(:UN?)?" postag_regexp="yes"/><!-- Cannot use chunk: plan/E-NP-plural -->
+            <token>to</token>
+        </antipattern>
         <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>
             <token postag_regexp="yes" postag="PRP|NN.*"/>
@@ -3987,6 +3993,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="had[have/VBD,have/VBN]" outputform="had[have/VBD]">He <marker>had</marker> a car.</example>
         <example type="untouched">He has made a mistake.</example>
         <example type="untouched">Past participle adjective. The basic <marker>installed</marker> software is not sufficient.</example>
+        <example type="untouched">His proposed plan to remove the...</example>
     </rule>
 
 	<rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
