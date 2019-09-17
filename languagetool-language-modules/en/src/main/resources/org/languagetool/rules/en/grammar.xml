@@ -8558,7 +8558,7 @@ USA
             <antipattern>
                 <token>of</token>
                 <token postag="DT" min="0" max="2"/>
-                <token postag="JJR?" postag_regexp="yes" min="0"/>
+                <token postag="JJ[RS]?" postag_regexp="yes" min="0"/>
                 <token>people</token>
             </antipattern>
             <antipattern>
@@ -8598,7 +8598,7 @@ USA
                 <token>people</token>
             </antipattern>
             <pattern>
-                <token>people<exception scope="previous">no</exception></token>
+                <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
                 <marker>
                     <token postag="VBZ"/>
@@ -14372,6 +14372,11 @@ USA
                 <antipattern><!-- MFU 2019-09-03. In the marked token, <exception scope="next" postag="SENT_END"/> does not work. -->
                     <token postag="VBG"/>
                     <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token>struggle</token>
+                    <token postag="VBG"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
