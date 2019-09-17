@@ -1311,7 +1311,7 @@ USA
                 <token>eye</token>
                 <token inflected="yes" regexp="yes">brow|lash|sight|sore|lid</token>
             </pattern>
-            <message>This word is usually spelt together: <suggestion>\1\2</suggestion>.</message>
+            <message>This word is usually spelt together: <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>.</message>
             <short>Possible typo</short>
             <example correction="eyelids">Calcium deposits on <marker>eye lids</marker></example>
         </rule>
@@ -4279,18 +4279,18 @@ USA
         <rule id="FIGURE_HEAD" name="figure head (figurehead)">
             <pattern>
                 <token>figure</token>
-                <token>head</token>
+                <token regexp="yes">heads?</token>
             </pattern>
-            <message>Did you mean <suggestion>figurehead</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="figurehead">The boss was merely a <marker>figure head</marker>.</example>
         </rule>
         <!-- flag ship::word=flagship -->
         <rule id="FLAG_SHIP" name="flag ship (flagship)">
             <pattern>
                 <token>flag</token>
-                <token>ship</token>
+                <token regexp="yes">ships?</token>
             </pattern>
-            <message>Did you mean <suggestion>flagship</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="flagship">This was the <marker>flag ship</marker> store.</example>
         </rule>
         <!-- head gear::word=headgear -->
@@ -4316,9 +4316,9 @@ USA
         <rule id="HEAD_STONE" name="head stone (headstone)">
             <pattern>
                 <token>head</token>
-                <token>stone</token>
+                <token regexp="yes">stones?</token>
             </pattern>
-            <message>Did you mean <suggestion>headstone</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="headstone">They wrote the words on his <marker>head stone</marker>.</example>
             <example>He had a slightly cracked headstone.</example>
         </rule>
@@ -4412,10 +4412,10 @@ USA
         <rule id="NEW_COMER" name="new comer (newcomer)">
             <pattern>
                 <token>new</token>
-                <token>comer</token>
+                <token regexp="yes">comers?</token>
             </pattern>
-            <message>Did you mean <suggestion>newcomer</suggestion>?</message>
-            <example correction="newcomer">There was a <marker>new comer</marker> to the party.</example>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
+            <example correction="newcomers">There were many <marker>new comers</marker> at the concert.</example>
         </rule>
         <!-- note worthy::word=noteworthy -->
         <rule id="NOTE_WORTHY" name="note worthy (noteworthy)">
@@ -4465,10 +4465,11 @@ USA
         <rule id="OUT_GROW" name="out grow (outgrow)">
             <pattern>
                 <token>out</token>
-                <token>grow</token>
+                <token inflected="yes">grow</token>
             </pattern>
-            <message>Did you mean <suggestion>outgrow</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="outgrow">The little guy would soon <marker>out grow</marker> his clothes.</example>
+            <example correction="outgrowing">He is <marker>out growing</marker> his diapers.</example>
         </rule>
         <!-- out side::word=outside -->
         <rule id="OUT_SIDE" name="out side (outside)">
@@ -4532,6 +4533,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>shortcut</suggestion>?</message>
             <example correction="shortcut">I know a <marker>short cut</marker>.</example>
+            <example type="triggers_error">If you won't like your short cut, you can return to your long hair.</example><!-- FP -->
         </rule>
         <!-- side kick::word=sidekick -->
         <rule id="SIDE_KICK" name="side kick (sidekick)">
@@ -4582,10 +4584,11 @@ USA
         <rule id="BACK_FIRE" name="back fire (backfire)">
             <pattern>
                 <token>back</token>
-                <token>fire</token>
+                <token inflected="yes">fire</token>
             </pattern>
-            <message>Did you mean <suggestion>backfire</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="backfire">His plans always <marker>back fire</marker>.</example>
+            <example correction="backfiring">He's <marker>back firing</marker>.</example>
         </rule>
         <!-- world wide::word=worldwide -->
         <rule id="WORLD_WIDE" name="world wide (worldwide)">
@@ -4666,10 +4669,11 @@ USA
         <rule id="DOWN_SIDE" name="down side (downside)">
             <pattern>
                 <token>down</token>
-                <token>side</token>
+                <token regexp="yes">sides?</token>
             </pattern>
-            <message>Did you mean <suggestion>downside</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="downside">There was no serious <marker>down side</marker> to the plan.</example>
+            <example correction="Downsides">The <marker>Down Sides</marker> aren't easy.</example>
         </rule>
         <!-- through out::word=throughout -->
         <rule id="THROUGH_OUT" name="through out (throughout)">
@@ -4730,9 +4734,9 @@ USA
         <rule id="FREE_LANCER" name="free lancer (freelancer)">
             <pattern>
                 <token>free</token>
-                <token>lancer</token>
+                <token regexp="yes">lancers?</token>
             </pattern>
-            <message>Did you mean <suggestion>freelancer</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="freelancer">He was a <marker>free lancer</marker>.</example>
         </rule>
         <!-- free lances::word=freelances -->
@@ -4774,11 +4778,12 @@ USA
         <rule id="WEB_SITE" name="web site (website)">
             <pattern>
                 <token>web</token>
-                <token regexp="yes">site|sight</token>
+                <token regexp="yes">(site|sight)s?</token>
             </pattern>
-            <message>Did you mean <suggestion>website</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="website">The <marker>web site</marker> was down.</example>
             <example>The <marker>website</marker> was down.</example>
+            <example correction="Websites">Our <marker>Web Sites</marker> are all secured by an SSL certificate.</example>
             <example type="triggers_error">Achill Archaeological Field School web site.</example><!-- 2 words is possible in AmE: www.merriam-webster.com/dictionary/web%20site -->
         </rule>
         <!-- head scarf::word=headscarf -->
@@ -4867,9 +4872,9 @@ USA
         <rule id="OUT_COME" name="out come (outcome)">
             <pattern>
                 <token>out</token>
-                <token>come</token>
+                <token regexp="yes">comes?</token>
             </pattern>
-            <message>Did you mean <suggestion>outcome</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="outcome">What was the <marker>out come</marker>?</example>
         </rule>
         <!-- album comprised of::word=album composed of::pivots=comprised,composed::options=comprised,composed -->
