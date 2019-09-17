@@ -203,7 +203,7 @@ Copyright (C) 2011 Juan Martorell
         <and>
           <token postag="N.*" postag_regexp="yes"/>
 
-          <token postag="A.*" postag_regexp="yes"/>
+          <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
 
           <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
         </and>
@@ -217,6 +217,7 @@ Copyright (C) 2011 Juan Martorell
     <example inputform="blanca[blanco/AQ0FS0,blanco/NCFS000]" outputform="blanca[blanco/NCFS000]" type="ambiguous">Me gusta la <marker>blanca</marker>.</example>
 
     <example type="untouched">Eran demasiado siniestros.</example>
+    <example type="untouched">Una nueva formula.</example>
   </rule>
 
   <!-- D_N Cuando está delante de un nombre, se trata de un determinante.-->
@@ -330,6 +331,13 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filter" postag="V.[^MNPG].*"/>
     </rule>
   </rulegroup>
+
+  <rule id="PREPOSICIONES" name="preposiciones">
+    <pattern> <!-- TODO: exceptions?-->
+      <token postag="SPS00"/>
+    </pattern>
+    <disambig action="filter" postag="SPS00"/>
+  </rule>
 
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
     <!-- Localized from English by Tiago F. Santos, 2019-08-30  -->
