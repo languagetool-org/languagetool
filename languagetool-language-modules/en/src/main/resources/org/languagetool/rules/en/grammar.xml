@@ -24892,18 +24892,6 @@ The accident victim died from her injuries.
                 <example>If you bore each other <marker>then</marker>, heaven help you.</example>
                 <example correction="than">Single Clicking rather <marker>then</marker> Double Clicking</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token>different</token>
-                    <marker>
-                        <token regexp="yes">th[ae]n</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean 'different <suggestion>from</suggestion>? 'Different than' is often considered colloquial style.</message>
-                <short>Possible typo</short>
-                <example correction="from">Are human beings any different <marker>than</marker> animals?</example>
-                <example correction="from">Are human beings any different <marker>then</marker> animals?</example>
-            </rule>
         </rulegroup>
         <rule id="CONFUSION_OF_HART_HEART" name="hard (heart)">
             <pattern>
@@ -30687,6 +30675,17 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="DIFFERENT_THAN" name="different than (from)">
+            <pattern>
+                <token>different</token>
+                <marker>
+                    <token regexp="yes">th[ae]n</token>
+                </marker>
+            </pattern>
+            <message>Did you mean 'different <suggestion>from</suggestion>? 'Different than' is often considered colloquial style.</message>
+            <example correction="from">Are human beings any different <marker>than</marker> animals?</example>
+            <example correction="from">Are human beings any different <marker>then</marker> animals?</example>
+        </rule>
         <rule id="THAN_I" name="be bigger than me (I)">
             <pattern case_sensitive="yes">
                 <token inflected="yes">be</token>
