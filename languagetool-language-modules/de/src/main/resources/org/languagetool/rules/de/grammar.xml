@@ -18547,6 +18547,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bedarf">Wir haben keinen <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Anwendung: je nach <marker>bedarf</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="(SUB|PRO:PER).+NOM.+" postag_regexp="yes"><exception postag="ART.+" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>Bedarf</token>
+                    </marker>
+                </pattern>
+                <message>Schreiben Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>, falls es sich dabei um ein Verb handelt.</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example correction="bedarf">Der Text <marker>Bedarf</marker> noch einer Kürzung</example>
+                <example>Der Bedarf ist sehr hoch.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AUSREDE_SUBST" name="'faule ausrede (Ausrede)'">
             <rule>
