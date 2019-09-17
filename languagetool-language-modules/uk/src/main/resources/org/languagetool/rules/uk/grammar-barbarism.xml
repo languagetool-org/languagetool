@@ -315,13 +315,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
       </pattern>
-      <message>Правильно: <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:.*):v_oru(.*)" postag_replace="$1:v_zna(:r(in)?anim)?$2"/> <match no="3" postag_regexp="yes" postag="(noun:.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+      <message>Хворіти вимагає конструкції з «на»</message>
+      <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:.*):v_oru(.*)" postag_replace="$1:v_zna(:r(in)?anim)?$2"/> <match no="3" postag_regexp="yes" postag="(noun:.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion>
       <example correction="на ангіну">Він хворіє <marker>ангіною</marker></example>
       <example correction="на страшну ангіну">Він хворіє <marker>страшною ангіною</marker></example>
       <example correction="на неї|на її">хворітиме <marker>нею</marker> на відстані.</example>
-      <!-- TODO:
       <example correction="на щось">хворітиме <marker>чимсь</marker> дивним.</example>
-      -->
       <!--
           <example correction="на себе">Перестати хворіти <marker>собою</marker></example>
       -->
@@ -2275,11 +2274,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="prep.*"/>
           <token inflected="yes">другий</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj:[mfn]:v_...).*" postag_replace="$1.*">один</match></suggestion></message>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj:.:v_...)(.*?):&amp;numr" postag_replace="$1$2:&amp;pron:dem:ind">один</match></suggestion></message>
         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
         <example correction="один коло одного"><marker>один коло другого</marker></example>
         <example correction="одне коло одного"><marker>одне коло другого</marker></example>
-        <example correction="один на один|один на одного"><marker>один на другий</marker></example>
+        <example correction="один на один"><marker>один на другий</marker></example>
+        <example correction="одні за одні"><marker>одні за другі</marker></example>
         <example>Один одному допомагають.</example>
       </rule>
     </rulegroup>
@@ -3371,7 +3371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
         <suggestion><match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_oru$2"/></suggestion>
         <example correction="як кого|як хто|за кого|ким">І <marker>в якості кого</marker> їх викликають на допит.</example>
-        <example correction="як віщо|як що|за віщо|за що|чим">І <marker>в якості чого</marker> цей прилад використовують.</example>
+        <example correction="як що|за що|чим">І <marker>в якості чого</marker> цей прилад використовують.</example>
       </rule>
 
       <rule>

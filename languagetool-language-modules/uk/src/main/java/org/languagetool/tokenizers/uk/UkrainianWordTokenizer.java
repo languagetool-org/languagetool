@@ -97,8 +97,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|вул|о|р|ім|упоряд)\\.([\\s\u00A0\u202F]+[А-ЯІЇЄҐ])");
 
   // tokenize initials with dot before last name, e.g. "А.", "Ковальчук"
-  private static final Pattern INITIALS_DOT_PATTERN_SP_2 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ][а-яіїєґ']+)");
-  private static final Pattern INITIALS_DOT_PATTERN_SP_1 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ][а-яіїєґ']+)");
+  private static final Pattern INITIALS_DOT_PATTERN_SP_2 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]{0,5}[А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]{0,5}[А-ЯІЇЄҐ][а-яіїєґ']+)");
+  private static final Pattern INITIALS_DOT_PATTERN_SP_1 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]{0,5}[А-ЯІЇЄҐ][а-яіїєґ']+)");
 
   // tokenize initials with dot after last name, e.g.  "Ковальчук", "А."
   private static final Pattern INITIALS_DOT_PATTERN_RSP_2 = Pattern.compile("([А-ЯІЇЄҐ][а-яіїєґ']+)([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.");
@@ -122,7 +122,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // скорочення що не можуть бути в кінці речення
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
-      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
+      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
       + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.* *$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
@@ -130,7 +130,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(д|п|ін))\\.");
   private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(зв))\\.");
 
-  private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ\u0301])(тис|[А-ЯІЇЄҐ])\\.$");
+  private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301])(тис|[А-ЯІЇЄҐ])\\.\\s*$");
+
+  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|\\s)'(?!дно)(\\p{L})");
+  private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile("(\\p{L})(?<!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))'([^\\p{L}-]|$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
@@ -190,11 +193,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
     // if period is not the last character in the sentence
     int dotIndex = text.indexOf('.');
-    boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
+    String textRtrimmed = text.replaceFirst("\\s*$", "");
+    boolean dotInsideSentence = dotIndex >= 0 && dotIndex < textRtrimmed.length()-1;
 
     if( dotInsideSentence 
-        || (dotIndex == text.length()-1
-            && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис.
+        || (dotIndex == textRtrimmed.length()-1
+            && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис. та ініціалів
 
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
@@ -261,6 +265,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
     if( text.contains(SOFT_HYPHEN_WRAP) ) {
       text = text.replace(SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);
+    }
+
+    if( text.indexOf('\'') >= 0 ) {
+      text = APOSTROPHE_BEGIN_PATTERN.matcher(text).replaceAll("$1'" + BREAKING_PLACEHOLDER + "$2");
+      text = APOSTROPHE_END_PATTER.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "'$2");
     }
 
 

@@ -72,10 +72,10 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(0, matches[0].getFromPos());
     assertEquals("атакуючий".length(), matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("шклянка"));
-
-    assertEquals(1, matches.length);
-    assertEquals("склянка", matches[0].getSuggestedReplacements().get(0));
+//    matches = rule.match(langTool.getAnalyzedSentence("шклянка"));
+//
+//    assertEquals(1, matches.length);
+//    assertEquals("склянка", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("а")).length);
 
