@@ -4170,12 +4170,21 @@ USA
         </rule>
         <rule id="ENVELOPE_ENVELOP" name="envelope (envelop)">
             <pattern>
-                <marker><token>envelope</token></marker>
+                <marker><token regexp="yes">envelopes?</token></marker>
                 <token postag="PRP.?" postag_regexp="yes"/>
             </pattern>
-            <message>Did you mean the verb <suggestion>envelop</suggestion>?</message>
+            <message>Did you mean the verb <suggestion><match no="1" regexp_match="envelope" regexp_replace="envelop" /></suggestion>?</message>
             <short>Possible typo</short>
             <example correction="envelop">The smell started to <marker>envelope</marker> me.</example>
+        </rule>
+        <rule id="ENVELOP_ENVELOPE" name="envelop (envelope)">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|their|our|your</token>
+                <marker><token regexp="yes">envelops?</token></marker>
+            </pattern>
+            <message>Did you mean the noun <suggestion><match no="2" regexp_match="envelop" regexp_replace="envelope" /></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="envelope">Please open the <marker>envelop</marker>.</example>
         </rule>
         <rule id="VERY_MATCH" name="very match (much)">
             <pattern>
@@ -9449,7 +9458,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|spend|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg</exception>
+                    <exception regexp="yes">commit|remix|long-running|spend|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg|envelop</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
