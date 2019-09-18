@@ -70,13 +70,14 @@ public class SpanishAccentuationCheckRule extends Rule {
   private static final Pattern PARTICIPI_MS = Pattern.compile("V.P.*SM.?");
   private static final Pattern GRUP_VERBAL = Pattern.compile("_GV_");
   private static final Pattern VERB_3S = Pattern.compile("V...3S..?");
+  private static final Pattern VERB_13S = Pattern.compile("V...[13]S..?");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
   private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile("SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern GN = Pattern.compile(".*_GN_.*|<?/?N[CP]..000.*");
-  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|hecho|derecho|modo|conformidad", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
   private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00"); // Exclosos: PP3..A00 (coincideixe amb articles determinats)
 
@@ -125,6 +126,10 @@ public class SpanishAccentuationCheckRule extends Rule {
       if (i < tokens.length - 2) {
         nextNextToken = tokens[i + 2].getToken();
       }
+      String nextNextNextToken = "";
+      if (i < tokens.length - 3) {
+        nextNextNextToken = tokens[i + 3].getToken();
+      }
       boolean isRelevantWord = false;
       boolean isRelevantWord2 = false;
       if (StringTools.isEmpty(token)) {
@@ -151,7 +156,17 @@ public class SpanishAccentuationCheckRule extends Rule {
       
       String replacement = null;
       final Matcher mPreposicioDE = PREPOSICIO_DE.matcher(nextToken);
-      final Matcher mExcepcionsDE = EXCEPCIONS_DARRERE_DE.matcher(nextNextToken);
+      boolean exceptionsDEMANERA = false;
+      if (mPreposicioDE.matches()) {
+        if (EXCEPCIONS_DARRERE_DE.matcher(nextNextToken).matches()) {
+          exceptionsDEMANERA = true;
+        } else if (i < tokens.length - 3 
+            && EXCEPCIONS_DARRERE_DE.matcher(nextNextNextToken).matches() 
+            && matchPostagRegexp(tokens[i + 2], DETERMINANT)) {
+          exceptionsDEMANERA = true;
+          }
+        } 
+      
       final Matcher mArticleELMS = ARTICLE_EL_MS.matcher(prevToken);
       final Matcher mArticleELFS = ARTICLE_EL_FS.matcher(prevToken);
       final Matcher mArticleELMP = ARTICLE_EL_MP.matcher(prevToken);
@@ -203,19 +218,14 @@ public class SpanishAccentuationCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
         // circumstancies d'una altra classe
-        else if (!matchPostagRegexp(tokens[i], PARTICIPI_MS)
-            && !token.equals("venia") && !token.equals("venies")
-            && !token.equals("tenia") && !token.equals("tenies")
-            && !token.equals("faria") && !token.equals("faries")
-            && !token.equals("espero") && !token.equals("continua")
-            && !token.equals("continues") && !token.equals("cantar")
-            && !prevToken.equals("que") && !prevToken.equals("qui")
-            && !prevToken.equals("què") && mPreposicioDE.matches()
+        else if (!matchPostagRegexp(tokens[i], PARTICIPI_MS) 
+            && !prevToken.equalsIgnoreCase("que") && !prevToken.equalsIgnoreCase("cuando")
+            && !prevToken.equalsIgnoreCase("donde") && mPreposicioDE.matches()
             && !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)
             && !matchPostagRegexp(tokens[i + 1], LOCUCIONS)
             && (i < tokens.length - 2)
             && !matchPostagRegexp(tokens[i + 2], INFINITIU)
-            && !mExcepcionsDE.matches() && !tokens[i - 1].hasPosTag("RG")) {
+            && !exceptionsDEMANERA && !tokens[i - 1].hasPosTag("RG")) {
           replacement = relevantWords.get(token).getToken();
         }
         // la renuncia del president.
@@ -244,7 +254,7 @@ public class SpanishAccentuationCheckRule extends Rule {
               && !matchPostagRegexp(tokens[i], VERB_3S) && !matchPostagRegexp(tokens[i], GRUP_VERBAL))
             || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FS) 
               && !matchPostagRegexp(tokens[i], VERB_3S))
-            || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
+            || (!token.equals("decimos") && matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MP))
             || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))) {
           replacement = relevantWords.get(token).getToken();
         }
@@ -287,12 +297,13 @@ public class SpanishAccentuationCheckRule extends Rule {
       // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
       if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // de manera obvia, circumstàncies extraordinaries.
-        if ((matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS)
-              && !tokens[i - 1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i], VERB_CONJUGAT) 
-              && !matchPostagRegexp(tokens[i], VERB_3S))
+        if (!token.equals("solicito") && !token.equals("indico")
+            && (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS) 
+                && !tokens[i - 1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i], VERB_CONJUGAT) 
+                && !matchPostagRegexp(tokens[i], VERB_3S))
             || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FS) && prevPrevToken.equalsIgnoreCase("de") 
                 && (prevToken.equals("manera") || prevToken.equals("forma")))
-            || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MP) && matchPostagRegexp(tokens[i - 1], NOM_MP))
+            || (!token.equals("decimos") && matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MP) && matchPostagRegexp(tokens[i - 1], NOM_MP))
             || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FP) && matchPostagRegexp(tokens[i - 1], NOM_FP))) {
           replacement = relevantWords2.get(token).getToken();
         }

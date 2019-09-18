@@ -49,12 +49,39 @@ public class SpanishAccentuationCheckRuleTest {
     
     
     // correct sentences:
+    assertCorrect("y termino señor Presidente");
+    assertCorrect("Cuando participe de la manera que sea");
     assertCorrect("el Parlamento solicita a la Comisión");
     assertCorrect("Juan Pablo II beatifica Paula Montal.");
     assertCorrect("La magnífica conservación del palacio.");
     assertCorrect("Ella maquina alguna idea.");
+    assertCorrect("según estipula el apartado 9");
+    assertCorrect("pero yo debo velar por que se desarrolle");
+    assertCorrect("Pero solicito gustoso");
+    assertCorrect("Por este motivo solicito desde ahora");
+    assertCorrect("Pero solicito gustoso");
+    assertCorrect("que la gente joven participe de nuevo en la rehabilitación");
+    assertCorrect("Cuando todos decimos que estamos contra la xenofobia");
+    assertCorrect("Todos decimos, sí, necesitamos nuevas fuentes");
+    assertCorrect("por lo tanto solicito de la Comisión");
+    assertCorrect("unidad especial como solicita dicha enmienda");
+    assertCorrect("lo que no critico pues esta es su tarea");
+    assertCorrect("de que dentro de seis meses decimos y hacemos");
+    assertCorrect("En los Países Bajos decimos algo así como");
+    assertCorrect("Todos juntos decimos sí a la política.");
+    assertCorrect("y con esto termino señor Presidente");
+    assertCorrect("pero al mismo tiempo indico que no puede ser");
+    assertCorrect("a que Libia participe de hecho y derecho");
+    assertCorrect("espero que Suecia participe pronto en la cooperación");
+    assertCorrect("más joven y dinámica participe de un modo muy significativo");
+    
+    
 
     // incorrect sentences:
+    assertIncorrect("de entrada el medico diagnosticó");
+    assertIncorrect("El publico deberá tener");
+    assertIncorrect("Fue participe de la operación");
+    assertIncorrect("la formula de inspiración americana");
     assertIncorrect("La maquina del tiempo.");
     assertIncorrect("Una maquina del tiempo.");
     assertIncorrect("El arbitro se equivocó pitando el penalti.");
