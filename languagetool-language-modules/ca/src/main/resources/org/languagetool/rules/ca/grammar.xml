@@ -6799,6 +6799,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="CONCORDANCA_MILLOR" name="CONCORDANCA_MILLOR">
+            <antipattern>
+                <token inflected="yes" regexp="yes">conèixer|expressar|acompanyar|transportar</token>
+                <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"><exception>millor</exception></token>
+                <token>millor</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>millor</token>
@@ -6810,6 +6815,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="millors">Els <marker>millor</marker> serveis</example>
             <example>Els millor preparats</example>
             <example>El millor temps</example>
+            <exmaple>Per a expressar molt millor expressions fins llavors ocultes.</exmaple>
+            <example>Per a conèixer una mica millor zones del país.</example>
         </rule>
         <rule id="MAL_MALAMENT" name="mal/malament">
             <pattern>
@@ -17055,6 +17062,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ABASTAMENT_A_BASTAMENT" name="abastament / a bastament">
+            <antipattern>
+                <token>abastament</token>
+                <token>en</token>
+                <token>vol</token>
+            </antipattern>
+            <antipattern>
+                <token>abastament</token>
+                <token>a</token>
+                <token min="0"/>
+                <token inflected="yes" regexp="yes">ciutat|població|mercat|poble|regió|estat|nació|província</token>
+            </antipattern>
+            <antipattern>
+                <token>abastament</token>
+                <token min="0" max="3"/>
+                <token inflected="yes">de</token>
+                <token inflected="yes" regexp="yes">llum|aigua|aliment|energia</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
@@ -17077,7 +17101,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>abastament<exception postag="_GN_MS"/></token>
                     </marker>
                     <token regexp="yes">de|d'</token>
-                    <token><exception regexp="yes" inflected="yes">llum|aigua|aliment|energia</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a bastament</suggestion>?</message>
                 <short>Possible confusió</short>
@@ -29273,6 +29296,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">precís</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">precisar</token>
+                <token inflected="yes">de</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">manera|forma|tall|mode</token>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token min="0" inflected="yes" postag_regexp="yes">haver|anar</token>
+                <token inflected="Yes">poder</token>
+                <token>precisar</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception><exception regexp="yes">precises|precisada|precisades|precisats?</exception></token>
                 <token inflected="yes">de</token>
@@ -35051,12 +35086,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CALAT" name="de calat / de gran importància">
             <antipattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">metre|m|embarcació|vaixell|barca|barco</token>
-                    <token>de</token>
-                    <token regexp="yes" min="0">gran|major|més</token>
-                    <token>calat</token>
-                </marker>
+                <token regexp="yes" inflected="yes">metre|m|peu|embarcació|vaixell|barca|barco|via|canal|fondària|profunditat|màxim|mínim|riu|estany|llac|port|limitació|pèrdua|treball|veler|manca</token>
+                <token>de</token>
+                <token regexp="yes" min="0">gran|major|més</token>
+                <token>calat</token>
+            </antipattern>
+            <antipattern>
+                <token>calat</token>
+                <token inflected="yes" regexp="yes">de|en|a</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">metre|m|peu|embarcació|vaixell|barca|barco|via|canal|fondària|profunditat|màxim|mínim|riu|estany|llac|port|veler</token>
+            </antipattern>
+            <antipattern>
+                <token>calat</token>
+                <token regexp="yes">inferior|superior|mínim|màxim</token>
             </antipattern>
             <pattern>
                 <token>de</token>
