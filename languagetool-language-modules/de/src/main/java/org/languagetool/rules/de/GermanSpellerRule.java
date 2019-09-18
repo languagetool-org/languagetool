@@ -371,6 +371,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Matrikelnr.", "Matrikel-Nr.");
     put("Rekrutings?prozess", "Recruitingprozess");
     put("sumarum", "summarum");
+    put("Innzahlung", w -> Arrays.asList("In Zahlung", "in Zahlung"));
     put("änderen", w -> Arrays.asList("ändern", "anderen"));
     put("wanderen", w -> Arrays.asList("wandern", "Wanderern"));
     put("Dutzen", w -> Arrays.asList("Duzen", "Dutzend"));
