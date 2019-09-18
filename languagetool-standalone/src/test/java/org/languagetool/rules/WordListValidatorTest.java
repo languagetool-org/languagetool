@@ -40,6 +40,7 @@ public class WordListValidatorTest {
           "[0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
+          "Ææ" +  // English
           "ÍÚÑ" + // for Spanish
           "õ" +   // for Portuguese
           "·" +   // for Catalan
