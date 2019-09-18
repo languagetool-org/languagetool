@@ -4,6 +4,7 @@
 
 #### Catalan
   * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.5)
 
 #### Dutch
   * added and improved rules
