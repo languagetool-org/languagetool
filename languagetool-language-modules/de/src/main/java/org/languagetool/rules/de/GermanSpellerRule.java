@@ -186,6 +186,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("helften", "halfen");
     put("befehlte", "befahl");
     put("befehlten", "befahlen");
+    put("angelügt", "angelogen");
     put("lügte", "log");
     put("lügten", "logen");
     put("bratete", "briet");
