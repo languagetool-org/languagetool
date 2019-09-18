@@ -281,7 +281,12 @@ public class HunspellRule extends SpellingCheckRule {
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
       }
-      return (isAlphabetic && !"--".equals(word) && hunspellDict.misspelled(word) && !ignoreWord(word)) || isProhibited(removeTrailingDot(word));
+      return (
+              isAlphabetic && !"--".equals(word)
+              && (hunspellDict != null && hunspellDict.misspelled(word))
+              && !ignoreWord(word)
+             )
+             || isProhibited(removeTrailingDot(word));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
