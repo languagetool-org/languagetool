@@ -5525,17 +5525,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha">Tant com <marker>a</marker> pogut.</example>
                 <example>Tant com ha pogut.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="HAVER_SENSE_HAC2" name="Haver sense hac: a/ha dit">
-            <antipattern>
-                <token regexp="yes">com|per|fins|de|olor</token>
-                <token>a</token>
-            </antipattern>
-            <antipattern>
-                 <token inflected="yes" regexp="yes">convertir|canviar|degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació|sonar|destinar</token>
-                 <token>a</token>
-             </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">com|per|fins|de|olor</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                     <token inflected="yes" regexp="yes">convertir|canviar|degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació|sonar|destinar</token>
+                     <token>a</token>
+                 </antipattern>
                 <!-- excepcions no controlades: a/ha dit, a/ha deixat-->
                 <pattern>
                     <marker>
@@ -5580,6 +5578,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El dia destinat a mercat setmanal és el dijous.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>rebut</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>a</token>
