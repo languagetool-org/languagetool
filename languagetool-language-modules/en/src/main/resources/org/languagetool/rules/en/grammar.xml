@@ -49,7 +49,8 @@ USA
     <!ENTITY profanity_2 "(?:brit|Chink|cockroach|cripple|crippled|dwarf|get screwed|jig|Khazar|knacker|Langer|Nip|Paddy|pinky|retard|retarded|retardation|shylock|snow-white|spade|squaw|wood|Jim Crow|Viking|yankees">
     <!ENTITY rude_sarcastic "(?:Best Korea|but who's counting|Captain Obvious|cry someone a river|deathbed conversion|don't let the door hit you on the way out|ermahgerd|fat chance|fly like a rock|freeze peach|goddidit|goody gumdrops|hay is for horses|here we go again|I believe you, thousands wouldn't|just ducky|keep telling yourself that|kiddie table|king of the castle|know how to pick 'em|less-than-stellar|let's not and say we did|make baby Jesus cry|moi|my eyes are up here|no duh|no homo|no kidding|no shit|no shit, Sherlock|obvi|oh, the humanity|one should be so lucky|pray tell|puh-lease|quelle surprise|Soon™|surprise surprise|talk to the hand|thanks a heap|tyvm|what do you want, a cookie|what does that have to do with the price of corn|what does that have to do with the price of tea in China|who died and left you in charge|who died and made you boss|who would have thunk it|who's your daddy|whoopdee doo|why not Zoidberg|wisehead|wonders never cease|yippee skippy|you and whose army|you got a mouse in your pocket|you kiss your mother with that mouth|you must be fun at parties|Your Highness|Your Majesty)">
     <!ENTITY rude_sarcastic_2 "(?:are you blind\?|are you deaf\?|bite me|I hope you're happy[\.!]|oh really\!?\?|since when\?|what do you know\?|whoosh[\.!]|you don't say\?|you think\?)"><!-- XXX should be avoided in writting: what's new\?|what else is new| -->
-    <!ENTITY rude_sarcastic_2 "(?:glorified">
+    <!ENTITY rude_sarcastic_3 "(?:glorified)">
+    <!ENTITY ATD_to_collocation "(?:ability|able|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|refusal|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing)">
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx">
     <!ENTITY hyphen "(?:[-‑])">
 
@@ -22585,20 +22586,6 @@ The accident victim died from her injuries.
      <!-- Based on AtD by Tiago F. Santos, 2019-09-13 -->
      <rule>
       <antipattern>
-          <token regexp="yes">attempt|attempting</token>
-          <token inflected="yes">be</token>
-          <token postag='DT'/>
-      </antipattern>
-      <antipattern>
-          <token regexp="yes">references?</token>
-          <token inflected="yes">have</token>
-          <token postag='DT'/>
-      </antipattern>
-      <antipattern>
-          <token>reference</token>
-          <token regexp="yes">cent(?:er|re)</token>
-      </antipattern>
-      <antipattern>
           <token regexp="yes">adds?|adding|prepares?|refuse|regard|tendenc(y|ies)</token>
           <token postag='PRP'/>
       </antipattern>
@@ -22612,22 +22599,144 @@ The accident victim died from her injuries.
       </antipattern>
       <antipattern>
           <token>due</token>
-          <token regexp="yes">&weekdays;|\d{1,2}|&months;|\d{4}</token>
+          <token regexp="yes">&weekdays;|\d{1,2}|&months;|\d{4}|next|last</token>
       </antipattern>
       <antipattern>
           <token>percent</token>
           <token>a</token>
           <token regexp="yes">day|week|month|year</token>
       </antipattern>
+      <antipattern>
+          <token postag='CD'/>
+          <token>percent</token>
+          <token postag='JJ'/>
+      </antipattern>
+      <antipattern>
+          <token>thanks</token>
+          <token>a</token>
+          <token regexp="yes">lot|bunch</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>go</token>
+          <token>any</token>
+          <token postag='JJR'/>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>continue</token>
+          <token regexp='yes'>an?</token>
+          <token/>
+          <token postag='JJR'/>
+      </antipattern>
+      <antipattern>
+          <token skip='3'>reacting</token>
+          <token>with</token>
+      </antipattern>
+      <antipattern>
+          <token skip='-1' regexp='yes'>&ATD_to_collocation;</token>
+          <token>to</token>
+      </antipattern>
+      <antipattern>
+          <token>listen</token>
+          <token>the</token>
+          <token regexp="yes">radio|TV</token>
+      </antipattern>
+      <antipattern>
+          <token>newsletter</token>
+          <token regexp="yes">\d+|\p{Lu}.+</token>
+      </antipattern>
+      <!--antipattern case_sensitive='yes'>
+          <token>Reluctant</token>
+          <token>Genius</token>
+      </antipattern-->
+      <antipattern>
+          <token inflected='yes'>be</token>
+          <token>due</token>
+          <token regexp="yes">an?</token>
+          <token regexp="yes">day|week|month|year</token>
+          <token>ago</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' skip='-1'>add</token>
+          <token>for</token>
+          <token>a</token>
+          <token regexp='yes'>total|sum</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>be</token>
+          <token>due</token>
+          <token postag='CD'/>
+          <token regexp="yes">(?:day|week|month|year)s</token>
+          <token>ago</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>go</token>
+          <token>the</token>
+          <token regexp="yes">(?:wrong|right)</token>
+          <token>way</token>
+      </antipattern>
+      <antipattern case_sensitive='yes'>
+          <token>Something</token>
+          <token>'</token>
+          <token>s</token>
+          <token>Going</token>
+          <token>On</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token>dedicated</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>what|which</token>
+          <token>ability</token>
+          <token postag='PRP'/>
+          <token postag_regexp='yes' postag='V.+'/>
+      </antipattern>
       <pattern>
-          <token regexp="yes">ability|able|access|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|corresponds?|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|pretending|pretend|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|references?|refusal|refuses?|refusing|regard|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|seeks|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing</token>
-            <!-- |wishing -->
+          <token regexp="yes">&ATD_to_collocation;</token>
+            <!-- |wishing|seeks|pretending|pretend|correspond|access| -->
           <token postag_regexp="yes" postag='PRP|NNP|DT'>
-            <exception regexp='yes'>both|some|this|that</exception></token>
+            <exception regexp='yes'>both|.+self|some|this|that</exception>
+            <exception postag_regexp="yes" postag='PRP|DT' regexp='yes'>\p{Lu}.+</exception></token>
       </pattern>
       <message>Probably a preposition is missing after '\1'.</message>
         <suggestion>\1 to \2</suggestion>
-      <example correction='According to Angela'><marker>According Angela</marker>, they are dating.</example>
+        <suggestion>\1, \2</suggestion>
+      <example correction='According to Angela|According, Angela'><marker>According Angela</marker>, they are dating.</example>
+      <example type='triggers_error'>In addition many groups have been formed so that the elderly can s...</example><!-- XXX missing comma -->
+      <example type='triggers_error'>Though we cannot perfect the endeavour we should strive for it: the will-to-live constantly...</example><!-- XXX missing comma -->
+      <example type='triggers_error'>In addition the races can last several hours, with heartrates com...</example><!-- XXX missing comma -->
+      <example>Thanks a lot!</example>
+      <example>He couldn't go any further.</example>
+      <example>...sing is possible by "blowing" the product: namely reacting it with oxygen.</example>
+      <example>The Sealab 2021 character Jodene Sparks references A Modest Proposal when trying to convince Debbie Du...</example>
+      <example>...r constituent elements, and cannot be produced by reacting the elements with each other at standard conditions.)...</example>
+      <example>..mother retired to Weimar, and Arthur Schopenhauer dedicated himself wholly to studies in the gymnasium of Gotha.</example>
+      <example>Reports are due next Monday.</example>
+      <example>Let's pretend we are aliens.</example>
+      <example correction='According to the|According, the'><marker>According the</marker> National Council of Radio and Television (KKRT), ...</example>
+      <example correction='Due to the|Due, the'><marker>Due the</marker> unique climate in Azerbaijan, the flora is much r...</example>
+      <example>Military topics, references many secondary sources.</example>
+      <example>But he continues a step further and creates a machine as a model of ...</example>
+      <example>...704 Interamnia (1.0%), and 52 Europa (0.9%), only add another 3% to the total mass.</example>
+      <example>...tchcock" introduces the mystery, and he sometimes refers a case to the boys to solve.</example>
+      <example>.. 66 living languages, to which Macro-Altaic would add Korean, Japanese, and the Ryukyuan languages for a total...</example>
+      <example>...1857, the Austrian scholar Anton Boller suggested adding Japanese to Altaic or more precisely to Ural–Altaic.</example>
+      <example>Eurasia Newsletter 8.</example>
+      <example>...umption that ZF is consistent is harmless because adding another axiom to an already inconsistent system cannot ma...</example>
+      <example>The Audi Vertical Run is where users can access the mini-game Vertical Run, a futuristic mini-game fe...</example>
+      <example type='triggers_error'>...ightmarish project to which he ultimately did not contribute a foot of film shot by himself.</example><!-- suppressed element -->
+      <example>...rats, connected by wipe transitions, each of whom refers the group to another department.</example>
+      <example>Yet despite difficult problems, local leaders, owing no tribute to the pharaoh, used their newfound indep...</example>
+      <example correction='relating to the|relating, the'>...pyrus, a set of stories told to Khufu by his sons <marker>relating the</marker> marvels performed by priests.</example>
+      <example>A dedicated Newton store existed in the mid-1990s in Westwood Villag...</example>
+      <example>It is no use pretending you know nothing about it.</example>
+      <example>...ibe the gaps or nodes found on axons and for this contribution these axonal features are now commonly referred to as t...</example>
+      <example>...mbining and expressing positional information and relating it to movement.</example>
+      <example>Although several attempts have been made to restore and re-air the film, all acc...</example>
+      <example>...mal's large body and massive legs and feet, which contribute a sideways motion to its walk.</example>
+      <example>...le, help private enterprise and make it easier to access Aarhus on the internet.</example>
+      <example>Chanes, Jerome A. Antisemitism: A Reference Handbook, ABC-CLIO, 2004.</example>
+      <example>The five enterprises which passed to 100 percent Russian state ownership are:</example>
     </rule>
      <rule>
       <antipattern>
@@ -22660,22 +22769,44 @@ The accident victim died from her injuries.
     </rule>
      <rule>
       <antipattern>
+          <token regexp="yes">attempts?|attempting</token>
+          <token inflected="yes">be</token>
+          <token postag='DT'/>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">references?</token>
+          <token inflected="yes">have</token>
+          <token postag='DT'/>
+      </antipattern>
+      <antipattern>
+          <token>reference</token>
+          <token regexp="yes">cent(?:er|re)</token>
+      </antipattern>
+      <antipattern>
           <token regexp="yes">wants?</token>
           <token inflected="yes">help</token>
           <token postag_regexp='yes' postag='PRP|NNP'/>
       </antipattern>
       <antipattern>
-          <token regexp="yes">an|the|various|some</token>
+          <token regexp="yes">an|the|various|some|such</token>
           <token regexp="yes">attempts?</token>
       </antipattern>
       <pattern>
-          <token regexp="yes" inflected="yes">apply|attempt|want|try|attemp|seem</token>
+          <token regexp="yes" inflected="yes">apply|attempt|correspond|want|try|seem|seeks|pretending|pretend|reference|refuse|regard</token>
           <token postag='VB'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Probably a preposition is missing after '\1'.</message>
         <suggestion>\1 to \2</suggestion>
       <example correction='wants to redecorate'>She <marker>wants redecorate</marker> the house again.</example>
+      <example>Such attempts have repeatedly been made.</example>
+      <example>It is no use pretending you know nothing about it.</example>
+      <example>This is way I am refusing the offer.</example>
+      <example>Chanes, Jerome A. Antisemitism: A Reference Handbook, ABC-CLIO, 2004.</example>
+      <example>Military topics, references many secondary sources.</example>
+      <example>Military topics, references many secondary sources.</example>
+      <example>Military topics, references many secondary sources.</example>
+      <example>Military topics, references many secondary sources.</example>
     </rule>
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
