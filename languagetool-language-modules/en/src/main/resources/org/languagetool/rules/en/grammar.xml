@@ -9933,8 +9933,7 @@ USA
         </rulegroup>
         <rule id="PASSWORD_PROTECTED_HYPHEN" name="missing hyphen in 'password protected area'">
             <antipattern>
-                <token>protected</token>
-                <token min="1" max="3" postag="NN.*" postag_regexp="yes" />
+                <token skip="5">protected</token>
                 <token>from</token>
             </antipattern>
             <pattern>
@@ -9942,13 +9941,49 @@ USA
                     <token>password</token>
                     <token>protected</token>
                 </marker>
-                <token regexp="yes">area|doc(ument)?|(spread)?sheet|archive|zip|pdf|folder|system|page|(web)?site|file|accounts?|drive|stick|usb|excel|app|cd|dropbox|email|gallery|iphone</token>
+                <token regexp="yes">(area|doc(ument)?|(spread)?sheet|archive|zip|pdf|folder|system|page|(web)?site|file|account|drive|stick|usb|excel|app|cd|dropbox|email|gallery|iphone)s?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
-            <example type="triggers_error">The password protected dropbox folders from being viewed by others.</example>
+            <example>The password protected dropbox folders and other items from being viewed by others.</example>
             <example correction="password-protected">I will share the <marker>password protected</marker> PDF with you.</example>
         </rule>
+        <rulegroup id="TO_DO_HYPHEN" name="missing hyphen in 'to do'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                        <token>do</token>
+                    </marker>
+                    <token regexp="yes">lists?|items?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="to-do">He was working on finishing the <marker>to do</marker> list.</example>
+                <example>It's time to do this again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|your|our|their</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>to</token>
+                        <token regexp="yes">dos?</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\3-\4</suggestion>
+                <example correction="to-dos">One of your <marker>to dos</marker> for today is to clean the living room.</example>
+                <example correction="to-do">The highest <marker>to do</marker> on my list has almost been accomplished.</example>
+                <example>They appointed her to do the task.</example>
+                <example>I want her to do the difficult work.</example>
+                <example>It was quite right of her to do that.</example>
+                <example>She obeys him no matter what he tells her to do.</example>
+                <example>You must be a fool to do such a thing.</example>
+            </rule>
+        </rulegroup>
         <rule id="SIMPLE_TO_USE_HYPHEN" name="missing hyphen in 'simple to use computer'">
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|their|our|your</token>
