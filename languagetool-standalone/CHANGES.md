@@ -26,6 +26,7 @@
 
 #### Russian
   * improved rules
+  * added new words to spellchecker dictionary
 
 #### Ukrainian
   * 2k of new words in the dictionary
