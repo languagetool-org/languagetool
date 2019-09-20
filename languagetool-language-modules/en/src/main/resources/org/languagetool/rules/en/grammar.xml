@@ -17373,6 +17373,11 @@ USA
                 <token postag="VB"/>
                 <token postag="IN"/>
             </antipattern>
+            <antipattern><!-- 400 grad = 4 right angles. www.merriam-webster.com/dictionary/grad -->
+                <token postag="CD" regexp="yes">[0-9]+</token>
+                <token>grad</token>
+                <token>=</token><!-- Find: there are 400 grad in this college. -->
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -17475,6 +17480,7 @@ USA
             <example>Bahamas was hit by a magnitude 6 earthquake.</example>
             <example>As a year 10 student, Ruby Muller, was one of 32 remaining players who participated in a match made up of squads representing the North and South of England.</example>
             <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
+            <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
