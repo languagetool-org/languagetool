@@ -8677,7 +8677,10 @@ USA
                 <token regexp="yes">I|you|[hw]e|she|it|they</token>
                 <token postag="RB" min="0"/>
                 <marker>
-                    <token postag="VBG"><exception>being</exception></token>
+                    <token postag="VBG">
+                        <exception>being</exception>
+                        <exception postag="IN"/>
+                        </token>
                 </marker>
             </pattern>
             <message>Please check if the base form of the verb should be used here.</message>
@@ -8685,6 +8688,7 @@ USA
             <example correction="move">We regularly <marker>moving</marker> a conversation from the forum to email.</example>
             <example type="triggers_error">The charge Q is determined by a steady current I <marker>flowing</marker> for a time t.</example>
             <example>There are a couple of new tasks for you waiting to be assigned.</example>
+            <example>... of mails, but I wonder if I can hear from you regarding the mail?</example>
         </rule>
         <rule id="I_LIFE" name="I life (live)">
             <antipattern>
