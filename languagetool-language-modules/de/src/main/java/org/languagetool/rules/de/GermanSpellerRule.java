@@ -693,6 +693,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[Ww]ieviele?", "ieviel", "ie viel");
     put("As", "Ass");
     put("[bB]i[sß](s?[ij]|ch)en", "bisschen");
+    putRepl("Todos?", "Todo", "To-do");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
