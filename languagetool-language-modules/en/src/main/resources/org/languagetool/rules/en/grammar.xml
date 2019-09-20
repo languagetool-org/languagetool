@@ -50,7 +50,7 @@ USA
     <!ENTITY rude_sarcastic "(?:Best Korea|but who's counting|Captain Obvious|cry someone a river|deathbed conversion|don't let the door hit you on the way out|ermahgerd|fat chance|fly like a rock|freeze peach|goddidit|goody gumdrops|hay is for horses|here we go again|I believe you, thousands wouldn't|just ducky|keep telling yourself that|kiddie table|king of the castle|know how to pick 'em|less-than-stellar|let's not and say we did|make baby Jesus cry|moi|my eyes are up here|no duh|no homo|no kidding|no shit|no shit, Sherlock|obvi|oh, the humanity|one should be so lucky|pray tell|puh-lease|quelle surprise|Soon™|surprise surprise|talk to the hand|thanks a heap|tyvm|what do you want, a cookie|what does that have to do with the price of corn|what does that have to do with the price of tea in China|who died and left you in charge|who died and made you boss|who would have thunk it|who's your daddy|whoopdee doo|why not Zoidberg|wisehead|wonders never cease|yippee skippy|you and whose army|you got a mouse in your pocket|you kiss your mother with that mouth|you must be fun at parties|Your Highness|Your Majesty)">
     <!ENTITY rude_sarcastic_2 "(?:are you blind\?|are you deaf\?|bite me|I hope you're happy[\.!]|oh really\!?\?|since when\?|what do you know\?|whoosh[\.!]|you don't say\?|you think\?)"><!-- XXX should be avoided in writting: what's new\?|what else is new| -->
     <!ENTITY rude_sarcastic_3 "(?:glorified)">
-    <!ENTITY ATD_to_collocation "(?:ability|able|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|continues|contributes?|contribution|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|refusal|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing)">
+    <!ENTITY ATD_to_collocation "(?:ability|able|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|contributes?|contribution|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|refusal|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing)">
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx">
     <!ENTITY hyphen "(?:[-‑])">
 
@@ -22632,7 +22632,7 @@ The accident victim died from her injuries.
           <token>with</token>
       </antipattern>
       <antipattern>
-          <token skip='-1' regexp='yes'>continues|contribute</token>
+          <token skip='-1'>contribute</token>
           <token>for</token>
       </antipattern>
       <antipattern>
@@ -22697,7 +22697,7 @@ The accident victim died from her injuries.
       </antipattern>
       <pattern>
           <token regexp="yes">&ATD_to_collocation;</token>
-            <!-- |wishing|seeks|pretending|pretend|correspond|access| -->
+            <!-- |wishing|seeks|pretending|pretend|correspond|access|continues -->
           <token postag_regexp="yes" postag='PRP|NNP|DT'>
             <exception regexp='yes'>both|.+self|some|this|that</exception>
             <exception postag_regexp="yes" postag='PRP|DT' regexp='yes'>\p{Lu}.+</exception></token>
@@ -22802,7 +22802,7 @@ The accident victim died from her injuries.
           <token regexp="yes">attempts?</token>
       </antipattern>
       <pattern>
-          <token regexp="yes" inflected="yes">apply|attempt|correspond|want|try|seem|seeks|pretending|pretend|reference|refuse|regard</token>
+          <token regexp="yes" inflected="yes">apply|attempt|correspond|continue|want|try|seem|seeks|pretending|pretend|reference|refuse|regard</token>
           <token postag='VB'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
