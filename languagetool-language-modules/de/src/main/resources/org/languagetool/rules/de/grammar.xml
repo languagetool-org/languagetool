@@ -37437,6 +37437,68 @@ Andere Projekte</example>
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typographie">
+        <rule id="TRADEMARK" name="(TM) statt ™">
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>\p{Lu}.*</token>
+                <marker>
+                    <token>(</token>
+                    <token>TM</token>
+                    <token>)</token>
+                </marker>
+            </pattern>
+            <message>Hier sollte möglicherweise das Symbol <suggestion>™</suggestion> verwendet werden.</message>
+            <example correction='™'>Mit Google Maps <marker>(TM)</marker> kann man navigieren.</example>
+        </rule>
+        <rule id="R_SYMBOL" name="(R) statt ®">
+            <antipattern case_sensitive="yes">
+                <token>(</token>        
+                <token>R</token>
+                <token skip="-1">)</token>        
+                <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+                <token skip="-1">)</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>(</token>        
+                <token regexp="yes">[\p{Lu}^R]</token>
+                <token skip="-1">)</token>        
+                <token>R<exception scope="previous" negate="yes">(</exception></token>
+                <token skip="-1">)</token>
+            </antipattern>
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>\p{Lu}.*</token>
+                <marker>
+                    <token>(</token>
+                    <token>R</token>
+                    <token>)</token>
+                </marker>
+            </pattern>
+            <message>Hier sollte möglicherweise das Symbol <suggestion>®</suggestion> verwendet werden.</message>
+            <example correction='®'>Windows <marker>(R)</marker></example>
+            <example>Das waren Richard Burr (D) und Kay Hagan (R).</example>
+        </rule>
+        <rule id="COPYRIGHT" name="(c) statt ©" type="typographical">
+            <antipattern>
+                <token>(</token>        
+                <token>a</token>
+                <token skip="-1">)</token>        
+                <token>b<exception scope="previous" negate="yes">(</exception></token>
+                <token skip="-1">)</token>
+                <token>c<exception scope="previous" negate="yes">(</exception></token>
+                <token>)</token>
+            </antipattern>    
+            <pattern>
+                <marker>
+                    <token>(</token>        
+                    <token>c</token>
+                    <token>)</token>
+                </marker>
+                <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>Hier sollte möglicherweise das Symbol <suggestion>©</suggestion> verwendet werden.</message>
+            <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+            <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
+            <example>Eine Liste: (a) Argument, (b) 2 Argumente, (c) 2014 Argumente.</example>
+        </rule>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
             <regexp>(\w+) ([!?:])(?!-?[()/D])</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
