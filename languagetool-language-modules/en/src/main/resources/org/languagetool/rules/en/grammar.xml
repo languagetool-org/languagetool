@@ -9961,6 +9961,31 @@ USA
             <example>The password protected dropbox folders and other items from being viewed by others.</example>
             <example correction="password-protected">I will share the <marker>password protected</marker> PDF with you.</example>
         </rule>
+        <rulegroup id="RE_DO_COMPOUND" name="'re do' spelled as one word">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(un|re)-do(ne|ing|es)?</token>
+                </pattern>
+                <message>The phrase '\1' should be written as one word.</message>
+                <suggestion><match no="1" regexp_match="\-" regexp_replace="" /></suggestion>
+                <example correction="redoing">He was <marker>re-doing</marker> his homework.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>
+                        <exception regexp="yes">['´’]</exception>
+                    </token>
+                    <marker>
+                        <token>re</token>
+                        <token inflected="yes">do</token>
+                    </marker>
+                </pattern>
+                <message>The phrase '\2 \3' should be written as one word.</message>
+                <suggestion>\2\3</suggestion>
+                <example correction="redoing">He was <marker>re doing</marker> his homework.</example>
+                <example>I can’t believe you’re doing this to me.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TO_DO_HYPHEN" name="missing hyphen in 'to do'">
             <rule>
                 <pattern>
