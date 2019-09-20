@@ -22628,15 +22628,19 @@ The accident victim died from her injuries.
           <token postag='JJR'/>
       </antipattern>
       <antipattern>
-          <token skip='3'>reacting</token>
+          <token skip='-1'>reacting</token>
           <token>with</token>
+      </antipattern>
+      <antipattern>
+          <token skip='-1' regexp='yes'>continues|contribute</token>
+          <token>for</token>
       </antipattern>
       <antipattern>
           <token skip='-1' regexp='yes'>&ATD_to_collocation;</token>
           <token>to</token>
       </antipattern>
       <antipattern>
-          <token>listen</token>
+          <token inflected='yes'>listen</token>
           <token>the</token>
           <token regexp="yes">radio|TV</token>
       </antipattern>
@@ -22737,6 +22741,8 @@ The accident victim died from her injuries.
       <example>...le, help private enterprise and make it easier to access Aarhus on the internet.</example>
       <example>Chanes, Jerome A. Antisemitism: A Reference Handbook, ABC-CLIO, 2004.</example>
       <example>The five enterprises which passed to 100 percent Russian state ownership are:</example>
+      <example>...e has a fictional daughter named Jody Crowley who continues her father's search for the Scarlet Woman.</example>
+      <example>While listening the radio, I fell asleep.</example>
     </rule>
      <rule>
       <antipattern>
@@ -22783,12 +22789,16 @@ The accident victim died from her injuries.
           <token regexp="yes">cent(?:er|re)</token>
       </antipattern>
       <antipattern>
+          <token>references</token>
+          <token inflected="yes">vary</token>
+      </antipattern>
+      <antipattern>
           <token regexp="yes">wants?</token>
           <token inflected="yes">help</token>
           <token postag_regexp='yes' postag='PRP|NNP'/>
       </antipattern>
       <antipattern>
-          <token regexp="yes">an|the|various|some|such</token>
+          <token regexp="yes">an|the|various|several|some|such</token>
           <token regexp="yes">attempts?</token>
       </antipattern>
       <pattern>
@@ -22803,6 +22813,7 @@ The accident victim died from her injuries.
       <example>It is no use pretending you know nothing about it.</example>
       <example>This is way I am refusing the offer.</example>
       <example>Chanes, Jerome A. Antisemitism: A Reference Handbook, ABC-CLIO, 2004.</example>
+      <example>Although several attempts have been made to restore and re-air the film, all acc...</example>
     </rule>
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
