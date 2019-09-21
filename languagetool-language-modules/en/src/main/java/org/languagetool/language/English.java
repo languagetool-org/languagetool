@@ -272,14 +272,17 @@ public class English extends Language implements AutoCloseable {
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
       case "LIGATURES":                 return 1;   // prefer over spell checker
       case "APPSTORE":                  return 1;   // prefer over spell checker
-      case "MORFOLOGIK_RULE_EN_US":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_GB":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_CA":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_ZA":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_NZ":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_AU":     return -1;  // more specific rules (e.g. L2 rules) have priority
-      case "TWO_CONNECTED_MODAL_VERBS": return -5;
-      case "CONFUSION_RULE":            return -10;
+      case "PROFANITY":                 return 5;   // prefer over spell checker
+      case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
+      case "CHILDISH_LANGUAGE":         return 9;   // prefer over spell checker
+      case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "TWO_CONNECTED_MODAL_VERBS": return -15;
+      case "CONFUSION_RULE":            return -20;
       case "SENTENCE_FRAGMENT":         return -50; // prefer other more important sentence start corrections.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case LongSentenceRule.RULE_ID:    return -997;
