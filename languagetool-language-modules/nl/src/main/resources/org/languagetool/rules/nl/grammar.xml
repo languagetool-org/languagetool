@@ -17630,9 +17630,11 @@ steenwijk;Steenwijk
                 <example type="incorrect">Vergis ik me<marker>.?</marker></example>
             </rule>
         </rulegroup>
+
         <rulegroup id="ECHTER" name="Echter zonder komma">
             <!-- 2014-08-21 TaalTik -->
             <rule>
+                <antipattern><token>echter</token><token postag_regexp="yes" postag="WKW.*INF|WKW:.*EP"/></antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -17640,19 +17642,30 @@ steenwijk;Steenwijk
                         <token negate="yes" regexp="yes">,|dan</token>
                     </marker>
                 </pattern>
-                <message>Na '<match no="2"/>' (in de betekenis 'maar') aan het begin van een zin hoort een komma: <suggestion><match no="2"/>, <match no="3"/></suggestion></message>
+                <message>Na '<match no="2"/>' (in de betekenis 'maar') aan het begin van een zin hoort (vaak) een komma: <suggestion><match no="2"/>, <match no="3"/></suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
                 <short>Komma</short>
                 <example correction="Echter, het"><marker>Echter het</marker> is fout.</example>
                 <example><marker>Echter,</marker> het is goed.</example>
-                <example correction="Echter, wel"><marker>Echter wel</marker> met vragen.</example>
                 <example correction="Echter, zonder"><marker>Echter zonder</marker> succes.</example>
                 <example correction="Echter, geen"><marker>Echter geen</marker> koala's hier.</example>
                 <example correction="Echter, ook"><marker>Echter ook</marker> de minst snelle.</example>
-                <example correction="Echter, is"><marker>Echter is</marker> het volk géén god.</example>
                 <example correction="Echter, dit"><marker>Echter dit</marker> is een extraatje.</example>
-                <example correction="Echter, en"><marker>Echter en</marker> dichter bestaat niet.</example>
-                <example correction="Echter, hoeft"><marker>Echter hoeft</marker> dit niet altijd.</example>
+                <example><marker>Echter hoeft</marker> dit niet altijd.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Echter</token>
+                        <token postag_regexp="yes" postag="WKW:.*"/>
+                    </marker>
+                </pattern>
+                <message>Deze woordvolgorde wordt tegenwoordig als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
+                <short>Echter</short>
+                <example type="incorrect"><marker>Echter heeft</marker> het volk géén god.</example>
+                <example type="incorrect"><marker>Echter hoeft</marker> dit niet altijd.</example>
             </rule>
         </rulegroup>
 		
