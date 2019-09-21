@@ -5470,7 +5470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">as|em|eu|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
+                        <token regexp="yes">as|em|eu|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                     </marker>
                     <token postag="V.P.*" postag_regexp="yes"></token>
                 </pattern>
@@ -5509,6 +5509,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Haver s'escriu amb hac</short>
                 <example correction="he">Jo <marker>e</marker> de fer.</example>
                 <example>Jo he de fer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">av[ií](a|es|en)<exception regexp="yes">\p{Lu}+</exception></token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)av[ií](a|es|en)" regexp_replace="havi$1"/></suggestion>?</message>
+                <example correction="havien">Tot el que <marker>avien</marker> de dir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">av[ií](em|eu)<exception regexp="yes">\p{Lu}+</exception></token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)av[ií](em|eu)" regexp_replace="haví$1"/></suggestion>?</message>
+                <example correction="havíem">Tot el que <marker>aviem</marker> de dir.</example>
             </rule>
             <rule>
                 <pattern>
