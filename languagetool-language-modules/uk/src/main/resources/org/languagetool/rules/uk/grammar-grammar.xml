@@ -1145,15 +1145,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>без</token>
-          <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
+          <token postag_regexp="yes" postag="num.*" min="1" max="1"/>
           <token min="0">хвилин</token>
           <token postag_regexp="yes" postag="adj:f:v_naz.*" regexp="yes" inflected="yes">&hours;</token>
         </pattern>
-        <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
+        <message>Правильною є конструкція за + числівник у знахідному відмінку</message>
+        <suggestion>за <match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion>
         <suggestion><match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
         <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
         <example correction="за двадцять хвилин третя|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
-        <example correction="за два хвилин сьома|за двоє хвилин сьома|за дві хвилин сьома|два хвилин до сьомої|двоє хвилин до сьомої|дві хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
+        <!--
+        <example correction="за двадцять дві хвилин сьома|за двадцять двоє хвилин сьома|за  хвилин сьома|два хвилин до сьомої|двоє хвилин до сьомої|дві хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
+        -->
         <example>за десять хвилин третя</example>
       </rule>
 

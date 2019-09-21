@@ -2286,16 +2286,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="ODYN_I_TOY_ZHE" name="Один і той же" default="off">
       <pattern>
-       <token inflected='yes'>один</token>
-       <token regexp='yes'>і|й</token>
-       <token inflected='yes'>той</token>
-       <token regexp='yes'>же|ж</token>
+        <token inflected='yes'>один</token>
+        <token regexp='yes'>і|й</token>
+        <token inflected='yes'>той</token>
+        <token regexp='yes'>же|ж</token>
       </pattern>
       <message>Вираз "\1 \2 \3 \4" не характерний українській мові. Варто вживати <suggestion>той самий</suggestion>, <suggestion>один і той самий</suggestion></message>
       <url>https://r2u.org.ua/node/213</url>
       <example correction="той самий|один і той самий">Представники різних рас і народів по-різному реагують на <marker>один і той же</marker> препарат</example>
       <example correction="Той самий|Один і той самий"><marker>Один і той же</marker> одяг можу носити півроку</example>
       <example>Конституція також передбачає випадки, коли один і той самий закон повинен бути підтриманий Верховною Радою та народом</example>
+    </rule>
+
+    <rule id="iz-za" name="Із-за">
+      <pattern>
+        <marker>
+          <token>із-за</token>
+        </marker>
+        <token regexp='yes'>цього|.*(ості|стей|ції)</token>
+      </pattern>
+      <message>Правильно: <suggestion>через</suggestion></message>
+      <example correction="через"><marker>із-за</marker> відсутності</example>
     </rule>
 
     <rule id="ODYN_NA_ODYM" name="Один на один">
