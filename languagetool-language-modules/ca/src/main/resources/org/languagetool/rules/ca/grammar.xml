@@ -1079,6 +1079,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>aniversari</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>vint-i-un</token>
+                    <token>botó</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
                     <marker>
@@ -1102,6 +1107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 concert per a violí</example>
                 <example>1/24 part d'unitat</example>
                 <example>En l'article 4 bis</example>
+                <example>Anava vestit de vint-i-un botó.</example>
             </rule>
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example>la comissió de vint-i-quatre encarregada</example>-->
@@ -2290,6 +2296,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;|&dies_setmana;|vegada|volta|pic|col?p</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">fer</token>
+                    <token>una</token>
+                    <token regexp="yes">coca|truita|merda|sopa</token>
+                </antipattern>
                 <pattern>
                     <!-- <token postag="[DANVPIYCR].*|SP.*|_.*|complement.*|.*LOC.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">\d+</exception></token> -->
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -2318,6 +2329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Explicava a tothom que li havien «embenat els ulls» i l'havien «ensibornat».</example>
                 <example>la reunió, celebrada aquest dimarts</example>
                 <example>Le festin de Pierre (basada en Molière, 1667)</example>
+                <example>Fet una coca: així va acabar.</example>
             </rule>
             <rule> <!-- Per al cas: passats els anys -->
                 <pattern>
@@ -31804,7 +31816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception regexp="yes">en|mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa|una</exception></token>
+                <token><exception regexp="yes">en|mala|bona|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa|una</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -31826,6 +31838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Planta'ls cara al carrer.</example>
             <example>Li ha costat cara al financer.</example>
             <example>Ho va tirar en cara al seu rival.</example>
+            <example>Bona teca i bona cara a ningú no desagrada</example>
             <!-- <example>aquesta doctrina, cara a sant Pau,</example> -->
         </rule>
         <rule id="DE_CARES_A" name="de cares a">
@@ -40865,7 +40878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="cartons"><marker>cartrons</marker></example>
             <example correction="cartó"><marker>cartró</marker></example>
         </rule>
-        <rule id="EUGA" name="euga / euga">
+        <rule id="EUGA" name="euga / egua">
             <pattern>
                 <token inflected="yes">euga</token>
             </pattern>
