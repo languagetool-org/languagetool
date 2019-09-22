@@ -35,7 +35,7 @@ import java.net.URL;
  * A rule that matches words which are complex and suggests easier to understand alternatives. 
  *
  * @author Tiago F. Santos 
- * @since 4.7
+ * @since 4.8
  */
 public class EnglishPlainEnglishRule extends AbstractSimpleReplaceRule2 {
 
@@ -51,6 +51,7 @@ public class EnglishPlainEnglishRule extends AbstractSimpleReplaceRule2 {
 
   public EnglishPlainEnglishRule(ResourceBundle messages) throws IOException {
     super(messages, new English());
+    setDefaultOff();  // reactivate after feature freeze
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>fatal outcome</marker>"),
