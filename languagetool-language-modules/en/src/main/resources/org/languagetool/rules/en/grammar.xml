@@ -9961,6 +9961,62 @@ USA
             <example>The password protected dropbox folders and other items from being viewed by others.</example>
             <example correction="password-protected">I will share the <marker>password protected</marker> PDF with you.</example>
         </rule>
+        <rulegroup id="DOUBLE_CLICK_HYPHEN" name="missing hyphen in 'double click' (verb)" default="off">
+            <rule>
+                <pattern>
+                    <token postag="PRP|NNP" postag_regexp="yes" />
+                    <token postag="VBD" min="0" />
+                    <marker>
+                        <token>double</token>
+                        <token inflected="yes">click</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\3-\4</suggestion>
+                <example>I want to detect a double click on the Image.</example>
+                <example>There were too many double clicks.</example>
+                <example>There were double clicks on that link that didn't succeed.</example>
+                <example>Please handle double clicks on the main call-to-action.</example>
+                <example correction="double-clicked">He <marker>double clicked</marker> the button.</example>
+                <example correction="double-clicked">Sarah <marker>double clicked</marker> the button.</example>
+                <example correction="double-clicking">She was <marker>double clicking</marker> the button until it worked.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">to|please</token>
+                    <marker>
+                        <token>double</token>
+                        <token inflected="yes">click</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\2-\3</suggestion>
+                <example>I want to detect a double click on the Image.</example>
+                <example>Please handle double clicks on the main call-to-action.</example>
+                <example correction="double-click">Please <marker>double click</marker> on the link to confirm the action.</example>
+                <example correction="double-click">You need to <marker>double click</marker> on the folder first.</example>
+                <example correction="double-click">He had to <marker>double click</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>
+                        <exception postag="VB.*|DT" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>double</token>
+                        <token inflected="yes">click</token>
+                    </marker>
+                    <token regexp="yes">at|on|in</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\2-\3</suggestion>
+                <example>I want to detect a double click on the Image.</example>
+                <example>There were too many double clicks for confirmation.</example>
+                <example>There were double clicks on that link that didn't succeed.</example>
+                <example>Please handle double clicks on the main call-to-action.</example>
+                <example correction="double-click">Let's <marker>double click</marker> on the folder first.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RE_DO_COMPOUND" name="'re do' spelled as one word">
             <rule>
                 <pattern>
