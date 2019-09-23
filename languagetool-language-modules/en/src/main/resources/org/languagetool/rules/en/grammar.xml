@@ -30955,13 +30955,30 @@ The accident victim died from her injuries.
             <example correction=""><marker>But</marker> it is not a great writing style to start a sentence with 'but'.</example>
             <example>It is not a great writing style to start a sentence with 'but'.</example>
         </rule>
-        <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker>
-                    <token regexp="yes">\d+</token>
-                </marker>
-            </pattern>
+        <rule id="SENT_START_NUM" name="Number starting a sentence">
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">[\d,.]+</token>
+          <token postag='SENT_END'/>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+</token>
+          <token>/</token>
+          <token regexp="yes">\d+</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">(?:\d{2}|\d{4})\.\d{2}\.(?:\d{2}|\d{4})</token>
+      </antipattern>
+      <pattern>
+          <phraseref idref="ALL_SENT_START"/>
+        <marker>
+          <token regexp="yes">[\d,.]+</token>
+        </marker>
+          <token>
+            <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
+      </pattern>
             <message>Numbers at the start of the sentence should be written as words.</message>
             <short>Number starting a sentence</short>
             <example correction=""><marker>12</marker> soldiers were killed!</example>
