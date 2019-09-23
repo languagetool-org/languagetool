@@ -3272,7 +3272,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="COURT" id="COURT">
       <pattern case_sensitive="yes">
         <token regexp="yes">Cent(er|re)|Supreme</token>
-        <token>Court</token>
+        <token regexp="yes">Courts?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="SOCIAL" id="SOCIAL">
+      <pattern case_sensitive="yes">
+        <token>Social</token>
+        <token regexp="yes">Collaboration|Engineering|Learning|Networks?|Software</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
