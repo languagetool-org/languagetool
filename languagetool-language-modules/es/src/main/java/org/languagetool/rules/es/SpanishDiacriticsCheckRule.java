@@ -42,7 +42,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Jaume Ortolà i Font
  */
-public class SpanishAccentuationCheckRule extends Rule {
+public class SpanishDiacriticsCheckRule extends Rule {
 
   /**
    * Patterns
@@ -86,7 +86,7 @@ public class SpanishAccentuationCheckRule extends Rule {
   private static final Map<String, AnalyzedTokenReadings> relevantWords2 =
           new AccentuationDataLoader().loadWords("/es/verb_noaccent_adj_accent.txt");
 
-  public SpanishAccentuationCheckRule(ResourceBundle messages) throws IOException {
+  public SpanishDiacriticsCheckRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
@@ -173,14 +173,16 @@ public class SpanishAccentuationCheckRule extends Rule {
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
 
       // VERB WITHOUT ACCENT -> NOUN WITH ACCENT
-      if (isRelevantWord && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
+      if ( isRelevantWord &&
+          !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // amb renuncies
-        if (tokens[i - 1].hasPosTag("SPS00") && !tokens[i - 1].hasPosTag("RG")
+        if ((tokens[i - 1].hasPosTag("SPS00") || tokens[i - 1].hasPosTag("SP+DA")) 
+            && !tokens[i - 1].hasPosTag("RG")
             && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }
-        else if (i > 2 && tokens[i - 2].hasPosTag("SPS00") 
+        else if (i > 2 && (tokens[i - 2].hasPosTag("SPS00") || tokens[i - 2].hasPosTag("SP+DA")) 
             && !tokens[i - 2].hasPosTag("RG")
             && !matchPostagRegexp(tokens[i - 2], DETERMINANT)
             && (matchPostagRegexp(tokens[i - 1], DETERMINANT) 
@@ -189,6 +191,7 @@ public class SpanishAccentuationCheckRule extends Rule {
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }
+        /*
         // aquestes renuncies
         else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token), NOM_MS) 
               && !token.equals("cantar"))
@@ -291,11 +294,30 @@ public class SpanishAccentuationCheckRule extends Rule {
                 || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MP)) 
                 || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP)))) {
           replacement = relevantWords.get(token).getToken();
-        }
+        }*/
       }
 
       // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
-      if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
+      if (isRelevantWord2 &&
+          !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
+        // por *ultimo
+        if ((tokens[i - 1].hasPosTag("SPS00") || tokens[i - 1].hasPosTag("SP+DA")) 
+            && !tokens[i - 1].hasPosTag("RG")
+            && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
+            && !matchPostagRegexp(tokens[i], INFINITIU)) {
+          replacement = relevantWords2.get(token).getToken();
+        }
+        else if (i > 2 && (tokens[i - 2].hasPosTag("SPS00") || tokens[i - 2].hasPosTag("SP+DA")) 
+            && !tokens[i - 2].hasPosTag("RG")
+            && !matchPostagRegexp(tokens[i - 2], DETERMINANT)
+            && (matchPostagRegexp(tokens[i - 1], DETERMINANT) 
+                || mArticleELMS.matches() || mArticleELFS.matches() 
+                || mArticleELMP.matches() || mArticleELFP.matches() )
+            && !matchPostagRegexp(tokens[i], INFINITIU)) {
+          replacement = relevantWords2.get(token).getToken();
+        }
+      }
+      /*if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // de manera obvia, circumstàncies extraordinaries.
         if (!token.equals("solicito") && !token.equals("indico")
             && (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS) 
@@ -334,7 +356,7 @@ public class SpanishAccentuationCheckRule extends Rule {
           replacement = relevantWords2.get(token).getToken();
         }
 
-      }
+      }*/
       if (replacement != null) {
         final String msg = "Si es un nombre o un adjetivo, debe llevar tilde.";
         final RuleMatch ruleMatch = new RuleMatch(this, sentence,

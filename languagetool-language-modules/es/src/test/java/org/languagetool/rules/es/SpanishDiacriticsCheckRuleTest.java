@@ -32,14 +32,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Jaume Ortolà
  */
-public class SpanishAccentuationCheckRuleTest {
+public class SpanishDiacriticsCheckRuleTest {
 
-  private SpanishAccentuationCheckRule rule;
+  private SpanishDiacriticsCheckRule rule;
   private JLanguageTool langTool;
 
   @Before
   public void setUp() throws IOException {
-    rule = new SpanishAccentuationCheckRule(TestTools.getEnglishMessages());
+    rule = new SpanishDiacriticsCheckRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Spanish());
   }
 
@@ -78,7 +78,7 @@ public class SpanishAccentuationCheckRuleTest {
     
 
     // incorrect sentences:
-    assertIncorrect("de entrada el medico diagnosticó");
+    /*assertIncorrect("de entrada el medico diagnosticó");
     assertIncorrect("El publico deberá tener");
     assertIncorrect("Fue participe de la operación");
     assertIncorrect("la formula de inspiración americana");
@@ -91,12 +91,25 @@ public class SpanishAccentuationCheckRuleTest {
     assertIncorrect("Un hombre adultero.");
     assertIncorrect("Hizo una magnifica interpretación.");
     assertIncorrect("La magnifica conservación del palacio.");
-    assertIncorrect("Hace falta una nueva formula que la sustituya.");
+    assertIncorrect("Hace falta una nueva formula que la sustituya.");*/
+    
+    assertIncorrect("Formación del vehiculo en");
+    assertIncorrect("Formación de vehiculo en");
+    assertIncorrect("del diagnostico o grado");
+    assertIncorrect("haz clic en el numero");
+    assertIncorrect("le espera en linea");
+    assertIncorrect("el 0456 entre lineas fijas");
+    assertIncorrect("Por ultimo, con que");
+    assertIncorrect("Agencia sin linea");
+    assertIncorrect("con numero de");
+    assertIncorrect("en el genero urbano");
+    assertIncorrect("Entra en la pagina oficial");
+    assertIncorrect("No. de paginas 1");
 
-    final RuleMatch[] matches = rule
+    /*final RuleMatch[] matches = rule
         .match(langTool
             .getAnalyzedSentence("Las cascaras que nos rodean son cascaras vacías."));
-    assertEquals(2, matches.length);
+    assertEquals(2, matches.length);*/
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -113,14 +126,14 @@ public class SpanishAccentuationCheckRuleTest {
 
   @Test
   public void testPositions() throws IOException {
-    final SpanishAccentuationCheckRule rule = new SpanishAccentuationCheckRule(TestTools.getEnglishMessages());
+    final SpanishDiacriticsCheckRule rule = new SpanishDiacriticsCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Spanish());
 
     matches = rule.match(langTool
-        .getAnalyzedSentence("Son cascaras vacías."));
-    assertEquals(4, matches[0].getFromPos());
-    assertEquals(12, matches[0].getToPos());
+        .getAnalyzedSentence("de cascaras vacías."));
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
   }
 
 }
