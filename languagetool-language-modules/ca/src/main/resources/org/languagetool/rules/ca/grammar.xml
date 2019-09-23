@@ -27908,6 +27908,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="VOLTA_INCORRECTE" name="*a volta de correu">
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>volta</token>
+                    <token>de</token>
+                    <token>correu</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>a correu seguit</suggestion>
+                <suggestion>pel primer correu</suggestion>
+                <example correction="a correu seguit|pel primer correu">T'ho enviaré <marker>a volta de correu</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4">estar</token>
+                    <token>de</token>
+                    <marker>
+                        <token>volta</token>
+                    </marker>
+                    <token>de</token>
+                    <token>tot</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>tornada</suggestion>
+                <example correction="tornada">Ja està de <marker>volta</marker> de tot.</example>
+                <example>Això era la clau de volta de tot plegat.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="3">fer|donar</token>
+                    <token>una</token>
+                    <token>volta</token>
+                </antipattern>
+                <pattern>
+                    <token>volta</token>
+                    <token>a</token>
+                    <token regexp="yes">l|l'</token>
+                    <token regexp="yes">cole|col·le|col·legi|escola</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion>tornada a escola</suggestion>.</message>
+                <example correction="tornada a escola">Ara comencen els anuncis de <marker>volta al cole</marker>.</example>
+                <example>Fem una volta a l'escola.</example>
+                <example>Fem una volta al col·legi.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DACORD_A" name="*d'acord a/d'acord amb/segons">
             <antipattern>
                 <marker>
