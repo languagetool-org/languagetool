@@ -27922,8 +27922,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a correu seguit|pel primer correu">T'ho enviaré <marker>a volta de correu</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">clau</token>
+                    <token>de</token>
+                    <token>volta</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" skip="4">estar</token>
                     <token>de</token>
                     <marker>
                         <token>volta</token>
@@ -27931,8 +27935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>de</token>
                     <token>tot</token>
                 </pattern>
-                <message>Expressió incorrecta.</message>
-                <suggestion>tornada</suggestion>
+                <message>¿Volíeu dir <suggestion>tornada</suggestion>?</message>
                 <example correction="tornada">Ja està de <marker>volta</marker> de tot.</example>
                 <example>Això era la clau de volta de tot plegat.</example>
             </rule>
