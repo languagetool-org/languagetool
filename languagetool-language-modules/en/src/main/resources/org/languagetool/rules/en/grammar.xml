@@ -115,6 +115,34 @@ USA
         <token>/</token>
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
+
+  <phrases>
+    <phrase id="CITATION">
+          <token postag="SENT_START"/>
+          <token regexp="yes">[«“]|&quot;</token>
+    </phrase>
+    <phrase id="DIALOG">
+          <token postag="SENT_START"/>
+          <token regexp="yes">[–—]|\-</token>
+    </phrase>
+    <phrase id="DIALOG_CITATION">
+          <token postag="SENT_START"/>
+          <token regexp="yes">[«“]|&quot;</token>
+          <token regexp="yes">[–—]|\-</token>
+    </phrase>
+    <phrase id="REGULAR_SENT_START">
+          <token postag="SENT_START"/>
+    </phrase>
+    <phrase id="ALL_SENT_START">
+      <includephrases>
+          <phraseref idref="REGULAR_SENT_START"/>
+          <phraseref idref="CITATION"/>
+          <phraseref idref="DIALOG"/>
+          <phraseref idref="DIALOG_CITATION"/>
+      </includephrases>
+    </phrase>
+  </phrases>
+
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
