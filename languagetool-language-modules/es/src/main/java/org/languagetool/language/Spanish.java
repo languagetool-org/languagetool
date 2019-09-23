@@ -128,7 +128,8 @@ public class Spanish extends Language implements AutoCloseable{
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new SpanishWikipediaRule(messages)
+            new SpanishWikipediaRule(messages),
+            new SpanishDiacriticsCheckRule(messages)
     );
   }
 
