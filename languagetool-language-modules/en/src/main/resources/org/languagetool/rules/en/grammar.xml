@@ -10524,6 +10524,11 @@ USA
                 <token>it</token>
             </antipattern>
             <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>it</token>
+                <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">have</token>
                 <token>it</token>
                 <token postag_regexp="yes" postag="VBD|R[BP]|IN|JJR?"/>
@@ -10554,7 +10559,7 @@ USA
                 <marker>
                     <token postag="VBP?" postag_regexp="yes">
                         <exception postag_regexp="yes" postag="VBD|R[BP]|IN|JJ."/>
-                        <exception>true</exception>
+                        <exception regexp="yes">true|cant</exception><!-- see rule CANT -->
                     </token>
                 </marker>
             </pattern>
@@ -10562,6 +10567,7 @@ USA
             <short>Possible typo</short>
             <example correction="supports">It <marker>support</marker> transparency.</example>
             <example correction="matters">It only <marker>matter</marker> to me.</example>
+            <example correction="keeps">I think it's a good thing because it <marker>keep</marker> us on our toes.</example>
             <example correction="becomes">The lights suddenly went out and it <marker>become</marker> dark.</example><!-- The suggestion is not correct; it should be 'became'. -->
             <example>Does it <marker>support</marker> transparency?</example>
             <example>Doesn't it <marker>support</marker> transparency?</example>
@@ -10587,6 +10593,10 @@ USA
             <example>You will understand it as <marker>time</marker> passes.</example>
             <example>The lights suddenly went off and it <marker>become</marker> dark.</example>
             <example>Instead of setting it piece by piece, you can...</example><!-- #1802 -->
+            <example>I'm not paying to have it continue.</example><!-- #1960 -->
+            <example>He had put it right at the beginning.</example>
+            <example>He removed it right then.</example>
+            <example>They say it cant happen.</example><!-- rule CANT will catch this -->
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
