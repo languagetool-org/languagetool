@@ -163,5 +163,13 @@ public class Spanish extends Language implements AutoCloseable{
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
+  
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "ACCENTUATION_CHECK_ES": return 10;
+    }
+    return super.getPriorityForId(id);
+  }
 
 }
