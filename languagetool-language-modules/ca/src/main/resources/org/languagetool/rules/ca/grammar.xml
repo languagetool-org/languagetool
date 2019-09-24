@@ -289,6 +289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quaranta-quatrè">El <marker>quaranta-quatré</marker>.</example>
                 <example correction="serè">Estava tan <marker>seré</marker>.</example>
                 <example correction="serè">El veig molt <marker>seré</marker>.</example>
+                <example correction="serè">El veig molt <marker>seré</marker></example>
                 <example correction="quaranta-quatrè">El <marker>quaranta-quatré</marker>.</example>
                 <example>El quaranta-quatrè.</example>
                 <example>Refés l'acció.</example>
@@ -5730,6 +5731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que el vas torni a tancar-se</example>
                 <example>els que hi van són vampirs.</example>
                 <example>no en va era nét d'Alfons VII de Castella.</example>
+                <example>Tot va marxa enrere.</example>
                 <!-- Lamenta que diumenge no va sortís ningú del govern espanyol.
                     una processó de torxes que va recorregué tots els carrers-->
             </rule>
@@ -28517,16 +28519,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>a si mateixa</suggestion>
             <example correction="així mateix|a si mateixa">La Bíblia s'interpreta <marker>així mateixa</marker>.</example>
         </rule>
-        <rule id="BUC_INSIGNIA" name="*buc/vaixell/nau">
-            <pattern>
-                <token inflected="yes">buc</token>
-                <token>insígnia</token>
-            </pattern>
-            <message>Cal dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">vaixell</match> \2</suggestion>.</message>
-            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">nau</match> \2</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/buc</url>
-            <example correction="vaixells insígnia|naus insígnia">És un dels <marker>bucs insígnia</marker>.</example>
-        </rule>
+        <rulegroup id="BUC_VAIXELL" name="*buc/vaixell/nau">
+            <rule>
+                <pattern>
+                    <token inflected="yes">buc</token>
+                    <token>insígnia</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">vaixell</match> \2</suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">vaixell</match> almirall</suggestion>
+                <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">nau</match> \2</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/buc</url>
+                <example correction="vaixells insígnia|vaixells almirall|naus insígnia">És un dels <marker>bucs insígnia</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">buc</token>
+                    <token regexp="yes">escola|factoria</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">vaixell</match> \2</suggestion>
+                <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">nau</match> \2</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/buc</url>
+                <example correction="vaixells escola|naus escola">És un dels <marker>bucs escola</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="PROU_OPTIM" name="*prou òptim">
             <pattern>
                 <token regexp="yes">prou|bastant</token>
@@ -35145,6 +35162,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">anell</match></suggestion>?. "Sortija" és el nom d'un joc.</message>
             <example correction="anell">Em vaig comprar una <marker>sortija</marker>.</example>
             <example correction="anells">Em vaig comprar tres <marker>sortiges</marker>.</example>
+        </rule>
+        <rule id="MOLTURA" name="moltura/mòlta">
+            <pattern>
+                <marker>
+                    <token inflected="yes">moltura</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">mòlta</match></suggestion>? "Moltura" és el dret que es paga al moliner.</message>
+            <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="molt$1"/></suggestion>
+            <example correction="mòlta|molta">La <marker>moltura</marker> de la farina.</example>
+        </rule>
+        <rule id="MOLTURAR" name="molturar/moldre">
+            <pattern>
+                <marker>
+                    <token inflected="yes">molturar</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">moldre</match></suggestion>? "Molturar" és cobrar el dret de moltura.</message>
+            <example correction="moldre">Haig de <marker>molturar</marker> el cafè.</example>
         </rule>
         <rule id="LLEGAT_LEGAT" name="llegat/legat">
             <pattern>
@@ -47131,6 +47167,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>hi havia d'haver alguna cosa més que servir-lo</example>
                 <example>Fa dies que agafar el tren és esport de risc.</example>
                 <example>Em fa l'efecte que acabar el projecte no serà fàcil.</example>
+                <example>No hi ha res de més inútil que intentar explicar-ho.</example>
+                <example>No hi ha res més inútil que intentar explicar-ho.</example>
+                <example>Hi ha alguna cosa més inútil que intentar explicar-ho.</example>
             </rule>
             <rule>
                 <pattern>

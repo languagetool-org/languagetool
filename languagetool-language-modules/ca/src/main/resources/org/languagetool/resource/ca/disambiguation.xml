@@ -4727,6 +4727,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule id="marxa" name="marxa (nom)">
+        <pattern>
+            <token inflected="yes">anar</token>
+            <marker>
+                <token>marxa</token>
+            </marker>
+            <token regexp="yes">enrere|arrere|endarrere</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rulegroup id="haver_de_infinitiu" name="haver de + infinitiu">
         <rule>
             <pattern>
@@ -6433,7 +6443,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
-                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va|seré|fou</exception></token>
+                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va|seré|fou|recull</exception></token>
                     </and>
                 </marker>
                 <token><exception postag="P[P0].*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
@@ -6448,7 +6458,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
-                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va</exception></token>
+                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va|fou|recull</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -6461,7 +6471,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
-                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va</exception></token>
+                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">era|va|seré|fou|recull</exception></token>
                     </and>
                 </marker>
                 <token><exception postag="P[P0].*" postag_regexp="yes" spacebefore="no"/></token>
@@ -7953,6 +7963,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="A.*|V.P.*|DP.*"></disambig>
             <example type="untouched">Són massivament admiradors seus.</example>
         </rule>
+        <rule id="aa4a" name="aa1"><!--  res de més inútil que-->
+            <pattern>
+                <token>res</token>
+                <token inflected="yes">de</token>
+                <token postag="RG_anteposat"></token>
+                <marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="D.*|PI.*|VS.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">com|que</token>
+            </pattern>
+            <disambig action="filter" postag="A.*|V.P.*|_GN_.*"></disambig>
+        </rule>
         <rule id="aa5" name="aa1"><!--  amb més públic, per a tal objectiu. Excep: en gairebé tots els; de més alta qualitat -->
             <pattern>
                 <token postag="SPS00"><exception>cap</exception></token>
@@ -9407,7 +9429,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
-                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera|mestre|director|corba</exception></token>
+                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera|mestre|director|corba|sinònim</exception></token>
                     </and>
                 </marker>
                 <!--<token><exception inflected="yes">de</exception></token>-->
@@ -12141,9 +12163,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         -->
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
+                <token regexp="yes">més|menys</token>
+                <token postag="A.*" postag_regexp="yes"/>
                 <marker>
                     <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="comparatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
+                <marker>
+                    <token>que<exception postag="comparatiu"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
             </pattern>
@@ -12154,7 +12187,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token skip="1">hi</token>
                 <token inflected="yes" skip="5">haver<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
-                    <token>que</token>
+                    <token>que<exception postag="comparatiu"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
             </pattern>
@@ -12165,7 +12198,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token inflected="yes">haver</token>
                 <token skip="5">-hi<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
-                    <token>que</token>
+                    <token>que<exception postag="comparatiu"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
             </pattern>
