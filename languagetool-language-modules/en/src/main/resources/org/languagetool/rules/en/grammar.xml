@@ -29965,6 +29965,133 @@ The accident victim died from her injuries.
             <example>She is going some or all of the parks.</example>
             <example>Did Lincoln say "... but you can’t fool <marker>all of the people all of the time</marker>"?</example>
         </rule>
+        <rule id="DROP_DOWN" name="drop down (drop)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <pattern>
+        <marker>
+        <token inflected='yes'>drop</token>
+        <token>down</token>
+        </marker>
+        <token>
+          <exception inflected='yes' regexp='yes'>list|menu</exception></token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\1</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="Drop"><marker>Drop down</marker> from the tree.</example>
+        <example>Drop down menus</example>
+        </rule>
+        <rule id="FIRST_OF_ALL" name="first of all (first)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <pattern>
+        <marker>
+        <token>first</token>
+        <token>of</token>
+        <token>all</token>
+        </marker>
+        <token>
+          <exception postag='WP'/></token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>first</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="First"><marker>First of all</marker>, let us review what has been done.</example>
+        <example>He was the first of all who participated.</example>
+        </rule>
+        <rule id="FOCUS_IN" name="focus in (focus)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <pattern>
+        <token>
+          <exception postag='DT'/></token>
+        <marker>
+        <token>focus</token>
+        <token>in</token>
+        </marker>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>focus</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="focus">Please, <marker>focus in</marker> the tip of the finger.</example>
+        <example>...during the interview he showed a focus in a number of topics...</example>
+        </rule>
+        <rule id="GATHER_UP" name="gather up (gather)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <antipattern>
+        <token inflected='yes' regexp='yes'>gather|lift</token>
+        <token>up</token>
+        <token>to</token>
+        <token postag='CD'/>
+        </antipattern>
+        <pattern>
+        <token inflected='yes' regexp='yes'>gather|lift</token>
+        <token>up</token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\1</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="gather">Please, <marker>gather up</marker> the documentation and let's go.</example>
+        <example>You can gather up to 100 bonus points.</example>
+        <example>He can lift up to 100 kilograms.</example>
+        </rule>
+        <rule id="INCREDIBLE_TO_BELIEVE" name="incredible to believe (incredible)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <pattern>
+        <marker>
+        <token>incredible</token>
+        <token>to</token>
+        <token>believe</token>
+        </marker>
+        <token>
+          <exception>in</exception></token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>incredible</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="incredible">It's <marker>incredible to believe</marker>.</example>
+        <example>...during the interview he showed a focus in a number of topics...</example>
+        </rule>
+        <rule id="OUTSIDE_OF" name="outside of (outside)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <pattern>
+        <token>
+          <exception postag='DT'/></token>
+        <marker>
+        <token regexp='yes'>inside|outside</token>
+        <token>of</token>
+        </marker>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\2</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="outside">Go <marker>outside of</marker> the building and you will find it.</example>
+        <example>It is on the outside of the building.</example>
+        </rule>
+        <rule id="PRIVATE_INDUSTRY" name="private industry (industry)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <antipattern>
+        <token>private</token>
+        <token regexp='yes'>industr(?:y|ies)</token>
+        <token regexp='yes'>sectors?</token>
+        </antipattern>
+        <pattern>
+        <token>private</token>
+        <token regexp='yes'>industr(?:y|ies)</token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\2</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="industry">This is our primary <marker>private industry</marker>.</example>
+        <example>The private industry sector in the USSR was limited to say the least.</example>
+        </rule>
+        <rule id="RIGHT_OVER" name="right over (over)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <antipattern>
+        <token postag='DT'/>
+        <token>right</token>
+        <token>over</token>
+        </antipattern>
+        <pattern>
+        <token>right</token>
+        <token>over</token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\2</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="over">You find it <marker>right over</marker> there.</example>
+        <example>Who has the right over a woman's property?</example>
+        </rule>
         <rule id="SELF_ADMITTED" name="self-admitted (admitted)">
         <pattern>
         <token>self-admitted</token>
@@ -30031,6 +30158,23 @@ The accident victim died from her injuries.
             <example>"You can fool all the people some of the time, and some of the people all the time; but you cannot fool all the ..."</example>
             <example type="triggers_error"><marker>Some of the people I know</marker> like rap music.</example>
             <example type="triggers_error">... promoted the mystical and magical teachings of some of the same ethnic groups he attacked...</example><!-- MFU 2019-09-20. The suggestion 'some [same]' is not correct, but I am not sure whether to add an exception for 'the same'. -->
+        </rule>
+        <rule id="SUBJECT_MATTER" name="subject matter (subject)">
+        <!-- Created by Tiago F. Santos 24-09-2019 -->
+        <antipattern>
+        <token>does</token>
+        <token>the</token>
+        <token>subject</token>
+        <token>matter</token>
+        </antipattern>
+        <pattern>
+        <token>subject</token>
+        <token>matter</token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>\1</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="subject">What is the <marker>subject matter</marker> we will discuss today?</example>
+        <example>Does the subject matter?</example>
         </rule>
         <rule id="TRY_AND" name="try and (try to)">
             <antipattern>
@@ -30214,7 +30358,7 @@ The accident victim died from her injuries.
         <rule id="THE_FALL_SEASON" name="fall season (fall)">
             <pattern>
                 <token>the</token>
-                <token regexp="yes">fall|winter|spring|summer|automn</token>
+                <token regexp="yes">fall|winter|spring|summer|autumn</token>
                 <token>season</token>
             </pattern>
             <message>Consider using <suggestion>\2</suggestion>.</message>
