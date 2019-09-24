@@ -36433,6 +36433,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="sentit">He <marker>escoltat</marker> polítics dient coses falses.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                    <token min="0" max="2" postag="[DA].*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">arma|canó|cridòria|crit|pistola|rebombori|rifle|soroll|tret|tro|xivarri</token>
+                </pattern>
+                <message>Probablement cal usar el verb 'sentir'.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="sentit">He <marker>escoltat</marker> un xivarri enorme.</example>
+                <example correction="sentir">Es va <marker>escoltar</marker> un tret.</example>
+            </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
             <pattern>
