@@ -69,8 +69,25 @@ regexp case-insensitive maken : (?i)
     </category>
     <category id="GRAMMAR" name="Grammaticaregels.">
     </category>
+    -->
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
+        <rulegroup id="BE" name="be kan van alles zijn...">
+			<antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
+            <antipattern><token>to</token><token>be</token></antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                       <token>be</token>
+                   </marker>
+                   <token/>
+                </pattern>
+                <message>Bedoelt u <suggestion>bè</suggestion> of wellicht <suggestion>\1\2</suggestion>?</message>
+                <example correction="bè|belang">Het is van groot <marker>be</marker> lang.</example>
+            </rule>
+        </rulegroup>
+        
     </category>
+    <!--
     <category id="REDUNDANCY">
     </category>
     <category id="STYLE" name="Stijlaspecten die niet in de andere categorieën worden afgehandeld.">
