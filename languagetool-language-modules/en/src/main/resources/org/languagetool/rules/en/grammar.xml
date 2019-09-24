@@ -28904,7 +28904,10 @@ The accident victim died from her injuries.
         </rule>
         <rulegroup default='off' id="I_VE_A" name="Non-standard contractions '(I've a...)'">
           <url>https://en.wikipedia.org/wiki/English_auxiliaries_and_contractions#Contracted_auxiliaries</url>
-          <!-- https://dictionary.cambridge.org/grammar/british-grammar/contractions -->
+          <!-- https://www.quora.com/Is-Ive-a-gramatically-correct
+               https://painintheenglish.com/case/4840
+               https://dictionary.cambridge.org/grammar/british-grammar/contractions 
+               XXX says rule valid for AmE https://english.stackexchange.com/questions/8/is-it-appropriate-to-use-short-form-of-have-ve-when-it-means-possession -->
             <rule>
                 <pattern>
                     <token/>
@@ -29584,13 +29587,18 @@ The accident victim died from her injuries.
         </rule>
         <rule default="off" id="BLEND_TOGETHER" name="blend together (blend)">
             <pattern>
-                <token inflected="yes" regexp="yes">attach|assemble|blend|co(mbine|llaborate|nfer|ngregate)|gather|join|me(et|rge|sh)|mix|share</token>
+                <token inflected="yes" regexp="yes">attach|assemble|blend|co(mbine|llaborate|nfer|ngregate)|join|me(rge|sh)|mix
+                  <!-- XXX remove |gather|meet|share https://forum.wordreference.com/threads/gather-together-redundant.232952/
+                            https://www.quora.com/Is-it-correct-to-use-either-We-are-gathered-together-or-We-have-gathered-together-in-the-sentence-We-are-have-gathered-together-to-celebrate
+                            https://www.merriam-webster.com/words-at-play/usage-exact-same --></token>
                 <token>together</token>
             </pattern>
             <message>This phrase might be redundant. Consider using <suggestion>\1</suggestion>.</message>
+            <url>https://grammarist.com/redundancies/</url>
             <short>Redundant phrase</short>
             <example correction="blend">Their voices <marker>blend together</marker> in lovely harmony.</example>
             <example>Their voices blend in lovely harmony.</example>
+            <example>Mercy and truth are met together ; righteousness and peace ha...</example>
         </rule>
         <rule default="off" id="BRIEF_MOMENT" name="brief moment/summary (moment/summary)">
             <pattern>
@@ -30986,7 +30994,7 @@ The accident victim died from her injuries.
             <example correction=""><marker>But</marker> it is not a great writing style to start a sentence with 'but'.</example>
             <example>It is not a great writing style to start a sentence with 'but'.</example>
         </rule>
-        <rule id="SENT_START_NUM" name="Number starting a sentence">
+        <rule id="SENT_START_NUM" name="Number starting a sentence" default="off">
       <antipattern>
           <token postag="SENT_START"/>
           <token regexp="yes">[\d,.]+</token>
@@ -30995,25 +31003,58 @@ The accident victim died from her injuries.
       <antipattern>
           <token postag="SENT_START"/>
           <token regexp="yes">\d+</token>
-          <token>/</token>
+          <token regexp='yes'>[/\.]</token>
           <token regexp="yes">\d+</token>
       </antipattern>
       <antipattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">(?:\d{2}|\d{4})\.\d{2}\.(?:\d{2}|\d{4})</token>
+          <token regexp="yes">\d+</token>
+          <token min='0'>.</token>
+          <token>)</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d{4}</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+</token>
+          <token regexp="yes" spacebefore='yes'>,</token>
+          <token regexp="yes" spacebefore='yes'>\d+</token>
       </antipattern>
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
         <marker>
-          <token regexp="yes">[\d,.]+</token>
+          <token regexp="yes">\d+</token>
         </marker>
-          <token>
-            <exception postag_regexp='yes' postag='_PUNCT|CD'/></token>
+          <token skip='-1'>
+            <exception postag_regexp='yes' postag='PCT|CD'/></token>
+        <and><!-- Don't trigger on titles nor lists -->
+          <token postag='PCT'/>
+          <token postag='SENT_END'/>
+        </and>
       </pattern>
-            <message>Numbers at the start of the sentence should be written as words.</message>
+            <message>Avoid numbers at the start of the sentence. They should be written as words or the sentence should be rephrased.</message>
+            <url>https://www.grammar-monster.com/lessons/numbers_starting_sentences.htm</url>
             <short>Number starting a sentence</short>
             <example correction=""><marker>12</marker> soldiers were killed!</example>
+            <example><marker>12</marker> soldiers were killed</example>
             <example>Twelve soldiers were killed!</example>
+            <example>Mil vezes! Já o disse 1000 vezes!</example>
+            <example><marker>1.</marker> Introdução</example>
+            <example><marker>1.-</marker> Introdução</example>
+            <example><marker>1.--</marker> Introdução</example>
+            <example><marker>1.2.</marker> Introdução</example>
+            <example><marker>1.3.—</marker> Introdução</example>
+            <example>50-30</example>
+            <example>25/12/2017</example>
+            <example>25.12.2017 às 12h00</example>
+            <example>1994 was the year</example>
+            <!--example correction=""><marker>1994</marker> was the year.</example-->
+            <example>2,000 new animals</example>
+            <example>2,000 animals were discovered last year.</example>
+            <example>1.) First item</example>
+            <example><marker>12</marker> soldiers were killed</example><!-- Title -->
         </rule>
         <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
             <pattern>
