@@ -48,8 +48,12 @@ public class UkrainianWordTokenizerTest {
     url = "elect@ombudsman.gov.ua";
     testList = w.tokenize(url);
     assertEquals(Arrays.asList(url), testList);
-    
+
     List<String> parts = Arrays.asList("https://www.foo.com/foo", " ", "https://youtube.com", " ", "Зе");
+    testList = w.tokenize(StringUtils.join(parts, ""));
+    assertEquals(parts, testList);
+
+    parts = Arrays.asList("https://www.phpbb.com/downloads/", "\"", ">", "сторінку");
     testList = w.tokenize(StringUtils.join(parts, ""));
     assertEquals(parts, testList);
   }
