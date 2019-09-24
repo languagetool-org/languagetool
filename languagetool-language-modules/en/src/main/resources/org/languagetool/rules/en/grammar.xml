@@ -9499,7 +9499,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|spend|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg|envelop</exception>
+                    <exception regexp="yes">commit|remix|long-running|spend|merge|google|excel|chevy|thank|are|advise|react|skype|photoshop|kindle|discover|attach|add|((un|auto|re|pre)\-?)?installs?|lose|complains?|vary|responds?|requires?|rebrand|beg|envelop|headquarter|didn|don</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9583,6 +9583,72 @@ USA
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example><marker>There are</marker> different places to see.</example>
         </rule>
+        <rulegroup id="THE_THEY" name="the (they)">
+            <rule>
+                <antipattern>
+                    <token>the</token>
+                    <token>must</token>
+                    <token>have</token>
+                </antipattern>
+                <pattern>
+                    <marker><token>the</token></marker>
+                    <token postag="MD"><exception>will</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>\1y</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="They"><marker>The</marker> cannot help you.</example>
+                <example>The must have toy this year...</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <marker>
+                        <token>the</token>
+                        <token case_sensitive="yes" regexp="yes">don|didn</token>
+                        <token regexp="yes">['´]</token>
+                        <token>t</token>
+                    </marker>
+                    <token postag="VB|VBP" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>they \2\3\4</suggestion></message>
+                <example>The Don't Laugh Challenge.</example>
+                <example>The Don't Quit Podcast.</example>
+                <example>Do the Don't.</example>
+                <example correction="They don't"><marker>The don't</marker> know.</example>
+                <example correction="they didn't">What <marker>the didn't</marker> know about was ....</example>
+            </rule>
+        </rulegroup>
+        <rule id="THE_HEADQUARTER" name="the + headquarter" default="off">
+            <pattern>
+                <or>
+                    <token regexp="yes">the|their|s|our|my|an?</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                </or>
+                <marker>
+                    <token>headquarter</token>
+                </marker>
+            </pattern>
+            <message>The word '\2' is a verb. The noun to describe a corporate head office ends with an 's'.</message>
+            <suggestion>headquarters</suggestion>
+            <url>https://en.wikipedia.org/wiki/Headquarters</url>
+            <example>Google is headquartered in Mountain View</example>
+            <example>Google's headquarters are in Mountain View</example>
+            <example correction="headquarters">I wanted to visit Google's <marker>headquarter</marker>.</example>
+            <example correction="headquarters">Amazon built their new <marker>headquarter</marker> in Seattle.</example>
+            <example correction="headquarters">More than 1,000 employees work in the corporate <marker>headquarter</marker>.</example>
+        </rule>
+        <rulegroup id="SPEAK_SPEECH" name="speak (speech)" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>speak</token>
+                        <token regexp="yes" inflected="yes" postag="NN.*" postag_regexp="yes">recognition|synthesis|therapy|impediment|bubble|analysis</token>
+                    </marker>
+                </pattern>
+                <message>The word 'speak' is not a noun. Did you mean <suggestion>speech \2</suggestion>?</message>
+                <example correction="speech recognition">The <marker>speak recognition</marker> can even understand Chinese.</example>
+                <example correction="speech bubbles">I drew many <marker>speak bubbles</marker> that need to be filled with words.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEG_BAG" name="confusion of 'beg' vs 'bag'">
             <rule>
                 <pattern>
@@ -25138,21 +25204,6 @@ The accident victim died from her injuries.
             <short>Possible typo</short>
             <example correction="then">How to add equal values and <marker>than</marker> replace them with their sum?</example>
             <example correction="then">Since <marker>than</marker> we've released two new versions.</example>
-        </rule>
-        <rule id="THE_THEY" name="the (they)">
-            <antipattern>
-                <token>the</token>
-                <token>must</token>
-                <token>have</token>
-            </antipattern>
-            <pattern>
-                <marker><token>the</token></marker>
-                <token postag="MD"><exception>will</exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>\1y</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="They"><marker>The</marker> cannot help you.</example>
-            <example>The must have toy this year...</example>
         </rule>
         <rule id="NUMBER_OF_NNS" name="number or (of)">
             <pattern>

@@ -437,6 +437,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     } else if ("womans".equals(word)) {
       return Arrays.asList("women");
       // AtD irregular plurals - END
+    } else if ("tippy-top".equals(word) || "tippytop".equals(word)) {
+      // "tippy-top" is an often used word by Donald Trump
+      return Arrays.asList("tip-top", "top most");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
