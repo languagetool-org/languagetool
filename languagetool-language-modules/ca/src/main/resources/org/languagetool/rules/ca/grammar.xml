@@ -36437,6 +36437,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentit">He <marker>escoltat</marker> polítics dient coses falses.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="30" regexp="yes" inflected="yes">conscient|conscientment|atent|atentament|atenció</token>
+                    <token inflected="yes">escoltar</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="30" inflected="yes">escoltar</token>
+                    <token regexp="yes" inflected="yes">conscient|conscientment|atent|atentament|atenció</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes">escoltar</token>
@@ -36448,6 +36456,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
                 <example correction="sentit">He <marker>escoltat</marker> un xivarri enorme.</example>
                 <example correction="sentir">Es va <marker>escoltar</marker> un tret.</example>
+                <example>Amb molta atenció vam escoltar el so que sortia de la guitarra.</example>
+                <example>L'acte conscient d'escoltar un so.</example>
             </rule>
         </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
@@ -41378,18 +41388,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EL_QUE_COSA_QUE" name="*el que/cosa que">
             <antipattern>
-                <token inflected="yes" skip="10">ser</token>
+                <token inflected="yes" skip="25">ser</token>
                 <token>el</token>
                 <token>que</token>  
             </antipattern>
              <antipattern>
                 <token>el</token>
-                <token skip="10">que</token>
+                <token skip="25">que</token>
                 <token inflected="yes">ser</token>
             </antipattern>
             <pattern>
                 <marker>
-                    <token>el<exception scope="previous" regexp="yes">sinó|que|i|o|ni|en|com</exception><exception scope="previous" postag="V.[MSI].*" postag_regexp="yes"/></token>
+                    <token>el<exception scope="previous" regexp="yes">sinó|que|i|o|ni|en|com</exception><exception scope="previous" postag="V.[MSI].*|_cometes_obertura" postag_regexp="yes"/></token>
                     <token>que</token>
                 </marker>
                 <token min="0" regexp="yes">em|m'|et|t'|li|ens|us|vos|els</token>
@@ -41404,6 +41414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El que permet millorar és treballar de manera constant.</example>
             <example>l'historiador i periodista granadí explica el que va suposar la seva trobada amb Madrid</example>
             <example>per a ubicar-hi el que va suposa</example>
+            <example>Ho definien com "el que permet que hi hagi competència".</example>
         </rule>
         <rule id="PER_SI_FOS_POC" name="per si fos poc">
             <pattern>
