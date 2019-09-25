@@ -9599,7 +9599,7 @@ USA
                 <example correction="They"><marker>The</marker> cannot help you.</example>
                 <example>The must have toy this year...</example>
             </rule>
-            <rule default="off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>the</token>
@@ -9617,7 +9617,7 @@ USA
                 <example correction="they didn't">What <marker>the didn't</marker> know about was ....</example>
             </rule>
         </rulegroup>
-        <rule id="THE_HEADQUARTER" name="the + headquarter" default="off">
+        <rule id="THE_HEADQUARTER" name="the + headquarter">
             <pattern>
                 <or>
                     <token regexp="yes">the|their|s|our|my|an?</token>
@@ -9636,7 +9636,7 @@ USA
             <example correction="headquarters">Amazon built their new <marker>headquarter</marker> in Seattle.</example>
             <example correction="headquarters">More than 1,000 employees work in the corporate <marker>headquarter</marker>.</example>
         </rule>
-        <rulegroup id="SPEAK_SPEECH" name="speak (speech)" default="off">
+        <rulegroup id="SPEAK_SPEECH" name="speak (speech)">
             <rule>
                 <pattern>
                     <marker>
@@ -28422,6 +28422,25 @@ The accident victim died from her injuries.
                 <short>Commonly confused word</short>
                 <example correction="complaint">This is our biggest <marker>complain</marker>.</example>
                 <example correction="complaint">Shortness of breath was a common <marker>complain</marker> among the patients.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <or>
+                        <token postag="PRP|NN.*" postag_regexp="yes" />
+                        <token regexp="yes">have|has</token>
+                    </or>
+                    <marker>
+                        <token>complaint</token>
+                    </marker>
+                    <token regexp="yes">that|about|of|in|a|many</token>
+                </pattern>
+                <message>Did you mean <suggestion>complained</suggestion> (past tense of 'complain')?</message>
+                <example correction="complained">He <marker>complaint</marker> about his daughter.</example>
+                <example correction="complained">He <marker>complaint</marker> a lot.</example>
+                <example correction="complained">Tom has <marker>complaint</marker> many times about his neighbours.</example>
+                <example correction="complained">They have <marker>complaint</marker> that nobody was listening to them.</example>
+                <example correction="complained">My friends <marker>complaint</marker> about my behaviour.</example>
+                <example>They  <marker>complained</marker> about their new president.</example>
             </rule>
         </rulegroup>
         <rule id="FIRST_AID_KIT" name="first aid kid (kit)">
