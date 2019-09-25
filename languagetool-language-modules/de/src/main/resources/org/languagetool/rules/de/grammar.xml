@@ -17968,6 +17968,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schmiere">Er hat immer <marker>schmiere</marker> gestanden, während ich dem Nachbarn die Äpfel klaute.</example>
                 <example>Ich warte kurz und düse los.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">die(se)?|eine</token>
+                    <marker>
+                        <token postag="VER:3:SIN:KJ1:NON" regexp="yes" case_sensitive="yes">[a-zäöüß].+e
+                            <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                            <exception>bitte</exception>
+                        </token>
+                    </marker>
+                    <token postag="VER:.+|SENT_END" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Biege">Er machte die <marker>biege</marker>.</example>
+                <example correction="Biege">Er hat die <marker>biege</marker> machen wollen.</example>
+                <example>Ich nehme die heiße.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="HUELLE_UND_FUELLE" name="'in hülle (Hülle) und fülle (Fülle)'">
             <url>https://de.wiktionary.org/wiki/in_H%C3%BClle_und_F%C3%BClle</url>
