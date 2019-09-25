@@ -10288,6 +10288,17 @@ USA
             <suggestion><match no="1" /><match no="2" /></suggestion>
             <example correction='Hoverboards'><marker>Hover boards</marker> are mainly used by millenials.</example>
         </rule>
+        <rule id="Y_ALL" name="Ya'll (Y'all)" default="off">
+            <pattern>
+                <token>ya</token>
+                <token regexp="yes">['´]</token>
+                <token>ll</token>
+            </pattern>
+            <message>Did you mean <suggestion>y\2all</suggestion>?</message>
+            <suggestion>you all</suggestion>
+            <suggestion>all of you</suggestion>
+            <example correction="Y'all|You all|All of you"><marker>Ya'll</marker> don't know what I'm talking about.</example>
+        </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
                 <token inflected="yes">be</token>
