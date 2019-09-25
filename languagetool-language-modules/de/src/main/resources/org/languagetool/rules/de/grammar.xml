@@ -18126,7 +18126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>Bund</token>
+                    <token regexp="yes">Bund|Hafen|[iI]n|[vV]or</token>
                     <token>der</token>
                     <marker>
                         <token>ehe</token>
@@ -18305,23 +18305,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>schwebe</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">lassen|halten|bleiben</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schwebe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Schwebe">Wir haben es in der <marker>schwebe</marker> gelassen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes" inflected="yes" skip="2">lassen|halten|bleiben</token>
-                    <token>in</token>
-                    <token>der</token>
-                    <marker>
-                        <token>schwebe</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Schwebe</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example>Wir halten es in der <marker>Schwebe</marker>.</example>
                 <example correction="Schwebe">Wir halten es mal in der <marker>schwebe</marker>.</example>
             </rule>
