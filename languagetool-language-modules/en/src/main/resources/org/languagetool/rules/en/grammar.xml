@@ -9614,7 +9614,7 @@ USA
                 <example>The Don't Quit Podcast.</example>
                 <example>Do the Don't.</example>
                 <example correction="They don't"><marker>The don't</marker> know.</example>
-                <example correction="they didn't">What <marker>the didn't</marker> know about was ....</example>
+                <example correction="they didn't">What <marker>the didn't</marker> know about was ...</example>
             </rule>
         </rulegroup>
         <rule id="THE_HEADQUARTER" name="the + headquarter">
@@ -9707,6 +9707,12 @@ USA
             </rule>
         </rulegroup>
         <rule id="A_COMPLAIN" name="a + complain">
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">['´]</token>
+                <token>s</token>
+                <token>complain</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
@@ -9717,7 +9723,9 @@ USA
             <message>Did you mean <suggestion><match no="3" regexp_match="complain" regexp_replace="complaint" /></suggestion>?</message>
             <example correction="complaint">He sent his <marker>complain</marker> to the mailing list.</example>
             <example correction="complaints">The <marker>complains</marker> are totally valid!</example>
+            <example correction="complaint">Tom's <marker>complain</marker> wasn't heard.</example>
             <example>A <marker>complaint</marker> is better than receiving no feedback at all.</example>
+            <example>Let's complain about it.</example>
         </rule>
         <rule id="A_REBRAND" name="a + rebrand">
             <pattern>
@@ -28440,7 +28448,7 @@ The accident victim died from her injuries.
                 <example correction="complained">Tom has <marker>complaint</marker> many times about his neighbours.</example>
                 <example correction="complained">They have <marker>complaint</marker> that nobody was listening to them.</example>
                 <example correction="complained">My friends <marker>complaint</marker> about my behaviour.</example>
-                <example>They  <marker>complained</marker> about their new president.</example>
+                <example>They <marker>complained</marker> about their new president.</example>
             </rule>
         </rulegroup>
         <rule id="FIRST_AID_KIT" name="first aid kid (kit)">
