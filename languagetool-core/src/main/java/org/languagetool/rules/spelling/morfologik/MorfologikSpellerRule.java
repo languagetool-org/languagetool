@@ -60,7 +60,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
-  private final int MAX_PRIORITY_FOR_SPLITING = 21;
+ 
+  //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
+  static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -256,7 +258,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (idx > 0) {
       String prevWord = tokens[idx - 1].getToken();
       if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
-          && getFrequency(speller1, prevWord) < MAX_PRIORITY_FOR_SPLITING) {
+          && getFrequency(speller1, prevWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int prevStartPos = tokens[idx - 1].getStartPos();
         // "thanky ou" -> "thank you"
         String sugg1a = prevWord.substring(0, prevWord.length() - 1);
@@ -307,7 +309,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (ruleMatch == null && idx < tokens.length - 1) {
       String nextWord = tokens[idx + 1].getToken();
       if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
-          && getFrequency(speller1, nextWord) < MAX_PRIORITY_FOR_SPLITING) {
+          && getFrequency(speller1, nextWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int nextStartPos = tokens[idx + 1].getStartPos();
         String sugg1a = word.substring(0, word.length() - 1);
         String sugg1b = word.substring(word.length() - 1) + nextWord;
