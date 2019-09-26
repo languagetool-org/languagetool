@@ -306,6 +306,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
     setSuggestedReplacements(l);
   }
 
+  public void addSuggestedReplacements(List<String> replacements) {
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    for (String replacement : replacements) {
+      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+    }
+  }
   /**
    * The text fragments which might be an appropriate fix for the problem. One
    * of these fragments can be used to replace the old text between {@link #getFromPos()}

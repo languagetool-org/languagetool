@@ -179,7 +179,7 @@ public abstract class SpellingCheckRule extends Rule {
       List<String> combinedSuggestions = new ArrayList<>();
       combinedSuggestions.addAll(userCandidates);
       combinedSuggestions.addAll(candidates);
-      match.setSuggestedReplacements(combinedSuggestions);
+      match.addSuggestedReplacements(combinedSuggestions);
     }
     /*long timeDelta = System.currentTimeMillis() - startTime;
     System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/

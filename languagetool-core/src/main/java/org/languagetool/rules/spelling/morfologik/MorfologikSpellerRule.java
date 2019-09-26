@@ -60,6 +60,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
+  private final int MAX_PRIORITY_FOR_SPLITING = 21;
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -234,30 +235,48 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+    // We create only one rule match. 
+    // Several rule matches on the same word or words can not be shown to the user.
     List<RuleMatch> ruleMatches = new ArrayList<>();
     RuleMatch ruleMatch = null;
-    if (isMisspelled(speller1, word) || isProhibited(word)) {
-      if (ruleMatchesSoFar.size() > 0 &&ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {
-        return ruleMatches; // the current word is already dealt with in the previous match, so do nothing
-      }
+    
+    if (!isMisspelled(speller1, word) && !isProhibited(word)) {
+      return ruleMatches;
+    }
+    
+    //the current word is already dealt with in the previous match, so do nothing
+    if (ruleMatchesSoFar.size() > 0 && ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {
+      return ruleMatches;
+    }
+    
+    String beforeSuggestionStr = ""; //to be added before the suggestion if there is a suggestion for a split word
+    String afterSuggestionStr = "";  //to be added after
+    
+    // Check for split word with previous word
       if (idx > 0) {
-        String prevWord = tokens[idx-1].getToken();
-        if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")) {
+        String prevWord = tokens[idx - 1].getToken();
+        if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
+            && getFrequency(speller1, prevWord) < MAX_PRIORITY_FOR_SPLITING) {
           int prevStartPos = tokens[idx - 1].getStartPos();
           // "thanky ou" -> "thank you"
           String sugg1a = prevWord.substring(0, prevWord.length() - 1);
           String sugg1b = prevWord.substring(prevWord.length() - 1) + word;
-          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b) &&
-          		getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
+          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a)
+              && !isMisspelled(speller1, sugg1b)
+              && getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
             ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
+            beforeSuggestionStr = prevWord + " ";
           }
           // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
           String sugg2a = prevWord + word.substring(0, 1);
           String sugg2b = word.substring(1);
-          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a)
+              && !isMisspelled(speller1, sugg2b)) {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
-                ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b, prevStartPos);
+                ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,
+                    prevStartPos);
+                beforeSuggestionStr = prevWord + " ";
               }
             } else {
               ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
@@ -270,28 +289,32 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
                 ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
                     messages.getString("spelling"), messages.getString("desc_spelling_short"));
-                ruleMatch.setSuggestedReplacement(sugg);  
+                beforeSuggestionStr = prevWord + " ";
+                ruleMatch.setSuggestedReplacement(sugg);
               }
             } else {
               ruleMatch.addSuggestedReplacement(sugg);
             }
           }
+          if (ruleMatch != null && isMisspelled(speller1, prevWord)) {
+            ruleMatches.add(ruleMatch);
+            return ruleMatches;
+          }
         }
       }
-      if (ruleMatch != null) {
-        ruleMatches.add(ruleMatch);
-        return ruleMatches;
-      }
-      // the same with the next word
-      if (idx < tokens.length - 1) {
+        
+      // Check for split word with next word
+      if (ruleMatch == null && idx < tokens.length - 1) {
         String nextWord = tokens[idx + 1].getToken();
-        if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")) {
+        if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
+            && getFrequency(speller1, nextWord) < MAX_PRIORITY_FOR_SPLITING) {
           int nextStartPos = tokens[idx + 1].getStartPos();
           String sugg1a = word.substring(0, word.length() - 1);
           String sugg1b = word.substring(word.length() - 1) + nextWord;
           if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b) &&
               getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
             ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
+            afterSuggestionStr = " " + nextWord;
           }
           String sugg2a = word + nextWord.substring(0, 1);
           String sugg2b = nextWord.substring(1);
@@ -299,6 +322,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (ruleMatch == null) {
               if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
                 ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
+                afterSuggestionStr = " " + nextWord;
               }
             } else {
               ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
@@ -310,20 +334,22 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
                 ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
                     messages.getString("spelling"), messages.getString("desc_spelling_short"));
+                afterSuggestionStr = " " + nextWord;
                 ruleMatch.setSuggestedReplacement(sugg);
               }
             } else {
               ruleMatch.addSuggestedReplacement(sugg);
             }
           }
+          if (ruleMatch != null && isMisspelled(speller1, nextWord)) {
+            ruleMatches.add(ruleMatch);
+            return ruleMatches;
+          }
         }
       }
-      
-      if (ruleMatch != null) {
-        ruleMatches.add(ruleMatch);
-        return ruleMatches;
-      }
+ 
 
+    if (ruleMatch == null) {
       Language acceptingLanguage = acceptedInAlternativeLanguage(word);
       if (acceptingLanguage != null) {
         // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
@@ -334,6 +360,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
                 messages.getString("desc_spelling_short"));
       }
+    }
       boolean fullResults = SuggestionsChanges.getInstance() != null &&
         SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
         (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()
@@ -363,6 +390,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           filterSuggestions(defaultSuggestions);
           filterDupes(userSuggestions);
           defaultSuggestions = orderSuggestions(defaultSuggestions, word);
+          
+          defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
+          userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
           // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
           if (runningExperiment) {
             addSuggestionsToRuleMatch(word,
@@ -384,8 +414,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         // limited to save CPU
         ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
       }
+ 
       ruleMatches.add(ruleMatch);
-    }
     return ruleMatches;
   }
 
@@ -477,5 +507,21 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   @Override
   protected boolean ignoreWord(String word) throws IOException {
     return super.ignoreWord(word) || isSurrogatePairCombination(word);
+  }
+  
+  /**
+   * 
+   * Join strings before and after a suggestion.
+   * Used when there is also suggestion for split words
+   * Ex. to thow > tot how | to throw
+   * 
+   */
+  private List<String> joinBeforeAfterSuggestions(List<String> suggestionsList, String beforeSuggestionStr,
+      String afterSuggestionStr) {
+    List<String> newSuggestionsList = new ArrayList<>();
+    for (String str : suggestionsList) {
+      newSuggestionsList.add(beforeSuggestionStr + str + afterSuggestionStr);
+    }
+    return newSuggestionsList;
   }
 }
