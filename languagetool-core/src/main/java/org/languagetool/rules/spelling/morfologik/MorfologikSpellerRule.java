@@ -253,100 +253,100 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     String afterSuggestionStr = "";  //to be added after
     
     // Check for split word with previous word
-      if (idx > 0) {
-        String prevWord = tokens[idx - 1].getToken();
-        if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
-            && getFrequency(speller1, prevWord) < MAX_PRIORITY_FOR_SPLITING) {
-          int prevStartPos = tokens[idx - 1].getStartPos();
-          // "thanky ou" -> "thank you"
-          String sugg1a = prevWord.substring(0, prevWord.length() - 1);
-          String sugg1b = prevWord.substring(prevWord.length() - 1) + word;
-          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a)
-              && !isMisspelled(speller1, sugg1b)
-              && getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
-            ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
-            beforeSuggestionStr = prevWord + " ";
-          }
-          // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
-          String sugg2a = prevWord + word.substring(0, 1);
-          String sugg2b = word.substring(1);
-          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a)
-              && !isMisspelled(speller1, sugg2b)) {
-            if (ruleMatch == null) {
-              if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
-                ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,
-                    prevStartPos);
-                beforeSuggestionStr = prevWord + " ";
-              }
-            } else {
-              ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
+    if (idx > 0) {
+      String prevWord = tokens[idx - 1].getToken();
+      if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
+          && getFrequency(speller1, prevWord) < MAX_PRIORITY_FOR_SPLITING) {
+        int prevStartPos = tokens[idx - 1].getStartPos();
+        // "thanky ou" -> "thank you"
+        String sugg1a = prevWord.substring(0, prevWord.length() - 1);
+        String sugg1b = prevWord.substring(prevWord.length() - 1) + word;
+        if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a)
+            && !isMisspelled(speller1, sugg1b)
+            && getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, prevWord)) {
+          ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);
+          beforeSuggestionStr = prevWord + " ";
+        }
+        // "than kyou" -> "thank you" ; but not "She awaked" -> "Shea waked"
+        String sugg2a = prevWord + word.substring(0, 1);
+        String sugg2b = word.substring(1);
+        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a)
+            && !isMisspelled(speller1, sugg2b)) {
+          if (ruleMatch == null) {
+            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, prevWord)) {
+              ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,
+                  prevStartPos);
+              beforeSuggestionStr = prevWord + " ";
             }
-          }
-          // "g oing-> "going"
-          String sugg = prevWord + word;
-          if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
-            if (ruleMatch == null) {
-              if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
-                ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
-                    messages.getString("spelling"), messages.getString("desc_spelling_short"));
-                beforeSuggestionStr = prevWord + " ";
-                ruleMatch.setSuggestedReplacement(sugg);
-              }
-            } else {
-              ruleMatch.addSuggestedReplacement(sugg);
-            }
-          }
-          if (ruleMatch != null && isMisspelled(speller1, prevWord)) {
-            ruleMatches.add(ruleMatch);
-            return ruleMatches;
+          } else {
+            ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
           }
         }
+        // "g oing-> "going"
+        String sugg = prevWord + word;
+        if (word.equals(word.toLowerCase()) && !isMisspelled(speller1, sugg)) {
+          if (ruleMatch == null) {
+            if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
+              ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
+                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              beforeSuggestionStr = prevWord + " ";
+              ruleMatch.setSuggestedReplacement(sugg);
+            }
+          } else {
+            ruleMatch.addSuggestedReplacement(sugg);
+          }
+        }
+        if (ruleMatch != null && isMisspelled(speller1, prevWord)) {
+          ruleMatches.add(ruleMatch);
+          return ruleMatches;
+        }
       }
+    }
         
-      // Check for split word with next word
-      if (ruleMatch == null && idx < tokens.length - 1) {
-        String nextWord = tokens[idx + 1].getToken();
-        if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
-            && getFrequency(speller1, nextWord) < MAX_PRIORITY_FOR_SPLITING) {
-          int nextStartPos = tokens[idx + 1].getStartPos();
-          String sugg1a = word.substring(0, word.length() - 1);
-          String sugg1b = word.substring(word.length() - 1) + nextWord;
-          if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b) &&
-              getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
-            ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
-            afterSuggestionStr = " " + nextWord;
-          }
-          String sugg2a = word + nextWord.substring(0, 1);
-          String sugg2b = nextWord.substring(1);
-          if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
-            if (ruleMatch == null) {
-              if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
-                ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
-                afterSuggestionStr = " " + nextWord;
-              }
-            } else {
-              ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
+    // Check for split word with next word
+    if (ruleMatch == null && idx < tokens.length - 1) {
+      String nextWord = tokens[idx + 1].getToken();
+      if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
+          && getFrequency(speller1, nextWord) < MAX_PRIORITY_FOR_SPLITING) {
+        int nextStartPos = tokens[idx + 1].getStartPos();
+        String sugg1a = word.substring(0, word.length() - 1);
+        String sugg1b = word.substring(word.length() - 1) + nextWord;
+        if (sugg1a.length() > 1 && sugg1b.length() > 2 && !isMisspelled(speller1, sugg1a) && !isMisspelled(speller1, sugg1b) &&
+            getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) > getFrequency(speller1, nextWord)) {
+          ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);
+          afterSuggestionStr = " " + nextWord;
+        }
+        String sugg2a = word + nextWord.substring(0, 1);
+        String sugg2b = nextWord.substring(1);
+        if (sugg2a.length() > 1 && sugg2b.length() > 2 && !isMisspelled(speller1, sugg2a) && !isMisspelled(speller1, sugg2b)) {
+          if (ruleMatch == null) {
+            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) > getFrequency(speller1, nextWord)) {
+              ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);
+              afterSuggestionStr = " " + nextWord;
             }
-          }
-          String sugg = word + nextWord;
-          if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
-            if (ruleMatch == null) {
-              if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
-                ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
-                    messages.getString("spelling"), messages.getString("desc_spelling_short"));
-                afterSuggestionStr = " " + nextWord;
-                ruleMatch.setSuggestedReplacement(sugg);
-              }
-            } else {
-              ruleMatch.addSuggestedReplacement(sugg);
-            }
-          }
-          if (ruleMatch != null && isMisspelled(speller1, nextWord)) {
-            ruleMatches.add(ruleMatch);
-            return ruleMatches;
+          } else {
+            ruleMatch.addSuggestedReplacement((sugg2a + " " + sugg2b).trim());
           }
         }
+        String sugg = word + nextWord;
+        if (nextWord.equals(nextWord.toLowerCase()) && !isMisspelled(speller1, sugg)) {
+          if (ruleMatch == null) {
+            if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
+              ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
+                  messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              afterSuggestionStr = " " + nextWord;
+              ruleMatch.setSuggestedReplacement(sugg);
+            }
+          } else {
+            ruleMatch.addSuggestedReplacement(sugg);
+          }
+        }
+        if (ruleMatch != null && isMisspelled(speller1, nextWord)) {
+          ruleMatches.add(ruleMatch);
+          return ruleMatches;
+        }
       }
+    }
  
 
     if (ruleMatch == null) {
@@ -361,61 +361,62 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                 messages.getString("desc_spelling_short"));
       }
     }
-      boolean fullResults = SuggestionsChanges.getInstance() != null &&
-        SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
-        (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()
-          .parameters.getOrDefault("fullSuggestionCandidates", Boolean.FALSE);
+    boolean fullResults = SuggestionsChanges.getInstance() != null &&
+      SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
+      (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()
+        .parameters.getOrDefault("fullSuggestionCandidates", Boolean.FALSE);
 
-      if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
-        List<String> defaultSuggestions = speller1.getSuggestionsFromDefaultDicts(word);
-        List<String> userSuggestions = speller1.getSuggestionsFromUserDicts(word);
-        //System.out.println("speller1: " + suggestions);
-        if (word.length() >= 3 && (fullResults || defaultSuggestions.isEmpty())) {
-          // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
-          //System.out.println("speller2: " + speller2.getSuggestions(word));
-          defaultSuggestions.addAll(speller2.getSuggestionsFromDefaultDicts(word));
-          userSuggestions.addAll(speller2.getSuggestionsFromUserDicts(word));
-          if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
-            //System.out.println("speller3: " + speller3.getSuggestions(word));
-            defaultSuggestions.addAll(speller3.getSuggestionsFromDefaultDicts(word));
-            userSuggestions.addAll(speller3.getSuggestionsFromUserDicts(word));
-          }
+    if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 
+        || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
+      List<String> defaultSuggestions = speller1.getSuggestionsFromDefaultDicts(word);
+      List<String> userSuggestions = speller1.getSuggestionsFromUserDicts(word);
+      //System.out.println("speller1: " + suggestions);
+      if (word.length() >= 3 && (fullResults || defaultSuggestions.isEmpty())) {
+        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
+        //System.out.println("speller2: " + speller2.getSuggestions(word));
+        defaultSuggestions.addAll(speller2.getSuggestionsFromDefaultDicts(word));
+        userSuggestions.addAll(speller2.getSuggestionsFromUserDicts(word));
+        if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
+          //System.out.println("speller3: " + speller3.getSuggestions(word));
+          defaultSuggestions.addAll(speller3.getSuggestionsFromDefaultDicts(word));
+          userSuggestions.addAll(speller3.getSuggestionsFromUserDicts(word));
         }
-        //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-        defaultSuggestions.addAll(0, getAdditionalTopSuggestions(defaultSuggestions, word));
-        //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
-        defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
-
-        if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
-          filterSuggestions(defaultSuggestions);
-          filterDupes(userSuggestions);
-          defaultSuggestions = orderSuggestions(defaultSuggestions, word);
-          
-          defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
-          userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
-          // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-          if (runningExperiment) {
-            addSuggestionsToRuleMatch(word,
-              userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-          } else if (userConfig != null && userConfig.getAbTest() != null &&
-            userConfig.getAbTest().equals("SuggestionsRanker") &&
-            suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-            boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-            if (testingA) {
-              addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-            } else {
-              addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-            }
-          } else {
-            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-          }
-        }
-      } else {
-        // limited to save CPU
-        ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
       }
+      //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
+      defaultSuggestions.addAll(0, getAdditionalTopSuggestions(defaultSuggestions, word));
+      //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
+      defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
+
+      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
+        filterSuggestions(defaultSuggestions);
+        filterDupes(userSuggestions);
+        defaultSuggestions = orderSuggestions(defaultSuggestions, word);
+        
+        defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
+        userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
+        // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
+        if (runningExperiment) {
+          addSuggestionsToRuleMatch(word,
+            userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
+        } else if (userConfig != null && userConfig.getAbTest() != null &&
+          userConfig.getAbTest().equals("SuggestionsRanker") &&
+          suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
+          boolean testingA = userConfig.getTextSessionId() % 2 == 0;
+          if (testingA) {
+            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
+          } else {
+            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
+          }
+        } else {
+          addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
+        }
+      }
+    } else {
+      // limited to save CPU
+      ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
+    }
  
-      ruleMatches.add(ruleMatch);
+    ruleMatches.add(ruleMatch);
     return ruleMatches;
   }
 
