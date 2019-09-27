@@ -30053,6 +30053,8 @@ The accident victim died from her injuries.
         <token>focus</token>
         <token>in</token>
         </marker>
+        <token>
+          <exception>order</exception></token>
         </pattern>
         <message>This phrase is redundant. Consider using <suggestion>focus</suggestion>.</message>
         <short>Redundant phrase</short>
@@ -30102,11 +30104,14 @@ The accident victim died from her injuries.
         <token regexp='yes'>inside|outside</token>
         <token>of</token>
         </marker>
+        <token>
+          <exception postag_regexp='yes' postag='N.+'/></token><!-- XXX crippling but needed. See 3rd example -->
         </pattern>
         <message>This phrase is redundant. Consider using <suggestion>\2</suggestion>.</message>
         <short>Redundant phrase</short>
         <example correction="outside">Go <marker>outside of</marker> the building and you will find it.</example>
         <example>It is on the outside of the building.</example>
+        <example>...ence in electric potential between the inside and outside of cells, known as the membrane potential.</example>
         </rule>
         <rule id="PRIVATE_INDUSTRY" name="private industry (industry)">
         <!-- Created by Tiago F. Santos 24-09-2019 -->
@@ -31237,7 +31242,8 @@ The accident victim died from her injuries.
             <example correction=""><marker>But</marker> it is not a great writing style to start a sentence with 'but'.</example>
             <example>It is not a great writing style to start a sentence with 'but'.</example>
         </rule>
-        <rule id="SENT_START_NUM" name="Number starting a sentence" default="off">
+        <rule id="SENT_START_NUM" name="Number starting a sentence" default="on">
+        <!-- XXX test and disable if false positives still remain -->
       <antipattern>
           <token postag="SENT_START"/>
           <token regexp="yes">[\d,.]+</token>
@@ -31257,10 +31263,6 @@ The accident victim died from her injuries.
       </antipattern>
       <antipattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d{4}</token>
-      </antipattern>
-      <antipattern>
-          <token postag="SENT_START"/>
           <token regexp="yes">\d+</token>
           <token regexp="yes" spacebefore='yes'>,</token>
           <token regexp="yes" spacebefore='yes'>\d+</token>
@@ -31268,7 +31270,8 @@ The accident victim died from her injuries.
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
         <marker>
-          <token regexp="yes">\d+</token>
+          <token regexp="yes">\d+
+            <exception regexp='yes'>\d{4}</exception></token>
         </marker>
           <token skip='-1'>
             <exception postag_regexp='yes' postag='PCT|CD'/></token>
@@ -31283,15 +31286,15 @@ The accident victim died from her injuries.
             <example correction=""><marker>12</marker> soldiers were killed!</example>
             <example><marker>12</marker> soldiers were killed</example>
             <example>Twelve soldiers were killed!</example>
-            <example>Mil vezes! Já o disse 1000 vezes!</example>
-            <example><marker>1.</marker> Introdução</example>
-            <example><marker>1.-</marker> Introdução</example>
-            <example><marker>1.--</marker> Introdução</example>
-            <example><marker>1.2.</marker> Introdução</example>
-            <example><marker>1.3.—</marker> Introdução</example>
+            <example>Thousand times? I have said it more than 1000 times!</example>
+            <example><marker>1.</marker> Introduction</example>
+            <example><marker>1.-</marker> Introduction</example>
+            <example><marker>1.--</marker> Introduction</example>
+            <example><marker>1.2.</marker> Introduction</example>
+            <example><marker>1.3.—</marker> Introduction</example>
             <example>50-30</example>
             <example>25/12/2017</example>
-            <example>25.12.2017 às 12h00</example>
+            <example>25.12.2017. At 12h00</example>
             <example>1994 was the year</example>
             <!--example correction=""><marker>1994</marker> was the year.</example-->
             <example>2,000 new animals</example>
