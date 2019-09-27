@@ -35,7 +35,7 @@ import java.net.URL;
  * A rule that matches words which are complex and suggests easier to understand alternatives. 
  *
  * @author Tiago F. Santos 
- * @since 4.8
+ * @since 4.7
  */
 public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
