@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.rules.pt;
 
-import org.languagetool.language.English;
+import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -37,60 +37,60 @@ import java.net.URL;
  * @author Tiago F. Santos 
  * @since 4.8
  */
-public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
+public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String EN_DIACRITICS_REPLACE = "EN_DIACRITICS_REPLACE";
+  public static final String PT_DIACRITICS_REPLACE = "PT_DIACRITICS_REPLACE";
 
-  private static final String FILE_NAME = "/en/diacritics.txt";
-  private static final Locale EN_LOCALE = new Locale("en");  // locale used on case-conversion
+  private static final String FILE_NAME = "/pt/diacritics.txt";
+  private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
   public final String getFileName() {
     return FILE_NAME;
   }
 
-  public EnglishDiacriticsRule(ResourceBundle messages) throws IOException {
-    super(messages, new English());
-    setDefaultOff();  // test, disable and reactivate after feature freeze
+  public PortugueseDiacriticsRule(ResourceBundle messages) throws IOException {
+    super(messages, new Portuguese());
+    // setDefaultOff(); 
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("<marker>blase</marker>"),
-                   Example.fixed("<marker>blasé</marker>"));
+    addExamplePair(Example.wrong("<marker>coupe</marker>"),
+                   Example.fixed("<marker>coupé</marker>"));
   }
 
   @Override
   public final String getId() {
-    return EN_DIACRITICS_REPLACE;
+    return PT_DIACRITICS_REPLACE;
   }
 
   @Override
   public String getDescription() {
-    return "Words with diacritics";
+    return "Palavras estrangeiras com diacríticos";
   }
 
   @Override
   public String getShort() {
-    return "The original word has a diacritic";
+    return "A palavra estrangeira original tem diacrítico";
   }
 
   @Override
   public String getSuggestion() {
-    return "'$match' is an imported foreign expression, which originally has a diacritic. It is preferable to write $suggestions";
+    return "'$match' é uma expressão estrangeira importada cuja grafia tem diacríticos. É preferível escrever $suggestions";
   }
 
   @Override
   public String getSuggestionsSeparator() {
-    return " or ";
+    return " ou ";
   }
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("https://en.wikipedia.org/wiki/English_terms_with_diacritical_marks");
+    return Tools.getUrl("http://escreverbem.com.br/o-frances-no-portugues-2/");
   }
 
   @Override
   public Locale getLocale() {
-    return EN_LOCALE;
+    return PT_LOCALE;
   }
 
 }
