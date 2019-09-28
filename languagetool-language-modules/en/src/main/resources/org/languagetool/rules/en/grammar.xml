@@ -31273,7 +31273,7 @@ The accident victim died from her injuries.
           <token postag="SENT_START"/>
           <token regexp="yes">\d+</token>
           <token min='0'>.</token>
-          <token>)</token>
+          <token regexp='yes'>&hyphen;|–|\)</token>
       </antipattern>
       <antipattern>
           <token postag="SENT_START"/>
@@ -31290,7 +31290,7 @@ The accident victim died from her injuries.
           <token skip='-1'>
             <exception postag_regexp='yes' postag='PCT|CD'/></token>
         <and><!-- Don't trigger on titles nor lists -->
-          <token postag='PCT'/>
+          <token regexp='yes'>[\.\!\?]</token>
           <token postag='SENT_END'/>
         </and>
       </pattern>
@@ -31315,6 +31315,8 @@ The accident victim died from her injuries.
             <example>2,000 animals were discovered last year.</example>
             <example>1.) First item</example>
             <example><marker>12</marker> soldiers were killed</example><!-- Title -->
+            <example>286 – Emperor Diocletian elevates his general Maximia...</example>
+            <example>1 First item:</example>
         </rule>
         <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
             <pattern>
