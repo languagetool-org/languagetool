@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 4.7 (release planned for 2019-09-26)
+## 4.7 (2019-09-28)
 
 #### Catalan
   * added and improved rules
@@ -16,8 +16,14 @@
 #### French
   * improved rules
 
+#### Galician
+  * improved rules
+
 #### German
   * added and improved rules
+
+#### Italian
+  * small rule improvements
 
 #### Portuguese
   * added rules and significantly improved accuracy
@@ -27,6 +33,9 @@
 #### Russian
   * improved rules
   * added new words to spellchecker dictionary
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * 2k of new words in the dictionary
