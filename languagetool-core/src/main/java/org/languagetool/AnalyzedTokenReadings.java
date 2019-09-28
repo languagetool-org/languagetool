@@ -129,7 +129,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   /**
    * Checks if there is at least one POS tag
    * @since 4.7
-   * @param posTag POS tag to look for
    */
   public boolean hasReading() {
     return anTokReadings != null && anTokReadings.length > 0;
