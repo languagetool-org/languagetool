@@ -51,7 +51,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   public PortugueseDiacriticsRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
-    // setDefaultOff(); 
+    setDefaultOff(); // reactivate after feature freeze
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("<marker>coupe</marker>"),
