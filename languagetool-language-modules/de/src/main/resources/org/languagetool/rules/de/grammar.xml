@@ -17023,6 +17023,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="essen">Was gab es zu <marker>Essen</marker>?</example>
                 <example correction="essen">Sie bekam von ihm zu <marker>Essen</marker> und zu trinken</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>essen<exception scope="previous" regexp="yes">[zZ]u</exception></token></marker>
+                    <token inflected="yes" regexp="yes">fassen|fehlen|geben|kochen</token>
+                </pattern>
+                <message>In der Wendung '<suggestion><match no="1" case_conversion="startupper"/></suggestion> fassen / geben / kochen' wird 'Essen' großgeschrieben.</message>
+                <example correction="Essen">Maria hat <marker>essen</marker> gekocht.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ZU_SCHERZEN" name="zu scherzen (Scherzen) aufgelegt">
             <rule>
@@ -17979,9 +17987,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:.+|SENT_END" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <example correction="Biege">Er machte die <marker>biege</marker>.</example>
                 <example correction="Biege">Er hat die <marker>biege</marker> machen wollen.</example>
+                <example correction="Biege">Er fragte, ob sie die <marker>biege</marker> mache.</example>
                 <example>Ich nehme die heiße.</example>
             </rule>
         </rulegroup>
