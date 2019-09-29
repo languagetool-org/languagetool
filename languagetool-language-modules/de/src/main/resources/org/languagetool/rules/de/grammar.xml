@@ -17689,7 +17689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">aus</token>
                     </marker>
-                    <token postag="SENT_END|VER:.*|^PRP:.+|ART:DEF:GEN:.+" postag_regexp="yes"/>
+                    <token postag="SENT_END|VER:.*|PRP:.+|ART:DEF:GEN:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -17701,17 +17701,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Aus">Das von der neuen Regierung besiegelte <marker>aus</marker> der Aktion</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>das</token>
+                    <token case_sensitive="yes">aus</token>
+                    <token postag="PRO:POS:GEN:.+" postag_regexp="yes" skip="-1"/>
+                    <token postag="PA.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>das</token>
                     <marker>
                         <token case_sensitive="yes">aus</token>
                     </marker>
-                    <token postag="VER:.*|^PRP:.+" postag_regexp="yes"/>
+                    <token postag="PRP:.+|VER:.+|PRO:POS:GEN:.+" postag_regexp="yes"/>
                 </pattern>
-                <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
+                <message>&subanfang;<suggestion>Aus</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Aus">Das <marker>aus</marker> für Italien kam unerwartet.</example>
                 <example>Sie war blind und er nutzte das aus.</example>
+                <example correction="Aus">Er wollte das <marker>aus</marker> seiner Mannschaft nicht kommentieren.</example>
+                <example>Das <marker>aus</marker> seiner Richtung geworfene Feuerzeug verfehlte ihn.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>das</token>
+                    <token case_sensitive="yes">aus</token>
+                    <token postag="PRO:POS:GEN:.+" postag_regexp="yes" skip="-1"/>
+                    <token postag="PA.+" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token min="0">nicht</token>
+                    <token postag="VER:.+|PRO:POS:GEN:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Aus</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Aus">Er wollte das <marker>aus</marker> nicht kommentieren.</example>
+                <example correction="Aus">Er wollte das <marker>aus</marker> seiner Mannschaft nicht kommentieren.</example>
+                <example>Das <marker>aus</marker> seiner Richtung geworfene Feuerzeug verfehlte ihn.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_GESTERN" name="im gestern (Gestern) leben">
