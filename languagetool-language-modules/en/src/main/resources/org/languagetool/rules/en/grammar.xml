@@ -25164,6 +25164,35 @@ The accident victim died from her injuries.
             <short>Possible typo</short>
             <example correction="flu">I have been out with the <marker>flew</marker> for the past 3 days.</example>
         </rule>
+        <rule id="CONFUSION_OF_MANS_MEN" name="Confusion of mans/men">
+        <!-- Created by Tiago F. Santos, 2019-09-29 -->
+            <pattern>
+                <token>
+                  <exception postag_regexp='yes' postag='NNP?|PRP'/></token>
+            <marker>
+                <token>mans</token>
+            </marker>
+            </pattern>
+            <message>'\2' refers to the verb 'man' meaning take command of something. Did you mean <suggestion>men</suggestion> or <suggestion>man's</suggestion>?</message>
+            <url>https://en.wiktionary.org/wiki/mans#Verb</url>
+            <example correction="men|man's">Sorry for my <marker>mans</marker> manners.</example>
+            <example>Upon perceiving the danger, the captain <marker>mans</marker> the wheel.</example>
+        </rule>
+        <rule id="CONFUSION_OF_MARS_MARS" name="Confusion of mars/Mars">
+        <!-- Created by Tiago F. Santos, 2019-09-29 -->
+            <pattern>
+                <token>
+                  <exception postag_regexp='yes' postag='NNP|PRP'/></token>
+            <marker>
+                <token case_sensitive='yes'>mars</token>
+            </marker>
+            </pattern>
+            <message>The planet and the god are written with uppercase. '\2' refers to the verb 'mar' meaning to spoil, or the plural of the noun 'mar' meaning blemishes.</message>
+              <suggestion>Mars</suggestion>
+            <url>https://en.wiktionary.org/wiki/mars#Verb</url>
+            <example correction="Mars">The planet <marker>mars</marker> has.</example>
+            <example>Upon perceiving the danger, the captain <marker>mans</marker> the wheel.</example>
+        </rule>
         <rule id="MARRIAGE_ANNIVERSARY" name="marriage (wedding) anniversary">
             <pattern>
                 <marker>
