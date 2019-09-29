@@ -51,7 +51,7 @@ public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   public EnglishDiacriticsRule(ResourceBundle messages) throws IOException {
     super(messages, new English());
-    setDefaultOff();  // test, disable and reactivate after feature freeze
+    // setDefaultOff();
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("<marker>blase</marker>"),
