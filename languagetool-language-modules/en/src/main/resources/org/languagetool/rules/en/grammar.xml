@@ -15417,6 +15417,18 @@ USA
                 <example>The guy <marker>is the best</marker> driver.</example>
                 <example>He is my best friend.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="IN"><exception scope="previous">Made</exception></token>
+                        <token case_sensitive="yes" regexp="yes">Netherlands|UAE|USA</token>
+                    </marker>
+                </pattern>
+                <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
+                <short>Grammatical problem: missing determiner</short>
+                <example correction="in the Netherlands">He lived <marker>in Netherlands</marker> from 1933 till 1945.</example>
+                <example>Royal Netherlands Air Force</example>
+            </rule>
         </rulegroup>
           <rule id='SHORT_COMPARATIVES' name="Short comparatives">
           <!--      Created by Tiago F. Santos, 2018-07-10. Edited by MFU 2012-12-11      -->
@@ -29345,7 +29357,7 @@ The accident victim died from her injuries.
                 <message>This phrase is redundant ('M' stands for 'machine'). Use simply <suggestion>\1<match no="2" regexp_match="(?i)(machine)" regexp_replace=""/></suggestion>.</message>
                 <short>Redundant phrase</short>
                 <example correction="ATM"><marker>ATM Machine</marker> Comparison Guide</example>
-                <example correction="ATMs">In the Netherlands, criminals are stealing money from <marker>ATM machines</marker> by blowing them up.</example>
+                <example correction="ATMs">Criminals are stealing money from <marker>ATM machines</marker> by blowing them up.</example>
                 <example>ATMs are quite common in the Netherlands,</example>
             </rule>
         </rulegroup>
