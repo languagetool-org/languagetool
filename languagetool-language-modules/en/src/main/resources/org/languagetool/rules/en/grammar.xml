@@ -8573,6 +8573,16 @@ USA
             </rule>
         </rulegroup>
         <rule id="THESE_SINGULAR_NOUN" name="these + singular noun">
+            <antipattern>
+                <token>some</token>
+                <token>of</token>
+                <token regexp="yes">th[eo]se</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD"></token>
+                <token>of</token>
+                <token regexp="yes">th[eo]se</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">th[eo]se</token>
                 <marker><token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB[GP]|NNS|CD|JJ.?|MD"/></token></marker>
@@ -8584,6 +8594,7 @@ USA
             <example>These <marker>people</marker> are amazing.</example>
             <example>What do you think about these <marker>two</marker>?</example>
             <example>Those standing were all men.</example>
+            <example>I collected one of these yesterday.</example>
         </rule>
         <rulegroup id="ONE_OF" name="one of the JJR + plural">
             <rule>
@@ -15067,6 +15078,16 @@ USA
             </rule>
             <rule>
                 <antipattern>
+                    <token>some</token>
+                    <token>of</token>
+                    <token regexp="yes">th[eo]se</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="CD"/>
+                    <token>of</token>
+                    <token regexp="yes">th[eo]se</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">th[eo]se</token>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -15096,6 +15117,7 @@ USA
                 <example>Those illustrated are reminiscent of a circus top.</example>
                 <example>These food storage workers are called repletes.</example>
                 <example>After all these chest and abdominal operations, she looks as if she were in some kind of knife fight.</example>
+                <example>I collected one of these yesterday.</example>
             </rule>
             <rule>
                 <pattern>
