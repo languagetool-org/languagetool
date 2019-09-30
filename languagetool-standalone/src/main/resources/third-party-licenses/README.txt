@@ -14,7 +14,7 @@ guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest
 hunspell-native-libs.jar: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
 hppc.jar: Apache License 2.0, http://labs.carrotsearch.com/hppc.html
-ictclas4j: Apache License 2.0, http://code.google.com/p/ictclas4j/
+HanLP: Apache License 2.0, https://github.com/hankcs/HanLP
 indriya.jar: BSD License, https://github.com/unitsofmeasurement/indriya
 jakarta-regexp.jar: Apache License 2.0, http://jakarta.apache.org/regexp/
 java-string-similarity, adapted in parts in languagetool-core/src/main/java/org/languagetool/rules/spelling/morfologik/suggestions_ordering/DetailedDamerauLevenstheinDistance.java: MIT License, https://github.com/tdebatty/java-string-similarity
