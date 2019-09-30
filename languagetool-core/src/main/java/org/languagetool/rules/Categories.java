@@ -37,7 +37,7 @@ public final class Categories {
 
 
   /** Created to match PLAIN_ENGLISH XML category. */
-  public static final Categories PLAIN_ENGLISH = make("PLAIN_ENGLISH", "category_style");
+  public static final Categories PLAIN_ENGLISH = make("PLAIN_ENGLISH", "category_plain_english");
 
   public static final Categories GENDER_NEUTRALITY = make("GENDER_NEUTRALITY", "category_gender_neutrality");
 
