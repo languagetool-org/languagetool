@@ -277,7 +277,8 @@ public class English extends Language implements AutoCloseable {
       case "APPSTORE":                  return 1;   // prefer over spell checker
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
-      case "CHILDISH_LANGUAGE":         return 9;   // prefer over spell checker
+      case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
+      case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
