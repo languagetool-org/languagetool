@@ -198,6 +198,7 @@ public class StringToolsTest {
 
   @Test
   public void testIsWhitespace() {
+    assertEquals(true, StringTools.isWhitespace("\uFEFF"));
     assertEquals(true, StringTools.isWhitespace("  "));
     assertEquals(true, StringTools.isWhitespace("\t"));
     assertEquals(true, StringTools.isWhitespace("\u2002"));
