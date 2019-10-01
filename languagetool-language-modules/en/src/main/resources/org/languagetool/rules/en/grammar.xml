@@ -15448,8 +15448,7 @@ USA
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
-                        <token case_sensitive="yes" regexp="yes">Alps|Andes|Appalachians|Atlantic|Bahamas|Baltic|Caribbean|Caspian|Caucasus|Colorado|Columbia|Comoros|Danube|equator|Euphrates|Gambia|Ganges|Gobi|Himalayas|Hudson|Indus|Kalahari|Lena|Mackenzie|Maldives|Mekong|Mississippi|Missouri|Netherlands|Niger|Nile|Ob|Occident|Ohio|Orient|Orinoco|Philippines|Pyrenees|Rhine|Rhone|Rockies|Sahara|Seine|Tagus|Thames|Tiber|Tigris|UAE|Urals|USA|Volga|Yangtze</token>
-                         <!-- TODO River rule |Amazon -->
+                        <token case_sensitive="yes" regexp="yes">Alps|Andes|Appalachians|Atlantic|Bahamas|Baltic|Caribbean|Caspian|Caucasus|Comoros|Danube|equator|Euphrates|Gambia|Ganges|Gobi|Himalayas|Indus|Kalahari|Maldives|Netherlands|Nile|Ob|Occident|Orient|Orinoco|Philippines|Pyrenees|Rhine|Rhone|Rockies|Sahara|Thames|Tiber|Tigris|UAE|Urals|USA|Volga|Yangtze</token>
                     </marker>
                          <token>
                            <exception>'</exception></token>
@@ -15457,6 +15456,17 @@ USA
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
                 <example correction="in the Netherlands">He lived <marker>in Netherlands</marker> from 1933 till 1945.</example>
                 <example>Royal Netherlands Air Force</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="IN"><exception scope="previous">Made</exception></token>
+                        <token case_sensitive="yes" regexp="yes">Amazon|Colorado|Columbia|Hudson|Lena|Mackenzie|Mekong|Mississippi|Missouri|Niger|Ohio|Seine|Tagus</token>
+                        <token case_sensitive="yes">River</token>
+                    </marker>
+                </pattern>
+                <message>A determiner is probably missing here: <suggestion>\1 the \2 \3</suggestion>.</message>
+                <example correction="in the Amazon River">He lived <marker>in Amazon River</marker> from 1933 till 1945.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
