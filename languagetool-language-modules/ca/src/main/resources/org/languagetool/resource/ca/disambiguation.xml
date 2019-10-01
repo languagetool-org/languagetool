@@ -1541,10 +1541,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="prefixos_amb_guionet" name="prefixos amb guionet: micro-, mini-">
         <pattern>
             <marker>
-                <token regexp="yes">mini|micro|semi|multi</token>
+                <token regexp="yes">mini|micro|semi|multi|anti</token>
             </marker>
             <token spacebefore="no">-</token>
-            <token postag="NC.*|AQ.*" postag_regexp="yes" spacebefore="no"/>
         </pattern>
         <disambig action="replace"><wd pos="AQ0CN0"/></disambig>
     </rule>
@@ -11622,6 +11621,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="DA.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="allow_repetition"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>cap</token>
+                <marker>
+                    <token>cap</token>
+                </marker>
+                <token regexp="yes">arrere|enrere|endarrere|avant|envat|endavant</token>
+            </pattern>
+            <disambig action="immunize"></disambig>
         </rule>
     </rulegroup>
     <rule id="genitiu_saxo" name="permet el genitiu saxó">
