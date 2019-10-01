@@ -10034,7 +10034,7 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">logged|signed</token>
-                    <token regexp="yes">in|up</token>
+                    <token regexp="yes">in|up|out</token>
                 </marker>
                 <token regexp="yes">users?|sessions?|usernames?|emails?|experience|economy</token>
             </pattern>
@@ -10214,6 +10214,20 @@ USA
             <example correction="simple-to-use">The Mac is a <marker>simple to use</marker> computer.</example>
             <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
             <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
+        </rule>
+        <rule id="CALL_TO_ACTION_HYPHEN" name="missing hyphen in 'call to action button'">
+            <pattern>
+                <marker>
+                    <token>call</token>
+                    <token>to</token>
+                    <token>action</token>
+                </marker>
+                <token regexp="yes">buttons?|links?|strateg(y|ies)|marketing|overlays?|ads?|e?mail</token>
+            </pattern>
+            <message>It appears that two hyphens are missing.</message>
+            <suggestion>\1-\2-\3</suggestion>
+            <example>His call to action didn't reach anyone.</example>
+            <example correction="call-to-action">The <marker>call to action</marker> button at the end of the newsletter is crucial for generating new leads.</example>
         </rule>
         <rule id="WRITE_UP_HYPHEN" name="hyphen in 'write up'">
             <pattern>
@@ -25630,15 +25644,25 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">I|you|please|can|could</token>
-                    <marker><token>login</token></marker>
+                    <marker><token regexp="yes">log(in|out|off|on)</token></marker>
                 </pattern>
-                <message>Did you mean the verb <suggestion>log in</suggestion> instead of the noun 'login'?</message>
+                <message>Did you mean the verb <suggestion>log <match no="2" regexp_match="log" regexp_replace="" /></suggestion> instead of the noun '\2'?</message>
                 <example correction="log in">Please <marker>login</marker> before commenting.</example>
                 <example>Your login attempt was not successful.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">your|their|his|her|my|the|a</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token>to</token>
+                    <marker><token regexp="yes">log(in|out|off|on)</token></marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>log <match no="3" regexp_match="log" regexp_replace="" /></suggestion> instead of the noun '\3'?</message>
+                <example correction="log out">Have you tried to <marker>logout</marker>?</example>
+                <example>He tried everything from login to logout.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the</token>
                     <marker>
                         <token>log</token>
                         <token>in</token>
