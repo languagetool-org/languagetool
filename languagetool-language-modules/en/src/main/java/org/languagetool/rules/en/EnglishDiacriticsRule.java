@@ -75,7 +75,7 @@ public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "'$match' is an imported foreign expression, which originally has a diacritic. It is preferable to write $suggestions";
+    return "'$match' is an imported foreign expression, which originally has a diacritic. Consider using $suggestions";
   }
 
   @Override

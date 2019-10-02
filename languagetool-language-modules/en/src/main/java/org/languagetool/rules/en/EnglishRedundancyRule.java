@@ -76,7 +76,7 @@ public class EnglishRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "'$match' is a redundancy. It is preferable to say $suggestions";
+    return "'$match' is a redundancy. In some cases, it might be preferable to use $suggestions";
   }
 
   @Override
