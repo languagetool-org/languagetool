@@ -352,6 +352,10 @@ public class CaseRule extends Rule {
       csToken("am"),
       csToken("Nötigsten"),
       new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      token("im"),
+      csToken("Aus")
     )
   );
 
