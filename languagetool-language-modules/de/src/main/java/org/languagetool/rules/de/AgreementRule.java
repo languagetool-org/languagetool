@@ -550,10 +550,8 @@ public class AgreementRule extends Rule {
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
-    "Post", // Ein (Social-Media) Post
     "Kilogramm",
     "Meter", // Das Meter (Objekt zum Messen)
-    "Token", // "Der / Das Token" laut Duden
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
     "Bild", // die Bild (Zeitung)
