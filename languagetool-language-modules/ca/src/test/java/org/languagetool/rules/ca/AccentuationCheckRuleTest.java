@@ -47,6 +47,7 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("Si presencies males pràctiques en la botiga.");
     assertCorrect("—I continues mantenint que això va succeir");
     assertCorrect("No hi ha ningú aquí que begui vi?");
     assertCorrect("Va tocar l'ària da capo de les variacions Goldberg.");

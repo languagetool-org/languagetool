@@ -7065,6 +7065,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="NC.*"/>
     </rule>
+    <rule id="mal_adj_nom" name="mal (adj) + nom">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes">mal</token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
