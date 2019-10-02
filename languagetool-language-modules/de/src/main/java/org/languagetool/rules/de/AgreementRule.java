@@ -500,6 +500,7 @@ public class AgreementRule extends Rule {
     ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "etliche",
     "viele",
     "vieler",
     "wenige",
