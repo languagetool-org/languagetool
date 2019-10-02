@@ -54,7 +54,7 @@ public class EnglishRedundancyRule extends AbstractSimpleReplaceRule2 {
     super(messages, new English());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    // setDefaultOff();
+    setDefaultOff();  // see #1997
     addExamplePair(Example.wrong("<marker>tuna fish</marker>"),
                    Example.fixed("<marker>tuna</marker>"));
   }
