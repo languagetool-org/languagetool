@@ -16982,6 +16982,23 @@ USA
             <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
             <example>If you do it at all, try to do it well.</example>
         </rule>
+        <rule id="WHEN_IS_NNP_AND_NNP" name="Incorrect use of 'is' vs. 'are'">
+            <pattern>
+                <token postag="SENT_START|CC" postag_regexp="yes" />
+                <token postag="WRB|WP" postag_regexp="yes" />
+                <marker>
+                    <token>is</token>
+                </marker>
+                <token postag="NNP" />
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" min="0" />
+                <token regexp="yes">and|&amp;|,</token>
+                <token postag="NNP" />
+            </pattern>
+            <message>Did you mean <suggestion>are</suggestion></message>
+            <example correction="are">When <marker>is</marker> Sylvester Stallone and Arnold Schwarzenegger back in cinema?</example>
+            <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
+            <example>What is Carl's and Peter's favorite meal?</example>
+        </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
@@ -17024,6 +17041,13 @@ USA
                     <token postag="VBG"/>
                     <token>to</token>
                     <token postag_regexp="yes" postag="VBP?"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="WRB|WP" postag_regexp="yes" />
+                    <token>are</token>
+                    <token postag="NNP" />
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes" min="0" />
+                    <token regexp="yes">and|&amp;|,</token>
                 </antipattern>
                 <antipattern><!--  Somebody considering the new job must think about these: -->
                     <token regexp="yes">(any|every|no|some)(one|body)</token>
@@ -17095,6 +17119,8 @@ USA
                 <example>Will everybody talking please just listen for a moment?</example>
                 <example>... and not someone possessing legal responsibility for the process of its...</example>
                 <example>... and anyone possessing information is asked to contact the police.</example>
+                <example>Where are Carl and Laura?</example>
+                <example>When are Carl, Joseph and Laura back?</example>
             </rule>
             <rule>
                 <pattern>
