@@ -9588,7 +9588,7 @@ USA
                 <example>You must do to your excercises.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WE_WOLD" name="wold vs. would" default="off">
+        <rulegroup id="WE_WOLD" name="wold vs. would">
             <rule>
                 <pattern>
                     <token postag="PRP" />
@@ -9621,17 +9621,19 @@ USA
                 <example correction="Would"><marker>Wold</marker> you do it again?</example>
             </rule>
         </rulegroup>
-        <rule id="HE_SEAS" name="seas vs. sees" default="off">
+        <rule id="HE_SEAS" name="seas vs. sees">
             <pattern>
                 <token regexp="yes">he|she|it</token>
+                <token postag="RB" min="0" />
                 <token>seas</token>
             </pattern>
-            <message>Did you mean <suggestion>\1 sees</suggestion>?</message>
-            <example correction="He sees"><marker>He seas</marker> the sun.</example>
+            <message>Did you mean <suggestion>\1 \2 sees</suggestion>?</message>
+            <example correction="He usually sees"><marker>He usually seas</marker> the sun when he opens his window in the morning.</example>
         </rule>
-        <rule id="YOU_HAV" name="you hav (have)" default="off">
+        <rule id="YOU_HAV" name="you hav (have)">
             <pattern>
                 <token regexp="yes">you|they|I</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>hav</token>
                 </marker>
@@ -9826,7 +9828,7 @@ USA
             <example>A <marker>complaint</marker> is better than receiving no feedback at all.</example>
             <example>Let's complain about it.</example>
         </rule>
-        <rulegroup id="COMPLAINT_COMPLAINED" name="He complaint (complained)" default="off">
+        <rulegroup id="COMPLAINT_COMPLAINED" name="He complaint (complained)">
             <rule>
                 <pattern>
                     <token postag="PRP" />
@@ -10256,7 +10258,7 @@ USA
                 <example correction="double-click">Let's <marker>double click</marker> on the folder first.</example>
             </rule>
         </rulegroup>
-        <rule id="HANDOVER" name="handover (hand over)" default="off">
+        <rule id="HANDOVER" name="handover (hand over)">
             <pattern>
                 <token regexp="yes">will|can|[cw]ould|you|to</token>
                 <marker>
@@ -10266,7 +10268,7 @@ USA
             <message>The word 'handover' is a noun. Did you mean the verb <suggestion>hand over</suggestion>?</message>
             <example correction="hand over">I will <marker>handover</marker> my work until tomorrow.</example>
         </rule>
-        <rule id="SHUTDOWN" name="shutdown (shut down)" default="off">
+        <rule id="SHUTDOWN" name="shutdown (shut down)">
             <pattern>
                 <token regexp="yes">will|can|[cw]ould|you|to</token>
                 <marker>
@@ -23726,7 +23728,7 @@ The accident victim died from her injuries.
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
 
-  <rule id="MISSING_PREPOSITION" name='Missing preposition'><!-- off to see regression test results first -->
+  <rule id="MISSING_PREPOSITION" name='Missing preposition'>
         <antipattern>
             <token>thanks</token>
             <token>a</token>
