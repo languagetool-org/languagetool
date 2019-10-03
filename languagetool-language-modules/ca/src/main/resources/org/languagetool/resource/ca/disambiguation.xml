@@ -7065,19 +7065,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="NC.*"/>
     </rule>
-    <rule id="mal_adj_nom" name="mal (adj) + nom">
+    <rule id="baixa_paquets" name="baixa paquets">
+        <pattern>
+            <token postag="SENT_START"/>
+            <unify negate="yes">
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes">baixa</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"></token>
+            </unify>
+        </pattern>
+        <disambig action="remove" postag="[AN].*"/>
+    </rule>
+    <!--<rule id="mal_adj_nom" name="mal (adj) + nom">
         <pattern>
             <unify>
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
                     <token postag="A.*" postag_regexp="yes" inflected="yes">mal</token>
-                    <token postag="N.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"><exception inflected="yes">entès</exception></token>
                 </marker>
             </unify>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
+    </rule>-->
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
@@ -8607,7 +8621,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="A.*" postag_regexp="yes" regexp="yes">baixa|baixes|manca|donant|amics?|amiga|amigues|pega|muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta|talar|afectes?|acceptes?|afecta<exception postag="_GN.*" postag_regexp="yes" /></token>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">manca|donant|amics?|amiga|amigues|pega|muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta|talar|afectes?|acceptes?|afecta<exception postag="_GN.*" postag_regexp="yes" /></token>
                         <token postag="[NV].*" postag_regexp="yes"/>
                     </and>
                 </marker>
