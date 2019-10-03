@@ -9776,6 +9776,35 @@ USA
                 <example>He <marker>begged</marker> for money when he was young.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HEAVE_USE_OF" name="make heave (heavy) use of" default="off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">make</token>
+                    <token min="0" />
+                    <marker>
+                        <token>heave</token>
+                    </marker>
+                    <token regexp="yes">use|usage</token>
+                </pattern>
+                <message>Did you mean <suggestion>heavy</suggestion>?</message>
+                <example correction="heavy">I'm looking at code that makes <marker>heave</marker> use of UFCS.</example>
+                <example correction="heavy">He's making a <marker>heave</marker> use of them.</example>
+                <example>He's making such <marker>heavy</marker> use of it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>heave</token>
+                    </marker>
+                    <token regexp="yes">use|usage</token>
+                    <token regexp="yes">of|at</token>
+                </pattern>
+                <message>Did you mean <suggestion>heavy</suggestion>?</message>
+                <example correction="heavy">There's fairly <marker>heave</marker> use of java.</example>
+                <example correction="heavy">You can witness a <marker>heave</marker> use of social media in the last decade.</example>
+                <example correction="heavy">Java is in <marker>heave</marker> use at LanguageTool.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_COMPLAIN" name="a + complain">
             <antipattern>
                 <token>let</token>
