@@ -88,8 +88,8 @@ public class Tagalog extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Nathaniel Oco", "http://www.dlsu.edu.ph/research/centers/adric/nlp/"),
-            new Contributor("Allan Borra", "http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp")
+            new Contributor("Nathaniel Oco"),
+            new Contributor("Allan Borra")
     };
   }
 
