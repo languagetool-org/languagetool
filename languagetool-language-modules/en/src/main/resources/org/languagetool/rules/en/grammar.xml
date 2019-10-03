@@ -9537,6 +9537,17 @@ USA
             <example>How do I get a <marker>redeem code</marker>?</example>
             <example>Okay, so I guess we add "merchandize" to the <marker>prohibit.txt</marker>?</example><!-- #489 -->
         </rule>
+        <rulegroup id="CC_VERB" name="Correct use of 'cc'">
+            <url>https://www.merriam-webster.com/dictionary/cc</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cc(e?d|ing)</token>
+                </pattern>
+                <message>The correct form of the verb 'to cc' here is <suggestion><match no="1" regexp_match="cce?" regexp_replace="cc'" /></suggestion>.</message>
+                <example correction="cc'd">I <marker>cced</marker> you on the mail.</example>
+                <example correction="cc'ing">I am <marker>ccing</marker> you on the mail I'm about to send.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MUST_HAVE" name="Hyphen in 'must have/see'">
             <rule>
                 <pattern>
@@ -9654,6 +9665,16 @@ USA
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example correction="They aren|There aren"><marker>The aren</marker>'t ready yet.</example>
             <example><marker>There are</marker> different places to see.</example>
+        </rule>
+        <rule id="AN_ARE" name="an + are">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                    <token regexp="yes">aren?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>and \2</suggestion>?</message>
+            <example correction="and are">They are great <marker>an are</marker> very responsive.</example>
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
             <rule>
