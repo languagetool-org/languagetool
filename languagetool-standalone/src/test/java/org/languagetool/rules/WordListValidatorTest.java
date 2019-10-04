@@ -56,6 +56,7 @@ public class WordListValidatorTest {
           "chef-d’œuvre",
           "chefs-d’œuvre",
           "Brač",
+          "Qur’an",
           "Djuveč",
           "Djuvečreis",
           "Hidschāb/S",
