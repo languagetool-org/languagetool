@@ -1733,6 +1733,62 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He did it.</example>
         <example type="ambiguous" inputform="won[win/VBD,win/VBN,won/NN,won/NNS]" outputform="won[will/MD]">He <marker>won</marker>'t do this.</example>
     </rule>
+    <rule name="cc'd" id="CC_VBD">
+        <pattern>
+            <marker>
+                <token>cc</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>d</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBD" lemma="cc"/></disambig>
+        <example type="untouched">I cc you.</example>
+        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]">He <marker>cc</marker>'d me.</example>
+    </rule>
+    <rule name="cc'd" id="CC_VBN">
+        <pattern>
+            <marker>
+                <token>cc</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>d</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBN" lemma="cc"/></disambig>
+        <example type="untouched">I cc you.</example>
+        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBP]" outputform="cc[cc/NN,cc/VB,cc/VBD,cc/VBN,cc/VBP]">He <marker>cc</marker>'d me.</example>
+    </rule>
+    <rule name="cc'ing" id="CC_VBG">
+        <pattern>
+            <marker>
+                <token>cc</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>ing</token>
+        </pattern>
+        <disambig action="replace"><wd pos="VBG" lemma="cc"/></disambig>
+        <example type="untouched">I cc you.</example>
+        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/VBG]">He is <marker>cc</marker>'ing me.</example>
+    </rule>
+    <rule name="cc'ing spelling" id="CC_ING_SPELLING">
+        <pattern>
+            <token>cc</token>
+            <token regexp="yes">['’]</token>
+            <token regexp="yes">ing|d|s</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="cc's" id="CC_VBZ">
+        <pattern>
+            <marker>
+                <token>cc</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>s</token>
+        </pattern>
+        <disambig action="replace"><wd pos="VBZ" lemma="cc"/></disambig>
+        <example type="untouched">I cc you.</example>
+        <example type="ambiguous" inputform="cc[cc/NN,cc/VB,cc/VBP]" outputform="cc[cc/VBZ]">He <marker>cc</marker>'s me.</example>
+    </rule>
     <rule name="are + VBG/NN -&gt; VBG" id="ARE_VBG_NN">
         <pattern>
             <token regexp="yes">['’]</token>
