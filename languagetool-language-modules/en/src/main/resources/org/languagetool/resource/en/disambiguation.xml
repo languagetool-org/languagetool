@@ -4699,19 +4699,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
         </rule>
 
-        <rule id="LIVE_IN_NNP" name="live as JJ">
+        <rule id="LIVE_IN_NNP" name="live as RB">
           <pattern>
-            <token regexp="yes" inflected="yes" skip="3">perform|show|have</token>            
+            <token regexp="yes" inflected="yes" skip="3">perform|show|have</token>
             <marker>
             <token>live<exception scope="previous">to</exception></token>
             </marker>
             <token regexp="yes">in|at</token>
             <token postag="NNP"/>
           </pattern>
-          <disambig postag="JJ"/>
+          <disambig postag="RB"/>
           <example type="untouched">I can live in Stockholm.</example>
           <example type="untouched">Tom has decided to <marker>live</marker> in Boston for the rest of his life.</example>
-          <example type="ambiguous" inputform="live[live/JJ,live/VB,live/VBP]" outputform="live[live/JJ]">He performed it <marker>live</marker> in Stockholm.</example>
+          <example type="ambiguous" inputform="live[live/JJ,live/RB,live/VB,live/VBP]" outputform="live[live/RB]">He performed it <marker>live</marker> in Stockholm.</example>
         </rule>
 
         <rule id="STILL_RB" name="still/further/long + verb = rb">
