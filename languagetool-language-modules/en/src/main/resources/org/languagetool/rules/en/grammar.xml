@@ -9030,6 +9030,10 @@ USA
                 <token case_sensitive="yes">AM</token>
                 <token postag="NN:U"/>
             </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>am</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>am<exception scope="previous">I</exception></token>
@@ -9040,6 +9044,7 @@ USA
             <example correction="am I">Whom <marker>am</marker> talking with?</example>
             <example>Whom <marker>am I</marker> talking with?</example>
             <example>AM broadcasting (radio broadcasting using amplitude modulation)...</example>
+            <example>The 8 AM meeting is being held in the big conference room.</example>
         </rule>
         <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
             <rule>
@@ -18220,6 +18225,11 @@ USA
                 <token>page</token>
                 <token>survey</token>
             </antipattern>
+            <antipattern>
+                <token>need</token>
+                <token>4</token>
+                <token>speed</token>
+            </antipattern>
             <antipattern> <!-- two week's time - there's another rule for this mistake: CD_WEEK_S -->
                 <token postag="CD"><exception regexp="yes">one|1</exception></token>
                 <token regexp="yes">week|month|hour</token>
@@ -26936,7 +26946,7 @@ The accident victim died from her injuries.
                         <token>advise</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+                <message>The word 'advise' is a verb. Did you mean <suggestion>advice</suggestion> (noun)?</message>
                 <short>Possible typo</short>
                 <example correction="advice">Please give me <marker>advise</marker>, I don't know what to do.</example>
                 <example correction="advice">Could someone give <marker>advise</marker> on a better way to do this.</example>
@@ -26948,7 +26958,7 @@ The accident victim died from her injuries.
                         <token>advise</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+                <message>Did you mean <suggestion>advice</suggestion> (noun)?</message>
                 <short>Possible typo</short>
                 <example correction="advice">Any <marker>advise</marker> is welcome!</example>
                 <example>Any advice is welcome.</example>
@@ -26960,7 +26970,7 @@ The accident victim died from her injuries.
                         <token>advise</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+                <message>The word 'advise' is a verb. Did you mean <suggestion>advice</suggestion> (noun)?</message>
                 <short>Possible typo</short>
                 <example correction="advice">What was the best piece of <marker>advise</marker> that you ever got?</example>
                 <example correction="advice">He didn't listen to my <marker>advise</marker>.</example>
@@ -26972,7 +26982,7 @@ The accident victim died from her injuries.
                         <token>advice</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
+                <message>The word 'advise' is a noun. Did you mean <suggestion>advise</suggestion> (verb)?</message>
                 <short>Possible typo</short>
                 <example correction="advise">I must <marker>advice</marker> you to go.</example>
                 <example>I cannot advise you anything.</example>
@@ -32056,7 +32066,10 @@ The accident victim died from her injuries.
             <token>lap</token>
         </antipattern>
         <pattern>
-            <token regexp="yes">mama|mummy|momsy|mommy</token>
+            <token regexp="yes">
+                mama|mummy|momsy|mommy
+                <exception scope="next" regexp="yes">June</exception>
+            </token>
         </pattern>
         <message>In some contexts, this is childish language. Consider alternatives.</message>
         <suggestion>mother</suggestion>
@@ -32069,9 +32082,9 @@ The accident victim died from her injuries.
             <token>papa</token>
             <token regexp="yes">johns?|roach</token>
         </antipattern>
-        <antipattern><!-- Popular Musician, spider -->
+        <antipattern><!-- Popular Musician, spider, movie -->
             <token>daddy</token>
-            <token regexp="yes">yankee|fox|long(legs)?</token>
+            <token regexp="yes">yankee|fox|long(legs)?|day.*</token>
         </antipattern>
         <antipattern>
             <token regexp="yes">puff|fox|sugar</token>
