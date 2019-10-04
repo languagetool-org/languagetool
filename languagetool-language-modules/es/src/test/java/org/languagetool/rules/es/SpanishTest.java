@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.tl;
+package org.languagetool.rules.es;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Tagalog;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Spanish;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class TagalogDemoTextTest extends DemoTextTest {
+public class SpanishTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Ang LanguageTool ay maganda gamit sa araw-araw. Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin. Litaw rin sa talatang ito na may mga bagaybagay na hindii pa kayang itama nng LanguageTool.";
-    testDemoText(new Tagalog(), s,
-      Arrays.asList("ADJECTIVE-V_COMMON_NOUN", "NG_NG", "MORFOLOGIK_RULE_TL", "R_WORDS", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL")
+    String s = "Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.";
+    testDemoText(new Spanish(), s,
+      Arrays.asList("AFRENTAR_DIFICULTADES", "ES_WIKIPEDIA_COMMON_ERRORS", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

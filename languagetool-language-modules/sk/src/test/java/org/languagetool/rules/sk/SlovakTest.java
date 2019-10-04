@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.sl;
+package org.languagetool.rules.sk;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Slovenian;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Slovak;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class SlovenianDemoTextTest extends DemoTextTest {
+public class SlovakTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Tukaj vnesite svoje besedilo... Pa poglejmo primer besedila s nekaj napakami ki jih lahko razpozna orodje LanguageTool; ko opazite napake, jih lahko enostavno popiravite. ( Obenem se izvrši tudi preverjanje črkovanja črkovanja.";
-    testDemoText(new Slovenian(), s,
-      Arrays.asList("TROPIČJETRI", "PREDLOG_S", "KI_BREZ_VEJICE", "MORFOLOGIK_RULE_SL_SI", "COMMA_PARENTHESIS_WHITESPACE", "WORD_REPEAT_RULE")
+    String s = "Toto je ukážkový vstup, na predvedenie funkčnosti LanguageTool. Pamätajte si si, že neobsahuje \"kontrolu\" preklepo.";
+    testDemoText(new Slovak(), s,
+      Arrays.asList("MUZSKY_ROD", "WORD_REPEAT_RULE", "POCITACOVE_UVODZOVKY", "POCITACOVE_UVODZOVKY", "MORFOLOGIK_RULE_SK_SK")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

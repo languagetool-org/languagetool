@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.km;
+package org.languagetool.rules.de;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Khmer;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class KhmerDemoTextTest extends DemoTextTest {
+public class GermanTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "ឃ្លា\u200Bនេះ\u200Bបង្ហាញ\u200Bពី\u200Bពី\u200Bកំហុស\u200Bវេយ្យាករណ៍ ដើម្បី\u200Bបញ្ជាក់\u200Bពី\u200Bប្រសិទ្ធភាព\u200Bរបស់\u200Bកម្មវិធី LanguageTool សំរាប់\u200Bភាសាខ្មែរ។";
-    testDemoText(new Khmer(), s,
-      Arrays.asList("KM_WORD_REPEAT_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "KM_SIMPLE_REPLACE")
+    String s = "Fügen Sie hier Ihren Text ein. Klicken Sie nach der Prüfung auf die farbig unterlegten Textstellen. oder nutzen Sie diesen Text als Beispiel für ein Paar Fehler , die LanguageTool erkennen kann: Ihm wurde Angst und bange. Mögliche stilistische Probleme werden blau hervorgehoben: Das ist besser wie vor drei Jahren. Eine Rechtschreibprüfun findet findet übrigens auch statt. Donnerstag, den 23.01.2019 war gutes Wetter. Die Beispiel endet hier.";
+    testDemoText(new GermanyGerman(), s,
+      Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

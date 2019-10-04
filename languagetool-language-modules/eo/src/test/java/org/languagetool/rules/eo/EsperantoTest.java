@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.de;
+package org.languagetool.rules.eo;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.SimpleGerman;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Esperanto;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class SimpleGermanDemoTextTest extends DemoTextTest {
+public class EsperantoTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Fügen Sie hier Ihren Text ein oder benutzen Sie diesen Text als Beispiel. Dieser Text wurde nur zum Testen geschrieben. Die Donaudampfschifffahrt darf da nicht fehlen. Und die Nutzung des Genitivs auch nicht.";
-    testDemoText(new SimpleGerman(), s,
-      Arrays.asList("ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ", "TOO_LONG_SENTENCE_DE", "PASSIV", "LANGES_WORT", "VERNEINUNG", "ABSTRAKTE_WOERTER", "GENITIV")
+    String s = "Algluu vian kontrolendan tekston ĉi tie... Aŭ nur kontrolu ĉi tiun ekzemplon. Ĉu vi vi rimarkis, ke estas gramatikaj eraro en tiu frazo? Rimarku, ke Lingvoilo ankaux atentigas pri literumaj erraroj kiel ĉi-tiu.";
+    testDemoText(new Esperanto(), s,
+      Arrays.asList("WORD_REPEAT_RULE", "NEKONG_NOMBR", "X_SISTEMO", "HUNSPELL_NO_SUGGEST_RULE", "CXI_TIU")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

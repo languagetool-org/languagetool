@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.sk;
+package org.languagetool.rules.zh;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Slovak;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Chinese;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class SlovakDemoTextTest extends DemoTextTest {
+public class ChineseTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Toto je ukážkový vstup, na predvedenie funkčnosti LanguageTool. Pamätajte si si, že neobsahuje \"kontrolu\" preklepo.";
-    testDemoText(new Slovak(), s,
-      Arrays.asList("MUZSKY_ROD", "WORD_REPEAT_RULE", "POCITACOVE_UVODZOVKY", "POCITACOVE_UVODZOVKY", "MORFOLOGIK_RULE_SK_SK")
+    String s = "将文本粘贴在此，或者检测以下文本：我和她去看了二部电影。";
+    testDemoText(new Chinese(), s,
+      Arrays.asList("wa5")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

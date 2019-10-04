@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.da;
+package org.languagetool.rules.km;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Danish;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Khmer;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class DanishDemoTextTest extends DemoTextTest {
+public class KhmerTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Indsæt din egen tekst her , eller brug denne tekst for at se nogle af de fejl LanguageTool fanger. vær opmærksom på at den langtfra er er perfect, men skal være en hjælp til at få standartfejl frem i lyset.";
-    testDemoText(new Danish(), s,
-      Arrays.asList("COMMA_PARENTHESIS_WHITESPACE", "UPPERCASE_SENTENCE_START", "Ordgentagelse", "HUNSPELL_NO_SUGGEST_RULE", "standart_standard")
+    String s = "ឃ្លា\u200Bនេះ\u200Bបង្ហាញ\u200Bពី\u200Bពី\u200Bកំហុស\u200Bវេយ្យាករណ៍ ដើម្បី\u200Bបញ្ជាក់\u200Bពី\u200Bប្រសិទ្ធភាព\u200Bរបស់\u200Bកម្មវិធី LanguageTool សំរាប់\u200Bភាសាខ្មែរ។";
+    testDemoText(new Khmer(), s,
+      Arrays.asList("KM_WORD_REPEAT_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "KM_SIMPLE_REPLACE")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

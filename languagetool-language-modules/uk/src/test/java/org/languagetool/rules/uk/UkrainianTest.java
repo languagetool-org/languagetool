@@ -19,21 +19,23 @@
 package org.languagetool.rules.uk;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
+import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class UkrainianDemoTextTest extends DemoTextTest {
+public class UkrainianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "УВАГА! Внизу наведено приклад тексту з помилками, які допоможе виправити LanguageTool. Будь-ласка, вставте тутт ваш текст, або перевірте цей текст на предмет помилок. Знайти всі помилки для LanguageTool є не по силах з багатьох причин але дещо він вам все таки підкаже. Порівняно з засобами перевірки орфографії LanguageTool також змайде граматичні та стильові проблеми. LanguageTool — ваш самий кращий помічник.";
     testDemoText(new Ukrainian(), s,
       Arrays.asList("UK_SIMPLE_REPLACE", "MORFOLOGIK_RULE_UK_UA", "NE_V_SYLAH", "COMMA_BEFORE_BUT", "WORDS_WITH_DASH",
               "PORIVNYANO_Z", "MORFOLOGIK_RULE_UK_UA", "SAMYI_WITH_ADJ")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

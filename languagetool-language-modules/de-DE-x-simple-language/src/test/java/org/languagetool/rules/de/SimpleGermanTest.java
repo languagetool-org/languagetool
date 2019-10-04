@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pl;
+package org.languagetool.rules.de;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Polish;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.SimpleGerman;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class PolishDemoTextTest extends DemoTextTest {
+public class SimpleGermanTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Wpisz tekst lub użyj istniejącego przykładu. To jest przykładowy tekst który pokazuje, jak jak działa LanguageTool. LanguageTool ma jusz korektor psowni, który wyrurznia bledy na czewrono.";
-    testDemoText(new Polish(), s,
-      Arrays.asList("BRAK_PRZECINKA_KTORY", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL")
+    String s = "Fügen Sie hier Ihren Text ein oder benutzen Sie diesen Text als Beispiel. Dieser Text wurde nur zum Testen geschrieben. Die Donaudampfschifffahrt darf da nicht fehlen. Und die Nutzung des Genitivs auch nicht.";
+    testDemoText(new SimpleGerman(), s,
+      Arrays.asList("ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ", "TOO_LONG_SENTENCE_DE", "PASSIV", "LANGES_WORT", "VERNEINUNG", "ABSTRAKTE_WOERTER", "GENITIV")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

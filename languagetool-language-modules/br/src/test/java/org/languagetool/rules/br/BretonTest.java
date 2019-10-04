@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ta;
+package org.languagetool.rules.br;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Tamil;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Breton;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class TamilDemoTextTest extends DemoTextTest {
+public class BretonTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "இந்த பெட்டியில் உங்கள் உரையை ஒட்டி சரிவர சோதிக்கிறதா என பாருங்கள். 'லேங்குவேஜ் டூல்' சில இலக்கணப் பிழைகளைச் சரியாக கண்டுபிடிக்கும். பல பிழைகளைப் பிடிக்க தடுமாறலாம்.";
-    testDemoText(new Tamil(), s,
-      Arrays.asList("Ends_in_A_1", "Ends_in_A_3", "Ends_in_A_3", "Ends_in_A_4", "Ends_in_A_2")
+    String s = "Lakait amañ ho testenn vrezhonek da vezañ gwiriet. Pe implijit an frazenn-mañ gant meur a fazioù yezhadurel enni.";
+    testDemoText(new Breton(), s,
+      Arrays.asList("AR", "LIES")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

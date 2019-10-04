@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.gl;
+package org.languagetool.rules.it;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Galician;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Italian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class GalicianDemoTextTest extends DemoTextTest {
+public class ItalianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Esta vai a ser unha mostra de de exemplo para amosar  o funcionamento de LanguageTool.";
-    testDemoText(new Galician(), s,
-      Arrays.asList("IR_A_INF", "WORD_REPETITION", "WHITESPACE_RULE")
+    String s = "Inserite qui il vostro testo... oppure controlate direttamente questo ed avrete un assaggio di quali errori possono essere identificati con LanguageTool.";
+    testDemoText(new Italian(), s,
+      Arrays.asList("GR_05_002", "MORFOLOGIK_RULE_IT_IT", "ST_03_001")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

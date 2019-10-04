@@ -18,18 +18,13 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.fail;
@@ -37,14 +32,15 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
-          "[0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
+          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
           "Ææ" +  // English
           "ÍÚÑ" + // for Spanish
-          "õ" +   // for Portuguese
+          "õș" +   // for Portuguese
           "·" +   // for Catalan
-          "'ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
+          "'’" +
+          "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 
           "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
   );
@@ -52,6 +48,7 @@ public class WordListValidatorTest {
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Klaipėda",
           "Mondelēz",
           "chef-d’œuvre",
           "chefs-d’œuvre",
@@ -81,8 +78,7 @@ public class WordListValidatorTest {
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
   ));
 
-  @Test
-  public void testWordListValidity() throws IOException {
+  public void testWordListValidity() {
     Set<String> checked = new HashSet<>();
     for (Language lang : Languages.get()) {
       if (lang.getShortCode().equals("ru")) {
@@ -108,15 +104,17 @@ public class WordListValidatorTest {
   }
 
   private void validateWords(List<String> words, String spellingFileName) {
+    List<String> failures = new ArrayList<>();
     for (String word : words) {
-      if (VALID_WORDS.contains(word)) {
+      if (VALID_WORDS.contains(word) || VALID_WORDS.contains(word.trim())) {
         // okay
-      } else if (word.contains(" ")) {
-        // since version 3.8 multi-word entries are allowed 'spelling.txt' (= getSpellingFileName()) -- ignore them
       } else if (!VALID_CHARS.matcher(word).matches()) {
-        fail("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
-             " - please fix the word or add the character to " + WordListValidatorTest.class.getName() + " if it's valid");
+        failures.add("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
+                " - please fix the word or add the character to the language's " + WordListValidatorTest.class.getName() + " if it's valid");
       }
+    }
+    if (failures.size() > 0) {
+      fail(String.join("\n\n", failures));
     }
   }
 

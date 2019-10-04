@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.it;
+package org.languagetool.rules.ja;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Italian;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Japanese;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ItalianDemoTextTest extends DemoTextTest {
+public class JapaneseTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Inserite qui il vostro testo... oppure controlate direttamente questo ed avrete un assaggio di quali errori possono essere identificati con LanguageTool.";
-    testDemoText(new Italian(), s,
-      Arrays.asList("GR_05_002", "MORFOLOGIK_RULE_IT_IT", "ST_03_001")
+    String s = "これわ文章を入力して'Check Text'をクリックすると、誤記を探すことができる。着色した文字をクリックすると、間違いの詳細の表示する。";
+    testDemoText(new Japanese(), s,
+      Arrays.asList("KOREWA", "DOUSI_KOTOGADEKIRU", "NO_SURU")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

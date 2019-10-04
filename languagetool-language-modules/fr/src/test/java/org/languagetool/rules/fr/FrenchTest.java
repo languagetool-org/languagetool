@@ -19,20 +19,22 @@
 package org.languagetool.rules.fr;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
+import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.French;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class FrenchDemoTextTest extends DemoTextTest {
+public class FrenchTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "LanguageTool offre une vérification orthographique, grammaticale et de style. Il vous suffit de coller votre texte ici et de cliquer sur le bouton \\\"Vérifier le texte\\\". En voici quelques exemples : Cliqez sur les phrases en couleurs pour plus de détails sur les erreurs potentiels, ou utilisez ce texte pour voir quelques-uns des problèmes que LanguageTool Plus peut détecter. Que pensez vous des des correcteurs grammaticaux ? Non pas qu'ils soient parfaits bien sur. Également pour des erreurs plus communes : Il est 17h de l'après-midi. Il faisait beau le jeudi 27 juin 2017.";
     testDemoText(new French(), s,
       Arrays.asList("FR_SPELLING_RULE", "ACCORD_GENRE", "TRAIT_UNION_INVERSION", "FRENCH_WORD_REPEAT_RULE", "SUR_ACCENT", "HEURES", "DATE_JOUR")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

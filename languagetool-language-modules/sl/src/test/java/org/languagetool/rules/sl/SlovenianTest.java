@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ast;
+package org.languagetool.rules.sl;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Asturian;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Slovenian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class AsturianDemoTextTest extends DemoTextTest {
+public class SlovenianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Apega testu equí. o revisa toes les pallabres de esti testu pa ver dalgún de los problemis que LanguageTool ye pa deteutar. ¿Afáyeste con los correutores gramaticales? Has date cuenta de que entá nun son perfeutos.";
-    testDemoText(new Asturian(), s,
-      Arrays.asList("UPPERCASE_SENTENCE_START", "TOU_CONTR", "PREPOS_APOSTR", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "CON_CONTR", "QUE_APOSTR")
+    String s = "Tukaj vnesite svoje besedilo... Pa poglejmo primer besedila s nekaj napakami ki jih lahko razpozna orodje LanguageTool; ko opazite napake, jih lahko enostavno popiravite. ( Obenem se izvrši tudi preverjanje črkovanja črkovanja.";
+    testDemoText(new Slovenian(), s,
+      Arrays.asList("TROPIČJETRI", "PREDLOG_S", "KI_BREZ_VEJICE", "MORFOLOGIK_RULE_SL_SI", "COMMA_PARENTHESIS_WHITESPACE", "WORD_REPEAT_RULE")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

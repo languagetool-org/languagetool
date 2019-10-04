@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.eo;
+package org.languagetool.rules.el;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Esperanto;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Greek;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class EsperantoDemoTextTest extends DemoTextTest {
+public class GreekTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Algluu vian kontrolendan tekston ĉi tie... Aŭ nur kontrolu ĉi tiun ekzemplon. Ĉu vi vi rimarkis, ke estas gramatikaj eraro en tiu frazo? Rimarku, ke Lingvoilo ankaux atentigas pri literumaj erraroj kiel ĉi-tiu.";
-    testDemoText(new Esperanto(), s,
-      Arrays.asList("WORD_REPEAT_RULE", "NEKONG_NOMBR", "X_SISTEMO", "HUNSPELL_NO_SUGGEST_RULE", "CXI_TIU")
+    String s = "Επικολλήστε το κείμενο σας εδώ και κάντε κλικ στο κουμπί ελέγχου. Κάντε κλικ στις χρωματιστές φράσεις για λεπτομέρειες σχετικά με πιθανά σφάλματα. Για παράδειγμα σε αυτή τη πρόταση υπάρχουν εσκεμμένα λάθη για να να δείτε πώς λειτουργει το LanguageTool..";
+    testDemoText(new Greek(), s,
+      Arrays.asList("GREEK_PUNC_2", "GREEK_ART_FEM_MISSING_N", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_EL_GR", "DOUBLE_PUNCTUATION")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

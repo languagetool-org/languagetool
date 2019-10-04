@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.el;
+package org.languagetool.rules.gl;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Greek;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Galician;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class GreekDemoTextTest extends DemoTextTest {
+public class GalicianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Επικολλήστε το κείμενο σας εδώ και κάντε κλικ στο κουμπί ελέγχου. Κάντε κλικ στις χρωματιστές φράσεις για λεπτομέρειες σχετικά με πιθανά σφάλματα. Για παράδειγμα σε αυτή τη πρόταση υπάρχουν εσκεμμένα λάθη για να να δείτε πώς λειτουργει το LanguageTool..";
-    testDemoText(new Greek(), s,
-      Arrays.asList("GREEK_PUNC_2", "GREEK_ART_FEM_MISSING_N", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_EL_GR", "DOUBLE_PUNCTUATION")
+    String s = "Esta vai a ser unha mostra de de exemplo para amosar  o funcionamento de LanguageTool.";
+    testDemoText(new Galician(), s,
+      Arrays.asList("IR_A_INF", "WORD_REPETITION", "WHITESPACE_RULE")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

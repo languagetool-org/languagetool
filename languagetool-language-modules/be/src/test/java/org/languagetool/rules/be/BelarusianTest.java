@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ja;
+package org.languagetool.rules.be;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Japanese;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Belarusian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class JapaneseDemoTextTest extends DemoTextTest {
+public class BelarusianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "これわ文章を入力して'Check Text'をクリックすると、誤記を探すことができる。着色した文字をクリックすると、間違いの詳細の表示する。";
-    testDemoText(new Japanese(), s,
-      Arrays.asList("KOREWA", "DOUSI_KOTOGADEKIRU", "NO_SURU")
+    String s = "Паспрабуйце напісаць нейкі тэкст з памылкамі, а LanguageTool паспрабуе паказаць нейкия найбольш распаусюджаныя памылки.";
+    testDemoText(new Belarusian(), s,
+      Arrays.asList("I", "U_KAROTKAJE", "I")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

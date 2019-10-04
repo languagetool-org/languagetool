@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.be;
+package org.languagetool.rules.pl;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Belarusian;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Polish;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class BelarusianDemoTextTest extends DemoTextTest {
+public class PolishTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Паспрабуйце напісаць нейкі тэкст з памылкамі, а LanguageTool паспрабуе паказаць нейкия найбольш распаусюджаныя памылки.";
-    testDemoText(new Belarusian(), s,
-      Arrays.asList("I", "U_KAROTKAJE", "I")
+    String s = "Wpisz tekst lub użyj istniejącego przykładu. To jest przykładowy tekst który pokazuje, jak jak działa LanguageTool. LanguageTool ma jusz korektor psowni, który wyrurznia bledy na czewrono.";
+    testDemoText(new Polish(), s,
+      Arrays.asList("BRAK_PRZECINKA_KTORY", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

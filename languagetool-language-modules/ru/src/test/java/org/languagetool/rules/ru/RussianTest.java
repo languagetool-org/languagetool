@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.zh;
+package org.languagetool.rules.ru;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Chinese;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Russian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ChineseDemoTextTest extends DemoTextTest {
+public class RussianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "将文本粘贴在此，或者检测以下文本：我和她去看了二部电影。";
-    testDemoText(new Chinese(), s,
-      Arrays.asList("wa5")
+    String s = "Вставьте ваш текст сюда .. или проверьте этот текстт. Релиз LanguageTool 4.0 состоялся в четверг 29 декабря 2017 года.";
+    testDemoText(new Russian(), s,
+      Arrays.asList("DOUBLE_PUNCTUATION", "UPPERCASE_SENTENCE_START", "MORFOLOGIK_RULE_RU_RU", "DATE_WEEKDAY1")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

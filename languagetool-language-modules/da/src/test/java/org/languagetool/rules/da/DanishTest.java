@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.de;
+package org.languagetool.rules.da;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Danish;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class GermanDemoTextTest extends DemoTextTest {
+public class DanishTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Fügen Sie hier Ihren Text ein. Klicken Sie nach der Prüfung auf die farbig unterlegten Textstellen. oder nutzen Sie diesen Text als Beispiel für ein Paar Fehler , die LanguageTool erkennen kann: Ihm wurde Angst und bange. Mögliche stilistische Probleme werden blau hervorgehoben: Das ist besser wie vor drei Jahren. Eine Rechtschreibprüfun findet findet übrigens auch statt. Donnerstag, den 23.01.2019 war gutes Wetter. Die Beispiel endet hier.";
-    testDemoText(new GermanyGerman(), s,
-      Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
+    String s = "Indsæt din egen tekst her , eller brug denne tekst for at se nogle af de fejl LanguageTool fanger. vær opmærksom på at den langtfra er er perfect, men skal være en hjælp til at få standartfejl frem i lyset.";
+    testDemoText(new Danish(), s,
+      Arrays.asList("COMMA_PARENTHESIS_WHITESPACE", "UPPERCASE_SENTENCE_START", "Ordgentagelse", "HUNSPELL_NO_SUGGEST_RULE", "standart_standard")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.es;
+package org.languagetool.rules.ta;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Spanish;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Tamil;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class SpanishDemoTextTest extends DemoTextTest {
+public class TamilTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.";
-    testDemoText(new Spanish(), s,
-      Arrays.asList("AFRENTAR_DIFICULTADES", "ES_WIKIPEDIA_COMMON_ERRORS", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
+    String s = "இந்த பெட்டியில் உங்கள் உரையை ஒட்டி சரிவர சோதிக்கிறதா என பாருங்கள். 'லேங்குவேஜ் டூல்' சில இலக்கணப் பிழைகளைச் சரியாக கண்டுபிடிக்கும். பல பிழைகளைப் பிடிக்க தடுமாறலாம்.";
+    testDemoText(new Tamil(), s,
+      Arrays.asList("Ends_in_A_1", "Ends_in_A_3", "Ends_in_A_3", "Ends_in_A_4", "Ends_in_A_2")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

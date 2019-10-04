@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.br;
+package org.languagetool.rules.tl;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Breton;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Tagalog;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class BretonDemoTextTest extends DemoTextTest {
+public class TagalogTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Lakait amañ ho testenn vrezhonek da vezañ gwiriet. Pe implijit an frazenn-mañ gant meur a fazioù yezhadurel enni.";
-    testDemoText(new Breton(), s,
-      Arrays.asList("AR", "LIES")
+    String s = "Ang LanguageTool ay maganda gamit sa araw-araw. Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin. Litaw rin sa talatang ito na may mga bagaybagay na hindii pa kayang itama nng LanguageTool.";
+    testDemoText(new Tagalog(), s,
+      Arrays.asList("ADJECTIVE-V_COMMON_NOUN", "NG_NG", "MORFOLOGIK_RULE_TL", "R_WORDS", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

@@ -19,16 +19,17 @@
 package org.languagetool.rules.pt;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
+import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.PortugalPortuguese;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class PortugueseDemoTextTest extends DemoTextTest {
+public class PortugueseTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Cole aqui seu texto...ou verifique esta texto, afim de revelar alguns dos dos problemas que o LanguageTool consegue detectar. Isto tal vez permita corrigir os seus erro. Nós prometo ajudá-lo. para testar a grafia e as regrs do antigo) Acordo Ortográfico,, verifique o mesmo texto mesmo texto em Português de Angola ou Português do Moçambique e faça a analise dos resultados.. Nossa equipe anuncias a versão 4.5, que será lançada sexta-feira, 26 de março de 2019.";
     testDemoText(new PortugalPortuguese(), s,
@@ -37,5 +38,6 @@ public class PortugueseDemoTextTest extends DemoTextTest {
               "HUNSPELL_RULE", "UNPAIRED_BRACKETS", "DOUBLE_PUNCTUATION", "PHRASE_REPETITION", "REPEATED_WORDS", "ARTICLES_PRECEDING_LOCATIONS",
               "PARONYM_ANALISE_363", "DOUBLE_PUNCTUATION", "POSSESSIVE_WITHOUT_ARTICLE", "EQUIPES", "T-V_DISTINCTION", "DATE_WEEKDAY")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

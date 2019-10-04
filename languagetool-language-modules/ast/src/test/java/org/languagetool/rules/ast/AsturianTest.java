@@ -16,23 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ru;
+package org.languagetool.rules.ast;
 
 import org.junit.Test;
-import org.languagetool.DemoTextTest;
-import org.languagetool.language.Russian;
+import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Asturian;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class RussianDemoTextTest extends DemoTextTest {
+public class AsturianTest extends LanguageSpecificTest {
   
   @Test
-  public void testDemoText() throws IOException {
+  public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Вставьте ваш текст сюда .. или проверьте этот текстт. Релиз LanguageTool 4.0 состоялся в четверг 29 декабря 2017 года.";
-    testDemoText(new Russian(), s,
-      Arrays.asList("DOUBLE_PUNCTUATION", "UPPERCASE_SENTENCE_START", "MORFOLOGIK_RULE_RU_RU", "DATE_WEEKDAY1")
+    String s = "Apega testu equí. o revisa toes les pallabres de esti testu pa ver dalgún de los problemis que LanguageTool ye pa deteutar. ¿Afáyeste con los correutores gramaticales? Has date cuenta de que entá nun son perfeutos.";
+    testDemoText(new Asturian(), s,
+      Arrays.asList("UPPERCASE_SENTENCE_START", "TOU_CONTR", "PREPOS_APOSTR", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "CON_CONTR", "QUE_APOSTR")
     );
+    new WordListValidatorTest().testWordListValidity();
   }
 }

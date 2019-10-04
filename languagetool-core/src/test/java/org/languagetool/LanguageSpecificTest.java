@@ -26,7 +26,7 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-public class DemoTextTest {
+public class LanguageSpecificTest {
 
   protected void testDemoText(Language lang, String text, List<String> expectedMatchIds) throws IOException {
     JLanguageTool lt = new JLanguageTool(lang);
