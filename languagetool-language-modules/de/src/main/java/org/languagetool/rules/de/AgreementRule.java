@@ -92,6 +92,10 @@ public class AgreementRule extends Rule {
       token("Computer"),
       token("Club")
     ),
+    Arrays.asList(  // "In einem App Store"
+      token("App"),
+      token("Store")
+    ),
     Arrays.asList(  // "in dem einen Jahr"
       token("dem"),
       token("einen"),
