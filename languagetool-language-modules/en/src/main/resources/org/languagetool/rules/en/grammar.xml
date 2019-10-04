@@ -9678,12 +9678,16 @@ USA
         <rule id="AN_ARE" name="an + are">
             <pattern>
                 <marker>
-                    <token>an</token>
+                    <token>an
+                        <exception postag="NNP"/>
+                        </token>
                     <token regexp="yes">aren?</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>and \2</suggestion>?</message>
             <example correction="and are">They are great <marker>an are</marker> very responsive.</example>
+            <example>They are great <marker>and are</marker> very responsive.</example>
+            <example>Among Non-Arab Muslims, translations of the <marker>Qur'an</marker> are most often accompanied by the original text.</example>
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
             <rule>
