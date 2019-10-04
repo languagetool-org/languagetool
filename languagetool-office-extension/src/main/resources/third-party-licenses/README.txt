@@ -40,7 +40,7 @@ swc-parser-lazy.jar: Apache License 2.0, http://sweble.org
 SymSpell, included in languagetool-core/src/main/java/org/languagetool/rules/spelling/symspell/implementation/: MIT License, https://github.com/Lundez/JavaSymSpell
 unit-api.jar: BSD License, http://unitsofmeasurement.github.io
 utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
-xgboost-predictor.jar: Apache License 2.0, https://github.com/komiya-atsushi/xgboost-predictor-java
+xgboost-predictor.jar: Apache License 2.0, https://github.com/h2oai/xgboost-predictor
 xgboost4j.jar: Apache License 2.0, https://github.com/dmlc/xgboost
 
 Other resources like dictionaries are not technically libraries, they may have 
