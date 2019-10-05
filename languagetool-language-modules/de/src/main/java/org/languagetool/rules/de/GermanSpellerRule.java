@@ -457,7 +457,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Tankungen", w -> Arrays.asList("Betankungen", "Tankvorgänge"));
     put("Ärcker", w -> Arrays.asList("Erker", "Ärger"));
     put("überlasstet", w -> Arrays.asList("überlastet", "überließt"));
+    put("[sS]itwazion", "Situation");
+    put("geschriehen", "geschrien");
+    put("beratete", "beriet");
+    put("Hälst", "Hältst");
     putRepl("[sS]chnelligkeitsfehler[ns]?", "[sS]chnell", "Flücht");
+    putRepl("[sS]chweinerosane[mnrs]?", "weinerosane[mnrs]?", "weinchenrosa");
+    putRepl("[aA]nstecklich(e[mnrs]?)?", "lich", "end");
+    putRepl("[gG]eflechtet(e[mnrs]?)?", "flechtet", "flochten");
     putRepl("[gG]enrealistisch(e[mnrs]?)?", "re", "er");
     putRepl("überträgt(e[mnrs]?)?", "^überträgt", "übertragen");
     putRepl("[iI]nterresent(e[mnrs]?)?", "rresent", "ressant");

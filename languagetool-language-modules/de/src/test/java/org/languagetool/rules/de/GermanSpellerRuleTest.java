@@ -393,6 +393,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Panacotta", "Panna cotta", rule, lt);
     assertFirstSuggestion("Ärcker", "Erker", rule, lt);
     assertFirstSuggestion("genrealistischer", "generalistischer", rule, lt);
+    assertFirstSuggestion("schweinerosane", "schweinchenrosa", rule, lt);
+    assertFirstSuggestion("anstecklichen", "ansteckenden", rule, lt);
+    assertFirstSuggestion("geflechtetes", "geflochtenes", rule, lt);
   }
 
   @Test
