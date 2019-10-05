@@ -8206,7 +8206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|mal|lag)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
@@ -8214,21 +8214,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|mal|lag)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(schicht|zähn|wöch|[zt]eil|räum|köpf|monat|jähr|stünd|sekünd|mal|lag)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+                <example correction='fünfsekündige'>Es gab eine <marker>fünf sekündige</marker> Verzögerung.</example>
                 <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
                 <example correction='dreilagiges'>Ich kaufe nur <marker>drei lagiges</marker> Toilettenpapier.</example>
             </rule>
         </rulegroup>
-        <rule id="N_EINHALB" name="zwei einhalb (zweieinhalb)">
+        <rule id="DESTOTROTZ" name="nichts destotrotz (nichtsdestotrotz)">
             <pattern>
-                <token postag="ZAL"/>
-                <token>einhalb</token>
+                <token>nichts</token>
+                <token regexp="yes">destotrot?zt?</token>
+            </pattern>
+            <message><suggestion>nichtsdestotrotz</suggestion> wird zusammengeschrieben.</message>
+            <short>&getrennt;.</short>
+            <example correction="nichtsdestotrotz">Das war <marker>nichts destotrozt</marker> eine gute Leistung.</example>
+        </rule>
+        <rule id="WHATSAPP" name="Whats App (WhatsApp)">
+            <pattern>
+                <token>Whats</token>
+                <token>App</token>
             </pattern>
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <short>&getrennt;.</short>
-            <example correction="zweieinhalb">Wir haben noch <marker>zwei einhalb</marker> Liter Sprit.</example>
+            <example correction="WhatsApp">Wir schrieben per <marker>Whats App</marker>.</example>
         </rule>
         <rulegroup id="NT_KLAESSLER" name="fünft Klässler (Fünftklässler) etc.">
             <rule>
