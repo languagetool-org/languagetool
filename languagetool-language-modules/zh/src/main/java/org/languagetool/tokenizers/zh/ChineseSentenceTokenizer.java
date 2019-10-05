@@ -18,7 +18,6 @@
  */
 package org.languagetool.tokenizers.zh;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hankcs.hanlp.utility.SentencesUtil;
@@ -28,8 +27,7 @@ public class ChineseSentenceTokenizer implements SentenceTokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-    List<String> lines = SentencesUtil.toSentenceList(text);
-    return lines;
+    return SentencesUtil.toSentenceList(text);
   }
 
   /** Note: does have no effect for Chinese */

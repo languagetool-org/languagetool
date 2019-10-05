@@ -18,13 +18,9 @@
  */
 package org.languagetool.tokenizers.zh;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.tokenizers.Tokenizer;
 
 import com.hankcs.hanlp.seg.common.Term;
@@ -46,11 +42,11 @@ public class ChineseWordTokenizer implements Tokenizer {
   public List<String> tokenize(String text) {
     init();
     try {
-    	List<Term> termList = BasicTokenizer.segment(text);
-    	List<String> words = new ArrayList<>(termList.size());
-    	for (Term term : termList) {
-    		words.add(term.toString());
-    	}
+      List<Term> termList = BasicTokenizer.segment(text);
+      List<String> words = new ArrayList<>(termList.size());
+      for (Term term : termList) {
+        words.add(term.toString());
+      }
       return words;
     } catch (Exception e) {
       return new ArrayList<>(0);
