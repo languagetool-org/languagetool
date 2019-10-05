@@ -99,12 +99,11 @@ final class ServerTools {
         throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' (recommended) or 'password'");
       }
     } else {
-      // TODO: throw exception (but first log to see how often this happens)
       if (params.get("apiKey") != null) {
-        print("WARN: apiKey was set, but username was not: " + params.get("apiKey"), System.err);
+        throw new IllegalArgumentException("apiKey was set, but username was not: " + params.get("apiKey"));
       }
       if (params.get("password") != null) {
-        print("WARN: password was set, but username was not", System.err);
+        throw new IllegalArgumentException("password was set, but username was not");
       }
       return UserLimits.getDefaultLimits(config);
     }
