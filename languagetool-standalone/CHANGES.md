@@ -2,6 +2,9 @@
 
 ## 4.8-SNAPSHOT (release planned for 2019-12-27)
 
+#### Chinese
+  * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
+
 * ...
 
 
