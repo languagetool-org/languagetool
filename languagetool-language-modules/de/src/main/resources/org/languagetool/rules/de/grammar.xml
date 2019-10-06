@@ -34140,7 +34140,10 @@ Andere Projekte</example>
                     <token>Die</token>
                     <token regexp="yes" case_sensitive="yes">USA|UN|AGB|SBB</token>
                     <marker>
-                        <token postag="VER:([A-Z]{3}:)?3:SIN:.+" postag_regexp="yes"><exception postag="VER:([A-Z]{3}:)?3:PLU:.+" postag_regexp="yes"/></token>
+                        <token postag="VER:([A-Z]{3}:)?3:SIN:.+" postag_regexp="yes">
+                            <exception postag="VER:([A-Z]{3}:)?3:PLU:.+" postag_regexp="yes"/>
+                            <exception scope="next" regexp="yes">er|ich|du</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Stehen Kurzwörter wie 'USA', 'UN', 'AGB' als Subjekt im Satz, muss auch das dazugehörige Verb im Plural stehen.</message>
@@ -34149,6 +34152,7 @@ Andere Projekte</example>
                 <short>Müsste dieses Verb im Plural stehen?</short>
                 <example correction="haben">Die USA <marker>hat</marker> eine besondere Verantwortung.</example>
                 <example correction="tragen">Die USA <marker>trägt</marker> eine besondere Verantwortung.</example>
+                <example>Die USA will er morgen besprechen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRINCIPIA_PLURAL" name="'Die Principia Mathematica ist (sind)' etc. (falscher Singular)">
