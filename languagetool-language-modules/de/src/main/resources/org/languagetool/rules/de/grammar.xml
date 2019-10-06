@@ -31318,13 +31318,14 @@ Andere Projekte</example>
         <rule id="DR_FRAU" name="Dr. Frau (Frau Dr.)">
             <pattern case_sensitive="yes">
                 <marker>
-                    <token>Dr</token>
+                    <token regexp="yes">Dr|Prof</token>
                     <token>.</token>
                     <token regexp="yes">Herr|Frau</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion>\3 \1\2</suggestion> ?</message>
+            <message>Meinten Sie <suggestion>\3 \1\2</suggestion>?</message>
             <example correction="Frau Dr."><marker>Dr. Frau</marker> Hayali kommt gleich.</example>
+            <example correction="Herr Prof."><marker>Prof. Herr</marker> Müller wird sprechen.</example>
         </rule>
         <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
           <pattern case_sensitive="yes">
