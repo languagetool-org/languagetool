@@ -10428,26 +10428,58 @@ USA
                 <example correction="double-click">Let's <marker>double click</marker> on the folder first.</example>
             </rule>
         </rulegroup>
-        <rule id="HANDOVER" name="handover (hand over)">
-            <pattern>
-                <token regexp="yes">will|can|(c|w|sh)ould|you|to</token>
-                <marker>
-                    <token>handover</token>
-                </marker>
-            </pattern>
-            <message>The word 'handover' is a noun. Did you mean the verb <suggestion>hand over</suggestion>?</message>
-            <example correction="hand over">I will <marker>handover</marker> my work until tomorrow.</example>
-        </rule>
-        <rule id="SHUTDOWN" name="shutdown (shut down)">
-            <pattern>
-                <token regexp="yes">will|can|(c|w|sh)ould|you|to</token>
-                <marker>
-                    <token>shutdown</token>
-                </marker>
-            </pattern>
-            <message>The word 'shutdown' is a noun. Did you mean the verb <suggestion>shut down</suggestion>?</message>
-            <example correction="shut down">I will <marker>shutdown</marker> my computer after the update has been installed.</example>
-        </rule>
+        <rulegroup id="HANDOVER" name="handover (hand over)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">will|didn|don|can|(c|w|sh)ouldn?|you|he|she|it|we|they|I</token>
+                    <token regexp="yes" min="0">['´’]</token>
+                    <token min="0">t</token>
+                    <marker>
+                        <token regexp="yes">(hand|cross|take|pass|carry)overs?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="over" regexp_replace=" over" /></suggestion>?</message>
+                <example correction="hand over">I will <marker>handover</marker> my work until tomorrow.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">had|have|want(ed)?|has</token>
+                    <token>to</token>
+                    <marker>
+                        <token regexp="yes">(hand|cross|take|pass|carry)over</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="over" regexp_replace=" over" /></suggestion>?</message>
+                <example correction="hand over">He had to <marker>handover</marker> his belongings to the police.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHUTDOWN" name="shutdown (shut down)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">will|didn|don|can|(c|w|sh)ouldn?|you|he|she|it|we|they|I</token>
+                    <token regexp="yes" min="0">['´’]</token>
+                    <token min="0">t</token>
+                    <marker>
+                        <token regexp="yes">(shut|slow|tear|touch|turn|break|lock|hold|cool|come|melt|look)downs?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="down" regexp_replace=" down" /></suggestion>?</message>
+                <example correction="shut down">I will <marker>shutdown</marker> my computer after the update has been installed.</example>
+                <example correction="slow downs">It <marker>slowdowns</marker> your browser.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">had|have|want(ed)?|has</token>
+                    <token>to</token>
+                    <marker>
+                        <token regexp="yes">(shut|slow|tear|touch|turn|break|lock|hold|cool|come|melt|look)down</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="down" regexp_replace=" down" /></suggestion>?</message>
+                <example correction="shut down">He had to <marker>shutdown</marker> his computer.</example>
+                <example>The economy contracted in 2001 and 2002 due to slowdowns in tourism.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RE_DO_COMPOUND" name="'re do' spelled as one word">
             <rule>
                 <pattern>
@@ -10630,6 +10662,16 @@ USA
             <message>The word 'hoverboard' is written as one word.</message>
             <suggestion><match no="1" /><match no="2" /></suggestion>
             <example correction='Hoverboards'><marker>Hover boards</marker> are mainly used by millenials.</example>
+        </rule>
+        <rule id="AREA_51" name="area 51 (Area 51)">
+            <pattern>
+                <token case_sensitive="yes">area</token>
+                <token>51</token>
+            </pattern>
+            <message>The word '\1 \2' is a proper noun and needs to be capitalized.</message>
+            <suggestion>Area 51</suggestion>
+            <example correction="Area 51">They say that aliens are being held at <marker>area 51</marker>.</example>
+            <example>Alien enthusiasts are descending on <marker>Area 51</marker> following a viral Facebook event.</example>
         </rule>
         <rule id="Y_ALL" name="Ya'll (Y'all)">
             <pattern>
