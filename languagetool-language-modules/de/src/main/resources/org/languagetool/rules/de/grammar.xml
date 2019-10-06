@@ -31315,6 +31315,17 @@ Andere Projekte</example>
           <example>Sie hilft <marker>ihn</marker> gerne.</example>
         </rule>
         -->
+        <rule id="DR_FRAU" name="Dr. Frau (Frau Dr.)">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Dr</token>
+                    <token>.</token>
+                    <token regexp="yes">Herr|Frau</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\3 \1\2</suggestion> ?</message>
+            <example correction="Frau Dr."><marker>Dr. Frau</marker> Hayali kommt gleich.</example>
+        </rule>
         <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">helfen|geben|schenken|vertrauen|folgen</token>
