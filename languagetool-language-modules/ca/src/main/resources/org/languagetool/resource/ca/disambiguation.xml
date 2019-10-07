@@ -7079,6 +7079,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="[AN].*"/>
     </rule>
+    <rule id="causar_baixa" name=" causar baixes">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">causar</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">baixa</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <!--<rule id="mal_adj_nom" name="mal (adj) + nom">
         <pattern>
             <unify>
@@ -8163,6 +8170,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="A.*|_GN_.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="molts_mes_adj_n" name="molts més + adj + nom">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="DI.*" postag_regexp="yes" inflected="yes">molt</token>
+                    <token>més</token>
+                    <token postag="A.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="molts_mes" name="molts més + nom">
         <pattern>
             <unify>
@@ -8174,6 +8196,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NC.*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
             </unify>
+
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -10596,7 +10619,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era|às)</exception></token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VMIP1S0.?|V.G.*" postag_regexp="yes" /><exception regexp="yes">viu|nous?|massissa|senzilla</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VMIP1S0.?|V.G.*" postag_regexp="yes" /><exception regexp="yes">viu|nous?|massissa|senzilla|baixa|baixes</exception></token>
                 </and>
             </marker>
         </pattern>
