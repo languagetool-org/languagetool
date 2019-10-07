@@ -9846,7 +9846,7 @@ USA
         </rulegroup>
         <rule id="A_COMPLAIN" name="a + complain/restrain">
             <antipattern>
-                <token postag="VB" />
+                <token postag="VB.*" postag_regexp="yes" />
                 <token>her</token>
             </antipattern>
             <antipattern>
@@ -9890,7 +9890,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">(would|could|should)n?</token>
-                    <token regexp="yes" min="0">['´]</token>
+                    <token regexp="yes" min="0">['´’]</token>
                     <token min="0">t</token>
                     <token>have</token>
                     <token postag="RB" min="0" />
@@ -9906,7 +9906,7 @@ USA
                 <pattern>
                     <token postag="PRP|NN.*" postag_regexp="yes" />
                     <token regexp="yes">(has|have)n?</token>
-                    <token regexp="yes" min="0">['´]</token>
+                    <token regexp="yes" min="0">['´’]</token>
                     <token min="0">t</token>
                     <token postag="RB" min="0" />
                     <marker>
@@ -9918,161 +9918,150 @@ USA
                 <example correction="restrained">The doctor hasn't <marker>restraint</marker> the blood flow yet.</example>
             </rule>
         </rulegroup>
-        <rule id="A_REBRAND" name="a + rebrand">
+        <rulegroup id="PREPOSITION_VERB" name="preposition + verb">
             <antipattern>
-                <token postag="VB" />
+                <token postag="VB.*" postag_regexp="yes" />
                 <token>her</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                 <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token>rebrand</token>
-                </marker>
-            </pattern>
-            <message>The word 'rebrand' is not a noun. Did you mean <suggestion>rebranding</suggestion>?</message>
-            <example correction="rebranding">Their <marker>rebrand</marker> is pretty.</example>
-            <example>A <marker>rebranding</marker> of our Corporate Design might be necessary soon.</example>
-            <example>Please let her rebrand our company logo.</example>
-        </rule>
-        <rule id="A_REQUIRE" name="a + require">
             <antipattern>
-                <token postag="VB" />
-                <token>her</token>
+                <token>let</token>
+                <token regexp="yes">['´’]</token>
+                <token>s</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token>requires</token>
-                </marker>
-            </pattern>
-            <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="require" regexp_replace="requirement" /></suggestion>?</message>
-            <example correction="requirements">One of the new <marker>requires</marker> is ...</example>
-            <example>A <marker>requriement</marker> needs to be fulfilled.</example>
-        </rule>
-        <rule id="A_RESPOND" name="a + respond">
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token regexp="yes">responds?</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion><match no="3" regexp_match="respond" regexp_replace="response" /></suggestion>?</message>
-            <example correction="response">He sent his <marker>respond</marker> to the mailing list.</example>
-            <example correction="responses">The <marker>responds</marker> were overall positive.</example>
-            <example>A <marker>response</marker> will be prepared.</example>
-            <example>I'll have her respond to the customer's mail.</example>
-        </rule>
-        <rule id="A_INVENT" name="a + invent">
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token regexp="yes">invents?</token>
-                </marker>
-            </pattern>
-            <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="nvent" regexp_replace="nvention" /></suggestion>?</message>
-            <example correction="invention">He presented the <marker>invent</marker> of electric cars.</example>
-            <example>Let her invent the future.</example>
-        </rule>
-        <rule id="A_DELIVER" name="a + deliver">
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token regexp="yes">(re-?)?deliver</token>
-                </marker>
-            </pattern>
-            <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="eliver" regexp_replace="elivery" /></suggestion>?</message>
-            <example correction="redelivery">The <marker>redeliver</marker> service was on time.</example>
-            <example>I'll have her redeliver the parcel.</example>
-        </rule>
-        <rule id="A_CREATE" name="a + create">
-            <antipattern>
-                <token skip="3">create</token>
-                <token>operation</token>
-            </antipattern>
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token regexp="yes">creates?</token>
-                </marker>
-            </pattern>
-            <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="reate" regexp_replace="reation" /></suggestion>?</message>
-            <example correction="creation">The <marker>create</marker> of the world.</example>
-            <example>I will make her <marker>create</marker> the future.</example>
-        </rule>
-        <rule id="A_REPLACE" name="a + replace">
-            <antipattern>
-                <token skip="3">create</token>
-                <token>operation</token>
-            </antipattern>
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token>replace</token>
-                </marker>
-            </pattern>
-            <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="place" regexp_replace="placement" /></suggestion>?</message>
-            <example correction="replacement">After the accident, he needed a <marker>replace</marker> of the car's front window.</example>
-            <example>I will let her replace the furniture in our flat.</example>
-        </rule>
-        <rule id="A_ARRIVE" name="a + arrive">
-            <antipattern>
-                <token postag="VB" />
-                <token>her</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">the|an?|my|y?our|his|her|their</token>
-                <token postag="JJS?" postag_regexp="yes" min="0">
-                    <exception postag="NN.*" postag_regexp="yes" />
-                </token>
-                <marker>
-                    <token regexp="yes">arrives?</token>
-                </marker>
-            </pattern>
-            <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="rrive" regexp_replace="rrival" /></suggestion>?</message>
-            <example correction="arrival">After the <marker>arrive</marker> he first needed to park his car.</example>
-            <example>I will let her arrive on time.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>rebrand</token>
+                    </marker>
+                </pattern>
+                <message>The word 'rebrand' is not a noun. Did you mean <suggestion>rebranding</suggestion>?</message>
+                <example correction="rebranding">Their <marker>rebrand</marker> is pretty.</example>
+                <example>A <marker>rebranding</marker> of our Corporate Design might be necessary soon.</example>
+                <example>Please let her rebrand our company logo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>requires</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="require" regexp_replace="requirement" /></suggestion>?</message>
+                <example correction="requirements">One of the new <marker>requires</marker> is ...</example>
+                <example>A <marker>requriement</marker> needs to be fulfilled.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">responds?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="respond" regexp_replace="response" /></suggestion>?</message>
+                <example correction="response">He sent his <marker>respond</marker> to the mailing list.</example>
+                <example correction="responses">The <marker>responds</marker> were overall positive.</example>
+                <example>A <marker>response</marker> will be prepared.</example>
+                <example>I'll have her respond to the customer's mail.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">invents?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="nvent" regexp_replace="nvention" /></suggestion>?</message>
+                <example correction="invention">He presented the <marker>invent</marker> of electric cars.</example>
+                <example>Let her invent the future.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">renews?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="new" regexp_replace="newal" /></suggestion>?</message>
+                <example correction="renewal">He requested a <marker>renew</marker> of his subscription.</example>
+                <example>Let her renew the office equipment.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">(re-?)?deliver</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="eliver" regexp_replace="elivery" /></suggestion>?</message>
+                <example correction="redelivery">The <marker>redeliver</marker> service was on time.</example>
+                <example>I'll have her redeliver the parcel.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="3">create</token>
+                    <token>operation</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">creates?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="reate" regexp_replace="reation" /></suggestion>?</message>
+                <example correction="creation">The <marker>create</marker> of the world.</example>
+                <example>I will make her <marker>create</marker> the future.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>replace</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="place" regexp_replace="placement" /></suggestion>?</message>
+                <example correction="replacement">After the accident, he needed a <marker>replace</marker> of the car's front window.</example>
+                <example>I will let her replace the furniture in our flat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|s</token>
+                    <token postag="JJS?|RB" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">arrives?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="rrive" regexp_replace="rrival" /></suggestion>?</message>
+                <example correction="arrival">After the <marker>arrive</marker> he first needed to park his car.</example>
+                <example>I will let her arrive on time.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="THE_ADD_ON" name="the + add on">
             <rule>
                 <pattern>
@@ -10090,7 +10079,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp='yes'>firefox|mozilla|google|chrome|safari|docs|browser|edge|opera|software|system|hardware|game|third\-party|windows|word</token>
+                    <token regexp='yes'>firefox|mozilla|google|chrome|safari|docs|browser|edge|opera|software|system|hardware|game|third\-party|windows|word|gmail|mail</token>
                     <marker>
                         <token>add</token>
                         <token regexp="yes">(in|on)s?</token>
@@ -10104,8 +10093,13 @@ USA
         </rulegroup>
         <rulegroup id="A_INSTALL" name="a/the + install">
             <rule>
+                <antipattern>
+                    <token>let</token>
+                    <token regexp="yes">['´’]</token>
+                    <token>s</token>
+                </antipattern>
                 <pattern>
-                    <token regexp='yes'>an?|the|my|his|her|their|our|your|s</token>
+                    <token regexp='yes'>an?|the|my|his|her|their|y?our|s</token>
                     <marker>
                         <token regexp="yes">((un|auto|re|pre)\-?)?installs?</token>
                     </marker>
@@ -10127,6 +10121,7 @@ USA
                 <example>Creating an installer that installs the JRE.</example>
                 <example>A software that installs in just 3 minutes.</example>
                 <example>But his installs in less than a minute.</example>
+                <example>Let's uninstall.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10212,6 +10207,11 @@ USA
             </rule>
         </rulegroup>
         <rule id="A_GOOGLE" name="a/the + proper noun">
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">['´’]</token>
+                <token>s</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
@@ -10233,9 +10233,15 @@ USA
             <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
             <example>He wanted to <marker>google</marker> for the medicine.</example>
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
+            <example>Let's google life.</example>
         </rule>
         <rulegroup id="A_ATTACH" name="a/the attach">
             <rule>
+                <antipattern>
+                    <token>let</token>
+                    <token regexp="yes">['´’]</token>
+                    <token>s</token>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                     <marker>
@@ -10247,6 +10253,7 @@ USA
                 <example correction="attached">Have you clicked on the <marker>attach</marker> file?</example>
                 <example correction="attached">Please open one of the <marker>attach</marker> documents.</example>
                 <example>The <marker>attached</marker> archive contains all photos from last weekend.</example>
+                <example>Let's attach files.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10262,6 +10269,11 @@ USA
             </rule>
         </rulegroup>
         <rule id="A_THANK_YOU" name="a/the + thank you">
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">['´’]</token>
+                <token>s</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|RB" postag_regexp="yes" min="0" />
@@ -10277,6 +10289,7 @@ USA
             <example correction='thank-you|“Thank You”'>Have you seen my <marker>thank you</marker> letter?</example>
             <example correction='thank-you|“Thank You”'>Did you receive our little <marker>thank you</marker>?</example>
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
+            <example>Let's thank you.</example>
         </rule>
         <rule id="A_GOOD_BYE" name="a/the + good bye">
             <pattern>
