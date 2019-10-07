@@ -18475,6 +18475,12 @@ USA
                 <token>grad</token>
                 <token>=</token><!-- Find: there are 400 grad in this college. -->
             </antipattern>
+            <antipattern><!--  #2005. You two hurry up -->
+                <token>you</token>
+                <token/><!-- Usually only small numbers. Restrict if necessary. -->
+                <token postag="VB"/>
+                <token postag="RP"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -18578,6 +18584,7 @@ USA
             <example>As a year 10 student, Ruby Muller, was one of 32 remaining players who participated in a match made up of squads representing the North and South of England.</example>
             <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
             <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
+            <example>You two hurry up.</example><!--  #2005 -->
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
