@@ -48,6 +48,14 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "wie benutzen sie",
     "wir ja nicht",
     "wie wir oder",
+    "eine uhrzeit hatten",
+    "damit wir das",
+    "damit wir die",
+    "damit wir dir",
+    "was wird in",
+    "warum wird da",
+    "da mir der",
+    "das wir uns",
     "ich drei bin" // seit ich drei bin.
   );
 

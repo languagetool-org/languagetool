@@ -44,9 +44,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your move is",
       "he unchecked the",
       "thank you for the patience",
+      "your patience regarding",
       "your fix",  // fix = bug fix
-      "on point"
-  );
+      "on point",
+      "chapter one",
+      "usb port"
+    );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
