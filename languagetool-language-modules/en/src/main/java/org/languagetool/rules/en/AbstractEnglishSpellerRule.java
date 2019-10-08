@@ -295,6 +295,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("well-being");
     } else if ("cuz".equals(word)) {
       return Arrays.asList("because");
+    } else if ("prio".equals(word)) {
+      return Arrays.asList("priority");
+    } else if ("prios".equals(word)) {
+      return Arrays.asList("priorities");
       // AtD irregular plurals - START
     } else if ("addendums".equals(word)) {
       return Arrays.asList("addenda");
