@@ -72,6 +72,8 @@ public class ComplexAdjectiveConcordanceRuleTest {
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
     //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
     //assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    assertCorrect("El programari baixa el cost i millora la qualitat dels serveis.");
+    assertCorrect("Quan un satèl·lit baixa a 180 km");
     assertCorrect("ja que sovint causa baixes entre els gossos i ovelles");
     assertCorrect("La raó sol allunyar-se dels extrems");
     assertCorrect("L'URL introduït");
