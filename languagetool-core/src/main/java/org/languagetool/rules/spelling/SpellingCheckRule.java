@@ -418,8 +418,8 @@ public abstract class SpellingCheckRule extends Rule {
     // if line consists of several words (separated by " "), a DisambiguationPatternRule
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker
-    if (line.contains(" ")) {
-      List<String> tokens = language.getWordTokenizer().tokenize(line);
+    List<String> tokens = language.getWordTokenizer().tokenize(line);
+    if (tokens.size()>1) {
       List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
       for(String token : tokens) {
         if (token.trim().isEmpty()) {
