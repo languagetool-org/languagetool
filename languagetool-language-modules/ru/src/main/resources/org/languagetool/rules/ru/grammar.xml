@@ -9065,7 +9065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="у лесной|лесную">Заросший пруд <marker>у лесную</marker> опушки.</example>
         </rule>
         <rule default="on" id="PREP_C_and_Noun" name="Предлог «с» и существительное">
-            <pattern case_sensitive="yes">
+            <pattern case_sensitive="no">
                 <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
                 <token regexp="yes">с|со</token>
                 <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception regexp="yes">[а-я]*у|[!.?]</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
@@ -9078,7 +9078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Егерь пошёл в лес <marker>с рысь</marker>.</example>
         </rule>
         <rule default="on" id="PREP_C_and_ADJ" name="Предлог «с» и прилагательное">
-            <pattern case_sensitive="yes">
+            <pattern case_sensitive="no">
                 <!--  PREP  с -> ADJ:.*:R or  ADJ:.*:T   -->
                 <token regexp="yes">с|со</token>
                 <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
