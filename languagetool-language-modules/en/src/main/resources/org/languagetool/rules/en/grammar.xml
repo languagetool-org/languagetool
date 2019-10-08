@@ -11241,7 +11241,7 @@ USA
                     <marker>
                         <token regexp="yes">always|hardly|never|rarely|seldom</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token><!-- Punctuation character -->
                 </pattern>
                 <message>The adverb '\2' is usually not used at the end of a sentence.</message>
                 <example correction="">I am happy <marker>always</marker>.</example>
@@ -11249,6 +11249,7 @@ USA
                 <example>The band emerged triumphant, <marker>as always</marker>.</example>
                 <example>It's <marker>now or never</marker>.</example>
                 <example>... but <marker>better late than never</marker>.</example>
+                <example>No closing punctuation: He wanted to do it but it never happened</example><!--  #2008 -->
                 <example type="triggers_error">It was an event that occurred <marker>only rarely</marker>.</example><!-- This sounds correct to me (MFU), but I did not find a reference. -->
             </rule>
             <rule>
