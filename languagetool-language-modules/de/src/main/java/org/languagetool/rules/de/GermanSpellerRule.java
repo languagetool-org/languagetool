@@ -91,6 +91,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[oO]key", "ey$", "ay");
     put("packet", "Paket");
     put("Thanks", "Danke");
+    put("Ghanesen?", "Ghanaer");
     put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     //put("gefaked", "gefakt");  -- don't suggest
