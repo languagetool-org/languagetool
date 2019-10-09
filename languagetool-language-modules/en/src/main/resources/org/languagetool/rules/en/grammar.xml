@@ -7735,16 +7735,32 @@ USA
             <example>Is the <marker>language tool</marker> satisfactory?</example>
         </rule>
         <rule id="TR" name="tr (try)">
+            <antipattern><!-- tr. R. Congreve -->
+                <token>tr</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\p{Lu}</token>
+                <token spacebefore="no">.</token>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- ed. and tr. -->
+                <token>ed</token>
+                <token spacebefore="no">.</token>
+                <token>and</token>
+                <token>tr</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
             <pattern>
                 <token>tr<exception scope="next" spacebefore="no">:</exception></token>
             </pattern>
-            <message>Make sure that '\1' is an abbreviation for a word such as 'treasurer' or 'trustee' and not a typing error. Did you mean <suggestion><match no="1"/>y</suggestion>?</message>
+            <message>Make sure that '\1' is an abbreviation for a word such as 'translator', 'treasurer' or 'trustee' and not a typing error. Did you mean <suggestion><match no="1"/>y</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="Try"><marker>Tr</marker> this test:</example>
             <example correction="try">... but you can always <marker>tr</marker>.</example>
+            <example correction="try">... but if necessary, <marker>tr</marker> R. Congreve on extension 345.</example>
             <example><marker>Try</marker> this test:</example>
             <example>fi:Ada sv:Ada <marker>tr</marker>:Ada (anlam ayrımı)</example>
-            <example type="triggers_error">August Comte, Catechisme positiviste (1852) or Catechism of Positivism, <marker>tr</marker>. R. Congreve, (London: Kegan Paul, 1891).</example>
+            <example>August Comte, Catechisme positiviste (1852) or Catechism of Positivism, <marker>tr</marker>. R. Congreve, (London: Kegan Paul, 1891).</example>
+            <example>Madelung, Wilferd and Toby Mayer (ed. and tr.), Struggling with the Philosopher: A Refutation ...</example>
         </rule>
         <rule id="NE" name="ne (né, me, no)">
             <antipattern>
