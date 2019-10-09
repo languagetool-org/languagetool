@@ -10242,6 +10242,16 @@ USA
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
             <example>Let's google life.</example>
         </rule>
+        <rule id="A_WINDOWS" name="Windows (proper noun)">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">windows</token>
+                </marker>
+                <token regexp="yes">\d{1,2}|updates?|xp|vista|servers?|apps?|phones?|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
+            </pattern>
+            <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
+            <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
+        </rule>
         <rulegroup id="A_ATTACH" name="a/the attach">
             <rule>
                 <antipattern>
