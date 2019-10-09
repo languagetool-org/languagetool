@@ -22293,7 +22293,7 @@ USA
       <example correction='Judy came into the house'><marker>Judy came in the house</marker> after greeting her elders.</example>
     </rule>
     <rule id='ARRIVE_ON_AT_THE_BEACH' name='Collocation: arrive on/at the beach'>
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14. Edited by MFU 2018-12-04. -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14. Edited by MFU. -->
       <antipattern>
         <token>on</token>
         <token>the</token>
@@ -22305,6 +22305,21 @@ USA
         <token regexp='yes'>morning|afternoon|evening</token>
         <token>of</token>
         <token>the</token>
+      </antipattern>
+      <antipattern><!-- arrive on DATE -->
+        <token>on</token>
+        <token postag="CD"/>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+      </antipattern>
+      <antipattern><!-- arrive on Christmas day -->
+        <token>on</token>
+        <token>Christmas</token>
+        <token>day</token>
+      </antipattern>
+      <antipattern><!-- arrive on my birthday -->
+        <token>on</token>
+        <token postag="PRP$"/>
+        <token>birthday</token>
       </antipattern>
       <pattern>
         <marker>
@@ -22322,8 +22337,9 @@ USA
       <example>This letter says that he will <marker>arrive on Monday</marker>.</example>
       <example>Foreign products <marker>arrived on the market</marker> in large quantities.</example>
       <example>We <marker>arrived on the morning of the</marker> seventh.</example>
-      <example type="triggers_error">He will <marker>arrive on Christmas day</marker>.</example>
-      <example type="triggers_error">The card <marker>arrived on my birthday</marker>.</example>
+      <example>The urn arrived on 17 October 2006, going on display at the Museum ...</example>
+      <example>He will <marker>arrive on Christmas day</marker>.</example>
+      <example>The card <marker>arrived on my birthday</marker>.</example>
     </rule>
     <rule id='RETURN_AT_HOME' name='Collocation: return at home'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
