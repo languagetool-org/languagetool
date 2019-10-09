@@ -2952,6 +2952,10 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> not working.</example>
             </rule>
             <rule>
+                <antipattern><!-- its surviving units / its devastating hurricanes -->
+                    <token chunk="B-NP-plural">its</token>
+                    <token chunk="I-NP-plural" postag_regexp="yes" postag="VBG|JJ"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>its<exception scope="previous" regexp="yes">of|all</exception><exception scope="previous" postag_regexp="yes" postag="VB.*|IN"/></token>
@@ -2965,6 +2969,8 @@ USA
                 <example>No wonder Melissa responded so completely to its beckoning.</example>
                 <example>That may be extended to Cambridge and its surrounding countryside.</example>
                 <example>... profiles which give a specific acoustic signal its defining character.</example>
+                <example>It would be decommissioned in March 1864, its surviving units combined into other corps.</example>
+                <example>... remote location, its limited transportation, and its devastating hurricanes.</example>
             </rule>
             <rule>
                 <pattern>
