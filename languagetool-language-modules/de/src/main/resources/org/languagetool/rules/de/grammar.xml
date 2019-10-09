@@ -36894,11 +36894,15 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNKTION_KOMMA" name="Fehlendes Komma bei Subjunktion">
+            <!-- Wenn eine beiordnende Konjunktion wie und, oder Satzglieder oder Teile von Satzgliedern mit Nebensätzen verbindet, so steht zwischen den Bestandteilen einer solchen Reihung kein Komma.-->
             <rule>
-                <!-- Wenn eine beiordnende Konjunktion wie und, oder Satzglieder oder Teile von Satzgliedern mit Nebensätzen verbindet, so steht zwischen den Bestandteilen einer solchen Reihung kein Komma.-->  
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">oder|und</token>
                     <token regexp="yes">dass|weil|obwohl|obgleich|sodass|wenn</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">als|anstatt|außer</token>
+                    <token>dass</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -36933,6 +36937,7 @@ Andere Projekte</example>
                 <example>Wenn der Föhn weht oder bei großer Dürre ist das Rauchen hier streng verboten.</example>
                 <example>Das Rauchen ist hier streng verboten bei großer Dürre oder wenn der Föhn weht.</example>
                 <example>Das Rauchen ist hier streng verboten, wenn der Föhn weht oder bei großer Dürre.</example>
+                <example>Der Plan ist viel zu kompliziert, als dass wir ihn ausführen könnten.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
