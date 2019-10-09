@@ -18453,9 +18453,14 @@ USA
                 <token>sigma</token>
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
-                <token>year</token>
+                <token regexp="yes">year|grade|semester</token>
                 <token regexp="yes">\d+</token>
                 <token>student</token>
+            </antipattern>
+            <antipattern> <!-- "A level 7 diploma ..." -->
+                <token regexp="yes">level</token>
+                <token regexp="yes">\d+</token>
+                <token postag="NN.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -18623,6 +18628,7 @@ USA
             <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
             <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
             <example>You two hurry up.</example><!--  #2005 -->
+            <example>A level 7 diploma is a vocational certification focused on professional skills.</example>
             <!-- FP: <example>But then he got 502 bad gateway.</example> -->
         </rule>
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
