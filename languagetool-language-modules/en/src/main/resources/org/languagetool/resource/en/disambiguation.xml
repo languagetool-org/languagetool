@@ -5193,6 +5193,55 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rulegroup name="Proper noun: the Ashes / an Ashes series " id="THE_ASHES"><!-- https://en.wikipedia.org/wiki/The_Ashes -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>the</token>
+                    <token case_sensitive="yes">Ashes</token>
+                </marker>
+                <token regexp="yes">legend|series|urn</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+            <example type="untouched">... and the ashes urn was broken.</example>
+            <example type="untouched">Step 3. The Ashes Are Put Into A Container</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>an</token>
+                <marker>
+                    <token case_sensitive="yes">Ashes</token>
+                </marker>
+                <token>series</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>the</token>
+                <token postag="JJ"/><!-- min/max does not work. Make 2 rules. -->
+                <marker>
+                    <token skip="-1" case_sensitive="yes">Ashes</token>
+                </marker>
+                <token regexp="yes">Australia|England|cricket|match|series</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNP"/></disambig>
+            <example type="ambiguous" inputform="Ashes[ash/NNS]" outputform="Ashes[Ashes/NNP]">The upcoming <marker>Ashes</marker> series in 2013 will be held in England.</example>
+            <example type="untouched">... known as the <marker>Ashes</marker> is a Test cricket series played between England and Australia.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>the</token>
+                <marker>
+                    <token skip="-1" case_sensitive="yes">Ashes</token>
+                </marker>
+                <token regexp="yes">Australia|England|cricket|match|series</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NNP"/></disambig>
+            <example type="ambiguous" inputform="Ashes[ash/NNS]" outputform="Ashes[Ashes/NNP]">... known as the <marker>Ashes</marker> is a Test cricket series played between England and Australia.</example>
+        </rule>
+    </rulegroup>
+
     <rule name="Proper noun: The Monkees" id="THE_MONKEES"><!-- https://en.wikipedia.org/wiki/The_Monkees_(TV_series) -->
       <pattern case_sensitive="yes">
           <token regexp="yes">[Tt]he</token>
