@@ -611,11 +611,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DAS_BEST" name="das Best (Beste)">
             <pattern>
                 <token regexp="yes">der|die|das</token>
-                <token>best<exception scope="next">of</exception></token>
+                <token case_sensitive="yes">Best
+                    <exception scope="next" regexp="yes" case_sensitive="no">of|practices?</exception>
+                </token>
             </pattern>
             <message>Meinten Sie <suggestion>\1 \2e</suggestion>?</message>
             <example correction="Das Beste"><marker>Das Best</marker> daran ist, dass er jetzt mehr Geld hat als früher.</example>
             <example>Das Best Of.</example>
+            <example>Die Best Practice.</example>
         </rule>
         <rulegroup id="SEIHE_UNTEN" name="seihe (siehe) unten">
             <rule>
@@ -8248,6 +8251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
             <suggestion>Copy-and-<match case_conversion="alllower" no="3" /></suggestion>
+            <url>https://www.duden.de/rechtschreibung/Copy_and_paste</url>
             <example correction="Copy-and-paste">Ich mache einfach <marker>Copy and Paste</marker>, um die Texte in mein Dokument zu übernehmen.</example>
         </rule>
         <rule id="DRAG_AND_DROP" name="Drag-and-drop">
@@ -8258,6 +8262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
             <suggestion>Drag-and-<match case_conversion="alllower" no="3" /></suggestion>
+            <url>https://www.duden.de/rechtschreibung/Drag_and_drop</url>
             <example correction="Drag-and-drop">Ich mache einfach <marker>Drag and Drop</marker>, um die Dateien zwischen den Ordnern zu verschieben.</example>
         </rule>
         <rule id="N_EINHALB" name="zwei einhalb (zweieinhalb)">
