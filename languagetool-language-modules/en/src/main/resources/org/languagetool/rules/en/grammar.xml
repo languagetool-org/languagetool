@@ -24368,6 +24368,11 @@ The accident victim died from her injuries.
                  <url>http://www.chompchomp.com/terms/interjection.htm</url>
                  <short>Missing punctuation</short>
             <rule>
+                 <antipattern><!-- www.lexico.com/en/definition/(oh)_my_god -->
+                     <token>Oh</token>
+                     <token>my</token>
+                     <token>God</token>
+                 </antipattern>
                  <pattern>
                      <token postag='SENT_START'></token>
                      <marker><token regexp='yes'>&interjections;</token></marker>
@@ -24382,6 +24387,8 @@ The accident victim died from her injuries.
                    <suggestion>\2.</suggestion>
                  <example correction='Oh!|Oh?|Oh,|Oh.'><marker>Oh</marker> horrid examples...</example>
                  <example correction='Yahoo!|Yahoo?|Yahoo,|Yahoo.'><marker>Yahoo</marker> Grouplist for John Smith.</example><!-- MFU 2019-09-02. Although the company name is Yahoo!, a special rule might be better. -->
+                 <example><marker>Oh,</marker> horrid examples...</example>
+                 <example><marker>Oh my God</marker>, I can’t believe this.</example>
             </rule>
             <rule>
                  <pattern>
