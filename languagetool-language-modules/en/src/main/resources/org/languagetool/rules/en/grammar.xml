@@ -2362,7 +2362,7 @@ USA
         </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
             <antipattern>
-                <token postag="NN.*" postag_regexp="yes"></token>
+                <token postag="NN.*" postag_regexp="yes"/>
                 <token regexp="yes">['´`]</token>
                 <token>s</token>
                 <token>nut</token>
@@ -2372,10 +2372,34 @@ USA
                 <token>nut</token>
             </antipattern>
             <antipattern>
-                <token postag="DT"></token>
-                <token postag="JJ.?" postag_regexp="yes" min="0"></token>
+                <token postag="DT"/>
+                <token postag="JJ.?" postag_regexp="yes" min="0"/>
                 <token>nut</token>
-                <token postag="NN.*|IN" postag_regexp="yes"></token>
+                <token postag="NN.*|IN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!--- the shell of the nut very hard. -->
+                <token postag="NN.*" postag_regexp="yes"/>
+                <token>of</token>
+                <token postag="DT|PRP\$" postag_regexp="yes"/>
+                <token>nut</token>
+                <token postag="RB"/>
+                <token postag="JJ"/>
+                <token postag="PCT"/>
+            </antipattern>
+            <antipattern><!--- fruit and nut sample showed signs -->
+                <token>and</token>
+                <token>nut</token>
+                <token postag_regexp="yes" postag="NN(:UN)?"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[ZD]"/>
+            </antipattern>
+            <antipattern><!--- http://fruitsandnuts.ucdavis.edu/about_us/contact_us/ -->
+                <token>Fruit</token>
+                <token regexp="yes">and|&amp;</token><!-- The correct spelling is with ampersand, but do not let an incorrect spelling cause a warning for 'nut' -->
+                <token>Nut</token>
+                <token>Research</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>Information</token>
+                <token>Center</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -2390,11 +2414,16 @@ USA
             <example correction="not">Mr. Butcher, I am very annoyed with you. This is beef <marker>nut</marker> lamb, and I am sure that I asked you for lamb.</example>
             <example correction="not">But surely, this wine is red <marker>nut</marker> white!</example>
             <example correction="not">Make sure that the template you use is hexagonal <marker>nut</marker> square.</example>
+            <example correction="not">This sandwich is beef and <marker>nut</marker> cheese as I specifically requested.</example>
             <example>Since 2007, <marker>Brazil nut</marker> production in the area has increased 20%.</example>
             <example>This new <marker>monkey nut</marker> sampling system is excellent.</example>
             <example>The <marker>barrel nut</marker> test device caused problems.</example>
             <example>It was to be expected … but he reckoned that the faucet’s nut needed only one more turn.</example>
             <example>To maintain a high nut quality...</example>
+            <example>...the tree is very productive, the shell of the nut very hard.</example>
+            <example>The <marker>fruit and nut sample</marker> is contaminated.</example>
+            <example>The <marker>fruit and nut sample</marker> showed signs of contamination.</example>
+            <example>University of California Fruit and Nut Research and Information Center</example>
         </rule>
         <rule id="AND_SO_ONE" name="and so one (on)">
             <pattern>
