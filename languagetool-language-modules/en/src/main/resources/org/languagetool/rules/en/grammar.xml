@@ -15343,6 +15343,14 @@ USA
                 <example>I am accustomed to hearing nonsense.</example>
             </rule>
             <rule>
+                <antipattern><!-- *Probably* passive voice -->
+                    <token>they</token>
+                    <token regexp="yes">are|were</token>
+                    <token>used</token>
+                    <token>to</token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|s?he|we|they</token>
                     <token inflected="yes" regexp="yes">be|get</token>
@@ -15355,10 +15363,13 @@ USA
                 <message>In the grammatical structure 'pronoun + be/get + used + to + verb', the verb '\3' is used with the gerund: <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="VBG"/></suggestion>.</message>
                 <short>Grammatical problem: use 'ing'</short>
                 <example correction="used to running">I am <marker>used to run</marker>. I run every day for 30 minutes.</example>
+                <example correction="used to running">They are <marker>used to run</marker> in the rain; they live in Manchester.</example>
+                <example correction="used to testing">We are <marker>used to test</marker> the rules.</example><!-- Ambiguous. Possible passive voice. (Other people are used by the organization to write the rules.) -->
                 <example>I <marker>used to run</marker> every day, but I hurt my knee. Now, I cannot run.</example>
                 <example>I am <marker>used to running</marker>.</example>
                 <example>I used to enjoy running.</example>
                 <example>When used with the infinitive, however, these verbs can be used to speak about something that hasn't happened yet.</example>
+                <example>... of comic drama known as Old Comedy, and they are used to define the genre.</example>
             </rule>
             <rule>
                 <pattern>
