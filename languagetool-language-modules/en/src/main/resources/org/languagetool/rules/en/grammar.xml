@@ -10607,12 +10607,30 @@ USA
                 <example>The economy contracted in 2001 and 2002 due to slowdowns in tourism.</example>
             </rule>
         </rulegroup>
+        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">open|libre</token>
+                    <token>office</token>
+                </marker>
+                <token regexp="yes">doc(uments?)?|download|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|program|software|tool|files?|projects?|templates?|word|formats?|odts?|pdfs?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= software)?</message>
+            <example correction="LibreOffice">The <marker>libre office</marker> document contains all changes you have requested.</example>
+        </rule>
         <rule id="MANEGE" name="Manege (manège or manage)">
             <pattern>
                 <token regexp="yes">maneges?</token>
             </pattern>
             <message>Did you mean the verb <suggestion><match no="1" regexp_match="nege" regexp_replace="nage" /></suggestion> or the noun <suggestion><match no="1" regexp_match="nege" regexp_replace="nège" /></suggestion> (the art of horsemanship)?</message>
             <example correction="manage|manège">The director was able to <marker>manege</marker> his employees well.</example>
+        </rule>
+        <rule id="MATERIEL" name="Materiel (matériel or material)">
+            <pattern>
+                <token regexp="yes">materiels?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="riel" regexp_replace="rial" /></suggestion> (= substance) or <suggestion><match no="1" regexp_match="eriel" regexp_replace="ériel" /></suggestion> (= military equipment)?</message>
+            <example correction="materials|matériels">I needed more electronic <marker>materiels</marker> to build a fully-functional machine.</example>
         </rule>
         <rulegroup id="RE_DO_COMPOUND" name="'re do' spelled as one word">
             <rule>
