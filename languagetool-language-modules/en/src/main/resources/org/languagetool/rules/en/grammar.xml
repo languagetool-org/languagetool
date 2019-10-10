@@ -8794,6 +8794,20 @@ USA
                 <token>you</token>
                 <token postag="VBG"/>
             </antipattern>
+            <antipattern><!-- t(he) -->
+                <token>(</token>
+                <token spacebefore="no">t</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no">he</token>
+                <token postag="VBG"/>
+            </antipattern>
+            <antipattern><!-- t[he] -->
+                <token>[</token>
+                <token spacebefore="no">t</token>
+                <token spacebefore="no">]</token>
+                <token spacebefore="no">he</token>
+                <token postag="VBG"/>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">a(?:m|re|t)|is|t|re|w(?:as|ere)|with(out)?|of|in|to|much|find</exception><exception postag="VB.?" postag_regexp="yes"/></token>
                 <token regexp="yes">I|you|[hw]e|she|it|they</token>
@@ -8811,6 +8825,7 @@ USA
             <example type="triggers_error">The charge Q is determined by a steady current I <marker>flowing</marker> for a time t.</example>
             <example>There are a couple of new tasks for you waiting to be assigned.</example>
             <example>... of mails, but I wonder if I can hear from you regarding the mail?</example>
+            <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
         </rule>
         <rule id="I_LIFE" name="I life (live)">
             <antipattern>
@@ -17458,6 +17473,20 @@ USA
                 <token postag_regexp="yes" postag="DT|PRP\$"/>
                 <token postag_regexp="yes" postag="NN.*"/>
             </antipattern>
+            <antipattern><!-- t(he). Used for rule 1, but possibly applicable to other rules. -->
+                <token>(</token>
+                <token spacebefore="no">t</token>
+                <token spacebefore="no">)</token>
+                <token spacebefore="no">he</token>
+                <token postag="VBG"/>
+            </antipattern>
+            <antipattern><!-- t[he] -->
+                <token>[</token>
+                <token spacebefore="no">t</token>
+                <token spacebefore="no">]</token>
+                <token spacebefore="no">he</token>
+                <token postag="VBG"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">with(out)?</token>
@@ -17678,6 +17707,7 @@ USA
                 <example>What's he going to do?</example>
                 <example>I don't want <marker>anyone touching my car</marker>.</example>
                 <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
+                <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
                 <example type="triggers_error">You can ask anyone walking to the city about the bus drivers' strike!</example>
                 <example type="triggers_error">She recommended anyone walking to take the bus.</example>
                 <example type="triggers_error">The fearful noise astonished anyone coming for the first time.</example>
