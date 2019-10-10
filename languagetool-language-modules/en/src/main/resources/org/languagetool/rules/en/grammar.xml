@@ -26528,6 +26528,12 @@ The accident victim died from her injuries.
         </rule>
         <rule id="CONFUSION_DUE_DO" name="due (do)">
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
+            <antipattern><!-- Due partly to -->
+                <token postag="SENT_START"/>
+                <token>Due</token>
+                <token postag="RB"/>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START|TO" postag_regexp='yes'/>
                 <token>due
@@ -26539,6 +26545,8 @@ The accident victim died from her injuries.
             <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
             <example>Due to its links to active workers' movements, the In...</example><!-- XXX All remaining FPs are in similar circumstances -->
             <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
+            <example>Due partly to the performance capabilities of modern ...</example>
+            <example>Due primarily to an excess of optimism in our original schedule...</example>
         </rule>
         <rule id="CONFUSION_AWL_ALL" name="awl (all)">
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
