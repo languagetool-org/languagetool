@@ -23246,12 +23246,19 @@ The accident victim died from her injuries.
     </rule>
     <rule id="INTERESTED_BY" name="Collocation: interested by/in">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/Capital_and_Interest -->
+          <token>Capital</token>
+          <token>and</token>
+          <token>Interest</token>
+      </antipattern>
       <pattern>
           <token regexp="yes">interest(?:ed)?</token>
           <token>by</token>
       </pattern>
       <message>In English, people don't say "\1 by'. They say, "\1 in'.  Did you mean <suggestion>\1 in</suggestion>?</message>
       <example correction="interested in">I am not <marker>interested by</marker> this job.</example>
+      <example>I am not <marker>interested in</marker> this job.</example>
+      <example>Refer to Capital and Interest by Eugen von Böhm-Bawerk.</example>
     </rule>
     <rule id="AT_THE_JOB" name="Collocation: at/on the job">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16. Edited by MFU 2019-03-13 -->
