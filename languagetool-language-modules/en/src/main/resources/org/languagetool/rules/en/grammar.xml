@@ -17156,8 +17156,17 @@ USA
                     <token regexp="yes">['’]</token>
                     <token>t</token>
                 </antipattern>
+                <antipattern><!-- am I ...? -->
+                    <token>am</token>
+                    <token skip="-1">I</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- phase I -->
+                    <token regexp="yes">algorithm|phase</token>
+                    <token>I</token>
+                </antipattern>
                 <pattern>
-                    <token case_sensitive="yes" skip="1">I<exception scope="previous" regexp="yes" case_sensitive="no">phase|am</exception></token>
+                    <token case_sensitive="yes" skip="1">I</token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|MD"/><exception>is</exception><exception scope="previous">need</exception></token>
                     </marker>
@@ -17174,6 +17183,7 @@ USA
                 <example>Step i corresponds to the ...</example>
                 <example>... and if phase I corresponds to the ...</example>
                 <example>I <marker>doesn't</marker> sure about this.</example><!-- Not correct English, but correct as a test of this rule. -->
+                <example>...this variance estimate correctly, but Algorithm I returns 29.333333333333332 instead of 30.</example>
             </rule>
             <rule>
                 <antipattern>
