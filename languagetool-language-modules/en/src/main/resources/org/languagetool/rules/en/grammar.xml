@@ -14184,6 +14184,20 @@ USA
             <token regexp="yes">you|it</token>
             <token>if</token>
           </antipattern>
+          <antipattern><!-- t(he) -->
+            <token>(</token>
+            <token spacebefore="no">t</token>
+            <token spacebefore="no">)</token>
+            <token spacebefore="no">he</token>
+            <token postag_regexp="yes" postag="N.+"/>
+          </antipattern>
+          <antipattern><!-- t[he] -->
+            <token>[</token>
+            <token spacebefore="no">t</token>
+            <token spacebefore="no">]</token>
+            <token spacebefore="no">he</token>
+            <token postag_regexp="yes" postag="N.+"/>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -14345,6 +14359,7 @@ USA
           <example>Is it anything like mine.</example>
           <example>Is it something like meat?</example>
           <example>I could hire you if needed.</example>
+          <example>Hugo Chávez stated that "[t]he world is for all of us...</example>
         </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
