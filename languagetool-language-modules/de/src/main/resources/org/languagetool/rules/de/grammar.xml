@@ -8186,6 +8186,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>ebenfalls</suggestion> (im Sinne von 'auch')?</message>
             <example correction="ebenfalls">Das ist <marker>eben falls</marker> falsch.</example>
         </rule>
+        <rule id="DEUTSCH_SPRACHIG" name="deutsch sprachig (deutschsprachig)">
+            <pattern>
+                <token regexp="yes">&sprachadj1;</token>
+                <token regexp="yes">sprachig(er|en|em|e)?|stämmig(er|en|em|e)?</token>
+            </pattern>
+            <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
+            <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="französischsprachigen">Er traf seinen <marker>französisch sprachigen</marker> Freund auf einer Reise durchs Elsass.</example>
+            <example correction="italienischsprachige">Die <marker>italienisch sprachige</marker> Bevölkerung der Schweiz.</example>
+            <example correction="russischstämmig">Meine Familie ist <marker>russisch stämmig</marker>.</example>
+            <example correction="Deutschsprachige">Die <marker>Deutsch Sprachige</marker> war gestern am Strand.</example>
+        </rule>
         <rule id="LANGUAGE_TOOL" name="Language Tool (LanguageTool)">
             <pattern case_sensitive="yes">
                 <token>Language</token>
