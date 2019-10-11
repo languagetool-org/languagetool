@@ -18982,13 +18982,17 @@ USA
                 <marker>
                     <token>much</token>
                 </marker>
-                <token postag="NNS"><exception postag_regexp="yes" postag="NN:UN?"/></token>
+                <token postag="NNS">
+                    <exception postag_regexp="yes" postag="NN:UN?"/>
+                    <exception>others</exception><!-- Possible incorrect postag NNS for 'others': www.merriam-webster.com/dictionary/others, www.lexico.com/en/definition/other, www.ldoceonline.com/dictionary/other -->
+                    </token>
             </pattern>
             <message>Use <suggestion>many</suggestion> with countable nouns.</message>
             <short>Grammatical problem with countable noun</short>
             <example correction="many">There are <marker>much</marker> children.</example>
             <example>How much does it cost?</example>
             <example>We kindly ask you to provide as much data as possible.</example><!-- #1822 -->
+            <example>...about people receiving an income according to how much others subjectively value their labor or what...</example>
         </rule>
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
             <antipattern case_sensitive="yes">
