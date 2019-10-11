@@ -50,6 +50,7 @@ import morfologik.fsa.FSA;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.stemming.Dictionary;
+import org.languagetool.tools.StringTools;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -236,7 +237,14 @@ public class MorfologikMultiSpeller {
       List<String> suggestions = speller.getSuggestions(word);
       for (String suggestion : suggestions) {
         if (!result.contains(suggestion) && !suggestion.equals(word)) {
-          result.add(suggestion);
+          if (word.equals(StringTools.uppercaseFirstChar(suggestion)) || suggestion.equals(StringTools.uppercaseFirstChar(word))) {
+            // We're appending the results of both lists, even though the second list isn't necessarily 
+            // worse than the first. So at least try to move the best matches to the beginning. 
+            // See https://github.com/languagetool-org/languagetool/issues/2010
+            result.add(0, suggestion);
+          } else {
+            result.add(suggestion);
+          }
         }
       }
     }
