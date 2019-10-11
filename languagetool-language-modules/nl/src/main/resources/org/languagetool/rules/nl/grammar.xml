@@ -18201,8 +18201,9 @@ steenwijk;Steenwijk
                 <example correction="aanbiedt">Het gerecht dat jij me <marker>aanbied</marker>, is smerig.</example>
             </rule>
             <rule>
+                <antipattern><token>op</token><token>tijd</token></antipattern>
                 <pattern>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*"/></token>
 					<token postag_regexp="yes" postag="VNW.*PSF"/>
                     <marker>
                         <token regexp="yes" postag="WKW:TGW:1EP">.*d</token>
