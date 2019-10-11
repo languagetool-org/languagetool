@@ -18187,8 +18187,32 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="CONGRUENTIE" name="Congruentie">
-
-		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm" default="on">
+        <rulegroup id="JE_ME_AANBIEDT" name="verkeerde werkwoordvorm" default="on">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="VNW.*BEZ"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+                <pattern>
+					<token postag_regexp="yes" postag="VNW:PER:[23]EP:EKV:ACT"/>
+					<token postag_regexp="yes" postag="VNW.*PSF"/>
+                    <marker>
+                        <token regexp="yes" postag="WKW:TGW:1EP">.*d</token>
+                    </marker>
+                </pattern>
+				<message>U bedoelt mogelijk <suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion></message>
+                <example correction="aanbiedt">Het gerecht dat jij me <marker>aanbied</marker>, is smerig.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+					<token postag_regexp="yes" postag="VNW.*PSF"/>
+                    <marker>
+                        <token regexp="yes" postag="WKW:TGW:1EP">.*d</token>
+                    </marker>
+                </pattern>
+				<message>U bedoelt mogelijk <suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion></message>
+                <example correction="aanbiedt">Het gerecht dat de man me <marker>aanbied</marker>, is smerig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm" default="on">
             <rule>
                 <pattern>
 					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
