@@ -1500,19 +1500,20 @@ USA
                     <marker>
                         <token>i</token>
                     </marker>
+                    <token postag="RB" min="0" />
                     <token postag="V.+" postag_regexp="yes"></token>
                 </pattern>
-                <message>Is this the personal pronoun 'I'? It is spelled uppercase.</message>
-                <suggestion>I</suggestion>
+                <message>Is this the personal pronoun '<suggestion>I</suggestion>'? It is spelled uppercase.</message>
                 <example correction="I">Way back in the day, I had no tonality whatsoever when <marker>i</marker> talked.</example>
                 <example>The table of contents can be found on page i.</example>
                 <example>Items i) and j) support this point of view.</example>
                 <example>Also, in the Baha'i view, souls will be able to recognize the...</example>
+                <example correction="I">If <marker>i</marker> only go there, ...</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>i</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">['´’]</token>
                     <token spacebefore="no" regexp="yes">[md]|ll|ve</token>
                 </pattern>
                 <message>Did you mean <suggestion>I\2\3</suggestion>?</message>
@@ -1525,6 +1526,7 @@ USA
                     <marker>
                         <token>i</token>
                     </marker>
+                    <token postag="RB" min="0" />
                     <token postag="MD|VB[PD]" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>I</suggestion>?</message>
@@ -1532,6 +1534,23 @@ USA
                 <example>Now I am driving.</example>
                 <example>These are: (i) examples; (ii) case studies; (iii) some other things.</example>
                 <example correction="I">No, <marker>i</marker> am not letting you near my kids.</example>
+                <example correction="I">If <marker>i</marker> ever would be famous.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">wasn?|a?m|didn?|haven?</token>
+                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">t</token>
+                    <marker>
+                        <token case_sensitive="yes">i</token>
+                    </marker>
+                </pattern>
+                <message>Is this the personal pronoun '<suggestion>I</suggestion>'? It is spelled uppercase.</message>
+                <short>Possible typo</short>
+                <example correction="I">Am <marker>i</marker> happy? Yes I am.</example>
+                <example correction="I">Am <marker>i</marker>?</example>
+                <example correction="I">Oh, have <marker>i</marker>? Sorry.</example>
+                <example correction="I">But, haven't <marker>i</marker>?</example>
             </rule>
         </rulegroup>
         <rule id="IN_JANUARY" name="in January 1 (on January 1)">
