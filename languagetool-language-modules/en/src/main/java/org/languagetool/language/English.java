@@ -282,6 +282,7 @@ public class English extends Language implements AutoCloseable {
       case "A_INFINITIVE":              return -1;  // prefer other more specific rules (with suggestions)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
+      case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
       case "PRONOUN_NOUN":              return -2;  // prefer other rules (e.g. PRP_VB)
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
