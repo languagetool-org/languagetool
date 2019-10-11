@@ -2856,6 +2856,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Phrasal verb. ...being a supply teacher; students would often <marker>cut up</marker> and play baffling tricks.</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
+        <antipattern><!-- a few separate -->
+            <token>a</token>
+            <token>few</token>
+            <token postag="VBP"/>
+            <token postag_regexp="yes" postag="PCT|CC"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -2875,6 +2881,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. The air get's colder.</example><!-- https://github.com/languagetool-org/languagetool/issues/1395 -->
         <example type="untouched">Incorrect grammar. The air filter's on the machine are dirty.</example>
         <example type="untouched">Incorrect grammar. The air filter's operate correctly.</example>
+        <example type="untouched">Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
+        <example type="untouched">Verb. ... and although a few <marker>separate</marker>, many do not.</example>
+        <example type="untouched">Verb. Most strands remain together, but a few <marker>separate</marker>.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <!-- Correct: The air filter's dirtier than the oil filter. -->
