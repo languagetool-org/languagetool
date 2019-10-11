@@ -3845,6 +3845,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="VB"/>
         <token postag="RP"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. Utah and Colorado form a  -->
+        <token postag="NNP"/>
+        <token regexp="yes">and|or</token>
+        <token postag="NNP"/>
+        <token postag="VB"/>
+        <token postag="DT"/>
+      </antipattern>
+      <antipattern><!-- Fix for chunker. regions of chromium form a  -->
+        <token postag="NNS"/>
+        <token regexp="yes">of</token>
+        <token postag_regexp="yes" postag="NN.*"/>
+        <token postag="VB"/>
+        <token postag="DT"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -3875,6 +3889,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
       <example type="untouched">Incorrect grammar. I am irritated when the dog <marker>bark</marker> loudly.</example>
       <example type="untouched"><marker>Line up</marker> by height against the wall, please.</example>
+      <example type="untouched">Verb. Areas of southern Nevada, Utah and Colorado <marker>form</marker> a loose northern boundary, while the southern ...</example>
+      <example type="untouched">Verb. Darker (denser) regions of chromium <marker>form</marker> a band at right angles to the equator.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
     </rule>
