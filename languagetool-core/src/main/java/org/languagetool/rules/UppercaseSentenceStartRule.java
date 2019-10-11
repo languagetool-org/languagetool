@@ -60,6 +60,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iRobot",
           "iRobots",
           "iTunes",
+          "macOS",
           "mRNA"
   ));
 
