@@ -58,6 +58,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
     }
+    if (wordRepetitionOf("ha", tokens, position)) {
+      return true;   // "ha ha"
+    }
     if (wordRepetitionOf("yadda", tokens, position)) {
       return true;   // "yadda yadda"
     }
