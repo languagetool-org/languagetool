@@ -4356,6 +4356,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="VEREINIGTE_STATTEN" name="Vereinigte Statten (Staaten)">
+            <pattern>
+                <token inflected="yes">Vereinigte</token>
+                <token>Statten</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1 Staaten</suggestion>?</message>
+            <example correction="Vereinigten Staaten">Donald Trump ist Präsident der <marker>Vereinigten Statten</marker>.</example>
+        </rule>
         <rule id="APARTHEIT" name="Apartheit (Apartheid)">
             <pattern>
                 <token>Apartheit</token>
