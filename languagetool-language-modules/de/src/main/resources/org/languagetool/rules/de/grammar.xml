@@ -35735,7 +35735,10 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <token regexp="yes">\w+</token>
-                <token postag="SENT_END" regexp="yes">“|»|«|"</token>
+                <marker>
+                    <token regexp="yes">\w+</token>
+                    <token postag="SENT_END" regexp="yes">“|»|«|"</token>
+                </marker>
             </pattern>
             <message>Am Ende der direkten Rede fehlt ein Satzzeichen.</message>
             <suggestion>\1.\2</suggestion>
