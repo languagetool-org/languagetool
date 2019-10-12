@@ -396,6 +396,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("schweinerosane", "schweinchenrosa", rule, lt);
     assertFirstSuggestion("anstecklichen", "ansteckenden", rule, lt);
     assertFirstSuggestion("geflechtetes", "geflochtenes", rule, lt);
+    assertFirstSuggestion("ärtlichem", "ärztlichem", rule, lt);
+    assertFirstSuggestion("großzüges", "großzügiges", rule, lt);
   }
 
   @Test

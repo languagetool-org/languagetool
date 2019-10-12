@@ -462,6 +462,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geschriehen", "geschrien");
     put("beratete", "beriet");
     put("Hälst", "Hältst");
+    put("[kK]aos", "Chaos");
+    put("[pP]upatät", "Pubertät");
+    put("überwendet", "überwindet");
+    put("[bB]esichtung", "Besichtigung");
+    putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
+    putRepl("[äÄ]rtlich(e[mnrs]?)?", "rt", "rzt");
     putRepl("[sS]chnelligkeitsfehler[ns]?", "[sS]chnell", "Flücht");
     putRepl("[sS]chweinerosane[mnrs]?", "weinerosane[mnrs]?", "weinchenrosa");
     putRepl("[aA]nstecklich(e[mnrs]?)?", "lich", "end");
