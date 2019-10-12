@@ -32,9 +32,10 @@ public class GreekTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Επικολλήστε το κείμενο σας εδώ και κάντε κλικ στο κουμπί ελέγχου. Κάντε κλικ στις χρωματιστές φράσεις για λεπτομέρειες σχετικά με πιθανά σφάλματα. Για παράδειγμα σε αυτή τη πρόταση υπάρχουν εσκεμμένα λάθη για να να δείτε πώς λειτουργει το LanguageTool..";
-    testDemoText(new Greek(), s,
+    Greek lang = new Greek();
+    testDemoText(lang, s,
       Arrays.asList("GREEK_PUNC_2", "GREEK_ART_FEM_MISSING_N", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_EL_GR", "DOUBLE_PUNCTUATION")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

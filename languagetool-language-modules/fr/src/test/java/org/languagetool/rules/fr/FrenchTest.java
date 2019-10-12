@@ -32,9 +32,10 @@ public class FrenchTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "LanguageTool offre une vérification orthographique, grammaticale et de style. Il vous suffit de coller votre texte ici et de cliquer sur le bouton \\\"Vérifier le texte\\\". En voici quelques exemples : Cliqez sur les phrases en couleurs pour plus de détails sur les erreurs potentiels, ou utilisez ce texte pour voir quelques-uns des problèmes que LanguageTool Plus peut détecter. Que pensez vous des des correcteurs grammaticaux ? Non pas qu'ils soient parfaits bien sur. Également pour des erreurs plus communes : Il est 17h de l'après-midi. Il faisait beau le jeudi 27 juin 2017.";
-    testDemoText(new French(), s,
+    French lang = new French();
+    testDemoText(lang, s,
       Arrays.asList("FR_SPELLING_RULE", "ACCORD_GENRE", "TRAIT_UNION_INVERSION", "FRENCH_WORD_REPEAT_RULE", "SUR_ACCENT", "HEURES", "DATE_JOUR")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

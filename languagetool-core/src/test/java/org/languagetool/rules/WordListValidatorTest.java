@@ -20,7 +20,6 @@ package org.languagetool.rules;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -78,26 +77,20 @@ public class WordListValidatorTest {
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
   ));
 
-  public void testWordListValidity() {
+  public void testWordListValidity(Language lang) {
     Set<String> checked = new HashSet<>();
-    for (Language lang : Languages.get()) {
-      if (lang.getShortCode().equals("ru")) {
-        // skipping, Cyrillic chars not part of the validation yet
-        continue;
-      }
-      JLanguageTool lt = new JLanguageTool(lang);
-      List<Rule> rules = lt.getAllActiveRules();
-      for (Rule rule : rules) {
-        if (rule instanceof SpellingCheckRule) {
-          SpellingCheckRule sRule = (SpellingCheckRule) rule;
-          String file = sRule.getSpellingFileName();
-          if (JLanguageTool.getDataBroker().resourceExists(file) && !checked.contains(file)) {
-            System.out.println("Checking " + file);
-            CachingWordListLoader loader = new CachingWordListLoader();
-            List<String> words = loader.loadWords(file);
-            validateWords(words, file);
-            checked.add(file);
-          }
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<Rule> rules = lt.getAllActiveRules();
+    for (Rule rule : rules) {
+      if (rule instanceof SpellingCheckRule) {
+        SpellingCheckRule sRule = (SpellingCheckRule) rule;
+        String file = sRule.getSpellingFileName();
+        if (JLanguageTool.getDataBroker().resourceExists(file) && !checked.contains(file)) {
+          System.out.println("Checking " + file);
+          CachingWordListLoader loader = new CachingWordListLoader();
+          List<String> words = loader.loadWords(file);
+          validateWords(words, file);
+          checked.add(file);
         }
       }
     }

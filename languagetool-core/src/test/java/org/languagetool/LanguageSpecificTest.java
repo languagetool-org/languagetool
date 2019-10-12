@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ import java.util.List;
 import static org.junit.Assert.fail;
 
 public class LanguageSpecificTest {
+
+  protected void runTests(Language lang) {
+    new WordListValidatorTest().testWordListValidity(lang);
+  }
 
   protected void testDemoText(Language lang, String text, List<String> expectedMatchIds) throws IOException {
     JLanguageTool lt = new JLanguageTool(lang);

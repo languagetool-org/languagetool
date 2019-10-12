@@ -32,9 +32,10 @@ public class KhmerTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "ឃ្លា\u200Bនេះ\u200Bបង្ហាញ\u200Bពី\u200Bពី\u200Bកំហុស\u200Bវេយ្យាករណ៍ ដើម្បី\u200Bបញ្ជាក់\u200Bពី\u200Bប្រសិទ្ធភាព\u200Bរបស់\u200Bកម្មវិធី LanguageTool សំរាប់\u200Bភាសាខ្មែរ។";
-    testDemoText(new Khmer(), s,
+    Khmer lang = new Khmer();
+    testDemoText(lang, s,
       Arrays.asList("KM_WORD_REPEAT_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "HUNSPELL_RULE", "KM_SIMPLE_REPLACE")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

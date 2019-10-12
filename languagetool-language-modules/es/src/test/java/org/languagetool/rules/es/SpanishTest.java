@@ -32,9 +32,10 @@ public class SpanishTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.";
-    testDemoText(new Spanish(), s,
+    Spanish lang = new Spanish();
+    testDemoText(lang, s,
       Arrays.asList("AFRENTAR_DIFICULTADES", "ES_WIKIPEDIA_COMMON_ERRORS", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

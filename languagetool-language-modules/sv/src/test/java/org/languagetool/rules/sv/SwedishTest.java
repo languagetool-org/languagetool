@@ -20,12 +20,13 @@ package org.languagetool.rules.sv;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Swedish;
 import org.languagetool.rules.WordListValidatorTest;
 
 public class SwedishTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() {
-    new WordListValidatorTest().testWordListValidity();
+    runTests(new Swedish());
   }
 }

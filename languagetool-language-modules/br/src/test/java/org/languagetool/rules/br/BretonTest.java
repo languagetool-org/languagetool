@@ -32,9 +32,10 @@ public class BretonTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Lakait amañ ho testenn vrezhonek da vezañ gwiriet. Pe implijit an frazenn-mañ gant meur a fazioù yezhadurel enni.";
-    testDemoText(new Breton(), s,
+    Breton lang = new Breton();
+    testDemoText(lang, s,
       Arrays.asList("AR", "LIES")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

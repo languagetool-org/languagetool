@@ -20,12 +20,13 @@ package org.languagetool.rules.ro;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
+import org.languagetool.language.Romanian;
 import org.languagetool.rules.WordListValidatorTest;
 
 public class RomanianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() {
-    new WordListValidatorTest().testWordListValidity();
+    runTests(new Romanian());
   }
 }

@@ -32,9 +32,10 @@ public class SlovenianTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Tukaj vnesite svoje besedilo... Pa poglejmo primer besedila s nekaj napakami ki jih lahko razpozna orodje LanguageTool; ko opazite napake, jih lahko enostavno popiravite. ( Obenem se izvrši tudi preverjanje črkovanja črkovanja.";
-    testDemoText(new Slovenian(), s,
+    Slovenian lang = new Slovenian();
+    testDemoText(lang, s,
       Arrays.asList("TROPIČJETRI", "PREDLOG_S", "KI_BREZ_VEJICE", "MORFOLOGIK_RULE_SL_SI", "COMMA_PARENTHESIS_WHITESPACE", "WORD_REPEAT_RULE")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }
