@@ -9627,7 +9627,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -10103,20 +10103,22 @@ USA
                 <token regexp="yes">['´’]</token>
                 <token>s</token>
             </antipattern>
-            <rule><!-- the rebrand -->
+            <rule><!-- the rebrand/understand -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token>rebrand</token>
+                        <token regexp="yes">(rebr|underst)and</token>
                     </marker>
                 </pattern>
-                <message>The word 'rebrand' is not a noun. Did you mean <suggestion>rebranding</suggestion>?</message>
+                <message>The word 'rebrand' is not a noun. Did you mean <suggestion><match no="3" regexp_match="$" regexp_replace="ing" /></suggestion>?</message>
                 <example correction="rebranding">Their <marker>rebrand</marker> is pretty.</example>
                 <example>A <marker>rebranding</marker> of our Corporate Design might be necessary soon.</example>
+                <example correction="understanding">That's my <marker>understand</marker> of his motivation.</example>
                 <example>Please let her rebrand our company logo.</example>
+                <example>It is impossible to make her understand the theory.</example>
             </rule>
             <rule><!-- the require -->
                 <pattern>
