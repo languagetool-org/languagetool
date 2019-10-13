@@ -45,6 +45,7 @@ public class CompoundFilterTest {
     assertSuggestion("rij", "instructeur", "rijinstructeur");
     assertSuggestion("test", "e-mail", "test-e-mail");
     assertSuggestion("ANWB", "wagen", "ANWB-wagen");
+    assertSuggestion("pro-deo", "advocaat", "pro-deoadvocaat");
   }
 
   private void assertSuggestion(String word1, String word2, String expectedSuggestion) {
