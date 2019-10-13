@@ -22,17 +22,18 @@ import org.junit.Test;
 import org.languagetool.Languages;
 
 import static org.junit.Assert.*;
+import static org.languagetool.rules.RuleInformation.*;
 
 public class RuleInformationTest {
 
   @Test
   public void testRuleInformation() {
-    assertFalse(RuleInformation.ignoreForIncompleteSentences("NO", Languages.getLanguageForShortCode("en")));
-    assertFalse(RuleInformation.ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("de")));
+    assertFalse(ignoreForIncompleteSentences("NO", Languages.getLanguageForShortCode("en")));
+    assertFalse(ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("de")));
     
-    assertTrue(RuleInformation.ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en")));
-    assertTrue(RuleInformation.ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en-US")));
-    assertTrue(RuleInformation.ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en-GB")));
-    assertTrue(RuleInformation.ignoreForIncompleteSentences("FOLGENDES", Languages.getLanguageForShortCode("de")));
+    assertTrue(ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en")));
+    assertTrue(ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en-US")));
+    assertTrue(ignoreForIncompleteSentences("A_UNCOUNTABLE", Languages.getLanguageForShortCode("en-GB")));
+    assertTrue(ignoreForIncompleteSentences("FOLGENDES", Languages.getLanguageForShortCode("de")));
   }
 }
