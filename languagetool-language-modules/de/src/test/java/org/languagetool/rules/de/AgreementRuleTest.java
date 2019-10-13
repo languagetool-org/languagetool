@@ -52,6 +52,8 @@ public class AgreementRuleTest {
     assertBad("Das ist die neue Original Mail", "die neue Originalmail", "die neue Original-Mail");
     assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität", "Die Standard-Priorität");
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
+    assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
+    assertBad("Danke für deine Account Daten", "deine Account-Daten");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
   }
