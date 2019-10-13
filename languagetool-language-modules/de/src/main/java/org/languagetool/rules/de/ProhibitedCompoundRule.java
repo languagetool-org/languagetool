@@ -75,6 +75,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Korrekturlösung",
           "Regelschreiber",
           "Glasreinigern",
+          "Holzstele",
           "Testbahn",
           "Reiszwecke"
   ));
