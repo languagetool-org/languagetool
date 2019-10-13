@@ -37,11 +37,14 @@ public class CompoundFilterTest {
   @Test
   public void testFilter() {
     assertSuggestion("tv", "meubel", "tv-meubel");
+    assertSuggestion("test-tv", "meubel", "test-tv-meubel");
     assertSuggestion("onzin", "tv", "onzin-tv");
     assertSuggestion("auto", "onderdeel", "auto-onderdeel");
     assertSuggestion("test", "e-mail", "test-e-mail");
     assertSuggestion("taxi", "jongen", "taxi-jongen");
     assertSuggestion("rij", "instructeur", "rijinstructeur");
+    assertSuggestion("test", "e-mail", "test-e-mail");
+    assertSuggestion("ANWB", "wagen", "ANWB-wagen");
   }
 
   private void assertSuggestion(String word1, String word2, String expectedSuggestion) {
