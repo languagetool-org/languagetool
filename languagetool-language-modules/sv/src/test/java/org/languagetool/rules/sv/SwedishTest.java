@@ -21,12 +21,13 @@ package org.languagetool.rules.sv;
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Swedish;
-import org.languagetool.rules.WordListValidatorTest;
+
+import java.io.IOException;
 
 public class SwedishTest extends LanguageSpecificTest {
   
   @Test
-  public void testLanguage() {
+  public void testLanguage() throws IOException {
     runTests(new Swedish());
   }
 }

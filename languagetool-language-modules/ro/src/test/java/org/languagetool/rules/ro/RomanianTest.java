@@ -21,12 +21,13 @@ package org.languagetool.rules.ro;
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Romanian;
-import org.languagetool.rules.WordListValidatorTest;
+
+import java.io.IOException;
 
 public class RomanianTest extends LanguageSpecificTest {
   
   @Test
-  public void testLanguage() {
+  public void testLanguage() throws IOException {
     runTests(new Romanian());
   }
 }

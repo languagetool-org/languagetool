@@ -20,8 +20,11 @@ package org.languagetool;
 
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordListValidatorTest;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +32,32 @@ import static org.junit.Assert.fail;
 
 public class LanguageSpecificTest {
 
-  protected void runTests(Language lang) {
+  protected void runTests(Language lang) throws IOException {
     new WordListValidatorTest().testWordListValidity(lang);
+    testNoQuotesAroundSuggestion(lang);
+  }
+
+  // no quotes needed around <suggestion>...</suggestion> in XML:
+  private void testNoQuotesAroundSuggestion(Language lang) throws IOException {
+    if (lang.getShortCode().equals("fa") || lang.getShortCode().equals("zh")) {
+      // ignore languages not maintained anyway
+      System.out.println("Skipping testNoQuotesAroundSuggestion for " + lang.getName());
+      return;
+    }
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortCode() + "/";
+    for (String ruleFileName : lang.getRuleFileNames()) {
+      if (ruleFileName.contains("-test-")) {
+        continue;
+      }
+      InputStream is = this.getClass().getResourceAsStream(ruleFileName);
+      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
+      for (AbstractPatternRule rule : rules) {
+        String message = rule.getMessage();
+        if (message.matches(".*['\"«»“”’]<suggestion.*") && message.matches(".*</suggestion>['\"«»“”’].*")) {
+          fail(lang.getName() + " rule " + rule.getFullId() + " uses quotes around <suggestion>...<suggestion> in its <message>, this should be avoided: '" + message + "'");
+        }
+      }
+    }
   }
 
   protected void testDemoText(Language lang, String text, List<String> expectedMatchIds) throws IOException {
