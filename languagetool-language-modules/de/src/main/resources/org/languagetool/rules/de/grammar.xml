@@ -15018,6 +15018,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="als">Tom Cruise war auch viel kleiner <marker>wie</marker> Nicole Kidman.</example>
                 <example>Dichter <marker>wie</marker> Toson und Hakushu sind selten.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">gleich|selbe|identisch|gleichartig|übereinstimmend|unterschiedslos</token>
+                    <token skip="-1"></token>
+                    <token>wie</token>
+                </antipattern>
+                <antipattern>
+                    <token>genau</token>
+                    <token>so</token>
+                    <token skip="-1"></token>
+                    <token>wie</token>
+                </antipattern>
+                    <pattern>
+                        <token postag="ADJ:PRD:KOM">
+                            <exception postag="ADV:TMP"/>
+                            <exception regexp="yes">so|lieber|forscher</exception>
+                            <exception case_sensitive="yes">Dichter</exception>
+                        </token>
+                        <token min="0">in</token>
+                        <token postag="SUB:.+" postag_regexp="yes" min="0"/>
+                        <marker>
+                            <token>wie
+                                <exception scope="next" regexp="yes">(bis|vor)her|vor</exception>
+                            </token>
+                        </marker>
+                        <token>
+                        <exception regexp="yes">eh|auch</exception>
+                        <exception postag="ADJ:.+|ADV:TMP" postag_regexp="yes"/>
+                        <exception inflected="yes">folgen</exception>
+                    </token>
+                    <token>
+                        <exception postag="VER:.+" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Wenn Sie bei einem Vergleich eine Unterschiedlichkeit ausdrücken wollen, dann verwenden Sie <suggestion>als</suggestion>.</message>
+                <example correction="als">Dein Hund ist größer <marker>wie</marker> meiner.</example>
+                <example correction="als">Du bist besser in Mathe <marker>wie</marker> ich.</example>
+                <example>Ich mache weiter wie bisher.</example>
+                <example>Auch nach dem Schlaganfall rauchte er weiter wie vorher.</example>
+                <example>Er wird im gleichen Maße besser wie sie.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SINN_MACHEN" name="'Sinn machen'">
             <rule>
