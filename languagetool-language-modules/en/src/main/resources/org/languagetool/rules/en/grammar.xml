@@ -9652,10 +9652,6 @@ USA
                 <token regexp="yes">code|gift</token>
             </antipattern>
             <antipattern>
-                <token>startle</token>
-                <token regexp='yes'>re(sponse|flex)</token>
-            </antipattern>
-            <antipattern>
                 <token regexp="yes">write|read</token>
                 <token regexp="yes">access|protection</token>
             </antipattern>
@@ -9730,6 +9726,7 @@ USA
             <example>...Dutch sailor Jan van Riebeeck establishes a <marker>resupply camp</marker> that eventually becomes Cape Town.</example>
             <example>The <marker>lynch mob</marker> was coming to town to kill all enemies.</example>
             <example>How do I get a <marker>redeem code</marker>?</example>
+            <example>A startle response.</example>
             <example>Okay, so I guess we add "merchandize" to the <marker>prohibit.txt</marker>?</example><!-- #489 -->
         </rule>
         <rulegroup id="CC_VERB" name="Correct use of 'cc'">
@@ -9870,6 +9867,7 @@ USA
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example correction="They aren|There aren"><marker>The aren</marker>'t ready yet.</example>
             <example correction="they are|there are">Here <marker>the are</marker> again the sums of powers of differences from the mean...</example>
+            <example correction="They are|There are"><marker>The are</marker> going to the party.</example>
             <example><marker>There are</marker> different places to see.</example>
             <example>The are is a unit of measurement (www.lexico.com/en/definition/are).</example>
             <example>Though the are has fallen out of use, the hectare is still ...</example>
@@ -10361,6 +10359,10 @@ USA
         <rulegroup id="A_INSTALL" name="a/the + install">
             <rule>
                 <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token>her</token>
+                </antipattern>
+                <antipattern>
                     <token>let</token>
                     <token regexp="yes">['´’]</token>
                     <token>s</token>
@@ -10375,7 +10377,7 @@ USA
                     </token>
                 </pattern>
                 <message>The word '<match no="2" />' is not a noun.</message>
-                <suggestion><match no="2" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
                 <example correction="installations">The <marker>installs</marker> are dropping since March.</example>
                 <example correction="re-installation">Have you tried a <marker>re-install</marker>?</example>
                 <example correction="installation">Their <marker>install</marker> is working.</example>
@@ -10389,7 +10391,20 @@ USA
                 <example>Creating an installer that installs the JRE.</example>
                 <example>A software that installs in just 3 minutes.</example>
                 <example>But his installs in less than a minute.</example>
+                <example>My software doesn't work but his installs at my PC.</example>
                 <example>Let's uninstall.</example>
+                <example>I will make her install daily updates.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>an?|the</token>
+                    <marker>
+                        <token regexp="yes">((un|auto|re|pre)\-?)?installs?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="2" />' is not a noun.</message>
+                <suggestion><match no="2" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
+                <example correction="installation">He also did an <marker>install</marker> of the alarm system.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10402,7 +10417,7 @@ USA
                     <token postag="VB.*|SENT_END|IN" postag_regexp="yes" />
                 </pattern>
                 <message>The word '<match no="2" />' is not a noun.</message>
-                <suggestion><match no="2" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
                 <example correction="uninstallation">My attempted <marker>uninstall</marker> worked.</example>
                 <example correction="installation">The recent <marker>install</marker> of a new leader made the country a better place.</example>
                 <example>Their <marker>installation</marker> worked fine.</example>
@@ -10427,7 +10442,7 @@ USA
                     </token>
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun.</message>
-                <suggestion><match no="3" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
                 <example correction="installation">He performed that <marker>install</marker> recently.</example>
                 <example correction="uninstallation">That <marker>uninstall</marker> has worked.</example>
                 <example>A package manager that installs and runs Swift command line tool packages.</example>
@@ -10447,7 +10462,7 @@ USA
                     </token>
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun.</message>
-                <suggestion><match no="3" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
                 <example correction="installations">He performed those <marker>installs</marker> recently.</example>
                 <example correction="uninstallations">These <marker>uninstalls</marker> have worked.</example>
             </rule>
@@ -10464,7 +10479,7 @@ USA
                     <token postag="VB.*|IN|SENT_END" postag_regexp="yes" />
                 </pattern>
                 <message>The word '<match no="4" />' is not a noun.</message>
-                <suggestion><match no="4" regexp_match="install" regexp_replace="installation"/></suggestion>
+                <suggestion><match no="4" regexp_match="(?i)install" regexp_replace="installation"/></suggestion>
                 <example correction="installations">Yesterday we had more than 1000 new <marker>installs</marker>.</example>
                 <example correction="uninstallations">Only five <marker>uninstalls</marker> on average.</example>
                 <example correction="uninstallation">Only 1 <marker>uninstall</marker> in the last week.</example>
@@ -10520,8 +10535,12 @@ USA
                     <token regexp="yes">['´’]</token>
                     <token>s</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token>her</token>
+                </antipattern>
                 <pattern>
-                    <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
+                    <token regexp='yes'>an?|the|that|which|this|those|my|his|her|its|their|our|your|s</token>
                     <marker>
                         <token>attach</token>
                     </marker>
@@ -10532,6 +10551,7 @@ USA
                 <example correction="attached">Please open one of the <marker>attach</marker> documents.</example>
                 <example>The <marker>attached</marker> archive contains all photos from last weekend.</example>
                 <example>Let's attach files.</example>
+                <example>I will make her attach files to it.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10540,7 +10560,7 @@ USA
                         <token regexp="yes">attach(es)?</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="attach(e)?(s)?" regexp_replace="attachment$2" /></suggestion>?</message>
+                <message>Did you mean <suggestion><match no="2" regexp_match="(?i)attach(e)?(s)?" regexp_replace="attachment$2" /></suggestion>?</message>
                 <example correction="attachment">Have you clicked on the <marker>attach</marker>?</example>
                 <example correction="attachments">By clicking on the <marker>attaches</marker> you will experience what a wonderful weekend I had.</example>
                 <example>The <marker>attachment</marker> is not opening.</example>
@@ -10729,7 +10749,7 @@ USA
                         <token regexp="yes">(hand|cross|take|pass|carry)overs?</token>
                     </marker>
                 </pattern>
-                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="over" regexp_replace=" over" /></suggestion>?</message>
+                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="(?i)over" regexp_replace=" over" /></suggestion>?</message>
                 <example correction="hand over">I will <marker>handover</marker> my work until tomorrow.</example>
             </rule>
             <rule>
@@ -10740,7 +10760,7 @@ USA
                         <token regexp="yes">(hand|cross|take|pass|carry)over</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="over" regexp_replace=" over" /></suggestion>?</message>
+                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="(?i)over" regexp_replace=" over" /></suggestion>?</message>
                 <example correction="hand over">He had to <marker>handover</marker> his belongings to the police.</example>
             </rule>
         </rulegroup>
@@ -10754,7 +10774,7 @@ USA
                         <token regexp="yes">(shut|slow|tear|touch|turn|break|lock|hold|cool|come|melt|look)downs?</token>
                     </marker>
                 </pattern>
-                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="down" regexp_replace=" down" /></suggestion>?</message>
+                <message>The word '\4' is a noun. Did you mean the verb <suggestion><match no="4" regexp_match="(?i)down" regexp_replace=" down" /></suggestion>?</message>
                 <example correction="shut down">I will <marker>shutdown</marker> my computer after the update has been installed.</example>
                 <example correction="slow downs">It <marker>slowdowns</marker> your browser.</example>
             </rule>
@@ -10766,7 +10786,7 @@ USA
                         <token regexp="yes">(shut|slow|tear|touch|turn|break|lock|hold|cool|come|melt|look)down</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="down" regexp_replace=" down" /></suggestion>?</message>
+                <message>The word '\3' is a noun. Did you mean the verb <suggestion><match no="3" regexp_match="(?i)down" regexp_replace=" down" /></suggestion>?</message>
                 <example correction="shut down">He had to <marker>shutdown</marker> his computer.</example>
                 <example>The economy contracted in 2001 and 2002 due to slowdowns in tourism.</example>
             </rule>
@@ -20377,6 +20397,17 @@ USA
                     <token regexp="yes" case_sensitive="yes">an|the</token>
                     <token postag="DT" case_sensitive="yes">A</token>
                 </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token>a</token>
+                    <token>in</token>
+                </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token>a</token>
+                    <token>stands</token>
+                    <token>for</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">an?|the</token>
@@ -20392,6 +20423,8 @@ USA
                 <example>The Thames was once a much broader river.</example>
                 <example>The third letter is <marker>the A</marker> for Aqua, not Alpha.</example>
                 <example>In this example, use <marker>an A</marker>, not a B or a C.</example>
+                <example>The a in carry is not the short sound of the a in care.</example>
+                <example>And the A stands for 'alteration'.</example>
                 <example type="triggers_error">... linearly in time (that is, in a word like cat the a sound comes after the c sound, and the t sound...</example>
             </rule>
             <rule>
