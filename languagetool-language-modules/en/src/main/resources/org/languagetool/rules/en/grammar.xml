@@ -9814,7 +9814,12 @@ USA
             <example correction="have">I <marker>hav</marker> no idea.</example>
             <example>I <marker>have</marker> seen the light.</example>
         </rule>
-        <rule id="THE_ARE" name="the + are">
+        <rule id="THE_ARE" name="the (they, there) are">
+            <antipattern>
+                <token>the</token>
+                <token postag="NN">are</token>
+                <token postag_regexp="yes" postag="VB[DZ]"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>the</token>
@@ -9825,7 +9830,11 @@ USA
             <example correction="They are|There are"><marker>The are</marker> many people.</example>
             <example correction="they are|there are">And <marker>the are</marker> beautiful!</example>
             <example correction="They aren|There aren"><marker>The aren</marker>'t ready yet.</example>
+            <example correction="they are|there are">Here <marker>the are</marker> again the sums of powers of differences from the mean...</example>
             <example><marker>There are</marker> different places to see.</example>
+            <example>The are is a unit of measurement (www.lexico.com/en/definition/are).</example>
+            <example>Though the are has fallen out of use, the hectare is still ...</example>
+            <example>... and the are became of historic interest only.</example>
         </rule>
         <rule id="AN_ARE" name="an + are">
             <pattern>
