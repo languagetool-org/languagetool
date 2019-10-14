@@ -17910,6 +17910,19 @@ USA
                     <token inflected="yes">have</token>
                     <token postag="NNP"/>
                 </antipattern>
+                <antipattern><!-- of the Anglican Communion ordain both / of the Anglican Communion consist of dioceses -->
+                   <token>of</token>
+                    <token postag="DT"/>
+                    <token postag_regexp="yes" postag="JJR?|NNP"/>
+                    <token chunk="E-NP-singular" postag="NNP"/>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                    <token postag_regexp="yes" postag="IN|DT"/>
+                </antipattern>
+                <antipattern><!-- HTML version of-->
+                    <token postag="NNP"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                   <token>of</token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -17961,6 +17974,9 @@ USA
                 <example>...1802 – William Wordsworth and his sister, Dorothy, see a "long belt" of daffodils, inspiring the former ...</example>
                 <example>The people of Antigua &amp; Barbuda enjoy a more-than-90% literacy rate.</example>
                 <example>... gave Spider-Man a new profession, having Parker teach at his former high school.</example>
+                <example>Many provinces of the Anglican Communion ordain both women and men as deacons.</example>
+                <example>All provinces of the Anglican Communion consist of dioceses, each under the jurisdiction of a ...</example>
+                <example>Recommendations concerning Units (HTML version of the IAU Style Manual)</example>
                 <example type="triggers_error">Milne extract in the Guardian</example>
                 <example type="triggers_error">Asteraceae have a cosmopolitan distribution, and are found...</example><!-- MFU 2019-09-03. Possibly, Asteraceae is NNPS, but I did not find a reference. -->
                 <example type="triggers_error">...are made in Adelaide at the General Motors Holden plant in Elizabeth.</example>
