@@ -18881,6 +18881,22 @@ USA
                 <token postag="VB"/>
                 <token postag="RP"/>
             </antipattern>
+            <antipattern><!--  Of those 1,839 buses 416 run on -->
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag="CD"/>
+                <token>,</token>
+                <token postag="CD"/>
+                <token postag="NNS"/>
+                <token postag="CD"/>
+            </antipattern>
+            <antipattern><!--  Of your 9 questions 8 show a -->
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag="CD"/>
+                <token postag="NNS"/>
+                <token postag="CD"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -18986,6 +19002,8 @@ USA
             <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
             <example>You two hurry up.</example><!--  #2005 -->
             <example>A level 7 diploma is a vocational certification focused on professional skills.</example>
+            <example>Of those 1,839 buses 416 run on compressed natural gas.</example><!-- Better to put a comma before 'run', but that is a different problem. -->
+            <example>Of your 9 questions 8 show a complete lack of understanding.</example>
             <example>Earlier than 900 CE progressing past the 13th century, the population complexes ...</example><!-- Possible missing comma or 'and' before 'CE', but that is a different problem -->
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
