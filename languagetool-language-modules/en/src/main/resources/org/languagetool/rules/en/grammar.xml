@@ -1496,6 +1496,20 @@ USA
                     <token regexp="yes">row|index</token>
                     <token>i</token>
                 </antipattern>
+                <antipattern><!-- 2010-10-14 MFU. Scientific text: , where i is the. I searched www.english-corpora.org/iweb/. Of the 355 examples for 'where i is the', I did not find one that was a false positive ("where i is king of the world.") -->
+                    <token>,</token>
+                    <token>where</token>
+                    <token>i</token>
+                    <token>is</token>
+                    <token>the</token>
+                </antipattern>
+                <antipattern><!-- Scientific text: where i is the -->
+                    <token postag="SENT_START"/>
+                    <token>where</token>
+                    <token>i</token>
+                    <token>is</token>
+                    <token>the</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>i</token>
@@ -1509,6 +1523,8 @@ USA
                 <example>Items i) and j) support this point of view.</example>
                 <example>Also, in the Baha'i view, souls will be able to recognize the...</example>
                 <example correction="I">If <marker>i</marker> only go there, ...</example>
+                <example>... the polygon's vertices are grid points: [equation goes here], where i is the number of grid points inside the polygon.</example>
+                <example>where i is the number of grid points inside the polygon. [Equation is on the previous line.]</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
