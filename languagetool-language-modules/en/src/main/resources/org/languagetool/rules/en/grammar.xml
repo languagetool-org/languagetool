@@ -2800,6 +2800,16 @@ USA
                 <example>It lets you sleep all night.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">['‘"“]</token>
+                    <token regexp="yes">Oh|Please|Yes</token>
+                    <token min="0" max="1">,</token>
+                    <token>let</token>
+                    <token/>
+                    <token>s</token>
+                    <token regexp="yes">\p{P}</token>
+                    <token spacebefore="no" regexp="yes">['’"”]</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>let</token>
@@ -2816,6 +2826,8 @@ USA
                 <example>Let's first go home!</example>
                 <example>Let's just say that I never wanted to kill him.</example>
                 <example>It lets you quickly search for the product.</example>
+                <example>"Let's have a drink, shall we?" "Yes, let's."</example>
+                <example>"Oh let's!" said the little black rabbit and with a hop...</example>
             </rule>
             <rule>
                 <pattern>
