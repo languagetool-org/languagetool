@@ -69,9 +69,15 @@ public class Searcher {
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
+  private String fieldName;
 
   public Searcher(Directory directory) {
+    this(directory, FIELD_NAME);
+  }
+
+  public Searcher(Directory directory, String fieldName) {
     this.directory = directory;
+    this.fieldName = fieldName;
   }
 
   private void open() throws IOException {
@@ -129,11 +135,18 @@ public class Searcher {
   }
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language) throws IOException, UnsupportedPatternRuleException {
+    return findRuleMatchesOnIndex(rule, language, FIELD_NAME_LOWERCASE);
+  }
+
+  /**
+   * @since 4.8
+   */
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, String fieldName) throws IOException, UnsupportedPatternRuleException {
     // it seems wasteful to re-open the index every time, but I had strange problems (OOM, Array out of bounds, ...)
     // when not doing so...
     open();
     try {
-      PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher);
+      PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher, fieldName);
       Query query = patternRuleQueryBuilder.buildRelaxedQuery(rule);
       if (query == null) {
         throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());
@@ -251,7 +264,7 @@ public class Searcher {
         continue;
       }
       Document doc = indexSearcher.doc(match.doc);
-      String sentence = doc.get(FIELD_NAME);
+      String sentence = doc.get(fieldName);
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
       docsChecked++;
       if (ruleMatches.size() > 0) {
