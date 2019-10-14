@@ -57,8 +57,8 @@ public class CompoundFilter extends RuleFilter {
     } else {
       repl = word1 + word2;
     }
-    String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", repl);
-    String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", repl);
+    String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
+    String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
     newMatch.setSuggestedReplacement(repl);
     return newMatch;
