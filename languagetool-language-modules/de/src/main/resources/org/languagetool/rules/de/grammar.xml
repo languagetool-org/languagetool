@@ -14470,6 +14470,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Revolvern">Mit gezogenen <marker>Trommelrevolvern</marker> stürmten sie das Gebäude.</example>
             </rule>
             <rule>
+                <regexp>Pappkartons?</regexp>
+                <message>Redundantes Kompositum: Ein Karton ist laut Wörterbuch ein Behälter aus Pappe. Verkürzen zu <suggestion><match no="0" regexp_replace="K" regexp_match="Pappk"/></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Karton</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Kartons">Die Ware war in <marker>Pappkartons</marker> aufgestapelt.</example>
+            </rule>
+            <rule>
                 <regexp>Gratisgeschenk(s|en?)?</regexp>
                 <message>Redundantes Kompositum: Ein Geschenk ist immer gratis. Ersetzen durch <suggestion><match no="0" regexp_replace="G" regexp_match="^Gratisg"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Geschenk</url>
@@ -15011,6 +15018,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="als">Tom Cruise war auch viel kleiner <marker>wie</marker> Nicole Kidman.</example>
                 <example>Dichter <marker>wie</marker> Toson und Hakushu sind selten.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">gleich|selbe|identisch|gleichartig|übereinstimmend|unterschiedslos</token>
+                    <token skip="-1"></token>
+                    <token>wie</token>
+                </antipattern>
+                <antipattern>
+                    <token>genau</token>
+                    <token>so</token>
+                    <token skip="-1"></token>
+                    <token>wie</token>
+                </antipattern>
+                    <pattern>
+                        <token postag="ADJ:PRD:KOM">
+                            <exception postag="ADV:TMP"/>
+                            <exception regexp="yes">so|lieber|forscher</exception>
+                            <exception case_sensitive="yes">Dichter</exception>
+                        </token>
+                        <token min="0">in</token>
+                        <token postag="SUB:.+" postag_regexp="yes" min="0"/>
+                        <marker>
+                            <token>wie
+                                <exception scope="next" regexp="yes">(bis|vor)her|vor</exception>
+                            </token>
+                        </marker>
+                        <token>
+                        <exception regexp="yes">eh|auch</exception>
+                        <exception postag="ADJ:.+|ADV:TMP" postag_regexp="yes"/>
+                        <exception inflected="yes">folgen</exception>
+                    </token>
+                    <token>
+                        <exception postag="VER:.+" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Wenn Sie bei einem Vergleich eine Unterschiedlichkeit ausdrücken wollen, dann verwenden Sie <suggestion>als</suggestion>.</message>
+                <example correction="als">Dein Hund ist größer <marker>wie</marker> meiner.</example>
+                <example correction="als">Du bist besser in Mathe <marker>wie</marker> ich.</example>
+                <example>Ich mache weiter wie bisher.</example>
+                <example>Auch nach dem Schlaganfall rauchte er weiter wie vorher.</example>
+                <example>Er wird im gleichen Maße besser wie sie.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SINN_MACHEN" name="'Sinn machen'">
             <rule>
@@ -15401,7 +15449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rum(albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln)</token>
+                    <token regexp="yes">rum(albern|alberten|ärgern|ärgert|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>
@@ -15420,15 +15468,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln</token>
+                    <token regexp="yes">alber[nt]?|alberten?|ärger[nt]?|balge[nt]?|balgten?|baller[nt]?|ballerten?|bastel[nt]?|bastelten?|brüllen?|brüll[nt]?|brüllten?|bummel[nt]?|bummelten?|dokter[nt]?|drucksen?|druckst|drucksten|drücken?|drückt|drückten?|dümpel[nt]?|dümpelten?|erzählen?|erzählt|erzählten?|finger[nt]?|fingerten?|fuchtel[nt]?|fuchtelten?|fummel[nt]?|fummelten?|gammel[nt]?|gammelten?|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken?|hackte?|hackten|hämmer[nt]?|hämmerten?|hängt|hängte|hängen|hantieren?|hantierten?|hingen|hinge?|hocken?|hockten?|hüpfen?|hüpften?|huren?|hurten?|jammer[nt]?|jammerten?|knobel[nt]?|knobelten?|knutscht?en?|kommandiere?n?|kommandierte?n?|krame?n?|kramte?n?|kroche?n?|krochten?|kurve?n?|kurvte?n?|lagen?|lagten?|läster[nt]?|lästerten?|laufen?|liefe?n?|liege?n?|lümmel[nt]?|lümmelten?|lunger[nt]?|lungerten?|mache?n?|machte?n?|mecker[nt]?|meckerten?|motze?n?|motzte?n?|murkse?n?|murkste?n?|nörgel[nt]?|nörgeln?|probiere?n?|probierte?n?|rannte?n?|schleppe?n?|schleppte?n?|schnüffel[nt]?|schnüffelten?|schraube?n?|schraubte?n?|schreie?n?|schreite?n?|schubse?n?|schubste?n?|sitze?n?|saße?n?|spaziere?n?|spazierte?n?|spiele?n?|spielte?n?|sprange?n?|springe?n?|spritze?n?|spritzte?n?|spuke?n?|spukte?n?|stande?n?|stänker[nt]?|stänkerten?|stehe?n?|stöber[nt]?|stöberten?|stocher[nt]?|stocherten?|stümper[nt]?|stümperten?|suche?n?|suchte?n?|tobe?n?|tobte?n?|tolle?n?|tollte?n?|trödel[nt]?|trödelten?|wander[nt]?|wanderten?|winsel[nt]?|wühle?n?|wurstel[nt]?|wurstelten?|zanke?n?|zankte?n?|zappel[nt]?|zappelten?</token>
                     <marker>
-                        <token>rum</token>
+                        <token case_sensitive="yes">rum</token>
                     </marker>
                 </pattern>
                 <message>'\2' ist umgangssprachlich.</message>
                 <suggestion>herum</suggestion>
                 <example correction="herum">Wir alberten <marker>rum</marker>.</example>
                 <example>Wir alberten <marker>herum</marker>.</example>
+                <example>Sie probieren Rum.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ran(arbeite(te)?n?|bilde(te)?n?|brausen?|brausten?|brechen?|brachten?|bringen?|drängt?en|dränge|dürfen?|durften?|fahren?|fuhren|führen?|führten?|gleiten?|glitten|holt?en?|kämpft?en?|karrt?en?|könnt?en?|kommen?|kriechen?|kroch(en)?|lassen?|ließe?n?|lockt?en?|macht?en?|müsst?en?|naht?en?|nehmen?|nahm(en)?|pfeifen?|pfiff(en)?|pirscht?en?|reicht?en?|reift?en?|rollt?en?|rückt?en?|rufen?|rief(en)?|stehen?|stand(en)?|schleicht?en?|schafft?en?|tasten?|tasteten?|tragt?en?|treten?|traten|traut?en?|wachsen?|wuchsen?|wagt?en?|winkt?en?|wollt?en?|zieht?en?|zoomt?en?|züchten?)</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion>
+                <example correction="herantasten">Ich wollte mich an das Problem <marker>rantasten</marker>.</example>
+                <example>Er wollte ans Telefon rangehen.</example><!-- Not sure, ignored for now -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">range(arbeitet|bildet|braust|bracht|drängt|durft|fahren|führt|gleitet|holt|kämpft|karrt|konnt|kommen|kriecht|lassen|lockt|macht|musst|naht|nommen|pfiffen|pirscht|reicht|reift|rollt|rückt|rufen|standen|schlichen|schafft|tastet|tragen|treten|traut|wachsen|wagt|winkt|wollt|zogen|zoomt|züchtet)</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion>
+                <example correction="herangetastet">Er hat sich an das Problem <marker>rangetastet</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ranzu(arbeiten|bilden|brausen|brechen|bringen|drängen|dürfen|fahren|führen|gleiten|holen|kämpfen|karren|können|kommen|kriechen|lassen|locken|machen|müssen|nahen|nehmen|pfeifen|pirschen|reichen|reifen|rollen|rücken|rufen|stehen|schleichen|schaffen|tasten|tragen|treten|trauen|wachsen|wagen|winken|wollen|ziehen|zoomen|züchten)</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion>
+                <example correction="heranzutasten">Er versuchte sich an das Problem <marker>ranzutasten</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15621,6 +15695,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
+        <rulegroup id="UST_ID" name="Empfohlene Schreibweise für Umsatzsteuer-Identifikationsnummer">
+            <url>https://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ust\.?-?id(-nr)?\.?</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung von 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <example correction="USt-IdNr."><marker>UST-Id</marker>: DEXXXXXXX</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ust\.?</token>
+                    <token regexp="yes">id(-?nr)?\.?</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung von 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <example correction="USt-IdNr."><marker>UST ID</marker>: DEXXXXXXX</example>
+                <example correction="USt-IdNr."><marker>Ust ID</marker>: DEXXXXXXX</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'">
             <rule>
                 <pattern>
@@ -35419,8 +35512,8 @@ Andere Projekte</example>
                     <token regexp="yes">&anfzu;</token>
                     <token>,</token>
                     <token inflected="yes" regexp="yes">&verbendirekterede;</token>
-                    <token></token>
-                    <token regexp="yes">de[mr]</token>
+                    <token skip="-1"></token>
+                    <token regexp="yes">de[mrs]|laut</token>
                     <token regexp="yes">&anfauf;</token>
                 </antipattern>
                 <pattern>
@@ -35439,6 +35532,7 @@ Andere Projekte</example>
                 <example correction="“, behauptet er, „">„Die Fenster sind<marker>“, behauptet er „</marker>geschlossen.“</example>
                 <example>"Ich bin unschuldig", sagte er der "Süddeutschen Zeitung".</example>
                 <example>"Niemals", sagte Müller dem "Spiegel".</example>
+                <example>"Brexit now", schrie Boris Johnson laut "Mirror".</example>
             </rule>
             <rule>
                 <pattern>
@@ -38720,7 +38814,7 @@ Andere Projekte</example>
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
                 <antipattern>
-                    <token skip="3">sondern</token>
+                    <token skip="4">sondern</token>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <token>ab</token>
                     <token postag="PKT"/>
@@ -38736,6 +38830,7 @@ Andere Projekte</example>
                 <example correction="Sommer, sondern">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
                 <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
+                <example>Sie sondern nicht einmal den zweitaktertypischen Gestank ab.</example>
                 <example correction="zu, sondern">Warum nimmt er nicht <marker>zu sondern</marker> ab?</example>
             </rule>
             <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor nachgestellter Erläuterung">
@@ -39372,13 +39467,13 @@ Andere Projekte</example>
                     <token regexp="yes" skip="-1">da|weil|ob(wohl|gleich)?|da(mit|ss)|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|dass|lange)|was|als|wie|bis|wer|wo(hin)?<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
+                        <exception  inflected="yes" regexp="yes">bleiben|lassen|gelingen</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
+                        <exception  inflected="yes" regexp="yes">bleiben|lassen|gelingen</exception>
                        </token>
                     <token/>
                 </pattern>
@@ -39390,6 +39485,7 @@ Andere Projekte</example>
                 <example>Als Heilsbringer gilt er längst nicht mehr.</example>
                 <example>Da die Ausschussmehrheit sowohl die Detailarbeit lenken kann als auch den Bericht vorlegt, stellt der Untersuchungsausschuss Missstände meist nur in offensichtlichen Fällen fest.</example>
                 <example>Wie erfolgreich waren apologetische Bestrebungen, wenn sie doch verloren haben?</example>
+                <example>Wie konnten die Bakterien in die Milch gelangen?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -40574,6 +40670,17 @@ Andere Projekte</example>
                 <example correction="Weiteres">Er bleibt bis auf <marker>weiteres</marker> dort.</example>
             </rule>
         </rulegroup>
+        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">open|libre|star</token>
+                    <token>office</token>
+                </marker>
+                <token regexp="yes">dok(umente?n?)?|download|plugin|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|programm|software|tool|files?|datei(en)?|projects?|projekte?n?|templates?|vorlagen?|word|formate?n?|odts?|pdfs?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= software)?</message>
+            <example correction="LibreOffice">Das <marker>Libre Office</marker> Dokument enthielt alle Änderungen.</example>
+        </rule>
     </category>
     <category id="CREATIVE_WRITING" name="Stiltipps für kreatives Schreiben" type="style" default="off">
         <rulegroup id="AUSSAGEKRAFT_VERBEN" name="Verben mit wenig Aussagekraft" default="off">

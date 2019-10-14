@@ -32,9 +32,10 @@ public class GalicianTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Esta vai a ser unha mostra de de exemplo para amosar  o funcionamento de LanguageTool.";
-    testDemoText(new Galician(), s,
+    Galician lang = new Galician();
+    testDemoText(lang, s,
       Arrays.asList("IR_A_INF", "WORD_REPETITION", "WHITESPACE_RULE")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

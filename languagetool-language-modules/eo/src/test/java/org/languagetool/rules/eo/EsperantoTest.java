@@ -32,9 +32,10 @@ public class EsperantoTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Algluu vian kontrolendan tekston ĉi tie... Aŭ nur kontrolu ĉi tiun ekzemplon. Ĉu vi vi rimarkis, ke estas gramatikaj eraro en tiu frazo? Rimarku, ke Lingvoilo ankaux atentigas pri literumaj erraroj kiel ĉi-tiu.";
-    testDemoText(new Esperanto(), s,
+    Esperanto lang = new Esperanto();
+    testDemoText(lang, s,
       Arrays.asList("WORD_REPEAT_RULE", "NEKONG_NOMBR", "X_SISTEMO", "HUNSPELL_NO_SUGGEST_RULE", "CXI_TIU")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

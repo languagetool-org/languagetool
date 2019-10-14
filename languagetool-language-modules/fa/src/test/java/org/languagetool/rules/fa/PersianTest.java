@@ -32,9 +32,10 @@ public class PersianTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "لطفا متن خود را اینجا قرار دهید . یا بررسی کنید که این متن را\u200C برای دیدن بعضی بعضی از اشکال هایی که ابزار زبان توانسته تشخیس هدد. درباره ی نرم افزارهای بررسی کننده های گرامر چه فکر می کنید؟ لطفا در نظر داشته باشید که آن\u200Cها بی نقص نمی باشند.\u200E";
-    testDemoText(new Persian(), s,
+    Persian lang = new Persian();
+    testDemoText(lang, s,
       Arrays.asList("PERSIAN_COMMA_PARENTHESIS_WHITESPACE", "Bad_ZWNJ", "PERSIAN_WORD_REPEAT_RULE", "PluralFix", "PluralFix", "Complex_Present_Verbs", "Complex_Present_Verbs")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

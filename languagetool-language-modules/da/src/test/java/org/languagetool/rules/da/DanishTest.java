@@ -32,9 +32,10 @@ public class DanishTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Indsæt din egen tekst her , eller brug denne tekst for at se nogle af de fejl LanguageTool fanger. vær opmærksom på at den langtfra er er perfect, men skal være en hjælp til at få standartfejl frem i lyset.";
-    testDemoText(new Danish(), s,
+    Danish lang = new Danish();
+    testDemoText(lang, s,
       Arrays.asList("COMMA_PARENTHESIS_WHITESPACE", "UPPERCASE_SENTENCE_START", "Ordgentagelse", "HUNSPELL_NO_SUGGEST_RULE", "standart_standard")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
 }

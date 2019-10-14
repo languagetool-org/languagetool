@@ -462,6 +462,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geschriehen", "geschrien");
     put("beratete", "beriet");
     put("Hälst", "Hältst");
+    put("[kK]aos", "Chaos");
+    put("[pP]upatät", "Pubertät");
+    put("überwendet", "überwindet");
+    put("[bB]esichtung", "Besichtigung");
+    putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
+    putRepl("[äÄ]rtlich(e[mnrs]?)?", "rt", "rzt");
     putRepl("[sS]chnelligkeitsfehler[ns]?", "[sS]chnell", "Flücht");
     putRepl("[sS]chweinerosane[mnrs]?", "weinerosane[mnrs]?", "weinchenrosa");
     putRepl("[aA]nstecklich(e[mnrs]?)?", "lich", "end");
@@ -1268,12 +1274,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("gesuchten", "gesucht");
     } else if (word.equals("Germanistiker")) {
       return Arrays.asList("Germanist", "Germanisten");
+    } else if (word.equals("Abschlepper")) {
+      return Arrays.asList("Abschleppdienst", "Abschleppwagen");
     } else if (word.equals("par")) {
       return Collections.singletonList("paar");
     } else if (word.equals("vllt")) {
       return Collections.singletonList("vielleicht");
     } else if (word.equals("iwie")) {
       return Collections.singletonList("irgendwie");
+    } else if (word.equals("bzgl")) {
+      return Collections.singletonList("bzgl.");
     } else if (word.equals("bau")) {
       return Collections.singletonList("baue");
     } else if (word.equals("sry")) {

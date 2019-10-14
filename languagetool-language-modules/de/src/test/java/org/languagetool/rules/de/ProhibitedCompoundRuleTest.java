@@ -45,6 +45,7 @@ public class ProhibitedCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     Map<String,Integer> map = new HashMap<>();
+    map.put("Mietauto", 100);
     map.put("Leerzeile", 100);
     map.put("Urberliner", 100);
     map.put("Ureinwohner", 100);
@@ -53,6 +54,7 @@ public class ProhibitedCompoundRuleTest {
     ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
     JLanguageTool lt = new JLanguageTool(new GermanyGerman());
     assertMatches("Er ist Uhrberliner.", 1, rule, lt);
+    assertMatches("Das ist ein Mitauto.", 1, rule, lt);
     assertMatches("Hier leben die Uhreinwohner.", 1, rule, lt);
     assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
     assertMatches("Eine Lehrzeile einfügen.", 1, rule, lt);

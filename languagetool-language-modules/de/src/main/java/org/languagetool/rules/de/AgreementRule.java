@@ -280,6 +280,10 @@ public class AgreementRule extends Rule {
       token("Song"),
       token("Contest")
     ),
+    Arrays.asList(
+      token("Junge"),
+      tokenRegex("Union|Freiheit|Welt|Europäische|Alternative|Volkspartei|Akademie")
+    ),
     Arrays.asList( // "Das Holocaust Memorial Museum."
       posRegex("ART:.+"),
       posRegex("SUB:.+"),
@@ -504,7 +508,9 @@ public class AgreementRule extends Rule {
     ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "sämtlicher",
     "etliche",
+    "etlicher",
     "viele",
     "vieler",
     "wenige",
@@ -842,12 +848,17 @@ public class AgreementRule extends Rule {
   private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
-      List<RuleMatch> matches = lt.check(testPhrase);
-      if (matches.size() == 0) {
+      List<String> replacements = new ArrayList<>();
+      if (lt.check(testPhrase).size() == 0) {
+        replacements.add(testPhrase);
+      }
+      if (lt.check(hyphenTestPhrase).size() == 0) {
+        replacements.add(hyphenTestPhrase);
+      }
+      if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
-        ruleMatch.addSuggestedReplacement(testPhrase);
-        ruleMatch.addSuggestedReplacement(hyphenTestPhrase);
+        ruleMatch.addSuggestedReplacements(replacements);
         ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
         return ruleMatch;
       }

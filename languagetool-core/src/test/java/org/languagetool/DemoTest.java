@@ -16,26 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.tl;
+package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Tagalog;
-import org.languagetool.rules.WordListValidatorTest;
+import org.languagetool.language.Demo;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-public class TagalogTest extends LanguageSpecificTest {
-  
+public class DemoTest extends LanguageSpecificTest {
+
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Ang LanguageTool ay maganda gamit sa araw-araw. Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin. Litaw rin sa talatang ito na may mga bagaybagay na hindii pa kayang itama nng LanguageTool.";
-    Tagalog lang = new Tagalog();
-    testDemoText(lang, s,
-      Arrays.asList("ADJECTIVE-V_COMMON_NOUN", "NG_NG", "MORFOLOGIK_RULE_TL", "R_WORDS", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL")
-    );
+    Demo lang = new Demo();
     runTests(lang);
   }
+
 }

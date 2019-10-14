@@ -32,9 +32,11 @@ public class BelarusianTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "Паспрабуйце напісаць нейкі тэкст з памылкамі, а LanguageTool паспрабуе паказаць нейкия найбольш распаусюджаныя памылки.";
-    testDemoText(new Belarusian(), s,
+    Belarusian lang = new Belarusian();
+    testDemoText(lang, s,
       Arrays.asList("I", "U_KAROTKAJE", "I")
     );
-    new WordListValidatorTest().testWordListValidity();
+    runTests(lang);
   }
+
 }
