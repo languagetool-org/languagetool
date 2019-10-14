@@ -4349,6 +4349,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="infolgedessen">Der Unfall, <marker>in Folge dessen</marker> er ins Krankenhaus musste...</example>
             </rule>
         </rulegroup>
+        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">open|libre|star</token>
+                    <token>office</token>
+                </marker>
+                <token regexp="yes">dok(umente?n?)?|download|plugin|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|programm|software|tool|files?|datei(en)?|projects?|projekte?n?|templates?|vorlagen?|word|formate?n?|odts?|pdfs?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= software)?</message>
+            <example correction="LibreOffice">Das <marker>Libre Office</marker> Dokument enthielt alle Änderungen.</example>
+        </rule>
+        <rulegroup id="JOUR_FIXE" name="Schreibweise 'Der Jour fixe'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Jour</token>
+                        <token case_sensitive="yes" regexp="yes">fix|Fix|Fixes?</token>
+                    </marker>
+                </pattern>
+                <message>Die korrekte Schreibweise lautet <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startlower" regexp_match="(?i)fixe?" regexp_replace="fixe" /></suggestion>.</message>
+                <example correction="Jour fixe">Der <marker>Jour Fix</marker> findet jeden Tag um 9 Uhr statt.</example>
+                <example correction="Jour fixes">Die <marker>Jour Fixes</marker> sind jeden Tag um 9 Uhr statt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">jour\-?fixe?s?</token>
+                    </marker>
+                </pattern>
+                <message>Die korrekte Schreibweise lautet <suggestion><match no="1" regexp_match="(?i)jour\-?fixe?" regexp_replace="Jour fixe" /></suggestion>.</message>
+                <example correction="Jour fixes">Die <marker>Jour-fixes</marker> sind ab jetzt immer um 10 Uhr.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -40671,17 +40704,6 @@ Andere Projekte</example>
                 <example correction="Weiteres">Er bleibt bis auf <marker>weiteres</marker> dort.</example>
             </rule>
         </rulegroup>
-        <rule id="OPEN_OFFICE" name="Open Office (OpenOffice)">
-            <pattern>
-                <marker>
-                    <token regexp="yes">open|libre|star</token>
-                    <token>office</token>
-                </marker>
-                <token regexp="yes">dok(umente?n?)?|download|plugin|installation|calc|draw|presentation|writer|online|impress|portable|alternatives?|(spread)?sheets?|programm|software|tool|files?|datei(en)?|projects?|projekte?n?|templates?|vorlagen?|word|formate?n?|odts?|pdfs?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= software)?</message>
-            <example correction="LibreOffice">Das <marker>Libre Office</marker> Dokument enthielt alle Änderungen.</example>
-        </rule>
     </category>
     <category id="CREATIVE_WRITING" name="Stiltipps für kreatives Schreiben" type="style" default="off">
         <rulegroup id="AUSSAGEKRAFT_VERBEN" name="Verben mit wenig Aussagekraft" default="off">
