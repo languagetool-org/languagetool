@@ -20157,6 +20157,10 @@ USA
             <example>We saw each other's faces.</example>
         </rule>
         <rule id="SIGN_INTO" name="wrong preposition: sign into (sign in to)">
+            <antipattern><!--  classify signs into -->
+                <token chunk="E-NP-plural" postag="NNS">signs</token>
+                <token>into</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes">sign</token>
@@ -20178,6 +20182,7 @@ USA
             <example>On 11 August 1712, the Peace of Aarau was <marker>signed into</marker> effect.</example>
             <example>Credit: NPS. President Carter, Senator Kennedy, and Senator Tsongas <marker>signing into</marker> creation Lowell National Historical Park in June of 1978.</example>
             <example>Carefully put the <marker>sign into</marker> the hole and then pour concrete into the hole.</example>
+            <example>Klima and Bellugi classify signs into three categories of explicitness:</example>
         </rule>
         <rule default="off" id="ARTICLE_UNNECESSARY" name="Articles: unnecessary indefinite article before an uncountable noun"><!-- Many nouns that have only the postag NN:U can also be NN, but they do not have the postag NN. Thus, they cannot be excluded using an exception. The rule gives too many false warnings. -->
             <antipattern>
