@@ -116,7 +116,7 @@ public class Irish extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new IrishSynthesizer();
+      synthesizer = new IrishSynthesizer(this);
     }
     return synthesizer;
   }
