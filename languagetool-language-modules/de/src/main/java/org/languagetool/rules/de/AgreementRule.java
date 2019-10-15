@@ -849,10 +849,10 @@ public class AgreementRule extends Rule {
     try {
       initLt();
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).size() == 0) {
+      if (lt.check(testPhrase).size() == 0 && nextToken.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).size() == 0) {
+      if (lt.check(hyphenTestPhrase).size() == 0 && nextToken.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
