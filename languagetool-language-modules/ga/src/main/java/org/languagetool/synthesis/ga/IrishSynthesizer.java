@@ -17,6 +17,7 @@
  * USA
  */
 package org.languagetool.synthesis.ga;
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -24,7 +25,7 @@ import org.languagetool.synthesis.BaseSynthesizer;
  */
 public class IrishSynthesizer extends BaseSynthesizer {
 
-  public IrishSynthesizer() {
-    super("/ga/irish_synth.dict", "/ga/irish_tags.txt");
+  public IrishSynthesizer(Language lang) {
+    super("/ga/irish_synth.dict", "/ga/irish_tags.txt", lang);
   }
 }
