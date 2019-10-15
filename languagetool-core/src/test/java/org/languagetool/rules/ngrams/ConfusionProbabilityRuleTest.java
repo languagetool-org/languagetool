@@ -57,7 +57,17 @@ public class ConfusionProbabilityRuleTest {
   }
 
   @Test
-  public void testGetContext() throws IOException {
+  public void testLocalException() throws IOException {
+    ConfusionProbabilityRule rule1 = new FakeRule(new FakeLanguageModel(), new FakeLanguage()) {};
+    assertMatch("Their are new ideas to explore.", rule1);
+    ConfusionProbabilityRule rule2 = new FakeRule(new FakeLanguageModel(), new FakeLanguage(), Arrays.asList("their are")) {};
+    assertGood("Their are new ideas to explore.", rule2);
+    assertGood("And their are new ideas to explore.", rule2);
+    assertGood("Their are new ideas to explore and their are new plans.", rule2);
+  }
+
+  @Test
+  public void testGetContext() {
     List<GoogleToken> tokens = Arrays.asList(
             new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
             new GoogleToken("This", 0, 0),
@@ -73,7 +83,7 @@ public class ConfusionProbabilityRuleTest {
   }
 
   @Test
-  public void testGetContext2() throws IOException {
+  public void testGetContext2() {
     List<GoogleToken> tokens = Arrays.asList(
             new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
             new GoogleToken("This", 0, 0),
@@ -88,7 +98,7 @@ public class ConfusionProbabilityRuleTest {
   }
 
   @Test
-  public void testGetContext3() throws IOException {
+  public void testGetContext3() {
     List<GoogleToken> tokens = Arrays.asList(
             new GoogleToken("This", 0, 0)
     );
@@ -100,7 +110,7 @@ public class ConfusionProbabilityRuleTest {
   }
 
   @Test
-  public void testGetContext4() throws IOException {
+  public void testGetContext4() {
     List<GoogleToken> tokens = Arrays.asList(
             new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
             new GoogleToken("This", 0, 0)
@@ -133,6 +143,9 @@ public class ConfusionProbabilityRuleTest {
   private static class FakeRule extends ConfusionProbabilityRule {
     private FakeRule(LanguageModel languageModel, Language language) {
       super(JLanguageTool.getMessageBundle(), languageModel, language);
+    }
+    private FakeRule(LanguageModel languageModel, Language language, List<String> exceptions) {
+      super(JLanguageTool.getMessageBundle(), languageModel, language, 3, exceptions);
     }
   }
 

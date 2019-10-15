@@ -44,7 +44,7 @@ import org.languagetool.rules.ITSIssueType;
 public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   private static final String CONTEXT_PREFIX = "ctx:";
-  private static final Map<String, List<String>> WRONG_WORDS = load("/uk/replace_soft.txt");
+  private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_soft.txt");
 
   @Override
   protected Map<String, List<String>> getWrongWords() {

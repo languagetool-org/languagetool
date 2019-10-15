@@ -29,6 +29,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 
+
+
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  * See readme.txt for details, the POS tagset is described in tagset.txt
@@ -53,9 +55,14 @@ public class RussianTagger extends BaseTagger {
     public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
         List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
         int pos = 0;
+        String word_ie;
         for (String word : sentenceTokens) {
             boolean maymissingyo = false;
             if (word.length() > 1) {
+	      if  ( !(word.contains("ё")) && !(word.contains("Ё")) && (word.contains("е") || word.contains("Е")) && !(word.contains("е́")) && !(word.contains("о́")) &&
+	      !(word.contains("а́")) && !(word.contains("у́")) && !(word.contains("и́")) && !(word.contains("ю́")) && !(word.contains("ы́")) && !(word.contains("э́")) && !(word.contains("я́"))  ) {
+                maymissingyo = true;
+            };
                 word = word.replace("о́", "о");
                 word = word.replace("а́", "а");
                 word = word.replace("е́", "е");
@@ -76,15 +83,24 @@ public class RussianTagger extends BaseTagger {
                 word = word.replace("я̀", "я");
                 word = word.replace("ʼ", "ъ");
             }
-            if ((word.contains("е") || word.contains("Е")) && !(word.contains("ё"))  && !(word.contains("Ё"))) {
-                maymissingyo = true;
-            }
+                word_ie=word.replace("е","ё");
+               
 
             List<AnalyzedToken> l = getAnalyzedTokens(word);
 
             AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-
-            if (maymissingyo) {
+            
+            
+            if (maymissingyo) { 
+            if (getWordTagger().tag(word_ie).isEmpty()) {
+            maymissingyo= false;
+            }
+            }
+                
+            
+            
+            
+            if (maymissingyo) { 
                 List<ChunkTag> listChunkTags = new ArrayList<>();
                 listChunkTags.add(new ChunkTag("MayMissingYO"));
                 atr.setChunkTags(listChunkTags);

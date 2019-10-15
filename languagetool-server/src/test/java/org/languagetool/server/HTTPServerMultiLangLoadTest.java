@@ -69,7 +69,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
         System.err.println("Using " + content.length() + " bytes of data for " + language);
       }
     }
-    if (langCodeToText.size() == 0) {
+    if (langCodeToText.isEmpty()) {
       throw new RuntimeException("No input data found in " + dir);
     }
     System.out.println("Testing " + langCodeToText.keySet().size() + " languages and variants");

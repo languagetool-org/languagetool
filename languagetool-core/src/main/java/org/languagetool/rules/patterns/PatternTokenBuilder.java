@@ -28,6 +28,7 @@ public class PatternTokenBuilder {
 
   private String token;
   private String posTag;
+  private boolean marker = true;
   private boolean matchInflectedForms = false;
   private boolean caseSensitive;
   private boolean regexp;
@@ -66,6 +67,16 @@ public class PatternTokenBuilder {
 
   public PatternTokenBuilder posRegex(String posTag) {
     return pos(posTag, true);
+  }
+
+  /**
+   * Corresponds to {@code <marker>...</marker>} in XML. Note that there
+   * can be more tokens with a mark, but then must all be adjacent.
+   * @since 4.6
+   */
+  public PatternTokenBuilder mark(boolean isMarked) {
+    this.marker = isMarked;
+    return this;
   }
 
   private PatternTokenBuilder pos(String posTag, boolean regexp) {
@@ -116,6 +127,7 @@ public class PatternTokenBuilder {
       patternToken.setWhitespaceBefore(isWhiteSpaceBefore);
     }
     patternToken.setSkipNext(skip);
+    patternToken.setInsideMarker(marker);
     return patternToken;
   }
 }

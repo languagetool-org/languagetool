@@ -55,7 +55,7 @@ public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getShortMessageString() {
-    return "Mogelijk woorden verward";
+    return "Mogelijk verwarring";
   }
   
   @Override

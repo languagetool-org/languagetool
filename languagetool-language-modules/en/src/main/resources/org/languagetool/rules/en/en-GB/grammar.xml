@@ -22,6 +22,73 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
+
+<!DOCTYPE rules [
+    <!ENTITY hyphen "(?:[-‑])">
+
+    <!ENTITY ambiguous_date '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!-- "7 October 2014" and "7th October 2014" -->
+    <!ENTITY date_dmy '
+        <token regexp="yes">\d\d?(th)?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_dmy_skip '
+        <token regexp="yes">\d\d?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "October 7, 2014" -->
+    <!ENTITY date_mdy '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_skip '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "31/10/2014" -->
+    <!ENTITY date_dmy_numbers '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_dmy_numbers_skip '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+    <!-- "10/31/2014" -->
+    <!ENTITY date_mdy_numbers '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_numbers_skip '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
+]>
+
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
@@ -172,26 +239,26 @@ USA
             <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">boot</match></suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
             <short>AmE/BrE: trunk/boot</short>
-            <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
-            <example type="incorrect" correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
-            <example type="incorrect" correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
-            <example type="incorrect" correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
-            <example type="incorrect" correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
-            <example type="correct">The elephant's <marker>trunk</marker> is long.</example>
-            <example type="correct">This tree <marker>trunk</marker> is large.</example>
-            <example type="correct">The <marker>trunks</marker> of some trees were damaged during the storm.</example>
-            <example type="correct">The arterial <marker>trunks</marker> of some rivers are ...</example>
-            <example type="correct"><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
-            <example type="correct">If the electrical <marker>trunking</marker> on the car is ...</example>
-            <example type="correct">Put the <marker>trunk</marker> into the car boot.</example>
-            <example type="correct">The car boot contained <marker>trunks</marker> of many colours.</example>
-            <example type="correct">The car boots contained <marker>trunks</marker> of many sizes.</example>
-            <example type="correct">Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
-            <example type="correct">Put the <marker>trunks</marker> into the boot of the car.</example>
-            <example type="correct">The lace on this <marker>boot</marker> is frayed.</example>
-            <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
-            <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
-            <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
+            <example correction="boot">The automobile has a small <marker>trunk</marker>.</example>
+            <example correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
+            <example correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
+            <example correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
+            <example correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
+            <example>The elephant's <marker>trunk</marker> is long.</example>
+            <example>This tree <marker>trunk</marker> is large.</example>
+            <example>The <marker>trunks</marker> of some trees were damaged during the storm.</example>
+            <example>The arterial <marker>trunks</marker> of some rivers are ...</example>
+            <example><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
+            <example>If the electrical <marker>trunking</marker> on the car is ...</example>
+            <example>Put the <marker>trunk</marker> into the car boot.</example>
+            <example>The car boot contained <marker>trunks</marker> of many colours.</example>
+            <example>The car boots contained <marker>trunks</marker> of many sizes.</example>
+            <example>Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
+            <example>Put the <marker>trunks</marker> into the boot of the car.</example>
+            <example>The lace on this <marker>boot</marker> is frayed.</example>
+            <example>The car boot contained a <marker>trunk</marker> and a ...</example>
+            <example>The car's boot contained a <marker>trunk</marker> and a ...</example>
+            <example>The <marker>trunks</marker> were in our car’s boot.</example>
             <example type="triggers_error">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>
             <example type="triggers_error">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>
             <example type="triggers_error">The <marker>trunk</marker> was in the Ford.</example>
@@ -209,9 +276,9 @@ USA
             <message>The term '\1 \2' is common for American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">aeroplane</match></suggestion>.</message>
             <url>https://en.oxforddictionaries.com/definition/airplane</url>
             <short>AmE/BrE: air plane/aeroplane</short>
-            <example type="incorrect" correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
-            <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
-            <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
+            <example correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
+            <example correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
+            <example>This <marker>aeroplane</marker> is very quiet.</example>
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_AME" name="1-liter/1-litre">
             <pattern>
@@ -219,13 +286,46 @@ USA
             </pattern>
             <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct British English.</message>
             <short>AmE/BrE: SI units (adjectives)</short>
-            <example type="incorrect">Use a <marker>6-millimeter</marker> bolt.</example>
-            <example type="correct">Use a <marker>6-millimetre</marker> bolt.</example>
-            <example type="correct">Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
-            <example type="correct">The 4.<marker>6-centigram</marker> difference is not a problem.</example><!-- Refer to OXFORD_SPELLING_GRAM -->
-            <example type="incorrect">Use a <marker>10-meter</marker> rope.</example>
-            <example type="incorrect">Also find typographic errors: a 5.7.<marker>8-femtoliter</marker> difference is not important.</example>
+            <example correction="">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example>Use a <marker>6-millimetre</marker> bolt.</example>
+            <example>Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
+            <example>The 4.<marker>6-centigram</marker> difference is not a problem.</example><!-- Refer to OXFORD_SPELLING_GRAM -->
+            <example correction="">Use a <marker>10-meter</marker> rope.</example>
+            <example correction="">Also find typographic errors: a 5.7.<marker>8-femtoliter</marker> difference is not important.</example>
        </rule>
+        <rule id="TAKE_A_BATH" name="Collocation: take (have) a bath/nap"><!-- Refer to en-US/HAVE_A_BATH -->
+            <pattern>
+                <marker>
+                    <token inflected="yes">take</token>
+                </marker>
+                <or>
+                    <token>a</token>
+                    <token postag="PRP$"/>
+                </or>
+                <token regexp="yes">bath|nap|rest|vacation</token>
+            </pattern>
+            <message>In British English, the usual verb to go with '\3' is <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">have</match></suggestion>.</message>
+            <url>http://dialectblog.com/2012/07/26/take-have-a-bath/</url>
+            <short>Collocation error</short>
+            <example correction="had">John <marker>took</marker> a nap after lunch.</example>
+            <example correction="have|haven">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
+            <example correction="have">Mary will <marker>take</marker> her vacation in Paris.</example>
+            <example correction="having">I was thinking about <marker>taking</marker> a rest, but I decided to complete the work.</example>
+            <example correction="having">While I was <marker>taking</marker> a bath, I thought about how to lay the bedroom carpet.</example>
+            <example correction="have|haven">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
+            <example correction="had">Who <marker>took</marker> a bath in the morning?</example>
+            <example>John <marker>had</marker> a nap after lunch.</example>
+        </rule>
+        <rule id="OK" name="ok (OK)">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Oo]k</token>
+            </pattern>
+            <message>Lower-case '\1' is American English. For British English use <suggestion>OK</suggestion>.</message>
+            <url>https://www.lexico.com/en/definition/ok</url>
+            <short>AmE/BrE: ok/OK</short>
+            <example correction="OK"><marker>Ok</marker>, I'll let you know.</example>
+            <example correction="OK">Are you <marker>ok</marker>?</example>
+        </rule>
     </category>
     <category id="BRE_STYLE_OXFORD_SPELLING" name="British English, Oxford spelling (~iz~ not ~is~)" type="style">
         <rulegroup id="OXFORD_SPELLING_GRAM" name="Oxford spelling of 'gram' (not 'gramme')">
@@ -262,19 +362,10 @@ USA
                 <example correction="5-yoctogram">A <marker>5-yoctogramme</marker> error is not important.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OXFORD_SPELLING_IZE" name="Oxford spelling of 'iz' (not 'is')">
-        <!-- Created by Tiago F. Santos, contributed by DaveChild based on the coherency list created by Mike Unwalla, 2018-11-15 -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">(?:a(bsolutised?|cademised?|ccessorised?|cclimatisable|cclimatisation|cclimatised?|cclimatiser|chromatised?|cidisation|cidised?|ctionised?|ctualisation|ctualised?|donised?|drenalectomised?|drenalised?|dulterised?|erobicised?|erosolised?|erosolised|estheticised?|fricanisation|fricanised?|gatised?|genised?|ggrandised?|gnised?|gonised?|gonising|gonisingly|lbitised?|lchemised?|lcoholised?|ldolisation|lienised?|lkalinisation|lkalinised?|lkalisable|lkalised?|llatectomised?|llegorised?|lphabetisation|lphabetised?|lphabetiser|luminised?|mericanisation|mericanised?|mericaniser|mortisable|mortisation|mortised?|naesthetisation|naesthetised?|nagrammatised?|nalogised?|nathematised?|natomisation|natomised?|natomiser|ndrogenisation|ndrogenised?|nglicisation|nglicised?|nimalisation|nimalised?|nnualised?|nnuitised?|nodisation|nodised?|nonymised?|ntagonisable|ntagonised?|nthologised?|nthropologised?|nthropomorphised?|nticised?|phetised?|phorised?|pologised?|postatised?|postrophised?|potheosised?|ppetised?|ppetiser|ppetising|rabicisation|rabicised?|rabisation|rabised?|rborisation|rborised?|rchaised?|romatisation|romatised?|rterialisation|rterialised?|rtificialised?|ryanised?|septicised?|spheterised?|strologised?|tomisation|tomised?|tomiser|tticised?|ttitudinised?|ttitudiniser|ustralianised?|uthorisable|uthorisation|uthorised?|uthorised|uthoriser|utoionisation|utomatisation|utomatised?|utomised?|utotomised?|utoxidisable|vianised?|xiomatisation|xiomatise)|b(acterisation|acterised?|alkanised?|analisation|analised?|aptised?|arbarisation|arbarised?|astardisation|astardised?|astardised|estialised?|iosynthesised?|ipolarised?|ituminisation|ituminised?|olshevised?|otanised?|otrytised|owdlerisation|owdlerised?|owdleriser|romised?|rutalisation|rutalised?|ureaucratised?|urnettise)|c(alendarised?|alorised?|anadianised?|analisation|analised?|anisterised?|annibalisation|annibalised?|anonicalised?|anonisation|anonised?|anoniser|antonisation|antonised?|apitalisation|apitalised?|aponised?|apsulised?|aramelisation|aramelised?|arbolised?|arbonisable|arbonisation|arbonised?|arburisation|arburised?|arnalised?|artelisation|artelised?|asualisation|asualised?|atabolised?|atalogised?|atastrophised?|atechisation|atechised?|atechiser|ategorisation|ategorised?|atharised?|atheterisation|atheterised?|atholicisation|atholicised?|auterisation|auterised?|ellularised?|entralisation|entralised?|entraliser|hannelised?|haptalisation|haptalised?|haracterisable|haracterisation|haracterised?|haracteriser|hemicalised?|horisation|hristianisation|hristianised?|hristianiser|hromised?|hronologised?|icatrisant|icatrisation|icatrised?|icatriser|inchonisation|inchonised?|ircularised?|itizenised?|ivilianisation|ivilianised?|ivilisable|ivilisation|ivilisational|ivilised?|ivilised|iviliser|lassicised?|limatised?|oalised?|ocainisation|ocainised?|ognisable|ognisably|ognisance|ognisant|ognised?|ollateralised?|ollectivisation|ollectivised?|olloquised?|olonialised?|olonisable|olonisation|olonisationist|olonised?|oloniser|olourisation|olourised?|ommercialisation|ommercialised?|ommoditisation|ommoditised?|ommunalised?|ommunisation|ommunised?|ompartmentalisation|ompartmentalised?|omponentisation|omponentised?|omprehensivised?|omputerisable|omputerisation|omputerised?|onceptualisation|onceptualised?|onceptualiser|oncertised?|oncretisation|oncretised?|onditionalisation|onscientised?|onservatised?|onstitutionalised?|ontainerisation|ontainerised?|ontemporised?|ontextualisation|ontextualised?|onventionalised?|onveyorisation|onveyorised?|opolymerisation|opolymerised?|ordialised?|orporatised?|osmeticised?|osmetised?|reolised?|retinised?|riminalisation|riminalised?|riticisable|riticised?|rystallisable|rystallisation|rystallised?|ulturalised?|ustomisable|ustomisation|ustomised?|utinised?|yanised?|yclise)|d(eaminised?|ecapitalised?|ecarbonised?|ecarburisation|ecarburised?|ecartelised?|ecasualised?|ecentralisation|ecentralised?|echristianised?|ecimalisation|ecimalised?|ecitizenised?|ecivilised?|ecolonisation|ecolonised?|ecolorised?|ecolourised?|ecommunised?|ecompartmentalised?|econtextualised?|ecriminalisation|ecriminalised?|edramatised?|e-emphasised?|e-energisation|e-energised?|efamiliarised?|efeminisation|efeminised?|efeudalised?|efinitised?|eformalised?|eglamorised?|ehumanisation|ehumanised?|ehydrogenised?|ehypnotisation|ehypnotised?|eindustrialised?|einstitutionalised?|eionisation|eionised?|eioniser|elegitimisation|elegitimised?|elocalisation|elocalised?|emagnetisable|emagnetisation|emagnetised?|emagnetiser|ematerialised?|emilitarisation|emilitarised?|emineralisation|emineralised?|emineraliser|emobilisation|emobilised?|emocratisation|emocratised?|emonetisation|emonetised?|emonisation|emonised?|emonopolised?|emoralisation|emoralised?|emutualisation|emutualised?|emythologised?|emythologiser|enationalisation|enationalised?|enaturalised?|enaturised?|enisation|enormalisation|enormalised?|entalised?|enuclearised?|eodorisation|eodorised?|eodoriser|eoxidised?|eoxidiser|epartmentalisation|epartmentalised?|epauperised?|epersonalisation|epersonalised?|epolarisation|epolarised?|epolariser|epoliticisation|epoliticised?|epolymerisation|epolymerised?|epressurisation|epressurised?|eproteinised?|eputisation|eputised?|eracialised?|eradicalised?|erealisation|erealised|erecognised?|ereligionised?|erivatised?|esacralised?|esalinisation|esensitisation|esensitised?|esensitiser|esexualised?|espiritualised?|estabilisation|estabilised?|e-Stalinisation|estalinised?|e-Stalinised?|estigmatised?|esulphurised?|esynchronisation|esynchronised?|eterritorialised?|etribalisation|etribalised?|evalorisation|evalorised?|evitalised?|evocalised?|iabolised?|iagonalisable|iagonalisation|iagonalised?|ialogised?|iarised?|iazotisation|iazotised?|ichotomised?|ieselised?|igitalisation|igitalised?|igitisation|igitised?|igitiser|imerisation|imerised?|iphthongisation|iphthongised?|isauthorised?|iscretised?|isharmonised?|isillusionised?|isincentivised?|isnaturalised?|isorganisation|isorganised?|isorganised|isorganiser|ispauperised?|issocialised?|ivinisation|ivinised?|ivisionalised?|ogmatised?|ollarisation|ollarised?|olomitised?|orised?|ramatisable|ramatisation|ramatised?|ramatiser|ualised?|ynamise)|e(bionised?|bonised?|conomisation|conomised?|conomiser|ditorialisation|ditorialised?|ditorialiser|ffeminised?|gotised?|gyptianised?|lasticised?|legised?|mblematised?|mblemised?|mbolisation|mbolised?|motionalised?|mpathised?|mperised?|mphasised?|nergisation|nergised?|nolisable|nolisation|picurised?|pimerised?|piscopised?|pithelialised?|pitomisation|pitomised?|pitomiser|poxidised?|qualisation|qualised?|qualiser|roticised?|rotisation|rotised?|ssentialised?|ternalised?|ternised?|therealised?|therised?|thicised?|tymologised?|ulogised?|uphemised?|uphemiser|uphonised?|uropeanisation|uropeanised?|uthanised?|vangelisation|vangelised?|vangeliser|ventualised?|volutionised?|xorcised?|xoticised?|xperimentalised?|xtemporisation|xtemporised?|xteriorised?|xternalisation|xternalise)|f(actionalised?|actorisable|actorisation|actorised?|amiliarisation|amiliarised?|amiliariser|anaticised?|antasised?|aradisation|aradiser|ederalisation|ederalised?|eminisation|eminised?|eralised|ertilisable|ertilisation|ertilised?|ertiliser|etishised?|eudalisation|eudalised?|iberisation|iberised?|ictionalisation|ictionalised?|inalisation|inalised?|inaliser|inancialisation|inlandised?|luidisation|luidised?|luidiser|ocalised?|ormalisable|ormalisation|ormalised?|ormaliser|ormularised?|ormulised?|ortunised?|ossilisable|ossilisation|ossilised?|ractionalisation|ractionalised?|ractionisation|ractionised?|raternisation|raternised?|raterniser|ustianise)|g(aelicised?|allicisation|allicised?|alliciser|alvanisation|alvanised?|alvaniser|elatinised?|enderised?|eneralisability|eneralisable|eneralisation|eneralised?|eneraliser|eneticised?|eologised?|eometrisation|eometrised?|ermanisation|ermanised?|ermaniser|hettoisation|hettoised?|lamorisation|lamorised?|lobalisation|lobalised?|lobaliser|luttonised?|nosticised?|nosticiser|orgonised?|othicised?|othiciser|ourmandised?|rammaticalised?|rangerisation|rangerised?|rangeriser|raphitisable|raphitisation|raphitised?|recianised?|reisenisation)|H(ansardised?|armonisable|armonisation|armonised?|armoniser|egemonised?|ellenisation|ellenised?|elleniser|eparinised?|epatisation|erborised?|eroicised?|eroised?|eterodimerised?|exametrised?|ierarchised?|induised?|ispanicisation|ispanicised?|istoricised?|ominisation|ominised?|omogenisation|omogenised?|omogeniser|omologised?|ospitalisation|ospitalised?|umanisation|umanised?|yalinisation|yalinised?|ybridisable|ybridisation|ybridised?|ybridiser|ydrogenisation|ydrogenised?|yperbolised?|yperpolarised?|ypersensitised?|yphenisation|ypnotisability|ypnotisable|ypnotisation|ypnotised?|ypnotiser|yposensitisation|yposensitised?|ypostatisation|ypostatised?|ypothesise)|i(conised?|dealisation|dealised?|dealiser|deologised?|dolatrised?|dolatriser|dolisation|dolised?|doliser|llegalised?|lliberalised?|mmanentised?|mmaterialised?|mmiserised?|mmobilisable|mmobilisation|mmobilised?|mmobiliser|mmortalisation|mmortalised?|mmunisation|mmunised?|mmuniser|mperialised?|mpersonalisation|mpersonalised?|ncentivisation|ncentivised?|ndianised?|ndigenisation|ndigenised?|ndividualisation|ndividualised?|ndividualiser|ndustrialisation|ndustrialised?|nfantilised?|nitialisation|nitialised?|nstitutionalisation|nstitutionalised?|nstrumentalised?|ntellectualisation|ntellectualised?|nteriorised?|nternalisation|nternalised?|nternationalisation|nternationalised?|odisation|odised?|odiser|onisable|onisation|onised?|oniser|ridisation|ridised?|ronised?|rrationalised?|rrealisable|slamicised?|slamisation|slamised?|somerisation|somerised?|talianisation|talianised?|talicisation|talicised?|temisation|temised?|temiser)|j(apanised?|argonisation|argonised?|asperised?|eopardised?|ournalised?|udaisation|udaised?|udaiser|udicialise)|k(aolinised?|eratinised?|yanisation|yanise)|l(abialisation|abialised?|aicisation|aicised?|aminarised?|ateralisation|ateralised?|aterisation|aterised?|atinisation|atinised?|atiniser|aymanised?|egalisation|egalised?|egendised?|egitimatised?|egitimisation|egitimised?|emmatisation|emmatised?|exicalised?|iberalisation|iberalised?|iberaliser|inearisation|inearised?|ionisation|ionised?|ioniser|iquidisation|iquidised?|iquidiser|iteralisation|iteralised?|iteraliser|obotomised?|ocalisability|ocalisable|ocalisation|ocalised?|ocaliser|ogicised?|uteinisation|yophilised?|yricised?|ysogenise)|m(acadamised?|acadamised|acarised?|aderisation|aderised?|agnetisability|agnetisable|agnetisation|agnetised?|agnetiser|ajorised?|arbleised?|arginalisation|arginalised?|arinised?|arketisation|arketised?|artyrised?|asculinisation|asculinised?|aterialisation|aterialised?|athematisation|athematised?|atronised?|aximisation|aximised?|aximiser|echanisable|echanisation|echanised?|echanised|echaniser|ediatisation|ediatised?|edicalisation|edicalised?|elanisation|elanised?|elodised?|elodiser|elodramatised?|emorialisation|emorialised?|emorialiser|emorisable|emorisation|emorised?|emoriser|entalised?|ercerisation|ercerised?|erchandised?|esmerisation|esmerised?|esmerised|esmeriser|etabolisable|etabolised?|etallisation|etallised?|etamorphised?|etamorphosised?|etastasised?|etathesised?|ethodisation|ethodised?|etricised?|etrisability|etrisable|icronisation|icronised?|ilitarisation|ilitarised?|ineralisable|ineralisation|ineralised?|ineraliser|iniaturisation|iniaturised?|inimalised?|inimisation|inimised?|inimiser|ischaracterised?|isrecognised?|issionisation|issionised?|obilisable|obilisation|obilisational|obilised?|obiliser|odalised?|odelised?|odernisation|odernised?|oderniser|odularisation|odularised?|oisturised?|onarchised?|onetisation|onetised?|ongrelised?|onopolisation|onopolised?|onopoliser|onumentalised?|oralisation|oralised?|oraliser|oslemised?|otorisation|otorised?|ultilateralised?|ultimerised?|unicipalisation|unicipalised?|usicalised?|uslimised?|utualisation|utualised?|ylonitisation|ythicised?|ythologise)|n(anisation|aphthalised?|arcotised?|arrativised?|asalisation|asalised?|ationalisation|ationalised?|ationaliser|ativised?|aturalisation|aturalised?|ebulisation|ebulised?|ebuliser|ecrotised?|eologised?|eoterised?|eovascularisation|eutralisation|eutralised?|eutraliser|itrogenised?|omadisation|omadised?|ominalisable|ominalisation|ominalised?|onpolarisable|ormalisable|ormalisation|ormalised?|ormaliser|ormanisation|ormanised?|otarised|ovelisation|ovelised?|uclearisation|uclearise)|o(bjectivisation|bjectivised?|ccidentalised?|dorised?|fficialised?|ligomerised?|ntologised?|palised?|perationalisable|perationalised?|peratised?|pinionised?|psonisation|psonised?|ptimisable|ptimisation|ptimised?|ptimiser|rganisability|rganisable|rganisation|rganisational|rganisationally|rganised?|rganiser|rientalisation|rientalised?|rthogonalised?|stracisable|stracisation|stracised?|utorganised?|valised?|variectomised?|vercapitalised?|verdramatised?|veremphasised?|verfertilised?|vergeneralisation|vergeneralised?|veridealised?|verspecialised?|verutilisation|verutilised?|xidisability|xidisable|xidisation|xidised?|xidiser|zonisation|zonised?|zoniser)|p(acketised?|aganised?|alatalised?|alletised?|alletiser|arabolised?|arallelisation|arallelised?|arameterised?|arametrisation|arametrised?|arasitised?|arenthesised?|arkerised?|arodised?|artialised?|articularised?|assivisation|assivised?|asteurisation|asteurised?|asteurised|asteuriser|athologised?|atinised?|atrialisation|atrialised?|atronisation|atronised?|auperisation|auperised?|earlised?|ectisable|ectisation|ectised?|eculiarised?|edestrianisation|edestrianised?|elletisation|elletised?|elletiser|enalisation|enalised?|eptisable|eptisation|eptised?|eptiser|eptonisation|eptonised?|eptoniser|erennialised?|eriodisation|eriodised?|eripheralised?|ermeabilised?|eroxidised?|ersianised|ersianising|ersonalisation|ersonalised?|ersonalised|essimised?|hagocytised?|hilosophised?|hilosophiser|hlebotomised?|honemicised?|hotoionisation|hotoionised?|hotosensitisation|hotosensitised?|hotosensitiser|hotosynthesised?|hysicalised?|ictorialised?|icturised?|idginisation|idginised?|ilgrimised?|lagiarisation|lagiarised?|lagiariser|lasticised?|latinisation|latinised?|latonised?|lebeianised?|luralisation|luralised?|luraliser|oeticised?|oetised?|olarisability|olarisable|olarisation|olarised?|olariser|olemicised?|oliticalised?|oliticisation|oliticised?|olonised?|olygamised?|olygonised?|olymerisable|olymerisation|olymerised?|opularisation|opularised?|opulariser|orcellanised?|osterised?|otentialised?|otentised?|owderised?|ragmatisation|reconisation|reconised?|remiumised?|ressurisation|ressurised?|ressuriser|revisualised?|rioritisation|rioritised?|rivatisation|rivatised?|rivatiser|roblematised?|roductionised?|roductisation|roductised?|rofessionalisation|rofessionalised?|roletarianisation|roletarianised?|ropagandised?|rophesised?|roselytisation|roselytised?|roselytiser|rovincialisation|russianisation|russianised?|salmodised?|sychologised?|ublicised?|ulverisable|ulverisation|ulverised?|ulveriser|uritanise)|q(uantisable|uantisation|uantise)|r(acemised?|acialised?|adialisation|adialised?|adicalisation|adicalised?|adiosensitised?|andomisation|andomised?|asterisation|asterised?|ationalisable|ationalisation|ationalised?|ationaliser|eacclimatised?|ealisability|ealisable|ealisably|ealisation|ealised?|ealiser|eauthorised?|ecanalisation|ecanalised?|ecapitalisation|ecapitalised?|ecategorisation|ecategorised?|ecognisability|ecognisable|ecognisably|ecognisance|ecognised?|ecogniser|ecolonised?|econceptualised?|econtextualised?|ecrystallisation|ecrystallised?|e-energised?|eflectorised?|eflexivised?|egionalisation|egionalised?|egularisation|egularised?|ehospitalisation|ehospitalised?|ehumanised?|ehypnotised?|eindustrialised?|eionised?|elativised?|emagnetised?|ematerialised?|emilitarisation|emilitarised?|emineralisation|emineralised?|emobilisation|emobilised?|emonetisation|emonetised?|emoralised?|emythologised?|enationalisation|enationalised?|enormalisation|enormalised?|eorganisation|eorganised?|eorganiser|eoxidised?|epolarisation|epolarised?|epopularised?|epressurisation|epressurised?|eprivatised?|epublicanisation|epublicanised?|esacralised?|esensitised?|esinised?|esocialised?|espectabilised?|espiritualised?|estabilised?|esynchronised?|esynthesised?|eterritorialised?|etexturised?|eutilised?|evalorised?|evascularisation|evascularised?|evisualisation|evisualised?|evitalisation|evitalised?|evolutionised?|hapsodised?|idiculised?|igidised?|itualised?|ivalised?|obotisation|obotised?|omanisation|omanised?|omaniser|omanticisation|omanticised?|outinisation|outinised?|ubberised?|uggedised?|uralised?|ussianisation|ussianised?|usticise)|s(acralised?|acramentalised?|alinisation|alinised?|anforised|anitisation|anitised?|anitiser|atanised?|atinised?|atirisable|atirisation|atirised?|atiriser|candalisation|candalised?|candaliser|cenarised?|chematisation|chematised?|chismatised?|cientised?|clerotised?|crutinisation|crutinised?|crutiniser|ectarianised?|ectionalised?|ectionisation|ectionised?|ectorisation|ectorised?|ecularisation|ecularised?|ecularised|eculariser|ecuritisation|ecuritised?|ensationalised?|ensitisation|ensitised?|ensitiser|ensualisation|ensualised?|entimentalisation|entimentalised?|equelised?|erialisable|erialisation|erialised?|ermonised?|erpentinised?|exualisation|exualised?|hamanised?|herardisation|herardised?|ignalisation|ignalised?|iliconised?|ilverised?|imonised?|ingularisation|ingularised?|inicisation|inicised?|irenised?|keletonised?|lenderised?|loganised?|ocialisable|ocialisation|ocialised?|ocialiser|ociologised?|odomisation|odomised?|olarisation|olarised?|olecised?|olemnisation|olemnised?|oliloquised?|olmisation|olonisation|olubilisation|olubilised?|omatised?|ovietisation|ovietised?|patialised?|pecialisation|pecialised?|pecialised|pheroidisation|pheroidised?|piralised?|piritualisation|piritualised?|piritualiser|plenectomised?|tabilisation|tabilised?|tabiliser|tandardisable|tandardisation|tandardised?|tandardiser|terilisable|terilisation|terilised?|teriliser|tigmatisation|tigmatised?|trategised?|tructuralised?|tylisation|tylised?|ubcategorisation|ubcategorised?|uberisation|uberised?|ubitised?|ubjectivisation|ubjectivised?|ublimised?|uboptimisation|uboptimised?|ubsidisable|ubsidisation|ubsidised?|ubsidised|ubsidiser|ubspecialised?|ubstantialised?|ubtilised?|uburbanisation|uburbanised?|ubvocalisation|ubvocalised?|ulphurised?|ummarisable|ummarisation|ummarised?|ummariser|uperficialised?|yllogisation|yllogised?|yllogiser|ymbolisation|ymbolised?|ymmetrisation|ymmetrised?|ympathised?|ynchronisation|ynchronised?|ynchroniser|yncretised?|ynergised?|ynonymised?|ynopsised?|ynthesised?|ynthesiser|yntonised?|ystematisation|ystematised?|ystematiser|ystemise)|t(abularisation|alibanisation|alibanised?|analised?|antalisation|antalised?|antaliser|artarisation|artarised?|automerised?|axonomised?|echnicised?|echnologised?|elepathised?|emporisation|emporised?|enderisation|enderised?|enderiser|erritorialised?|errorisation|errorised?|erroriser|estimonialised?|etanisation|etanised?|eutonisation|eutonised?|exturised?|heatricalised?|hematised?|heologised?|heorisation|heorised?|heoriser|herapised?|hermalisation|hermalised?|okenisation|okenised?|opicalised?|otalisation|otalisator|otalised?|ranquillisation|ranquillised?|ranquilliser|ransistorised?|raumatisation|raumatised?|richinisation|richinised?|rivialisation|rivialised?|ropicalised?|rypsinised?|utorised?|yrannise)|U(berisation|berised?|nappetising|nappetisingly|nauthorised|nbowdlerised?|ncapitalised|ncategorisable|ncrystallised|nderemphasised?|nderutilisation|nderutilised?|nionisation|nionised?|nitisation|nitised?|niversalisability|niversalisation|niversalised?|npatronising|npolarisable|nrealisable|nrecognisable|nrecognisably|nsocialised|nspecialised|nverbalised|ralitised?|rbanisation|rbanised?|rbanised|tilisable|tilisation|tilised?|tiliser|topianise)|v(alorisation|alorised?|ampirised?|andalisation|andalised?|aporisable|aporisation|aporised?|aporiser|ascularised?|asectomised?|assalised?|ectorisation|ectorised?|entriloquised?|erbalisable|erbalisation|erbalised?|erbaliser|ernacularised?|ernalised?|erticalised?|ictimisation|ictimised?|ictimiser|ietnamisation|irilisation|irilised?|irtualisation|irtualised?|isualisable|isualisation|isualised?|isualiser|italisation|italised?|itriolisation|ocalisation|ocalised?|ocaliser|ocationalised?|olatilisable|olatilised?|olcanisation|olcanised?|olumised?|oucherised?|owelisation|owelised?|ulcanisable|ulcanisation|ulcanised?|ulcaniser|ulgarisation|ulgarise)|w(eaponised?|eatherised?|esternisation|esternised?|esterniser|omanised?|omaniser))s?<exception postag="NNP"/></token>
-                </pattern>
-                <message>Oxford English Dictionary gives 'iz' as the preferred spelling of this word. Use <suggestion><match no="1" regexp_match="([iy])s([ea])" regexp_replace="$1z$2"/></suggestion>.</message>
-                <url>https://en.wikipedia.org/wiki/Oxford_spelling</url>
-                <short>Oxford spelling: ize, not ise</short>
-                <example correction="automatized">This has been an <marker>automatised</marker> conversion.</example>
-                <example correction="Visualization"><marker>Visualisation</marker> methods are useful for complex tasks.</example>
-            </rule>
-         </rulegroup>
+        <!--        <rulegroup id="OXFORD_SPELLING_IZE" name="Oxford spelling of 'iz' (not 'is')">
+        Created by Tiago F. Santos, based on the coherency list created by Mike Unwalla, 2018-11-15
+        MFU removed 2019-05-02. Refer to https://forum.languagetool.org/t/remove-oxford-spelling-ize/3805
+        -->
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
         <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
@@ -297,7 +388,7 @@ USA
                     <exception regexp="yes" inflected="yes">(advert|adv|appra|bru|chast|circumc|comprom|(battle)?cru|curtain-ra|desp|dev|disfranch|disgu|dispra|enfranch|exerc|franch|fundra|hell-?ra|improv|ka|merchand|mort|po|pract|pra|prom|ra|reappra|repr|rev|r|surm|surpr|upra|upr)iser</exception><!-- These nouns are always ~iser. -->
                     <exception regexp="yes" inflected="yes">(adv|d|)isability</exception></token><!-- These nouns are always ~isability. -->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: nouns</short>
 <!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
@@ -341,7 +432,7 @@ USA
                     <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>'.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
+                <message>In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
                 <short>Oxford spelling: ~ise verbs</short>
                 <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
@@ -363,10 +454,10 @@ USA
             <rule id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"><!-- ~isable, ~isational, ~ised, ~ising -->
                 <pattern>
                     <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)<exception regexp="yes">(?-i)[A-Z-]+</exception>
-                    <exception regexp="yes">advisable|hair-raising|ill-advised|improvisational|inadvisable|memorisable|self-advertising</exception><!-- These adjectives are always ~is. Some adjectives are ~isible (divisible, indivisible, invisible), but I did not find ~isible adjectives that are also spelled ~izible.-->
+                    <exception regexp="yes">advisable|hair-raising|ill-advised|improvisational|inadvisable|memorisable|raisable|self-advertising</exception><!-- These adjectives are always ~is. Some adjectives are ~isible (divisible, indivisible, invisible), but I did not find ~isible adjectives that are also spelled ~izible.-->
                     <exception regexp="yes">(un)?(advis|bruis|circumcis|compromis|devis|(dis)?enfranchis|disguis|enterpris|excis|exercis|franchis|immunocompromis|improvis|incis|noncompromis|pois|practis|promis|rais|recognis|revis|supervis|surpris|televis)(ed|ing)</exception></token><!-- These words (adjectives/past participle adjectives/verbs are always ~is. Some words such as 'excised' do not have the postag JJ, but in some contexts, disambiguation DT_VBN_JJ gives the postag JJ to the VBN word (also, other rules do similarly). Possibly, some un* words do not exist, but that is not a problem. -->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <message>In British English, for some adjectives, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adjectives and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adjectives</short>
                 <example correction="magnetizable">The adjective '<marker>magnetisable</marker>' is not the Oxford spelling.</example>
                 <example correction="Magnetizable">The adjective '<marker>Magnetisable</marker>' is not the Oxford spelling.</example>
@@ -384,7 +475,7 @@ USA
                     <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)<exception regexp="yes">(?-i)[A-Z-]+</exception>
                     <exception regexp="yes">(in)?advisably</exception></token><!-- These adverbs are always ~is.-->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <message>In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adverbs</short>
                 <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>
@@ -394,4 +485,75 @@ USA
             </rule>
          </rulegroup>
     </category>
+
+    <category id="SEMANTICS" name="Semantics" type="inconsistency">
+        <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (UK)">
+            <rule> <!-- We have visited the client on 27/10/2040 -->
+                <pattern>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1">
+                      <exception>scheduled</exception>
+                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                    <marker> &date_dmy_numbers; </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\5 day:\3"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">We have visited the client on <marker>27/10/2040</marker>.</example>
+                <example correction="">I had already informed the customer on <marker>27/10/2040</marker>.</example>
+                <example>We have visited the client on <marker>27/10/2010</marker>.</example>
+                <example>I had already informed the customer on <marker>27/10/2010</marker>.</example>
+                <example>We will inform the client on 27/10/2010.</example>
+                <example>He promised to do it before 30/08/2020.</example>
+                <example>The data collected from 8/12/2019 to 8/29/2019 contained a lot of errors.</example><!-- XXX US standard style dates -->
+            </rule>
+            <rule> <!-- On 27/10/2040, we have visited the client -->
+                <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
+                    <marker> &date_dmy_numbers_skip; </marker>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>27/10/2040</marker>, we have visited the client.</example>
+                <example correction="">On <marker>27/10/2040</marker>, I had already informed the customer.</example>
+                <example>On <marker>27/10/2010</marker>, we have visited the client.</example>
+                <example>On <marker>27/10/2010</marker>, I had already informed the customer.</example>
+                <example>On 27/10/2010, we will inform the client.</example>
+                <example>He promised to do it before 30/08/2020.</example>
+            </rule>
+            <rule> <!-- We visited the client on 27/10/2040  -->
+                <pattern>
+                    <token postag="VBD" skip="-1">
+                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                    <marker> &date_dmy_numbers; </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">We visited the client on <marker>27/10/2040</marker>.</example>
+                <example correction="">I already informed the customer on <marker>27/10/2040</marker>.</example>
+                <example>We visited the client on <marker>27/10/2010</marker>.</example>
+                <example>I already informed the customer on <marker>27/10/2010</marker>.</example>
+                <example>We will inform the client on 27/10/2010.</example>
+                <example>He promised to do it before 30/08/2020.</example>
+            </rule>
+            <rule> <!-- On 27/10/2040, we visited the client -->
+                <pattern>
+                    <token>
+                      <exception regexp='yes'>before|until</exception></token>
+                    <marker> &date_dmy_numbers_skip; </marker>
+                    <token postag="VBD" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>27/10/2040</marker>, we visited the client.</example>
+                <example correction="">On <marker>27/10/2040</marker>, I already informed the customer.</example>
+                <example>On <marker>27/10/2010</marker>, we visited the client.</example>
+                <example>On <marker>27/10/2010</marker>, I already informed the customer.</example>
+                <example>On 27/10/2010, we will inform the client.</example>
+                <example>He promised to do it before 30/08/2020.</example>
+            </rule>
+        </rulegroup>
+  </category>
 </rules>

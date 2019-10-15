@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>4.5-SNAPSHOT</version>
+        <version>4.8-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     
@@ -78,6 +78,16 @@
             <groupId>de.danielnaber</groupId>
             <artifactId>german-pos-dict</artifactId>
             <version>1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-fsa</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-stemming</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -88,6 +98,10 @@
                 <exclusion>
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

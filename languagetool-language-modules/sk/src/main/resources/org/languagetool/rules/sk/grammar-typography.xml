@@ -219,8 +219,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		<!-- POZN: druhá výnimka vylučuje citoslovcia na konci vety a spojenia typu "Bum sa ozvalo zo skrine." -->
                 <pattern>
 		    <token postag="SENT_START"/>
-                    <token postag="J" postag_regexp="yes"><exception postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*)" postag_regexp="yes"></exception></token>
-                    <token><exception regexp="yes">sa|[,.!?]</exception></token>
+                    <marker>
+                        <token postag="J" postag_regexp="yes"><exception postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*)" postag_regexp="yes"></exception></token>
+                        <token><exception regexp="yes">sa|[,.!?]</exception></token>
+                    </marker>
                 </pattern>
 
                 <message>Pridajte čiarku za citoslovce <suggestion>\2, \3</suggestion></message>

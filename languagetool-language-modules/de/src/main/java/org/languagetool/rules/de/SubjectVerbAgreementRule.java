@@ -102,6 +102,17 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().pos("KON:UNT").build(),
       new PatternTokenBuilder().csToken("sie").setSkip(3).build(),
       new PatternTokenBuilder().tokenRegex("sind|waren").build()
+    ),
+    Arrays.asList( //Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().posRegex("PRP:.+").setSkip(4).build(),
+      new PatternTokenBuilder().tokenRegex("ist|war").build(),
+      new PatternTokenBuilder().tokenRegex("d(as|er)|eine?").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("zu").build(),
+      new PatternTokenBuilder().csToken("Fuß").build(),
+      new PatternTokenBuilder().tokenRegex("sind|waren").build()
     )
   );
 
@@ -131,13 +142,18 @@ public class SubjectVerbAgreementRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);
+  }
+
+  @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return makeAntiPatterns(ANTI_PATTERNS, language);
   }
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html");
+    return Tools.getUrl("http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html");
   }
 
   @Override
@@ -263,7 +279,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private boolean hasVerbToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i > 0; i--) {
-      if (tokens[i].matchesPosTagRegex("VER:[1-3]:.*")) {
+      if (tokens[i].matchesPosTagRegex("VER:[1-3]:.+")) {
         return true;
       }
     }
@@ -301,7 +317,7 @@ public class SubjectVerbAgreementRule extends Rule {
     for (int i = startPos; i < tokens.length; i++) {
       AnalyzedTokenReadings token = tokens[i];
       if (token.hasAnyPartialPosTag("SUB", "PRO")
-      		&& (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(new ChunkTag("NPP")))) {  // NPP catches 'und' phrases
+          && (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(NPP))) {  // NPP catches 'und' phrases
         return true;
       }
     }

@@ -396,7 +396,7 @@ class Main {
       System.exit(1);
     }
     if (options.isPrintVersion()) {
-      System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+      System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
       System.exit(0);
     }
     if (options.isPrintLanguages()) {
@@ -429,7 +429,7 @@ class Main {
         prg.lt.addRule(ffRule);
       }
     }
-    if (prg.lt.getAllActiveRules().size() == 0) {
+    if (prg.lt.getAllActiveRules().isEmpty()) {
       List<String> catIds = options.getEnabledCategories().stream().map(i -> i.toString()).collect(Collectors.toList());
       throw new RuntimeException("No rules are active. Please make sure your rule ids " +
               "(" + options.getEnabledRules() + ") and " +

@@ -28,7 +28,6 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.it.ItalianConfusionProbabilityRule;
 import org.languagetool.rules.it.ItalianWordRepeatRule;
@@ -46,7 +45,7 @@ public class Italian extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
   private Disambiguator disambiguator;
   
   @Override
@@ -87,7 +86,7 @@ public class Italian extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new WhitespaceBeforePunctuationRule(messages),
             new CommaWhitespaceRule(messages),
@@ -105,16 +104,14 @@ public class Italian extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new ItalianConfusionProbabilityRule(messages, languageModel, this)
     );
   }

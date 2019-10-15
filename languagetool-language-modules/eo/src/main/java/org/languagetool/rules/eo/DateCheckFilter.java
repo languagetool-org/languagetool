@@ -80,6 +80,9 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.startsWith("mar")) return Calendar.TUESDAY;
     if (day.startsWith("mer")) return Calendar.WEDNESDAY;
     if (day.startsWith("ĵaŭ")) return Calendar.THURSDAY;
+    if (day.startsWith("jau")) return Calendar.THURSDAY;
+    if (day.startsWith("jhau")) return Calendar.THURSDAY;
+    if (day.startsWith("jxau")) return Calendar.THURSDAY;
     if (day.startsWith("ven")) return Calendar.FRIDAY;
     if (day.startsWith("sab")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");

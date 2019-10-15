@@ -37,7 +37,7 @@ public class ShortenedYearRangeChecker extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     try {
       int x = Integer.parseInt(arguments.get("x"));
       String centuryPrefix = arguments.get("x").substring(0, 2);

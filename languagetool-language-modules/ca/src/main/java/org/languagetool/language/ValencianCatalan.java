@@ -71,7 +71,7 @@ public class ValencianCatalan extends Catalan {
   }
   
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages, 
                 Example.wrong("A parer seu<marker> ,</marker> no era veritat."),

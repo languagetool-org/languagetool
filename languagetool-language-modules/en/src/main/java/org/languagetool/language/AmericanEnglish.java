@@ -19,16 +19,20 @@
 
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleUS;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+import org.languagetool.rules.spelling.SymSpellRule;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
-import org.languagetool.rules.en.UnitConversionRuleUS;
 
 public class AmericanEnglish extends English {
 
@@ -43,11 +47,20 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
-    rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig, altLanguages));
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new UnitConversionRuleUS(messages));
+    return rules;
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
+    if (SuggestionsChanges.isRunningExperiment("SymSpell") || SuggestionsChanges.isRunningExperiment("SymSpell+NewSuggestionsOrderer")) {
+      rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, languageModel));
+    } else {
+      rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig, altLanguages, languageModel));
+    }
     return rules;
   }
 

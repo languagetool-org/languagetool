@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis.uk;
 
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -30,8 +31,8 @@ public class UkrainianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/uk/ukrainian_synth.dict";
   private static final String TAGS_FILE_NAME = "/uk/ukrainian_tags.txt";
 
-  public UkrainianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public UkrainianSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
   
 }

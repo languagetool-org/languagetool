@@ -44,12 +44,12 @@ public abstract class RuleFilter {
    *         the arguments) that properly describes the detected error
    */
   @Nullable
-  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
+  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens);
 
   /** @since 3.2 */
-  public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens, int firstMatchToken) {
     RuleMatch fakeMatch = new RuleMatch(new FakeRule(), null, 0, 1, "(internal rule)");
-    return acceptRuleMatch(fakeMatch, arguments, patternTokens) != null;
+    return acceptRuleMatch(fakeMatch, arguments, firstMatchToken, patternTokens) != null;
   }
 
   private static class FakeRule extends Rule {

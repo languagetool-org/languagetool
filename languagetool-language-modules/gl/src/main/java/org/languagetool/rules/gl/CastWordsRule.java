@@ -41,7 +41,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
 
   public static final String GL_CAST_WORDS_RULE = "GL_CAST_WORDS";
 
-  private static final Map<String, List<String>> wrongWords = load("/gl/spanish.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/gl/spanish.txt");
   private static final Locale GL_LOCALE = new Locale("gl");
 
   @Override

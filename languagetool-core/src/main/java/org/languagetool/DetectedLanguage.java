@@ -19,10 +19,6 @@
  */
 package org.languagetool;
 
-import org.languagetool.Language;
-
-import java.util.Objects;
-
 /**
  * @since 4.2
  */
@@ -59,8 +55,7 @@ public class DetectedLanguage {
   public float getDetectionConfidence() {
     return detectionConfidence;
   }
-
-
+  
   @Override
   public String toString() {
     return detectedLanguage.getShortCodeWithCountryAndVariant();

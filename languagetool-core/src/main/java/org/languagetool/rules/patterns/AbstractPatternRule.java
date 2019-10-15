@@ -154,7 +154,7 @@ public abstract class AbstractPatternRule extends Rule {
     return sourceFile;
   }
 
-  public void setSourceFile(String sourceFile) {
+  void setSourceFile(String sourceFile) {
     this.sourceFile = sourceFile;
   }
 

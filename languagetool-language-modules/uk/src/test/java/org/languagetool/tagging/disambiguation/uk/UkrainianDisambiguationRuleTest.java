@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.disambiguation.uk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -110,13 +112,13 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     TestTools.myAssert("всіляких Василів",
         "/[null]SENT_START всіляких/[всілякий]adj:p:v_mis:&pron:gen|всіляких/[всілякий]adj:p:v_rod:&pron:gen|всіляких/[всілякий]adj:p:v_zna:ranim:&pron:gen"
         + "  /[null]null Василів/[Василь]noun:anim:p:v_rod:prop:fname|Василів/[Василь]noun:anim:p:v_zna:prop:fname|Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
-        + "|Василів/[Василів]noun:anim:f:v_dav:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:np:prop:lname"
+        + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname"
         + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1"
         + "|Василів/[Василів]noun:inanim:m:v_naz:prop:geo:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:geo:xp2",
 //        + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2",
-//        + "|Василів/[Василів]noun:anim:f:v_dav:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_dav:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:np:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2",
+//        + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2",
 //        + "  /[null]null Василів/[Василь]noun:anim:p:v_rod:prop:fname|Василів/[Василь]noun:anim:p:v_zna:prop:fname|Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
-//        + "|Василів/[Василів]noun:anim:f:v_dav:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:np:prop:lname"
+//        + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname"
 //        + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:anim:[m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -127,7 +129,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
 
     TestTools.myAssert("Юріїв Луценків",
         "/[null]SENT_START Юріїв/[Юрій]noun:anim:p:v_rod:prop:fname|Юріїв/[Юрій]noun:anim:p:v_zna:prop:fname|Юріїв/[Юріїв]adj:m:v_kly|Юріїв/[Юріїв]adj:m:v_naz|Юріїв/[Юріїв]adj:m:v_zna:rinanim"
-        + "  /[null]null Луценків/[Луценки]noun:inanim:p:v_rod:prop:geo:ns|Луценків/[Луценко]noun:anim:p:v_rod:prop:lname|Луценків/[Луценко]noun:anim:p:v_zna:prop:lname",
+        + "  /[null]null Луценків/[Луценки]noun:inanim:p:v_rod:ns:prop:geo|Луценків/[Луценко]noun:anim:p:v_rod:prop:lname|Луценків/[Луценко]noun:anim:p:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("всіляких Фрейдів",
@@ -138,7 +140,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     // untouched
     TestTools.myAssert("Василів автомобіль",
       "/[null]SENT_START Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
-      + "|Василів/[Василів]noun:anim:f:v_dav:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:np:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:np:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:geo:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:geo:xp2"
+      + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_kly:nv:prop:lname|Василів/[Василів]noun:anim:f:v_mis:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname|Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:geo:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:geo:xp2"
 //      + " |Василів/[Василів]noun:anim:m:v_naz:prop:lname:xp1|Василів/[Василів]noun:inanim:m:v_naz:prop:xp2|Василів/[Василів]noun:inanim:m:v_zna:prop:xp2"
       + "  /[null]null автомобіль/[автомобіль]noun:inanim:m:v_naz|автомобіль/[автомобіль]noun:inanim:m:v_zna",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -163,6 +165,14 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
         + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
   
+    TestTools.myAssert("Є.  Бакуліна",
+        "/[null]SENT_START"
+          + " Є./[Є.]noun:anim:f:v_naz:prop:fname:abbr|Є./[Є.]noun:anim:m:v_rod:prop:fname:abbr|Є./[Є.]noun:anim:m:v_zna:prop:fname:abbr"
+          + "  /[null]null"
+          + "  /[null]null"
+          + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
     TestTools.myAssert(" Є. Бакуліна",
         "/[null]SENT_START"
           + "  /[null]null"
@@ -325,7 +335,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       "/[null]SENT_START"
       +  " у/[у]prep"
       + "  /[null]null"
-      + " XIX/[XIX]number"
+      + " XIX/[XIX]number:latin"
       + "  /[null]null"
       + " ст./[ст.]noun:inanim:n:v_dav:nv:abbr|ст./[ст.]noun:inanim:n:v_mis:nv:abbr|ст./[ст.]noun:inanim:n:v_naz:nv:abbr|ст./[ст.]noun:inanim:n:v_oru:nv:abbr|ст./[ст.]noun:inanim:n:v_rod:nv:abbr|ст./[ст.]noun:inanim:n:v_zna:nv:abbr",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -365,7 +375,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   public void testTaggingForUpperCaseAbbreviations() throws IOException {
     TestTools.myAssert("ВНЗ", "/[null]SENT_START ВНЗ/[ВНЗ]noun:inanim:m:v_dav:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:m:v_mis:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:m:v_naz:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:m:v_oru:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:m:v_rod:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:m:v_zna:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_dav:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_mis:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_naz:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_oru:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_rod:nv:abbr|ВНЗ/[ВНЗ]noun:inanim:p:v_zna:nv:abbr",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("АТО", "/[null]SENT_START АТО/[АТО]noun:inanim:f:v_dav:nv:np:abbr|АТО/[АТО]noun:inanim:f:v_mis:nv:np:abbr|АТО/[АТО]noun:inanim:f:v_naz:nv:np:abbr|АТО/[АТО]noun:inanim:f:v_oru:nv:np:abbr|АТО/[АТО]noun:inanim:f:v_rod:nv:np:abbr|АТО/[АТО]noun:inanim:f:v_zna:nv:np:abbr",
+    TestTools.myAssert("АТО", "/[null]SENT_START АТО/[АТО]noun:inanim:f:v_dav:nv:abbr|АТО/[АТО]noun:inanim:f:v_mis:nv:abbr|АТО/[АТО]noun:inanim:f:v_naz:nv:abbr|АТО/[АТО]noun:inanim:f:v_oru:nv:abbr|АТО/[АТО]noun:inanim:f:v_rod:nv:abbr|АТО/[АТО]noun:inanim:f:v_zna:nv:abbr",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
@@ -416,7 +426,20 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     assertTrue(tokens[3].getReadings().toString().contains("<insert>"));
     assertTrue(tokens[5].getReadings().toString().contains("<insert>"));
   }
+
   
+  @Test
+  public void testIgnoredCharacters() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
+
+    // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
+    assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
+        + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_kly:nv:prop:lname,Петрович/noun:anim:f:v_mis:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname:xp2,Петрович/noun:anim:m:v_naz:prop:pname]"
+        + ".[</S>]",
+        analyzedSentence.toString());
+
+  }
 
 }
 

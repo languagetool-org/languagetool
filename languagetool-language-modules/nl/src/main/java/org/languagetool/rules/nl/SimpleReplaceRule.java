@@ -70,7 +70,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " zou fout kunnen zijn. Misschien bedoelt u: ";
+    return "'$match' zou fout kunnen zijn. Misschien bedoelt u: $suggestions";
   }
 
   @Override

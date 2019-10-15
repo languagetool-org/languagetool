@@ -19,70 +19,77 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
+
+  <!-- part allows us to unify over particles, e.g. стояв би стовп -->
   <unification feature="number">
     <equivalence type="s">
-      <token postag=".*?:[smnf](:.*|$)|verb.*?:inf.*" postag_regexp="yes"></token>
+      <token postag=".*?:[smnf](:.*|$)|verb.*?:inf.*|part" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="p">
-      <token postag=".*?:p(:.*|$)|verb.*?:inf.*" postag_regexp="yes"></token>
+      <token postag=".*?:p(:.*|$)|verb.*?:inf.*|part" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
   <unification feature="gender">
     <equivalence type="f">
-      <token postag=".*?:f:.*|part" postag_regexp="yes" />
+      <token postag="(noun|adj|numr).*?:f:.*|noun:anim:s:.*?&amp;pron:pers:[21]" postag_regexp="yes" />
     </equivalence>
     <equivalence type="m">
-      <token postag=".*?:m:.*|part" postag_regexp="yes" />
+      <token postag="(noun|adj|numr).*?:m:.*|noun:anim:s:.*?&amp;pron:pers:[21]" postag_regexp="yes" />
     </equivalence>
     <equivalence type="n">
-      <token postag=".*?:n:.*|part" postag_regexp="yes" />
+      <token postag="(noun|adj|numr).*?:n:.*" postag_regexp="yes" />
     </equivalence>
     <equivalence type="pl">
-      <token postag=".*?:p:.*|part" postag_regexp="yes" />
+      <token postag="(noun|adj|numr).*?:p:.*" postag_regexp="yes" />
     </equivalence>
   </unification>
 
   <unification feature="case">
     <equivalence type="v_naz">
-      <token postag=".*?:v_naz.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_naz.*" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="v_rod">
-      <token postag=".*?:v_rod.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_rod.*" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="v_dav">
-      <token postag=".*?:v_dav.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_dav.*" postag_regexp="yes"/>
     </equivalence>
-    <equivalence type="v_zna">
-      <token postag=".*?:v_zna.*|part" postag_regexp="yes"></token>
+    <equivalence type="v_zna_ranim">
+      <token postag="noun:anim:.:v_zna.*|noun:.:v_zna:&amp;pron:pers:3.*|adj.*?:[^mp]:v_zna.*|adj.*?:[mp]:v_zna:ranim.*|numr:.:v_zna.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="v_zna_rinanim">
+      <token postag="noun:inanim:.:v_zna.*|noun:.:v_zna:&amp;pron:pers:3.*|adj.*?:[^mp]:v_zna.*|adj.*?:[mp]:v_zna:rinanim.*|numr:.:v_zna.*" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="v_oru">
-      <token postag=".*?:v_oru.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_oru.*" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="v_mis">
-      <token postag=".*?:v_mis.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_mis.*" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="v_kly">
-      <token postag=".*?:v_kly.*|part" postag_regexp="yes"></token>
+      <token postag="(noun|adj|numr).*?:v_kly.*" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
+<!-- not used
   <unification feature="person">
     <equivalence type="pers_pri">
-      <token postag=".*?:[mfn1](:.*)?$" postag_regexp="yes"></token>
+      <token postag=".*?:[mfn1](:.*)?$" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="pers_sec">
-      <token postag=".*?:[mfn2](:.*)?$" postag_regexp="yes"></token>
+      <token postag=".*?:[mfn2](:.*)?$" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="pers_tri">
-      <token postag=".*?:[mfn3](:.*)?$" postag_regexp="yes"></token>
+      <token postag=".*?:[mfn3](:.*)?$" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="pers_plu">
-      <token postag=".*?:p(:.*)?$" postag_regexp="yes"></token>
+      <token postag=".*?:p(:.*)?$" postag_regexp="yes"/>
     </equivalence>
   </unification>
-
+-->
 </rules>

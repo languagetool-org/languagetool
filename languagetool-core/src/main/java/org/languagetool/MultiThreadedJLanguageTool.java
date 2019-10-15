@@ -18,19 +18,15 @@
  */
 package org.languagetool;
 
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
-
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import java.util.concurrent.*;
 
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
@@ -179,7 +175,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       throw new RuntimeException(e);
     }
     
-    return ruleMatches;
+    return applyCustomFilters(ruleMatches, annotatedText);
   }
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
@@ -219,7 +215,9 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
       anTokens[anTokens.length - 1].setParagraphEnd();
-      analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
+      AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
+      preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
+      analyzedSentence = new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
       return analyzedSentence;
     }
   }

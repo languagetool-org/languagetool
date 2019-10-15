@@ -46,19 +46,19 @@ public class PolishTagger extends BaseTagger {
   }
 
   @Override
-  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
+  public final List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;    
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(plLocale);
+      List<AnalyzedToken> l = new ArrayList<>();
+      String lowerWord = word.toLowerCase(plLocale);
       taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
-      final boolean isLowercase = word.equals(lowerWord);
+      boolean isLowercase = word.equals(lowerWord);
 
       //normal case
       addTokens(taggerTokens, l);
@@ -89,14 +89,12 @@ public class PolishTagger extends BaseTagger {
     return tokenReadings;
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens,
-      final List<AnalyzedToken> l) {
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
-        final String[] tagsArr = StringTools.asString(at.getPOSTag()).split("\\+");
-        for (final String currTag : tagsArr) {
-          l.add(new AnalyzedToken(at.getToken(), currTag,
-              at.getLemma()));
+        String[] tagsArr = StringTools.asString(at.getPOSTag()).split("\\+");
+        for (String currTag : tagsArr) {
+          l.add(new AnalyzedToken(at.getToken(), currTag, at.getLemma()));
         }
       }
     }

@@ -23,7 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Re-Indent confusion_set.txt files.
@@ -41,7 +43,17 @@ public class ConfusionFileIndenter {
 
   static String indent(List<String> lines) {
     StringBuilder indentedLines = new StringBuilder();
+    Set<String> alreadyDone = new HashSet<>();
     for (String line : lines) {
+      if (!line.startsWith("#") && !line.isEmpty()) {
+        String[] parts = line.replaceFirst("\\s*#.*", "").split(";\\s*");
+        String key = parts[0] + ";" + parts[1];
+        if (alreadyDone.contains(key)) {
+          //System.err.println("Skipping, already appeared: " + key);
+          continue;
+        }
+        alreadyDone.add(key);
+      }
       int commentPos = line.lastIndexOf('#');
       if (commentPos <= 0) {
         indentedLines.append(line).append("\n");
@@ -50,8 +62,8 @@ public class ConfusionFileIndenter {
         while (Character.isWhitespace(line.charAt(endData - 1))) {
           endData--;
         }
-        String spaces = StringUtils.repeat(" ", Math.max(1, 40-endData));
-        indentedLines.append(line.substring(0, endData)).append(spaces).append(line.substring(commentPos)).append("\n");
+        String spaces = StringUtils.repeat(" ", Math.max(1, 82-endData));
+        indentedLines.append(line, 0, endData).append(spaces).append(line.substring(commentPos)).append("\n");
       }
     }
     return indentedLines.toString();

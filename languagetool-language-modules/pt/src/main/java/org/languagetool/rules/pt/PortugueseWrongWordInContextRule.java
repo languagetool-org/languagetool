@@ -51,7 +51,7 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Confusão de palavra dentro do contexto (Infligir/Infringir, etc.)";
+    return "Confusão de palavra dentro do contexto (p.ex. infligir/infringir, etc.)";
   }
   
   @Override
@@ -64,14 +64,14 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
     return "Pretende dizer <suggestion>$SUGGESTION</suggestion> em vez de $WRONGWORD?";
   }
   
-  @Override
+  @Override 
   protected String getShortMessageString() {
-    return "Possível confusão";
+    return "Possível confusão de termos. Verifique.";
   }
   
   @Override
   protected String getLongMessageString() {
-    return "Pretende dizer <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) em vez de '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
+    return "Considere <suggestion>$SUGGESTION</suggestion>, i.e. $EXPLANATION_SUGGESTION, em vez de '$WRONGWORD', i.e. $EXPLANATION_WRONGWORD?";
   }
 
 }

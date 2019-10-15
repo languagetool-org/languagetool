@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
  */
 public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ru/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ru/replace.txt");
   private static final Locale RU_LOCALE = new Locale("ru");
   
   

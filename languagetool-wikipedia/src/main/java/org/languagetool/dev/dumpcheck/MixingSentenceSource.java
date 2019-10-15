@@ -86,7 +86,7 @@ public class MixingSentenceSource extends SentenceSource {
     SentenceSource sentenceSource = sources.get(count % sources.size());
     while (!sentenceSource.hasNext()) {
       sources.remove(sentenceSource);
-      if (sources.size() == 0) {
+      if (sources.isEmpty()) {
         throw new NoSuchElementException();
       }
       count++;

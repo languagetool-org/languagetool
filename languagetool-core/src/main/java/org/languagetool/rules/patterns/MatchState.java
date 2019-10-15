@@ -108,11 +108,13 @@ public class MatchState {
     List<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
-        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getToken(),
+        // Note: we want the token without ignored characters so we can't use matchedToken.getToken()
+        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getReadings().get(0).getToken(),
                 match.getPosTag(), formattedToken.getToken()));
         formattedToken = matchedToken;
       }
-      String token = formattedToken.getToken();
+      // Note: we want the token without ignored characters so we can't use formattedToken.getToken()
+      String token = formattedToken.getAnalyzedToken(0).getToken();
       Pattern regexMatch = match.getRegexMatch();
       String regexReplace = match.getRegexReplace();
       if (regexMatch != null && regexReplace != null) {
@@ -162,6 +164,10 @@ public class MatchState {
     final AnalyzedTokenReadings anTkRead = new AnalyzedTokenReadings(
         l.toArray(new AnalyzedToken[0]),
         formattedToken.getStartPos());
+    // TODO: in case original had ignored characters we want to restore readings.token
+    // but there's no setToken() available :(
+//    anTkRead.setToken(formattedToken.getToken());
+    
     anTkRead.setWhitespaceBefore(formattedToken.isWhitespaceBefore());
     if (!formattedToken.getChunkTags().isEmpty()) {
       anTkRead.setChunkTags(formattedToken.getChunkTags());
@@ -334,8 +340,8 @@ public class MatchState {
           posTags.add(targetPosTag);
         }
       }
-
-      if (pPosRegexMatch != null && posTagReplace != null) {
+      
+      if (pPosRegexMatch != null && posTagReplace != null && !posTags.isEmpty()) {
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
             posTagReplace);
       }

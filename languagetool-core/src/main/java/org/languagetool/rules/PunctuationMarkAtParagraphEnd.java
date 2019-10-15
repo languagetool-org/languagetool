@@ -41,6 +41,19 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   
   private final Language lang;
 
+  /**
+   * @since 4.5
+   */
+  public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang, boolean defaultActive) {
+    super(messages);
+    this.lang = Objects.requireNonNull(lang);
+    super.setCategory(Categories.PUNCTUATION.getCategory(messages));
+    if (!defaultActive) {
+      setDefaultOff();
+    }
+    setLocQualityIssueType(ITSIssueType.Grammar);
+  }
+
   public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang) {
     super(messages);
     this.lang = Objects.requireNonNull(lang);
@@ -101,6 +114,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             if (tokens[tokens.length-2].getToken().equalsIgnoreCase(":") &&
                 WordTokenizer.isUrl(tokens[tokens.length-1].getToken())) {
               // e.g. "find it at: http://example.com" should not be an error
+              pos += sentence.getText().length();
               continue;
             }
             if (isWord(tokens[lastNWToken]) 
@@ -123,6 +137,11 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
       pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
   }
 
 }

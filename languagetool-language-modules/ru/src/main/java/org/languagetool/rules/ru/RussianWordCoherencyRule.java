@@ -25,6 +25,7 @@ import org.languagetool.rules.WordCoherencyDataLoader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Russian version of {@link AbstractWordCoherencyRule}.
@@ -34,7 +35,7 @@ import java.util.ResourceBundle;
  */
 public class RussianWordCoherencyRule extends AbstractWordCoherencyRule {
 
-  private static final Map<String, String> wordMap = new WordCoherencyDataLoader().loadWords("/ru/coherency.txt");
+  private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/ru/coherency.txt");
 
   public RussianWordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
@@ -43,7 +44,7 @@ public class RussianWordCoherencyRule extends AbstractWordCoherencyRule {
   }
 
   @Override
-  protected Map<String, String> getWordMap() {
+  protected Map<String, Set<String>> getWordMap() {
     return wordMap;
   }
 

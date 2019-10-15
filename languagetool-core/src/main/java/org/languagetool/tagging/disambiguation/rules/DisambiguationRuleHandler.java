@@ -48,6 +48,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private StringBuilder wd = new StringBuilder();
   private StringBuilder example = new StringBuilder();
 
+  private int antiPatternCounter = 0;
+  private boolean inRule;
+  private List<DisambiguationPatternRule> rulegroupAntiPatterns = new ArrayList<>();
+  private List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
+  private boolean inAntiPattern;
+
   private boolean inWord;
 
   private String disambiguatedPOS;
@@ -86,6 +92,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                            String qName, Attributes attrs) throws SAXException {
     switch (qName) {
       case RULE:
+        inRule = true;
         id = attrs.getValue(ID);
         if (inRuleGroup) {
           subId++;
@@ -107,6 +114,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
           caseSensitive = true;
         }
+        break;
+      case ANTIPATTERN:
+        inAntiPattern = true;
+        antiPatternCounter++;
+        caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
+        tokenCounter = 0;
+        tokenCountForMarker = 0;
         break;
       case EXCEPTION:
         setExceptions(attrs);
@@ -192,6 +206,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         ruleGroupName = attrs.getValue(NAME);
         inRuleGroup = true;
         subId = 0;
+        if (rulegroupAntiPatterns != null) {
+          rulegroupAntiPatterns.clear();
+        }
+        antiPatternCounter = 0;
         break;
       case UNIFICATION:
         uFeature = attrs.getValue(FEATURE);
@@ -227,7 +245,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         break;
       case MARKER:
         example.append("<marker>");
-        if (inPattern) {
+        if (inPattern || inAntiPattern) {
           startPos = tokenCounter;
           inMarker = true;
         }
@@ -287,6 +305,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           rule.setUntouchedExamples(untouchedExamples);
         }
         setRuleFilter(filterClassName, filterArgs, rule);
+        if (!rulegroupAntiPatterns.isEmpty()) {
+          rule.setAntiPatterns(rulegroupAntiPatterns);
+        }
+        if (!ruleAntiPatterns.isEmpty()) {
+          rule.setAntiPatterns(ruleAntiPatterns);
+          ruleAntiPatterns.clear();
+        }
         rules.add(rule);
         if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
           throw new SAXException(language.getName() + " rule error. The number unified tokens: "
@@ -310,6 +335,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         endPos = -1;
         filterClassName = null;
         filterArgs = null;
+        inRule = false;
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -444,6 +470,30 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         addNewWord(wd.toString(), wdLemma, wdPos);
         inWord = false;
         break;
+      case ANTIPATTERN:
+        final DisambiguationPatternRule disRule = new DisambiguationPatternRule(
+                id + "_antipattern:" + antiPatternCounter,
+                "antipattern", language, patternTokens, null, null,
+                DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
+        if (startPos != -1 && endPos != -1) {
+          disRule.setStartPositionCorrection(startPos);
+          disRule.setEndPositionCorrection(endPos - tokenCountForMarker);
+        }
+        patternTokens.clear();
+        if (inRule) {
+          if (ruleAntiPatterns == null) {
+            ruleAntiPatterns = new ArrayList<>();
+          }
+          ruleAntiPatterns.add(disRule);
+        } else { // a rulegroup shares all antipatterns not included in a single rule
+          if (rulegroupAntiPatterns == null) {
+            rulegroupAntiPatterns = new ArrayList<>();
+          }
+          rulegroupAntiPatterns.add(disRule);
+        }
+        tokenCounter = 0;
+        inAntiPattern = false;
+        break;
       case EXAMPLE:
         inExample = false;
         if (untouched) {
@@ -454,7 +504,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         break;
       case MARKER:
         example.append("</marker>");
-        if (inPattern) {
+        if (inPattern || inAntiPattern) {
           endPos = tokenCountForMarker;
           inMarker = false;
         }
@@ -475,7 +525,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
-    } else if (inToken && inPattern) {
+    } else if (inToken && (inPattern || inAntiPattern)) {
       elements.append(s);
     } else if (inMatch) {
       match.append(s);

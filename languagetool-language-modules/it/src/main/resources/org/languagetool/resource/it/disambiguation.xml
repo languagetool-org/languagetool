@@ -10,10 +10,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <unification feature="number">
         <equivalence type="sg">
-            <token postag="(NOUN.*s)|(ADJ.*\+s)" postag_regexp="yes"/>
+            <token postag="NOUN.*s|ADJ.*\+s|VER:.*\+s|PRO\-.*\-S" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="pl">
-            <token postag="(NOUN.*p)|(ADJ.*\+p)" postag_regexp="yes"/>
+            <token postag="NOUN.*p|ADJ.*\+p|VER:.*\+p|PRO\-.*\-P" postag_regexp="yes"/>
         </equivalence>
     </unification>
 
@@ -23,6 +23,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
         <equivalence type="fem">
             <token postag="(NOUN-F.*)|(ADJ.*\+f\+.?)" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="persona">
+        <equivalence type="first">
+            <token postag=".*[-\+]1[-\+].*" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="second">
+            <token postag=".*[-\+]2[-\+].*" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="third">
+            <token postag=".*[-\+]3[-\+].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
 
@@ -42,5 +54,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="unify"/>
     </rule>
+
+    <rulegroup id="IO_VERB" name="io + verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="persona"/>
+                        <token postag="PRO-PERS-[123].*" postag_regexp="yes"></token>
+                        <token postag="VER:.*" postag_regexp="yes"></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="persona"/>
+                        <token postag="PRO-PERS-[123].*" postag_regexp="yes"></token>
+                        <unify-ignore><token postag="PRO-PERS-CLI.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="VER:.*" postag_regexp="yes"></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+    </rulegroup>
 	
 </rules>

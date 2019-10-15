@@ -39,8 +39,10 @@ public class UserConfig {
   private final String userDictName;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
+  // needs to be in UserConfig so it is considered both in ResultCache and in PipelinePool
+  private final boolean filterDictionaryMatches;
 
-  // indifferent for comparing UserConfigs (e.g. in PipelinePool)
+  // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests ->
   private long textSessionId;
   private String abTest;
@@ -72,6 +74,13 @@ public class UserConfig {
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, String userDictName,
                     LinguServices linguServices) {
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, userDictName, linguServices, false);
+  }
+
+
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, String userDictName,
+                    LinguServices linguServices, boolean filterDictionaryMatches) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
@@ -79,6 +88,7 @@ public class UserConfig {
     this.maxSpellingSuggestions = maxSpellingSuggestions;
     this.userDictName = userDictName == null ? "default" : userDictName;
     this.linguServices = linguServices;
+    this.filterDictionaryMatches = filterDictionaryMatches;
   }
 
   public List<String> getAcceptedWords() {
@@ -107,7 +117,7 @@ public class UserConfig {
   }
   
   public boolean hasLinguServices() {
-    return (linguServices != null ? true : false);
+    return linguServices != null;
   }
   
   public LinguServices getLinguServices() {
@@ -133,7 +143,12 @@ public class UserConfig {
       .append(configurableRuleValues, other.configurableRuleValues)
       .append(userDictName, other.userDictName)
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
-      // skipping abTest and textSessionId on purpose - not relevant for caching
+      .append(filterDictionaryMatches, other.filterDictionaryMatches)
+      // omitting these distorts A/B tests, as UserConfig is cached by the pipeline pool
+      // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
+      // only group must match; keeps hit rate of pipeline cache up
+      .append(abTest, other.abTest)
+      .append(textSessionId % 2, other.textSessionId % 2)
       .isEquals();
   }
 
@@ -144,6 +159,7 @@ public class UserConfig {
       .append(maxSpellingSuggestions)
       .append(userDictName)
       .append(configurableRuleValues)
+      .append(filterDictionaryMatches)
       // skipping abTest and textSessionId on purpose - not relevant for caching
       .toHashCode();
   }
@@ -162,5 +178,9 @@ public class UserConfig {
 
   public void setAbTest(String abTest) {
     this.abTest = abTest;
+  }
+
+  public boolean filterDictionaryMatches() {
+    return filterDictionaryMatches;
   }
 }

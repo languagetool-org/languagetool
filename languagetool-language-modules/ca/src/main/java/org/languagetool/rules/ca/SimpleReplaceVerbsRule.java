@@ -46,7 +46,7 @@ import org.languagetool.tagging.ca.CatalanTagger;
  */
 public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace_verbs.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_verbs.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override

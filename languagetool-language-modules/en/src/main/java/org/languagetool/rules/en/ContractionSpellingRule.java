@@ -36,7 +36,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   public static final String CONTRACTION_SPELLING_RULE = "EN_CONTRACTION_SPELLING";
 
-  private static final Map<String, List<String>> wrongWords = load("/en/contractions.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/contractions.txt");
   private static final Locale EN_LOCALE = new Locale("en");
 
   @Override

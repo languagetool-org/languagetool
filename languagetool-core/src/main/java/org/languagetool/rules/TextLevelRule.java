@@ -59,8 +59,26 @@ public abstract class TextLevelRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return -1;
+  }
+  
+  @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("Not implemented for a text-level rule");
   }
+  
+  /**
+   * Gives back the minimum number of paragraphs to check to give back a correct result
+   * only used by LO office extension
+   * return n;
+   * n == -1  --&gt; need to check full text (use only if really needed / bad performance)
+   *              examples: AbstractWordCoherencyRule, GenericUnpairedBracketsRule, ...
+   * n == 0   --&gt; need only to check the current paragraph
+   *              examples: MultipleWhitespaceRule, LongParagraphRule, ...
+   * n &gt;= 1   --&gt; need only to check n paragraphs around the current paragraph
+   *              examples: ParagraphRepeatBeginningRule (n == 1), WordRepeatBeginningRule (n == 2), ...
+   */
+  public abstract int minToCheckParagraph();
 
 }

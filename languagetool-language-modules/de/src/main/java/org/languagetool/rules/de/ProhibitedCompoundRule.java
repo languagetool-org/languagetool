@@ -47,6 +47,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("mit", "Präposition", "miet", "zu 'Miete' (Überlassung gegen Bezahlung)"),
+          new Pair("bart", "Behaarung im Gesicht", "brat", "zu 'braten', z.B. 'Bratkartoffel'"),
           new Pair("uhr", "Instrument zur Zeitmessung", "ur", "ursprünglich"),
           new Pair("abschluss", "Ende", "abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
           new Pair("brache", "verlassenes Grundstück", "branche", "Wirtschaftszweig"),
@@ -61,10 +63,22 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("hin", "in Richtung", "hirn", "Gehirn, Denkapparat"),
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
-          new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen")
+          new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
+          new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
+          new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
+          new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
+  private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Gründertag",
+          "Korrekturlösung",
+          "Regelschreiber",
+          "Glasreinigern",
+          "Holzstele",
+          "Testbahn",
+          "Reiszwecke"
+  ));
 
   // have per-class static list of these and reference that in instance
   // -> avoid loading word list for every instance, but allow variations in subclasses
@@ -110,12 +124,12 @@ public class ProhibitedCompoundRule extends Rule {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
         ConfusionSetLoader loader = new ConfusionSetLoader();
-        Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(confusionSetStream);
-        for (Map.Entry<String, List<ConfusionSet>> entry : confusionSet.entrySet()) {
-          for (ConfusionSet set : entry.getValue()) {
-            boolean allUpper = set.getSet().stream().allMatch(k -> startsWithUppercase(k.getString()) && !ignoreWords.contains(k.getString()));
+        Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
+        for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
+          for (ConfusionPair pair : entry.getValue()) {
+            boolean allUpper = pair.getTerms().stream().allMatch(k -> startsWithUppercase(k.getString()) && !ignoreWords.contains(k.getString()));
             if (allUpper || !isUpperCase) {
-              Set<ConfusionString> cSet = set.getSet();
+              List<ConfusionString> cSet = pair.getTerms();
               if (cSet.size() != 2) {
                 throw new RuntimeException("Got confusion set with != 2 items: " + cSet);
               }
@@ -131,7 +145,7 @@ public class ProhibitedCompoundRule extends Rule {
             }
           }
         }
-        }
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -184,7 +198,7 @@ public class ProhibitedCompoundRule extends Rule {
          only nouns can be compounds
          all parts are at least 3 characters long -> words must have at least 6 characters
        */
-      if (!readings.hasPartialPosTag("SUB") || word.length() <= 6) {
+      if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || word.length() <= 6) {
         continue;
       }
       List<Pair> candidatePairs = new ArrayList<>();
@@ -218,7 +232,7 @@ public class ProhibitedCompoundRule extends Rule {
         long variantCount = lm.getCount(variant);
         //float factor = variantCount / (float)Math.max(wordCount, 1);
         //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-        if (variantCount > 0 && wordCount == 0 && !spellerRule.isMisspelled(variant)) {
+        if (variantCount > 0 && wordCount == 0 && !blacklist.contains(word) && !spellerRule.isMisspelled(variant)) {
           String msg;
           if (pair.part1Desc != null && pair.part2Desc != null) {
             msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;

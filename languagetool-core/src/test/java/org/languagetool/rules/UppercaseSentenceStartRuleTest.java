@@ -48,6 +48,7 @@ public class UppercaseSentenceStartRuleTest {
     assertGood("This is a test sentence");
     assertGood("");
     assertGood("http://www.languagetool.org");
+    assertGood("eBay can be at sentence start in lowercase.");
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.analyzeText("this is a test sentence."));

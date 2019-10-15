@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.Language;
@@ -44,15 +45,17 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LinguisticServices extends LinguServices {
   
-  private XThesaurus thesaurus;
-  private XSpellChecker spellChecker;
-  private XHyphenator hyphenator;
+  private XThesaurus thesaurus = null;
+  private XSpellChecker spellChecker = null;
+  private XHyphenator hyphenator = null;
   
   public LinguisticServices(XComponentContext xContext) {
-    XLinguServiceManager mxLinguSvcMgr = GetLinguSvcMgr(xContext);
-    thesaurus = GetThesaurus(mxLinguSvcMgr);
-    spellChecker = GetSpellChecker(mxLinguSvcMgr);
-    hyphenator = GetHyphenator(mxLinguSvcMgr);
+    if (xContext != null) {
+      XLinguServiceManager mxLinguSvcMgr = GetLinguSvcMgr(xContext);
+      thesaurus = GetThesaurus(mxLinguSvcMgr);
+      spellChecker = GetSpellChecker(mxLinguSvcMgr);
+      hyphenator = GetHyphenator(mxLinguSvcMgr);
+    }
   }
   
   /** 
@@ -180,13 +183,11 @@ public class LinguisticServices extends LinguServices {
         return null;
       }
       PropertyValue[] properties = new PropertyValue[0];
-      XMeaning meanings[] = thesaurus.queryMeanings(word, locale, properties);
+      XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
       List<String> synonyms = new ArrayList<String>();
       for (XMeaning meaning : meanings) {
-        String singleSynonyms[] = meaning.querySynonyms();
-        for (String synonym : singleSynonyms) {
-          synonyms.add(synonym);
-        }
+        String[] singleSynonyms = meaning.querySynonyms();
+        Collections.addAll(synonyms, singleSynonyms);
       }
       return synonyms;
     } catch (Throwable t) {
@@ -205,6 +206,10 @@ public class LinguisticServices extends LinguServices {
   }
   
   public boolean isCorrectSpell(String word, Locale locale) {
+    if(spellChecker == null) {
+      printText("XSpellChecker == null");
+      return false;
+    }
     PropertyValue[] properties = new PropertyValue[0];
     try {
       return spellChecker.isValid(word, locale, properties);
@@ -225,6 +230,10 @@ public class LinguisticServices extends LinguServices {
   }
   
   public int getNumberOfSyllables(String word, Locale locale) {
+    if(hyphenator == null) {
+      printText("XHyphenator == null");
+      return 1;
+    }
     PropertyValue[] properties = new PropertyValue[0];
     try {
       XPossibleHyphens possibleHyphens = hyphenator.createPossibleHyphens(word, locale, properties);

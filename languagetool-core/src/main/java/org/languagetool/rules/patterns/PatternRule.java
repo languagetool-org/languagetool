@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
@@ -49,6 +50,8 @@ public class PatternRule extends AbstractPatternRule {
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
+  
+  private boolean interpretPosTagsPreDisambiguation;
 
   // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
@@ -113,25 +116,34 @@ public class PatternRule extends AbstractPatternRule {
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg,
       boolean isMember) {
-    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
-    this.isMemberOfDisjunctiveSet = isMember;
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg, isMember, false);
   }
 
   /**
-   * A number that estimates how many words there must be after a match before we
-   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
-   * where a match might occur and the word that gets typed next makes the match
-   * disappear (something one would obviously like to avoid).
-   * Note: this may over-estimate the real context size. 
    * @since 4.5
    */
   @Experimental
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage, String suggestionsOutMsg,
+      boolean isMember, boolean interpretPosTagsPreDisambiguation) {
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
+    this.isMemberOfDisjunctiveSet = isMember;
+    this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;
+  }
+
+  @Experimental
+  @Override
   public int estimateContextForSureMatch() {
     int extendAfterMarker = 0;
     boolean markerSeen = false;
     boolean infinity = false;
     for (PatternToken pToken : this.patternTokens) {
       if (markerSeen && !pToken.isInsideMarker()) {
+        extendAfterMarker++;
+      }
+      if (JLanguageTool.SENTENCE_END_TAGNAME.equals(pToken.getPOStag())) {
+        // e.g. for DT_JJ_NO_NOUN and all rules that match the sentence end
         extendAfterMarker++;
       }
       if (pToken.isInsideMarker()) {
@@ -159,12 +171,22 @@ public class PatternRule extends AbstractPatternRule {
     }
     //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
     if (infinity) {
-      return Integer.MAX_VALUE;
+      return -1;
     } else {
       return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
     }
   }
 
+  /**
+   * Whether any POS tags from this rule should refer to the POS tags of the analyzed
+   * sentence *before* disambiguation.
+   * @since 4.5
+   */
+  @Experimental
+  boolean isInterpretPosTagsPreDisambiguation() {
+    return interpretPosTagsPreDisambiguation;
+  }
+  
   /**
    * Used for testing rules: only one of the set can match.
    * @return Whether the rule can non-match (as a member of disjunctive set of

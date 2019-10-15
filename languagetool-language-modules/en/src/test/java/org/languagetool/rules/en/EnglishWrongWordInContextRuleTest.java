@@ -68,6 +68,9 @@ public class EnglishWrongWordInContextRuleTest {
     // statute/statue
     assertBad("They have some great marble statutes.");
     assertGood("They have a great marble statue.");
+    // neutron/neuron
+    assertGood("Protons and neutrons");
+    assertBad("Protons and neurons");
   }
 
   private void assertGood(String sentence) throws IOException {

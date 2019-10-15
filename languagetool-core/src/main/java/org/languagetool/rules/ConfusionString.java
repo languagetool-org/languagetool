@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * A string in a {@link ConfusionSet} - for internal use only.
+ * A string in a {@link ConfusionPair} - for internal use only.
  * @since 3.0
  */
 public class ConfusionString {

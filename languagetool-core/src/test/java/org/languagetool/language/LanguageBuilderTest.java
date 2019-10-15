@@ -34,7 +34,7 @@ public class LanguageBuilderTest {
     Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
     assertEquals("Fakelanguage", language.getName());
     assertEquals("xy", language.getShortCode());
-    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null, Collections.emptyList()).size());
+    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList()).size());
     assertTrue(language.isExternal());
   }
 

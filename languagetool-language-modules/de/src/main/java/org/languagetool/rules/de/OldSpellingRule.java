@@ -58,7 +58,7 @@ public class OldSpellingRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     String[] exceptions = {"Schloß Holte"};
-    return toRuleMatchArray(SpellingRuleWithSuggestion.computeMatches(sentence, DATA, exceptions));
+    return toRuleMatchArray(SpellingRuleWithSuggestions.computeMatches(sentence, DATA, exceptions));
   }
   
 }

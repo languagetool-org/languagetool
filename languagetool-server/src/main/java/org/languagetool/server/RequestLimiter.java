@@ -140,7 +140,7 @@ class RequestLimiter {
 
   private String getReferer(Map<String, List<String>> httpHeader) {
     List<String> values = httpHeader.get("Referer");
-    if (values == null || values.size() == 0) {
+    if (values == null || values.isEmpty()) {
       return null;
     }
     return values.get(0);
@@ -148,7 +148,7 @@ class RequestLimiter {
 
   private String getUserAgent(Map<String, List<String>> httpHeader) {
     List<String> values = httpHeader.get("User-Agent");
-    if (values == null || values.size() == 0) {
+    if (values == null || values.isEmpty()) {
       return null;
     }
     return values.get(0);

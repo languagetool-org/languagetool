@@ -39,7 +39,7 @@ public class ConfusionSetLoaderTest {
   public void testLoadWithStrictLimits() throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
       ConfusionSetLoader loader = new ConfusionSetLoader();
-      Map<String, List<ConfusionSet>> map = loader.loadConfusionSet(inputStream);
+      Map<String, List<ConfusionPair>> map = loader.loadConfusionPairs(inputStream);
       assertThat(map.size(), is(10));
 
       assertThat(map.get("there").size(), is(1));
@@ -61,27 +61,27 @@ public class ConfusionSetLoaderTest {
       assertThat(map.get("bar").size(), is(1));
       assertThat(map.get("bar").get(0).getFactor(), is(5L));
 
-      Set<ConfusionString> there = map.get("there").get(0).getSet();
+      List<ConfusionString> there = map.get("there").get(0).getTerms();
       assertTrue(getAsString(there).contains("there - example 1"));
       assertTrue(getAsString(there).contains("their - example 2"));
 
-      Set<ConfusionString> their = map.get("their").get(0).getSet();
+      List<ConfusionString> their = map.get("their").get(0).getTerms();
       assertTrue(getAsString(their).contains("there - example 1"));
       assertTrue(getAsString(their).contains("their - example 2"));
       assertFalse(getAsString(their).contains("comment"));
 
-      Set<ConfusionString> foo = map.get("foo").get(0).getSet();
+      List<ConfusionString> foo = map.get("foo").get(0).getTerms();
       assertTrue(getAsString(foo).contains("foo"));
-      Set<ConfusionString> bar = map.get("foo").get(0).getSet();
+      List<ConfusionString> bar = map.get("foo").get(0).getTerms();
       assertTrue(getAsString(bar).contains("bar"));
-      Set<ConfusionString> baz = map.get("foo").get(1).getSet();
+      List<ConfusionString> baz = map.get("foo").get(1).getTerms();
       assertTrue(getAsString(baz).contains("baz"));
     }
   }
 
-  private String getAsString(Set<ConfusionString> their) {
+  private String getAsString(List<ConfusionString> confStrings) {
     StringBuilder sb = new StringBuilder();
-    for (ConfusionString confusionString : their) {
+    for (ConfusionString confusionString : confStrings) {
       sb.append(confusionString.getString()).append(" - ");
       sb.append(confusionString.getDescription());
       sb.append(" ");

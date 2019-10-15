@@ -135,4 +135,9 @@ public class CompoundCoherencyRule extends TextLevelRule {
     }
   }
 
+  @Override
+  public int minToCheckParagraph() {
+    return -1;
+  }
+
 }

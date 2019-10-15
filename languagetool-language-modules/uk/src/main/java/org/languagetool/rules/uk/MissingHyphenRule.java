@@ -48,13 +48,8 @@ public class MissingHyphenRule extends Rule {
     // these two generate too many false positives
     dashPrefixes.remove("блок");
     dashPrefixes.remove("рейтинг");
-    for(java.util.Iterator<String> it = dashPrefixes.iterator(); it.hasNext(); ) {
-      if( ! ALL_LOWER.matcher(it.next()).matches() ) {
-        it.remove();
-      }
-    }
+    dashPrefixes.removeIf(s -> !ALL_LOWER.matcher(s).matches());
   }
-
 
   public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
     super(messages);
@@ -83,7 +78,8 @@ public class MissingHyphenRule extends Rule {
       
       boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
       
-      if (isInPrefixes(tokenReadings, isCapitalized)
+      if ((isInPrefixes(tokenReadings, isCapitalized)
+            || (tokenReadings.getToken().toLowerCase().equals("тайм") && LemmaHelper.hasLemma(tokens[i+1], "аут")))
           && PosTagHelper.hasPosTagPart(nextTokenReadings, "noun")
 //          && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
           && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {

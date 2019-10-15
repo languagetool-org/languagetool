@@ -69,10 +69,9 @@ public class EmptyLineRule extends TextLevelRule {
     for (int n = 0; n < sentences.size() - 1; n++) {
       AnalyzedSentence sentence = sentences.get(n);
       if(sentence.hasParagraphEndMark(lang)) {
-        AnalyzedTokenReadings[] tokens = sentences.get(n + 1).getTokensWithoutWhitespace();
-        if(tokens.length <= 2 && tokens[tokens.length - 1].isWhitespace()) {
-          tokens = sentence.getTokensWithoutWhitespace();
-          if(tokens.length > 2 || (tokens.length ==  2 && !tokens[1].isWhitespace())) {
+        if(isSecondParagraphEndMark(sentence.getText())) {
+          AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+          if(tokens.length > 1) {
             int fromPos = pos + tokens[tokens.length - 1].getStartPos();
             int toPos = pos + tokens[tokens.length - 1].getEndPos();
             RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("empty_line_rule_msg"));
@@ -84,6 +83,24 @@ public class EmptyLineRule extends TextLevelRule {
       pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isSecondParagraphEndMark(String sentence) {
+    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+      if (sentence.endsWith("\n\n") || sentence.endsWith("\n\r\n\r")) {
+        return true;
+      }
+    } else { 
+      if (sentence.endsWith("\n\n\n\n") || sentence.endsWith("\n\r\n\r\n\r\n\r") || sentence.endsWith("\r\n\r\n\r\n\r\n")) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  @Override
+  public int minToCheckParagraph() {
+    return 1;
   }
 
 }

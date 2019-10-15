@@ -52,8 +52,11 @@ public class CaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertGood("Das ist eine Abkehr von Gottes Geboten.");
     assertGood("Dem Hund Futter geben");
     assertGood("Heute spricht Frau Stieg.");
+    assertGood("Die Firma Drosch hat nicht pünktlich geliefert.");
+    assertGood("3.1 Technische Dokumentation");
     assertGood("Ein einfacher Satz zum Testen.");
     assertGood("Das Laufen fällt mir leicht.");
     assertGood("Das Winseln stört.");
@@ -132,6 +135,37 @@ public class CaseRuleTest {
     assertGood("Das ist ihr Zuhause.");
     assertGood("Das ist Sandras Zuhause.");
     assertGood("Das machen eher wohlhabende Leute.");
+    assertGood("Als Erstes würde ich sofort die Struktur ändern.");
+    assertGood("Er sagte: Als Erstes würde ich sofort die Struktur ändern.");
+    assertGood("Das schaffen moderne E-Autos locker.");
+    assertGood("Das schaffen moderne E-Autos schneller");
+    assertGood("Das schaffen moderne und effizientere E-Autos schneller.");
+    assertGood("Das verwalten User.");
+    assertGood("Man kann das generalisieren");
+    assertGood("Vielleicht kann man das erweitern");
+    assertGood("Vielleicht soll er das generalisieren");
+    assertGood("Wahrscheinlich müssten sie das überarbeiten");
+    assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
+    assertGood("Jeremy Schulte rannte um sein Leben.");
+    assertGood("Das war Fiete Lang.");
+    assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
+    assertGood("Dann hat er Großes erreicht.");
+    assertGood("Dann hat er Großes geleistet.");
+    assertGood("Das Thema Datenaustauschverfahren ist mir wichtig.");
+    assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
+    assertGood("Das ist ein Satz !!! Das auch.");
+    assertGood("Der russische Erdölmagnat Emanuel Nobel, der Erbauer des ersten Dieselmotorschiffes.");
+
+    // https://github.com/languagetool-org/languagetool/issues/1515:
+    assertGood("▶︎ Dies ist ein Test");
+    assertGood("▶ Dies ist ein Test");
+    assertGood("* Dies ist ein Test");
+    assertGood("- Dies ist ein Test");
+    assertGood("• Dies ist ein Test");
+    assertGood(":-) Dies ist ein Test");
+    assertGood(";-) Dies ist ein Test");
+    assertGood(":) Dies ist ein Test");
+    assertGood(";) Dies ist ein Test");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
@@ -289,6 +323,7 @@ public class CaseRuleTest {
     assertGood("Wenn Sie das schaffen, retten Sie mein Leben!");
     assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
     assertGood("Er befürchtet Schlimmeres.");
+    assertBad("Bis Bald!");
     
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
@@ -325,7 +360,7 @@ public class CaseRuleTest {
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
     assertGood("Formationswasser, das oxidiert war.");
 
-    // Source of the following examples: http://www.canoo.net/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
+    // Source of the following examples: http://www.canoonet.eu/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");
     assertGood("Sie hörten ein starkes Klopfen.");
     assertGood("Wer erledigt das Fensterputzen?");

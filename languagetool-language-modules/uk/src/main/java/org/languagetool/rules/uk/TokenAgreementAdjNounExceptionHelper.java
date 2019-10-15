@@ -25,9 +25,11 @@ final class TokenAgreementAdjNounExceptionHelper {
 
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
+  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i", ",");
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
   static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
+  private static final Pattern VERB_NOT_INSERT_PATTERN = Pattern.compile("verb(?!.*insert)");
 
 
   private TokenAgreementAdjNounExceptionHelper() {
@@ -204,6 +206,14 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // старший групи
+    if( i > 1
+        && LemmaHelper.hasLemma(tokens[i-1], "старший")
+        && tokens[i].getToken().equals("групи") ) {
+      logException();
+      return true;
+    }
+
     // не мати рівних
     if( i > 2
         && LemmaHelper.hasLemma(tokens[i-2], "мати")
@@ -232,8 +242,10 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // сильні світу цього
-    if( LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("сильний", "могутній", "великий"))
-        && tokens[i].getToken().equals("світу") ) {
+    if( i < tokens.length -1
+        && (tokens[i].getToken().equals("світу") || tokens[i].getToken().equals("миру"))
+        && ( LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("сильний", "могутній", "великий"))
+          || LemmaHelper.hasLemma(tokens[i+1], Arrays.asList("цей", "сей"), ":m:v_rod") ) ) {
       logException();
       return true;
     }
@@ -284,16 +296,6 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
-
-    // моїх маму й сестер
-    if( i < tokens.length - 2
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
-        && forwardConjFind(tokens, i+1, 2)
-        && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
-      logException();
-      return true;
-    }
-    
     // протягом минулих травня – липня
     if( i < tokens.length - 2
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
@@ -301,6 +303,15 @@ final class TokenAgreementAdjNounExceptionHelper {
         && PosTagHelper.hasPosTag(tokens[i+2], "(adj|noun).*")
         //TODO: hasOverlapIgnoreGender(masterInflections, tokens[i+2])
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
+      logException();
+      return true;
+    }
+
+    // моїх маму й сестер
+    if( i < tokens.length - 2
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
+        && forwardConjFind(tokens, i+1, 2)
+        && hasOverlapIgnoreGender(masterInflections, slaveInflections, "p", null) ) {
       logException();
       return true;
     }
@@ -319,7 +330,45 @@ final class TokenAgreementAdjNounExceptionHelper {
     // навчальної та середньої шкіл
     if( i > 2 
         && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && reverseConjFind(tokens, i-2, 3)
+        && (reverseConjFind(tokens, i-2, 3) || reverseConjAdvFind(tokens, i-2, 3))
+        && hasOverlapIgnoreGender(masterInflections, slaveInflections, null, "p") 
+        && LemmaHelper.reverseSearch(tokens, i-3, 100, null, Pattern.compile("adj.*")) ) {
+      logException();
+      return true;
+    }
+
+    // Большого та Маріїнського театрів
+    // Пляжі 3, 4 і 5-ї категорій
+    if( i > 2 
+        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
+        && (reverseConjFind2(tokens, i-2, 3) )
+        && hasOverlapIgnoreGender(masterInflections, slaveInflections, null, "p") ) {
+      logException();
+      return true;
+    }
+
+    // ні у методологічному, ні у практичному аспектах
+    if( i > 7
+        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
+        && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*")
+        && PosTagHelper.hasPosTag(tokens[i-2], "prep.*")
+        && LemmaHelper.hasLemma(tokens[i-3], Arrays.asList("ні", "ані", "хоч", "що", "як"))
+        && tokens[i-4].getToken().equals(",")
+        && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
+      logException();
+      return true;
+    }
+
+    // на проурядову і, здається, пропрезидентську частини
+    if( i > 6
+        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
+        && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*")
+        && tokens[i-2].getToken().equals(",")
+        && ( (tokens[i-4].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-5].getToken().toLowerCase())
+                && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN))
+            || (tokens[i-5].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-6].getToken().toLowerCase())
+                            && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN)
+                            && ! PosTagHelper.hasPosTag(tokens[i-4], VERB_NOT_INSERT_PATTERN)) )
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
@@ -393,7 +442,10 @@ final class TokenAgreementAdjNounExceptionHelper {
     // природний тисячею років підтверджений
     if( i < tokens.length-1 
         && LemmaHelper.hasLemma(tokens[i], Arrays.asList("пара", "низка", "ряд", "купа", "більшість", "десятка", "сотня", "тисяча", "мільйон"))
-        && PosTagHelper.hasPosTag(tokens[i+1], "noun.*:p:v_rod.*") ) {
+        && (PosTagHelper.hasPosTag(tokens[i+1], "noun.*?:p:v_rod.*")
+          || (i < tokens.length-1
+            && PosTagHelper.hasPosTag(tokens[i+1], "adj:p:v_rod.*")
+            && PosTagHelper.hasPosTag(tokens[i+2], "noun.*?:p:v_rod.*")) ) ) {
       logException();
       return true;
     }
@@ -654,8 +706,8 @@ final class TokenAgreementAdjNounExceptionHelper {
           }
           // Стали дорожчими хліб чи бензин
           else if( i < tokens.length -1 
-              && PosTagHelper.hasPosTagPart(tokens[i-1], "adj:p:") 
-              && CONJ_FOR_PLURAL.contains(tokens[i+1].getToken()) ) {
+              && PosTagHelper.hasPosTagPart(tokens[i-1], "adj:p:")
+              && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i+1].getToken().toLowerCase()) ) {
             logException();
             return true;
           }
@@ -757,7 +809,9 @@ final class TokenAgreementAdjNounExceptionHelper {
             // тотожні із загальносоюзними герб і прапор
             if( i < tokens.length - 1
                 && PosTagHelper.hasPosTagPart(tokens[i-1], "adj:p:")
-                && CONJ_FOR_PLURAL.contains(tokens[i+1].getToken()) ) {
+                && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i+1].getToken().toLowerCase()) 
+                && PosTagHelper.hasPosTagPart(tokens[i-3], "adj:p:")
+                && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[i-3].getReadings()), slaveInflections, "p", null)) {
               logException();
               return true;
             }
@@ -871,10 +925,8 @@ final class TokenAgreementAdjNounExceptionHelper {
 
 
   private static boolean genderMatches(List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections, String masterCaseFilter, String slaveCaseFilter) {
-    //      System.err.println("master " + masterInflections + " / " + slaveInflections);
     for (InflectionHelper.Inflection masterInflection : masterInflections) {
       for (InflectionHelper.Inflection slaveInflection : slaveInflections) {
-        //              System.err.println("matching gender " + masterInflection.gender + " = " + slaveInflection.gender );
         if( (masterCaseFilter == null || masterInflection._case.equals(masterCaseFilter))
             && (slaveCaseFilter == null || slaveInflection._case.equals(slaveCaseFilter))
             && slaveInflection.gender.equals(masterInflection.gender) ) 
@@ -884,24 +936,108 @@ final class TokenAgreementAdjNounExceptionHelper {
     return false;
   }
 
+  private static boolean reverseConjAdvFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
+    for(int i=pos; i>pos-depth && i>=2; i--) {
 
-  private static boolean reverseConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
-    for(int i=pos; i>pos-depth && i>=0; i--) {
-      if( CONJ_FOR_PLURAL.contains(tokens[i].getAnalyzedToken(0).getLemma())
-          || tokens[i].getAnalyzedToken(0).getToken().equals("i")
-          || tokens[i].getAnalyzedToken(0).getToken().equals(",") )
+      if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase())
+          && (PosTagHelper.hasPosTag(tokens[i-1], "adv(?!p).*")
+              || PosTagHelper.hasPosTag(tokens[i+1], "(adv(?!p)|part).*")) ) {
         return true;
+      }
+
+      if( PosTagHelper.hasPosTagPart(tokens[i], "verb") )
+        return false;
     }
+
     return false;
   }
 
+  private static boolean reverseConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
+    for(int i=pos; i>pos-depth && i>=1; i--) {
+
+      if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase()) ) {
+
+        if( i < 2
+            || (! PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("(adj|conj:coord).*")) ) )
+                
+          return false;
+
+        return true;
+      }
+
+      if( i >= 1
+          && ! PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("(adj|conj:coord|num|prep|adv(?!p)).*"))
+          && ! tokens[i-1].getToken().equals(",")
+           )
+        return false;
+    }
+
+    return false;
+  }
+
+  private static boolean reverseConjFind2(AnalyzedTokenReadings[] tokens, int pos, int depth) {
+    for(int i=pos; i>pos-depth && i>=1; i--) {
+
+      if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase()) ) {
+
+        if( i < 2
+            || ( (! tokens[i-1].hasPosTag("number") || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj.*?&numr.*"))) // 1, 2 та 3-й 
+                && ! tokens[i-1].getToken().equals(",") )
+                && ! tokens[i-1].getToken().matches(".*[–-]")   // дво- і тривимірний формати
+                && ! tokens[i-1].getToken().matches("[)»”]")   // 1-й (...) та 2-й ряди
+                && (! tokens[i-1].getToken().equals("/") || ! tokens[i].getToken().equals("або"))
+                && ! PosTagHelper.isUnknownWord(tokens[i-1])
+                )
+          return false;
+
+        return true;
+      }
+
+      if( i >= 1
+          && ! PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("(adj|conj:coord|num|prep|adv(?!p)).*"))
+          && ! tokens[i-1].getToken().equals(",")
+           )
+        return false;
+    }
+
+    return false;
+  }
+
+
+  private static boolean checkTextInSent(AnalyzedTokenReadings[] tokens, int pos, String text) {
+    String[] words = text.split(" ");
+    for(int i=0; i<words.length && i+pos < tokens.length; i++) {
+      if( ! tokens[i+pos].getToken().equalsIgnoreCase(words[i]) )
+        return false;
+    }
+    return true;
+  }
+
+
   private static boolean forwardConjFind(AnalyzedTokenReadings[] tokens, int pos, int depth) {
     for(int i=pos; i<tokens.length && i<= pos+depth; i++) {
-      if( CONJ_FOR_PLURAL.contains(tokens[i].getAnalyzedToken(0).getLemma())
-          || tokens[i].getAnalyzedToken(0).getToken().equals("i")
-          || tokens[i].getAnalyzedToken(0).getToken().equals(",") )
+      if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase()) ) {
+
+        // check 2nd part of plural
+        if( i < tokens.length-3
+            && checkTextInSent(tokens, i+1, "а також")
+            && PosTagHelper.hasPosTag(tokens[i+3], Pattern.compile("(noun|adj|num|adv(?!p)).*") ) )
+          return true;
+
+        if( i==tokens.length-1
+            || (! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun|adj|num|adv(?!p)).*"))
+                && ! StringTools.isCapitalizedWord(tokens[i+1].getToken())
+                && ! tokens[i+1].getToken().matches("[\"«“„]") ) )
+          return false;
+
         return true;
+      }
+
+      if( ! PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(noun|adj|prep|adv(?!p)|number:latin).*"))
+            && ! StringTools.isCapitalizedWord(tokens[i].getToken()) )  // for unknown last names: згадувані Костянтин Скоркін та Олена Заславська
+        return false;
     }
+
     return false;
   }
 
@@ -923,10 +1059,22 @@ final class TokenAgreementAdjNounExceptionHelper {
         );
   }
 
-
+  
   private static boolean hasOverlapIgnoreGender(List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections) {
+    return hasOverlapIgnoreGender(masterInflections, slaveInflections, null, null);
+  }
+  
+  private static boolean hasOverlapIgnoreGender(List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections,
+      String masterGenderFilter, String slaveGenderFilter) {
+  
     for (InflectionHelper.Inflection mInflection : masterInflections) {
+      if( masterGenderFilter != null && ! mInflection.gender.equalsIgnoreCase(masterGenderFilter) )
+        continue;
+
       for(InflectionHelper.Inflection sInflection : slaveInflections) {
+        if( slaveGenderFilter != null && ! sInflection.gender.equalsIgnoreCase(slaveGenderFilter) )
+          continue;
+
         if( mInflection.equalsIgnoreGender(sInflection) )
           return true;
       }

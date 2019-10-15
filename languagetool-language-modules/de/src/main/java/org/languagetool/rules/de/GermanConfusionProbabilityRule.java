@@ -34,8 +34,29 @@ import java.util.regex.Pattern;
  */
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  private static final List<Pattern> EXCEPTION_PATTERNS = Arrays.asList(
+  private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
+  );
+
+  private static final List<String> EXCEPTIONS = Arrays.asList(
+    // Use all-lowercase, matches will be case-insensitive.
+    // See https://github.com/languagetool-org/languagetool/issues/1516
+    "wie erinnern sie sich",
+    "dürfen wir nicht",
+    "kann dich auch",
+    "wie schicken wir",
+    "wie benutzen sie",
+    "wir ja nicht",
+    "wie wir oder",
+    "eine uhrzeit hatten",
+    "damit wir das",
+    "damit wir die",
+    "damit wir dir",
+    "was wird in",
+    "warum wird da",
+    "da mir der",
+    "das wir uns",
+    "ich drei bin" // seit ich drei bin.
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
@@ -43,14 +64,14 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams);
+    super(messages, languageModel, language, grams, EXCEPTIONS);
     addExamplePair(Example.wrong("Während Sie das Ganze <marker>mir</marker> einem Holzlöffel rühren…"),
                    Example.fixed("Während Sie das Ganze <marker>mit</marker> einem Holzlöffel rühren…"));
   }
 
   @Override
   protected boolean isException(String sentenceText) {
-    for (Pattern pattern : EXCEPTION_PATTERNS) {
+    for (Pattern pattern : SENTENCE_EXCEPTION_PATTERNS) {
       Matcher m = pattern.matcher(sentenceText);
       if (m.find()) {
         return true;

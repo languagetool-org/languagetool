@@ -58,7 +58,7 @@ public class DecadeSpellingFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     try {
       String decade = arguments.get("lata").substring(2);
       String century = arguments.get("lata").substring(0, 2);
@@ -74,8 +74,6 @@ public class DecadeSpellingFilter extends RuleFilter {
       // ignore it silently
       return null;
     }
-
   }
-
 
 }

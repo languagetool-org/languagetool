@@ -19,9 +19,7 @@
 package org.languagetool.tokenizers.gl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
@@ -85,7 +83,7 @@ public class GalicianWordTokenizer extends WordTokenizer {
     }
 
     // if period is not the last character in the sentence
-    int dotIndex = text.indexOf(".");
+    int dotIndex = text.indexOf('.');
     boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
     if( dotInsideSentence ){
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);

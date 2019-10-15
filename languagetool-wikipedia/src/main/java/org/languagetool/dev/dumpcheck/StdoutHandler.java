@@ -59,6 +59,12 @@ class StdoutHandler extends ResultHandler {
         if (!replacements.isEmpty()) {
           System.out.println("Suggestion: " + String.join("; ", replacements));
         }
+        if (match.getRule() instanceof AbstractPatternRule) {
+          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
+          if (pRule.getSourceFile() != null) {
+            System.out.println("Rule source: " + pRule.getSourceFile());
+          }
+        }
         System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), sentence.getText()));
         i++;
         checkMaxErrors(++errorCount);

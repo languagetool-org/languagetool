@@ -33,7 +33,7 @@ public class HiddenCharacterRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
+    final HiddenCharacterRule rule = new HiddenCharacterRule(TestTools.getMessages("uk"));
     final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
@@ -41,7 +41,7 @@ public class HiddenCharacterRuleTest {
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смi\u00ADття"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смі\u00ADття"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());

@@ -176,7 +176,7 @@ final class RuleSimplifier {
       }
       if (xmlLine.matches(".*</pattern.*")) {
         linesToRemove.add(lineCount);
-        int lastTokenIndent = xmlLine.indexOf("<");
+        int lastTokenIndent = xmlLine.indexOf('<');
         newRegex = Strings.repeat(" ", lastTokenIndent) + getRegex(rule);
       }
     }

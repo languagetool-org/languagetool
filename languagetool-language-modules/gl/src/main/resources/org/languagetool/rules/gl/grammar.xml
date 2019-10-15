@@ -38,9 +38,12 @@
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
 
-    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min)">
+    <!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectar(es)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
+	
+    <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
+    <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|ll?[aeo]s?|vos|che)">
 
     <!ENTITY precede_nome_proprio "(asociación|avenida|balneario|parella?|coalición|colección|cometa|concurso|copa|curso|designación|designado|distribución|escola|estación|estilo|filme|fundación|galardón|xeración|illa|imperio|iniciativa|instituto|titulado|lagoa?|lei|libro|monte|museo|navío|novela|obra|orquestra|praza|premio|programa|proxecto|quinta|rexistro|reino|informe|revista|río|rúa|serra|teatro|tema|tipo|universidade|versión)">
     <!ENTITY contraccions_MS "(?:ao|d(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|n(?:o|un|el|est?e|aquel|ist?o|aquilo|outro)|algún|polo)"><!-- XXX lost 'me+o|che+o|lle+o'-->
@@ -62,10 +65,10 @@
 
   <unification feature="number">
     <equivalence type="singular">
-          <token postag="(?:[NZ]..|[ADP]...|V....)S.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NS].+" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="plural">
-          <token postag="(?:[NZ]..|[ADP]...|V....)P.+" postag_regexp="yes"/>
+          <token postag="(?:[NZ]..|[ADP]...|V....)[NP].+" postag_regexp="yes"/>
     </equivalence>
   </unification>
 
@@ -92,7 +95,7 @@
 
  <category id="CAT0" name="Gramática::Concordancia">
 
-  <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordancia de género: Geral">
+  <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordancia de xénero: Xeral">
     <!--            General gender concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
@@ -349,7 +352,7 @@
 
     <!-- Specific gender concordance errors - A > Masculine Noun -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordancia de género: A + Masculino">
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordancia de xénero: A + Masculino">
       <pattern>
         <marker>
           <token>a</token>
@@ -464,7 +467,7 @@
       <example type='correct'>A cadela está no pasto.</example>
     </rule>
 
-  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordancia de Número: Geral">
+  <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordancia de Número: Xeral">
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
@@ -733,6 +736,307 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordancia Verbal: Xeral">
+    <!-- Localized from Portuguese rule by Tiago F. Santos, 2019-04-06  -->
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
+      <antipattern>
+          <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+      </antipattern>
+      <!--antipattern>
+          <token>há</token>
+          <token/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </antipattern>
+      <antipattern>< https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/e-que/3319 >
+          <token>é</token>
+          <token>que</token>
+      </antipattern-->
+    <rule>
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token>eu</token>
+      </antipattern>
+      <pattern>
+          <token>eu</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([23]S|[123]P).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].1S0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Eu ando'><marker>Eu andan</marker> pola praia.</example>
+      <!--example>Eu preocupar-me-ia, talvez, com esta manifestação de ignorância.</example>
+      <example>Eu é que fiz.</example-->
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token>ti</token>
+      </antipattern>
+      <pattern>
+          <token>ti</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([13]S|[123]P).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].2S0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Ti andas'><marker>Ti andan</marker> pola praia.</example>
+      <!--example>Tu preocupar-te-ias, talvez, com esta manifestação de ignorância.</example-->
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token regexp="yes">ela?|vostede</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">ela?|vostede</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([12]S|[123]P).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].3S0' postag_regexp='yes'/>
+            <exception>como</exception></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+      <example correction='El non anda'><marker>El non andan</marker> pola praia.</example>
+      <!--example>Ele preocupar-se-ia, talvez, com esta manifestação de ignorância.</example-->
+    </rule>
+    <rule>
+      <!--antipattern>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
+          <token regexp='yes'>de|entre</token>
+          <token>nós</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].3S0' postag_regexp='yes'/>
+      </antipattern-->
+      <pattern>
+          <token>nós</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Nós non andamos'><marker>Nós non andan</marker> pola praia.</example>
+    <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions >
+      <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
+      <example>Nós preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
+      <example>Um de nós passeia na praia.</example-->
+    </rule>
+    <rule>
+      <pattern>
+          <token>eu</token>
+          <token regexp='yes'>e|ou</token>
+          <token min="0" postag='DA0[MF].0' postag_regexp='yes'/>
+          <token/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Eu e Rita andamos'><marker>Eu e Rita andan</marker> pola praia.</example>
+      <!--example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
+      <example>Eu e a Rita preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example-->
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>ti|vostedes?|vós|el[ea]?s?</token>
+          <token regexp='yes'>e|ou</token>
+          <token>eu</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Ti e eu andamos'><marker>Ti e eu andan</marker> pola praia.</example>
+      <!--example type="correct">Tu e eu passeamos na praia.</example>
+      <example type="correct">Vós passeais na praia.</example>
+      <example>Tu e eu preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example-->
+    </rule>
+    <rule>
+      <!--antipattern>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
+          <token regexp='yes'>de|entre</token>
+          <token>vós</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].3S0' postag_regexp='yes'/>
+      </antipattern-->
+      <pattern>
+          <token>vós</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([13]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].2P0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Vós andades'><marker>Vós andan</marker> pola praia.</example>
+      <!--example type="correct">Vós passeais na praia.</example>
+      <example>A maioria de vós passeia na praia.</example-->
+    </rule>
+    <rule>
+      <antipattern>
+          <token>eu</token>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token regexp='yes'>el[ea]?s|vostedes</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].1P0' postag_regexp='yes'/>
+      </antipattern>
+      <!--antipattern>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
+          <token regexp='yes'>de|entre</token>
+          <token regexp='yes'>el[ea]s|vocês</token>
+      </antipattern-->
+      <pattern>
+          <token regexp='yes'>el[ea]s|vostedes</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].3P0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
+      <example correction='elas andan|elas andaron'>Eles e <marker>elas andamos</marker> pola praia.</example>
+      <!--example correction='Vocês não leram'><marker>Vocês não leu</marker> as notícias?</example>
+      <example>Um de vocês não leu as notícias.</example>
+      <example type="correct">Eles e elas passeiam na praia.</example>
+      <example type="correct">Eu e elas vamos ao parque</example>
+      <example>Pobres e ricos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
+      <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
+      <example>Um de vocês não leu as notícias.</example>
+      <example>Alguns colegas meus são noobs totais; eles não sabem nada de ciência da computação.</example-->
+    </rule>
+    <rule>
+      <!--antipattern>
+          <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
+          <token regexp='yes'>[dn][eao]s?</token>
+          <token postag_regexp='yes' postag='D...P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>&haver_impessoal;</token>
+          <token>
+            <exception postag_regexp='yes' postag='V.P.+'/></token>
+      </antipattern-->
+      <pattern>
+          <token postag_regexp='yes' postag='D...P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/></token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].3P.' postag_regexp='yes'/>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
+      <example correction='Os médicos saíran'><marker>Os médicos saíra</marker> sen saber como romper a noticia.</example>
+      <!--example correction='meus amigos não bebem'>Os <marker>meus amigos não bebe</marker> café.</example>
+      <example correction='meus amigos ainda não bebem'>Os <marker>meus amigos ainda não bebe</marker> café.</example>
+      <example>Nenhum dos meus amigos bebe café.</example>
+      <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
+      <example>Outros governos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
+      <example>Este trabalho deu os primeiros passos há um ano.</example>
+      <example>Cada um dos seus alunos expressou a sua opinião.</example>
+      <example>Entre os resíduos há substâncias perigosas.</example>
+      <example correction='Os médicos haviam'><marker>Os médicos havia</marker> saído sem saber como dar a notícia.</example>
+      <example>Os venezuelanos não conseguem ingerir três refeições por dia a horas certas.</example-->
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>el[ea]s?</token>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token max='2' postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+      </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='[AN].+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/></token>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token max='2' postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+      </antipattern>
+      <pattern>
+          <token postag_regexp='yes' postag='D...S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)S.+'/></token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'>
+            <exception regexp='yes'>acerca|como|tarde</exception>
+            <exception postag='V.[CIS].3S.' postag_regexp='yes'/>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+      <example correction='O médico novo saíra'><marker>O médico novo saíran</marker> sen saber como romper a noticia.</example>
+      <!--example>A sua polidez e o seu empenho fizeram com que todos o admirassem.</example>
+      <example>O amor ou o ódio estão presentes.</example>
+      <example>Outro governo preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
+      <example>Dizem que ela e o marido não concordam em nada.</example-->
+    </rule>
+  </rulegroup>
+
+    <!-- General verbal concordance errors - They + Verb -->
+    <!-- Localized from Portuguese by Tiago F. Santos, Portuguese rule, 2019-04-18 -->
+    <!-- FIXME Disambiguate verbs better and then set as default='on' -->
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2' name="Concordancia verbal: Terceira persoa do composto Plural">
+      <antipattern>
+          <token>há</token>
+          <token/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </antipattern>
+      <pattern>
+          <token negate='yes'>entre</token>
+        <marker>
+          <token postag_regexp='yes' postag='N.+'>
+            <exception postag_regexp='yes' postag='SPS00.+'/></token>
+          <token regexp='yes'>e|nin</token>
+          <token min="0" postag='DA0[MF].0' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='N.+'>
+            <exception postag_regexp='yes' postag='SPS00.+'/>
+            <exception regexp='yes'>unh?a?s|[ao]s?|non</exception>
+          </token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
+            <exception postag='V.[CIS].3P0|[AN].+' postag_regexp='yes'/><!-- TODO remove [AN] and add stricter regexp as the following -->
+            <!--exception regexp='yes'>quentes|marinhas|silva|militares|para|como|recordes|pires|seguro|vida|vales|formas|sua|humanas|internas|ambiente|entre|individuais|sobre|pelo|penas</exception-->
+          </token>
+        </marker>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/> <match no='7' include_skipped='all' postag='(V.[CIS].)([12]P|[123]S).' postag_replace='$13P0' postag_regexp='yes'/></suggestion>
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
+      <example correction='Can e gato son'><marker>Can e gato é</marker> animais.</example>
+      <example correction='can e o gato son'>O <marker>can e o gato é</marker> animais.</example>
+    </rule>
+
  </category>
 
  <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
@@ -977,9 +1281,18 @@
     <!-- Created by Tiago F. Santos, 2017-03-27 -->
     <rule>
       <antipattern>
-          <token regexp='yes'>[,o]</token>
-          <token>x</token>
-          <token regexp='yes'>[,e]</token>
+          <token regexp='yes'>x|\*</token>
+          <token regexp='yes'>[,;e]</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>[,;o]</token>
+          <token regexp='yes'>x|\*</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes' skip='2'>versión(?:es)?|series?|v</token>
+          <token regexp='yes'>\d+</token>
+          <token spacebefore='no'>.</token>
+          <token spacebefore='no'>x</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>\p{Lu}</token>
@@ -1008,15 +1321,17 @@
       <example>Regueira Fernández, X. L.</example>
     </rule>
     <rule>
-      <regexp>([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+)</regexp>
+      <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
       <message>Prefira o símbolo de multiplicación.</message>
-        <suggestion>\1×\2</suggestion>
-        <suggestion>\1·\2</suggestion>
+        <suggestion>\4×\5</suggestion>
+        <suggestion>\4·\5</suggestion>
       <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
       <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
       <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
       <example>a=2·x²+5</example>
       <example>4,5×2,5=11,25</example>
+      <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX...</example>
+      <example>Número 1Z1141X30370035113</example>
     </rule>
     <rule>
       <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
@@ -1025,9 +1340,11 @@
         <suggestion>\1·\2</suggestion>
       <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
       <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+      <example correction="5x×5|5x·5">a=7+<marker>5x*5</marker></example>
       <example correction="a×b|a·b"><marker>a*b</marker></example>
       <example>a=2·x²+5</example>
       <example>4,5×2,5=11,25</example>
+      <!-- <example>Number 1Z1141X30370035113</example> -->
     </rule>
   </rulegroup>
 
@@ -1357,10 +1674,12 @@
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\d+|\w</token>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no">
-            <exception regexp="yes">\d+</exception></token>
+          <marker>
+              <token regexp="yes">\d+|\w</token>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="no">
+                <exception regexp="yes">\d+</exception></token>
+          </marker>
       </pattern>
       <message>En enumerações, debe dar un espazo despois do trazo longo.</message>
         <suggestion>\2 — \4</suggestion>
@@ -1378,8 +1697,10 @@
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="yes"/>
+          <marker>
+              <token regexp="yes">[–‒—]|&hifen;</token>
+              <token spacebefore="yes"/>
+          </marker>
       </pattern>
       <message>En diálogos, debe remover o espazo despois do trazo longo.</message>
         <suggestion>—\3</suggestion>
@@ -1400,8 +1721,10 @@
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">[–‒—]|&hifen;</token>
-          <token spacebefore="no"/>
+          <marker>
+            <token regexp="yes">[–‒—]|&hifen;</token>
+            <token spacebefore="no"/>
+          </marker>
       </pattern>
       <message>En diálogos, debe dar espazo despois do trazo longo.</message>
         <suggestion>— \3</suggestion>
@@ -1467,9 +1790,11 @@
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
-          <token regexp="yes">\d+(?:\.\d+)?</token>
-          <token>.</token>
-          <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          <marker>
+            <token regexp="yes">\d+(?:\.\d+)?</token>
+            <token>.</token>
+            <token regexp="yes" min="1" max="3">[—–‒-]</token>
+          </marker>
       </pattern>
       <message>Os trazos longos son desnecessários en enumerações.</message>
         <suggestion>\2.</suggestion>
@@ -2109,7 +2434,7 @@
 
   <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
-      <url>https://ciberduvidas.iscte-iul.pt/artigos/rúbricas/idioma/sóbrea-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+      <!--url>https://ciberduvidas.iscte-iul.pt/artigos/rúbricas/idioma/sóbrea-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url-->
       <short>Preferencia tipográfica</short>
     <rule>
       <pattern>
@@ -2166,7 +2491,7 @@
           <token>s</token>
       </pattern>
       <message>Apostrofes non son necesarios en décadas: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
-      <url>http://@www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+      <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
       <short>Apóstrofe desnecessário</short>
       <example correction='1970s'>O Diácono Remedios preguntou onde estabas nos <marker>1970's</marker>.</example>
       <example correction='70s'>O Diácono Remedios preguntou onde estabas nos <marker>70's</marker>.</example>
@@ -2496,8 +2821,10 @@
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
-          <token postag="PP......:PP......" postag_regexp="yes"/>
-          <token postag="V.*" postag_regexp="yes"/>
+          <marker>
+            <token postag="PP......:PP......" postag_regexp="yes"/>
+            <token postag="V.*" postag_regexp="yes"/>
+          </marker>
       </pattern>
       <message>Os pronomes clíticos non poden ir en galego no inicio da oración. Por favor, empregue o verbo seguido do pronome (por exemplo: 'díxenvolo' no canto de 'volo dixen').</message>
       <short>O pronome debe ir posposto ao verbo</short>
@@ -2575,10 +2902,10 @@
     <rule id="PRON_NOS" name="nos cantamos (nós cantamos)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-        <marker>
           <token postag="SENT_START"/>
-          <token>nos</token>
-        </marker>
+          <marker>
+            <token>nos</token>
+          </marker>
           <token postag="V...1P.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
           </token>
@@ -2590,8 +2917,8 @@
     <rule id="PRON_VOS" name="vos cantades (vós cantades)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
+        <token postag="SENT_START"/>
         <marker>
-          <token postag="SENT_START"/>
           <token>vos</token>
         </marker>
           <token postag="V...2P.*" postag_regexp="yes">

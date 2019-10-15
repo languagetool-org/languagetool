@@ -25,14 +25,14 @@ import java.util.List;
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
  * @since 3.0
  */
-class LineExpander {
+public class LineExpander {
 
-  List<String> expandLine(String line) {
+  public List<String> expandLine(String line) {
     List<String> result = new ArrayList<>();
     if (!line.startsWith("#") && line.contains("/")) {
       String[] parts = cleanTags(line).split("/");
       if (parts.length != 2) {
-        throw new RuntimeException("Unexpected line format, expected at most one slash: " + line);
+        throw new IllegalArgumentException("Unexpected line format, expected at most one slash: " + line);
       }
       String word = parts[0];
       String suffix = parts[1];
@@ -47,14 +47,14 @@ class LineExpander {
           result.add(word + "e");
         } else if (c == 'F') {
           result.add(word + "in"); // (m/f)
-        } else if (c == 'A') {  // Adjektiv
+        } else if (c == 'A') { // Adjektiv
           result.add(word + "e");
           result.add(word + "er");
           result.add(word + "es");
           result.add(word + "en");
           result.add(word + "em");
         } else {
-          throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
+          throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
         }
       }
     } else {
@@ -65,6 +65,10 @@ class LineExpander {
 
   // ignore "#..." so it can be used as a tag:
   private String cleanTags(String s) {
-    return s.replaceFirst("\\s+#.*", "").trim();
+    int idx = s.indexOf('#');
+    if (idx != -1) {
+      s = s.substring(0, idx);
+    }
+    return s.trim();
   }
 }

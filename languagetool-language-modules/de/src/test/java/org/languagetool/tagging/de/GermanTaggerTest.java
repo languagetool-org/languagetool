@@ -154,6 +154,16 @@ public class GermanTaggerTest {
   }
 
   @Test
+  public void testAfterColon() throws IOException {
+    // a colon doesn't start a new sentence in LT, but often it should, so we check the special case for that
+    GermanTagger tagger = new GermanTagger();
+    List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList("Er", "sagte", ":", "Als", "Erstes", "würde", "ich"));
+    assertEquals(7, tags.size());
+    assertEquals("Als", tags.get(3).getToken());
+    assertEquals(4, tags.get(3).getReadings().size());
+  }
+
+  @Test
   public void testTaggerBaseforms() throws IOException {
     GermanTagger tagger = new GermanTagger();
 

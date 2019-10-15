@@ -183,7 +183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!-- PB014 marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker -->
                     <marker><token regexp="yes">il|lo|i|gli|la</token></marker>
-                    <token postag="(NOUN-F.p)|(ADJ.*\+f\+p)" postag_regexp="yes"><exception postag="(NOUN-F.s)|(ADJ.*\+f\+s)|(NOUN-M.p)|(ADJ.*\+m\+p)(ADV)" postag_regexp="yes"/>
+                    <token postag="(NOUN-F.p)|(ADJ.*\+f\+p)" postag_regexp="yes"><exception postag="(NOUN-[MF].s)|(ADJ.*\+f\+s)|(NOUN-M.p)|(ADJ.*\+m\+p)(ADV)" postag_regexp="yes"/>
 <!-- 3610289 + -->
                     	<exception regexp="yes">(?-i)Signore</exception>
 <!-- 3610289 - -->
@@ -191,6 +191,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>le</suggestion>.</message>
                 <example correction="le">Vidi <marker>il</marker> mucche pascolare nel campo.</example>
+                <example>il male è la specializzazione</example>
+                <example>il pioniere dei videogiochi</example>
             </rule>
             <!-- una -->
             <rule>
@@ -212,6 +214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>il</suggestion>.</message>
                 <example correction="il">Quanto costa <marker>lo</marker> vino?</example>
+                <example>Io le ritrovo quando osservo</example>
             </rule>
             <!-- i -->
             <rule>
@@ -393,7 +396,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="CON"/>
+                    <marker>
+                        <token postag="CON"/>
+                    </marker>
                 </pattern>
                 <message>Si consiglia di non iniziare una frase con una congiunzione.</message>
                 <example correction=""><marker>E</marker> non si capisce il perché di tanta paura.</example>
@@ -1355,15 +1360,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token />
-                    <token /><token /><token /><token /><token skip="-1"/>
-                    <token postag="SENT_END" />
+                    <marker>
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token />
+                        <token /><token /><token /><token /><token skip="-1"/>
+                        <token postag="SENT_END" />
+                    </marker>
                 </pattern>
                 <message>Si suggerisce di frammentare questa frase perché risulta troppo lunga.</message>
                 <example correction=""><marker>La casa aveva tante cose da vedere e da toccare con mano attenta a non romperle e occhio pronto ad ammirarle in tutto lo splendore infuso loro dalla cura maniacale per la perfezione che la padrona esibiva in qualunque sua attività ogni giorno che passava.</marker></example>
@@ -1450,7 +1457,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     	<token>
                     	    <match no="0"/>
-<!-- 181 + -->
+                            <exception inflected="yes">essere</exception>
+<!-- 181 + -->             
                     	    <exception scope="previous" regexp="yes">via|così|Duran|Pago|Wagga</exception>
 <!-- 181 - -->                    	    
 						</token>
@@ -1460,6 +1468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1"/>.</message>
                 <example correction="">Il bambino aveva capito bene l'altro <marker>bambino</marker> di fronte a se.</example>
                 <example>Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
+                <example>Ma non è questo che contesto, il male è la specializzazione.</example>
             </rule>
         </rulegroup>
     </category>
@@ -1588,20 +1597,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- "a" + un participio passato -->
                 <pattern>
                     <token>a</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception>portata</exception></token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha fatto">La mamma <marker>a fatto</marker> la spesa.</example>
+                <example>Tutte le informazioni del mondo a portata di mano</example>
             </rule>
             <rule>
                 <!-- "a" + un sostantivo plurale -->
                 <pattern>
                     <token>a</token>
-                    <token postag="NOUN.+p" postag_regexp="yes"/>
+                    <token postag="NOUN.+p" postag_regexp="yes"><exception postag="NOUN.*s" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha soldi">Piero <marker>a soldi</marker> con sé?.</example>
                 <example>Piero <marker>ha soldi</marker> con se?.</example>
+                <example>Di esempi ce ne sono a volontà.</example>
             </rule>
             <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
                 <pattern>

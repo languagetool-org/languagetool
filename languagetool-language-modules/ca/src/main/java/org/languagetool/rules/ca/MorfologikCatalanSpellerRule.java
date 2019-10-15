@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -57,7 +58,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
     tagger = new CatalanTagger(language);
-    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + ".dict";
+    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override

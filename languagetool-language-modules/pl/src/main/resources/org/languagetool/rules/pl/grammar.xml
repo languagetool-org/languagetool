@@ -1067,10 +1067,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="SENT_START"></token>
+									<token postag="SENT_START"></token>
+									<marker>
 										<token inflected="yes" regexp="yes" spacebefore="ignore">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+									</marker>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1100,10 +1102,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="SENT_START"></token>
+									<token postag="SENT_START"></token>
+									<marker>
 										<token regexp="yes">że|iż|chyba|jak|tylko</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">żeby|aby|ażeby|iżby|by</token>
+									</marker>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1138,10 +1142,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="SENT_START"></token>
+									<token postag="SENT_START"></token>
+									<marker>
 										<token>jeszcze</token>
 										<token>,</token>
 										<token>zanim</token>
+									</marker>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2321,9 +2327,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>innymi</token>
-										<token>słowy</token>
-										<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										<marker>
+											<token>innymi</token>
+											<token>słowy</token>
+											<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										</marker>
 								</pattern>
 								<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2464,9 +2472,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>co</token>
-										<token regexp="yes">więcej|gorsza</token>
-										<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										<marker>
+											<token>co</token>
+											<token regexp="yes">więcej|gorsza</token>
+											<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										</marker>
 								</pattern>
 								<message>Wyrażenie „\2 \3” oddziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2516,9 +2526,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
-										<token>mówiąc</token>
-										<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										<marker>
+											<token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
+											<token>mówiąc</token>
+											<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										</marker>
 								</pattern>
 								<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2543,10 +2555,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>tak</token>
-										<token>czy</token>
-										<token regexp="yes">owak|siak|inaczej</token>
-										<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										<marker>
+											<token>tak</token>
+											<token>czy</token>
+											<token regexp="yes">owak|siak|inaczej</token>
+											<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										</marker>
 								</pattern>
 								<message>Wyrażenie „\2 \3 \4” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3 \4, \5</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -3252,12 +3266,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rulegroup>
 				<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
 						<pattern>
-								<marker>
-										<token postag="SENT_START"></token>
-										<token>otóż</token>
-										<token>,</token>
-								</marker>
-								<token><exception regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|którędy</exception></token>
+							<token postag="SENT_START"></token>
+							<marker>
+								<token>otóż</token>
+								<token>,</token>
+							</marker>
+							<token><exception regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|którędy</exception></token>
 						</pattern>
 						<message>Przecinek jest w tym miejscu prawdopodobnie zbędny. Powinno być: <suggestion>Otóż</suggestion>.</message>
 						<short>Błąd interpunkcyjny</short>
@@ -4920,7 +4934,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern case_sensitive="no">
 										<token postag="SENT_START"></token>
-										<token spacebefore="no">&quot;</token>
+										<marker>
+											<token spacebefore="no">&quot;</token>
+										</marker>
 								</pattern>
 								<message>W tym miejscu powinien być typograficzny cudzysłów otwierający: <suggestion>„</suggestion>.</message>
 								<short>Nieprawidłowy cudzysłów</short>
@@ -6330,7 +6346,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <rule id="SIE_NA_POCZATKU_ZDANIA" name="„Się” na początku zdania">
                     <pattern case_sensitive="yes">
                         <token postag='SENT_START'></token>
-                        <token>Się</token>
+                        <marker>
+                            <token>Się</token>
+                        </marker>
                     </pattern>
                     <message>Ten wyraz nie powinien być na początku zdania.</message>
                     <short>Błędny szyk</short>
@@ -7142,12 +7160,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		    </antipattern>
          <pattern>
           <token postag='SENT_START' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'></exception></token>
-          <token postag='(:?pant|pcon).*' postag_regexp='yes' skip='-1'>
-            <exception postag='pred|comp.*|conj' postag_regexp='yes' scope='next'/>
-            <exception scope="next" regexp="yes">[\(\)]</exception>
-          </token>
-          <token skip="-1" regexp="yes" postag="verb.*(pl|sg).*" postag_regexp="yes">istniej[eą]|oznacza</token>
-          <token postag='SENT_END' regexp="yes">[!\.?…]</token>
+          <marker>
+              <token postag='(:?pant|pcon).*' postag_regexp='yes' skip='-1'>
+                <exception postag='pred|comp.*|conj' postag_regexp='yes' scope='next'/>
+                <exception scope="next" regexp="yes">[\(\)]</exception>
+              </token>
+              <token skip="-1" regexp="yes" postag="verb.*(pl|sg).*" postag_regexp="yes">istniej[eą]|oznacza</token>
+              <token postag='SENT_END' regexp="yes">[!\.?…]</token>
+          </marker>
          </pattern>
          <message>W tym zdaniu imiesłów przysłówkowy <match no="2"/> prawdopodobnie nie ma tego samego podmiotu, co orzeczenie główne (\3).</message>
          <short>Brak orzeczenia w zdaniu</short>
@@ -8143,14 +8163,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="DISAGREEMENT_VERB_PPRON" name="Niezgodność formy czasownika i zaimka osobowego">
                 <pattern>
-                        <token postag="SENT_START"/>
-                    <unify negate="yes">
-                        <feature id="number"/>
-                        <feature id="person"/>
-                        <feature id="gender"/>
-                        <token postag="verb:praet.*" postag_regexp="yes"/>
-                        <token postag="ppron.*:nom.*" postag_regexp="yes"/>
-                    </unify>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="number"/>
+                            <feature id="person"/>
+                            <feature id="gender"/>
+                            <token postag="verb:praet.*" postag_regexp="yes"/>
+                            <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                        </unify>
+                    </marker>
                 </pattern>
                 <message>Nieuzgodnione formy czasownika i zaimka osobowego (inna liczba, osoba lub rodzaj gramatyczny).</message>
                 <short>Błąd gramatyczny</short>
@@ -8844,7 +8866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>mi</token>
+										<marker><token>mi</token></marker>
 								</pattern>
 								<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Mnie</suggestion>.</message>
 								<short>Błąd składniowy</short>
@@ -8853,8 +8875,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
+										<token postag="SENT_START"></token>
 										<marker>
-												<token postag="SENT_START"></token>
 												<token skip="-1" postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"></exception><exception inflected="yes" postag="adj:pl.*" postag_regexp="yes" regexp="yes" scope="next">który|jaki</exception></token>
 										</marker>
 										<token postag="verb:.*sg.*" postag_regexp="yes"></token>
@@ -8869,7 +8891,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>cię</token>
+										<marker><token>cię</token></marker>
 								</pattern>
 								<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Ciebie</suggestion>.</message>
 								<short>Błąd składniowy</short>
@@ -8879,7 +8901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>go</token>
+										<marker><token>go</token></marker>
 								</pattern>
 								<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Jego</suggestion>.</message>
 								<short>Błąd składniowy</short>
@@ -8889,7 +8911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>mu</token>
+										<marker><token>mu</token></marker>
 								</pattern>
 								<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Jemu</suggestion>.</message>
 								<short>Błąd składniowy</short>
@@ -15936,7 +15958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>bezsensu</token>
+										<marker><token>bezsensu</token></marker>
 								</pattern>
 								<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>bez sensu</suggestion> („bezsensu” to dopełniacz od słowa „bezsens”)?</message>
 								<short>Prawdopodobny błąd ortograficzny</short>
@@ -19469,8 +19491,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token>za</token>
-										<token>zwyczaj</token>
+										<marker>
+											<token>za</token>
+											<token>zwyczaj</token>
+										</marker>
 								</pattern>
 								<message>Prawdopodobny błąd ortograficzny. Wyraz <suggestion>\2\3</suggestion> (=najczęściej, zwykle) piszemy łącznie.</message>
 								<short>Błąd ortograficzny</short>

@@ -25,9 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -130,16 +127,19 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     }    
   }
 
+  private static final Pattern PUNCT_AFTER_KLY_PATTERN = Pattern.compile("[,!»\"\u201C\u201D]|[\\.!]{3}");
+
   private void removeInanimVKly(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
-      
-      if( i < tokens.length -1
-          && Arrays.asList(",", "!", "»", "\u201C", "\u201D", "...").contains(tokens[i+1].getToken()) 
-          && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_kly.*") )
+
+      if( i < tokens.length - 1
+          && PUNCT_AFTER_KLY_PATTERN.matcher(tokens[i+1].getToken()).matches()
+          && (PosTagHelper.hasPosTag(tokens[i-1], "adj:.:v_kly.*")
+            || "о".equalsIgnoreCase(tokens[i-1].getToken())) )
         continue;
-      
+
       ArrayList<AnalyzedToken> inanimVklyReadings = new ArrayList<>();
       boolean otherFound = false;
       for(int j=0; j<analyzedTokens.size(); j++) {
@@ -148,7 +148,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           break;
         if( posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )
           continue;
-          
+
         if( INANIM_VKLY.matcher(posTag).matches() ) {
           inanimVklyReadings.add(analyzedTokens.get(j));
         }
@@ -390,6 +390,7 @@ TODO:
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":"+initialType+":abbr"), initialsToken);
+      newToken.setWhitespaceBefore(initialsReadings.isWhitespaceBefore());
       newTokens.add(newToken);
     }
     return new AnalyzedTokenReadings(newTokens, initialsReadings.getStartPos());

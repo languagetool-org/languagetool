@@ -28,16 +28,17 @@ title="Easy editing stylesheet" ?>
 
   <!DOCTYPE rules [
 
-    <!ENTITY meses_ano_abrev "(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)">
-    <!ENTITY meses_ano "(?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)">
-    <!ENTITY dias_semana_abrev "(?:seg|ter|qua|qui|sex|sáb|dom)">
-    <!ENTITY dias_semana "(?:segunda|terça|quarta|quinta|sexta|sábado|domingo)">
+    <!ENTITY meses_ano_abrev "(?:j(?:an|u[nl])|fev|ma[ir]|a(?:br|go)|set|out|nov|dez)">
+    <!ENTITY meses_ano "(?:j(?:aneiro|u[nl]ho)|fevereiro|ma(?:rço|io)|a(?:bril|gosto)|setembro|outubro|novembro|dezembro)">
+    <!ENTITY dias_semana_abrev "(?:s(?:e[gx]|áb)|ter|qu[ai]|dom)">
+    <!ENTITY dias_semana "(?:s(?:e(?:gunda|xta)|ábado)|terça|qu(?:arta|inta)|domingo)">
     <!ENTITY expressoes_de_tempo "(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
+    <!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
 
     <!ENTITY contracoes_MS "(?:ao|d(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|n(?:o|um|ele|es[st]e|aquele|is[st]o|aquilo|outro)|pelo|algum|mo|to|lho)">
     <!ENTITY contracoes_FS "(?:à|d(?:a|uma|ela|es[st]a|aquela|outra)|n(?:a|uma|ela|nes[st]a|aquela|outra)|pela|alguma|ma|ta|lha)">
@@ -50,7 +51,7 @@ title="Easy editing stylesheet" ?>
 
     <!ENTITY verbos_de_ligacao "(?:andar|continuar|estar|ficar|p(?:arecer|ermanecer)|assemelhar|s(?:emelhar|er)|v(?:irar|viver))">
 
-    <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada)|jamais|sem|tampouco)">
+    <!ENTITY negacoes "(?:n(?:ão|em|unca|inguém|ada|enhu[mn]a?s?)|jamais|sem|tampouco)">
     <!ENTITY introduz_proclise "(?:ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez)"><!-- XXX Excluded ali|aqui|acolá -->
 
     <!ENTITY prefixos_i "(?:(?:p(?:(?:lu|e)r|ol)|m(?:ult|ax|in)|(?:quad|t)r|se(?:squ|m)|a(?:nt|ur)|[ou]n|hem|b)i)">
@@ -58,7 +59,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY prefixos_o_2 "anarco|bio|paleo">
     <!ENTITY prefixos_o_ambiguos "(?:(?:e(?:stere|ur|g)|(?:cent|sac)r|a(?:str|udi)|t(?:erm|urb)|f(?:il|ot)|i(?:ntr|d)|bronc|labi|mon|vas|zo)o)">
     <!ENTITY prefixos_hifenizados_h "(?:p(?:r(?:(?:ot)?o|e)|seudo|enta|luri|an|os)|m(?:a(?:cro|xi)|i(?:cro|ni)|ulti|ega)|a(?:(?:[eg]r|ut)o|(?:rqu|nt)i)|s(?:u(?:p(?:er|ra)|b)|emi)|h(?:i(?:dro|per)|exa)|in(?:t(?:er|ra)|fra)|t(?:e(?:tra|le)|ri)|e(?:letro|xtra)|c(?:ircum|o)|re(?:tro)?|[gn]eo|ultra|bio?)">
-    <!ENTITY pronomes_de_tratamento "(?:alteza|senhoria|majestade|realeza|magnificência|divindade|excelência|reverência|reverendíssima|beatitude|graça|paternidade|eminência|santidade)s?">
+    <!ENTITY pronomes_de_tratamento "(?:Alteza|Beatitude|Divindade|E(?:minência|xcelência)|Graça|M(?:agnificência|ajestade)|Paternidade|R(?:ealeza|everência|everendíssim[ao])|Santidade|Senhoria)s?">
 
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
@@ -456,6 +457,10 @@ title="Easy editing stylesheet" ?>
           <token>caros</token>
           <token postag='_PUNCT'/>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>saudades?</token>
+          <token regexp='yes'>suas?|vossas</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -473,6 +478,7 @@ title="Easy editing stylesheet" ?>
       <example>Apesar de reafirmar que vai prosseguir o “seu dever” no acolhimento às vagas de migrantes.</example>
     <!--        <example type='correct'>Hospital Nossa Senhora da Paz</example> -->
       <example>Isto é uma característica tipicamente sua.</example>
+      <example>Sentimos muita saudade sua.</example>
     </rule>
     <rule>
       <antipattern>
@@ -514,18 +520,6 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
       <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
       <short>Possível gerundismo.</short>
-      <antipattern case_sensitive='yes'>
-          <token>Armando</token>
-      </antipattern>
-    <rule>
-      <pattern>
-          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
-          <token postag='V.G0+' postag_regexp='yes'/>
-      </pattern>
-      <message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
-      <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
-    </rule>
     <rule>
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
@@ -539,8 +533,29 @@ title="Easy editing stylesheet" ?>
       <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token inflected='yes' regexp='yes'>ir|vir</token>
+          <token>sendo</token>
+          <token postag='V.P.+' postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
+          <token postag='V.G0+' postag_regexp='yes'/>
+      </pattern>
+      <message>Se possível, evite o gerúndio.</message>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+      <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
+      <example>As regras foram sendo melhoradas ao longo do tempo.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token inflected='yes' regexp='yes'>ir|vir</token>
+          <token>sendo</token>
+          <token postag='V.P.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
+            <exception inflected='yes' regexp='yes'>medida|votar</exception>
             <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
           <token postag='V.G0+' postag_regexp='yes'>
             <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
@@ -549,6 +564,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
       <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
       <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
+      <example>As regras foram sendo melhoradas ao longo do tempo.</example>
       <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
     </rule>
   </rulegroup>
@@ -584,7 +600,7 @@ title="Easy editing stylesheet" ?>
 
  <category id="CONTRACTIONS" name="Contrações">
 
-  <rulegroup type='grammar' id="CONTRACOES" name="Contrações" default='on'>
+  <rulegroup type='grammar' id="CONTRACOES2" name="Contrações" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
     <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
@@ -619,7 +635,7 @@ title="Easy editing stylesheet" ?>
       <example correction='doutra'><marker>de outra</marker>.</example>
       <example correction='doutras'><marker>de outras</marker>.</example>
     </rule>
-    <rule id='CONTRACAO_DUM' name='De + um/uns' default='off'>
+    <rule id='CONTRACAO_DUM2' name='De + um/uns' default='off'>
       <pattern>
         <marker>
           <token>de</token>
@@ -705,6 +721,14 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>Pai Natal</suggestion>.</message>
       <example correction="Pai Natal">O <marker>Papai Noel</marker> vive na Lapónia.</example>
+    </rule>
+    <rule id="SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
+      <pattern>
+          <token case_sensitive='yes'>sobrado
+            <exception postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
+      <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
     </rule>
     <rule id="TIRO_DE_META" name="Brasileirismo: Tiro de Meta - Pontapé de Baliza">
       <pattern>
@@ -898,6 +922,26 @@ title="Easy editing stylesheet" ?>
       <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
       <example correction='(Rever)'><marker>Revisaste</marker> o texto antes de enviar.</example>
     </rule>
+    <rule id='BRASILEIRISMO_21_EXPERIMENTO' name='Brasileirismo: experimento - experiência'>
+      <pattern>
+          <token postag="[AD]..MS.+" postag_regexp='yes'/>
+        <marker>
+          <token>experimento</token>
+        </marker>
+      </pattern>
+      <message>Esta é uma expressão de Português do Brasil para <suggestion>experiência</suggestion>.</message>
+      <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
+    </rule>
+    <rule id='BRASILEIRISMO_22_EXPERIMENTOS' name='Brasileirismo: experimentos - experiências'>
+      <pattern>
+          <token postag="[AD]..MP.+" postag_regexp='yes'/>
+        <marker>
+          <token>experimentos</token>
+        </marker>
+      </pattern>
+      <message>Esta é uma expressão de Português do Brasil para <suggestion>experiências</suggestion>.</message>
+      <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
+    </rule>
   </rulegroup>
 
  </category>
@@ -927,7 +971,7 @@ title="Easy editing stylesheet" ?>
       <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
-            <exception regexp='yes'>ambientes|boates|corretas|desertas|gomes|soares|rodrigues|transplantes</exception>
+            <exception regexp='yes'>ambientes|boates|corretas|desertas|gomes|r(?:edes|odrigues)|soares|transplantes</exception>
             <exception negate_pos='yes' postag="V...2S.+" postag_regexp='yes'/></token>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
@@ -941,6 +985,11 @@ title="Easy editing stylesheet" ?>
       <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
       <example correction="Está"><marker>Estás</marker> bem?</example>
       <example>Está bem.</example>
+      <example>Nas Antilhas existem também ilhas que são possessões (britânicas, francesas, holand...</example>
+      <example>...elevadas altitudes, que ocasionam temperaturas mais baixas e pluviosidade reduzida.</example>
+      <example>Além das dezenas de danças regionais, estilo folclórico nacional argentino s...</example>
+      <example>...estruturas de repetição tais como laços, ou ainda estruturas de dados adicionais tais como pilhas, para resolv...</example>
+      <example>A era nazista produziu principalmente filmes de propaganda, embora a obra de Leni Riefenstahl ...</example>
     </rule>
     <rule>
       <pattern>
@@ -949,9 +998,10 @@ title="Easy editing stylesheet" ?>
           <token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes" include_skipped='all'/></suggestion>
       <short>Tratamento informal</short>
       <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
+      <example correction="Não consegue"><marker>Tu não consegues</marker> levantar o piano.</example>
     </rule>
     <rule>
       <pattern>
@@ -1021,6 +1071,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
+            <exception>parece</exception>
             <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
@@ -1078,7 +1129,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>você|vocês</token>
+          <token regexp='yes'>vocês?</token>
       </pattern>
       <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
         <suggestion>o Senhor</suggestion>
@@ -1176,7 +1227,7 @@ title="Easy editing stylesheet" ?>
 
     <rule>
       <pattern>
-          <token regexp='yes'>co|pre|pro|pos|re|bi|tri|tetra|penta|hexa</token>
+          <token regexp='yes'>co|p(?:r[eo]|os)|re|bi|tri|tetra|penta|hexa</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes' case_sensitive="yes" spacebefore='no'>[^hrs].+</token>
       </pattern>
@@ -1200,11 +1251,10 @@ title="Easy editing stylesheet" ?>
           <token>extra</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>extra|infra|intra|supra|ultra|mega</token>
+          <token regexp='yes'>extra|in(?:fra|tra)|supra|ultra|mega</token>
     <!-- contra are better dealt by PortugueseCompoundRule.java -->
           <token regexp='yes'>a.+
-            <exception postag='C.|R.|S.+' postag_regexp='yes'/>
-          </token>
+            <exception postag='C.|R.|S.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Palavra hifenizada.</message>
         <suggestion>\1-\2</suggestion>
@@ -1212,17 +1262,29 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>infra|intra|supra|ultra|mega</token>
+          <token regexp='yes'>extra|in(?:fra|tra)|supra|ultra|mega</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^ahrs].+</token>
+          <token regexp='yes'>[^ahrs].+
+            <exception postag='C.|R.|S.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='megalítico'>O artefato encontrado provém do período <marker>mega lítico</marker> altos.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>contra</token>
+          <token regexp='yes'>ventos?</token>
+          <token>e</token>
+          <token>marés</token>
+      </antipattern>
+      <antipattern>
+          <token>para</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>a(?:pendicite|xial)|b(?:alas|risas?)|c(?:entelhas|hispas|hoques?|huvas?|inzas|ostas)|e(?:stilhaços|stopilhas?)|f(?:ios|ogos?)|h(?:élio|idrog[êé]nic?[ao]|istória)|l(?:amas?|uz(?:es)?)|muros?|pelotes?|raios|s(?:ol|óis)|ventos?</token>
+      </antipattern>
       <pattern>
-          <token regexp='yes'>contra|justa|para|tetra|penta|hexa|hepta|nona|deca</token>
+          <token regexp='yes'>contra|justa|tetra|p(?:ara|enta)|h(?:exa|epta)|nona|deca</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>[^ahrs].+</token>
       </pattern>
@@ -1268,7 +1330,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token regexp='yes'>&prefixos_i;</token>
-          <token regexp='yes'>i.+</token>
+          <token regexp='yes'>i.+
+            <exception case_sensitive='yes' regexp='yes'>\p{Lu}.+</exception></token>
       </pattern>
       <message>Palavra hifenizada.</message>
         <suggestion>\1-\2</suggestion>
@@ -1278,11 +1341,14 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>&prefixos_i;</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^ihrs].+</token>
+          <token regexp='yes'>[^ihrs].+
+            <exception case_sensitive='yes' regexp='yes'>\p{Lu}.+</exception>
+            <exception postag_regexp='yes' postag='[RS].+'/></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='minimercados'>Os <marker>mini-mercados</marker> abrem em todo o lado.</example>
+      <example>... protestos anti-Maduro ...</example>
     </rule>
     <rule>
       <pattern>
@@ -1297,7 +1363,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>auto|quilo</token>
-          <token regexp='yes'>d[aeo]s?</token>
+          <token regexp='yes'>d[aeo]s?|policial</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
@@ -1373,7 +1439,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>hiper|inter|super</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^hr].+</token>
+          <token regexp='yes'>[^hr\d]\p{L}+
+            <exception case_sensitive='yes'>AMOLED</exception></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
@@ -1395,7 +1462,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>ob|sub</token>
     <!-- ab (latim)|sob is better dealt by PortugueseCompoundRule.java -->
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh].+</token>
+          <token regexp='yes' case_sensitive="yes">[^,.!\(\)brh\d]\p{L}+</token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
@@ -1406,7 +1473,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>circum|pan
             <exception case_sensitive='yes'>PAN</exception></token>
-          <token regexp='yes'>[mnaeiouh].+</token>
+          <token regexp='yes'>[mnaeiouh]\p{L}+</token>
       </pattern>
       <message>Palavra hifenizada.</message>
         <suggestion>\1-\2</suggestion>
@@ -1417,11 +1484,23 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>circum|pan
             <exception case_sensitive='yes'>PAN</exception></token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[^,.!\(\)mnaeiouh].+</token>
+          <token regexp='yes'>[^,.!\(\)mnaeiouh\d]\p{L}+
+            <exception regexp='yes'>escrev.+|paniscus|troglodytes</exception></token>
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
       <example correction='panteístas'>As crenças <marker>pan-teístas</marker> são próximas das filosofias orientais.</example>
+      <example> O chimpanzé, Pan troglodytes, e o bonobo, Pan paniscus, são encontrados nas proximidades do rio Congo.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>circum</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token inflected='yes'>escrever</token>
+      </pattern>
+      <message>Palavra hifenizada.</message>
+        <suggestion>circun<match no='3' regexp_match='esc' regexp_replace='sc'/></suggestion>
+      <example correction='circunscrito'>O fogo está <marker>circum-escrito</marker>.</example>
     </rule>
   </rulegroup>
 
@@ -1547,10 +1626,12 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
-          <token>bem</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>feit[ao]</token>
-          <token regexp='yes'>[!\?]</token>
+          <marker>
+              <token>bem</token>
+              <token regexp='yes' spacebefore='no'>&hifen;</token>
+              <token regexp='yes'>feit[ao]</token>
+              <token regexp='yes'>[!\?]</token>
+          </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, o adjetivo deve ser hifenizado, enquanto que a interjeição não deve ser hifenizada.</message>
         <suggestion>\2 \4\5</suggestion>
@@ -1610,6 +1691,10 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>[“«&quot;]</token>
           <token>Ter</token>
       </antipattern>
+      <antipattern>
+          <token>Ter</token>
+          <token>Stegen</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token>
             <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
@@ -1653,8 +1738,8 @@ title="Easy editing stylesheet" ?>
           <token>Oriente</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>em|n[ao]s?</token>
-          <token regexp='yes' case_sensitive='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
+          <token regexp='yes'>em|(?:n|pel)[ao]s?</token>
+          <token regexp='yes' case_sensitive='yes'>&pontos_cardeais_capitalizados;</token>
           <token regexp='yes'>d[eao]s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
@@ -1663,12 +1748,24 @@ title="Easy editing stylesheet" ?>
           <token postag='_PUNCT'/>
           <token>Este</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>sentidos?|direção</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
+          <token regexp='yes'>&hifen;|para</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
+      </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
+          <token regexp='yes'>a|para</token>
+          <token regexp='yes'>&pontos_cardeais_capitalizados;</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token>
-            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|[Hh]emisfério|\-</exception>
+            <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|[Hh]emisfério|\-|\p{Lu}\p{Ll}+</exception>
             <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
         <marker>
-          <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
+          <token regexp='yes'>&pontos_cardeais_capitalizados;
             <exception postag_regexp='yes' postag='NP..[^G].+'/></token>
         </marker>
       </pattern>
@@ -1681,6 +1778,7 @@ title="Easy editing stylesheet" ?>
       <example>Este elevador é capaz de carregar 10 pessoas por vez.</example>
       <example>A maior parte dos corais no Norte da Grande Barreira estão mortos.</example>
       <example>A maioria dos corais na parte Norte da Grande Barreira estão mortos.</example>
+      <example>Atenção! Acidente na A1 no sentido Norte-Sul. </example>
     </rule>
 
     <rule id="POLO_CAPITALIZATION" name="AO90: Polo Norte/Sul">

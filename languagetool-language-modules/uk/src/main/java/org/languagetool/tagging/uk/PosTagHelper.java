@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -150,6 +151,11 @@ public final class PosTagHelper {
     return posTag != null && posTagRegex.matcher(posTag).matches();
   }
 
+  public static boolean hasPosTag(TaggedWord analyzedToken, Pattern posTagRegex) {
+    String posTag = analyzedToken.getPosTag();
+    return posTag != null && posTagRegex.matcher(posTag).matches();
+  }
+
   public static boolean hasPosTagPart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
     return hasPosTagPart(analyzedTokenReadings.getReadings(), posTagPart);
   }
@@ -173,6 +179,14 @@ public final class PosTagHelper {
   public static boolean hasPosTag2(List<TaggedWord> taggedWords, Pattern pattern) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && pattern.matcher(analyzedToken.getPosTag()).matches() )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean startsWithPosTag2(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
         return true;
     }
     return false;
@@ -223,10 +237,42 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static String addIfNotContains(@NotNull String tag, @NotNull String part) {
-    if( ! tag.contains(part) )
-      return tag + part;
+  public static String addIfNotContains(@NotNull String tag, @NotNull String addTag) {
+    if( ! tag.contains(addTag) )
+      return tag + addTag;
     return tag;
+  }
+
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag) {
+    return addIfNotContains(taggedWords, addTag, null);
+  }
+  
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag, @Nullable String lemma) {
+    return taggedWords.stream()
+        .map(w -> new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))
+        .collect(Collectors.toList());
+  }
+
+  public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
+
+  public static List<TaggedWord> filter2(List<TaggedWord> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
+
+  private static Pattern WORD_PATTERN = Pattern.compile("[а-яіїєґa-z'-]+", Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);
+  public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
+    return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()
+        && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
   }
 
 //private static String getNumAndConj(String posTag) {

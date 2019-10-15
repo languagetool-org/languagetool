@@ -111,5 +111,10 @@ public class SimilarNameRule extends TextLevelRule {
     }
     return null;
   }
+
+  @Override
+  public int minToCheckParagraph() {
+    return -1;
+  }
   
 }

@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +39,7 @@ public class WordFastTMReaderTest {
     input.deleteOnExit();
 
     // Populate the file with data.
-    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"))) {
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), StandardCharsets.UTF_8))) {
       writer.println("%20100801~111517\t%UserID,AHLJat,AHLJat\t%TU=00008580\t%EN-US\t%Wordfast TM v.546/00\t%PL-PL\t%\t.");
       writer.println("20100727~145333\tAHLJat\t2\tEN-US\tObjection:\tPL-PL\tZarzut: ");
       writer.println("20100727~051350\tAHLJat\t2\tEN-US\tWhy not?&tA;\tPL-PL\tDlaczego nie?&tA; ");

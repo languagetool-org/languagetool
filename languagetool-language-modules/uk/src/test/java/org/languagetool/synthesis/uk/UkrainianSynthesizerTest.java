@@ -21,6 +21,7 @@ package org.languagetool.synthesis.uk;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Ukrainian;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class UkrainianSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    UkrainianSynthesizer synth = new UkrainianSynthesizer();
+    UkrainianSynthesizer synth = new UkrainianSynthesizer(new Ukrainian());
 
     assertEquals(synth.synthesize(dummyToken("щосьтамтаке"), "щосьтамтаке").length, 0);
 

@@ -55,7 +55,7 @@ public abstract class AbstractFutureDateFilter extends RuleFilter {
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     Calendar dateFromDate = getDate(args);
     Calendar currentDate = getCalendar();
     if (TestHackHelper.isJUnitTest()) {

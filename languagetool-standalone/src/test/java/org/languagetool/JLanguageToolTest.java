@@ -326,7 +326,7 @@ public class JLanguageToolTest {
 
     List<Rule> rules = lt.getAllRules();
     for (Rule rule : rules) {
-      if (rule.getIncorrectExamples().size() == 0) {
+      if (rule.getIncorrectExamples().isEmpty()) {
         continue;
       }
       String message = getRuleMessage(rule, lt);

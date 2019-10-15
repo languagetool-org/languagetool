@@ -108,7 +108,7 @@ public class JLanguageToolTest {
       assertNoError("It's a kind of agreement in which each party gives something to the other, Jack said.", lt);
       assertNoError("Later, you shall know it better.", lt);
       assertNoError("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.", lt);
-      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason why he had fled the army.", lt);
+      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason he had fled the army.", lt);
       assertNoError("I think it's better, and it's not a big deal.", lt);
 
       assertOneError("A test test that should give errors.", lt);
@@ -164,7 +164,7 @@ public class JLanguageToolTest {
     assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
         "is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
         "test­ed[tested/JJ,I-NP-singular] " +
-        "sentence[sentence/NN,E-NP-singular].[./.,</S>,O]",
+        "sentence[sentence/NN,E-NP-singular].[./.,</S>./PCT,O]",
         tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
@@ -269,6 +269,10 @@ public class JLanguageToolTest {
     @Override
     public String getDescription() {
       return "Test rule";
+    }
+    @Override
+    public int minToCheckParagraph() {
+      return -1;
     }
   }
 }

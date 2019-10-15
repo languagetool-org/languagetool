@@ -95,8 +95,6 @@ public class ConfigurationTest {
       enabledRuleIds = conf.getEnabledRuleIds();
       assertTrue(enabledRuleIds.contains("enabledRule"));
       assertEquals(1, enabledRuleIds.size());
-
-
     } finally {
       Files.delete(tempFile.toPath());
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Russian Disambiguation Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2017 Yakov Reztsov
+Copyright (C) 2009-2019 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -67,6 +67,21 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>
+    <rule name="NOUN_V4" id="NOUN_V4">
+        <pattern>	 
+            <!-- после отпуска -->
+
+            <token  postag="PREP"></token>  <!-- после -->
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
+
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
@@ -203,6 +218,21 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:R"></disambig>
     </rule>
+    <rule name="PT_T" id="PT_T">
+        <pattern>
+            <!-- с  - родительный, винительный, творительный -->
+            <!-- под (подо)  - винительный, творительный   -->
+            <!-- Удаляем только неверный postag, остальные не трогаем.   -->
+            <token regexp="yes">под|подо|над|перед</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:T" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:R"></disambig>
+    </rule>
     <rule name="ADJ_V" id="ADJ_V">
         <pattern>
             <!-- TODO improve за -->
@@ -219,6 +249,20 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:Nom"></disambig>
     </rule>
+    <rule name="PT_V" id="PT_V">
+        <pattern>
+            <!-- TODO improve за -->
+            
+            <token regexp="yes">в|на|под|сквозь|через</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:V" postag_regexp="yes"><exception postag="PT:.*:.*:P" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+      <disambig action="remove" postag="PT:.*:.*:Nom"></disambig>
+    </rule>
     <rule name="ADJ_V2" id="ADJ_V2">
         <pattern>
             <!-- TODO милые should stay .*:Nom -->
@@ -234,6 +278,18 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:Nom"></disambig>
     </rule>
+    <rule name="PT_V2" id="PT_V2">
+        <pattern>
+            <token>под</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:V" postag_regexp="yes"><exception postag="PT:.*:.*:T" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+       <disambig action="remove" postag="PT:.*:.*:Nom"></disambig>
+    </rule>
     <rule name="ADJ_R" id="ADJ_R">
         <pattern>
             <token regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
@@ -245,6 +301,18 @@ Copyright (C) 2009-2017 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:D"></disambig>
+    </rule>
+    <rule name="PT_R" id="PT_R">
+        <pattern>
+            <token regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:D" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:R" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:D"></disambig>
     </rule>
     <rule name="ADJ_D" id="ADJ_D">
         <pattern>
@@ -258,6 +326,18 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:P"></disambig>
     </rule>
+    <rule name="PT_D" id="PT_D">
+        <pattern>
+            <token regexp="yes">к|ко</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:P" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:D" postag_regexp="yes"><exception postag="PT:.*:.*:V" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:P"></disambig>
+    </rule>
     <rule name="ADJ_P" id="ADJ_P">
         <pattern>
             <token regexp="yes">о|при</token>
@@ -270,7 +350,19 @@ Copyright (C) 2009-2017 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:D"></disambig>
     </rule>
-    <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
+    <rule name="PT_P" id="PT_P">
+        <pattern>
+            <token regexp="yes">о|при</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:D" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:P" postag_regexp="yes"><exception postag="PT:.*:.*:V" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:D"></disambig>
+    </rule>
+     <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
         <pattern>
             <token>на</token>
             <marker>
@@ -282,6 +374,19 @@ Copyright (C) 2009-2017 Yakov Reztsov
             <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:V" ></disambig>
+    </rule>
+    <rule name="PT_P2_NOUN" id="PT_P2_NOUN">
+        <pattern>
+            <token>на</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:V" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:P" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:V" ></disambig>
     </rule>
     <!-- To do -->
     <rule name="ADV_OB1" id="ADV_OB1">
@@ -388,7 +493,5 @@ Copyright (C) 2009-2017 Yakov Reztsov
             <token>.</token> 
         </pattern>
          <disambig action="add" ><wd pos="ABR"></wd></disambig>
-    </rule>
- 
-  
+    </rule>  
 </rules>

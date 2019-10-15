@@ -69,6 +69,11 @@ public class AvsAnRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return 1;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();

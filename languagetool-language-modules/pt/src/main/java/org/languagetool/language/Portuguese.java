@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
@@ -57,7 +56,7 @@ public class Portuguese extends Language implements AutoCloseable {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -83,7 +82,7 @@ public class Portuguese extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
-            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81"),
+            new Contributor("Tiago F. Santos (3.6-4.7)", "https://github.com/TiagoSantos81"),
             new Contributor("Matheus Poletto (pt-BR)", "https://github.com/MatheusPoletto")
     };
   }
@@ -121,7 +120,7 @@ public class Portuguese extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new PortugueseSynthesizer();
+      synthesizer = new PortugueseSynthesizer(this);
     }
     return synthesizer;
   }
@@ -135,7 +134,7 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
@@ -155,7 +154,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages, this),
             new ParagraphRepeatBeginningRule(messages, this),
-            new PunctuationMarkAtParagraphEnd(messages, this),
+            new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
@@ -169,6 +168,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
+            new PortugueseDiacriticsRule(messages),
             new PortugueseWrongWordInContextRule(messages),
             new PortugueseWordCoherencyRule(messages),
             new PortugueseUnitConversionRule(messages),
@@ -185,9 +185,7 @@ public class Portuguese extends Language implements AutoCloseable {
   /** @since 3.6 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
@@ -236,6 +234,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PT_REDUNDANCY_REPLACE":     return -12;
       case "PT_WORDINESS_REPLACE":      return -13;
       case "PT_CLICHE_REPLACE":         return -17;
+      case "INTERNET_ABBREVIATIONS":    return -24;
       case "CHILDISH_LANGUAGE":         return -25;
       case "ARCHAISMS":                 return -26;
       case "INFORMALITIES":             return -27;
@@ -243,6 +242,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "BIASED_OPINION_WORDS":      return -31;
       case "WEAK_WORDS":                return -32;
       case "PT_AGREEMENT_REPLACE":      return -35;
+      case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
       case "HUNSPELL_RULE":             return -50;
       case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;

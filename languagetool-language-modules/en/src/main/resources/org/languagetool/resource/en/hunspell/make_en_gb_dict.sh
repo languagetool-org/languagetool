@@ -3,5 +3,5 @@
 # Get en_us_wordlist.xml from https://github.com/mozilla-b2g/gaia/raw/master/apps/keyboard/js/imes/latin/dictionaries/en_gb_wordlist.xml
 
 ./unmunch en-GB.dic en-GB.aff  >  en_GB1.txt
-hunspell -d en_GB -G en_GB1.txt | java -cp languagetool.jar:languagetool-dev-4.5-SNAPSHOT.jar org.languagetool.dev.archive.WordTokenizer en | sort -u > en_GB.txt
-java -cp languagetool.jar org.languagetool.tools.SpellDictionaryBuilder -i en_GB.txt -info en_GB.info -freq en_gb_wordlist.xml  -o en_GB_spell.dict
+cat en_GB1.txt | java -cp languagetool.jar:languagetool-dev-4.7-SNAPSHOT.jar org.languagetool.dev.archive.WordTokenizer en | sort -u > en_GB.txt
+java -cp languagetool.jar org.languagetool.tools.SpellDictionaryBuilder -i en_GB.txt -info en_GB.info -freq en_gb_wordlist.xml  -o en_GB.dict

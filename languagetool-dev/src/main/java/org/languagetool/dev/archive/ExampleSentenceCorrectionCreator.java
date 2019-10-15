@@ -78,7 +78,7 @@ final class ExampleSentenceCorrectionCreator {
       String incorrectSentence = incorrectExample.getExample().replaceAll("</?marker>", "");
       List<RuleMatch> matches = tool.check(incorrectSentence);
       System.err.println("no corrections: " + rule.getId() + ", " + matches.size() + " matches");
-      if (matches.size() == 0) {
+      if (matches.isEmpty()) {
         throw new RuntimeException("Got no rule match: " + incorrectSentence);
       }
       List<String> suggestedReplacements = matches.get(0).getSuggestedReplacements();

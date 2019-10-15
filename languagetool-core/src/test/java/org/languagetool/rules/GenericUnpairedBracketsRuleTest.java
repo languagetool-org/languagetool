@@ -56,6 +56,12 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(0, "This is sad :-( isn't it");
     assertMatches(0, "This is funny :)");
     assertMatches(0, "This is sad :( isn't it");
+    assertMatches(0, "a) item one\nb) item two");
+    assertMatches(0, "a) item one\nb) item two\nc) item three");
+    assertMatches(0, "\na) item one\nb) item two\nc) item three");
+    assertMatches(0, "\n\na) item one\nb) item two\nc) item three");
+    assertMatches(0, "This is a), not b)");
+    assertMatches(0, "This is it (a, not b) some more test");
 
     assertMatches(1, "This is not correct«");
     assertMatches(1, "This is »not correct");

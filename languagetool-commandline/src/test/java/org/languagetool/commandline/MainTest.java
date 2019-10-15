@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -228,7 +229,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     String tagText = new String(this.err.toByteArray());
-    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test
@@ -461,7 +462,7 @@ public class MainTest extends AbstractSecurityTestCase {
     File input = writeToTempFile("To jest świnia która się ślini.");
     String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
     Main.main(args);
-    String output = new String(this.out.toByteArray(),"UTF-8");
+    String output = new String(this.out.toByteArray(), StandardCharsets.UTF_8);
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
     //This tests whether XML encoding is actually UTF-8:
@@ -485,7 +486,7 @@ public class MainTest extends AbstractSecurityTestCase {
  
     String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
     Main.main(args);
-    String stdout = new String(this.out.toByteArray(),"UTF-8");
+    String stdout = new String(this.out.toByteArray(), StandardCharsets.UTF_8);
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
     assertTrue(stdout.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
@@ -498,7 +499,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
-    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
   }
 
   @Test
@@ -593,7 +594,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   @Test
   public void testLangWithCountryVariant() throws Exception {
-    File input = writeToTempFile("This is modelling.");
+    File input = writeToTempFile("This is a theatre.");
     String[] args = {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
@@ -655,7 +656,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private File writeToTempFile(String content) throws IOException {
     File tempFile = createTempFile();
-    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), StandardCharsets.UTF_8))) {
       writer.print(content);
       writer.print('\n');
     }
@@ -670,7 +671,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private File writeToTempXMLFile(String content) throws IOException {
     File tempFile = createTempXMLFile();
-    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), StandardCharsets.UTF_8))) {
       writer.println(content);
     }
     return tempFile;

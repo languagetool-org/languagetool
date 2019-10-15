@@ -19,13 +19,13 @@
 
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+
+import java.io.IOException;
+import java.util.*;
 
 public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerRule {
 
@@ -33,9 +33,19 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-US.txt";
+  private static final Map<String,String> BRITISH_ENGLISH = loadWordlist("en/en-US-GB.txt", 1);
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, null, Collections.emptyList());
+  }
+
+  @Override
+  protected VariantInfo isValidInOtherVariant(String word) {
+    String otherVariant = BRITISH_ENGLISH.get(word);
+    if (otherVariant != null) {
+      return new VariantInfo("British English", otherVariant);
+    }
+    return null;
   }
 
   /**
@@ -43,6 +53,14 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
    */
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
   }
 
   @Override
@@ -59,4 +77,19 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   public String getLanguageVariantSpellingFileName() {
     return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
   }
+
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+    if ("automize".equals(word)) {
+      return Arrays.asList("automate");
+    } else if ("automized".equals(word)) {
+      return Arrays.asList("automated");
+    } else if ("automizing".equals(word)) {
+      return Arrays.asList("automating");
+    } else if ("automizes".equals(word)) {
+      return Arrays.asList("automates");
+    }
+    return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
 }

@@ -45,7 +45,7 @@ import org.languagetool.rules.Category.Location;
  */
 public class ReadabilityRule extends TextLevelRule {
 
-  private static final int MARK_DISTANCE = 10;
+  private static final int MARK_WORDS = 3;
   private static final int MIN_WORDS = 10;
 
   private final LinguServices linguServices;
@@ -75,26 +75,28 @@ public class ReadabilityRule extends TextLevelRule {
     }
     this.lang = lang;
     this.tooEasyTest = tooEasyTest;
+    int tmpLevel = -1;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
-      if(level >= 0) {
-        this.level = level;
-      } else {
-        int lv = userConfig.getConfigValueByID(getId());
-        if(lv >= 0) {
-          this.level = lv;
-        } else {
-          this.level = tooEasyTest ? 4 : 2;
-        }
-      }
-    }
-    else {
+      tmpLevel = userConfig.getConfigValueByID(getId(tooEasyTest));
+    } else {
       linguServices = null;
+    }
+    if(tmpLevel >= 0) {
+      this.level = tmpLevel;
+    } else if(level >= 0) {
+      this.level = level;
+    } else {
+      this.level = (tooEasyTest ? 4 : 2);
     }
   }
   
   @Override
   public String getId() {
+    return getId(tooEasyTest);
+  }
+
+  public String getId(boolean tooEasyTest) {
     if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE";
     } else {
@@ -258,17 +260,23 @@ public class ReadabilityRule extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     String msg;
+    int nAllSentences = 0;
+    int nAllWords = 0;
+    int nAllSyllables = 0;
     int nSentences = 0;
     int nWords = 0;
     int nSyllables = 0;
     int pos = 0;
-    int startPos = 0;
-    int endPos = 0;
+    int startPos = -1;
+    int endPos = -1;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      if(nSentences == 0) {
+      if(startPos < 0 && tokens.length > 1) {
         startPos = pos + tokens[1].getStartPos();
+      }
+      if(endPos < 0 && tokens.length > MARK_WORDS) {
+        endPos = pos + tokens[MARK_WORDS].getEndPos();
       }
       nSentences++;
       for (AnalyzedTokenReadings token : tokens) {
@@ -284,7 +292,6 @@ public class ReadabilityRule extends TextLevelRule {
       }
       if(sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
         if (nWords >= MIN_WORDS) {
-          endPos = pos + tokens[tokens.length - 1].getEndPos();
           /* Equation for readability
            * FRE = Flesch-Reading-Ease
            * ASL = Average Sentence Length
@@ -296,34 +303,38 @@ public class ReadabilityRule extends TextLevelRule {
           double ASW = (double) nSyllables / (double) nWords;
           double FRE = getFleschReadingEase(ASL, ASW);
           int rLevel = getReadabilityLevel(FRE);
-
-          endPos = pos + sentence.getText().length();
           
-          if (tooEasyTest && rLevel > level) {
+          if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
             msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
-            RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos + MARK_DISTANCE, msg);
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
             ruleMatches.add(ruleMatch);
-            msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
-            ruleMatch = new RuleMatch(this, endPos - MARK_DISTANCE, endPos, msg);
-            ruleMatches.add(ruleMatch);
-
-          } else if (!tooEasyTest && rLevel < level) {
-            msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
-            RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos + MARK_DISTANCE, msg);
-            ruleMatches.add(ruleMatch);
-            msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
-            ruleMatch = new RuleMatch(this, endPos - MARK_DISTANCE, endPos, msg);
-            ruleMatches.add(ruleMatch);
-
           }
         }
+        nAllSentences += nSentences;
+        nAllWords += nWords;
+        nAllSyllables += nSyllables;
         nSentences = 0;
         nWords = 0;
         nSyllables = 0;
+        startPos = -1;
+        endPos = -1;
       }
       pos += sentence.getText().length();
     }
-    return toRuleMatchArray(ruleMatches);
+    double ASL = (double) nAllWords / (double) nAllSentences;
+    double ASW = (double) nAllSyllables / (double) nAllWords;
+    double FRE = getFleschReadingEase(ASL, ASW);
+    int rLevel = getReadabilityLevel(FRE);
+    if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
+      return toRuleMatchArray(ruleMatches);
+    } else {
+      return toRuleMatchArray(new ArrayList<>());
+    }
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
   }
  
 }

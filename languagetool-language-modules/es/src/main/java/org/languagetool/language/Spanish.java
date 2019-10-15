@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -49,7 +48,7 @@ public class Spanish extends Language implements AutoCloseable{
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -97,7 +96,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SpanishSynthesizer();
+      synthesizer = new SpanishSynthesizer(this);
     }
     return synthesizer;
   }
@@ -118,7 +117,7 @@ public class Spanish extends Language implements AutoCloseable{
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -129,16 +128,15 @@ public class Spanish extends Language implements AutoCloseable{
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new SpanishWikipediaRule(messages)
+            new SpanishWikipediaRule(messages),
+            new SpanishDiacriticsCheckRule(messages)
     );
   }
 
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
@@ -164,6 +162,14 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+  
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "ACCENTUATION_CHECK_ES": return 10;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

@@ -20,6 +20,7 @@ package org.languagetool.synthesis.ro;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Romanian;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class RomanianSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    RomanianSynthesizer synth = new RomanianSynthesizer();
+    RomanianSynthesizer synth = new RomanianSynthesizer(new Romanian());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     // a alege

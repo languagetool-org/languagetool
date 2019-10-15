@@ -18,15 +18,20 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-import java.io.*;
-import java.lang.Character;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import com.google.common.xml.XmlEscapers;
 
 /**
  * Tools for working with strings.
@@ -61,6 +66,8 @@ public final class StringTools {
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
+  public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
+  public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
 
   private StringTools() {
     // only static stuff
@@ -392,6 +399,10 @@ public final class StringTools {
         || "\u0001".equals(str)) { // breakable field in OOo
       return false;
     }
+
+    if ("\uFEFF".equals(str)) {
+      return true;
+    }
     String trimStr = str.trim();
     if (isEmpty(trimStr)) {
       return true;
@@ -470,5 +481,30 @@ public final class StringTools {
     }
     return isParaEnd;
   }
-  
+
+  /**
+   * Loads file, ignoring comments (lines starting with {@code #}).
+   * @param path path in resource dir
+   * @since 4.6
+   */
+  public static List<String> loadLines(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+    List<String> l = new ArrayList<>();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.isEmpty() || line.charAt(0) == '#') {   // ignore comments
+          continue;
+        }
+        l.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load coherency data from " + path, e);
+    }
+    return Collections.unmodifiableList(l);
+  }
+
 }

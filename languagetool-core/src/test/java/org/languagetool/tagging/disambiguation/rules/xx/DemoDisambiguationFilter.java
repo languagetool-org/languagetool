@@ -29,7 +29,7 @@ public class DemoDisambiguationFilter extends RuleFilter {
   
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     if ("X9".equals(patternTokens[0].getToken())) {
       return match;
     }

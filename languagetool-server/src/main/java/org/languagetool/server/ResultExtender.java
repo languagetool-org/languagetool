@@ -23,25 +23,27 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Experimental;
-import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
 
-import javax.xml.stream.XMLStreamException;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static org.languagetool.server.ServerTools.print;
 
 /**
  * Extend results by adding rules matches from a different API server.
@@ -68,10 +70,13 @@ class ResultExtender {
    */
   @NotNull
   List<RuleMatch> getFilteredExtensionMatches(List<RuleMatch> matches, List<RemoteRuleMatch> extensionMatches) {
-    RuleMatch hiddenRuleMatch = new RuleMatch(new HiddenRule(), new AnalyzedSentence(new AnalyzedTokenReadings[]{}), 0, 1, "(hidden message)");
     List<RuleMatch> filteredExtMatches = new ArrayList<>();
     for (RemoteRuleMatch extensionMatch : extensionMatches) {
       if (!extensionMatch.isTouchedByOneOf(matches)) {
+        AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[]{});
+        HiddenRule hiddenRule = new HiddenRule(extensionMatch.getLocQualityIssueType().orElse(null), extensionMatch.estimatedContextForSureMatch());
+        RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence, extensionMatch.getErrorOffset(),
+                extensionMatch.getErrorOffset()+extensionMatch.getErrorLength(), "(hidden message)");
         filteredExtMatches.add(hiddenRuleMatch);
       }
     }
@@ -79,35 +84,61 @@ class ResultExtender {
   }
 
   @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang) throws IOException, XMLStreamException {
-    return executor.submit(() -> getExtensionMatches(plainText, lang));
+  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Map<String, String> params) {
+    return executor.submit(() -> getExtensionMatches(plainText, params));
   }  
   
   @NotNull
-  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang) throws IOException, XMLStreamException {
+  List<RemoteRuleMatch> getExtensionMatches(String plainText, Map<String, String> params) throws IOException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();
     HttpURLConnection.setFollowRedirects(false);
     huc.setConnectTimeout(connectTimeoutMillis);
     huc.setReadTimeout(connectTimeoutMillis*2);
+    // longer texts take longer to check, so increase the timeout:
+    float factor = plainText.length() / 1000.0f;
+    if (factor > 1) {
+      int increasedTimeout = (int)(connectTimeoutMillis * 2 * Math.min(factor, 5));
+      huc.setReadTimeout(increasedTimeout);
+    }
     huc.setRequestMethod("POST");
     huc.setDoOutput(true);
     try {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
-        String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() +
-                "&text=" + URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());
+        String urlParameters = "";
+        List<String> ignoredParameters = Arrays.asList("enableHiddenRules", "username", "password", "token", "apiKey", "c");
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+          // We could set 'language' to the language already detected, so the queried server
+          // wouldn't need to guess the language again. But then we'd run into cases where
+          // we get an error because e.g. 'noopLanguages' can only be used with 'language=auto'
+          if (!ignoredParameters.contains(entry.getKey())) {
+            urlParameters += "&" + encode(entry.getKey()) + "=" + encode(entry.getValue());
+          }
+        }
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
         wr.write(postData);
       }
       InputStream input = huc.getInputStream();
       return parseJson(input);
+    } catch (SSLHandshakeException | SocketTimeoutException e) {
+      // "hard" errors that will probably not resolve themselves easily:
+      throw e;
+    } catch (Exception e) {
+      // These are issue that can be request-specific, like wrong parameters. We don't throw an
+      // exception, as the calling code would otherwise assume this is a persistent error:
+      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
+      return Collections.emptyList();
     } finally {
       huc.disconnect();
     }
   }
 
+  private String encode(String plainText) throws UnsupportedEncodingException {
+    return URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());
+  }
+
   @NotNull
-  private List<RemoteRuleMatch> parseJson(InputStream inputStream) throws XMLStreamException, IOException {
+  private List<RemoteRuleMatch> parseJson(InputStream inputStream) throws IOException {
     Map map = mapper.readValue(inputStream, Map.class);
     List matches = (ArrayList) map.get("matches");
     List<RemoteRuleMatch> result = new ArrayList<>();
@@ -126,8 +157,9 @@ class ResultExtender {
 
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
+    int contextForSureMatch = match.get("contextForSureMatch") != null ? (int) match.get("contextForSureMatch") : 0;
     RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
-            getRequiredString(context, "text"), contextOffset, offset, errorLength);
+            getRequiredString(context, "text"), contextOffset, offset, errorLength, contextForSureMatch);
     remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
     remoteMatch.setRuleSubId(getOrNull(rule, "subId"));
     remoteMatch.setLocQualityIssueType(getOrNull(rule, "issueType"));
@@ -176,17 +208,31 @@ class ResultExtender {
   }
   
   class HiddenRule extends Rule {
+    final ITSIssueType itsType;
+    final int estimatedContextForSureMatch;
+    HiddenRule(String type, int estimatedContextForSureMatch) {
+      itsType = type != null ? ITSIssueType.getIssueType(type) : ITSIssueType.Uncategorized;
+      this.estimatedContextForSureMatch = estimatedContextForSureMatch;
+    }
     @Override
     public String getId() {
       return "HIDDEN_RULE";
+    }
+    @Override
+    public ITSIssueType getLocQualityIssueType() {
+      return itsType;
     }
     @Override
     public String getDescription() {
       return "(description hidden)";
     }
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       throw new RuntimeException("not implemented");
+    }
+    @Override
+    public int estimateContextForSureMatch() {
+      return estimatedContextForSureMatch;
     }
   }
 }

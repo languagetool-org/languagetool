@@ -48,7 +48,7 @@ public class ConfusionSetLoaderTest {
         String path = "/" + language.getShortCode() + "/confusion_sets.txt";
         try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
           ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-          Map<String, List<ConfusionSet>> set = confusionSetLoader.loadConfusionSet(confusionSetStream);
+          Map<String, List<ConfusionPair>> set = confusionSetLoader.loadConfusionPairs(confusionSetStream);
           count += set.size();
         }
       }

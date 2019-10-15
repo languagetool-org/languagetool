@@ -52,19 +52,19 @@ public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
   @Test
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
-        "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP ./[null]null", 
+        "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP ./[.]PCT", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("I cannot have it.",
         "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]NN|have/[have]VB|have/[have]VBP  /[null]null it/[it]PRP ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("He is to blame.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]VB ./[null]null", 
+        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]VB ./[.]PCT", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("He is to blame.",
         "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null to/[to]IN|to/[to]TO  /[null]null blame/[blame]JJ|blame/[blame]NN:UN|blame/[blame]VB|blame/[blame]VBP ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("He is well known.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]RB  /[null]null known/[known]JJ ./[null]null", 
+        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]RB  /[null]null known/[known]JJ ./[.]PCT", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("He is well known.",
         "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null", 

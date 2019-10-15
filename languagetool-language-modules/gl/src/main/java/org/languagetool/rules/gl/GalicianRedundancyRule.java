@@ -75,7 +75,7 @@ public class GalicianRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " é un pleonasmo. É preferible dicir ";
+    return "'$match' é un pleonasmo. É preferible dicir $suggestions";
   }
 
   @Override

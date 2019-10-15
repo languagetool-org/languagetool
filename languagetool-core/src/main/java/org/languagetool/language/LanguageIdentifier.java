@@ -35,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Identify the language of a text. Note that some languages might never be
@@ -182,19 +183,24 @@ public class LanguageIdentifier {
   
   /**
    * @return language or {@code null} if language could not be identified
-   * @param noopLangs list of codes that are detected but will lead to the NoopLanguage that has no rules
+   * @param noopLangsTmp list of codes that are detected but will lead to the NoopLanguage that has no rules
    * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
    */
   @Nullable
-  public DetectedLanguage detectLanguage(String text, List<String> noopLangs, List<String> preferredLangs) {
-    Objects.requireNonNull(noopLangs);
-    Objects.requireNonNull(preferredLangs);
+  public DetectedLanguage detectLanguage(String text, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
+    Objects.requireNonNull(noopLangsTmp);
+    Objects.requireNonNull(preferredLangsTmp);
+    // Chrome sends 'nn' (Nynorsk) or 'nb' (Bokmal), but fasttext detects 'no', so we have to map, and 
+    // Bokmal seems to be the standard variant:
+    List<String> noopLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
+    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
     if (preferredLangs.stream().anyMatch(k -> k.contains("-"))) {
       throw new IllegalArgumentException("preferredLanguages may only contain language codes without variants (e.g. 'en', but not 'en-US'): " +
         preferredLangs + ". Use 'preferredVariants' to specify variants");
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = textObjectFactory.forText(shortText).toString();
+    shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {

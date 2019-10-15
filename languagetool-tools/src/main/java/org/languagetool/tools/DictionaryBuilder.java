@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 
 import morfologik.tools.DictCompile;
 import morfologik.tools.FSACompile;
@@ -77,7 +78,7 @@ class DictionaryBuilder {
   protected File buildDict(File inputFile) throws Exception {
     File outputFile = new File(outputFilename);
     String infoPath = inputFile.toString().replaceAll("\\.txt$", ".info");
-    File resultFile = new File (inputFile.toString().replaceAll("\\.txt$", ".dict"));
+    File resultFile = new File (inputFile.toString().replaceAll("\\.txt$", JLanguageTool.DICTIONARY_FILENAME_EXTENSION));
     File infoFile = new File(infoPath);
     // save info file in the same path of input text file and with the same name
     props.store(new FileOutputStream(infoFile), "");

@@ -24,26 +24,19 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.BritishEnglish;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.language.Polish;
-import org.languagetool.language.SwissGerman;
+import org.languagetool.language.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
-import org.xml.sax.SAXException;
 
 public class FalseFriendRuleTest {
 
   @Test
-  public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
+  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  public void testHintsForGermanSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English(), new German());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
@@ -54,7 +47,8 @@ public class FalseFriendRuleTest {
   }
 
   @Test
-  public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
+  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  public void testHintsForGermanSpeakersWithVariant() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
@@ -65,24 +59,24 @@ public class FalseFriendRuleTest {
   }
 
   @Test
-  public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new GermanyGerman());
+  public void testHintsForDemoLanguage() throws IOException {
+    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new Italian());
     lt1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", lt1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
 
-    JLanguageTool lt2 = new JLanguageTool(new English(), new German());
+    JLanguageTool lt2 = new JLanguageTool(new English(), new Italian());
     lt2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", lt2);
     assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
-    JLanguageTool lt3 = new JLanguageTool(new AmericanEnglish(), new German());
+    JLanguageTool lt3 = new JLanguageTool(new AmericanEnglish(), new Italian());
     lt3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
     assertErrors(0, "And forDemoOnly.", lt3);
   }
 
   @Test
-  public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
+  public void testHintsForEnglishSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German(), new English());
     assertErrors(1, "Man sollte ihn nicht so beraten.", lt);
     assertErrors(0, "Man sollte ihn nicht so beschimpfen.", lt);
@@ -90,7 +84,7 @@ public class FalseFriendRuleTest {
   }
 
   @Test
-  public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
+  public void testHintsForPolishSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English() {
       @Override
       protected synchronized List<AbstractPatternRule> getPatternRules() {

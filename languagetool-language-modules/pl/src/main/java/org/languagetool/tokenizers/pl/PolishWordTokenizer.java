@@ -87,12 +87,11 @@ public class PolishWordTokenizer extends WordTokenizer {
    * @param text String of words to tokenize.
    */
   @Override
-  public List<String> tokenize(final String text) {
-    final List<String> l = new ArrayList<>();
-    final StringTokenizer st = new StringTokenizer(text,
-        plTokenizing, true);
+  public List<String> tokenize(String text) {
+    List<String> l = new ArrayList<>();
+    StringTokenizer st = new StringTokenizer(text, plTokenizing, true);
     while (st.hasMoreElements()) {
-      final String token = st.nextToken();
+      String token = st.nextToken();
       if (token.length() > 1) {
         if (token.endsWith("-")) {
           l.add(token.substring(0, token.length() - 1));

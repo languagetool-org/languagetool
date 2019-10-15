@@ -19,6 +19,17 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
+<!DOCTYPE rules [
+    <!ENTITY punct_std "[,.:;!?…/()\[\]&quot;«»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_std_no_dot "[,:;!?…/()\[\]&quot;«»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_std_no_rquote "[,:;!?…/()\[\]&quot;«„“–—-]|[.!?]{2,3}">
+    <!ENTITY punct_std_no_lquote "[,:;!?…/()\[\]&quot;»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_dash "[–—-]">
+    <!ENTITY punct_quote "[&quot;«»„“”]">
+    <!ENTITY punct_quote_left "[&quot;«„“”]">
+]>
+
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -40,7 +51,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">[\p{Punct}–—\(«“„]|[!?.]{3}
+          <token negate="yes" regexp="yes">&punct_std;
             <exception postag="SENT_START"/>
           </token>
           <token>будь</token>
@@ -56,44 +67,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+          <token regexp="yes" min="0">же?</token>
           <token>
-            <exception regexp="yes">[!?:;,"»“”\(\)\[\]/–—-]|[!?.]{3}</exception>
+            <exception regexp="yes">&punct_std_no_lquote;</exception>
             <exception postag="SENT_END">.</exception>
+            <exception regexp="yes">же?</exception>
           </token>
         </pattern>
-        <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
+        <message>Відсутня права кома: <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
+        <example correction="мабуть, його">Це, <marker>мабуть його</marker> водій.</example>
+        <example correction="мабуть же, його">Це, <marker>мабуть же його</marker> водій.</example>
         <example>Це, мабуть, його водій.</example>
         <example>По-третє.</example>
-        <example correction="мабуть, його">Це, <marker>мабуть його</marker> водій.</example>
+        <example>Та, мабуть же, й...</example>
       </rule>
+
       <rule>
-        <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІіЙй–—-]|[!?.]{3}
+        <pattern>
+          <token negate="yes" regexp="yes">&punct_std_no_dot;|[/аій]|та
             <exception postag="SENT_START"/>
           </token>
-          <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
+          <token regexp="yes" case_sensitive="yes">мабуть|щоправда|о?крім того|[ув]тім</token>
         </pattern>
         <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+        <!-- крапка замість коми, TODO: fix correction -->
+        <example correction="., щоправда">призначає нового    прем’єра<marker>. щоправда</marker>, у Держдуми</example>
+        <example correction="Це, мабуть"><marker>Це мабуть</marker>, водій.</example>
         <example>Мабуть, це водій.</example>
         <example>Це, мабуть, водій.</example>
         <example>Але це... мабуть, водій.</example>
-        <example correction="Це, мабуть"><marker>Це мабуть</marker>, водій.</example>
-        <!-- крапка замість коми, TODO: fix correction -->
-        <example correction="., щоправда">призначає нового    прем’єра<marker>. щоправда</marker>, у Держдуми</example>
+        <example>Розмова з глухими    Утім, було би надто</example>
       </rule>
+
       <rule>
-        <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІі–—-]|[!?.]{3}|[Цц]е
-            <exception postag="SENT_START"/>
-            <exception>Ну</exception>
-          </token>
-          <token regexp="yes">по-перше|по-друге|по-третє</token>
-          <token negate="yes">ж</token>
+        <pattern>
+          <marker>
+            <token negate="yes" regexp="yes">&punct_std_no_dot;|[•/АаІіЙй]|[Цц]е|вже|тільки|лише
+              <exception postag="SENT_START"/>
+            </token>
+            <token regexp="yes" case_sensitive="yes">по-перше|по-друге|по-третє</token>
+          </marker>
+          <token negate="yes" regexp="yes">[.)]</token>
         </pattern>
         <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+        <example correction="нашпигувати, по-друге">По-перше, треба його <marker>нашпигувати по-друге</marker>, запекти.</example>
         <example>Це по-перше.</example>
-        <example>Ну по-перше, треба зробити оце.</example>
-        <example correction="нашпигувати, по-друге">По-перше, треба його <marker>нашпигувати по-друге,</marker> запекти.</example>
+        <example>• По-перше, ініціатори-конституанти</example>
+        <example>• по-перше, ініціатори-конституанти</example>
+        <example> (це вже буде по-третє)</example>
+        <example>Тепер по-друге.</example>
+        <example>І лише по-третє —</example>
       </rule>
     </rulegroup>
 
@@ -124,16 +147,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern case_sensitive="yes">
           <marker>
-            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{3}|[?!]\.\.|[нН]у
+            <token regexp="yes" negate="yes">&punct_std_no_rquote;|[нН]у
               <exception postag="SENT_START"/>
             </token>
             <token regexp="yes">а|але|однак|проте|зате|адже|хоча</token>
           </marker>
-          <token regexp="yes" negate="yes">[\p{Punct}"«“„\(\)–—]</token>
+          <token regexp="yes" negate="yes">&punct_std;</token>
         </pattern>
         <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
         <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
         <example correction="ж, однак">гроші <marker>ж однак</marker> державні.</example>
+        <example correction="», а">між «Спілкою<marker>» а</marker> другими</example>
         <example>Вгадав всі літери — але не зміг прочитати слово.</example>
         <example>почалося щось а ля комедія</example>
         <example>Якби не одне але</example>
@@ -145,6 +169,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Всесвіт припинить своє існування! а це неможливо!</example>
         <example>Всесвіт припинить своє існування!!! а це неможливо!</example>
         <example>Всесвіт припинить своє існування!.. а це неможливо!</example>
+        <example>переслати на а/с 150 гривень</example>
       </rule>
     </rulegroup>
 
@@ -154,7 +179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token case_sensitive="yes" regexp="yes">Наприклад|Приміром</token>
           </marker>
-          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]</token>
+          <token negate="yes" regexp="yes">&punct_std;</token>
         </pattern>
         <message>Відсутня кома після наприклад: <suggestion>\1,</suggestion></message>
         <example correction="Наприклад,"><marker>Наприклад</marker> редакторством чи викладанням.</example>
@@ -169,7 +194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>Отже</token>
           </marker>
-          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|ж</token>
+          <token negate="yes" regexp="yes">&punct_std;|/|ж</token>
         </pattern>
         <message>Відсутня кома після «отже»: <suggestion>\1,</suggestion></message>
         <example correction="Отже,"><marker>Отже</marker> виникає природна реакція.</example>
@@ -297,7 +322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">.*[а-яіїєґ]</token>
           <marker>
             <token>,</token>
-            <token spacebefore="no" regexp="yes">[^  —–-]</token>
+            <token spacebefore="no" regexp="yes">[^ &#x201d;—–-]</token>
           </marker>
         </pattern>
         <message>Відсутній пробіл після коми</message>

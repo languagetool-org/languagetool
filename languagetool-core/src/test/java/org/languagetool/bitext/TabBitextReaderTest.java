@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +39,7 @@ public class TabBitextReaderTest {
     input.deleteOnExit();
 
     // Populate the file with data.
-    PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), StandardCharsets.UTF_8));
     writer.println("This is not actual.\tTo nie jest aktualne.");
     writer.println("Test\tTest");
     writer.println("ab\tVery strange data indeed, much longer than input");

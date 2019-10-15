@@ -91,7 +91,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages, 
             		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
@@ -134,7 +134,7 @@ public class Catalan extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new CatalanSynthesizer();
+      synthesizer = new CatalanSynthesizer(this);
     }
     return synthesizer;
   }
@@ -176,16 +176,17 @@ public class Catalan extends Language {
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "ACCENTUATION_CHECK": return 10;
+      case "HAVER_SENSE_HAC": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
       case "REGIONAL_VERBS": return -10;
-      case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "SUBSTANTIUS_JUNTS": return -25;
       case "MUNDAR": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
+      case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

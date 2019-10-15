@@ -47,7 +47,7 @@ public class Russian extends Language implements AutoCloseable {
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
@@ -88,7 +88,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new RussianSynthesizer();
+      synthesizer = new RussianSynthesizer(this);
     }
     return synthesizer;
   }
@@ -109,7 +109,7 @@ public class Russian extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                     Example.wrong("Не род<marker> ,</marker> а ум поставлю в воеводы."),
@@ -121,6 +121,7 @@ public class Russian extends Language implements AutoCloseable {
             new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
+	    new SentenceWhitespaceRule(messages),
             // specific to Russian :
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages),
@@ -135,9 +136,7 @@ public class Russian extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 

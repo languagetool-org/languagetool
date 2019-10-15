@@ -63,8 +63,8 @@ public class AboutDialog {
     aboutPane.setOpaque(false);
 
     aboutPane.setText(String.format("<html>"
-            + "<p>LanguageTool %s (%s)<br>"
-            + "Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber<br>"
+            + "<p>LanguageTool %s (%s, %s)<br>"
+            + "Copyright (C) 2005-2019 the LanguageTool community and Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
             + "<a href=\"https://www.languagetool.org\">https://www.languagetool.org</a><br>"
             + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"
@@ -72,6 +72,7 @@ public class AboutDialog {
             + "(*) means language is unmaintained in LanguageTool:</p><br>"
             + "</html>", JLanguageTool.VERSION,
              JLanguageTool.BUILD_DATE,
+             JLanguageTool.GIT_SHORT_ID,
              Runtime.getRuntime().maxMemory()/1024/1024,
              Runtime.getRuntime().totalMemory()/1024/1024,
              Runtime.getRuntime().freeMemory()/1024/1024));

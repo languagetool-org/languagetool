@@ -41,7 +41,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String PORTUGUESE_AGREEMENT_REPLACE_RULE = "PT_AGREEMENT_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/pt/AOreplace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/pt/AOreplace.txt");
   private static final Locale PT_LOCALE = new Locale("pt");
 
   @Override

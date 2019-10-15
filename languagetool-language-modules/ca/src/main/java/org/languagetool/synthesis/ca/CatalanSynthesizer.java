@@ -25,12 +25,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
+
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
 
 /**
  * Catalan word form synthesizer.
@@ -47,7 +47,7 @@ import org.languagetool.synthesis.BaseSynthesizer;
  */
 public class CatalanSynthesizer extends BaseSynthesizer {
   
-  /** A special tag to add determiner (el, la, l', els, les). **/
+  /* A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
 
   /** Patterns for number and gender **/
@@ -68,22 +68,21 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   /** Patterns verb **/
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
-  public CatalanSynthesizer() {
-    super("/ca/ca-ES-valencia_synth.dict", 
-        "/ca/ca-ES-valencia_tags.txt");
+  public CatalanSynthesizer(Language lang) {
+    super("/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
   }
 
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     initPossibleTags();
     Pattern p;
     boolean addDt = false; 
     String prep = ""; 
-    final Matcher mPrep = pPrep.matcher(posTag);
+    Matcher mPrep = pPrep.matcher(posTag);
     if (mPrep.matches()) {
-      addDt=true; // add definite article before token
-      if (mPrep.groupCount()>1) {
-        prep=mPrep.group(2); // add preposition before article
+      addDt = true; // add definite article before token
+      if (mPrep.groupCount() > 1) {
+        prep = mPrep.group(2); // add preposition before article
       }
     }
     if (addDt) {
@@ -91,11 +90,11 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     } else {
       p = Pattern.compile(posTag);
     }
-    final List<String> results = new ArrayList<>();
-    final IStemmer synthesizer = createStemmer();
+    List<String> results = new ArrayList<>();
+    IStemmer synthesizer = createStemmer();
     
-    for (final String tag : possibleTags) {
-      final Matcher m = p.matcher(tag);
+    for (String tag : possibleTags) {
+      Matcher m = p.matcher(tag);
       if (m.matches()) {
         if (addDt) {
           lookupWithEl(token.getLemma(), tag, prep, results, synthesizer);
@@ -106,56 +105,58 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }       
     
     // if not found, try verbs from any regional variant
-    if ((results.size() == 0) && posTag.startsWith("V")) {
-      if (!posTag.endsWith("0")) {
+    if (results.isEmpty() && posTag.startsWith("V")) {
+      if (posTag.endsWith("V") || posTag.endsWith("B")) {
+        lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z"), results);
+      }
+      if (results.isEmpty() && !posTag.endsWith("0")) {
             lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
       }
-      if (results.size() == 0) { // another try
+      if (results.isEmpty()) { // another try
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
-    return results.toArray(new String[results.size()]);
+    return results.toArray(new String[0]);
   }
   
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag,
-      final boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
-      Pattern p = null;
+      Pattern p;
       try {
         p = Pattern.compile(posTag);
       } catch (PatternSyntaxException e) {
         System.err.println("WARNING: Error trying to synthesize POS tag "
-            + posTag + " from token " + token.getToken() + ".");
+            + posTag + " from token " + token.getToken() + ": " + e.getMessage());
         return null;
       }
-      final List<String> results = new ArrayList<>();
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
+      List<String> results = new ArrayList<>();
+      for (String tag : possibleTags) {
+        Matcher m = p.matcher(tag);
         if (m.matches()) {
           lookup(token.getLemma(), tag, results);
         }
       }
       // if not found, try verbs from any regional variant
-      if ((results.size() == 0)) {
-        final Matcher mVerb = pVerb.matcher(posTag);
+      if (results.isEmpty()) {
+        Matcher mVerb = pVerb.matcher(posTag);
         if (mVerb.matches()) {
           if (!posTag.endsWith("0")) {
             p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
                 .concat("0"));
-            for (final String tag : possibleTags) {
-              final Matcher m = p.matcher(tag);
+            for (String tag : possibleTags) {
+              Matcher m = p.matcher(tag);
               if (m.matches()) {
                 lookup(token.getLemma(), tag, results);
               }
             }
           }
-          if (results.size() == 0) { // another try
+          if (results.isEmpty()) { // another try
             p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
                 .concat("."));
-            for (final String tag : possibleTags) {
-              final Matcher m = p.matcher(tag);
+            for (String tag : possibleTags) {
+              Matcher m = p.matcher(tag);
               if (m.matches()) {
                 lookup(token.getLemma(), tag, results);
               }
@@ -163,7 +164,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
           }
         }
       }
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
     return synthesize(token, posTag);
   }
@@ -178,24 +179,24 @@ public class CatalanSynthesizer extends BaseSynthesizer {
    * @param synthesizer the stemmer to use.
    */
   private void lookupWithEl(String lemma, String posTag, String prep, List<String> results, IStemmer synthesizer) {
-    final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
-    final Matcher mMS = pMS.matcher(posTag);
-    final Matcher mFS = pFS.matcher(posTag);
-    final Matcher mMP = pMP.matcher(posTag);
-    final Matcher mFP = pFP.matcher(posTag);
+    List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
+    Matcher mMS = pMS.matcher(posTag);
+    Matcher mFS = pFS.matcher(posTag);
+    Matcher mMP = pMP.matcher(posTag);
+    Matcher mFP = pFP.matcher(posTag);
     for (WordData wd : wordForms) {
-      final String word = wd.getStem().toString();
+      String word = wd.getStem().toString();
       if (mMS.matches()) {
-        final Matcher mMascYes = pMascYes.matcher(word);
-        final Matcher mMascNo = pMascNo.matcher(word);
+        Matcher mMascYes = pMascYes.matcher(word);
+        Matcher mMascNo = pMascNo.matcher(word);
         if (prep.equals("per")) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("per l'" + word);  }  else {results.add("pel " + word);  } }
         else if (prep.isEmpty()) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("l'" + word);  }  else {results.add("el " + word);  } }
         else {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+"l " + word);  } }
         
       }
       if (mFS.matches()) {
-        final Matcher mFemYes = pFemYes.matcher(word);
-        final Matcher mFemNo = pFemNo.matcher(word);
+        Matcher mFemYes = pFemYes.matcher(word);
+        Matcher mFemNo = pFemNo.matcher(word);
         if (prep.equals("per")) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("per l'" + word);  }  else {results.add("per la " + word);} }
         else if (prep.isEmpty()) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("l'" + word);  }  else {results.add("la " + word);} }
         else {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+" la " + word);} }

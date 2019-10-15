@@ -90,7 +90,7 @@ public class Galician extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new GalicianSynthesizer();
+      synthesizer = new GalicianSynthesizer(this);
     }
     return synthesizer;
   }
@@ -105,19 +105,19 @@ public class Galician extends Language {
 
   @Override
   public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
+    return LanguageMaintainedState.LookingForNewMaintainer;
   }
 
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Susana Sotelo Docío"),
-            new Contributor("Tiago F. Santos (4.0)", "https://github.com/TiagoSantos81")
+            new Contributor("Tiago F. Santos (4.0-4.7)", "https://github.com/TiagoSantos81")
     };
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queixo, bolachas e uvas."),
@@ -192,6 +192,6 @@ public class Galician extends Language {
       case "TOO_LONG_SENTENCE_60":      return -1004;
       // case "CACOPHONY":                 return -2000;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }

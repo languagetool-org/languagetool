@@ -23,8 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.databroker.ResourceDataBroker;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -35,19 +34,31 @@ import java.util.regex.Pattern;
 public class CommonWords {
 
   private final static Map<String, List<Language>> word2langs = Collections.synchronizedMap(new HashMap<>());
-  private final static Pattern numberPattern = Pattern.compile("[0-9-.,]+");
+  private final static Pattern numberPattern = Pattern.compile("[0-9.,%-]+");
 
-  public CommonWords() {
-    if (word2langs.size() == 0) {
+  public CommonWords() throws IOException {
+    if (word2langs.isEmpty()) {
       for (Language lang : Languages.get()) {
         if (lang.isVariant()) {
           continue;
         }
         ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-        String path = lang.getShortCode() + "/common_words.txt";
-        if (dataBroker.resourceExists(path)) {
-          try (InputStream inputStream = dataBroker.getFromResourceDirAsStream(path);
-               Scanner scanner = new Scanner(inputStream, "utf-8")) {
+        String path = lang.getCommonWordsPath();
+        InputStream stream = null;
+        try {
+          if (path != null) {
+            if (dataBroker.resourceExists(path)) {
+              stream = dataBroker.getFromResourceDirAsStream(path);
+            } else if (new File(path).exists()) {
+              stream = new FileInputStream(path);
+            } else {
+              throw new IOException("Common words file not found for " + lang + ": " + path);
+            }
+          } else {
+            System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
+            continue; 
+          }
+          try (Scanner scanner = new Scanner(stream, "utf-8")) {
             while (scanner.hasNextLine()) {
               String line = scanner.nextLine();
               if (line.isEmpty() || line.startsWith("#")) {
@@ -64,11 +75,11 @@ public class CommonWords {
                 languages.add(lang);
               }
             }
-          } catch (IOException e) {
-            throw new RuntimeException(e);
           }
-        } else {
-          //System.err.println("No common_words.txt found for " + lang);
+        } finally {
+          if (stream != null) {
+            stream.close();
+          }
         }
       }
     }

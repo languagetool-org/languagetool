@@ -22,8 +22,9 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
-import org.languagetool.tokenizers.WordTokenizer;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -31,20 +32,33 @@ import java.util.ResourceBundle;
  */
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  private final WordTokenizer tokenizer = new GoogleStyleWordTokenizer();
-
+  private static final List<String> EXCEPTIONS = Arrays.asList(
+      // Use all-lowercase, matches will be case-insensitive.
+      // See https://github.com/languagetool-org/languagetool/issues/1678
+      "host to five",   // "... is host to five classical music orchestras"
+      "had I known",
+      "is not exactly known",
+      "live duet",
+      "isn't known",
+      "your move makes",
+      "your move is",
+      "he unchecked the",
+      "thank you for the patience",
+      "your patience regarding",
+      "your fix",  // fix = bug fix
+      "on point",
+      "chapter one",
+      "usb port"
+    );
+    
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams);
+    super(messages, languageModel, language, grams, EXCEPTIONS);
     addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
                    Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
 
-  @Override
-  protected WordTokenizer getGoogleStyleWordTokenizer() {
-    return tokenizer;
-  }
 }

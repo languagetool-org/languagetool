@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -111,7 +112,7 @@ public class EsperantoTagger implements Tagger {
   private Set<String> loadWords(InputStream stream) throws IOException {
     Set<String> words = new HashSet<>();
     try (
-      InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
+      InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(isr)
     ) {
       String line;

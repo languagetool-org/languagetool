@@ -196,8 +196,4 @@ public class NeuralNetworkRule extends Rule {
     }
     return msg;
   }
-
-  private String certaintiesToString(float[] y) {
-    return String.format(Locale.US, "[%4.2f, %4.2f]", y[0], y[1]);
-  }
 }

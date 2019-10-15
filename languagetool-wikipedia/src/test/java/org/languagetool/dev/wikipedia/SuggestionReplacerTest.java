@@ -177,7 +177,7 @@ public class SuggestionReplacerTest {
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, origMarkup, new ErrorMarker("<s>", "</s>"));
       List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
-      if (ruleMatchApplications.size() == 0) {
+      if (ruleMatchApplications.isEmpty()) {
         continue;
       }
       RuleMatchApplication ruleMatchApplication = ruleMatchApplications.get(0);

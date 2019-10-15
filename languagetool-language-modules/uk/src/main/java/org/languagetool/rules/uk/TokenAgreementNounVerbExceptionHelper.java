@@ -91,7 +91,16 @@ public final class TokenAgreementNounVerbExceptionHelper {
       logException();
       return true;
     }
-    
+
+    // — це були невільники
+    if( i > 2
+        && tokens[i-1].getToken().equals("це") 
+        && tokens[i-2].getToken().matches("[—–-]") ) {
+      logException();
+      return true;
+    }
+
+
     // handled by xml rule
     if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("воно", "решта")) ) {
       if( PosTagHelper.hasPosTagPart(tokens[i], ":impers") ) {
@@ -112,8 +121,9 @@ public final class TokenAgreementNounVerbExceptionHelper {
         // моя мама й сестра мешкали
         // каналізація і навіть охорона пропонувалися
         // Ґорбачов і його дружина виглядали
-        int pos0 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLULAR_PATTERN, 
-            Pattern.compile("(noun|adj:.:v_naz|adv|part).*"), Dir.REVERSE);
+        int pos0 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, 
+            TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLULAR_PATTERN, 
+            Pattern.compile("(noun.*?v_naz|adj:.:v_naz|adv|part).*"), Dir.REVERSE);
         
         if( pos0 > 1 ) {
           if( pos0 > 2 ) {
@@ -153,14 +163,18 @@ public final class TokenAgreementNounVerbExceptionHelper {
               pos0 -= 1;
             }
           }
+
+
           
-          if( PosTagHelper.hasPosTag(tokens[pos0-1], "noun.*") 
-              || isCapitalized(tokens[pos0-1].getToken()) ) {
+        // моя мама й сестра мешкали
+        // noun.*?v_naz is too strict: "єднання з Римом та королівська адміністрація закручували гайки"
+          if( PosTagHelper.hasPosTag(tokens[pos0-1], "noun.*")
+              || (tokens[pos0-1].getAnalyzedToken(0).hasNoTag() && isCapitalized(tokens[pos0-1].getToken())) ) {
             logException();
             return true;
           }
           // біологічна і ядерна зброя стають товаром
-          else if( PosTagHelper.hasPosTag(tokens[pos0-1], "adj:.:v_naz.*") ) {
+          if( PosTagHelper.hasPosTag(tokens[pos0-1], "adj:.:v_naz.*") ) {
             logException();
             return true;
           }
@@ -173,6 +187,22 @@ public final class TokenAgreementNounVerbExceptionHelper {
           logException();
           return true;
         }
+
+
+        // що пачка цигарок, що ковбаса коштують
+        if( i > 6 ) {
+          if( LemmaHelper.hasLemma(tokens[i-2], "що")
+              && LemmaHelper.tokenSearch(tokens, i-4, (String)null, Pattern.compile("(?iu)що"), Pattern.compile("(noun|adj).*"), Dir.REVERSE) > i-8 ) {
+            logException();
+            return true;
+          }
+          if( LemmaHelper.hasLemma(tokens[i-2], "не")
+              && LemmaHelper.tokenSearch(tokens, i-4, (String)null, Pattern.compile("(?iu)не"), Pattern.compile("(noun|adj).*"), Dir.REVERSE) > i-8 ) {
+            logException();
+            return true;
+          }
+        }
+
 
         // Бразилія, Мексика, Індія збувають
         int pos1 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, Pattern.compile(","), Pattern.compile("adj.*"), Dir.REVERSE);
@@ -214,6 +244,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
           logException();
           return true;
         }
+
+        // 100 чоловік - handled by styling rule
+        if( PosTagHelper.hasPosTagPart(tokens[i-2], "num")
+            && tokens[i-1].getToken().equals("чоловік") 
+            && LemmaHelper.tokenSearch(tokens, 1, "noun:anim:f:.*", Pattern.compile("жінк[аи]"), Pattern.compile(".*"), Dir.FORWARD) == -1 ) {
+          logException();
+          return true;
+        }
+
 
         // 50%+1 акція закріплюються
         // заінтересованість плюс гарна вивіска зіграли злий жарт

@@ -5,7 +5,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-	
+
 	<!-- SPELLING IGNORES -->
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
@@ -39,7 +39,8 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>
 	</rule>
 
-    <!-- BN'ers zonder apostrof worden in een regel behandeld -->
+
+	<!-- BN'ers zonder apostrof worden in een regel behandeld -->
     <rule name="ignore noun-abbrevs" id="SPELLER_ER">
         <pattern>
             <token regexp="yes" case_sensitive="yes">[A-Z]{2,5}'(er|ers|ertje|ertjes)</token>
@@ -154,7 +155,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
-	<!-- replaced by extensive postag database, but may be added again latern, when disambiguations is better -->
+	<!-- replaced by extensive postag database, but may be added again later, when disambiguations is better -->
 
 	<!-- ADDING TAGS FOR FUNCTIONS FOR MULTIFUNCTIONAL TAGS -->
 	<!-- this added ambiguity can be removed using multi-word patterns if needed -->
@@ -208,6 +209,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="remove" postag="ZNW.*" />
 	</rule>	
+
 	<!-- correct for 'een ons bekend ... -->
 	<rule id="ONS_BEKEND" name="terugcorrigeren">
 		<pattern>
@@ -226,9 +228,8 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>	
 
 	<rule id="DES_TE_X" name="na des te komt een vergroting">
-		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
-			<token negate="yes">des</token>
+			<token>des</token>
 			<token>te</token>
 			<marker><token postag_regexp="yes" postag="BNW:VGR:.*"/></marker>
 		</pattern>
@@ -730,8 +731,9 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
-	
-	<rule id="WKW_VTD" name="-">
+
+    <!-- is in the way of rules 
+    <rule id="WKW_VTD" name="-">
 		<pattern>
 			<token inflected="yes" regexp="yes" postag_regexp="yes" postag="WKW.*">worden|zijn|hebben</token>
 			<token postag="WKW:VTD:ONV"/>
@@ -739,7 +741,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
-
+    -->
 	<rule id="KOMMA_VGW" name="-">
 		<pattern>
 			<token>,</token>
@@ -774,30 +776,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall" />
 	</rule>		
 	
-	<rule id="IN_PLAATS_VAN" name="vang">
-		<pattern>
-			<token postag="VRZ"><exception>te</exception></token>
-			<and>
-				<token postag="WKW:TGW:1EP"/>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes" case_sensitive="yes">[A_z]a-z]*|meer|weer|ons</exception></token>
-			</and>
-			<token postag="VRZ"/>
-		</pattern>
-		<disambig action="filterall" />
-	</rule>
-	
-	<rule id="EEN_DING_WKW" name="-">
-		<pattern>
-			<token postag="GET:EKV"/>
-			<and>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				<token negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*"/>
-			</and>				
-			<token postag_regexp="yes" postag="WKW:(TGW|VLT):(INF|1EP|3EP)"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
-		</pattern>
-		<disambig action="filterall" />
-	</rule>		
-
 	<!-- behoud, herstel en ontwikkeling  -->
 	<rule id="OPSOMMING_1" name="-">
 		<pattern>
@@ -860,5 +838,216 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
+
+<!-- words that are common and could use disambiguation.
+ordered from most common to least
+
+was	WKW:TGW:1EP	WKW:VLT:1EP	ZNW:EKV:DE_
+weer	BYW	WKW:TGW:1EP	ZNW:EKV:DE_
+prijs	WKW:TGW:1EP	ZNW:EKV:DE_
+zin	WKW:TGW:1EP	ZNW:EKV:DE_
+voorkomen	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB	ZNW:EKV
+'t	VNW:AWZ:EKV:HET	VNW:OND:EKV:HET
+voldoende	WKW:ODW:VRB	ZNW:EKV:DE_
+reden	WKW:TGW:INF	WKW:VLT:INF	ZNW:EKV:DE_
+prijzen	WKW:TGW:INF	ZNW:MRV:DE_
+passen	WKW:TGW:INF	ZNW:MRV:DE_
+loop	WKW:TGW:1EP	ZNW:EKV:DE_
+betere	BNW:VGR:VRB	WKW:AWS	ZNW:EKV
+lijken	WKW:TGW:INF	ZNW:MRV:DE_
+onderhoud	WKW:TGW:1EP	ZNW:EKV:HET
+geluid	WKW:VTD:ONV	ZNW:EKV:HET
+bal	WKW:TGW:1EP	ZNW:EKV
+verlaten	BNW:STL:ONV	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB	ZNW:MRV:DE_
+post	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+boot	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+boom	WKW:TGW:1EP	ZNW:EKV:DE_
+pad	ZNW:EKV:DE_	ZNW:EKV:HET
+gebeurde	WKW:VLT:1EP	WKW:VTD:VRB
+onderhouden	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB
+bak	WKW:TGW:1EP	ZNW:EKV:DE_
+pers	WKW:TGW:1EP	ZNW:EKV:DE_
+been	WKW:TGW:1EP	ZNW:EKV:HET
+bakken	WKW:TGW:INF	ZNW:MRV:DE_
+maten	WKW:VLT:INF	ZNW:MRV:DE_
+passende	BNW:STL:VRB	WKW:ODW:VRB
+lijk	WKW:TGW:1EP	ZNW:EKV:HET
+wassen	BNW:STF	WKW:TGW:INF	ZNW:MRV:DE_
+stop	WKW:TGW:1EP	ZNW:EKV:DE_
+Polen	ENM:LOC:LND	ENM:PER:LST:VAN
+passend	BNW:STL:ONV	WKW:ODW:ONV
+ondergaan	WKW:TGW:INF	WKW:VTD:ONV
+gewassen	WKW:VTD:ONV	WKW:VTD:VRB	ZNW:MRV:DE_
+zinnen	WKW:TGW:INF	ZNW:MRV:DE_
+geluiden	WKW:VTD:MRV:DE_	ZNW:MRV:DE_
+scheppen	WKW:TGW:INF	ZNW:MRV:DE_
+schrik	WKW:TGW:1EP	ZNW:EKV:DE_
+doorlopen	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB	ZNW:MRV:DE_
+sloten	WKW:TGW:INF	WKW:VLT:INF	ZNW:MRV:DE_
+overwegen	WKW:TGW:INF	ZNW:MRV:DE_
+verlaat	BNW:STL:ONV	WKW:TGW:1EP	WKW:TGW:3EP	WKW:VTD:ONV	ZNW:EKV:HET
+overwogen	WKW:VLT:INF	WKW:VTD:ONV	WKW:VTD:VRB
+graaf	WKW:TGW:1EP	ZNW:EKV:DE_
+voorspellen	WKW:TGW:INF	ZNW:MRV:DE_
+roer	WKW:TGW:1EP	ZNW:EKV:HET
+omgeven	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB
+overwegend	BNW:STL:ONV	WKW:ODW:ONV
+modder	WKW:TGW:1EP	ZNW:EKV:DE_
+schrikken	WKW:TGW:INF	ZNW:MRV:DE_
+stijf	BNW:STL:ONV	WKW:TGW:1EP
+doorstaan	WKW:TGW:INF	WKW:VTD:ONV
+kleed	WKW:TGW:1EP	ZNW:EKV:HET
+spinnen	WKW:TGW:INF	ZNW:MRV:DE_
+onderdrukken	WKW:TGW:INF	ZNW:MRV:DE_
+doorlopend	BNW:STL:ONV	WKW:ODW:ONV
+bijt	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+stijve	BNW:STL:VRB	WKW:AWS	ZNW:EKV
+spin	WKW:TGW:1EP	ZNW:EKV:DE_
+doorlopende	BNW:STL:VRB	WKW:ODW:VRB
+overwegende	BNW:STL:VRB	WKW:ODW:VRB
+onderdrukt	WKW:TGW:3EP	WKW:VTD:ONV
+overwonnen	WKW:VLT:INF	WKW:VTD:ONV	WKW:VTD:VRB
+kit	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+schep	WKW:TGW:1EP	ZNW:EKV:DE_
+pool	WKW:TGW:1EP	ZNW:EKV:DE_
+voorspelde	WKW:AWS	WKW:VLT:1EP	WKW:VTD:VRB
+zweren	WKW:TGW:INF	ZNW:MRV:DE_
+slip	WKW:TGW:1EP	ZNW:EKV:DE_
+snuit	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+opgewassen	WKW:VTD:ONV	WKW:VTD:VRB
+doorkruist	WKW:TGW:3EP	WKW:VTD:ONV
+doorsneden	WKW:VLT:INF	WKW:VTD:ONV	WKW:VTD:VRB	ZNW:MRV:DE_
+voorspel	WKW:TGW:1EP	ZNW:EKV:HET
+overschat	WKW:TGW:1EP	WKW:TGW:3EP	WKW:VTD:ONV
+zweer	WKW:TGW:1EP	ZNW:EKV:DE_
+verschrikt	WKW:TGW:3EP	WKW:VTD:ONV
+uitwassen	WKW:TGW:INF	ZNW:MRV:DE_
+step	WKW:TGW:1EP	ZNW:EKV:DE_
+onderdrukte	WKW:VLT:1EP	WKW:VTD:VRB
+vesten	WKW:TGW:INF	ZNW:MRV:DE_
+doorbraken	WKW:VLT:INF	ZNW:MRV:DE_
+doorzocht	WKW:VLT:1EP	WKW:VTD:ONV
+dar	WKW:TGW:1EP	ZNW:EKV:DE_
+overreden	WKW:TGW:INF	WKW:VLT:INF	WKW:VTD:ONV	WKW:VTD:VRB
+gezworen	WKW:VTD:ONV	WKW:VTD:VRB
+scheppende	BNW:STL:VRB	WKW:ODW:VRB
+gebeurden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+onderdruk	WKW:TGW:1EP	ZNW:EKV:DE_
+bijtende	BNW:STL:VRB	WKW:ODW:VRB
+beteren	WKW:TGW:INF	ZNW:MRV:DE_
+flap	WKW:TGW:1EP	ZNW:EKV:DE_
+omkleed	WKW:TGW:1EP	WKW:VTD:ONV
+spint	WKW:TGW:3EP	ZNW:EKV:HET
+doorloop	WKW:TGW:1EP	ZNW:EKV:DE_
+Zeeuwen	ENM:PER:LST:NIX	ZNW:MRV:DE_
+pluizen	WKW:TGW:INF	ZNW:MRV:DE_
+doorreis	WKW:TGW:1EP	ZNW:EKV:DE_
+voldoe	WKW:AWS	WKW:TGW:1EP
+pluis	WKW:TGW:1EP	ZNW:EKV
+doortrokken	WKW:VLT:INF	WKW:VTD:ONV	WKW:VTD:VRB
+overschatten	WKW:TGW:INF	WKW:VLT:INF
+sol	WKW:TGW:1EP	ZNW:EKV
+scheppend	BNW:STL:ONV	WKW:ODW:ONV
+voorspelden	WKW:TGW:INF	WKW:VLT:INF	WKW:VTD:MRV:DE_
+bijtend	BNW:STL:ONV	WKW:ODW:ONV
+verlate	BNW:STL:VRB	WKW:AWS	WKW:VTD:VRB
+lob	WKW:TGW:1EP	ZNW:EKV:DE_
+raderen	WKW:TGW:INF	ZNW:MRV:DE_
+dunk	WKW:TGW:1EP	ZNW:EKV:DE_
+afgezworen	WKW:VTD:ONV	WKW:VTD:VRB
+onderdrukten	WKW:VLT:INF	WKW:VTD:MRV:DE_
+snuiten	WKW:TGW:INF	ZNW:MRV:DE_
+stijven	BNW:STL:MRV:DE_	WKW:TGW:INF	ZNW:MRV:DE_
+doorkruiste	WKW:VLT:1EP	WKW:VTD:VRB
+onderga	WKW:AWS	WKW:TGW:1EP
+uitwas	WKW:TGW:1EP	ZNW:EKV:DE_
+onderhuur	WKW:TGW:1EP	ZNW:EKV:DE_
+overschatte	WKW:AWS	WKW:VLT:1EP	WKW:VTD:VRB
+uitgewassen	WKW:VTD:ONV	WKW:VTD:VRB
+doorkruisten	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overspelen	WKW:TGW:INF	ZNW:MRV:DE_
+legeren	BNW:VGR:MRV:DE_	WKW:TGW:INF
+doorregen	WKW:TGW:1EP	WKW:VLT:INF
+doorweven	WKW:TGW:INF	WKW:VTD:ONV	WKW:VTD:VRB
+voldoenden	WKW:ODW:MRV:DE_	ZNW:MRV:DE_
+omgord	WKW:TGW:1EP	WKW:VTD:ONV
+omzeilde	WKW:VLT:1EP	WKW:VTD:VRB
+overstemde	WKW:VLT:1EP	WKW:VTD:VRB
+overreed	WKW:TGW:1EP	WKW:VLT:1EP	WKW:VTD:ONV
+doortimmerde	BNW:STL:VRB	WKW:VLT:1EP	WKW:VTD:VRB
+overspeelde	WKW:VLT:1EP	WKW:VTD:VRB
+omgorden	WKW:TGW:INF	WKW:VTD:MRV:DE_
+doorsta	WKW:AWS	WKW:TGW:1EP
+doorsta	WKW:AWS	WKW:TGW:1EP
+omzeilden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorreisde	WKW:VLT:1EP	WKW:VTD:VRB
+overvraag	WKW:TGW:1EP	ZNW:EKV:DE_
+overstemden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorvoelde	WKW:VLT:1EP	WKW:VTD:VRB
+doorspoelde	WKW:VLT:1EP	WKW:VTD:VRB
+omwoelde	WKW:VLT:1EP	WKW:VTD:VRB
+doorwandelde	WKW:VLT:1EP	WKW:VTD:VRB
+doorreisden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overschilderde	WKW:VLT:1EP	WKW:VTD:VRB
+doorwandelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+omspoelde	WKW:VLT:1EP	WKW:VTD:VRB
+onderhuren	WKW:TGW:INF	ZNW:MRV:DE_
+omgorde	WKW:AWS	WKW:VTD:VRB
+doorspoelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overspeelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overtekende	WKW:VLT:1EP	WKW:VTD:VRB
+doortintelde	WKW:VLT:1EP	WKW:VTD:VRB
+doorvlecht	WKW:TGW:1EP	WKW:TGW:3EP	ZNW:EKV:DE_
+doorwasemde	WKW:VLT:1EP	WKW:VTD:VRB
+legere	BNW:VGR:VRB	WKW:AWS
+doorscheurde	WKW:VLT:1EP	WKW:VTD:VRB
+omwoelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overschilderden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doormengde	WKW:VLT:1EP	WKW:VTD:VRB
+doorwarmde	WKW:VLT:1EP	WKW:VTD:VRB
+omspoelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overwegenden	BNW:STL:MRV:DE_	WKW:ODW:MRV:DE_
+volbouwden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorscheurden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorwarmden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+volbouwde	WKW:VLT:1EP	WKW:VTD:VRB
+overtelde	WKW:VLT:1EP	WKW:VTD:VRB
+overzeilden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overzeilde	WKW:VLT:1EP	WKW:VTD:VRB
+onderhuurde	WKW:VLT:1EP	WKW:VTD:VRB
+overtekenden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+onderhuurden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+passenden	BNW:STL:MRV:DE_	WKW:ODW:MRV:DE_
+doortintelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overtelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doormengden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorwasemden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overbouwde	WKW:VLT:1EP	WKW:VTD:VRB
+scheppenden	BNW:STL:MRV:DE_	WKW:ODW:MRV:DE_
+overstraalde	WKW:VLT:1EP	WKW:VTD:VRB
+bijtenden	BNW:STL:MRV:DE_	WKW:ODW:MRV:DE_
+omkrulde	WKW:VLT:1EP	WKW:VTD:VRB
+omkrulden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorgisten	WKW:TGW:INF	WKW:VTD:MRV:DE_
+doorgist	WKW:TGW:1EP	WKW:TGW:3EP	WKW:VTD:ONV
+doorgiste	WKW:AWS	WKW:VTD:VRB
+doorkleurde	WKW:VLT:1EP	WKW:VTD:VRB
+doorkleurden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorlopenden	BNW:STL:MRV:DE_	WKW:ODW:MRV:DE_
+doortimmerden	BNW:STL:MRV:DE_	WKW:VLT:INF	WKW:VTD:MRV:DE_
+doorvoelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+omspuit	WKW:TGW:1EP	WKW:TGW:3EP
+overbouwden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+overstraalden	WKW:VLT:INF	WKW:VTD:MRV:DE_
 	
+       <rule name="or" id="REMOVE_JJ_FOR_OR">
+          <pattern>
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="JJ"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+	      <example type="untouched">Ten dollars</example>
+        </rule>	
+-->	
+
 </rules>

@@ -36,9 +36,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <category id="MISC" name="Leichte Sprache">
 
-        <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum">
-            <pattern>
-                <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/></token>
+        <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum" default="off">
+            <antipattern>
+                <token postag='PA2:.+' postag_regexp='yes'/>
+                <token postag='SUB:.+|UNKNOWN' postag_regexp='yes'/>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token postag='VER:.*PRT.*' postag_regexp='yes'>
+                    <exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/>
+                    <exception regexp='yes'>[A-ZÄÖÜ].+</exception>
+                </token>
             </pattern>
             <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit (Perfekt).</message>
             <short>1. Vergangenheit vermeiden</short>
@@ -46,6 +53,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ich bin einkaufen gegangen.</example>
             <example>Er musste gestern kommen.</example>
             <example>Er behauptet, dass sie die Tat verschwiegen hat.</example>
+            <example>Das über sie in den Medien verbreitete Kompromat...</example>
         </rule>
 
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
@@ -410,6 +418,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Der Sattel von deinem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>deines Fahrrads</marker>.</example>
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRO:(IND|DEM):GEN:.+" postag_regexp="yes"><exception postag="PRO:(IND|DEM):(AKK|NOM|DAT):.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Vermeiden Sie den Genitiv.</message>
+                <example correction="">Er bezieht sich auf <marker>deren</marker> Angebot.</example>
+                <example correction="">Er bezieht sich auf <marker>dessen</marker> Angebot.</example>
+                <example correction="">Er bezieht sich auf <marker>jemandes</marker> Angebot.</example>
             </rule>
         </rulegroup>
         
@@ -893,7 +910,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
+                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|vs|wesentl|wg|Hd|Ztr|Zus|zzt?|zzgl|Zz|Zt|Min|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>Verzichten Sie auf Abkürzungen.</message>
@@ -919,7 +936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
             <pattern>
-                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst|stiefmütterlich</token>
+                <token inflected='yes' regexp='yes'>Taugenichts|Wiegenfest|Nahverkehr|Fernverkehr|Langfinger|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst|stiefmütterlich|kalt(lassen|machen)|festnageln</token>
             </pattern>
             <message>Vermeiden Sie Metaphern und bildhafte Sprache.</message>
             <short>Metaphern vermeiden</short>
@@ -931,18 +948,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
             <pattern>
-                <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|my.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym|ehelichen</token>
+                <token inflected='yes' regexp='yes'>abnor.+|adäquat|ambi.+|anti.+|as[oy].+|auth.+|Bagatelle|bagatellisieren|Bakschisch|banal|Bankrott|Barrique|Bastard|bi(bli)?o.+|bigott|bilateral|Biomarker|Blasphemie|borniert|Bourgeoisie|Boykott|Bredouille|brüskieren|Charisma|Charme|Charta|Chauvinismus|Chiffre|chron.+|Chuzpe|Cojones|Connaisseur|Courage|covfefe|Credo|Curriculum|Debatte|dechiffrieren|dediziert|deduktiv|Defätismus|defätistisch|degradieren|dekadent|Deklamatorik|Deklaration|deklarieren|delegieren|delektieren|Delinquent|Demagoge|denunzieren|deplorabel|derangiert|derivativ|desavouieren|designieren|Deskriptiv|desolat|despektierlich|Despot|determinieren|Devianz|devotional|dezidiert|dia.+|Diaspora|dichotom|diff.+|Dilettant|dilettieren|dinieren|dis.+|Diskrepanz|Dispensierung|Disput|Dissens|distinguiert|dito|Divergenz|divergieren|Diversifikation|Dogma|Duktus|düpieren|dysfunktional|Dys.+|echauffieren|eklatant|eklektisch|Ekstase|ektomorph|elaboriert|eloquent|Eloquenz|elysisch|eminent|emittieren|Empathie|empirisch|endo.+|engagiert|entopisch|Entrepreneur|epi.+|Epiphanie|Eremit|erodieren|Erotomanie|erratisch|eruieren|Eskapismus|essenziell|etablieren|Euphemismus|euphemistisch|Euphorie|.+eur|Euthanasie|evident|evozieren|[eE]x.+|Faible|Faksimile|fakturieren|fakultativ|falsifizieren|Faschismus|Fasson|fatal|feminin|Femme|Fertilität|Fiasko|figurativ|filibustern|filigran|Filius|flagrant|flagranti|flamboyant|flanieren|Fluktuation|forcieren|Foyer|fragil|fraktal|frappant|frappierend|fraternisieren|frenetisch|frigide|frugal|fulminant|Fundament|fundamental.*|fungieren|Furore|geo.+|gerieren|gestatten|Geviert|Grandeur|grandios|gustatorisch|haptisch|Häresie|harmonisieren|Hasardeur|Hausse|Hedonismus|hedonistisch|hegemonial|hemi.+|hermeneutisch|heroisieren|heterogen|Hommage|homo.+|honett|honorieren|hy.+|Hybris|Hypochonder|Hypothese|Hysterie|idiosynkratisch|idyllisch|.+ieren|Illusorisch|immanent|immens|imperativ|impertinent|Impetus|implizieren|implizit|Imponderabilien|Improvisation|impulsiv|indifferent|indigniert|Indikator|indiskutabel|indizieren|infam|infantil|Infarkt|inflationär|inhärent|inhibieren|initiieren|Inkarnation|inkludieren|Inkluse|Inklusion|Innovation|insistieren|Insolvenz|insuffizient|insular|integer|Intension|intensiv|inter.+|Interdependenz|Interna|intersubjektiv|intrikat|intrinsisch|Introspektion|introvertiert|intuitiv|invertiert|.+ion|Ironie|.+ismus|Isolation|.+istik|.+istisch|Iteration|.+itis|.+iv|Jour|jovial|Kabale|kafkaesk|Kairos|Kakophonie|kalkulieren|Kameralismus|Kanonisationskongregation|kapazitiv|kapriziös|Karenz|Kaschieren|Katatonie|Katharsis|Kausalität|Klamauk|klandestin|Kleptokratie|kognitiv|kohärent|Kokolores|kollaborativ|kollaborieren|Kollaps|Kollateralschaden|kollektiv|kolportieren|Kommission|kommod|kompatibel|kompensieren|komplementär|kompromittieren|kon.+|Konfusion|kongenial|Konklave|Konkurrent|Konnotation|Konsens|konsolidieren|Konsolidierung|Kontext|Kontingent|Konvent|konventionell|Konvergenz|Konvolut|Konzession|korpulent|Korrelation|korrumpieren|Koryphäe|kosmopolitisch|Kryokonservierung|kryptisch|kulminieren|kumulativ|kumulieren|lädiert|lakonisch|lamentieren|lapidar|Lapsus|larmoyant|latent|Latenz|lavieren|Legislative|legitim|lethargisch|limitiert|Lingua|liquidieren|Liquidität|loyal|lynchen|Makulatur|maliziös|Manier|manifestieren|Manko|Mantra|marginal|Marginalie|markant|martialisch|maskulin|matrimonial|Matura|Maxime|medial|megaloman|Melancholie|melodramatisch|Ménage-à-trois|.+ment|Meritokratie|Metanoia|metaphorisch|Metier|mikro.+|Minimalismus|Minorität|minutiös|Misanthrop|Mischpoke|moderat|mokieren|mondän|monetär|monieren|mono.+|Monolog|multilateral|my.+|Myriade|narzisstisch|nebulös|negieren|Nepotismus|Nerd|ne(ur)?o.+|Neurodegenerativ|neuronal|Nihilismus|Nimbus|nivellieren|nonchalant|Nonkonformismus|Nonplusultra|Normativ|Nostalgie|notorisch|Novität|Novum|nuanciert|.+nym|nymphoman|obligatorisch|Obolus|observieren|Obsession|obskur|obsolet|Odyssee|Oeuvre|Offerte|okkupieren|oktroyieren|olfaktorisch|Oligopol|omni.+|omnipräsent|Onomatopoesie|opak|operationalisieren|opportun|oppositiv|opulent|orgiastisch|originär|Orkus|ortho.+|orthodox|ostentativ|Outplacement|Oxymoron|Paradigma|paradox|paralysieren|Paraphilie|Paraphrasieren|Parasitismus|partizipieren|Parvenü|pasteurisieren|pathetisch|Pathos|Patrouille|Pazifismus|pedantisch|pejorativ|pekuniär|Pendant|per.+|perfide|perforieren|peripher|Perpetuum|perplex|Persiflage|persiflieren|persistent|Perzeption|Petrichor|Phänomen|pharisäisch|Pheromon|philanthropisch|Philister|philo.+|phlegmatisch|.+phobie|Phobie|phono.+|Phrase|Pidgin|pittoresk|Plafond|plagiieren|plastisch|Pleonasmus|pointiert|polarisieren|polemisch|Polygamie|pol[yi].+|Polypol|Populist|Portfolio|postfaktisch|postkoital|postulieren|potenziell|prä.+|prädestiniert|pragmatisch|Prämisse|präskriptiv|prätentiös|prekär|Prekariat|Prêt-à-porter|preziös|pro.+|proaktiv|probat|profan|Profession|Profitabilität|Prognose|progressiv|Prokrastination|prokrastinieren|Prokurist|promisk|Promiskuität|prophylaktisch|Prosa|Prospektion|prospektiv|Prosument|provisorisch|pseudo.+|Pseudo|Pseudonym|psycho.+|puncto|Purismus|Puritaner|Qualität|Qualitativ|Quantität|Quantitativ|Querulant|Quintessenz|Quisquilie|quo|Ramsch|ratifizieren|redundant|Redundanz|Rekonvaleszenz|Rekuperation|rekursiv|Relevanz|remontant|renitent|renommiert|Repertoire|repetitiv|Requisite|Resilienz|Resistenz|resolut|respektive|Ressentiment|Ressort|restriktiv|restrukturieren|Resümee|retour|retro.+|retrospektiv|reüssieren|revanchieren|revidieren|Revision|Rezension|rezeptiv|rezipieren|reziprok|Rezitieren|rhetorisch|rhy.+|rigide|rigoros|robust|rudimentär|Sakrileg|sakrosankt|Säkularisierung|salomonisch|salvatorisch|Sanierung|sapiosexuell|Sarkasmus|Satire|schassen|Schibboleth|schmähen|sedieren|Sektion|selektiv|Semantik|semi.+|sensibel|separat|separieren|Sezession|siderisch|Sisyphus.*|situiert|skandieren|Skepsis|Skeuomorphismus|soigniert|Somnolenz|souverän|Souveränität|spartanisch|Spekulation|spezifisch|sporadisch|stagnieren|Stakeholder|statisch|Status|Stigmatisierung|stoisch|stratifizieren|stringent|subaltern|subsidiär|Subsidiaritätsprinzip|subsistieren|substituieren|subsumieren|subtil|subversiv|süffisant|suggerieren|suggestiv|sukzessiv|Surrogat|suspekt|[sS]y[mn].+|Tableau|Tabula|Tacheles|taktil|tangibel|tangieren|Tapet|technokratisch|temporär|tendenziell|tendenziös|Tenor|Terminus|Testimonial|tête-à-tête|theatralisch|theo.+|Theodizee|thermo.+|Thesaurus|Tinktur|.+tion|Tirade|Traktat|traktieren|trans.+|Transkulturation|transpirieren|transzendieren|Tribalisierung|Tribalismus|Tristesse|trivial|trivialisieren|Trope|Typografie|Typus|ubiquitär|ultra.+|unartikuliert|unilateral|unisono|Unitarismus|unorthodox|urban|usurpieren|utopisch|Vademecum|vakant|validieren|verbos|verifizieren|veritabel|verquer|Veto|virtuos|vita.+|volatil|Voyeurismus|Xenophobie|Zampano|Zeche|Zenit|Zölibat|zy.+|\w+ator<exception regexp="yes">Poliz.*</exception></token>
             </pattern>
             <message>Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
             <short>Schwierige Wörter vermeiden</short>
             <example>Sie hat es ihm erlaubt.</example>
             <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
             <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+            <example>Die Polizei sorgt für Ordnung.</example>
         </rule>
         <rulegroup id="ABSTRAKTE_WOERTER" name="Leichte Sprache: abstrakte Wörter">
             <rule>
                 <pattern>
-                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,})?</token>
+                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ität|ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,})?</token>
                 </pattern>
                 <message>Vermeiden Sie abstrakte Wörter. Benutzen Sie möglichst konkrete Aussagen.</message>
                 <short>Abstrakte Wörter vermeiden</short>
@@ -951,6 +969,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--example correction="">Sie sagt die <marker>Wahrheit</marker>.</example>
                 <example>Sie ist <marker>ehrlich</marker>.</example-->
                 <example correction="">Sie sucht nach einer <marker>Lösungsidee</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FACHBEGRIFFE" name="Leichte Sprache: Fachbegriffe">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>Accounts?|AdWords|Affiliate.*|API|Apps?|ASCII.*|AuthInfo|Backlinks?|Banner|Bitcoins?|Blogs?|Bluetooth|Bookmarks?|Breadcrumb-Navigation|Browser|Cache|Captchas?|Clan|Cloaking|Cloud.*|Cookies?|Crawler|Crowd.*|Cursor|Cyber.*|Darknet|Datenbank(en)?|Datenraten?|Desktop|Domains?|Downloads?|Drop-down-Menüs?|E-[A-Z].+|Emoticons?|Favicons?|Folder|Followers?|Fonts?|Forum|Freeware|Gästebuch|Hacker|Hashtags?|Header|Hotspots?|Hyperlinks?|Impressum|Intranet|JavaScript|Keyword|Landingpage|Layouts?|Lightbox|Linkjuice|Longtail|Malware|Media|Navigation|Netiquette|Netzwerkprotokoll[es]?|Newsletter|(Alt|Anker)-Text.*|Nofollow|Pagepeel|Permalinks?|Phishing.*|Pings?|Podcasts?|Pop-under|Ports?|Provider[ns]?|Quellcodes?|Retargeting|Roaming|Router|Screenshots?|Server|Shitstorms?|Shortcuts?|Slider|Snippet|Social|Software|Spoofing|Streaming.*|Tabs?|Thumbnails?|Touchpads?|Traffic|Undo|Update|Vlog|Wahl-O-Mat|Webcam|Webinar|Webmaster|Webspace|Widgets?|Zip-Datei(en)?|Adapters?|Audio|Backslashs?|Barcodes?|Bits?|Buttons?|Bytes?|Camcorder[ns]?|CDs?|Computer[ns]?|Chips?|Displays?|Hardware|Homepages?|Links?|Modems?|Multimedia|Notebooks?|offline|online|Receiver[ns]?|Recorder[ns]?|[Ss]cann.*|Selfies?|Shareware|Slash|Smartphones?|Smiley|SMS|Tablets?|Tuners?|Tweets?|User[ns]?|Videos?</token>
+                </pattern>
+                <message>Vermeiden Sie Fachwörter oder erklären Sie diese.</message>
+                <url>https://blog.zeta-producer.com/internet-glossar-einfache-sprache/</url>
+                <short>Fachbegriffe vermeiden</short>
+                <example correction="">Öffnen Sie die <marker>Zip-Datei</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
@@ -976,6 +1005,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>Kind</token>
+                    <token>mit</token>
+                    <token>dem</token>
+                    <token regexp="yes">Bade?</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Da sollte man nicht das <marker>Kind mit dem Bade</marker> ausschütten.</example>
+                <example>Überlegen Sie gut!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Flinte</token>
+                    <token>ins</token>
+                    <token>Korn</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Er worf die <marker>Flinte ins Korn</marker>.</example>
+                <example>Er hat aufgegeben.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>im</token>
                     <token regexp="yes">Schilde?</token>
                     <token inflected="yes">führen</token>
@@ -983,8 +1033,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Verwenden Sie keine schwierigen Wendungen.</message>
                 <example correction="">Er hat etwas <marker>im Schilde geführt</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Brief</token>
+                    <token>und</token>
+                    <token>Siegel</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Ich gebe dir <marker>Brief und Siegel</marker> darauf.</example>
+            </rule>
+            <rule>
+               <pattern>
+                    <token>Zünglein</token>
+                    <token>an</token>
+                    <token>der</token>
+                    <token>Waage</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie ist das <marker>Zünglein an der Waage</marker>.</example>
+                <example correction="">Sie entscheidet.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Schloss</token>
+                    <token>und</token>
+                    <token>Riegel</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Er bringt ihn hinter <marker>Schloss und Riegel</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Rat</token>
+                    <token>und</token>
+                    <token>Tat</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Er stand ihm mit <marker>Rat und Tat</marker> zur Seite.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Hals</token>
+                    <token>über</token>
+                    <token>Kopf</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Er verliebte sich <marker>Hals über Kopf</marker> zur Seite.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(ad (acta|absurdum|hoc|infinitum)|al|[aA]nno|Big (Ban[dg]|Data)|Corpus [dD]e(licti)|Haute Couture|Enfant terrible|per se|Perpertuum [mM]obile|[aA] p(oste)?riori|Primus|Femme fatale)\b</regexp>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Das ist <marker>per se</marker> nicht richtig.</example>
+            </rule>
         </rulegroup>
-        
     </category>
 
     <category id="STYLE" name="Stil" type="style">

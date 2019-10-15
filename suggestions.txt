@@ -1,0 +1,436 @@
+
+###################################
+# Issues with suggestion ordering #
+###################################
+
+****************** German ******************************
+
+Ambei -> anbei:
+Am bei at first position because of suggestion.contains(" ") -> result.add(0, suggestion);
+Ampel at second position because edit distance (Ambei, Ampel) = 1 (replacement-pairs contains p b)
+
+zetlich -> südlich
+high frequency: 14 vs 11 for zeitlich
+low edit distance because of pairs: z s, d t, ?
+
+löchen -> "löschen" fehlt
+lower frequency then lagen / legen / mögen (13 - 10 vs 9)
+pairs: ch g / no pair: sch ch
+
+frager : da frager ich nochmal nach -> "frage" fehlt in ersten 5 Vorschlägen
+
+frequency: 0 (at least fragen has frequency 10)
+
+Ich möchte Sie kur auf -> "kurz" fehlt
+ Kur top because only differs in case (-> sortSuggestionsByQuality)
+für - zur - nur have higher frequency, same edit distance (u ü are a pair)
+gut should be equal distance as kurz, because g k is a pair;
+
+Jetlack
+TODO
+
+unzureichlichen -> nicht "unzureichenden"
+large editing distance?
+
+einem Vortrag im stättischen Planetarium
+Stadttischen returned by getCandidates and getCorrectWords in CompoundAwareHunspellRule.getSuggestions
+no rank improvement for städtischen by sortSuggestionsByQuality, could be improved by using ngrams here
+
+ich bestätige Ihe Kündigung.
+morfologik character distance / word frequency; probably no pairs involved
+
+"Nach diversen Verzögerungen ist under Add-on jetzt endlich"
+dt pair, und er boosted because of space, unter higher frequency than unser
+
+Syonyme integrieren wir auch bald
+Anonyme higher frequency
+
+Also viele komische Sodnerzeichen  drin.
+Sonder-eichen prposed by getCandidates/getCorrectWords, not reranked in sortSuggestionsByQuality
+
+zuerst mal ein gutes neues Jar!
+'war' has higher frequency, equal edit distance
+
+Anbei die aktuelle Rechung.
+Regung has 0 edit distance because of ch-g pair, Brechung is also fairly high-frequency, though lower than Rechnung
+remove pair -> fixed
+
+Wenn Sie mit individuellen Nutzer-Accounts arbeiten möchten bsprechen wir das am besten telefonisch
+sprechen higher frequency, equal edit distance as besprechen
+
+in Upgrade auf die nächste Stude vorschlagen.
+u/ü pair, bunch of words with equal edit distance and frequency as stunde: studie, sture, stufe
+
+
+*************** English **************************
+/*
+ * Suggestion ordering improvements:
+ * - "Just let un know if you need help" -> kein "us" -> pos six in suggestions, all equal edit distance
+- kein Vorschlag: hald-baked support -> half-baked  -> added to spelling.txt, fixed
+- And ther is still quite a lot to be done. -> pos six in suggestions, all equal edit distance
+- "please right-cick on the" -> right-cick
+ */
+
+
+# Changes & Tests
+
+## Removing some replacement pairs
+
+1% ->
+Original: 2631 / 3571 (73.676842%)
+Alternative: 2658 / 3571 (74.432930%)
+
+100%, interrupted halfway through:
+
+**** Correct Suggestions ****
+ Original: 102735 / 138571 (74.138893%)
+ Alternative: 105542 / 141074 (74.813217%)
+
+## Combining suggestions without and with replacement pairs
+
+5%
+**** Correct Suggestions ****
+ Original: 13198 / 17881 (73.810188%)
+ Alternative: 12470 / 17881 (69.738831%)
+
+
+
+--------
+
+-> without replacement pairs first
+2.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_EN_US
+Message: Possible spelling mistake found
+Suggestion: there; share; hare; tare; thane; Thar; Tharp; t hare; their; Thar; that; there; than; hear; share; hair; chair; heir; Thai; thief; shear; tear; hare; theirs; char; stair; thaw; Thais; Thea; Thad; tare; thane; Tharp; Thieu; t hare
+thare
+^^^^^
+
+vs
+-> old default
+
+2.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_EN_US
+Message: Possible spelling mistake found
+Suggestion: their; Thar; that; there; than; hear; share; hair; chair; heir; Thai; thief; shear; tear; hare; theirs; char; stair; thaw; Thais; Thea; Thad; tare; thane; Tharp; Thieu; t hare
+thare
+
+vs
+-> combined version
+
+2.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_EN_US
+Message: Possible spelling mistake found
+Suggestion: there; their; share; Thar; hare; that; tare; thane; than; hear; Tharp; t hare; hair; chair; heir; Thai; thief; shear; tear; theirs; char; stair; thaw; Thais; Thea; Thad; Thieu
+thare
+
+
+------------------------
+
+Put simple suggestions (getCandidates + getCorrectWords -> generated compounds) behind morfologik suggestions:
+
+
+**** Correct Suggestions ****
+ Original: 36439 / 49011 (74.348618%)
+ Alternative: 38291 / 49011 (78.127357%)
+
+
+Check probability of split suggestions in sortSuggestionByQuality, rerank only when more frequent then non-split:
+
+1%:
+**** Correct Suggestions ****
+Both: 2715 / Original: 54 / Reordered: 182 / Other: 621
+**** Accuracy ****
+A: 0.775196 / B: 0.811030
+
+
+100%, stopped after exception
+
+**** Correct Suggestions ****
+Both: 37532 / Original: 759 / Reordered: 1962 / Other: 8758
+**** Accuracy ****
+A: 0.781274 / B: 0.805819
+
+
+issues remaining:
+Ordering changed for match vielfaltige, before: viel faltige, after: viel Faltige, choosen: vielfältige
+Ordering changed for match Jobssuche., before: Jobs Suche., after: Jobs suche., choosen: Jobsuche., corre
+Ordering changed for match Chromesäure, before: Chrome säure, after: Chrome Säure, choosen: Chromsäure,
+Passward, before: Pass ward, after: Pass Ward, choosen: Passwort,
+Ordering changed for match untergeschrieben, before: unter geschrieben, after: unter Geschrieben, choosen: unterschrieben, correct: other
+Ordering changed for match Kriegweg, before: Krieg weg, after: Krieg Weg, choosen: Kriegsweg, correct: other
+
+
+
+
+German:
+
+new baseline: 10% @ 4minutes
+**** Correct Suggestions ****
+ Original: 28487 / 35476 (80.299362%)
+Sum of positions: 12531
+
+100% @ 31m
+**** Correct Suggestions ****
+ Original: 284862 / 354518 (80.351913%)
+Sum of positions: 125276
+
+NewSuggestionsOrderer(just getPseudoProbabilty): 10% @ 14m
+**** Correct Suggestions ****
+ Alternative: 23425 / 35496 (65.993347%)
+Sum of positions: 36123
+
+fixed period at end:
+ Alternative: 23127 / 35496 (65.153816%)
+Sum of positions: 37400
+
+NewSuggestionsOrderer, fixed context, sortSuggestionsByQuality after orderSuggestionsUsingModel: 10% @ 15m27s
+**** Correct Suggestions ****
+ Alternative: 25552 / 35496 (71.985580%)
+Sum of positions: 24335
+
+
+Original, new data (1%, 3m):
+
+ Original: 5172 / 6398 (80.837761%)
+Sum of positions: 2117
+
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams + levensthein prob, new data: (1%, 3m30s)
+ Alternative: 4434 / 6398 (69.302902%)
+Sum of positions: 6634
+
+
+Original, artificial data: (100%, 9m30s)
+ Original: 12746 / 20340 (62.664700%)
+Sum of positions: 13301
+
+Original, artificial data w/ less errors: (100%, 5m20s)
+ Original: 6620 / 10227 (64.730614%)
+Sum of positions: 5562
+
+NewSuggestionsOrderer: 1grams + 3grams + levensthein prob, artificial data: (100%, 14m0s)
+ Alternative: 13942 / 20340 (68.544739%)
+Sum of positions: 9115
+
+NewSuggestionsOrderer: 1grams + 3grams + levensthein prob, artificial data w/ less errors: (100%, 14m0s)
+ Alternative: 7205 / 10227 (70.450768%)
+Sum of positions: 4288
+
+stupid backoff, artificial data w/ 1 error / line: (100%, 1m25s)
+ Alternative: 846 / 3470 (24.380404%)
+Sum of positions: 19766
+
+1+3grams, levensthein 0.7 prob, artifical 1e/l:
+ Alternative: 2275 / 3470 (65.561966%)
+Sum of positions: 1879
+
+1+3grams, levensthein 0.2 prob, artifical 1e/l:
+ Alternative: 2365 / 3470 (68.155624%)
+Sum of positions: 1547
+
+
+1+3grams, jaco wrinkler, simple artifical:
+Both: 1823 / Original: 482 / Reordered: 458 / Other: 757
+**** Accuracy ****
+A: 0.654830 / B: 0.648011
+**** Positions ****
+A: 1516 / B: 2621
+
+1+3grams, jaco wrinkler, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 836 / Original: 226 / Reordered: 258 / Other: 207
+**** Accuracy ****
+A: 0.695481 / B: 0.716437
+**** Positions ****
+A: 944 / B: 1371
+
+
+1+3grams, levensthein 0.1, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 912 / Original: 150 / Reordered: 298 / Other: 167
+**** Accuracy ****
+A: 0.695481 / B: 0.792403
+**** Positions ****
+A: 944 / B: 595
+
+1+3grams, levensthein 0.2, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 902 / Original: 160 / Reordered: 292 / Other: 173
+**** Accuracy ****
+A: 0.695481 / B: 0.781925
+**** Positions ****
+A: 944 / B: 671
+
+1+3grams, levensthein 0.05, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 922 / Original: 140 / Reordered: 300 / Other: 165
+**** Accuracy ****
+A: 0.695481 / B: 0.800262
+**** Positions ****
+A: 944 / B: 554
+
+
+1+3grams, levensthein 0.01, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 947 / Original: 115 / Reordered: 308 / Other: 157
+**** Accuracy ****
+A: 0.695481 / B: 0.821873
+**** Positions ****
+A: 944 / B: 472
+
+1+3grams, levensthein 0.005, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 956 / Original: 106 / Reordered: 311 / Other: 154
+**** Accuracy ****
+A: 0.695481 / B: 0.829732
+**** Positions ****
+A: 944 / B: 445
+
+
+1+3grams, levensthein 0.001, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 968 / Original: 94 / Reordered: 315 / Other: 150
+**** Accuracy ****
+A: 0.695481 / B: 0.840210
+**** Positions ****
+A: 944 / B: 405
+
+
+no ngrams, only levensthein dist, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 960 / Original: 102 / Reordered: 97 / Other: 368
+**** Accuracy ****
+A: 0.695481 / B: 0.692207
+**** Positions ****
+A: 944 / B: 1063
+
+
+german real data @ 0.01, 1+3grams + levensthein
+
+Report for dataset: Real data
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@7e9131d5[name=Original version (no changes),parameters={}]: 5172 / 6399 correct suggestions-> 80.825127% accuracy; score (less = better): 2183; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@2e1d27ba[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.001}]: 4840 / 6399 correct suggestions-> 75.636818% accuracy; score (less = better): 4761; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@2525ff7e[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.005}]: 4765 / 6399 correct suggestions-> 74.464760% accuracy; score (less = better): 5133; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@524d6d96[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.1}]: 4535 / 6399 correct suggestions-> 70.870445% accuracy; score (less = better): 6348; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@152aa092[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.15}]: 4483 / 6399 correct suggestions-> 70.057823% accuracy; score (less = better): 6577; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@44a7bfbc[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.2}]: 4431 / 6399 correct suggestions-> 69.245193% accuracy; score (less = better): 6786; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@4ef37659[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.4}]: 4296 / 6399 correct suggestions-> 67.135490% accuracy; score (less = better): 7362; not found: 39.
+Experiment org.languagetool.rules.spelling.SuggestionChangesExperiment@776b83cc[name=NewSuggestionsOrderer,parameters={levenstheinProb=0.6}]: 4216 / 6399 correct suggestions-> 65.885292% accuracy; score (less = better): 7761; not found: 39.
+
+
+1+3grams, no dist, simple artifical (w/ morfologik bug workaround):
+**** Correct Suggestions ****
+Both: 825 / Original: 237 / Reordered: 275 / Other: 190
+**** Accuracy ****
+A: 0.695481 / B: 0.720367
+**** Positions ****
+A: 944 / B: 969
+
+
+1+3grams, jaco-wrinkler-distance, real data (1%, 6m):
+**** Correct Suggestions ****
+Both: 3544 / Original: 1628 / Reordered: 543 / Other: 683
+**** Accuracy ****
+A: 0.808378 / B: 0.638793
+**** Positions ****
+A: 2117 / B: 8282
+
+
+
+
+
+
+
+
+English:
+baseline: 10% @ 51s
+**** Correct Suggestions ****
+ Original: 21457 / 25284 (84.863945%)
+Sum of positions: 5330
+
+MixIrregularForms:
+10%:
+
+**** Correct Suggestions ****
+ Alternative: 21238 / 25284 (83.997787%)
+Sum of positions: 5550
+
+AppendIrregularForms:
+10%:
+**** Correct Suggestions ****
+ Alternative: 21238 / 25284 (83.997787%)
+Sum of positions: 6448
+
+NewSuggestionsOrderer(just getPseudoProbabilty): 10% @ 10m
+**** Correct Suggestions ****
+ Alternative: 21984 / 25284 (86.948273%)
+Sum of positions: 7883
+
+NewSuggestionsOrderer(just getPseudoProbabilty, fixed center token): 10% @ 10m
+**** Correct Suggestions ****
+ Alternative: 22115 / 25284 (87.466385%)
+Sum of positions: 6688
+
+NewSuggestionsOrderer: left, middle, right context: 10% @ 7m40s
+**** Correct Suggestions ****
+ Alternative: 20618 / 25284 (81.545639%)
+Sum of positions: 15459
+
+
+NewSuggestionsOrderer: 4grams, log prob, using LanguageModelUtils
+ Alternative: 21546 / 25284 (85.215942%)
+Sum of positions: 15996
+
+NewSuggestionsOrderer: 3grams, log prob, using LanguageModelUtils
+ Alternative: 21858 / 25284 (86.449928%)
+Sum of positions: 10620
+
+NewSuggestionsOrderer: 3grams + 4grams, log prob, using LanguageModelUtils
+ Alternative: 21817 / 25284 (86.287773%)
+Sum of positions: 12527
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams, log prob, using LanguageModelUtils
+ Alternative: 22138 / 25284 (87.557343%)
+Sum of positions: 10099
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams + levensthein prob, new data:
+
+ Alternative: 29722 / 33993 (87.435654%)
+Sum of positions: 13933
+ Alternative: 29942 / 34162 (87.647095%)
+Sum of positions: 13152
+ Alternative: 3169 / 3609 (87.808258%)
+Sum of positions: 1405
+
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams, new data:
+ Alternative: 3159 / 3609 (87.531174%)
+Sum of positions: 1468
+
+Original with new data:
+Original: 30399 / 35649 (85.273079%)
+Sum of positions: 7926
+
+
+Jamspell:
+
+**** Correct Suggestions ****
+ Alternative: 14264 / 24456 (58.325153%)
+Sum of positions: 5920
+
+SuggestionsOrderer (GSoC):
+
+- without context:
+**** Correct Suggestions ****
+ Alternative: 15299 / 25284 (60.508621%)
+Sum of positions: 37055
+
+- context, but no ngrams: (5m27s)
+**** Correct Suggestions ****
+ Alternative: 19978 / 25284 (79.014397%)
+Sum of positions: 15556
+
+- context + ngrams
+
+**** Correct Suggestions **** (11m28s)
+ Alternative: 21363 / 25284 (84.492172%)
+Sum of positions: 10533
+
+

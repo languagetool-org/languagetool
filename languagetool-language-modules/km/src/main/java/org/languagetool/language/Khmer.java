@@ -61,7 +61,13 @@ public class Khmer extends Language {
   public String[] getCountries() {
     return new String[]{"KH"};
   }
-  
+
+  @Override
+  public String getCommonWordsPath() {
+    // TODO: provide common words file
+    return null;
+  }
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
@@ -100,7 +106,7 @@ public class Khmer extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
       new HunspellRule(messages, this, userConfig, altLanguages),
       // specific to Khmer:

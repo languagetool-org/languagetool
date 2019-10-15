@@ -69,6 +69,8 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("я прибіг");
     assertEmptyMatch("я прибігла");
     
+//    assertMatches(1, "40 тисяч чоловік виявили бажання");
+    // handled by styling rule
     assertEmptyMatch("40 тисяч чоловік виявили бажання");
     
     // було + impers
@@ -112,6 +114,8 @@ public class TokenAgreementNounVerbRuleTest {
 //    assertEmptyMatch("Почав, значить, я рости.");
 
     assertEmptyMatch(GOOD_TEXT);
+
+    assertEmptyMatch("— це були невільники");
   }
 
   @Test
@@ -195,9 +199,13 @@ public class TokenAgreementNounVerbRuleTest {
     assertMatches(1, "Пригадую випадок, коли одна аудіокомпанія звернулися до провідних київських «ефемок»");
     assertMatches(1, "підписку про невиїзд двох молодиків, яких міліція затримали першими");
     assertMatches(1, "рук та ніг Параски, темниця розчинилася і дівчина опинилися за стінами фортеці");
+
     assertMatches(1, "його арештували і вислали у Воркуту, я залишилися одна з дитиною.");
+    assertMatches(1, "На проспекті Чорновола, ближче до центру, вона зупинилися на перехресті");
+
     assertMatches(1, "порадилися і громада запропонували мені зайняти його місце");
     assertMatches(1, "то й небо вона бачите саме таким");
+    assertMatches(1, "молочного туману, потім вона заснувалися");
     
     assertEmptyMatch("моя мама й сестра мешкали");
     assertEmptyMatch("чи то Вальтер, чи я вжили фразу");
@@ -233,9 +241,8 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("«Самопоміч» та Радикальна партія дали більшість голосів");
 
     
-    assertMatches(1, "На проспекті Чорновола, ближче до центру, вона зупинилися на перехресті");
     assertEmptyMatch("Канада, Австралія та й Західна Європа знають");
-    assertEmptyMatch("процес формування уряду та його відставка залежать");
+//    assertEmptyMatch("процес формування уряду та його відставка залежать");
     assertEmptyMatch("Усі розписи, а також архітектура відрізняються");
     assertEmptyMatch("Німеччина (ще демократична) та Росія почали «дружити»");
     assertEmptyMatch("Як Україна, так і Німеччина відчувають");
@@ -273,7 +280,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Верховний суд, Рада суддів, Кваліфікаційна комісія могли б перевірити");
     assertEmptyMatch("зеленкуваті плями моху, сіро-коричнева бруківка повертають нас на кілька століть назад");
     assertEmptyMatch("водій “Мазди” та її пасажир загинули");
-    assertEmptyMatch("водій “Жигулів” та його пасажирка померли.");
+//    assertEmptyMatch("водій “Жигулів” та його пасажирка померли.");
 
     //TODO: noun:v_naz noun:v_oru conj
 //    assertEmptyMatch("Біг підтюпцем і швидка ходьба знижують ризик гіпертонії");
@@ -314,6 +321,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("понад сотня отримали поранення");
     //TODO:
 //    assertEmptyMatch("Троє пілотів і 31 глядач загинули миттєво.");
+
+    assertEmptyMatch("Що пачка цигарок, що ковбаса коштують");
+    assertEmptyMatch("не вулична злочинність, не корупція відлякували");
   }
 
   @Test

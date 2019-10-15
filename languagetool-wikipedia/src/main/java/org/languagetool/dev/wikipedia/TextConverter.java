@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import de.fau.cs.osr.ptk.common.AstVisitor;
 import de.fau.cs.osr.ptk.common.ast.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.sweble.wikitext.engine.Page;
@@ -38,7 +39,6 @@ import org.sweble.wikitext.lazy.preprocessor.XmlComment;
 import org.sweble.wikitext.lazy.utils.XmlCharRef;
 import org.sweble.wikitext.lazy.utils.XmlEntityRef;
 
-import de.fau.cs.osr.ptk.common.Visitor;
 import xtc.tree.Locatable;
 import xtc.tree.Location;
 
@@ -64,7 +64,7 @@ import xtc.tree.Location;
  * value of the call to <code>visit(c)</code>.</li>
  * </ul>
  */
-public class TextConverter extends Visitor {
+public class TextConverter extends AstVisitor {
   private static final Pattern ws = Pattern.compile("\\s+");
 
   private final SimpleWikiConfiguration config;

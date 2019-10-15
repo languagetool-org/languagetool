@@ -24,6 +24,7 @@ import org.languagetool.language.English;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,7 +46,7 @@ public class TatoebaSentenceSourceTest {
 
   @Test(expected = RuntimeException.class)
   public void testTatoebaSourceInvalidInput() throws UnsupportedEncodingException {
-    ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes("utf-8"));
+    ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes(StandardCharsets.UTF_8));
     TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
     source.hasNext();
   }

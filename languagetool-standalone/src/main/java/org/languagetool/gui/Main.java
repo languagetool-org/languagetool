@@ -282,17 +282,20 @@ public final class Main {
     JLanguageTool langTool = ltSupport.getLanguageTool();
     List<Rule> rules = langTool.getAllRules();
     ConfigurationDialog configDialog = getCurrentConfigDialog();
-    configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
-    Configuration config = ltSupport.getConfig();
-    try { //save config - needed for the server
-      config.saveConfiguration(langTool.getLanguage());
-    } catch (IOException e) {
-      Tools.showError(e);
+    boolean configChanged = configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
+    if(configChanged) {
+      Configuration config = ltSupport.getConfig();
+      try { //save config - needed for the server
+        config.saveConfiguration(langTool.getLanguage());
+      } catch (IOException e) {
+        Tools.showError(e);
+      }
+      ltSupport.reloadConfig();
+      // Stop server, start new server if requested:
+      stopServer();
+      maybeStartServer();
+      checkTextAndDisplayResults();
     }
-    ltSupport.reloadConfig();
-    // Stop server, start new server if requested:
-    stopServer();
-    maybeStartServer();
   }
 
   private void showSelectFontDialog() {
@@ -908,6 +911,9 @@ public final class Main {
       try {
         HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         serverConfig.setAllowOriginUrl("*");    // needed for Firefox so this server can be used from the add-on
+        if (config.getNgramDirectory() != null) {
+          serverConfig.setLanguageModelDirectory(config.getNgramDirectory().getAbsolutePath());
+        }
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {

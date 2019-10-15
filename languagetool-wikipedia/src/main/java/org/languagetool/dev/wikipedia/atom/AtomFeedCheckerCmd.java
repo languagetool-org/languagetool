@@ -57,7 +57,7 @@ final class AtomFeedCheckerCmd {
       System.exit(1);
     }
     String url = args[0];
-    String langCode = url.substring(url.indexOf("//") + 2, url.indexOf("."));
+    String langCode = url.substring(url.indexOf("//") + 2, url.indexOf('.'));
     System.out.println("Using URL: " + url);
     System.out.println("Language code: " + langCode);
     int sleepTimeMillis = Integer.parseInt(args[1]);

@@ -7,7 +7,7 @@
   **  VERSIÓN GENÉRICA PARA TODAS LAS LOCALIZACIONES                        **
   ****************************************************************************
 
-                                   Versión 2.1
+                                  Versión 2.4
 
 SUMARIO
 
@@ -185,5 +185,6 @@ creación de este diccionario. Se agradece especialmente a:
    - Ezequiel (ezeperez26).
    - KNTRO.
    - Ricardo Berlasso.
+   - Edward Villegas-Pulgarin (cosmocalibur)
    - y a todos los integrantes de la comunidad en español que proponen mejoras
      a este diccionario.

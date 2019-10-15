@@ -21,6 +21,7 @@ package org.languagetool.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -43,13 +44,7 @@ public class UserDictTest {
 
   @Test
   public void testHTTPServer() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
-    config.setDatabaseDriver("org.hsqldb.jdbcDriver");
-    config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
-    config.setDatabaseUsername("");
-    config.setDatabasePassword("");
-    config.setSecretTokenKey("myfoo");
-    config.setCacheSize(100);
+    HTTPServerConfig config = getServerConfig();
     DatabaseAccess.init(config);
     // no need to also create test tables for logging
     DatabaseLogger.getInstance().disableLogging();
@@ -58,26 +53,42 @@ public class UserDictTest {
       HTTPServer server = new HTTPServer(config);
       try {
         server.run();
-        Language enUS = Languages.getLanguageForShortCode("en-US");
-        runTests(enUS, "This is Mysurname.", "This is Mxsurname.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
-        runTests(enUS, "Mysurname is my name.", "Mxsurname is my name.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
-        Language deDE = Languages.getLanguageForShortCode("de-DE");
-        runTests(deDE, "Das ist Meinname.", "Das ist Mxinname.", "Meinname", "GERMAN_SPELLER_RULE");
-        runTests(deDE, "Meinname steht hier.", "Mxinname steht hier.", "Meinname", "GERMAN_SPELLER_RULE");
-        runTests(deDE, "Hier steht Schöckl.", "Das ist Schückl.", "Schöckl", "GERMAN_SPELLER_RULE");
-        String res = check(deDE, "Hier steht Schockl", USERNAME1, API_KEY1);
-        assertThat(StringUtils.countMatches(res, "GERMAN_SPELLER_RULE"), is (1));  // 'Schöckl' accepted, but not 'Schockl' (NOTE: depends on encoding/collation of database) 
-        try {
-          System.out.println("=== Testing multi word insertion now, ignore stack trace: ===");
-          addWord("multi word", USERNAME1, API_KEY1);
-          fail("Should not be able to insert multi words");
-        } catch (IOException ignore) {}
+        run();
       } finally {
         server.stop();
       }
     } finally {
       DatabaseAccess.deleteTestTables();
     }
+  }
+
+  protected void run() throws Exception {
+    Language enUS = Languages.getLanguageForShortCode("en-US");
+    runTests(enUS, "This is Mysurname.", "This is Mxsurname.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
+    runTests(enUS, "Mysurname is my name.", "Mxsurname is my name.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
+    Language deDE = Languages.getLanguageForShortCode("de-DE");
+    runTests(deDE, "Das ist Meinname.", "Das ist Mxinname.", "Meinname", "GERMAN_SPELLER_RULE");
+    runTests(deDE, "Meinname steht hier.", "Mxinname steht hier.", "Meinname", "GERMAN_SPELLER_RULE");
+    runTests(deDE, "Hier steht Schöckl.", "Das ist Schückl.", "Schöckl", "GERMAN_SPELLER_RULE");
+    String res = check(deDE, "Hier steht Schockl", USERNAME1, API_KEY1);
+    assertThat(StringUtils.countMatches(res, "GERMAN_SPELLER_RULE"), is (1));  // 'Schöckl' accepted, but not 'Schockl' (NOTE: depends on encoding/collation of database)
+    try {
+      System.out.println("=== Testing multi word insertion now, ignore stack trace: ===");
+      addWord("multi word", USERNAME1, API_KEY1);
+      fail("Should not be able to insert multi words");
+    } catch (IOException ignore) {}
+  }
+
+  @NotNull
+  protected HTTPServerConfig getServerConfig() {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    config.setDatabaseDriver("org.hsqldb.jdbcDriver");
+    config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
+    config.setDatabaseUsername("");
+    config.setDatabasePassword("");
+    config.setSecretTokenKey("myfoo");
+    config.setCacheSize(100);
+    return config;
   }
 
   private void runTests(Language lang, String input, String inputWithTypo, String name, String errorRuleId) throws Exception {
@@ -110,18 +121,23 @@ public class UserDictTest {
     return json;
   }
 
-  private String check(Language lang, String text, String username, String apiKey) throws IOException {
+  protected String check(Language lang, String text, String username, String apiKey) throws IOException {
+    return check(lang, text, username, apiKey, "");
+  }
+
+  protected String check(Language lang, String text, String username, String apiKey, String options) throws IOException {
     String urlOptions = "?language=" + lang.getShortCodeWithCountryAndVariant();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8");
     if (username != null && apiKey != null) {
       urlOptions += "&username=" + URLEncoder.encode(username, "UTF-8");
       urlOptions += "&apiKey=" + URLEncoder.encode(apiKey, "UTF-8");
     }
+    urlOptions += options;
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check" + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
-  private List<String> getWords(String username, String apiKey) throws IOException {
+  protected List<String> getWords(String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words?username=" + username + "&apiKey=" + apiKey);
     ObjectMapper mapper = new ObjectMapper();
     String result = HTTPTools.checkAtUrl(url);
@@ -134,12 +150,12 @@ public class UserDictTest {
     return words;
   }
   
-  private String addWord(String word, String username, String apiKey) throws IOException {
+  protected String addWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/add");
     return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apiKey=" + apiKey);
   }  
   
-  private void deleteWord(String word, String username, String apiKey) throws IOException {
+  protected void deleteWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/delete");
     HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apiKey=" + apiKey);
   }

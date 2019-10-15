@@ -39,6 +39,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -57,10 +58,12 @@ public class ConfigurationDialog implements ActionListener {
 
   private final ResourceBundle messages;
   private final Configuration original;
-  private final Configuration config;
+  private Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
   private boolean configChanged = false;
+  private boolean profileChanged = true;
+  private boolean restartShow = false;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
@@ -146,10 +149,19 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public boolean show(List<Rule> rules) {
+    restartShow = false;
+    do {
+      showPanel(rules);
+    } while (restartShow);
+    return configChanged;
+  }
+    
+  public boolean showPanel(List<Rule> rules) {
     configChanged = false;
-    if (original != null) {
+    if (original != null && !restartShow) {
       config.restoreState(original);
     }
+    restartShow = false;
     dialog = new JDialog(owner, true);
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     // close dialog when user presses Escape key:
@@ -249,9 +261,26 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 0;
     cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    
+    jPane.add(getProfilePanel(cons, rules), cons);
+
+    tabpane.addTab(messages.getString("guiProfiles"), new JScrollPane(jPane));
+
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
+    
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getMotherTonguePanel(cons), cons);
@@ -285,7 +314,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 1.0f;
     jPane.add(new JPanel(), cons);
 
-    tabpane.addTab(messages.getString("guiGeneral"), jPane);
+    tabpane.addTab(messages.getString("guiGeneral"), new JScrollPane(jPane));
 
     jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
@@ -544,17 +573,14 @@ public class ConfigurationDialog implements ActionListener {
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
-
       @Override
       public void insertUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
-
       @Override
       public void removeUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
-
       @Override
       public void changedUpdate(DocumentEvent e) {
         try {
@@ -571,8 +597,12 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
 
-
+    JLabel textChangedLabel = new JLabel(Tools.getLabel(messages.getString("guiTextChangeLabel")));
+    cons.gridy++;
+    portPanel.add(textChangedLabel, cons);
     
+    cons.gridy++;
+    cons.insets = new Insets(0, 30, 0, 0);
     for (int i = 0; i < 3; i++) {
       portPanel.add(radioButtons[i], cons);
       if (i < 2) cons.gridy++;
@@ -580,21 +610,142 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
     
+    JCheckBox noMultiResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiNoMultiReset")));
+    noMultiResetbox.setSelected(config.isNoMultiReset());
+    noMultiResetbox.setEnabled(config.isResetCheck());
+    noMultiResetbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setNoMultiReset(noMultiResetbox.isSelected());
+      }
+    });
+    
     JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
     resetCheckbox.setSelected(config.isResetCheck());
     resetCheckbox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
         config.setDoResetCheck(resetCheckbox.isSelected());
+        noMultiResetbox.setEnabled(resetCheckbox.isSelected());
       }
     });
+    cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
-    JLabel dummyLabel = new JLabel(" ");
-    cons.gridy++;
-    portPanel.add(dummyLabel, cons);
     cons.gridy++;
     portPanel.add(resetCheckbox, cons);
+
+    cons.insets = new Insets(0, 30, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(noMultiResetbox, cons);
     
+    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
+    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
+    fullTextCheckAtFirstBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected());
+      }
+    });
+    cons.insets = new Insets(0, 4, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(fullTextCheckAtFirstBox, cons);
+    
+    JCheckBox isMultiThreadBox = new JCheckBox(Tools.getLabel(messages.getString("guiIsMultiThread")));
+    isMultiThreadBox.setSelected(config.isMultiThread());
+    isMultiThreadBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setMultiThreadLO(isMultiThreadBox.isSelected());
+      }
+    });
+    cons.gridy++;
+    JLabel dummyLabel3 = new JLabel(" ");
+    portPanel.add(dummyLabel3, cons);
+    cons.gridy++;
+    portPanel.add(isMultiThreadBox, cons);
+    
+    JTextField otherServerNameField = new JTextField(config.getServerUrl() ==  null ? "" : config.getServerUrl(), 25);
+    otherServerNameField.setMinimumSize(new Dimension(100, 25));
+    otherServerNameField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String serverName = otherServerNameField.getText();
+        serverName = serverName.trim();
+        if(serverName.isEmpty()) {
+          serverName = null;
+        }
+        config.setOtherServerUrl(serverName);
+      }
+    });
+
+    JCheckBox useServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServer")) + " ");
+    useServerBox.setSelected(config.useOtherServer());
+    useServerBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setUseOtherServer(useServerBox.isSelected());
+        otherServerNameField.setEnabled(useServerBox.isSelected());
+      }
+    });
+
+    JCheckBox useServerSettingsBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServerSettings")));
+    useServerSettingsBox.setSelected(config.useServerConfiguration());
+    useServerSettingsBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setUseServerConfiguration(useServerSettingsBox.isSelected());
+      }
+    });
+
+    JCheckBox useRemoteServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseRemoteServer")));
+    useRemoteServerBox.setSelected(config.doRemoteCheck());
+    useServerBox.setEnabled(useRemoteServerBox.isSelected());
+    otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
+    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+//    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
+    isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+    useRemoteServerBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setRemoteCheck(useRemoteServerBox.isSelected());
+        useServerBox.setEnabled(useRemoteServerBox.isSelected());
+        otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
+        useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
+        isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+      }
+    });
+    
+    cons.gridy++;
+    portPanel.add(useRemoteServerBox, cons);
+    cons.insets = new Insets(0, 30, 0, 0);
+    JPanel serverPanel = new JPanel();
+    serverPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(0, 0, 0, 0);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.anchor = GridBagConstraints.WEST;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.weightx = 0.0f;
+    serverPanel.add(useServerBox, cons1);
+    cons1.gridx++;
+    serverPanel.add(otherServerNameField, cons1);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(serverPanel, cons);
+    cons.gridy++;
+    portPanel.add(useServerSettingsBox, cons);
+
   }
 
   @NotNull
@@ -757,12 +908,139 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   @NotNull
+  private JPanel getProfilePanel(GridBagConstraints cons, List<Rule> rules) {
+    profileChanged = true;
+    JPanel profilePanel = new JPanel();
+    profilePanel.setLayout(new GridBagLayout());
+    cons.insets = new Insets(16, 0, 0, 8);
+    cons.gridx = 0;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.fill = GridBagConstraints.NONE;
+    cons.weightx = 0.0f;
+    List<String> profiles = new ArrayList<String>();
+    String defaultOptions = messages.getString("guiDefaultOptions");
+    String userOptions = messages.getString("guiUserProfile");
+    profiles.add(userOptions);
+    profiles.addAll(config.getDefinedProfiles());
+    String currentProfile = config.getCurrentProfile();
+    JComboBox<String> profileBox = new JComboBox<>(profiles.toArray(new String[profiles.size()]));
+    if(currentProfile == null || currentProfile.isEmpty()) {
+      profileBox.setSelectedItem(userOptions);
+    } else {
+      profileBox.setSelectedItem(currentProfile);
+    }
+    profileBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          if(profileChanged) {
+            try {
+              List<String> saveProfiles = new ArrayList<String>(); 
+              saveProfiles.addAll(config.getDefinedProfiles());
+              if(e.getItem().equals(userOptions)) {
+                config.initOptions();
+                config.loadConfiguration("");
+                config.setCurrentProfile(null);
+              } else {
+                config.initOptions();
+                config.loadConfiguration((String) e.getItem());
+                config.setCurrentProfile((String) e.getItem());
+              }
+              config.addProfiles(saveProfiles);
+              restartShow = true;
+              dialog.setVisible(false);
+            } catch (IOException e1) {
+            }
+          } else {
+            profileChanged = true;
+          }
+        }
+      }
+    });
+      
+    profilePanel.add(new JLabel(messages.getString("guiCurrentProfile")), cons);
+    cons.insets = new Insets(6, 12, 0, 8);
+    cons.gridy++;
+    profilePanel.add(profileBox, cons);
+    
+    JButton defaultButton = new JButton(defaultOptions);
+    defaultButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        List<String> saveProfiles = new ArrayList<String>(); 
+        saveProfiles.addAll(config.getDefinedProfiles());
+        String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
+        config.initOptions();
+        config.addProfiles(saveProfiles);
+        config.setCurrentProfile(saveCurrent);
+        restartShow = true;
+        dialog.setVisible(false);
+      }
+    });
+    cons.gridy++;
+    profilePanel.add(defaultButton, cons);
+    
+    JButton deleteButton = new JButton(messages.getString("guiDeleteProfile"));
+    deleteButton.setEnabled(!profileBox.getSelectedItem().equals(defaultOptions) 
+        && !profileBox.getSelectedItem().equals(userOptions));
+    deleteButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        List<String> saveProfiles = new ArrayList<String>(); 
+        saveProfiles.addAll(config.getDefinedProfiles());
+        config.initOptions();
+        try {
+          config.loadConfiguration("");
+        } catch (IOException e1) {
+        }
+        config.setCurrentProfile(null);
+        config.addProfiles(saveProfiles);
+        config.removeProfile((String)profileBox.getSelectedItem());
+        restartShow = true;
+        dialog.setVisible(false);
+      }
+    });
+    cons.gridy++;
+    profilePanel.add(deleteButton, cons);
+    JTextField newProfileName = new JTextField(15);
+    cons.insets = new Insets(16, 0, 0, 8);
+    cons.gridy++;
+    profilePanel.add(new JLabel(messages.getString("guiAddNewProfile")), cons);
+    cons.insets = new Insets(6, 12, 0, 8);
+    cons.gridy++;
+    profilePanel.add(new JLabel(messages.getString("guiAddProfileName")), cons);
+    cons.gridx++;
+    profilePanel.add(newProfileName, cons);
+    JButton addNewButton = new JButton(messages.getString("guiAddProfileButton"));
+    addNewButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String profileName = newProfileName.getText();
+        while(config.getDefinedProfiles().contains(profileName) || userOptions.equals(profileName)) {
+          profileName += "_new";
+        }
+        profileName = profileName.replaceAll("[ \t]", "_");
+        config.addProfile(profileName);
+        config.setCurrentProfile(profileName);
+        profileChanged = false;
+        profileBox.addItem(profileName);
+        profileBox.setSelectedItem(profileName);
+        newProfileName.setText("");
+        deleteButton.setEnabled(true);
+      }
+    });
+    cons.gridx++;
+    profilePanel.add(addNewButton, cons);
+    return profilePanel;
+  }
+
+  @NotNull
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
     JPanel motherTonguePanel = new JPanel();
     if(insideOffice){
       motherTonguePanel.setLayout(new GridBagLayout());
       GridBagConstraints cons1 = new GridBagConstraints();
-      cons1.insets = new Insets(0, 0, 0, 0);
+      cons1.insets = new Insets(16, 0, 0, 0);
       cons1.gridx = 0;
       cons1.gridy = 0;
       cons1.anchor = GridBagConstraints.WEST;
@@ -935,6 +1213,7 @@ public class ConfigurationDialog implements ActionListener {
     }
     for (Language lang : Languages.get()) {
      motherTongues.add(lang.getTranslatedName(messages));
+     motherTongues.sort(null);
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
   }
@@ -1157,6 +1436,5 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-  
   
 }

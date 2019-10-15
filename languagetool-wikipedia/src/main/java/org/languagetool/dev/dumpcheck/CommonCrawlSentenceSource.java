@@ -66,7 +66,7 @@ class CommonCrawlSentenceSource extends SentenceSource {
   @Override
   public Sentence next() {
     fillSentences();
-    if (sentences.size() == 0) {
+    if (sentences.isEmpty()) {
       throw new NoSuchElementException();
     }
     CommonCrawlSentence ccSentence = sentences.remove(0);
@@ -82,7 +82,7 @@ class CommonCrawlSentenceSource extends SentenceSource {
     byte[] buffer = new byte[8192];
     int n;
     try {
-      while (sentences.size() == 0 && (n = xzIn.read(buffer)) != -1) {
+      while (sentences.isEmpty() && (n = xzIn.read(buffer)) != -1) {
         String buf = new String(buffer, 0, n);  // TODO: not always correct, we need to wait for line end first?
         String[] lines = buf.split("\n");
         for (String line : lines) {

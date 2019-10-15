@@ -36,7 +36,7 @@ public class PatternRuleContextEstimator {
     int i = 0;
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof PatternRule/* && rule.getId().equals("ER_LIES")*/) {
-        int estimatedContext = ((PatternRule) rule).estimateContextForSureMatch();
+        int estimatedContext = rule.estimateContextForSureMatch();
         String ruleId = ((PatternRule) rule).getFullId();
         System.out.println(ruleId + " -> " + estimatedContext);
       }
@@ -49,7 +49,7 @@ public class PatternRuleContextEstimator {
     int i = 0;
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof PatternRule) {
-        int estimatedContext = ((PatternRule) rule).estimateContextForSureMatch();
+        int estimatedContext = rule.estimateContextForSureMatch();
         String ruleId = ((PatternRule) rule).getFullId();
         //System.out.println(ruleId + " -> " + estimatedContext);
         boolean ignoreWhenIncomplete = RuleInformation.ignoreForIncompleteSentences(rule.getId(), german);

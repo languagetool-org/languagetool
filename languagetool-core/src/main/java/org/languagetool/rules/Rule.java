@@ -23,11 +23,7 @@ import java.net.URL;
 import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -56,6 +52,7 @@ public abstract class Rule {
   private Category category;
   private URL url;
   private boolean defaultOff;
+  private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
 
@@ -101,6 +98,20 @@ public abstract class Rule {
    */
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
+  /**
+   * A number that estimates how many words there must be after a match before we
+   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
+   * where a match might occur and the word that gets typed next makes the match
+   * disappear (something one would obviously like to avoid).
+   * Note: this may over-estimate the real context size.
+   * Returns {@code -1} when the sentence needs to end to be sure there's a match.
+   * @since 4.5
+   */
+  @Experimental
+  public int estimateContextForSureMatch() {
+    return 0;
+  }
+    
   /**
    * Overwrite this to avoid false alarms by ignoring these patterns -
    * note that your {@link #match(AnalyzedSentence)} method needs to
@@ -196,9 +207,9 @@ public abstract class Rule {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       UserConfig config = new UserConfig();
       List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
-          config, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
+          config, null, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
       relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,
-        config, Collections.emptyList()));
+        config, null, Collections.emptyList()));
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }
@@ -297,10 +308,25 @@ public abstract class Rule {
   }
 
   /**
+   * Checks whether the rule has been turned off using "default='temp_off'" by default by the rule author.
+   * This is a special case where the rule is off for users but active for nightly regression checks.
+   */
+  public final boolean isDefaultTempOff() {
+    return defaultTempOff;
+  }
+
+  /**
    * Turns the rule off by default.
    */
   public final void setDefaultOff() {
     defaultOff = true;
+  }
+
+  /**
+   * Turns the rule off by default, expect for internal regression tests.
+   */
+  public final void setDefaultTempOff() {
+    defaultTempOff = true;
   }
 
   /**

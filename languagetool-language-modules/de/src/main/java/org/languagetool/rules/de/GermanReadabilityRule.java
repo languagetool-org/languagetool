@@ -60,6 +60,11 @@ public class GermanReadabilityRule extends ReadabilityRule {
   
   @Override
   public String getId() {
+    return getId(tooEasyTest);
+  }
+
+  @Override
+  public String getId(boolean tooEasyTest) {
     if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE_DE";
     } else {
@@ -94,7 +99,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
       sLevel = "Sehr leicht";
     }
     if (sLevel != null) {
-      return " {Level " + level + ": " + sLevel + "}";
+      return " {Grad " + level + ": " + sLevel + "}";
     }
     return "";
   }
@@ -111,7 +116,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
       simple = "schwierig";
       few = "viele";
     }
-    return "Lesbarkeit {FRE: " + FRE +", ASL: " + ASL + ", ASW: " + ASW + "}: Der Text dieses Absatzes ist zu " + simple + printMessageLevel(level) + ". Zu "
+    return "Lesbarkeit: Der Text dieses Absatzes ist zu " + simple + printMessageLevel(level) + ". Zu "
         + few + " Wörter pro Satz und zu " + few + " Silben pro Wort.";
   }
 

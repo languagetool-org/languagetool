@@ -155,7 +155,11 @@ public abstract class BaseTagger implements Tagger {
     boolean isLowercase = word.equals(lowerWord);
     boolean isMixedCase = StringTools.isMixedCase(word);
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
-    List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
+    List<AnalyzedToken> lowerTaggerTokens =
+        ! isLowercase
+            ? asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord))
+            : taggerTokens;
+
     //normal case:
     addTokens(taggerTokens, result);
     //tag non-lowercase (alluppercase or startuppercase), but not mixedcase word with lowercase word tags:

@@ -29,7 +29,6 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -78,7 +77,7 @@ public class Dutch extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new DutchSynthesizer();
+      synthesizer = new DutchSynthesizer(this);
     }
     return synthesizer;
   }
@@ -121,7 +120,7 @@ public class Dutch extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -136,7 +135,8 @@ public class Dutch extends Language {
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
             new LongSentenceRule(messages, userConfig, -1, true),
-            new PreferredWordRule(messages)
+            new PreferredWordRule(messages),
+            new SentenceWhitespaceRule(messages)
     );
   }
 
@@ -151,18 +151,17 @@ public class Dutch extends Language {
   /** @since 4.5 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      case SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE: return 1;
       case LongSentenceRule.RULE_ID: return -1;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 
   @Override

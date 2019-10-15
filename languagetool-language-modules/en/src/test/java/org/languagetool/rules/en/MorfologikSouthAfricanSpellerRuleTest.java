@@ -62,6 +62,7 @@ public class MorfologikSouthAfricanSpellerRuleTest extends AbstractEnglishSpelle
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //South African dict:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amanzimnyama")).length);

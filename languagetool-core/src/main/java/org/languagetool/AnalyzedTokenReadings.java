@@ -127,6 +127,13 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
+   * Checks if there is at least one POS tag
+   * @since 4.7
+   */
+  public boolean hasReading() {
+    return anTokReadings != null && anTokReadings.length > 0;
+  }
+  /**
    * Checks if one of the token's readings has a particular lemma.
    *
    * @param lemma lemma POS tag to look for

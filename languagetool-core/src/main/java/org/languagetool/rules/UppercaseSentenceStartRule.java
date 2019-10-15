@@ -19,9 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +41,28 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           Pattern.compile("[a-z]|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
+  private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
+          "iPhone",
+          "iPhones",
+          "iOS",
+          "iLife",
+          "iWork",
+          "iMac",
+          "iMacs",
+          "eBay",
+          "fMRI",
+          "iOS",
+          "iPad",
+          "iPads",
+          "iPod",
+          "iPods",
+          "iCloud",
+          "iRobot",
+          "iRobots",
+          "iTunes",
+          "macOS",
+          "mRNA"
+  ));
 
   private final Language language;
 
@@ -84,6 +104,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       return toRuleMatchArray(ruleMatches);
     }
     int pos = 0;
+    boolean isPrevSentenceNumberedList = false;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
       if (tokens.length < 2) {
@@ -136,13 +157,13 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         preventError = true;
       }
 
-      if (isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
+      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
         preventError = true;
       }
 
       if (checkToken.length() > 0) {
         char firstChar = checkToken.charAt(0);
-        if (!preventError && Character.isLowerCase(firstChar)) {
+        if (!preventError && Character.isLowerCase(firstChar) && !EXCEPTIONS.contains(checkToken)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
                   pos+tokens[matchTokenPos].getEndPos(),
@@ -152,6 +173,11 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         }
       }
       pos += sentence.getText().length();
+      // Plain text lists like this are not properly split into sentences, we 
+      // work around that here so the items don't create an error when starting lowercase:
+      // 1. item one
+      // 2. item two
+      isPrevSentenceNumberedList = sentence.getText().matches("\\d+\\. .*") || sentence.getText().matches(".*\n\\d+\\. ");
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -187,5 +213,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
   private boolean isQuoteStart(String word) {
     return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘");
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
   }
 }

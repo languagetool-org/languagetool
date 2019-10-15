@@ -56,6 +56,11 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public abstract String getDescription();
 
+  @Override
+  public int estimateContextForSureMatch() {
+    return 1;
+  }
+
   /** @since 3.0 */
   protected abstract CompoundRuleData getCompoundRuleData();
 

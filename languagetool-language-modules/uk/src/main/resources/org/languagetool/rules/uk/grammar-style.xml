@@ -94,7 +94,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
 <!--
-    we need to convert to v_zna:rinanim, but numr does not have rianim so we'll use v_naz as a hack for now
+    we need to convert to v_zna:rinanim, but numr does not have rinanim so we'll use v_naz as a hack for now
         <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_zna"/></suggestion></message>
         <suggestion>більш як <match no="2" postag="numr:p:v_zna"/></suggestion>
         <suggestion>більше ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
@@ -217,27 +217,200 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="MOLODSHE_KOHOS" name="Молодше когось">
 
-    <rule id="STARSHE_N_ROKIV" name="Старше N років">
+      <!-- старше/молодше кого/чого -->
+      <!-- "старше" overlapping with adj/noun token agreement -->
+      <rule>
+        <antipattern>
+            <token>молодше</token>
+            <token postag_regexp="yes" postag="adj:n:v_naz.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token>молодше</token>
+            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*?:v_rod.*">
+              <exception postag_regexp="yes" postag="noun.*:n:(v_naz|v_zna|nv).*|numr.*"/>
+              <exception>років</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>молодший (-а, -е) за <match no="2" postag_regexp="yes" postag="(adj:.):(?:v_rod)(.*)" postag_replace="$1:(v_zna(r(.n)anim)?)$2"/> <match no="3" postag_regexp="yes" postag="(noun.*):(?:v_rod)(.*)" postag_replace="$1:(v_zna)$2"/></suggestion></message>
+        <suggestion>молодший (-а, -е) від <match no="2"/> <match no="3"/></suggestion>
+        <suggestion>молодший (-а, -е) ніж <match no="2" postag_regexp="yes" postag="(adj.*):v_rod(.*)" postag_replace="$1:v_naz$2"/> <match no="3" postag_regexp="yes" postag="(noun.*):v_rod(.*)" postag_replace="$1:v_naz$2"/></suggestion>
+        <example correction="молодший (-а, -е) за сестру|молодший (-а, -е) від сестри|молодший (-а, -е) ніж сестра">він <marker>молодше сестри</marker> на 3 роки</example>
+        <example correction="молодший (-а, -е) за сестру|молодший (-а, -е) від сестри|молодший (-а, -е) ніж сестра">вона <marker>молодше сестри</marker> на 3 роки</example>
+        <example correction="молодший (-а, -е) за місто|молодший (-а, -е) від міста|молодший (-а, -е) ніж місто">він <marker>молодше міста</marker> на 3 роки</example>
+        <example>молодше покоління</example>
+        <example>молодше п'яти</example>
+        <example>сонце молодше від іншої зорі</example>
+      </rule>
+
+      <!-- старше/молодше ніж хто/що -->
+      <rule>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token postag_regexp="yes" postag="(verb|adv).*" min="0" max="2">
+            <exception>молодше</exception>
+          </token>
+          <token regexp="yes">молодше|старше</token>
+          <token>ніж</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token>,</token>
+          <token regexp="yes">молодше|старше</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">молодше|старше</token>
+            <token>ніж</token>
+            <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*?:v_naz.*"/>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>молодший/старший (-а, -е) ніж <match no="3"/> <match no="4"/></suggestion></message>
+        <example correction="молодший/старший (-а, -е) ніж сестра">він <marker>молодше ніж сестра</marker> на 3 роки</example>
+        <example>місто молодше ніж він</example>
+        <example>місто було молодше ніж Олеся</example>
+      </rule>
+
+      <!-- старше/молодше від кого/чого -->
+      <rule>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token postag_regexp="yes" postag="(verb|adv).*" min="0" max="2">
+            <exception>молодше</exception>
+          </token>
+          <token regexp="yes">молодше|старше</token>
+          <token>від</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token>,</token>
+          <token regexp="yes">молодше|старше</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">молодше|старше</token>
+            <token>від</token>
+            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*?:v_rod.*"/>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>молодший/старший (-а, -е) від <match no="3"/> <match no="4"/></suggestion></message>
+        <example correction="молодший/старший (-а, -е) від сестри">він <marker>молодше від сестри</marker> на 3 роки</example>
+        <example correction="молодший/старший (-а, -е) від сестри">вона <marker>старше від сестри</marker> на 3 роки</example>
+        <example>місто молодше від нього</example>
+        <example>місто було молодше від Марії</example>
+        <example>покоління, старше від нього</example>
+      </rule>
+
+      <!-- старше/молодше за кого/що -->
+      <rule>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token postag_regexp="yes" postag="(verb|adv).*" min="0" max="2">
+            <exception>молодше</exception>
+          </token>
+          <token regexp="yes">молодше|старше</token>
+          <token>за</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp="yes" postag="noun.*?:n:v_naz.*"/>
+          <token>,</token>
+          <token regexp="yes">молодше|старше</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">молодше|старше</token>
+            <token>за</token>
+            <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*?:v_zna.*"/>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>молодший/старший (-а, -е) за <match no="3"/> <match no="4"/></suggestion></message>
+        <example correction="молодший/старший (-а, -е) за сестру">він <marker>молодше за сестру</marker> на 3 роки</example>
+        <example correction="молодший/старший (-а, -е) за брата">вона <marker>старше за брата</marker> на 3 роки</example>
+        <example>місто молодше за нього</example>
+        <example>місто було молодше за Олену</example>
+        <example>місто значно молодше за нього</example>
+        <example>місто мінімум удвічі старше за Донецьк</example>
+      </rule>
+
+      <!-- старший/молодший кого/чого -->
+      <rule>
+      <antipattern>
+        <token regexp="yes">та|і|й</token>
+        <token postag_regexp="yes" postag="adj:.:v_naz.*" inflected="yes" regexp="yes">старший|молодший</token>
+        <token postag_regexp="yes" postag="noun.*:p:v_naz.*"/>
+      </antipattern>
+      <antipattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:.:v_naz.*">старший|молодший</token>
+          <token postag_regexp="yes" postag="noun.*|adj.*"/>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">старш(ий|а)</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token regexp="yes">років|групи|загону|зміни|підрозділу|школи|роду|родини|війська|наряду|позиції|року|віку</token>
+        </unify>
+      </antipattern>
       <pattern>
-        <token regexp="yes">старше|молодше</token>
+        <token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:[mfp]:v_naz.*">старший|молодший</token>
         <marker>
-          <token postag_regexp="yes" postag="noun.*:(v_rod|nv).*">
-            <exception postag_regexp="yes" postag="noun.*:n:(v_naz|v_zna|nv).*|numr.*"></exception>
-            <exception>років</exception>
+          <token postag_regexp="yes" postag="noun.*?:[^p]:v_rod.*">
+            <exception postag_regexp="yes" postag="noun.*?:nv.*|verb.*|numr.*"/>
+            <exception regexp="yes">всього|чогось</exception>
           </token>
         </marker>
       </pattern>
-      <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(.*):(?:v_rod|nv)(.*)" postag_replace="$1:(v_zna|nv)$2"/></suggestion></message>
+      <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(.*):(?:v_rod)(.*)" postag_replace="$1:(v_zna)$2"/></suggestion></message>
       <suggestion>від <match no="2"/></suggestion>
       <suggestion>ніж <match no="2" postag_regexp="yes" postag="(.*):(?:v_rod|nv)(.*)" postag_replace="$1:(v_naz|nv)$2"/></suggestion>
-      <example correction="за сестру|від сестри|ніж сестра">він старше <marker>сестри</marker> на 3 роки</example>
-      <example correction="за місто|від міста|ніж місто">він старше <marker>міста</marker> на 3 роки</example>
+      <example correction="за сестру|від сестри|ніж сестра">він старший <marker>сестри</marker> на 3 роки</example>
+      <example correction="за сестру|від сестри|ніж сестра">вона старша <marker>сестри</marker> на 3 роки</example>
+      <example correction="за місто|від міста|ніж місто">він старший <marker>міста</marker> на 3 роки</example>
+      <!--
+      <example correction="за Богдана|від Богдана|ніж Богдан">вона старша <marker>Богдана</marker> на 3 роки</example>
+      -->
+      <example correction="За Єву|Від Єви|Ніж Єва">він молодший <marker>Єви</marker> на 3 роки</example>
+      <!--
       <example correction="За Родольфо|Від Родольфо|Ніж Родольфо">він старше <marker>Родольфо</marker> на 3 роки</example>
-      <example>старше авто</example>
-      <example>старше покоління</example>
+      -->
+      <example>старша сестра</example>
+      <example>старша онука</example>
+      <example>старший брат</example>
+      <example>старший механік</example>
+      <example>старші колеги</example>
       <example>старше п'яти</example>
+      <example>старший групи</example>
+      <example>середня і старша групи</example>
+      <example>старший слідчої групи</example>
+      <example>молодші Олександр Ірванець, Оксана Луцишина</example>
+      <example>молодший Джимів брат</example>
+      <example>старша його донька</example>
+      <example>молодша забрала</example>
+      <example>старший минулого року пішов до школи</example>
+      <example>середня та старша сестри</example>
+      <!-- taken care by adj/noun token agreement rule -->
+      <example>старше сестри</example>
+      <!-- Десь було таке правило (rule of thumb), що якщо вказується ознака відносно певної точки, то така конструкція можлива. 
+      Працездатний вік задає таку точку. Ще приклад: вище/нижче нуля. А якщо йде порівняння з іншою особою/об'єктом, 
+      то тоді треба прийменника: старший за мене, цей стілець вищий від того тощо -->
+      <example>старший працездатного віку</example>
     </rule>
+    </rulegroup>
 
     <!--
         <rulegroup name="Канцелярзми" id="KANZ">
@@ -535,6 +708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="з">Потяг <marker>зі</marker> Австрії.</example>
         <example correction="з">Потяг <marker>із</marker> Австрії.</example>
       </rule>
+
       <rule>
         <pattern>
           <token postag="SENT_START"/>
@@ -542,7 +716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">зі|із</token>
           </marker>
           <token regexp="yes">[^зсшщ].*
-            <exception regexp="yes">(мн|вс).*</exception>
+            <exception regexp="yes">(мн|вс|ст).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
@@ -551,6 +725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
         <example>Зі мною.</example>
+        <example>Зі 104 стрічками.</example>
       </rule>
       <!--
           <rule>
@@ -590,7 +765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">із|з</token>
           </marker>
-          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*
+          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
@@ -602,6 +777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Організація з США підкуплена.</example>
         <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
         <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
+        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
       </rule>
     </rulegroup>
 
@@ -891,6 +1067,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="muzychnyi_vs_muzykalnyi" name="Музичнй і музикальний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">музичний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">слух|здібність</token>
+        </pattern>
+        <message>Правильно: <suggestion>музикальний</suggestion></message>
+        <example correction="Музикальний"><marker>Музичний</marker> слух</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">музикальний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">вечір|гурт|училище|інструмент|нота|установка|автомат|форма</token>
+        </pattern>
+        <message>Правильно: <suggestion>музичний</suggestion></message>
+        <example correction="Музичний"><marker>Музикального</marker> вечора</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="zhylyi_vs_zhytlovyi" name="Жилий і житловий">
       <rule>
         <pattern>
@@ -940,7 +1139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="zirka_vs_zorya" name="Зірка і зоря">
       <pattern>
-        <token inflected="yes" regexp="yes">яскравий|гарячий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
+        <token inflected="yes" regexp="yes">яскравий|гарячий|далекий|ранній|ранішній|вечірній|падучий|полярний|щасливий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
         <marker>
           <token inflected="yes">зірка</token>
         </marker>
@@ -992,19 +1191,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Загроза вибуху стала причиною евакуювання.</example>
       </rule>
 
-      <rule>
-        <pattern>
-          <token regexp="yes">після|перед</token>
-          <marker>
-            <token inflected="yes">їжа</token>
-          </marker>
-        </pattern>
-        <message>Правильно: <suggestion>їда</suggestion></message>
-        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
-        <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
-        <example>Багато їжи.</example>
-      </rule>
-
       <!-- http://r2u.org.ua/forum/viewtopic.php?f=6&t=5766
       <rule>
         <pattern>
@@ -1037,6 +1223,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Дощові хмари</example>
       </rule>
 -->
+    </rulegroup>
+
+    <rulegroup id="yizha_vs_yida" name="Їжа та їда">
+      <rule>
+        <pattern>
+          <token regexp="yes">після|перед</token>
+          <marker>
+            <token inflected="yes">їжа</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>їда</suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+        <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
+        <example>Багато їжи.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">хвилина|година|півгодини|вжива.*</token>
+          <token>до</token>
+          <marker>
+            <token>їжі</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>їда</suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+        <example correction="їда">Випиту склянку 30 хвилин до <marker>їжі</marker>.</example>
+        <example>Взявся до їжи.</example>
+      </rule>
 
     </rulegroup>
 
@@ -1133,10 +1348,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes" inflected="yes">задавати|задати|задаючи|задавання|заданий</token>
           <token regexp="yes" min="0">би?</token>
-          <token postag_regexp="yes" postag="adj:[np]:.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
-          <token regexp="yes" inflected="yes">(за)?питання</token>
+          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="(adj|numr):[np]:v_(rod|zna).*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:[np].*" regexp="yes">(за)?питання</token>
         </pattern>
-        <message>Краще: <suggestion>(по)ставити <match no="2"/> <match no="3"/> <match no="4"/></suggestion></message>
+        <message>Краще: <suggestion>(по)ставити <match no="2"/> <match no="3"/> <match no="4"/> <match no="5"/></suggestion></message>
         <example correction="(по)ставити питання">не <marker>задавати питання</marker></example>
         <example correction="(по)ставити складних питань">не <marker>задавати складних питань</marker></example>
         <example correction="(по)ставити їм запитань">не <marker>задавав їм запитань</marker></example>
@@ -1158,7 +1374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes" inflected="yes">(за)?питання</token>
-          <token postag_regexp="yes" postag="noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:&amp;pron:pers.*" min="0"/>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
           <token regexp="yes" inflected="yes">(задавати|задати|задаючи)(ся)?|задавання|заданий</token>
@@ -1247,10 +1463,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">говорити|говорячи|говоривши|казати|сказати|кажучи|сказавши</token>
-          <token postag_regexp="yes" postag="(noun|adj).*" min="0" max="3" />
+          <token postag_regexp="yes" postag="(noun|adj|numr).*" min="0" max="3" />
         <!--
-          <token postag_regexp="yes" postag="noun:inanim:.*:v_zna.*" min="0"/>
-          <token postag_regexp="yes" postag="noun:anim:.*:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_zna.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
         -->
           <marker>
             <token regexp="yes">[ву]</token>
@@ -1270,7 +1486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>лице</token>
           </marker>
           <token inflected="yes" regexp="yes">говорити|говорячи|говоривши|казати|сказати|кажучи|сказавши</token>
-          <token postag_regexp="yes" postag="(noun|adj).*" min="0" max="3" />
+          <token postag_regexp="yes" postag="(noun|adj|numr).*" min="0" max="3" />
         </pattern>
         <message>Правильно: <suggestion>у вічі</suggestion></message>
         <suggestion>в живі очі</suggestion>
@@ -1309,7 +1525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes" inflected="yes">вирішувати|вирішити</token>
-            <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
             <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">проблема|питання</token>
           </marker>
         </pattern>
@@ -1321,7 +1537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes" inflected="yes">рішення|вирішення</token>
-            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
             <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">проблема|питання</token>
           </marker>
         </pattern>
@@ -1474,15 +1690,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*:impers.*">
               <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено|порівняно|передбачувано|оголошено|заявлено|[ву]певнено</exception>
             </token>
-            <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="2">
+            <token postag_regexp="yes" postag="(adj|numr):.:v_oru.*" min="0" max="2">
               <exception regexp="yes">тим|таким</exception>
             </token>
             <or>
             <!-- TODO: особа-діяч може бути не лише :anim
                 <token postag_regexp="yes" postag="noun.*v_oru.*"/>
             -->
-              <token postag_regexp="yes" postag="noun:anim.*v_oru.*">
-                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|SENT_END"/>
+              <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
+                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*.*|SENT_END"/>
                 <exception postag_regexp="yes" postag="noun.*?v_oru:&amp;pron.*"/>
                 <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
                 <exception>персоною</exception>
@@ -1591,6 +1807,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+
+    <rule id="cholovik_with_numr" name="«Чоловік» з числівниками">
+      <pattern>
+        <token postag=".*num.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">один|обидва</exception>
+          <exception postag_regexp="yes" postag="adj:m:.*"/>
+        </token>
+        <marker>
+          <token regexp="yes" skip="-1">чоловік|чоловіка|чоловіки
+            <exception scope="next" regexp="yes">жінок|жінки|жінка</exception>
+          </token>
+        </marker>
+        <token postag="SENT_END"/>
+      </pattern>
+      <message>Деякі мовні стилісти радять вживати «осіб»: \1 <suggestion>осіб</suggestion></message>
+      <url>http://mova.kreschatic.kiev.ua/32.php</url>
+      <example correction="осіб">На заході побувало триста <marker>чоловік</marker>.</example>
+      <example correction="осіб">280 мільйонів <marker>чоловік</marker>.</example>
+      <example>На заході побувало 21 чоловік і 15 жінок.</example>
+      <example>791 чоловік, 43 жінки</example>
+      <example>Один чоловік сказав мені таке...</example>
+      <example>Її першого чоловіка.</example>
+    </rule>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення

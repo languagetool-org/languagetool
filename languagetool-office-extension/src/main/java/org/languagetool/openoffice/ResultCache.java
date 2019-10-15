@@ -25,52 +25,65 @@ import com.sun.star.linguistic2.SingleProofreadingError;
 
 /**
  * Class for storing and handle the LT results prepared to use in LO/OO
- * @since 4.3
+ *
  * @author Fred Kruse, Marcin Miłkowski
+ * @since 4.3
  */
 class ResultCache {
-  
+
   private final List<CacheEntry> entries;
 
   ResultCache() {
     entries = new ArrayList<>();
   }
-  
+
   /**
-   *  Remove a cache entry for a sentence
+   * Remove a cache entry for a sentence
    */
   void remove(int numberOfParagraph, int startOfSentencePosition) {
-    for(int i = 0; i < entries.size(); i++) {
-      if(entries.get(i).numberOfParagraph == numberOfParagraph
-        && entries.get(i).startOfSentencePosition == startOfSentencePosition) {
+    for (int i = 0; i < entries.size(); i++) {
+      if (entries.get(i).numberOfParagraph == numberOfParagraph
+              && entries.get(i).startOfSentencePosition == startOfSentencePosition) {
         entries.remove(i);
         return;
       }
     }
   }
-  
+
   /**
-   *  Remove all cache entries for a paragraph
+   * Remove all cache entries for a paragraph
    */
   void remove(int numberOfParagraph) {
-    for(int i = 0; i < entries.size(); i++) {
-      if(entries.get(i).numberOfParagraph == numberOfParagraph) {
+    for (int i = 0; i < entries.size(); i++) {
+      if (entries.get(i).numberOfParagraph == numberOfParagraph) {
         entries.remove(i);
         i--;
       }
     }
   }
-  
+
   /**
-   *  Remove all cache entries between firstPara (included) and lastPara (included)
-   *  shift all numberOfParagraph by 'shift'
+   * Remove all cache entries between firstParagraph and lastParagraph
    */
-  void removeAndShift(int firstPara, int lastPara, int shift) {
-    for(int i = 0; i < entries.size(); i++) {
-      if(entries.get(i).numberOfParagraph >= firstPara && entries.get(i).numberOfParagraph <= lastPara) {
+  void removeRange(int firstParagraph, int lastParagraph) {
+    for (int i = 0; i < entries.size(); i++) {
+      if (entries.get(i).numberOfParagraph >= firstParagraph && entries.get(i).numberOfParagraph <= lastParagraph) {
         entries.remove(i);
         i--;
-      } 
+      }
+    }
+  }
+
+  /**
+   * Remove all cache entries between firstPara (included) and lastPara (included)
+   * shift all numberOfParagraph by 'shift'
+   */
+  void removeAndShift(int firstPara, int lastPara, int shift) {
+    for (int i = 0; i < entries.size(); i++) {
+      if (entries.get(i).numberOfParagraph >= firstPara && entries.get(i).numberOfParagraph <= lastPara) {
+        entries.remove(i);
+        i--;
+      }
     }
     for (CacheEntry anEntry : entries) {
       if (anEntry.numberOfParagraph > lastPara) {
@@ -78,45 +91,45 @@ class ResultCache {
       }
     }
   }
-  
+
   /**
-   *  Add an cache entry 
+   * Add an cache entry
    */
   public void add(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     entries.add(new CacheEntry(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray));
   }
 
   /**
-   *  Add an cache entry for paragraph
+   * Add an cache entry for paragraph
    */
   public void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     this.add(numberOfParagraph, 0, 0, errorArray);
   }
 
   /**
-   *  replace an cache entry 
+   * replace an cache entry
    */
   void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     remove(numberOfParagraph, startOfSentencePosition);
     add(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray);
   }
-  
+
   /**
-   *  replace an cache entry for paragraph
+   * replace an cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     this.put(numberOfParagraph, 0, 0, errorArray);
   }
-  
+
   /**
-   *  Remove all cache entries
+   * Remove all cache entries
    */
   void removeAll() {
     entries.clear();
   }
-  
+
   /**
-   *  get Proofreading errors from cache
+   * get Proofreading errors from cache
    */
   SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
     for (CacheEntry anEntry : entries) {
@@ -126,9 +139,9 @@ class ResultCache {
     }
     return null;
   }
-  
+
   /**
-   *  get Proofreading errors from cache
+   * get Proofreading errors from cache
    */
   int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
     for (CacheEntry anEntry : entries) {
@@ -138,12 +151,12 @@ class ResultCache {
     }
     return -1;
   }
-  
+
   /**
-   *  get Proofreading errors of sentence out of paragraph matches from cache
+   * get Proofreading errors of sentence out of paragraph matches from cache
    */
   SingleProofreadingError[] getFromPara(int numberOfParagraph,
-              int startOfSentencePosition, int endOfSentencePosition) {
+                                        int startOfSentencePosition, int endOfSentencePosition) {
     for (CacheEntry anEntry : entries) {
       if (anEntry.numberOfParagraph == numberOfParagraph) {
         List<SingleProofreadingError> errorList = new ArrayList<>();
@@ -157,9 +170,62 @@ class ResultCache {
     }
     return null;
   }
-  
+
   /**
-   *  get number of paragraphs stored in cache
+   * get an ResultCache entry by the number of paragraph
+   */
+  CacheEntry getEntryByParagraph(int nPara) {
+    for (CacheEntry anEntry : entries) {
+      if (anEntry.numberOfParagraph == nPara) {
+        return anEntry;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Compares to Entries
+   * true if the both entries are identically
+   */
+  private boolean areDifferentEntries(CacheEntry newEntry, CacheEntry oldEntry) {
+    if (newEntry == null || oldEntry == null || newEntry.errorArray.length != oldEntry.errorArray.length) {
+      return true;
+    }
+    for (SingleProofreadingError nError : newEntry.errorArray) {
+      boolean found = false;
+      for (SingleProofreadingError oError : oldEntry.errorArray) {
+        if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
+                && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Compares paragraph cache with an other
+   * Gives back a list of entries for every paragraph: true if the both entries are identically
+   */
+  List<Integer> differenceInCaches(ResultCache oldCache) {
+    List<Integer> differentParas = new ArrayList<>();
+    CacheEntry oEntry;
+    for (CacheEntry nEntry : entries) {
+      oEntry = oldCache.getEntryByParagraph(nEntry.numberOfParagraph);
+      boolean isDifferent = areDifferentEntries(nEntry, oEntry);
+      if (isDifferent) {
+        differentParas.add(nEntry.numberOfParagraph);
+      }
+    }
+    return differentParas;
+  }
+
+  /**
+   * get number of paragraphs stored in cache
    */
   int getNumberOfParas() {
     int number = 0;
@@ -172,7 +238,7 @@ class ResultCache {
   }
 
   /**
-   *  get number of entries
+   * get number of entries
    */
   int getNumberOfEntries() {
     return entries.size();
@@ -191,6 +257,5 @@ class ResultCache {
       this.errorArray = errorArray;
     }
   }
-
 
 } 

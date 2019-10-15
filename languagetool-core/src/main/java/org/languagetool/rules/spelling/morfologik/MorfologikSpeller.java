@@ -25,10 +25,12 @@ import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +49,12 @@ public class MorfologikSpeller {
       .build(new CacheLoader<String, Dictionary>() {
         @Override
         public Dictionary load(@NotNull String fileInClassPath) throws IOException {
-          return Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileInClassPath));
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          if (dataBroker.resourceExists(fileInClassPath)) {
+            return Dictionary.read(dataBroker.getFromResourceDirAsUrl(fileInClassPath));
+          } else {
+            return Dictionary.read(Paths.get(fileInClassPath));
+          }
         }
       });
 
@@ -128,4 +135,18 @@ public class MorfologikSpeller {
     return speller.convertsCase();
   }
 
+  @Override
+  public String toString() {
+    return "dist=" + maxEditDistance;
+  }
+
+  public int getFrequency(String word) {
+    CharSequence w = word;
+    int freq = speller.getFrequency(w);
+    if (freq == 0 && word != word.toLowerCase()) {
+      w = word.toLowerCase();
+      freq = speller.getFrequency(w);
+    }
+    return freq;
+  }
 }

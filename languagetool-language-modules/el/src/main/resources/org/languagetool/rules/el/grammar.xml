@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token>έτος</token>
             </pattern>
-            <message>Το ουσιαστικό «\2» είναι ουδέτερο, χρησιμοποιήστε τον ουδέτερο τύπο «<suggestion>τρέχον</suggestion>»</message>
+            <message>Το ουσιαστικό «\2» είναι ουδέτερο, χρησιμοποιήστε τον ουδέτερο τύπο <suggestion>τρέχον</suggestion></message>
             <short>Πρόβλημα συμφωνίας</short>
             <example correction="τρέχον">Προσθέτουμε στο <marker>τρέχων</marker> έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
             <example>Προσθέτουμε στο τρέχον έτος 1 μέρα και ο χρόνος αυτός ονομάζεται δίσεκτος.</example>
@@ -151,7 +151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">(β|γ|δ|ζ|θ|κ|λ|μ|ν|ξ|π|ρ|σ|τ|φ|χ|ψ).*</token>
             </pattern>
-            <message>Το κι χρησιμοποιείται μόνο πριν από φωνήεν. Χρησιμοποιήστε τον τύπο «<suggestion>και</suggestion>».</message>
+            <message>Το κι χρησιμοποιείται μόνο πριν από φωνήεν. Χρησιμοποιήστε τον τύπο <suggestion>και</suggestion>.</message>
             <short>Πρόβλημα ορθογραφίας</short>
             <example correction="και">Το δεν γράφεται <marker>κι</marker> δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
             <example>Το δεν γράφεται και δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
@@ -168,12 +168,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="τον">Πιθανόν να εξαφανίστηκε επειδή δεν άντεξε <marker>το</marker> ανταγωνισμό με τον ανατομικά ανώτερο σμιλόδοντα.</example>
             <example>Αποφεύγουν τον ανταγωνισμό με το να καταλαμβάνουν διαφορετικούς τομείς του βροχοδάσους.</example>
         </rule>
+        <rule id="GREEK_PREP_ART_MASC_MISSING_N" name="τελικό ν εμπρόθετου αρσενικού άρθρου (στο → στον)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>στο</token>
+                </marker>
+                    <token postag="N:MASC:SG:ACC"/>
+            </pattern>
+            <message>Ακολουθεί αρσενικό ουσιαστικό. Χρησιμοποιήστε <suggestion>στον</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="στον">Περιορισμοί <marker>στο</marker> ανταγωνισμό για τους οποίους δεν διατυπώθηκαν συστάσεις.</example>
+            <example>Ορισμένες επιχειρήσεις δεν μπορούν να ανταποκριθούν στον ανταγωνισμό.</example>
+        </rule>
         <rule id="GREEK_ART_FEM_MISSING_N" name="τελικό ν θηλυκού άρθρου (τn → την)" type="grammar">
             <pattern>
                 <marker>
                     <token>τη</token>
                 </marker>
-                <token postag="N:FEM:SG:ACC" regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</token>
+                <token regexp='yes'>(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</token>
             </pattern>
             <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>την</suggestion></message>
             <short>Πρόβλημα ορθογραφίας</short>
@@ -185,14 +197,118 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>την</token>
                 </marker>
-                <token postag="N:FEM:SG:ACC">
-                    <exception regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</exception>
+                <token>
+                    <exception regexp="yes">(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</exception>
                 </token>
             </pattern>
-            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα : κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>τη</suggestion></message>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>τη</suggestion></message>
             <short>Πρόβλημα ορθογραφίας</short>
             <example correction="τη">Για <marker>την</marker> λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
             <example>Για τη λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
+        </rule>
+        <rule id="GREEK_PREP_ART_FEM_MISSING_N" name="τελικό ν εμπρόθετου άρθρου (στn → στην)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>στη</token>
+                </marker>
+                <token regexp='yes'>(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>στην</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="στην">Ο Πέτρος πήγε <marker>στη</marker> αντιπροσωπεία και αγόρασε ένα καινούργιο αυτοκίνητο.</example>
+            <example>Ο Πέτρος πήγε στην αντιπροσωπεία και αγόρασε ένα καινούργιο αυτοκίνητο.</example>
+        </rule>
+        <rule id="GREEK_PREP_ART_FEM_EXTRA_N" name="τελικό ν εμπρόθετου άρθρου (στnν → στη)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>στην</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>στη</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="στη">Το κάπνισμα έχει ζημιογόνα επίδραση <marker>στην</marker> λειτουργία των πνευμόνων.</example>
+            <example>Το κάπνισμα έχει ζημιογόνα επίδραση στη λειτουργία των πνευμόνων.</example>
+        </rule>
+        <rule id="GREEK_PRONOUN_FEM_MISSING_N" name="τελικό ν αντωνυμίας (αυτή → αυτήν)" type="grammar" default="off">
+            <pattern>
+                <marker>
+                    <token>αυτή</token>
+                </marker>
+                <token regexp='yes'>(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>αυτήν</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="αυτήν">Γι' <marker>αυτή</marker> ξενιτεύτηκα.</example>
+            <example>Γι' αυτήν ξενιτεύτηκα.</example>
+        </rule>
+        <rule id="GREEK_PRONOUN_FEM_EXTRA_N" name="τελικό ν αντωνυμίας (αυτήν → αυτή)" type="grammar" default="off">
+            <pattern>
+                <marker>
+                    <token>αυτήν</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>αυτή</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="αυτή">Μ' <marker>αυτήν</marker> γειτονεύω.</example>
+            <example>Μ' αυτή γειτονεύω.</example>
+        </rule>
+        <rule id="GREEK_PARTICLE_MISSING_N_1" name="τελικό ν αρνητικού μορίου (δε → δεν)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>δε</token>
+                </marker>
+                <token regexp='yes'>(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>δεν</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="δεν">Ο Γιάννης <marker>δε</marker> ξέρει.</example>
+            <example>Ο Γιάννης δεν ξέρει.</example>
+        </rule>
+        <rule id="GREEK_PARTICLE_EXTRA_N_1" name="τελικό ν αρνητικού μορίου (δεν → δε)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>δεν</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>δε</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="δε">Ο Γιάννης <marker>δεν</marker> θέλει.</example>
+            <example>Ο Γιάννης δε θέλει.</example>
+        </rule>
+        <rule id="GREEK_PARTICLE_MISSING_N_2" name="τελικό ν αρνητικού μορίου (μη → μην)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>μη</token>
+                </marker>
+                <token regexp='yes'>(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>μην</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+             <example correction="μην">Ο Γιάννης μπορεί να <marker>μη</marker> ξέρει.</example>
+            <example>Ο Γιάννης μπορεί να μην ξέρει.</example>
+        </rule>
+        <rule id="GREEK_PARTICLE_EXTRA_N_2" name="τελικό ν αρνητικού μορίου (μην → μη)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>μην</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">(α|ε|ι|η|υ|ο|ω|ά|έ|ί|ή|ύ|ό|ώ|ϊ|ϋ|ΐ|ΰ|κ|π|τ|ξ|ψ|γκ|μπ|ντ|τσ|τζ|a|e|i|o|u|b|d|ch|z|g|k|l|p|q|t|x).*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>μη</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="μη">Ο Γιάννης μπορεί να <marker>μην</marker> θέλει.</example>
+            <example>Ο Γιάννης μπορεί να μη θέλει.</example>
         </rule>
     </category>
     <category id="REDUNDANCY" name="Redundant Phrases">
@@ -312,7 +428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">ήρθες|ήρθατε|ήλθες|ήλθατε|όρισες|ορίσατε</token>
             </pattern>
-            <message>Το «\1» είναι επίθετο, χρησιμοποιήστε το επίρρημα «<suggestion>καλώς</suggestion>»</message>
+            <message>Το «\1» είναι επίθετο, χρησιμοποιήστε το επίρρημα <suggestion>καλώς</suggestion></message>
             <short>Συντακτικό λάθος</short>
             <example correction="Καλώς"><marker>Καλός</marker> ορίσατε στην ιστοσελίδα μας!</example>
             <example>Καλώς ορίσατε στην ιστοσελίδα μας!</example>
@@ -428,7 +544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>κι</token>
                 </marker>
             </pattern>
-            <message>Το κι πρέπει να αποφεύγεται σε επιστημονικά κείμενα και στον επίσημο λόγο. Χρησιμοποιήστε «<suggestion>και</suggestion>».</message>
+            <message>Το κι πρέπει να αποφεύγεται σε επιστημονικά κείμενα και στον επίσημο λόγο. Χρησιμοποιήστε <suggestion>και</suggestion>.</message>
             <short>Υφολογικό λάθος</short>
             <example correction="και">Για το σκοπό αυτό αποφασίστηκε η δημιουργία <marker>κι</marker> ενός μπουκαλιού με χαρακτηριστικό σχήμα.</example>
             <example>Για το σκοπό αυτό αποφασίστηκε η δημιουργία και ενός μπουκαλιού με χαρακτηριστικό σχήμα.</example>
@@ -442,7 +558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>άγνοια</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>αγνοία</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>αγνοία</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="αγνοία">Έκδοση πιστωτικής κάρτας εν <marker>άγνοια</marker> του ενδιαφερόμενου.</example>
             <example>Τις επόμενες μέρες θα ξέρουμε αν όλα αυτά έγιναν εν αγνοία του δημάρχου!</example>
@@ -454,7 +570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>βρασμό</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>βρασμώ</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>βρασμώ</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="βρασμώ">Δεν συνηθίζω να γράφω εν <marker>βρασμό</marker> ψυχής αλλά έλεος.</example>
             <example>Αυτή η οδυνηρή πραγματικότητα οδήγησε τον μέσο πολίτη να ψηφίσει εν βρασμώ ψυχής.</example>
@@ -466,7 +582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>γένη</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>γένει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>γένει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="γένει">Είναι εμφανές ότι η ραγδαία αύξηση συμπίπτει με τη βιομηχανική επανάσταση και την εν <marker>γένη</marker> τεχνολογική πρόοδο του ανθρώπινου είδους.</example>
             <example>Ο φόρος συγκέντρωσης κεφαλαίων των εταιρειών εν γένει.</example>
@@ -478,7 +594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>γνώση</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>γνώσει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>γνώσει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="γνώσει">Η αστυνομική διεύθυνση εν <marker>γνώση</marker> της περιόρισε τη φύλαξη έξω από τα εκδοτήρια.</example>
             <example>Ραδιενεργή ουσία στα τσιγάρα εν γνώσει των καπνοβιομηχανιών.</example>
@@ -490,7 +606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">διαστάση|διάσταση</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>διαστάσει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>διαστάσει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="διαστάσει">ο εν <marker>διαστάση</marker> σύζυγος μου συνεχίζει και παίρνει το μερος των δικών του.</example>
             <example correction="διαστάσει">Πυροβόλησε και σκότωσε την εν <marker>διάσταση</marker> σύζυγο.</example>
@@ -503,7 +619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>θερμό</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>θερμώ</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>θερμώ</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="θερμώ">Κατασκευασμένο από γαλβανισμένο εν <marker>θερμό</marker> χάλυβα.</example>
             <example>Στο γαλβάνισμα η επίστρωση γίνεται εν θερμώ μέσα σε δεξαμενή.</example>
@@ -515,7 +631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">κίνηση|κινήση</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>κινήσει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>κινήσει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="κινήσει">Εάν παραμένεις συνέχεια εν <marker>κίνηση</marker> διάλεξε παπούτσια με την επίπεδη σόλα.</example>
             <example correction="κινήσει">Ενημερώστε τους πελάτες εν <marker>κινήση</marker>!</example>
@@ -528,7 +644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>λευκό</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>λευκώ</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>λευκώ</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="λευκώ">Ξεχνά η κυβέρνηση ότι παραδίδει εν <marker>λευκό</marker> στους ιδιώτες την περιουσία του ελληνικού λαού!</example>
             <example>Τον άφησα να χειριστεί την υπόθεση εν λευκώ.</example>
@@ -540,7 +656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>λόγο</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>λόγω</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>λόγω</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="λόγω">Διαβάστε το εν <marker>λόγο</marker> κείμενο πιο κάτω.</example>
             <example>Οι εν λόγω οδηγίες συμβάλλουν στην ανάπτυξη και διατήρηση της δημιουργικότητας.</example>
@@ -552,7 +668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>μέρη</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>μέρει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>μέρει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="μέρει">Με εν <marker>μέρη</marker> ξάστερο ουρανό αναμένεται η βραδιά.</example>
             <example>Τα αίτια της ψυχοπάθειας είναι εν μέρει γενετικά και εν μέρει περιβαλλοντικά.</example>
@@ -564,7 +680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>όψη</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>όψει</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>όψει</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="όψει">Αυξημένα τα μέτρα της Τροχαίας εν <marker>όψη</marker> του τριημέρου.</example>
             <example>Εν όψει των εκλογών απαγορεύονται οι δημοσκοπήσεις.</example>
@@ -576,7 +692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ψυχρό</token>
                 </marker>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>ψυχρώ</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>ψυχρώ</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="ψυχρώ">Βίντεο ντοκουμέντο από την εν <marker>ψυχρό</marker> δολοφονία.</example>
             <example>Νέα στοιχεία για την εν ψυχρώ εκτέλεση.</example>
@@ -589,10 +705,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token>μεταξύ</token>
             </pattern>
-            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο «<suggestion>τω</suggestion>».</message>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>τω</suggestion>.</message>
             <short>Συντακτικό λάθος</short>
             <example correction="τω">Εν <marker>το</marker> μεταξύ ανάμεσα στο πλήθος υπήρχε και μια γριούλα.</example>
             <example>Εν τω μεταξύ στη Σομαλία έγινε μια ακόμα τρομοκρατική επίθεση η οποία στοίχησε τη ζωή σε πάνω από 300 άτομα.</example>
+        </rule>
+        <rule id="GREEK_DATIVE_14" name="εν τη">
+            <pattern>
+                <token>εν</token>
+                <marker>
+                    <token>την</token>
+                </marker>
+            </pattern>
+            <message>Η λόγια πρόθεση «εν» συντάσσεται με δοτική. Χρησιμοποιήστε τον τύπο <suggestion>τη</suggestion>.</message>
+            <short>Συντακτικό λάθος</short>
+            <example correction="τη">Εν <marker>την</marker> ρύμη του λόγου η φράση για την αριστεία.</example>
+            <example>Εν τη ρύμη του λόγου η φράση για την αριστεία.</example>
         </rule>
     </category>
 </rules>

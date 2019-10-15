@@ -56,6 +56,7 @@ public class XMLRuleHandler extends DefaultHandler {
   /** Definitions of values in XML files. */
   protected static final String YES = "yes";
   protected static final String OFF = "off";
+  protected static final String TEMP_OFF = "temp_off";
   protected static final String ON = "on";
   protected static final String POSTAG = "postag";
   protected static final String CHUNKTAG = "chunk";
@@ -276,7 +277,7 @@ public class XMLRuleHandler extends DefaultHandler {
         for (PatternToken pToken : curPhrTokens) {
           pToken.setPhraseName(phraseIdRef);
         }
-        List<PatternToken> copy = (List<PatternToken>) ObjectUtils.clone(curPhrTokens);
+        List<PatternToken> copy = ObjectUtils.clone(curPhrTokens);
         for (PatternToken patternToken : copy) {
           patternToken.setInsideMarker(inMarker);
         }

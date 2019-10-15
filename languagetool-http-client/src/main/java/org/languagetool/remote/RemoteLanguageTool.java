@@ -39,6 +39,7 @@ import java.util.Objects;
 public class RemoteLanguageTool {
 
   private static final String V2_CHECK = "/v2/check";
+  private static final String V2_MAXTEXTLENGTH = "/v2/maxtextlength";
   
   private final ObjectMapper mapper = new ObjectMapper();
   private final URL serverBaseUrl;
@@ -89,6 +90,12 @@ public class RemoteLanguageTool {
     if (config.getDisabledRuleIds().size() > 0) {
       append(params, "disabledRules", String.join(",", config.getDisabledRuleIds()));
     }
+    if (config.getMode() != null) {
+      append(params, "mode", config.getMode());
+    }
+    if (config.getRuleValues().size() > 0) {
+      append(params, "ruleValues", String.join(",", config.getRuleValues()));
+    }
     append(params, "useragent", "java-http-client");
     return params.toString();
   }
@@ -121,6 +128,40 @@ public class RemoteLanguageTool {
       if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (InputStream inputStream = conn.getInputStream()) {
           return parseJson(inputStream);
+        }
+      } else {
+        try (InputStream inputStream = conn.getErrorStream()) {
+          String error = readStream(inputStream, "utf-8");
+          throw new RuntimeException("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
+        }
+      }
+    } catch (ConnectException e) {
+      throw new RuntimeException("Could not connect to server at " + serverBaseUrl, e);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      conn.disconnect();
+    }
+  }
+
+  public int getMaxTextLength() {
+    byte[] postData = { 0 };
+    URL checkUrl;
+    try {
+      checkUrl = new URL(serverBaseUrl + V2_MAXTEXTLENGTH);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+    HttpURLConnection conn = getConnection(postData, checkUrl);
+    try {
+      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+        try (InputStream inputStream = conn.getInputStream()) {
+          StringBuilder sb = new StringBuilder();
+          try (InputStreamReader isr = new InputStreamReader(inputStream, "utf-8");
+               BufferedReader br = new BufferedReader(isr)) {
+            String line = br.readLine();
+            return Integer.parseInt(line);
+          }
         }
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
@@ -196,7 +237,7 @@ public class RemoteLanguageTool {
     
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
-    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
+    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(rule, "description"), getRequiredString(match, "message"),
             getRequiredString(context, "text"), contextOffset, offset, errorLength);
     remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
     remoteMatch.setRuleSubId(getOrNull(rule, "subId"));

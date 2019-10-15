@@ -196,17 +196,17 @@ public class IndexerSearcherTest extends LuceneTestCase {
     English language = new English();
     SearcherResult searcherResult =
         errorSearcher.findRuleMatchesOnIndex(getFirstRule("BACK_AND_FOURTH", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_BROW", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("ALL_OVER_THE_WORD", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(0, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(0, searcherResult.getMatchingSentences().size());
 

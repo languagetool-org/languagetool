@@ -62,6 +62,11 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Kannst mich gerne anrufen" (ugs.)
+      new PatternTokenBuilder().pos("VER:MOD:2:SIN:PRÄ").build(),
+      new PatternTokenBuilder().posRegex("PRO:PER:.*").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().tokenRegex("die|welche").build(),
       new PatternTokenBuilder().tokenRegex(".*").build(),
       new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
@@ -72,6 +77,10 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("wenn").build(),
       new PatternTokenBuilder().token("du").build(),
       new PatternTokenBuilder().token("anstelle").build()
+    ),
+    Arrays.asList( // "Ok bin ab morgen bei euch." (umgangssprachlich, benötigt eigene Regel)
+      new PatternTokenBuilder().tokenRegex("ok|okay|ja|nein|vielleiecht|oh").build(),
+      new PatternTokenBuilder().tokenRegex("bin|sind").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("das").build(),
@@ -89,6 +98,14 @@ public class VerbAgreementRule extends TextLevelRule {
     Arrays.asList(
       new PatternTokenBuilder().csToken("Solltest").build(),
       new PatternTokenBuilder().token("du").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Müsstest").build(), // Müsstest dir das mal genauer anschauen.
+      new PatternTokenBuilder().token("dir").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Könntest").build(), // Könntest dir mal eine Scheibe davon abschneiden!
+      new PatternTokenBuilder().token("dir").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().csToken("Sollte").build(),
@@ -224,7 +241,7 @@ public class VerbAgreementRule extends TextLevelRule {
   
   @Override
   public String getDescription() {
-    return "Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Pers. od. m. Personalpronomen), z.B. 'Er bist (ist)'";
+    return "Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person oder m. Personalpronomen), z.B. 'Er bist (ist)'";
   }
   
   @Override
@@ -340,8 +357,8 @@ public class VerbAgreementRule extends TextLevelRule {
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
-               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() == 0) // ignore "lyrisches Ich" etc.
-               && !isQuotationMark(tokens[posIch-1])) {
+               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1) // ignore "lyrisches Ich" etc.
+               && (!isQuotationMark(tokens[posIch-1])  || posIch < 3 || (posIch > 1 && tokens[posIch-2].getToken().equals(":")))) {
       int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {
@@ -351,7 +368,8 @@ public class VerbAgreementRule extends TextLevelRule {
     
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
-    } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && (!isQuotationMark(tokens[posDu-1]) || posDu < 3 || (posDu > 1 && tokens[posDu-2].getToken().equals(":")))) {
+    } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu)
+               &&(!isQuotationMark(tokens[posDu-1]) || posDu < 3 || (posDu > 1 && tokens[posDu-2].getToken().equals(":")))) {
       int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posDu - 1], tokens[posDu + plus1], "2", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber &&
@@ -363,7 +381,8 @@ public class VerbAgreementRule extends TextLevelRule {
       }
     }
     
-    if (posEr > 0 && !isNear(posPossibleVer3Sin, posEr) && !isQuotationMark(tokens[posEr-1])) {
+    if (posEr > 0 && !isNear(posPossibleVer3Sin, posEr)
+        && (!isQuotationMark(tokens[posEr-1])  || posEr < 3 || (posEr > 1 && tokens[posEr-2].getToken().equals(":")))) {
       int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posEr - 1], tokens[posEr + plus1], "3", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber 
@@ -414,7 +433,7 @@ public class VerbAgreementRule extends TextLevelRule {
   private boolean hasUnambiguouslyPersonAndNumber(AnalyzedTokenReadings tokenReadings, String person, String number) {
     if (tokenReadings.getToken().length() == 0
         || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && tokenReadings.getStartPos() != 0)
-        || !tokenReadings.hasPartialPosTag("VER")) {
+        || !tokenReadings.hasPosTagStartingWith("VER")) {
       return false;
     }
     for (AnalyzedToken analyzedToken : tokenReadings) {
@@ -435,7 +454,7 @@ public class VerbAgreementRule extends TextLevelRule {
   private boolean isFiniteVerb(AnalyzedTokenReadings token) {
     if (token.getToken().length() == 0
         || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
-        || !token.hasPartialPosTag("VER")
+        || !token.hasPosTagStartingWith("VER")
         || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
         || "einst".equals(token.getToken())) {
       return false;
@@ -591,5 +610,10 @@ public class VerbAgreementRule extends TextLevelRule {
       this.verbDoesMatchPersonAndNumber = verbDoesMatchPersonAndNumber;
       this.finiteVerb = finiteVerb;
     }
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 0;
   }
 }
