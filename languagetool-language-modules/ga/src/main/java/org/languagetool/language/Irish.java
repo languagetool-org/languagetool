@@ -101,7 +101,7 @@ public class Irish extends Language {
 	    new LogainmRule(messages),
 	    new PeopleRule(messages),
 	    new SpacesRule(messages),
-	    new CompoundRule(messages),
+	    new CompoundRule(messages)
     );
   }
 
