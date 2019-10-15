@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
  */
 public class LogainmRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ga/placenames.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ga/placenames.txt");
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override

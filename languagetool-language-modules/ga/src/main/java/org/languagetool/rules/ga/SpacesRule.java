@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  */
 public class SpacesRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ga/spaces.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ga/spaces.txt");
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override

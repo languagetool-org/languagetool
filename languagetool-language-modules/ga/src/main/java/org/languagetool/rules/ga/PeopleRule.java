@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  */
 public class PeopleRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ga/names.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ga/names.txt");
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override
