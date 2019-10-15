@@ -29,6 +29,7 @@ USA
 -->
 
 <!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
@@ -289,12 +290,12 @@ USA
           <rule>
             <antipattern>
               <token regexp="yes">\p{Lu}+</token>
-              <token regexp="yes">['’]</token>
+              <token regexp="yes">&apostrophe;</token>
               <token case_sensitive="yes">RE</token>
             </antipattern>
             <pattern>
               <token regexp="yes">you|we|they|who</token>
-              <token regexp="yes">['’]</token>
+              <token regexp="yes">&apostrophe;</token>
               <token case_sensitive="yes" regexp="yes">Re|RE</token>
             </pattern>
             <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
@@ -309,7 +310,7 @@ USA
             <pattern>
               <marker>
                 <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn|haven<exception regexp="yes">\p{Lu}+</exception></token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token case_sensitive="yes">T</token>
               </marker>
             </pattern>
@@ -323,7 +324,7 @@ USA
             <pattern case_sensitive="yes">
               <marker>
                 <token postag_regexp="yes" postag="PRP|NN(:UN?)?|WP|WDT"><exception regexp="yes">\p{Lu}+</exception></token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>S</token>
               </marker>
             </pattern>
@@ -425,7 +426,7 @@ USA
                 <pattern>
                     <token>the</token>
                     <marker><token case_sensitive="yes">word</token></marker>
-                    <token regexp="yes">['’`´‘]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token case_sensitive="yes">s</token>
                     <token postag="JJS"><exception>truest</exception></token>
                     <token postag="NN.*" postag_regexp="yes"></token>
@@ -473,7 +474,7 @@ USA
             <pattern>
                 <token/>
                 <token>n</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">t</token>
             </pattern>
             <message>Please check whether the space between '\1' and '\2\3\4' is correct.</message>
@@ -486,10 +487,10 @@ USA
           <rule>
 <!-- Cannot use antipattern with regexp            <antipattern>
               <token>hell</token>
-              <token spacebefore="no" regexp="yes">['’]</token>
+              <token spacebefore="no" regexp="yes">&apostrophe;</token>
               <token spacebefore="no">s</token>
             </antipattern>-->
-            <regexp>\b((a[im]|are|ca|could|dares?|das|did|do(es)?|has|have|is|ought|sha|should|was|wo)(['’]n?t|n['’][^t])|(?:I|you|s?he|it|we|they)([ds]['’]|l['’]l|l?l['’]|v['’]e|ve['’])|(oc['’]lock))\b</regexp>
+            <regexp>\b((a[im]|are|ca|could|dares?|das|did|do(es)?|has|have|is|ought|sha|should|was|wo)(&apostrophe;n?t|n&apostrophe;[^t])|(?:I|you|s?he|it|we|they)([ds]&apostrophe;|l&apostrophe;l|l?l&apostrophe;|v&apostrophe;e|ve&apostrophe;)|(oc&apostrophe;lock))\b</regexp>
             <message>This contraction is incorrect. Please, check the apostrophe position.</message>
             <example type='incorrect'>...it <marker>did'nt</marker> work.</example>
             <example>... it didn't work.</example>
@@ -501,7 +502,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">I|you|s?he|it|we|they</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>l</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1\2ll</suggestion>?</message>
@@ -510,7 +511,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">you|we|they</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token regexp="yes">r|er</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
@@ -519,7 +520,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">I|you|we|they</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token regexp="yes">v</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1\2ve</suggestion>?</message>
@@ -547,7 +548,7 @@ USA
             <!-- hunspell gets this right, but LT works a bit differently, so we need a rule -->
             <pattern>
                 <token>wan</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token regexp="yes">t|ted</token>
             </pattern>
             <message>Did you mean <suggestion>\1\3</suggestion>?</message>
@@ -576,7 +577,7 @@ USA
             <pattern>
                 <marker>
                     <token>lot</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </marker>
                 <token>of</token>
@@ -705,7 +706,7 @@ USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker><token>How</token></marker>
-                    <token min="0" regexp="yes">['´`]</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
                     <token regexp="yes">i?s</token>
                     <token skip="3"/>
                     <token>like</token>
@@ -884,7 +885,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">['´`]</exception></token>
+                    <token><exception regexp="yes">&apostrophe;</exception></token>
                     <token inflected="yes">be</token>
                     <token postag="PRP"/>
                     <marker><token>been</token></marker>
@@ -1488,7 +1489,7 @@ USA
         <rulegroup id="I_LOWERCASE" name="i vs. I">
             <antipattern case_sensitive="yes">
                 <token>Baha</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">i</token>
             </antipattern>
             <rule>
@@ -1529,7 +1530,7 @@ USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>i</token>
-                    <token spacebefore="no" regexp="yes">['´’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no" regexp="yes">[md]|ll|ve</token>
                 </pattern>
                 <message>Did you mean <suggestion>I\2\3</suggestion>?</message>
@@ -1555,7 +1556,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">wasn?|a?m|didn?|haven?</token>
-                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">t</token>
                     <marker>
                         <token case_sensitive="yes">i</token>
@@ -1695,7 +1696,7 @@ USA
             <rule>
                 <pattern>
                     <token>human</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="NNS"/>
                 </pattern>
@@ -1839,7 +1840,7 @@ USA
         <rule id="YOUR_S" name="your's (yours)" type="typographical">
             <pattern>
                 <token regexp="yes">your|hers?|our|their</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </pattern>
             <message>Did you mean <suggestion>\1</suggestion> or <suggestion>\1\3</suggestion>?</message>
@@ -1848,10 +1849,10 @@ USA
         </rule>
         <rule id="YOURS_APOSTROPHE" name="Possessive pronoun with apostrophe" type="typographical">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">['’]</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">&apostrophe;</exception></token>
                 <marker>
                     <token postag="PRP$" regexp="yes">.*s</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
             </pattern>
             <message>An apostrophe is never used to form possessive case pronouns. Did you mean: <suggestion>\2</suggestion>?</message>
@@ -1863,7 +1864,7 @@ USA
             <pattern>
                 <token postag="CD"><exception regexp="yes">one|1</exception></token>
                 <token regexp="yes">week|month|hour</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
             </pattern>
@@ -2022,7 +2023,7 @@ USA
             <rule>
                 <pattern>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <marker>
                         <token>no</token>
@@ -2424,7 +2425,7 @@ USA
         <rule id="NUT_NOT" name="nut (not)">
             <antipattern>
                 <token postag="NN.*" postag_regexp="yes"/>
-                <token regexp="yes">['´`]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>nut</token>
             </antipattern>
@@ -2792,7 +2793,7 @@ USA
             <url>https://english.stackexchange.com/questions/3392/lets-vs-lets-which-is-correct</url>
             <antipattern>
                 <token>let</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>for</token>
                 <token>a</token>
@@ -2829,7 +2830,7 @@ USA
                 <pattern>
                     <marker>
                         <token>let</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token><exception postag="VB|RB?" postag_regexp="yes"/><exception regexp="yes">all|first|just</exception></token>
@@ -2849,7 +2850,7 @@ USA
                 <pattern>
                     <marker>
                         <token>let</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token>all</token>
@@ -2869,7 +2870,7 @@ USA
                     <token>all<exception scope="previous">after</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token chunk="B-NP-plural"><exception regexp="yes">all|the|an?|just</exception></token>
@@ -2885,7 +2886,7 @@ USA
                     <token regexp="yes">along(side)?|amid(st)?|among(st)?</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token chunk="B-NP-plural"/>
@@ -2901,7 +2902,7 @@ USA
                     <token>all<exception scope="previous">after</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token chunk="B-NP-singular"><exception regexp="yes">all|the|an?|just</exception></token>
@@ -2922,7 +2923,7 @@ USA
                     <token regexp="yes">along(side)?|amid(st)?|among(st)?|during|despite|is</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token chunk="B-NP-singular"/>
@@ -2939,7 +2940,7 @@ USA
                     <token>to</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -2994,7 +2995,7 @@ USA
                     <token>on</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token>way</token>
@@ -3092,7 +3093,7 @@ USA
                     <token regexp="yes">o[nf]</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token>own</token>
@@ -3108,7 +3109,7 @@ USA
                     <token postag="VB.*" postag_regexp="yes"><exception postag="VB[GZ]" postag_regexp="yes"/><exception inflected="yes" regexp="yes">know|say|think|ok|believe|guess|see</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="NN(S|(:UN?))?" postag_regexp="yes">
@@ -3136,7 +3137,7 @@ USA
                     <token>as</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -3152,7 +3153,7 @@ USA
                     <token>all</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -3166,7 +3167,7 @@ USA
                 <pattern>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token regexp="yes">approach|idea|own</token>
@@ -3182,7 +3183,7 @@ USA
                     <token>at</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token>best</token>
@@ -3197,7 +3198,7 @@ USA
                     <token>of</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="NNS"/>
@@ -3211,7 +3212,7 @@ USA
                     <token regexp="yes">[Bb]y</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -3237,7 +3238,7 @@ USA
                     <token regexp="yes">in|with(out)?|from|under|over|above|be(neath|sides?|yond|tween|low|hind)</token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="JJ.*|NN.*" postag_regexp="yes"/>
@@ -3300,7 +3301,7 @@ USA
                     <token postag="VBG"><exception regexp="yes">saying|hoping|assuming|feeling|realizing|considering|guessing|pretending|thinking|knowing|denying|claiming|ranting|reali[sz]ing|praying|suggesting|meaning|wondering</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token><exception postag_regexp="yes" postag="VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"/><exception regexp="yes">not|going|gonna|ok(ay)?|just</exception></token>
@@ -3317,7 +3318,7 @@ USA
                     <token postag="IN" min="0"><exception postag="VB.*" postag_regexp="yes"/><exception>like</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag_regexp="yes" postag="NN.*|JJ.?"><exception regexp="yes">ok(ay)?</exception></token>
@@ -3347,7 +3348,7 @@ USA
                     <token postag="VBN"/>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="JJ|VBG" postag_regexp="yes" min="0"/>
@@ -3360,19 +3361,19 @@ USA
                 <antipattern>
                     <token postag="VB"/>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['´]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="NN.*" postag_regexp="yes"/>
-                    <token regexp="yes">to|who|which|that|['´]</token>
+                    <token regexp="yes">to|who|which|that|&apostrophe;</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">can|couldn|didn?|do(es)?n|mustn?|needn?|oughtn?|shan|shouldn?|won|wouldn?|to</token>
-                    <token regexp="yes" min="0">['´]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0" regexp="yes">(no)?t</token>
                     <token postag="VB"><exception regexp="yes">believe|think|say|admit</exception></token>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['´]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="JJ|VBG" postag_regexp="yes" min="0"/>
@@ -3409,7 +3410,7 @@ USA
             <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
                 <pattern>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
                     <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
@@ -3422,7 +3423,7 @@ USA
                 <pattern>
                     <token>for</token>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="JJ|NNS?|NN:UN?" postag_regexp="yes"><exception postag="JJ|NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
@@ -3434,7 +3435,7 @@ USA
                 <antipattern>
                     <token>for</token>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token/>
                     <token>that</token>
@@ -3442,7 +3443,7 @@ USA
                 <pattern>
                     <token regexp="yes">be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without</token>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="JJ|NNS?|NN:UN?" postag_regexp="yes"><exception postag="JJ|NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
@@ -3455,7 +3456,7 @@ USA
                     <token>to</token>
                     <token postag="VB"/>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="NNS?|NN:UN?" postag_regexp="yes"><exception postag="NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
@@ -3474,14 +3475,14 @@ USA
             <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
                 <antipattern case_sensitive="yes">
                     <token>It</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token>bad</token>
                     <token>manners</token>
                 </antipattern>
                 <pattern>
                     <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="JJ"><exception postag="JJ" negate_pos="yes"/></token>
                     <token postag="NNS?|NN:UN?" postag_regexp="yes"><exception postag="NNS?|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
@@ -3503,7 +3504,7 @@ USA
                     <token postag="SENT_START"/>
                     <marker>
                         <token>It</token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token/>
@@ -3517,7 +3518,7 @@ USA
                     <token postag="IN"/>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token regexp="yes">\d+th</token>
@@ -3574,7 +3575,7 @@ USA
         <rule id="WRONG_GENITIVE_APOSTROPHE" name="wrong genitive (e.g., 'employees's' instead of 'employee's')">
             <pattern case_sensitive="yes">
                 <token postag="NNS" regexp="yes">[a-z]+s<exception postag="NNP"/></token>
-                <token regexp="yes">['´]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1" regexp_match="s$" regexp_replace=""/>\2s</suggestion> or <suggestion>\1\2</suggestion>?</message>
@@ -3647,7 +3648,7 @@ USA
                     <token postag="IN"/>
                     <marker>
                         <token>who</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -3663,7 +3664,7 @@ USA
                     <token regexp="yes">those|many|some</token>
                     <marker>
                         <token>who</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                 </pattern>
@@ -3678,7 +3679,7 @@ USA
                     <token postag_regexp="yes" postag="NN.*"/>
                     <marker>
                         <token>who</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag_regexp="yes" postag="NN.*"/>
@@ -3692,7 +3693,7 @@ USA
             <rule id="WHOS_NN" name="whos NN (possessive)">
                 <pattern>
                     <token>who</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
@@ -3715,7 +3716,7 @@ USA
                 <pattern>
                     <marker>
                         <token>who</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token regexp="yes">actual|name|previous</token>
@@ -4068,7 +4069,7 @@ USA
                     <token regexp="yes">a|one</token>
                     <marker>
                         <token>days</token>
-                        <token regexp="yes">['´]</token>
+                        <token regexp="yes">&apostrophe;</token>
                     </marker>
                     <token>leave</token>
                 </pattern>
@@ -4086,7 +4087,7 @@ USA
                     <token><exception postag="DT|JJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="NN(:UN)?" postag_regexp="yes"><exception postag="VB"/></token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="VB[DP]" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception>got</exception></token>
@@ -4103,7 +4104,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag="NNP?|NN:.*" postag_regexp="yes"><exception postag="RB"/></token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token postag="WRB"/>
@@ -4123,7 +4124,7 @@ USA
                         <exception>let</exception>
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
                 </pattern>
                 <message>Do not use 's with a verb. Did you mean <suggestion>\1\3</suggestion>?</message>
@@ -4150,7 +4151,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token postag="VB">get</token><!-- The noun 'get' is not archaic. Refer to noun (2): https://www.merriam-webster.com/dictionary/get -->
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s<exception scope="next">are</exception><exception scope="next" postag="VBN"/></token>
                 </pattern>
                 <message>Do not use 's with a verb. Did you mean <suggestion>\1\3</suggestion>?</message>
@@ -4369,7 +4370,7 @@ USA
         <rule id="HASNT_IRREGULAR_VERB" name="'hasn't' + irregular past tense verb">
             <pattern>
                 <token regexp="yes">hasn|weren|hadn|haven</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>t</token>
                 <token regexp="yes">ab[iod]e|alight|ar[io]se|ate|aw[ao]ke|be(ar|came)?|bef[ae]ll|beg(an|et|in|ot)|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choo?se|clap|cling|clothe|creep|dare|daydream|deal|di[dg]|disprove|dive|do|dove|drank|draw|dream|drew|drink|dr[io]ve|dwell|eat|f[ae]ll|feed|feel|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|go|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|stro[dv]e|sunburn|swam|swear|sweep|swell(ed)?|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unb[ei]nd|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|wind?|withdr[ae]w|withhold|withstand|wo[krv]e|wring|write|wrote</token>
             </pattern>
@@ -4381,7 +4382,7 @@ USA
         <rule id="COULDVE_IRREGULAR_VERB" name="'Could've' + irregular past tense verb">
             <pattern>
                 <token regexp="yes">could|would|should|you|i|we|they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>ve</token>
                 <token regexp="yes">ab[io]de|alight|ar[io]se|ate|aw[ao]ke|be(ar)?|became|bef[ae]ll|beg[ai]n|beg[eo]t|behold|bend|beseech|betake|bethink|betook|bind|bite?|bleed|bl[eo]w|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choo?se|clap|cling|clothe|creep|dare|daydream|deal|di[dg]|disprove|dive|do(ve)?|drank|draw|dream|drew|drink|dr[io]ve|dwell|eat|f[ae]ll|fee[dl]|fight|find|fle[ew]|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forg[eo]t|forgive|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|g[ai]ve|get|gild|gr[eo]w|grind|hang|have|hear|heave|hew|hewed|hide?|hold|inbreed|inlay|keep|kneel|kn[eo]w|lade|landslide|lay|lea[dnp]|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|strode|strove|sunburn|swam|swear|sweep|swell|swelled|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unbend|unbind|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|win|wind|withdraw|withdrew|withhold|withstand|woke|wore|wove|wring|write|wrote</token>
             </pattern>
@@ -5818,7 +5819,7 @@ USA
             <pattern>
                 <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
                 <token>you</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> your</suggestion>?</message>
@@ -5828,10 +5829,10 @@ USA
         <rule id="THATS_YOURE" name="that's you're (your)">
             <pattern>
                 <token regexp="yes">that|it|who|s?he|there</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>you</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> your</suggestion>?</message>
@@ -5841,10 +5842,10 @@ USA
         <rule id="THATS_THEYRE" name="that's they're (their)">
             <pattern>
                 <token regexp="yes">that|it|who|s?he|there</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> their</suggestion>?</message>
@@ -5855,10 +5856,10 @@ USA
         <rule id="THATS_ITS" name="that's its (possessive)">
             <pattern>
                 <token regexp="yes">that|it|who|s?he|there</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> its</suggestion>?</message>
@@ -5971,7 +5972,7 @@ USA
         <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
             <pattern>
                 <token>you</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
                 <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
@@ -5983,7 +5984,7 @@ USA
         <rule id="THEYRE_JJS_NN" name="they're (their) JJS NN">
             <pattern>
                 <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="JJS"><exception postag="JJS" negate_pos="yes"/></token>
                 <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
@@ -6009,7 +6010,7 @@ USA
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
                 <token postag="IN|DT" postag_regexp="yes"><exception postag="IN|DT" postag_regexp="yes" negate_pos="yes"/></token>
                 <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
             </pattern>
@@ -6022,7 +6023,7 @@ USA
                 <token postag="IN"><exception postag="IN" negate_pos="yes"/></token>
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
                 <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
             </pattern>
@@ -6035,7 +6036,7 @@ USA
                 <token postag="DT"><exception postag="DT" negate_pos="yes"/></token>
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
                 <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="NN[PS]?|NN:UN?" postag_regexp="yes"><exception postag="NNP|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"/></token>
             </pattern>
@@ -6363,7 +6364,7 @@ USA
         <rule id="COULDNT_CARELESS" name="couldn't careless (care less)">
             <pattern>
                 <token>couldn</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">t</token>
                 <marker>
                     <token>careless</token>
@@ -7061,7 +7062,7 @@ USA
         <rule id="YOULL_WILL" name="youll will (you will)">
             <pattern>
                 <token regexp="yes">you|I|we|they|she|he</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>ll</token>
                 <token>will</token>
             </pattern>
@@ -7073,7 +7074,7 @@ USA
         <rule id="ITS_IS" name="its is (it is)">
             <pattern>
                 <token regexp="yes">what|it|who|she|he|there|that|w?here</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token regexp="yes">is|was</token>
             </pattern>
@@ -7085,7 +7086,7 @@ USA
         <rule id="WERE_ARE" name="were are (we are)">
             <pattern>
                 <token regexp="yes">we|they|who|you</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token>are</token>
             </pattern>
@@ -7097,7 +7098,7 @@ USA
         <rule id="IM_AM" name="Im am (I am)">
             <pattern>
                 <token>I</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>m</token>
                 <token>am</token>
             </pattern>
@@ -7109,7 +7110,7 @@ USA
         <rule id="IVE_HAVE" name="Ive have (I have)">
             <pattern>
                 <token regexp="yes">I|you|we|they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>ve</token>
                 <token>have</token>
             </pattern>
@@ -7120,7 +7121,7 @@ USA
         <rule id="ID_WOULD" name="Id would (I would)">
             <pattern>
                 <token regexp="yes">I|s?he|you|we|they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>d</token>
                 <token>would</token>
             </pattern>
@@ -7548,7 +7549,7 @@ USA
                 <pattern case_sensitive="yes">
                     <marker><token regexp="yes">too?</token></marker>
                     <token>o</token>
-                    <token regexp="yes">['´]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                 </pattern>
                 <message>Did you mean <suggestion>two</suggestion>?</message>
@@ -7560,7 +7561,7 @@ USA
             <antipattern>
                 <token>too</token>
                 <token spacebefore="yes" regexp="yes">(:?[1-2]\d)?\d0<exception>1000</exception></token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <pattern>
@@ -7671,7 +7672,7 @@ USA
         <rule id="AU" name="au [astonomical unit] (Au=gold)">
             <antipattern case_sensitive="yes"><!-- both 'artiste' and 'travail' are English words. Thus, this AP is necessary. -->
                 <token>l</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">artiste</token>
                 <token>au</token>
             </antipattern>
@@ -7704,7 +7705,7 @@ USA
         <rule id="IT_S_EVENT_JJ" name="it's event (even) possible">
             <pattern>
                 <token>it</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <marker>
                     <token>event</token>
@@ -8245,7 +8246,7 @@ USA
                     <token>of</token>
                     <token postag="NN.*" postag_regexp="yes"><exception postag="PRP\$|NNP" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception regexp="yes">['´`]</exception></token>
+                <token><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Consider using <suggestion>\1 <match no="3" regexp_match="^sudden$" regexp_replace="of a sudden"/></suggestion> or <suggestion>\1 of the \3</suggestion>.</message>
             <url>http://www.myhappyenglish.com/free-english-lesson/2013/05/22/english-grammar-lesson-all-some-most-vs-all-of-some-of-most-of/</url>
@@ -8278,7 +8279,7 @@ USA
             <pattern>
                 <token>who</token>
                 <token postag="VB.*|NN.*" postag_regexp="yes"><exception postag="NNP"/></token>
-                <token regexp='yes'>['´]</token>
+                <token regexp='yes'>&apostrophe;</token>
                 <token>s</token>
             </pattern>
             <message>Did you mean <suggestion>\1 \2s</suggestion>?</message>
@@ -8605,7 +8606,7 @@ USA
                     <token>this</token>
                     <token regexp='yes'>&weekdays;|&abbrevWeekdays;|&months;|&abbrevMonths;</token> 
                     <token>let</token>
-                    <token spacebefore='no' regexp='yes'>['´]</token>
+                    <token spacebefore='no' regexp='yes'>&apostrophe;</token>
                     <token spacebefore='no'>s</token>
                 </antipattern>
                 <antipattern><!--  living costs this month are -->
@@ -9099,7 +9100,7 @@ USA
         <rulegroup id="TOO_EITHER" name="'too' in negation (either)">
             <rule>
                 <pattern>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token min="0">,</token>
                     <marker>
@@ -9125,7 +9126,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token postag="VB"></token>
                     <token postag="NNS"></token>
@@ -9155,7 +9156,7 @@ USA
             <pattern>
                 <token regexp='yes'>[cw]ould|should|you|i|we|they</token>
                 <marker>
-                    <token spacebefore="no" regexp="yes">['`]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <token>having</token>
                 </marker>
@@ -9313,7 +9314,7 @@ USA
             <rule>
                 <pattern>
                     <token>needn</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
                         <token>to</token>
@@ -9338,7 +9339,7 @@ USA
             <rule>
                 <pattern>
                     <token>don</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>need</token>
                     <marker>
@@ -9425,7 +9426,7 @@ USA
                     </marker>
                     <token postag="CD"/>
                     <token>o</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                 </pattern>
                 <message>Did you mean <suggestion>at</suggestion>?</message>
@@ -9691,7 +9692,7 @@ USA
             <antipattern><!-- "Let's start with the do's" (already caught by VERB_APOSTROPHE_S) -->
                 <token>the</token>
                 <token>do</token>
-                <token regexp="yes">['´]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <antipattern><!-- the merge process/es to be/become -->
@@ -9923,7 +9924,7 @@ USA
                     <marker>
                         <token>the</token>
                         <token case_sensitive="yes" regexp="yes">don|didn</token>
-                        <token regexp="yes">['´]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                     </marker>
                     <token postag="VB|VBP" postag_regexp="yes" />
@@ -9955,7 +9956,7 @@ USA
         <rule id="AN_ALSO" name="an also (and also)">
             <antipattern>
                 <token>Qur</token>
-                <token regexp="yes">['´’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>an</token>
             </antipattern>
             <pattern>
@@ -9996,7 +9997,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">can|[cw]ouldn|shouldn|didn|won|[hw]asn|weren|haven</token>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
                         <token>high</token>
@@ -10095,7 +10096,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">to|isn?|weren?|been|haven?|[wh]asn?|I|you|he|she|it|they|[cw]ouldn?|shouldn?|can</token>
-                    <token min="0" regexp="yes">['´’]</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0" regexp="yes">[mst]</token>
                     <marker>
                         <token inflected="yes">bag</token>
@@ -10189,7 +10190,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">(would|could|should)n?</token>
-                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">t</token>
                     <token>have</token>
                     <token postag="RB" min="0" />
@@ -10205,7 +10206,7 @@ USA
                 <pattern>
                     <token postag="PRP|NN.*" postag_regexp="yes" />
                     <token regexp="yes">(has|have)n?</token>
-                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">t</token>
                     <token postag="RB" min="0" />
                     <marker>
@@ -10224,7 +10225,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>let</token>
-                <token regexp="yes">['´’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <rule><!-- the rebrand/understand -->
@@ -10442,7 +10443,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>let</token>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </antipattern>
                 <pattern>
@@ -10570,7 +10571,7 @@ USA
         <rule id="A_GOOGLE" name="a/the + proper noun">
             <antipattern>
                 <token>let</token>
-                <token regexp="yes">['´’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <pattern>
@@ -10610,7 +10611,7 @@ USA
             <rule>
                 <antipattern>
                     <token>let</token>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </antipattern>
                 <antipattern>
@@ -10647,7 +10648,7 @@ USA
         <rule id="A_THANK_YOU" name="a/the + thank you">
             <antipattern>
                 <token>let</token>
-                <token regexp="yes">['´’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <pattern>
@@ -10821,7 +10822,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">will|didn|don|can|(c|w|sh)ouldn?|you|he|she|it|we|they|I</token>
-                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">t</token>
                     <marker>
                         <token regexp="yes">(hand|cross|take|pass|carry)overs?</token>
@@ -10846,7 +10847,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">will|didn|don|can|(c|w|sh)ouldn?|you|he|she|it|we|they|I</token>
-                    <token regexp="yes" min="0">['´’]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">t</token>
                     <marker>
                         <token regexp="yes">(shut|slow|tear|touch|turn|break|lock|hold|cool|come|melt|look)downs?</token>
@@ -10898,7 +10899,7 @@ USA
             <rule>
                 <pattern>
                     <token>
-                        <exception regexp="yes">['´’]</exception>
+                        <exception regexp="yes">&apostrophe;</exception>
                     </token>
                     <marker>
                         <token>re</token>
@@ -11120,7 +11121,7 @@ USA
         <rule id="Y_ALL" name="Ya'll (Y'all)">
             <pattern>
                 <token>ya</token>
-                <token regexp="yes">['´]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>ll</token>
             </pattern>
             <message>Did you mean <suggestion>y\2all</suggestion>?</message>
@@ -11451,7 +11452,7 @@ USA
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <antipattern>
                 <token postag_regexp="yes" postag="VBP?"/>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>t</token>
             </antipattern>
             <antipattern>
@@ -11937,7 +11938,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">[dw]on</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
                         <token postag="VBZ"/>
@@ -12182,7 +12183,7 @@ USA
                 <token negate="yes">who</token>
                 <marker>
                     <token>don</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>will</token>
                 </marker>
@@ -12215,7 +12216,7 @@ USA
             <rule>
                 <pattern>
                     <token>wasn</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>been</token>
                 </pattern>
@@ -12227,10 +12228,10 @@ USA
         <rule id="LETS_DONT" name="let's don't (let's not)">
             <pattern>
                 <token>let</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token>don</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>t</token>
             </pattern>
             <message>Substandard usage of 'let'. The standard is: <suggestion>\1\2\3 not</suggestion>.</message>
@@ -13346,7 +13347,7 @@ USA
                             <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
                         </token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">['’]|and</exception></token>
+                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
                 </pattern>
                 <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion> or simply <suggestion><match no="3"/></suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -13380,7 +13381,7 @@ USA
                     <marker>
                         <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters|innings|thanks</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">['’]|and</exception></token>
+                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
                 </pattern>
                 <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="4" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion>?</message>
                 <short>Possible agreement error</short>
@@ -13411,7 +13412,7 @@ USA
                         <exception regexp="yes">half-century|innings</exception>
                     </token>
                 </marker>
-                <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Don't use the number 'one' with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN(:.+)?" postag_regexp="yes"/></suggestion>, <suggestion><match no="3" postag="NN|NN:.*\+INDT" postag_regexp="yes"/></suggestion>, or simply <suggestion><match no="3"/></suggestion>?</message>
             <short>Possible agreement error</short>
@@ -13481,7 +13482,7 @@ USA
                 <marker>
                     <token>men</token>
                 </marker>
-                <token><exception regexp="yes">['’]</exception></token>
+                <token><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>'man' is the singular form of 'men'. Consider using <suggestion>man</suggestion>.</message>
             <short>Possible typo</short>
@@ -13496,7 +13497,7 @@ USA
                 <marker>
                     <token>women</token>
                 </marker>
-                <token><exception regexp="yes">['’]</exception></token>
+                <token><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>'woman' is the singular form of 'women'. Consider using <suggestion>woman</suggestion>.</message>
             <short>Possible typo</short>
@@ -13514,7 +13515,7 @@ USA
                     <token chunk="B-NP-singular"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token regexp="yes">ve|s</token>
                     <token>go</token>
                     <token>to</token>
@@ -13850,7 +13851,7 @@ USA
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:UN?|JJ.*|RB|IN" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
                     </marker>
-                    <token><exception regexp="yes">['’]</exception><exception postag="NNS"/></token>
+                    <token><exception regexp="yes">&apostrophe;</exception><exception postag="NNS"/></token>
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
@@ -13944,7 +13945,7 @@ USA
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">['’]</exception><exception postag="VBN"/></token>
+                    <token><exception regexp="yes">&apostrophe;</exception><exception postag="VBN"/></token>
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
@@ -14957,7 +14958,7 @@ USA
                 <pattern>
                     <token regexp='yes'>in|during</token>
                     <token regexp='yes'>(1[89]|20)\d0</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
                 </pattern>
                 <message>The article is probably missing here: <suggestion><match no="1"/> the <match no="2"/><match no="3"/><match no="4"/></suggestion>.</message>
@@ -15258,7 +15259,7 @@ USA
                     <marker>
                         <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"/><exception regexp="yes">are|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"/></suggestion>.</message>
                 <short>Article missing</short>
@@ -15292,7 +15293,7 @@ USA
                             <token negate="yes"><match no="0"/></token>
                         </and>
                     </marker>
-                    <token><exception postag="NN.*|JJ|C[DC]" postag_regexp="yes"/><exception regexp="yes">\d+|['’]</exception></token>
+                    <token><exception postag="NN.*|JJ|C[DC]" postag_regexp="yes"/><exception regexp="yes">\d+|&apostrophe;</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
                 <short>Article missing</short>
@@ -15364,7 +15365,7 @@ USA
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ.*|IN|CD|RBS|VB[DN]|MD|NNP|NNS|NNPS" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"/> <match no="3"/></suggestion>.</message>
                 <short>Article missing</short>
@@ -15418,7 +15419,7 @@ USA
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VB[DN]|MD|NNP|NNS" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"/><exception>free</exception><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="4" postag="+DT"/> <match no="5"/></suggestion>.</message>
                 <short>Article missing</short>
@@ -15687,7 +15688,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">I|you|s?he|we|they</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token regexp="yes">[sm]|re</token>
                     <marker>
                         <token>used</token>
@@ -15780,7 +15781,7 @@ USA
             <rule>
                 <antipattern>
                     <token regexp="yes">couldn|can</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>help</token>
                     <token postag="VBG"/>
@@ -16352,7 +16353,7 @@ USA
                     <token>action</token>
                 </antipattern>
                 <pattern>
-                    <token><exception postag="PRP\$|WP\$|DT|JJ|C[DC]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’]</exception><exception>at</exception></token>
+                    <token><exception postag="PRP\$|WP\$|DT|JJ|C[DC]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">&apostrophe;</exception><exception>at</exception></token>
                     <marker>
                         <token>least</token>
                     </marker>
@@ -16369,7 +16370,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’]</exception><exception>at</exception></token>
+                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">&apostrophe;</exception><exception>at</exception></token>
                         <token postag="JJS">best</token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception postag="IN"/><exception>man</exception><exception inflected="yes">sell</exception></token>
@@ -17225,7 +17226,7 @@ USA
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|wh(?:om?|ich)|a|the</exception></token>
                     <token regexp="yes">didn|won|couldn|can|shouldn|wouldn|doesn</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token min="0" max="1" postag="RB[RS]?" postag_regexp="yes"></token>
                     <marker>
@@ -17383,7 +17384,7 @@ USA
         <rule id="USE_TO_VERB" name="Missing past tense for 'used to...'">
             <antipattern>
                 <token>didn</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>t</token>
                 <token>use</token>
                 <token>to</token>
@@ -17461,19 +17462,19 @@ USA
             <antipattern>
                 <token skip="-1">why</token>
                 <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
-                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
                 <token regexp="yes">not|t</token>
             </antipattern>
             <antipattern>
                 <token>not</token>
                 <token>only</token>
                 <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
-                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
                 <token regexp="yes">not|t</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
-                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
                 <token regexp="yes">not|t</token>
                 <token postag="PRP" skip="-1"></token>
                 <token>?</token>
@@ -17482,7 +17483,7 @@ USA
                 <token><exception postag="SENT_START"/></token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
-                    <token regexp="yes" min="0">['´]</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes">not|t</token>
                     <token postag="PRP" skip="-1"></token>
                 </marker>
@@ -17499,7 +17500,7 @@ USA
             <rule>
                 <antipattern>
                     <token postag="VBZ"/>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                 </antipattern>
                 <antipattern><!-- am I ...? -->
@@ -17544,7 +17545,7 @@ USA
                             <exception>is</exception>
                         </token>
                     </marker>
-                    <token><exception regexp="yes">['’]</exception></token>
+                    <token><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">They <marker>works</marker> here.</example>
@@ -17563,7 +17564,7 @@ USA
                     <token skip="1" regexp="yes" postag="PRP">I|we|they</token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                     </marker>
                 </pattern>
@@ -17623,7 +17624,7 @@ USA
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/><exception>guys</exception></token>
                     </marker>
-                    <token><exception regexp="yes">['’]</exception></token>
+                    <token><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">You <marker>works</marker> here.</example>
@@ -17648,7 +17649,7 @@ USA
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                     </marker>
                 </pattern>
@@ -17885,7 +17886,7 @@ USA
                             <exception>cant</exception>
                         </token>
                     </marker>
-                    <token><exception regexp="yes">['’]</exception></token>
+                    <token><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">He <marker>walk</marker> to the building every day.</example>
@@ -17933,7 +17934,7 @@ USA
                     <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                     </marker>
                 </pattern>
@@ -18221,7 +18222,7 @@ USA
                     <token>Which</token>
                     <token>are</token>
                     <token postag="NNP"/>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
                 </antipattern>
                 <pattern case_sensitive="no">
@@ -18379,7 +18380,7 @@ USA
             <rule>
                 <pattern>
                     <token>can</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>help</token>
                     <marker>
@@ -18605,7 +18606,7 @@ USA
                     <marker>
                         <token regexp="yes">you|we|they</token>
                         <token>don</token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                         <token>afraid</token>
                     </marker>
@@ -18621,7 +18622,7 @@ USA
                     <marker>
                         <token>I</token>
                         <token>don</token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                         <token>afraid</token>
                     </marker>
@@ -18637,7 +18638,7 @@ USA
                     <marker>
                         <token regexp="yes">s?he|it</token>
                         <token>doesn</token>
-                        <token regexp="yes">['’]</token>
+                        <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
                         <token>afraid</token>
                     </marker>
@@ -18701,7 +18702,7 @@ USA
             <rule>
                 <pattern>
                     <token>there</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|JJ.*|DT" postag_regexp="yes"/><exception>lots</exception></token>
                 </pattern>
@@ -18714,7 +18715,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">t?here</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token postag="CD|DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
                     <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/></token>
@@ -18762,7 +18763,7 @@ USA
             <rule>
                 <pattern>
                     <token>there</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                     <token chunk="B-NP-singular" min="0" max="1"/>
                     <marker>
@@ -18777,7 +18778,7 @@ USA
             <rule>
                 <pattern>
                     <token>there</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                     <token chunk="B-NP-singular" min="0" max="1"/>
                     <token chunk="I-NP-singular" min="0" max="-1"/>
@@ -18888,7 +18889,7 @@ USA
                     <token>of</token>
                     <token postag="NNP?" postag_regexp="yes"><exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="4"/> seems to be countable; consider using: <suggestion>a <match no="2"/> of <match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -18906,7 +18907,7 @@ USA
                     <token>of</token>
                     <token postag="NNP?" postag_regexp="yes"><exception postag="NN:.*|NNP?S|JJ.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="3"/> seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -19068,7 +19069,7 @@ USA
             <antipattern> <!-- two week's time - there's another rule for this mistake: CD_WEEK_S -->
                 <token postag="CD"><exception regexp="yes">one|1</exception></token>
                 <token regexp="yes">week|month|hour</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
             </antipattern>
@@ -19248,7 +19249,7 @@ USA
         <antipattern> <!-- separate rule: CD_WEEK -->
                <token postag="CD"><exception regexp="yes">one|1</exception></token>
                 <token regexp="yes">week|month|hour</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
         </antipattern>
@@ -19376,7 +19377,7 @@ USA
                         <exception postag="NN:U|NNP?S|JJ.*|MD|CC|VBG|IN|RB" postag_regexp="yes"/>
                         <exception inflected="yes">be</exception></token>
                 </marker>
-                <token><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="2"/> seems to be countable; consider using: <suggestion><match no="1"/> <match suppress_misspelled="yes" no="2" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -19435,14 +19436,14 @@ USA
                     <token chunk="I-NP-plural" postag="NN:U"/>
                     <token chunk="I-NP-plural" postag="JJ|NN:UN?" postag_regexp="yes"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
-                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token>many</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN[PS]?|NNPS|JJ.*|VBG|RB" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/></suggestion>, <suggestion>a good deal of <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19474,7 +19475,7 @@ USA
                         <token postag="JJ"><exception postag="NN:UN|NNP?|NNS|NNPS" postag_regexp="yes"/></token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="3"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19506,7 +19507,7 @@ USA
                         <token>of</token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="4"/> seems to be uncountable; consider using: <suggestion>much <match no="4"/></suggestion>, <suggestion>a good deal of <match no="4"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19519,7 +19520,7 @@ USA
                         <token>few</token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>little <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19534,7 +19535,7 @@ USA
                     </marker>
                     <token postag="CC"/>
                     <token><exception postag="NNP?S" postag_regexp="yes"/></token>
-                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>little <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19547,7 +19548,7 @@ USA
                         <token>several</token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>some <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19561,7 +19562,7 @@ USA
                     </marker>
                     <token postag="CC"/>
                     <token><exception postag="NNP?S" postag_regexp="yes"/></token>
-                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>some <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -19796,7 +19797,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">that|whoever</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token regexp="yes">s|ll|ve</token>
                 </antipattern>
                 <!--antipattern case_sensitive="yes"> XXX transformed in a less strict pattern
@@ -20341,7 +20342,7 @@ USA
             <antipattern>
                 <token regexp="yes">each|every</token>
                 <token/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">each|every</token>
@@ -20363,7 +20364,7 @@ USA
                 <token>each</token>
                 <marker>
                     <token>others</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>other's</suggestion>?</message>
@@ -21196,7 +21197,7 @@ USA
             <short>Grammar error</short>
             <antipattern>
                 <token/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">t</token>
             </antipattern>
             <rule>
@@ -21406,10 +21407,10 @@ USA
         <rule id="VE_DIDNT" name="ve didn't"><!--  #1739 -->
             <pattern>
                 <token/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>ve</token>
                 <token regexp="yes">didn|don</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>t</token>
             </pattern>
             <message>The text is not correct, but LanguageTool has no suggestions about how to correct the text.</message>
@@ -23544,7 +23545,7 @@ The accident victim died from her injuries.
       <antipattern>
           <token>in</token>
           <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
-          <token regexp="yes">['’`´‘]</token>
+          <token regexp="yes">&apostrophe;</token>
           <token>s</token>
       </antipattern>
       <antipattern>
@@ -24436,7 +24437,7 @@ The accident victim died from her injuries.
       </antipattern>
       <antipattern>
           <token postag_regexp="yes" postag='PRP|NNP|DT'/>
-          <token regexp="yes" spacebefore='no'>['’]</token>
+          <token regexp="yes" spacebefore='no'>&apostrophe;</token>
       </antipattern>
       <antipattern>
           <token>due</token>
@@ -24959,7 +24960,7 @@ The accident victim died from her injuries.
                      <token>For</token>
                      <token>reasons</token>
                      <token postag="PRP"/>
-                     <token spacebefore="no" regexp="yes">['’]</token>
+                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                      <token spacebefore="no">ll</token>
                      <token>discover</token>
                      <token>,</token>
@@ -25150,7 +25151,7 @@ The accident victim died from her injuries.
                         <token negate="yes" regexp="yes">\W+|wh.*|how|can|did|to?|or|I|[cw]ouldn't|shouldn?|(wi)?ll|won</token>
                     </marker>
                     <token case_sensitive="yes" regexp="yes">aren?|isn?|do(es)?n?|ha(s|ve)n?|can|did|wasn?|will|won|(sh|w|c)ouldn?</token>
-                    <token case_sensitive="yes" regexp="yes" min="0">['’`´‘]</token>
+                    <token case_sensitive="yes" regexp="yes" min="0">&apostrophe;</token>
                     <token case_sensitive="yes" min="0">t</token>
                     <token case_sensitive="yes" regexp="yes">s?he|it|you|they|we|I</token>
                     <token postag="SENT_END">?</token>
@@ -25320,7 +25321,7 @@ The accident victim died from her injuries.
             <pattern>
                 <marker>
                     <token postag='NN'/>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </marker>
                 <token>are</token>
@@ -25550,9 +25551,9 @@ The accident victim died from her injuries.
             <token regexp='yes' spacebefore='no'>["”]</token>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>['‘]</token>
+            <token regexp='yes'>&apostrophe;</token>
             <token regexp='yes' spacebefore='no'>sets?</token>
-            <token regexp='yes' spacebefore='no'>['’]</token>
+            <token regexp='yes' spacebefore='no'>&apostrophe;</token>
         </antipattern-->
       <!--rule>
         <pattern case_sensitive="no">
@@ -25577,12 +25578,12 @@ The accident victim died from her injuries.
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>o</token>
-                    <token spacebefore="no" regexp="yes">['’´]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">clock</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token>o</token>
-                    <token regexp="yes">['´]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token spacebefore="yes">clock</token>
                 </pattern>
                 <message>There should be no space here: <suggestion>o\2clock</suggestion>.</message>
@@ -26542,7 +26543,7 @@ The accident victim died from her injuries.
                     <token postag="IN"><exception>while</exception></token>
                     <marker>
                         <token>they</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>re</token>
                     </marker>
                     <token postag_regexp="yes" postag="NN.*"><exception>out</exception></token>
@@ -26555,7 +26556,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
                     <token>they</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1"/> their</suggestion>?</message>
@@ -26566,7 +26567,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker>
                         <token>they</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>re</token>
                     </marker>
                     <token regexp="yes">best|final|fifth|first|fourth|new|next|second|third</token>
@@ -26591,7 +26592,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token>they</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                     <token>own</token>
                 </pattern>
@@ -26659,7 +26660,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">can|[cw]ouldn|won|shouldn|didn|haven</token>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker><token regexp="yes">log(in|out|off|on)</token></marker>
                 </pattern>
@@ -27171,7 +27172,7 @@ The accident victim died from her injuries.
                 <marker><token>In</token></marker>
                 <token regexp="yes">&weekdays;</token>
                 <token regexp="yes">,|afternoon|morning|night</token>
-                <token><exception regexp="yes">['´`’]</exception></token>
+                <token><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Did you mean <suggestion>On</suggestion>?</message>
             <example correction="On"><marker>In</marker> Friday afternoon, the President announced the embargo.</example>
@@ -27380,7 +27381,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker>
                         <token>they</token>
-                        <token spacebefore="no" regexp="yes">['’´]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token spacebefore="no">re</token>
                     </marker>
                     <token regexp="yes">is|are|w(as|ere)|might|could|should</token>
@@ -27461,7 +27462,7 @@ The accident victim died from her injuries.
             <url>https://en.wiktionary.org/wiki/too</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">comes|came|much|is|w(?:as|ere)|are|been|s|re|['´]</token>
+                    <token regexp="yes">comes|came|much|is|w(?:as|ere)|are|been|s|re|&apostrophe;</token>
                     <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token regexp="yes">tw?o</token>
@@ -27542,7 +27543,7 @@ The accident victim died from her injuries.
                     <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">be|['´]</token>
+                    <token regexp="yes" inflected="yes">be|&apostrophe;</token>
                     <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token>to</token>
@@ -28415,7 +28416,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">couldn|can</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
                         <token>breath</token>
@@ -29449,7 +29450,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker>
                         <token>it</token>
-                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
                     <token>seems</token>
@@ -29589,7 +29590,7 @@ The accident victim died from her injuries.
             <pattern>
                 <marker>
                     <token inflected="no">you</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                 </marker>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
@@ -29618,7 +29619,7 @@ The accident victim died from her injuries.
                 <token postag="IN"><exception>like</exception><exception>while</exception></token>
                 <marker>
                     <token inflected="no">you</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                 </marker>
                 <token postag="NN.*" postag_regexp="yes"></token>
@@ -29784,7 +29785,7 @@ The accident victim died from her injuries.
             <rule> <!-- couldn't effect, shouldn't effect, didn't effect, etc. -->
                 <pattern>
                     <token regexp="yes">(c|sh|w)ouldn|didn|won|can</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
                         <token>effect</token>
@@ -29796,7 +29797,7 @@ The accident victim died from her injuries.
             <rule> <!-- could've effected, should've effected, etc. -->
                 <pattern>
                     <token regexp="yes">could|should|would</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <marker>
                         <token>effected</token>
@@ -30775,7 +30776,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token/>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <token regexp="yes">an?</token>
                 </pattern>
@@ -30786,7 +30787,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <token postag="CD"/>
                 </pattern>
@@ -30804,7 +30805,7 @@ The accident victim died from her injuries.
                     <token>:</token>
                     <token>00</token>
                     <token>o</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                 </pattern>
                 <message>Wrong phrase. Use <suggestion>\1\2\3</suggestion> or <suggestion>\1 \4\5\6</suggestion>.</message>
@@ -30817,7 +30818,7 @@ The accident victim died from her injuries.
                     <token>:</token>
                     <token regexp="yes">\d\d<exception>00</exception></token>
                     <token>o</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                 </pattern>
                 <message>Wrong phrase; 'o'clock is used only at the full hour. Use simply <suggestion>\1\2\3</suggestion> instead.</message>
@@ -31154,7 +31155,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token postag="CD"/>
                     <token>o</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                     <token regexp="yes">[ap]</token>
                     <token>.</token>
@@ -31167,7 +31168,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token postag="CD"/>
                     <token>o</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>clock</token>
                     <token regexp="yes">[ap]m</token>
                 </pattern>
@@ -31931,7 +31932,7 @@ The accident victim died from her injuries.
                 <token>of</token>
                 <token>the</token>
                 <token/>
-                <token regexp="yes">['´]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </antipattern>
             <antipattern><!-- www.goodreads.com/quotes/275126-you-can-fool-some-of-the-people-all-of-the -->
@@ -32702,7 +32703,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <token>gotta</token>
                     <token>be</token>
@@ -32724,7 +32725,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">['´’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>ve</token>
                     <token>gotta</token>
                 </pattern>
@@ -33164,7 +33165,7 @@ The accident victim died from her injuries.
     <rule>
         <antipattern><!-- Popular name for a song, café, book, kindergarten -->
             <token regexp="yes">Mamas?</token>
-            <token min="0" regexp="yes">['´]</token>
+            <token min="0" regexp="yes">&apostrophe;</token>
             <token min="0">s</token>
             <token>lap</token>
         </antipattern>
@@ -33433,13 +33434,13 @@ The accident victim died from her injuries.
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
-                    <token regexp="yes">['’`´‘]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token>Day</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
-                    <token regexp="yes">['’`´‘]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token>day</token>
                 </pattern>
@@ -33452,14 +33453,14 @@ The accident victim died from her injuries.
                 <antipattern case_sensitive="yes">
                     <token>New</token>
                     <token>Year</token>
-                    <token regexp="yes">['’`´‘]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token regexp="yes">Day|Eve</token>
                 </antipattern>
                 <pattern>
                     <token>New</token>
                     <token>Year</token>
-                    <token regexp="yes">['’`´‘]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token regexp="yes">day|eve</token>
                 </pattern>
@@ -36313,7 +36314,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token>wasn</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                 </pattern>
                 <message>Wikipedia style. Replace "wasn't" with <suggestion>was not</suggestion>.</message>
@@ -36324,7 +36325,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token>it</token>
-                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </pattern>
                 <message>Wikipedia style. Replace "it's" with <suggestion>it is</suggestion></message>
@@ -36547,7 +36548,7 @@ The accident victim died from her injuries.
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
             <pattern>
                 <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
             </pattern>
             <message>Apostrophes aren't needed for decades: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
@@ -36563,7 +36564,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">Valentines|Mothers|Fathers|Patricks</token>
-                    <token regexp="yes" min="0" spacebefore="no">['’`´‘]</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                     <token>day</token>
                 </pattern>
                 <message>The official / recommended spelling of this holiday is: <suggestion><match no="1" case_conversion="startupper" regexp_match="s$" regexp_replace="'s"/> Day</suggestion></message>
@@ -36573,7 +36574,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token>New</token>
                     <token>Years</token>
-                    <token regexp="yes" min="0" spacebefore="no">['’`´‘]</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                     <token regexp="yes">Day|Eve</token>
                 </pattern>
                 <message>The official / recommended spelling of this holiday is: <suggestion>New Year's <match no="4" case_conversion="startupper"/></suggestion></message>
@@ -37678,7 +37679,7 @@ The accident victim died from her injuries.
             </antipattern>
             <antipattern>
                <token regexp="yes">d(o|oes|id)n</token>
-               <token spacebefore="no" regexp="yes">['’]</token>
+               <token spacebefore="no" regexp="yes">&apostrophe;</token>
                <token spacebefore="no">t</token>
             </antipattern>
             <pattern>
