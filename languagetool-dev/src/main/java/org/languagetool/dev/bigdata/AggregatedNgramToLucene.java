@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Indexing the result of {@link CommonCrawlNGramJob} with Lucene.
+ * Indexing the result of {@link CommonCrawlNGram} with Lucene.
  * @since 3.2
  */
 class AggregatedNgramToLucene implements AutoCloseable {
@@ -95,13 +95,8 @@ class AggregatedNgramToLucene implements AutoCloseable {
   }
 
   @NotNull
-  private LongField getCountField(long count) {
-    FieldType fieldType = new FieldType();
-    fieldType.setStored(true);
-    fieldType.setOmitNorms(true);
-    fieldType.setNumericType(FieldType.NumericType.LONG);
-    fieldType.setDocValuesType(DocValuesType.NUMERIC);
-    return new LongField("count", count, fieldType);
+  private LongPoint getCountField(long count) {
+    return new LongPoint("count", count);
   }
 
   private void addTotalTokenCountDoc(long totalTokenCount, IndexWriter writer) throws IOException {

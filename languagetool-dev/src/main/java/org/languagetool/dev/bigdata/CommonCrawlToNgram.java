@@ -177,7 +177,7 @@ class CommonCrawlToNgram implements AutoCloseable {
     if (newReader != null) {
       reader = newReader;
     }*/
-    index.reader = DirectoryReader.open(index.indexWriter, true);
+    index.reader = DirectoryReader.open(index.indexWriter);
     index.searcher = new IndexSearcher(index.reader);
     for (Map.Entry<String, Long> entry : ngramToCount.entrySet()) {
       Term ngram = new Term("ngram", entry.getKey());
@@ -221,13 +221,8 @@ class CommonCrawlToNgram implements AutoCloseable {
   }
 
   @NotNull
-  private LongField getCountField(long count) {
-    FieldType fieldType = new FieldType();
-    fieldType.setStored(true);
-    fieldType.setOmitNorms(true);
-    fieldType.setNumericType(FieldType.NumericType.LONG);
-    fieldType.setDocValuesType(DocValuesType.NUMERIC);
-    return new LongField("count", count, fieldType);
+  private Field getCountField(long count) {
+    return new LongPoint("count", count);
   }
 
   private void addTotalTokenCountDoc(long totalTokenCount, IndexWriter writer) throws IOException {
@@ -269,7 +264,7 @@ class CommonCrawlToNgram implements AutoCloseable {
       IndexWriterConfig config = new IndexWriterConfig(analyzer);
       directory = FSDirectory.open(dir.toPath());
       indexWriter = new IndexWriter(directory, config);
-      reader = DirectoryReader.open(indexWriter, false);
+      reader = DirectoryReader.open(indexWriter);
       searcher = new IndexSearcher(reader);
     }
     
