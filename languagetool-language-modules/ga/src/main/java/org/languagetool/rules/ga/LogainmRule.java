@@ -21,6 +21,7 @@ package org.languagetool.rules.ga;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,15 +72,20 @@ public class LogainmRule extends AbstractSimpleReplaceRule {
   }
   
   @Override
-  public String getMessage(String tokenStr,List<String> replacements) {
-    return "Logainm Béarla.";
+  public String getSuggestion() {
+    return "Is logainm Béarla é '$match' ar $getSuggestion";
   }
   
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
-  
+ 
+  @Override
+  public URL getUrl() {
+    return Tools.getUrl("https://www.logainm.ie/ga/");
+  }
+
   @Override
   public Locale getLocale() {
     return GA_LOCALE;
