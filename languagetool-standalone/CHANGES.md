@@ -5,7 +5,9 @@
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
-* ...
+#### Internal
+  * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
+    turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
 
 
 

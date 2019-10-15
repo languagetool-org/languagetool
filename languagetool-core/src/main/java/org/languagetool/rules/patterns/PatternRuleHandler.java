@@ -60,7 +60,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean interpretPosTagsPreDisambiguation;
 
   private boolean defaultOff;
+  private boolean defaultTempOff;
   private boolean ruleGroupDefaultOff;
+  private boolean ruleGroupDefaultTempOff;
 
   private String ruleGroupDescription;
   private int startPos = -1;
@@ -150,10 +152,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
           throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
         }
+        if (inRuleGroup && ruleGroupDefaultTempOff && attrs.getValue(DEFAULT) != null) {
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
+        }
         if (inRuleGroup && ruleGroupDefaultOff) {
           defaultOff = true;
+        } else if (inRuleGroup && ruleGroupDefaultTempOff) {
+          defaultTempOff = true;
         } else {
           defaultOff = OFF.equals(attrs.getValue(DEFAULT));
+          defaultTempOff = TEMP_OFF.equals(attrs.getValue(DEFAULT));
         }
 
         correctExamples = new ArrayList<>();
@@ -268,6 +276,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupId = attrs.getValue(ID);
         ruleGroupDescription = attrs.getValue(NAME);
         ruleGroupDefaultOff = OFF.equals(attrs.getValue(DEFAULT));
+        ruleGroupDefaultTempOff = TEMP_OFF.equals(attrs.getValue(DEFAULT));
         urlForRuleGroup = new StringBuilder();
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = true;
@@ -487,7 +496,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rulegroupAntiPatterns.clear();
         antiPatternCounter = 0;
         ruleGroupDefaultOff = false;
+        ruleGroupDefaultTempOff = false;
         defaultOff = false;
+        defaultTempOff = false;
         break;
       case MARKER:
         if (inCorrectExample) {
@@ -667,6 +678,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     if (defaultOff) {
       rule.setDefaultOff();
+    }
+    if (defaultTempOff) {
+      rule.setDefaultOff();
+      rule.setDefaultTempOff();
     }
     if (url != null && url.length() > 0) {
       try {

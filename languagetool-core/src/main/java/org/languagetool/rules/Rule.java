@@ -52,6 +52,7 @@ public abstract class Rule {
   private Category category;
   private URL url;
   private boolean defaultOff;
+  private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
 
@@ -307,10 +308,25 @@ public abstract class Rule {
   }
 
   /**
+   * Checks whether the rule has been turned off using "default='temp_off'" by default by the rule author.
+   * This is a special case where the rule is off for users but active for nightly regression checks.
+   */
+  public final boolean isDefaultTempOff() {
+    return defaultTempOff;
+  }
+
+  /**
    * Turns the rule off by default.
    */
   public final void setDefaultOff() {
     defaultOff = true;
+  }
+
+  /**
+   * Turns the rule off by default, expect for internal regression tests.
+   */
+  public final void setDefaultTempOff() {
+    defaultTempOff = true;
   }
 
   /**

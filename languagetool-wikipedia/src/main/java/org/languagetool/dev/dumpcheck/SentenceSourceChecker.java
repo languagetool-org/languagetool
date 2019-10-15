@@ -27,6 +27,7 @@ import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -161,6 +162,16 @@ public class SentenceSourceChecker {
     }
     if (neuralNetworkModelDir != null) {
       lt.activateNeuralNetworkRules(neuralNetworkModelDir);
+    }
+    for (Rule rule : lt.getAllRules()) {
+      if (rule.isDefaultTempOff()) {
+        if (rule instanceof AbstractPatternRule) {
+          System.out.println("Activating " + ((AbstractPatternRule) rule).getFullId() + ", which is default='temp_off'");
+        } else {
+          System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
+        }
+        lt.enableRule(rule.getId());
+      }
     }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, lt);
