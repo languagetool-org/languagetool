@@ -281,6 +281,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
       case "A_INFINITIVE":              return -1;  // prefer other more specific rules (with suggestions)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
+      case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
       case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
