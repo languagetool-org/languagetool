@@ -17,15 +17,21 @@
  * USA
  */
 package org.languagetool.synthesis.ga;
+
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Irish word form synthesizer.
+ * @since 4.8
  */
 public class IrishSynthesizer extends BaseSynthesizer {
 
+  private static final String RESOURCE_FILENAME = "/ga/irish_synth.dict";
+  private static final String TAGS_FILE_NAME = "/ga/irish_tags.txt";
+
   public IrishSynthesizer(Language lang) {
-    super("/ga/irish_synth.dict", "/ga/irish_tags.txt", lang);
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
+
 }

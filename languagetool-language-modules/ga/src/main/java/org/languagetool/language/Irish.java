@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ga.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -39,7 +41,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class Irish extends Language {
+public class Irish extends Language implements AutoCloseable {
 
   private static final Language DEFAULT_IRISH = new Irish();
   
@@ -48,6 +50,7 @@ public class Irish extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -149,5 +152,17 @@ public class Irish extends Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
-  
+
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    languageModel = initLanguageModel(indexDir, languageModel);
+    return languageModel;
+  }
+
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  } 
 }
