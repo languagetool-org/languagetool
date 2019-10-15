@@ -71,12 +71,13 @@ public class LogainmRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Logainm Béarla";
   }
-  
+ 
   @Override
-  public String getSuggestion() {
-    return "Is logainm Béarla é '$match' ar $getSuggestion";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return "Is logainm Béarla é " + tokenStr + " ar "
+        + String.join(", ", replacements) + ".";
   }
-  
+
   @Override
   public boolean isCaseSensitive() {
     return false;
