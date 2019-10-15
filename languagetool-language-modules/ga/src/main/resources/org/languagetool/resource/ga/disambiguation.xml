@@ -984,9 +984,9 @@
         <rule>
             <pattern>
                 <marker>
-                    <token postag="Prep:Simp" postag_regexp="yes" regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                    <token postag="Prep:Simp" regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
                 </marker>
-                <token postag="Art:.*"></token>
+                <token postag="Art:.*" postag_regexp="yes"></token>
                 <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
             </pattern>
             <disambig><match no="1" postag="Prep:Simp" postag_regexp="yes" /></disambig>
@@ -996,7 +996,7 @@
                 <marker>
                     <token>dála</token>
                 </marker>
-                <token postag="Art:.*"></token>
+                <token postag="Art:.*" postag_regexp="yes"></token>
                 <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
             </pattern>
             <disambig action="replace"><wd pos="Prep:Simp">dála</wd></disambig>
