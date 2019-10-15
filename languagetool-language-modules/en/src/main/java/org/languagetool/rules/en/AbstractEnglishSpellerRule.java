@@ -450,6 +450,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     } else if ("tippy-top".equals(word) || "tippytop".equals(word)) {
       // "tippy-top" is an often used word by Donald Trump
       return Arrays.asList("tip-top", "top most");
+    } else if ("imma".equals(word)) {
+      return Arrays.asList("I'm going to", "I'm a");
+    } else if ("Imma".equals(word)) {
+      return Arrays.asList("I'm going to", "I'm a");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
