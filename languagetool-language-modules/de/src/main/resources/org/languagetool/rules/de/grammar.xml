@@ -14473,6 +14473,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="La Ola">Die Entstehung einer <marker>La-Ola-Welle</marker></example>
             </rule>
             <rule>
+                <pattern>
+                    <token>im</token>
+                    <token>PDF-Format</token>
+                </pattern>
+                <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>als PDF</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="als PDF">Download dieser Liste <marker>im PDF-Format</marker>.</example>
+            </rule>
+            <rule>
                 <regexp>PDF-Formate?s?</regexp>
                 <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>PDF</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -15741,19 +15750,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">ust\.?-?id(-nr)?\.?</token>
+                    <token regexp="yes">ust\.?-?id(-nr)?</token>
+                    <token spacebefore="no">.</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung von 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <example correction="USt-IdNr."><marker>UST-Id.</marker>: DEXXXXXXX</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ust\.?-?id(-nr)?</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST-Id</marker>: DEXXXXXXX</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">ust\.?</token>
-                    <token regexp="yes">id(-?nr)?\.?</token>
+                    <token regexp="yes">id(-?nr)?</token>
+                    <token spacebefore="no">.</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung von 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <example correction="USt-IdNr."><marker>Ust ID.</marker>: DEXXXXXXX</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ust\.?</token>
+                    <token regexp="yes">id(-?nr)?</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST ID</marker>: DEXXXXXXX</example>
-                <example correction="USt-IdNr."><marker>Ust ID</marker>: DEXXXXXXX</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'">
@@ -31856,6 +31881,46 @@ Andere Projekte</example>
             <message>Bitte prüfen, ob hier ein Partizip verwendet werden muss.</message>
             <example correction="">Unklar ist, wie der Hund ins Wasser <marker>gelang</marker> ist.</example>
         </rule>
+        <rulegroup id="ZB_ABK" name="Schreibweise der Abkürzung 'z. B.'">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">z[bB]</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die korrekte Schreibweise für die Abkürzung von 'zum Beispiel' ist <suggestion>z.&nbsp;B.</suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/z__B_</url>
+                <example>Es gibt viele Länder, die nicht in der NATO sind (z. B. Russland).</example>
+                <example correction="z.&nbsp;B.">Die meisten sind unzufrieden, außer ein paar wenigen, wie <marker>zB.</marker> Karl.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">z[bB]</token>
+                </pattern>
+                <message>Die korrekte Schreibweise für die Abkürzung von 'zum Beispiel' ist <suggestion>z.&nbsp;B.</suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/z__B_</url>
+                <example>Es gibt viele Länder, die nicht in der NATO sind (z. B. Russland).</example>
+                <example correction="z.&nbsp;B.">Die meisten sind unzufrieden, außer ein paar wenigen, wie <marker>zB</marker> Karl.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TELEFON_NR" name="Zusammenschreibung 'Telefon-Nr.'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Telefon|Handy|Fax</token>
+                    <token>Nr</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Hier fehlt möglicherweise ein Bindestrich. Meinten Sie <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />.</suggestion>?</message>
+                <example correction="Handy-Nr.">Meine <marker>Handy Nr.</marker> kriegst du nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Telefon|Handy|Fax</token>
+                    <token>Nr</token>
+                </pattern>
+                <message>Hier fehlt möglicherweise ein Bindestrich. Meinten Sie <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />.</suggestion>?</message>
+                <example correction="Telefon-Nr.">Kennst du meine <marker>Telefon Nr</marker>?</example>
+            </rule>
+        </rulegroup>
         <rule id="ART_KLEINES_NOMEN" name="der/die/das + kleingeschriebenes Nomen">
             <antipattern>
                 <token>wider</token>
