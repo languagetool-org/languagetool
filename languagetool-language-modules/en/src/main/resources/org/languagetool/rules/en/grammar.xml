@@ -8766,7 +8766,9 @@ USA
             </antipattern>
             <pattern>
                 <token regexp="yes">th[eo]se</token>
-                <marker><token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB[GP]|NNS|CD|JJ.?|MD"/></token></marker>
+                <marker><token postag="NN(:UN?)?" postag_regexp="yes">
+                    <exception postag_regexp="yes" postag="VB[GP]|NNP?S|CD|JJ.?|MD"/>
+                    </token></marker>
                 <token inflected="yes" regexp="yes">\W+|be</token>
             </pattern>
             <message>Please check whether a plural form of '\2' should be used.</message>
@@ -8778,6 +8780,7 @@ USA
             <example>I collected one of these yesterday.</example>
             <example>Decorative motifs for <marker>these sandstone/mortar constructions</marker>, both cliff dwellings and...</example>
             <example>Explaining the behavior of these electron "orbits" was one of the...</example>
+            <example>Of the venues used for these Olympics, the Kallimarmaro Stadium...</example>
         </rule>
         <rulegroup id="ONE_OF" name="one of the JJR + plural">
             <rule>
@@ -15958,7 +15961,10 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">th[eo]se</token>
-                        <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="VB[ZGN]|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/><exception>are</exception></token>
+                        <token postag="NN(:.+)?" postag_regexp="yes">
+                            <exception postag="VB[ZGN]|NNP?S|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/>
+                            <exception>are</exception>
+                            </token>
                     </marker>
                     <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
@@ -15975,6 +15981,7 @@ USA
                 <example>I collected one of these yesterday.</example>
                 <example>Decorative motifs for <marker>these sandstone/mortar constructions</marker>, both cliff dwellings and...</example>
                 <example>Explaining the behavior of these electron "orbits" was one of the...</example>
+                <example>Of the venues used for these Olympics, the Kallimarmaro Stadium...</example>
             </rule>
             <rule>
                 <pattern>
