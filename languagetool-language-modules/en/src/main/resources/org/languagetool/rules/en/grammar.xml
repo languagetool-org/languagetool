@@ -10380,10 +10380,23 @@ USA
                         <token regexp="yes">requires?</token>
                     </marker>
                 </pattern>
-                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="require" regexp_replace="requirement" /></suggestion>?</message>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)require" regexp_replace="requirement" /></suggestion>?</message>
                 <example correction="requirements">One of the new <marker>requires</marker> is ...</example>
                 <example>A <marker>requirement</marker> needs to be fulfilled.</example>
                 <example>McDonald's now requires a bachelor's in philosophy for its cashiers.</example>
+            </rule>
+            <rule><!-- the withdraw -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">withdraws?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)draw" regexp_replace="drawal" /></suggestion>?</message>
+                <example correction="withdrawal">The <marker>withdraw</marker> succeeded.</example>
             </rule>
             <rule><!-- the expire -->
                 <pattern>
@@ -10395,7 +10408,7 @@ USA
                         <token>expire</token>
                     </marker>
                 </pattern>
-                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="pire" regexp_replace="piry" /></suggestion>?</message>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)pire" regexp_replace="piry" /></suggestion>?</message>
                 <example correction="expiry">You can find the <marker>expire</marker> date is on the bottom of the milk bottle.</example>
                 <example>An <marker>expiry</marker> date is required for most products sold in retail.</example>
             </rule>
@@ -10409,7 +10422,7 @@ USA
                         <token regexp="yes">responds?</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="3" regexp_match="respond" regexp_replace="response" /></suggestion>?</message>
+                <message>Did you mean <suggestion><match no="3" regexp_match="(?i)respond" regexp_replace="response" /></suggestion>?</message>
                 <example correction="response">He sent his <marker>respond</marker> to the mailing list.</example>
                 <example correction="responses">The <marker>responds</marker> were overall positive.</example>
                 <example>A <marker>response</marker> will be prepared.</example>
@@ -10425,7 +10438,7 @@ USA
                         <token regexp="yes">invents?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="nvent" regexp_replace="nvention" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)nvent" regexp_replace="nvention" /></suggestion>?</message>
                 <example correction="invention">He presented the <marker>invent</marker> of electric cars.</example>
                 <example correction="invention">My only <marker>invent</marker> has been patented.</example>
                 <example>Let her invent the future.</example>
@@ -10440,7 +10453,7 @@ USA
                         <token regexp="yes">renews?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="new" regexp_replace="newal" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)new" regexp_replace="newal" /></suggestion>?</message>
                 <example correction="renewal">He requested a <marker>renew</marker> of his subscription.</example>
                 <example>Let her renew the office equipment.</example>
             </rule>
@@ -10454,7 +10467,7 @@ USA
                         <token regexp="yes">(re-?)?deliver</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="eliver" regexp_replace="elivery" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)eliver" regexp_replace="elivery" /></suggestion>?</message>
                 <example correction="redelivery">The <marker>redeliver</marker> service was on time.</example>
                 <example>I'll have her redeliver the parcel.</example>
             </rule>
@@ -10472,7 +10485,7 @@ USA
                         <token regexp="yes">creates?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="reate" regexp_replace="reation" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)reate" regexp_replace="reation" /></suggestion>?</message>
                 <example correction="creation">The <marker>create</marker> of the world.</example>
                 <example>I will make her <marker>create</marker> the future.</example>
             </rule>
@@ -10486,7 +10499,7 @@ USA
                         <token>replace</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="place" regexp_replace="placement" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)place" regexp_replace="placement" /></suggestion>?</message>
                 <example correction="replacement">After the accident, he needed a <marker>replace</marker> of the car's front window.</example>
                 <example>I will let her replace the furniture in our flat.</example>
             </rule>
@@ -10500,7 +10513,7 @@ USA
                         <token regexp="yes">arrives?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="rrive" regexp_replace="rrival" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)rrive" regexp_replace="rrival" /></suggestion>?</message>
                 <example correction="arrival">After the <marker>arrive</marker> he first needed to park his car.</example>
                 <example>I will let her arrive on time.</example>
             </rule>
@@ -10514,7 +10527,7 @@ USA
                         <token regexp="yes">appoints?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="point" regexp_replace="pointment" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)point" regexp_replace="pointment" /></suggestion>?</message>
                 <example correction="appointment">Let's setup an <marker>appoint</marker> to discuss the latest development.</example>
             </rule>
             <rule><!-- the grow -->
@@ -10527,7 +10540,7 @@ USA
                         <token regexp="yes">grows?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="rows?" regexp_replace="rowth" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)rows?" regexp_replace="rowth" /></suggestion>?</message>
                 <example correction="growth">The unexpected <marker>grow</marker> in revenue was caused by their new ad campaign.</example>
             </rule>
         </rulegroup>
