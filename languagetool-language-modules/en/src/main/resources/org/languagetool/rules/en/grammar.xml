@@ -27793,6 +27793,12 @@ The accident victim died from her injuries.
                     <token>to</token>
                     <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern><!-- #2036. 10 am to midnight -->
+                    <token postag="CD"/>
+                    <token>am</token>
+                    <token>to</token>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">be|&apostrophe;</token>
                     <token min="0" regexp="yes">not|t</token>
@@ -27815,6 +27821,9 @@ The accident victim died from her injuries.
                 <example>... 18th century documents show how close some people were to flying.</example>
                 <example type="triggers_error">They were <marker>to</marker> flying.</example><!-- The 'to' particle has probably been forgotten while rephrasing -->
                 <example>They were flying.</example>
+                <example>From 10 am to midnight.</example><!-- #2036 -->
+                <example>From 11:35 am to midnight.</example>
+                <example>From seven am to evening.</example>
             </rule>
             <rule>
                 <pattern>
