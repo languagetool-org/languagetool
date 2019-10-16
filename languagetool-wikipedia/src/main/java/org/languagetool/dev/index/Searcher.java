@@ -72,7 +72,7 @@ public class Searcher {
   private String fieldName;
 
   public Searcher(Directory directory) {
-    this(directory, FIELD_NAME);
+    this(directory, FIELD_NAME_LOWERCASE);
   }
 
   public Searcher(Directory directory, String fieldName) {
