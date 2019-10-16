@@ -7159,7 +7159,7 @@ USA
         <!-- can setup::word=can set up -->
         <rule id="CAN_SETUP" name="can setup (set up)">
             <pattern>
-                <token regexp="yes">can|got|ha([ds]|ve)|help|is|to</token>
+                <token regexp="yes">can(not)?|been|[wc]ould|should|might|may|got|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
                 <token>setup</token>
             </pattern>
             <message>Did you mean <suggestion>\1 set up</suggestion>?</message>
@@ -9963,12 +9963,137 @@ USA
                 <marker>
                     <token regexp="yes" case_sensitive="yes">[Aa]n</token>
                 </marker>
-                <token regexp="yes">also|then|no|yes|that|this|t?here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might</token>
+                <token regexp="yes">also|then|no|yes|that|this|t?here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might|because|therefore</token>
             </pattern>
             <message>Did you mean <suggestion>and</suggestion>?</message>
             <example correction="and">He was going <marker>an</marker> also partying there.</example>
             <example>After the victory of the PdL in the 2008 general election, AN was merged into the PdL in early 2009.</example>
         </rule>
+        <rule id="A_HAVE_VBN" name="A have been (I have been)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>
+                        a
+                        <exception regexp="yes" scope="previous">&apostrophe;|hepatitis|letter|fil</exception>
+                    </token>
+                </marker>
+                <token>have</token>
+                <token postag="RB" min="0" />
+                <token postag="VBN" />
+            </pattern>
+            <message>Did you mean <suggestion>I</suggestion>?</message>
+            <example correction="I"><marker>A</marker> have never been there.</example>
+            <example correction="I"><marker>A</marker> have witnessed the biggest event ever.</example>
+            <example>Several cases of hepatitis A have been diagnosed in Denver.</example>
+            <example>Popeyes and Chick-fil-A have been fueling the debate about where to get the best chicken sandwich for weeks.</example>
+            <example>The Oakland A's have seen quite a few catchers squat.</example>
+        </rule>
+        <rulegroup id="HAVE_A_VBN" name="have a (I) been" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>have</token>
+                        <token>a</token>
+                        <token skip="-1" postag="VBN">
+                            <exception postag="VBD" />
+                        </token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 I \3</suggestion>, <suggestion>\1 \2</suggestion> or <suggestion>\1 \3</suggestion>?</message>
+                <example correction="Have I been|Have a|Have been"><marker>Have a been</marker> there before?</example>
+                <example correction="have I done|have a|have done">What <marker>have a done</marker>?</example>
+                <example>Why do you have a fractured bone?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>been</token>
+                </pattern>
+                <message>Did you mean only <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
+                <example correction="a|been">Grateful to have <marker>a been</marker> a part of such an incredible event.</example>
+            </rule>
+        </rulegroup>
+        <rule id="EVER_DAY" name="ever day (every day)">
+            <pattern>
+                <token>
+                    ever
+                    <exception postag="RB" scope="previous" />
+                    <exception scope="previous">never</exception>
+                </token>
+                <token regexp="yes">
+                    day|one
+                    <exception postag="CD" scope="next" />
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>every \2</suggestion>?</message>
+            <example correction="every day">I go to the park <marker>ever day</marker>.</example>
+            <example correction="Every one"><marker>Ever one</marker> of the brothers was there last night.</example>
+            <example>The important thing to remember is that no one is ever one hundred percent anything.</example>
+            <example>There is only ever one curve for any particular controller.</example>
+            <example>Never ever one to lose.</example><!-- one vs. want confusion -->
+        </rule>
+        <rule id="EVER_NN" name="ever day (every day)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>
+                        ever
+                    </token>
+                    <token postag="NNP?" postag_regexp="yes">
+                        <exception postag="VB.*" postag_regexp="yes" />
+                    </token>
+                </marker>
+                <token postag="VB[DZ]" postag_regexp="yes" />
+            </pattern>
+            <message>Did you mean <suggestion>every \2</suggestion>?</message>
+            <example correction="Every co-worker"><marker>Ever co-worker</marker> came to my  office party.</example>
+            <example>I wasn't usually home when the lawn was cut, so all I ever saw were the results.</example>
+            <example>All Tom ever saw were the results.</example>
+            <example>… not knowing if the 1300 story would ever get made.</example>
+        </rule>
+        <rulegroup id="WANT_ONE" name="'want' vs. 'one'" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes">
+                        <exception regexp="yes">do|did</exception>
+                    </token>
+                    <token>you</token>
+                    <token>one</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">
+                        I|you|we|they
+                    </token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>one</token>
+                    </marker>
+                    <token>to</token>
+                    <token postag="VB" />
+                </pattern>
+                <message>Did you mean <suggestion>want</suggestion>?</message>
+                <example correction="want">Do you <marker>one</marker> to win?</example>
+                <example correction="want">Did you ever <marker>one</marker> to climb the Mount Everest?</example>
+                <example>He will give you one to accomplish it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        I|you|we|they
+                    </token>
+                    <token regexp="yes">do(es)?n</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token>one</token>
+                    </marker>
+                    <token>to</token>
+                    <token postag="VB" />
+                </pattern>
+                <message>Did you mean <suggestion>want</suggestion>?</message>
+                <example correction="want">You don't <marker>one</marker> to win?</example>
+            </rule>
+        </rulegroup>
         <rule id="POLISH_LOWERCASE" name="Proper noun 'polish' (Polish)">
             <pattern>
                 <marker>
@@ -10716,6 +10841,51 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
+        <rulegroup id="GO_TO_HYPHEN" name="missing hyphen in 'go to'" default="temp_off">
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+                <token>go</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>her</token>
+                <token>go</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|his|her|its|my|y?our|their|s</token>
+                    <marker>
+                        <token>go</token>
+                        <token>to</token>
+                        <token>market</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>It appears that a hyphen is missing (<suggestion>\2-\3-\4</suggestion> is a compound adjective).</message>
+                <url>https://www.merriam-webster.com/dictionary/go-to</url>
+                <example correction="go-to-market">My <marker>go to market</marker> plan is ready.</example>
+                <example>Let's go to market.</example>
+                <example>I'll make her go to market.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|his|her|its|my|y?our|their|s</token>
+                    <marker>
+                        <token>go</token>
+                        <token>to</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>It appears that a hyphen is missing (<suggestion>\2-\3</suggestion> is a compound adjective).</message>
+                <url>https://www.merriam-webster.com/dictionary/go-to</url>
+                <example correction="go-to">He is your <marker>go to</marker> person.</example>
+                <example correction="go-to">She's Tom's <marker>go to</marker> person.</example>
+                <example>Let's go to the party.</example>
+                <example>I'll make her go to the party.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="OPT_IN_HYPHEN" name="hyphen in 'opt in/out'">
             <rule>
                 <pattern>
@@ -17781,6 +17951,74 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
+        <rulegroup id="PRP_VBG" name="He going (He is going)" default="temp_off">
+            <!-- TODO: add adverb case, e.g. "He only going there" -->
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token regexp="yes">I|you|s?he|it|we|they</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>\1's \2</suggestion> or <suggestion>\1 is \2</suggestion>?</message>
+                <example correction="He's going|He is going"><marker>He going</marker> to be there.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">s?he|it</token>
+                        <token>not</token>
+                        <token postag="VBG" />
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\1's not \3</suggestion>, <suggestion>\1 isn't \3</suggestion> or <suggestion>\1 is not \3</suggestion>?</message>
+                <example correction="she's not going|she isn't going|she is not going">Therefore, <marker>she not going</marker> to be there.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>\1'm \2</suggestion> or <suggestion>\1 am \2</suggestion>?</message>
+                <example correction="I'm going|I am going"><marker>I going</marker> to be there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token>not</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>\1'm not \3</suggestion> or <suggestion>\1 am not \3</suggestion>?</message>
+                <example correction="I'm not going|I am not going"><marker>I not going</marker> to be there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">they|we|you</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>\1're \2</suggestion> or <suggestion>\1 are \2</suggestion>?</message>
+                <example correction="You're going|You are going"><marker>You going</marker> to be there.</example>
+                <example>I found it fascinating what you were saying about global warming.</example>
+                <example>Is this getting you going too?</example>
+                <example>Are you going to be there?</example>
+                <example>I'll get it working.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">they|we|you</token>
+                    <token>not</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>\1're not \3</suggestion>, <suggestion>\1 aren't \3</suggestion> or <suggestion>\1 are not \3</suggestion>?</message>
+                <example correction="You're not going|You aren't going|You are not going"><marker>You not going</marker> to be there.</example>
+                <example>I found it fascinating what you were saying about global warming.</example>
+                <example>Is this getting you going too?</example>
+                <example>Are you going to be there?</example>
+                <example>I'll get it working.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
@@ -18441,6 +18679,19 @@ USA
             <short>Grammatical problem: remove 'of'</short>
             <example correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
         </rule>
+        <rulegroup id="CAUSE_BECAUSE" name="confusion of cause vs. because" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>cause</token>
+                    <token regexp="yes">I|we|they|s?he</token>
+                </pattern>
+                <message>Did you mean <suggestion>because \2</suggestion>?</message>
+                <example correction="because they">I guess they did it <marker>cause they</marker> need money.</example>
+                <example correction="because I">I'm happy, <marker>cause I</marker>'m learning some Dutch.</example>
+                <example>The bug cause it to fail.</example>
+                <example>I'm sorry to cause you all this trouble.</example>
+            </rule>
+        </rulegroup>
         <rule id="PAYED" name="payed (paid)">
             <antipattern>
                 <token>payed</token>
@@ -24623,7 +24874,7 @@ The accident victim died from her injuries.
       </antipattern>
       <antipattern>
           <token inflected='yes'>welcome</token>
-          <token>back</token>
+          <token regexp="yes">back|page</token>
       </antipattern>
       <antipattern>
           <token>Guided</token>
@@ -32747,6 +32998,50 @@ The accident victim died from her injuries.
             <example correction="going to">I'm <marker>gonna</marker> let you finish.</example>
             <example>They call me Gonna.</example>
         </rule>
+        <rule id="WANNA" name="wanna (want to)">
+            <pattern>
+                <marker>
+                    <token>wanna</token>
+                </marker>
+                <token postag="VB" />
+            </pattern>
+            <message>The word 'wanna' is informal. Consider an alternative.</message>
+            <suggestion>want to</suggestion>
+            <example correction="Want to"><marker>Wanna</marker> be there.</example>
+            <example correction="want to">I'm <marker>wanna</marker> let you finish.</example>
+            <example correction="want to">I <marker>wanna</marker> have a big party on my birthday.</example>
+            <example>They call me Wanna.</example>
+        </rule>
+        <rulegroup id="DUNNO" name="dunno (don't know)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|it|we|they</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>dunno</token>
+                    </marker>
+                </pattern>
+                <message>The word 'dunno' is informal. Consider an alternative.</message>
+                <suggestion>don't know</suggestion>
+                <example correction="don't know">I really <marker>dunno</marker> what you're talking about.</example>
+                <example>They call me Dunno</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>dunno</token>
+                    </marker>
+                    <token postag="SENT_END|WP|WRB" postag_regexp="yes" />
+                </pattern>
+                <message>The word 'dunno' is informal. Consider an alternative.</message>
+                <suggestion>don't know</suggestion>
+                <example correction="Don't know"><marker>Dunno</marker> what you mean.</example>
+                <example correction="don't know">Really <marker>dunno</marker> what you are talking about.</example>
+                <example>Dunno is my name.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EXTREME_ADJECTIVES" name="Extreme adjectives">
             <!--      Created by Tiago F. Santos, 2018-07-20      -->
             <url>https://www.espressoenglish.net/extreme-adjectives-in-english/</url>
