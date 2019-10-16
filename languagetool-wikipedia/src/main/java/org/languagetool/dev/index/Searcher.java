@@ -265,6 +265,9 @@ public class Searcher {
       }
       Document doc = indexSearcher.doc(match.doc);
       String sentence = doc.get(fieldName);
+      if (sentence == null) {
+        throw new RuntimeException("No field '" + fieldName + "' found in doc " + match.doc);
+      }
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
       docsChecked++;
       if (ruleMatches.size() > 0) {
