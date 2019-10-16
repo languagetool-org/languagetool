@@ -699,6 +699,7 @@ though, and has since been slightly modified)-->
           <token postag="N .*" postag_regexp="yes">
             <exception postag="V .*" postag_regexp="yes"/>
             <exception regexp="yes">[a-z]|oui|non</exception>
+            <exception inflected="yes" regexp="yes">drôle|chouette|marron|orange|rose|jaune|grand|petit|riche|pauvre|beau|laid|moyenne|blesser|droite|bon</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>sa</suggestion> ?</message>
@@ -8393,7 +8394,7 @@ though, and has since been slightly modified)-->
           <token postag="[JNZ] f .*" postag_regexp="yes">
             <exception postag="[JNZ] [me] .*|V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
-            <exception regexp="yes">face|grâce|élection</exception>
+            <exception regexp="yes">face|grâce|élection|putain</exception>
             <exception case_sensitive="yes">CAPES</exception>
           </token>
 		  </marker>
@@ -8446,6 +8447,10 @@ though, and has since been slightly modified)-->
           <antipattern>
               <token regexp="yes">église|domaine|cathédrale|hôpital|retraite|ville|agence|campus|place</token>
               <token>saint</token>
+          </antipattern>
+          <antipattern>
+              <token>panier</token>
+              <token>surprise</token>
           </antipattern>
         <antipattern>
             <token>petit</token>
@@ -9325,6 +9330,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
               <exception regexp="yes">soit|(?-i)\p{Lu}+</exception>
+              <exception regexp="yes">animes?</exception>
             </token>
           </marker>
         </pattern>
@@ -16370,6 +16376,92 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
+    <rule id="LEAD" name="lead">
+      <pattern>
+        <token>lead</token>
+      </pattern>
+      <message>L'expression « lead » est un anglicisme.</message>
+      <suggestion>commandement</suggestion>
+      <example correction="commandement">Et qui est-ce qui assumera le <marker>lead</marker> de leur équipe ?</example>
+    </rule>
+    <rule id="FAKE" name="fake">
+      <pattern>
+        <token>fake</token>
+      </pattern>
+      <message>L'expression « fake » est un anglicisme.</message>
+      <suggestion>faux</suggestion>
+      <example correction="faux">C'est un <marker>fake</marker> évident.</example>
+    </rule>
+    <rule id="SHOP" name="shop">
+      <pattern>
+        <token>shop</token>
+      </pattern>
+      <message>L'expression « shop » est un anglicisme.</message>
+      <suggestion>magasin</suggestion>
+      <example correction="magasin">Dans quel <marker>shop</marker> ils l'ont acheté ?</example>
+    </rule>
+    <rule id="COMMUNITY" name="community">
+      <pattern>
+        <token>community</token>
+      </pattern>
+      <message>L'expression « community » est un anglicisme.</message>
+      <suggestion>communauté</suggestion>
+      <example correction="communauté">C'est super populaire dans la <marker>community</marker> gothic-lolita.</example>
+    </rule>
+    <rule id="COMMUNITY_MANAGER" name="community manager">
+      <pattern>
+        <token>community</token>
+        <token>manager</token>
+      </pattern>
+      <message>L'expression « community manager » est un anglicisme.</message>
+      <suggestion>animateur de communauté</suggestion>
+      <example correction="animateur de communauté">Je suis <marker>community manager</marker> pour cette boîte.</example>
+    </rule>
+    <rule id="CALL" name="call">
+      <pattern>
+        <token>call</token>
+      </pattern>
+      <message>L'expression « call » est un anglicisme. Utilisez plutôt le verbe « appeler ».</message>
+      <example correction="">Je te <marker>call</marker> dans l'après-midi.</example>
+    </rule>
+    <rule id="DASHBOARD" name="dashboard">
+      <pattern>
+        <token>dashboard</token>
+      </pattern>
+      <message>L'expression « dashboard » est un anglicisme. Utilisez plutôt l'expression <suggestion>tableau de bord</suggestion>.</message>
+      <example correction="tableau de bord">C'est marqué sur le <marker>dashboard</marker>, juste ici.</example>
+    </rule>
+    <rule id="FREE" name="free">
+      <antipattern>
+        <token>free</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no">fr</token>
+      </antipattern>
+      <pattern>
+        <token case_sensitive="yes">free</token>
+      </pattern>
+      <message>L'expression « free » est un anglicisme.</message>
+      <suggestion>gratuit</suggestion>
+      <example correction="gratuit">C'est <marker>free</marker> pour les abonnés.</example>
+      <example correction="gratuit">C'est <marker>free</marker> pour les abonnés Free.</example>
+      <example>Agnosticisme - Agnostique Sur le site atheisme.free.fr</example>
+    </rule>
+    <rule id="MAP" name="map">
+      <pattern>
+        <token>map</token>
+      </pattern>
+      <message>L'expression « carte » est un anglicisme.</message>
+      <suggestion>carte</suggestion>
+      <example correction="carte">Je t'envoie la <marker>map</marker> pour t'orienter.</example>
+    </rule>
+    <rule id="GROUP" name="group">
+      <pattern>
+        <token>group</token>
+      </pattern>
+      <message>L'expression « group » est un anglicisme.</message>
+      <suggestion>groupe</suggestion>
+      <example correction="groupe">Je crée un <marker>group</marker> pour en dicuter.</example>
+    </rule>
     <rule id="AFTER_SHAVE" name="after-shave → après-rasage">
       <pattern><token>after-shave</token></pattern>
       <message>« \1 » est un anglicisme. Employez <suggestion>après-rasage</suggestion>.</message>
@@ -28068,13 +28160,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="HEURES" name="heures 20h30 → 20 h 30">
       <rule>
-        <pattern><token regexp="yes">(?:1?\d|2[0-4])h(?:[0-5]?\d)</token></pattern>
+       <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h(?:[0-5]?\d)</token></pattern> -->
+        <pattern><token regexp="yes">(\d+)h(\d+)</token></pattern>
         <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH](\d+)" regexp_replace="$1 h $2"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h 30">Il est <marker>20h30</marker>.</example>
       </rule>
       <rule>
-        <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern>
+        <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern> -->
+        <pattern><token regexp="yes">(\d+)h</token></pattern>
         <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1 h"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h">Il est <marker>20h</marker>.</example>
@@ -30197,6 +30291,13 @@ though, and has since been slightly modified)-->
         <example>Les chiens aboient à qui mieux mieux.</example>
       </rule>
     </rulegroup>
+    <rule id="DISPO" name="Dispo">
+      <pattern>
+        <token>dispo</token>
+      </pattern>
+      <message>« Dispo » est une abbréviation familière, utilisez plutôt <suggestion>disponible</suggestion>.</message>
+      <example correction="disponible">Je serais <marker>dispo</marker> après leur réunion.</example>
+    </rule>
     <rule id="ORGE_PERLE" name="orge perlée → orge perlé">
       <pattern>
         <token>orge</token>
