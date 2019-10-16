@@ -36,7 +36,7 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   public MorfologikIrishSpellerRule(ResourceBundle messages,
                                      Language language, UserConfig userConfig) throws IOException {
     super(messages, language, userConfig);
-    this.setIgnoreTaggedWords();
+    // this.setIgnoreTaggedWords();
   }
 
   @Override
