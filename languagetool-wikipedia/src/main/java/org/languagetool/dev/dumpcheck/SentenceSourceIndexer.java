@@ -92,7 +92,14 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
 
   private void run(List<String> dumpFileNames, Language language) throws IOException {
     MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFileNames, language);
-    while (mixingSource.hasNext()) {
+    while (true) {
+      try {
+        if (!mixingSource.hasNext()) {
+          break;
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       if (stopped) {
         return;
       }
