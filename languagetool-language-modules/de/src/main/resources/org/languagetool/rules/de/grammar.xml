@@ -39634,6 +39634,31 @@ Andere Projekte</example>
 <!--    Komma zwischen zwei Satzteilen (recht allgemein)     -->
             <rule>
                 <antipattern>
+                    <token postag="ADJ:PRD:.+" postag_regexp="yes"></token>
+                    <token postag="PA2:.+" postag_regexp="yes"></token>
+                    <token postag="KON:.+" postag_regexp="yes"></token>
+                    <token skip="4"></token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token postag="SENT_END"></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PA2:.+" postag_regexp="yes"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token postag="VER:MOD:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>so</token>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token skip="5"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="VER:PA2:.+" postag_regexp="yes"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token postag="PKT"/>
+                </antipattern>
+                <antipattern>
                     <token postag="VER:[1-3]:.*" postag_regexp="yes"/>
                     <token regexp="yes">zu|noch|respektive|beziehungsweise</token>
                     <token postag="VER:[1-3]:.*" postag_regexp="yes" />
@@ -39733,6 +39758,10 @@ Andere Projekte</example>
                 <example correction="dachte, du willst">Ich <marker>dachte du willst</marker> uns helfen.</example>
                 <example correction="Sag mal, hast"><marker>Sag mal hast</marker> du morgen schon etwas vor?</example>
                 <example correction="Sagt mal, habt"><marker>Sagt mal habt</marker> ihr morgen schon etwas vor?</example>
+                <example>Ich bin verheiratet gewesen, du bist verheiratet gewesen, lass uns heiraten!</example>
+                <example>Da  nur wenig bebaubare Flächen vorhanden sind, wird allerdings bezweifelt, dass ein solcher Anstieg der Einwohnerzahlen tatsächlich realisiert werden kann.</example>
+                <example>Es wird oftmals auch zum Genre der Brettspiele gezählt, obwohl es sich streng genommen um ein Legespiel handelt.</example>
+                <example>Er rannte so schnell er konnte, um den Flug noch zu erwischen.</example>
                 <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
                 <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
                 <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
