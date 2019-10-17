@@ -3,6 +3,9 @@
 	English Disambiguation Rules for LanguageTool
 	Copyright (C) 2008 Marcin Miłkowski
 -->
+<!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
@@ -664,7 +667,7 @@
     <rule id="CH_IN_DYNASTY" name="'in as parts of proper names">
       <pattern>
         <token regexp="yes">\p{Lu}\p{Ll}+</token>
-        <token spacebefore="no" regexp="yes">['’]</token>
+        <token spacebefore="no" regexp="yes">&apostrophe;</token>
         <marker>
         <token spacebefore="no">in</token>
         </marker>
@@ -957,7 +960,7 @@
     <rule id="DONT_VBNN_VB" name="don't/didn't/doesn't + verb/noun -> VB">
       <pattern>
         <token regexp="yes">don|didn|doesn</token>
-        <token spacebefore="no" regexp="yes">['’]</token>
+        <token spacebefore="no" regexp="yes">&apostrophe;</token>
         <token>t</token>
             <marker>
                 <and>
@@ -1349,7 +1352,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule>
       <antipattern>
         <token>it</token>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token spacebefore="no">s</token>
         <token/>
         <token>not</token>
@@ -1373,7 +1376,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>can</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig postag="MD"/>
@@ -1607,7 +1610,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
             <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token><!-- 'Be' and 'do' do not have the postag MD. The safe option is to use a list of verbs rather than changing the postags of 'do' and 'be'. -->
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <marker>
                 <token case_sensitive="yes">t</token>
             </marker>
@@ -1622,15 +1625,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>haven</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig action="filter" postag="MD"/>
     </rule>
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
-    		<token regexp="yes">they|we|what|who|you</token>
-    		<token regexp="yes">['’]</token>
+    		<token regexp="yes">they|we|what|who|you|how</token>
+    		<token regexp="yes">&apostrophe;</token>
     		<marker>
     			<token spacebefore="no" case_sensitive="yes">re</token>
     		</marker>
@@ -1642,7 +1645,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="ve -> have" id="VE_VBP">
     	<pattern>
     		<token regexp="yes">I|they|we|what|who|you</token>
-    		<token regexp="yes">['’]</token>
+    		<token regexp="yes">&apostrophe;</token>
     		<marker>
     			<token spacebefore="no">ve</token>
     		</marker>
@@ -1654,7 +1657,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="ll -> will" id="ll_MD">
       <pattern>
         <token regexp="yes">I|s?he|they|we|what|who|you</token>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker>
           <token spacebefore="no">ll</token>
         </marker>
@@ -1668,7 +1671,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     		<marker>
     		<token>don</token>
     		</marker>
-    		<token regexp="yes">['’]</token>
+    		<token regexp="yes">&apostrophe;</token>
     		<token>t</token>
     	</pattern>
     	<disambig postag="VBP"/>
@@ -1678,7 +1681,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <marker>
         <token>didn</token>
       </marker>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token>t</token>      
       </pattern>
       <disambig action="add"><wd pos="VBD" lemma="do"/></disambig>
@@ -1690,7 +1693,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <marker>
         <token>wasn</token>
       </marker>
-        <token regexp="yes">['’]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token>t</token>      
       </pattern>
       <disambig action="add"><wd pos="VBD" lemma="be"/></disambig>
@@ -1702,7 +1705,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>weren</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig action="add"><wd pos="VBD" lemma="be"/></disambig>
@@ -1714,7 +1717,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>hadn</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig action="add"><wd pos="VBD" lemma="have"/></disambig>
@@ -1726,7 +1729,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>won</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig action="replace"><wd pos="MD" lemma="will"/></disambig>
@@ -1738,7 +1741,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>cc</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>d</token>
         </pattern>
         <disambig action="add"><wd pos="VBD" lemma="cc"/></disambig>
@@ -1750,7 +1753,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>cc</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>d</token>
         </pattern>
         <disambig action="add"><wd pos="VBN" lemma="cc"/></disambig>
@@ -1762,7 +1765,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>cc</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>ing</token>
         </pattern>
         <disambig action="replace"><wd pos="VBG" lemma="cc"/></disambig>
@@ -1772,7 +1775,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="cc'ing spelling" id="CC_ING_SPELLING">
         <pattern>
             <token>cc</token>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token regexp="yes">ing|d|s</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -1782,7 +1785,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>cc</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </pattern>
         <disambig action="replace"><wd pos="VBZ" lemma="cc"/></disambig>
@@ -1791,7 +1794,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
     <rule name="are + VBG/NN -&gt; VBG" id="ARE_VBG_NN">
         <pattern>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>re</token>
             <marker>
                 <token postag="VBG"/>
@@ -1802,7 +1805,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="I'm -&gt; VBP" id="AM_VBP">
         <pattern>
             <token>I</token>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <marker>
                 <token>m</token>
             </marker>
@@ -1814,7 +1817,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token>don</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
         <disambig action="add"><wd pos="VBP" lemma="do"/></disambig>
@@ -1822,7 +1825,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="'s -&gt; be/vbz" id="POS_BE_VBZ">
         <antipattern><!-- It's can not be. -->
             <token>it</token>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token spacebefore="no">s</token>
             <token postag="MD"/>
             <token>not</token>
@@ -1830,7 +1833,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="WP|PRP"/>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <marker>
                 <token spacebefore="no">s</token>
             </marker>
@@ -1848,7 +1851,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token>let</token>
                 </marker>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token><exception regexp="yes">are|were</exception></token>
             </pattern>
@@ -1862,7 +1865,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token><exception postag_regexp="yes" postag="DT|PRP\$|WP\$"/></token>
                 <token>let</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <marker>
                     <token>s</token>
                 </marker>
@@ -1875,7 +1878,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token><exception postag_regexp="yes" postag="DT|PRP\$|WP\$"/></token>
                 <token>let</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <marker>
                 	<token postag='VBP'/>
@@ -2252,7 +2255,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="Qur'an" id="QUARAN">
         <pattern>
             <token regexp="yes">\p{L}+</token>
-            <token spacebefore="no" regexp="yes">['’]</token>
+            <token spacebefore="no" regexp="yes">&apostrophe;</token>
             <marker>
                 <token spacebefore="no" inflected="yes">a</token>
             </marker>
@@ -2427,7 +2430,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+</token>
             </marker>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </pattern>
         <disambig postag="NNP"/>
@@ -2871,7 +2874,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
-            <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">['’]</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
+            <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">&apostrophe;</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
         <example type="untouched">His friend is now in England.</example>
@@ -3509,13 +3512,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule>  <!--	probably verb "is": now add to some -->
             <antipattern>
                 <token regexp="yes">there|that</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">s</token>
                 <token>got</token>
             </antipattern>
             <antipattern><!-- It's can not be. -->
                 <token>it</token>
-                <token regexp="yes">['’]</token>
+                <token regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">s</token>
                 <token postag="MD"/>
                 <token>not</token>
@@ -3523,7 +3526,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/></token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <marker>
                     <token spacebefore="no">s<exception postag="VBZ"/></token>
                 </marker>
@@ -3544,7 +3547,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <!--  probably verb "is":remove -->
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT|UNKNOWN|CD"/></token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <marker>
                     <token spacebefore="no" postag="POS">s</token>
                 </marker>
@@ -3557,7 +3560,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule name="s = POS with NNS + are/were">
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">s</token>
                 <marker>
                     <and>
@@ -3573,7 +3576,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule name="s = POS with NN + is/was">
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">s</token>
                 <marker>
                     <and>
@@ -3589,7 +3592,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule name="s = has">
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <marker>
                     <token spacebefore="no">s</token>
                 </marker>
@@ -3601,7 +3604,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token postag="PRP$"/>
                 <token postag="NN"/>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <marker>
                     <token spacebefore="no">s</token>
                 </marker>
@@ -3613,7 +3616,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
                 <token spacebefore="no">s</token>
             </pattern>
@@ -3625,7 +3628,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" regexp="yes">.*s<exception scope="previous">'</exception></token>
                 <marker>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
                 <token spacebefore="yes"><exception>s</exception></token>
             </pattern>
@@ -3639,7 +3642,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|^(?!NN.*?).*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+s<exception scope="previous">'</exception></token>
                 <marker>
-                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </marker>
                 <token spacebefore="yes"/>
             </pattern>
@@ -3668,7 +3671,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token regexp="yes" postag="UNKNOWN">.*in</token>
             </marker>
-            <token spacebefore="no" regexp="yes">['’]</token>
+            <token spacebefore="no" regexp="yes">&apostrophe;</token>
         </pattern>
         <disambig postag="VBG"/>
         <example type="untouched">I'm in N.Y.</example>
@@ -4150,7 +4153,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 		<antipattern><!-- Incorrect grammar: was it's cost -->
 			<token inflected="yes" regexp="yes">be|have</token>
 			<token>it</token>
-			<token spacebefore="no" regexp="yes">['’]</token>
+			<token spacebefore="no" regexp="yes">&apostrophe;</token>
 			<token spacebefore="no">s</token>
 			<token postag_regexp="yes" postag="NN.*"/>
 		</antipattern>
@@ -5119,7 +5122,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token>of</token>
         <token>all</token>
         <token>it</token>
-        <token spacebefore="no" regexp="yes">['’]</token>
+        <token spacebefore="no" regexp="yes">&apostrophe;</token>
         <token>s</token>      
       </pattern>
       <disambig action="immunize"/>
@@ -5222,7 +5225,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <pattern case_sensitive="yes">
           <token>Palme</token>
           <token>d</token>
-          <token spacebefore="no" regexp="yes">['’]</token>
+          <token spacebefore="no" regexp="yes">&apostrophe;</token>
           <token spacebefore="no" regexp="yes">[Oo]r</token><!-- Both are on the reference website -->
       </pattern>
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
@@ -5239,7 +5242,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="Proper noun (surname): O'x" id="SURNAME_O_X">
       <pattern case_sensitive="yes">
           <token>O</token>
-          <token spacebefore="no" regexp="yes">['’]</token>
+          <token spacebefore="no" regexp="yes">&apostrophe;</token>
           <token spacebefore="no" regexp="yes">Hair|to-add-as-necessary</token><!-- https://en.wikipedia.org/wiki/O%27Hair -->
       </pattern>
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
@@ -5256,7 +5259,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="Proper noun: Qur'an" id="QUR_AN"><!-- www.lexico.com/en/definition/koran -->
       <pattern case_sensitive="yes">
           <token>Qur</token>
-          <token spacebefore="no" regexp="yes">['’]</token>
+          <token spacebefore="no" regexp="yes">&apostrophe;</token>
           <token spacebefore="no">an</token>
       </pattern>
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
@@ -5714,7 +5717,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="C_EST_LA_GUERRE" name="c'est la guerre/vie">
             <pattern>
                 <token>c</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">est</token>
                 <token>la</token>
                 <token regexp="yes">guerre|vie</token>
@@ -5758,7 +5761,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="CHEF_D_ŒUVRE" name="chef-d'œuvre">
             <pattern>
                 <token>chef-d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">œuvre</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -5766,7 +5769,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="CHEFS_D_ŒUVRE" name="chefs-d'œuvre">
             <pattern>
                 <token>chefs-d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">œuvre</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
@@ -5837,7 +5840,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="COUP_D_ÉTAT" name="coup d'état">
             <pattern>
                 <token>coup</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">état</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -5845,7 +5848,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="COUPS_D_ÉTAT" name="coups d'état">
             <pattern>
                 <token>coups</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">état</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
@@ -6161,7 +6164,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>hors</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">oeuvre</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -6170,7 +6173,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>hors</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">oeuvres</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
@@ -6214,7 +6217,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>jeu</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">esprit</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -6223,7 +6226,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>jeux</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">esprit</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
@@ -6338,7 +6341,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>objet</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">art</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -6347,7 +6350,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>objets</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">art</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
@@ -6446,7 +6449,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>raison</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">être</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -6489,7 +6492,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>table</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">hôte</token>
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/><wd pos="JJ"/></disambig>
@@ -6498,7 +6501,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>table</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">hôte</token>
             </pattern>
             <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
@@ -6507,7 +6510,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <pattern>
                 <token>table</token>
                 <token>d</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">hôte</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
