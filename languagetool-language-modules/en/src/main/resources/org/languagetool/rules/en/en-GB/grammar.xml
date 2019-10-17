@@ -24,6 +24,8 @@ USA
 -->
 
 <!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+
     <!ENTITY hyphen "(?:[-‑])">
 
     <!ENTITY ambiguous_date '
@@ -372,7 +374,7 @@ USA
             <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
-                <token spacebefore="no">'</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no" postag_regexp="yes" postag="NN.*"/>
             </antipattern>
             <antipattern><!-- If the token before or the token after is a proper noun, then the target token is probably part of a proper name, and not a common noun. Example: Organisation of Islamic Cooperation. -->

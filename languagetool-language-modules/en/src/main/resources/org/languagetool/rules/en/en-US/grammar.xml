@@ -25,6 +25,8 @@ USA
 <!--suppress CheckTagEmptyBody -->
 
 <!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+
         <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
         <!ENTITY abbrevWeekdays "Mon|Mo|Tue|Tu|Wed|We|Thu|Th|Fri|Fr|Sat|Sa|Sun|Su">
         <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
@@ -186,7 +188,7 @@ USA
         <rule id="MASTERS_DISSERTATION_THESIS" name="master's dissertation (thesis)">
             <pattern>
                 <token>master</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>s</token>
                 <token inflected="yes">dissertation</token>
             </pattern>
