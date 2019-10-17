@@ -272,7 +272,6 @@ public class English extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "MISSING_HYPHEN":            return 5;
-      case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
       case "LIGATURES":                 return 1;   // prefer over spell checker
       case "APPSTORE":                  return 1;   // prefer over spell checker
       case "PROFANITY":                 return 5;   // prefer over spell checker
@@ -280,11 +279,13 @@ public class English extends Language implements AutoCloseable {
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
       case "A_INFINITIVE":              return -1;  // prefer other more specific rules (with suggestions)
+      case "PRP_VBG":                   return -1;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
       case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
       case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
+      case "HE_VERB_AGR":               return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "PRONOUN_NOUN":              return -2;  // prefer other rules (e.g. PRP_VB)
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority

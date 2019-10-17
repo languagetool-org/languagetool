@@ -3545,19 +3545,43 @@ USA
                 <example>The government has taken <marker>its</marker> time to catch up with the digital economy.</example>
             </rule>
         </rulegroup>
+        <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|PCT" postag_regexp="yes" />
+                <token postag="PRP\$|DT" postag_regexp="yes" min="0" />
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes">and|or</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Ii]t</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">s</token>
+                </marker>
+                <token postag="VBG" />
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="JJ" />
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>its</suggestion>?</message>
+            <example correction="its">My dog and <marker>it's</marker> surrounding friends.</example>
+            <example correction="its">Adelaide and <marker>it</marker> surrounding areas has hosted the Tour Down Under bicycle race.</example>
+            <example>Yes, I was outside and it's raining cats and dogs.</example>
+        </rule>
         <rulegroup id="WED_WE_D" name="wed (we'd)">
             <rule>
                 <pattern>
                     <marker>
                         <token>wed</token>
                     </marker>
-                    <token postag_regexp="yes" postag="VB[PN]"/>
+                    <token postag="RB" min="0" />
+                    <token postag_regexp="yes" postag="VB[PN]?"/>
                 </pattern>
                 <message>Did you mean <suggestion>we'd</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="We'd"><marker>Wed</marker> gone so far.</example>
                 <example correction="we'd">Actually, <marker>wed</marker> love to do this!</example>
                 <example>We'd love to eat ice cream!</example>
+                <example>Wed is my favorite day.</example>
+                <example correction="We'd"><marker>Wed</marker> only be happy if there's enough ice cream!</example>
             </rule>
             <rule>
                 <pattern>
@@ -9969,7 +9993,7 @@ USA
             <example correction="and">He was going <marker>an</marker> also partying there.</example>
             <example>After the victory of the PdL in the 2008 general election, AN was merged into the PdL in early 2009.</example>
         </rule>
-        <rule id="A_HAVE_VBN" name="A have been (I have been)" default="temp_off">
+        <rule id="A_HAVE_VBN" name="A have been (I have been)">
             <pattern>
                 <marker>
                     <token>
@@ -9988,7 +10012,7 @@ USA
             <example>Popeyes and Chick-fil-A have been fueling the debate about where to get the best chicken sandwich for weeks.</example>
             <example>The Oakland A's have seen quite a few catchers squat.</example>
         </rule>
-        <rulegroup id="HAVE_A_VBN" name="have a (I) been" default="temp_off">
+        <rulegroup id="HAVE_A_VBN" name="have a (I) been">
             <rule>
                 <pattern>
                     <marker>
@@ -10033,7 +10057,7 @@ USA
             <example>There is only ever one curve for any particular controller.</example>
             <example>Never ever one to lose.</example><!-- one vs. want confusion -->
         </rule>
-        <rule id="EVER_NN" name="ever day (every day)" default="temp_off">
+        <rule id="EVER_NN" name="ever day (every day)">
             <pattern>
                 <marker>
                     <token>
@@ -10051,7 +10075,7 @@ USA
             <example>All Tom ever saw were the results.</example>
             <example>… not knowing if the 1300 story would ever get made.</example>
         </rule>
-        <rulegroup id="WANT_ONE" name="'want' vs. 'one'" default="temp_off">
+        <rulegroup id="WANT_ONE" name="'want' vs. 'one'">
             <rule>
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes">
@@ -10854,7 +10878,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
-        <rulegroup id="GO_TO_HYPHEN" name="missing hyphen in 'go to'" default="temp_off">
+        <rulegroup id="GO_TO_HYPHEN" name="missing hyphen in 'go to'">
             <antipattern>
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -17964,11 +17988,39 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
-        <rulegroup id="PRP_VBG" name="He going (He is going)" default="temp_off">
+        <rulegroup id="PRP_VBG" name="He going (He is going)">
             <!-- TODO: add adverb case, e.g. "He only going there" -->
             <antipattern>
                 <token postag="VB.*" postag_regexp="yes" />
                 <token regexp="yes">I|you|s?he|it|we|they</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">aren?|isn</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token regexp="yes">I|you|s?he|it|we|they</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN" />
+                <token regexp="yes">you|it</token>
+            </antipattern>
+            <antipattern>
+                <token>current</token>
+                <token>I</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">it|you</token>
+                <token>being</token>
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token postag="JJ" />
+            </antipattern>
+            <antipattern>
+                <token>t</token>
+                <token>)</token>
+                <token spacebefore="no">he</token>
+                <token postag="VBG" />
             </antipattern>
             <rule>
                 <pattern>
@@ -17977,6 +18029,11 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>\1's \2</suggestion> or <suggestion>\1 is \2</suggestion>?</message>
                 <example correction="He's going|He is going"><marker>He going</marker> to be there.</example> 
+                <example>Both of it being wrong.</example>
+                <example>While others have raised doubts about it being part of Afroasiatic at all.</example>
+                <example>… resulting in it impacting in an "uncertain location" on the lunar surface.</example>
+                <example>It being Sunday, there was no school.</example>
+                <example>(t)he conditioning of petty criminals with the whip.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17996,6 +18053,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>\1'm \2</suggestion> or <suggestion>\1 am \2</suggestion>?</message>
                 <example correction="I'm going|I am going"><marker>I going</marker> to be there.</example>
+                <example>...general, charge Q is determined by steady current I flowing for a time t as Q = It.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18017,6 +18075,13 @@ USA
                 <example>Is this getting you going too?</example>
                 <example>Are you going to be there?</example>
                 <example>I'll get it working.</example>
+                <example>Why aren't you going with me?</example>
+                <example>Aren't you being very rude?</example>
+                <example>I don't like both of you going to such a place.</example>
+                <example>How can I feel relaxed, with you watching me like that?.</example>
+                <example>Go back to Russia, you fucking communists!</example>
+                <example>How're you doing?</example>
+                <example>I cannot continue my class with you chattering to one another.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18692,7 +18757,7 @@ USA
             <short>Grammatical problem: remove 'of'</short>
             <example correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
         </rule>
-        <rulegroup id="CAUSE_BECAUSE" name="confusion of cause vs. because" default="temp_off">
+        <rulegroup id="CAUSE_BECAUSE" name="confusion of cause vs. because">
             <rule>
                 <pattern>
                     <token>cause</token>
