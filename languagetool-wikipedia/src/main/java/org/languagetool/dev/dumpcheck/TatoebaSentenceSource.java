@@ -76,7 +76,8 @@ class TatoebaSentenceSource extends SentenceSource {
       }
       String[] parts = line.split("\t");
       if (parts.length != 3) {
-        throw new RuntimeException("Unexpected line format: expected three tab-separated columns: '" + line  + "'");
+        System.err.println("Unexpected line format: expected three tab-separated columns: '" + line  + "', skipping");
+        continue;
       }
       String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
       if (acceptSentence(sentence)) {
