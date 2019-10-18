@@ -1423,6 +1423,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="A_A_ACCENT" name="A au lieu de À">
       <rule>
+        <antipattern>
+          <token regexp="yes">\.|\/</token>
+          <token spacebefore="NO">A</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START"/>
           <marker>
@@ -1437,6 +1441,8 @@ though, and has since been slightly modified)-->
         <example correction="À"><marker>A</marker> quelle heure arrive-t-il ?</example>
         <example>A priori, il devrait arriver à l’heure.</example>
         <example>a) Introduction.</example>
+        <example>U.S.A.</example>
+        <example>A/B Testez.</example>
       </rule>
       <rule>
         <pattern>
