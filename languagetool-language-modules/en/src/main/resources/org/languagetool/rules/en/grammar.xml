@@ -4270,6 +4270,21 @@ USA
                 <example correction="Maybe"><marker>May be</marker> I don't understand.</example>
                 <example>That they all may be one...</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>may</token>
+                        <token>be</token>
+                    </marker>
+                    <token postag="DT|PRP\$|NNP" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <short>Possible typo</short>
+                <example correction="Maybe"><marker>May be</marker> a new one?.</example>
+                <example correction="Maybe"><marker>May be</marker> his father knows.</example>
+                <example correction="Maybe"><marker>May be</marker> Google will announce a new version of Android tomorrow.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>(</token>
