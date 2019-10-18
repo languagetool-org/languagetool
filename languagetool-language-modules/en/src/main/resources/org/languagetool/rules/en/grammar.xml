@@ -19297,6 +19297,33 @@ USA
             <example correction="16-bit">He was playing <marker>16 bit</marker> games on his old video console.</example>
             <example>The encryption strength was only <marker>512 bit</marker>.</example>
         </rule>
+        <rule id="ROOM_APARTMENT_HYPHEN" name="missing hyphen in '2 room apartment'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">[1-6]|one|two|three|four|five|six</token>
+                    <token regexp="yes">(bed|bath)?room</token>
+                </marker>
+                <token regexp="yes">apartments?|tents?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="2-room">He lives in a small <marker>2 room</marker> apartment.</example>
+            <example correction="3-bedroom">The old woman lived in a 3 room apartment by herself.</example>
+        </rule>
+        <rule id="BUY_TWO_GET_ONE_FREE" name="missing comma in 'buy two get one free'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">buy|purchase|order</token>
+                    <token postag="CD" />
+                    <token regexp="yes">get|receive</token>
+                    <token postag="CD" />
+                </marker>
+            </pattern>
+            <message>It appears that a comma is missing.</message>
+            <suggestion>\1 \2, \3 \4</suggestion>
+            <example correction="Buy 2, Get 1"><marker>Buy 2 Get 1</marker> Free!</example>
+            <example correction="Order five, receive one">New offer: <marker>Order five receive one</marker> for free</example>
+        </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
         <antipattern case_sensitive="yes">
             <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
