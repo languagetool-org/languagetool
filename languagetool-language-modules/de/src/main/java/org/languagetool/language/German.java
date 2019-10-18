@@ -292,6 +292,7 @@ public class German extends Language implements AutoCloseable {
       case "DIESEN_JAHRES": return 1;
       case "EBEN_FALLS": return 1;
       case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
+      case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS and other
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH

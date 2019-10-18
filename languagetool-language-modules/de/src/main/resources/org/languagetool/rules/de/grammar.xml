@@ -9511,12 +9511,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>soweit</token>
                     </marker>
+                    <token>
+                        <exception postag="ADJ:PRD:GRU"></exception>
+                    </token>
                 </pattern>
                 <message>Meinten Sie <suggestion>so weit</suggestion>?</message>
-                <short>&getrennt;.</short>
                 <example correction="so weit">Wir sind schon <marker>soweit</marker> gekommen.</example>
                 <example correction="so weit">Er sah Wüste <marker>soweit</marker> seine Augen reichten.</example>
                 <example correction="so weit">Wir sind schon <marker>soweit</marker> gekommen.</example>
+                <example>Das sieht soweit gut aus.</example>
             </rule>
             <rule>
                 <pattern>
@@ -16493,6 +16496,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="RECHT_MACHEN" name="Kleinschreibung 'recht' in 'es allen recht machen'" default="temp_off">
+            <antipattern>
+                <token regexp="yes">zum|mit</token>
+                <token>Recht</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token />
+                <token>Recht</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Recht</token>
+                </marker>
+                <token min="0">zu</token>
+                <token inflected="yes">machen</token>
+            </pattern>
+            <message>Wenn die Phrase 'recht machen' (= jemandes Wunsch nachkommen) gemeint ist, wird 'recht' kleingeschrieben.</message>
+            <suggestion><match no="1" case_conversion="startlower"/></suggestion>
+            <url>https://www.duden.de/rechtschreibung/recht_machen</url>
+            <short>&prgk;.</short>
+            <example correction="recht">Sie will es allen <marker>Recht</marker> machen.</example>
+            <example>1929 warnte er, das Dritte Reich werde Massenmorde, Pogrome und Plünderungen zum Recht machen.</example>
+            <example>Sie wollen den Besitz von Waffen zu ihrem Recht machen.</example>
+        </rule>
         <rule id="TEILEN" name="zu beiden teilen (Teilen)">
             <pattern case_sensitive="yes">
                 <token postag="PRP:.+" postag_regexp="yes"/>
@@ -39636,12 +39664,18 @@ Andere Projekte</example>
 <!--    Komma zwischen zwei Satzteilen (recht allgemein)     -->
             <rule>
                 <antipattern>
-                    <token postag="ADJ:PRD:.+" postag_regexp="yes"></token>
-                    <token postag="PA2:.+" postag_regexp="yes"></token>
-                    <token postag="KON:.+" postag_regexp="yes"></token>
-                    <token skip="4"></token>
-                    <token postag="VER:.+" postag_regexp="yes"></token>
-                    <token postag="SENT_END"></token>
+                    <token postag="ADJ:PRD:GRU"/>
+                    <token postag="PKT"/>
+                    <token skip="4"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADJ:PRD:.+" postag_regexp="yes"/>
+                    <token postag="PA2:.+" postag_regexp="yes"/>
+                    <token postag="KON:.+" postag_regexp="yes"/>
+                    <token skip="4"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="PA2:.+" postag_regexp="yes"/>
@@ -39760,6 +39794,9 @@ Andere Projekte</example>
                 <example correction="dachte, du willst">Ich <marker>dachte du willst</marker> uns helfen.</example>
                 <example correction="Sag mal, hast"><marker>Sag mal hast</marker> du morgen schon etwas vor?</example>
                 <example correction="Sagt mal, habt"><marker>Sagt mal habt</marker> ihr morgen schon etwas vor?</example>
+                <example>Deine Gitarre ist so teuer, dass ich sie nicht kaufen kann.</example>
+                <example>Ich bin so müde, dass ich kaum laufen kann.</example>
+                <example>Sein Benehmen auf der Party war so lustig, dass ich das Lachen nicht zurückhalten konnte.</example>
                 <example>Ich bin verheiratet gewesen, du bist verheiratet gewesen, lass uns heiraten!</example>
                 <example>Da  nur wenig bebaubare Flächen vorhanden sind, wird allerdings bezweifelt, dass ein solcher Anstieg der Einwohnerzahlen tatsächlich realisiert werden kann.</example>
                 <example>Es wird oftmals auch zum Genre der Brettspiele gezählt, obwohl es sich streng genommen um ein Legespiel handelt.</example>
