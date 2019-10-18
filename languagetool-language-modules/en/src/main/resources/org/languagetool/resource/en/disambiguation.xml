@@ -4092,16 +4092,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 		<example type="ambiguous" inputform="AD[AD/NNP,ad/NN]" outputform="AD[AD/NNP]">24 <marker>AD</marker> is a memorable date.</example>
 	</rule>
 
-    <rule id="NNP_CIUDAD" name="NNP for Mexican City names starting with 'Ciudad de'">
-		<pattern case_sensitive="yes">
-			<marker>
+    <rule id="NNP_CIUDAD_DE" name="NNP for Mexican City names starting with 'Ciudad de'">
+        <pattern case_sensitive="yes">
+            <marker>
                 <token regexp="yes">Ciudad|Playa</token>
-				<token regexp="yes">del?</token>
+                <token>de</token>
+                <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
-			</marker>
-		</pattern>
-		<disambig postag="NNP"/>
-	</rule>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
+
+    <rule id="NNP_CIUDAD_DEL" name="NNP for Mexican City names starting with 'Ciudad del'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>del</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
 
 	<rule id="CAME_FROM" name="came -> vbd">
 		<pattern>
@@ -5356,16 +5368,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Mexican City names starting with 'Ciudad de'">
-		<pattern case_sensitive="yes">
-			<marker>
+    <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Mexican City names starting with 'Ciudad de'">
+        <pattern case_sensitive="yes">
+            <marker>
                 <token regexp="yes">Ciudad|Playa</token>
-				<token regexp="yes">del?</token>
+                <token>de</token>
+                <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
-			</marker>
-		</pattern>
+            </marker>
+        </pattern>
         <disambig action="ignore_spelling"></disambig>
 	</rule>
+    <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Mexican City names starting with 'Ciudad del'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>del</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
       <pattern>
         <token/>
