@@ -1162,6 +1162,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="AM[AM/NNP,be/VBP]" outputform="AM[AM/NNP]"><marker>AM</marker> was the earliest modulation method.</example>
     </rule>
     <rule name="are (noun/verb)  + adjective/gerund/preposition -&gt; are (verb)" id="ARE_JJ_VBG">
+        <antipattern>
+            <token postag="DT"/>
+            <token>are</token>
+            <token postag="VB[DZ]" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <marker>
                 <token>are</token>
@@ -1169,6 +1174,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"/>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"/></disambig>
+        <example type="untouched">Noun. The <marker>are</marker> used to be a common unit of measurement (www.lexico.com/en/definition/are).</example>
+        <example type="untouched">Noun. An <marker>are</marker> is a historical unit.</example>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
     </rule>
     <rule name="Are...?" id="SENT_START_ARE">
