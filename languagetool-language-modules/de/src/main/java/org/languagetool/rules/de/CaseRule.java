@@ -406,6 +406,7 @@ public class CaseRule extends Rule {
    */
   private static final String[] exceptions = {
     "Fr",   // "Fr. Dr. Müller"
+    "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
     "Studierende",
     "Str",
