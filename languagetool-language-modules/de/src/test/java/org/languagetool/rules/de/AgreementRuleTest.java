@@ -318,6 +318,10 @@ public class AgreementRuleTest {
     assertGood("Unter diesen rief das großen Unmut hervor.");
     assertGood("Bei mir löste das Panik aus.");
 
+    assertGood("Dann wird das Konsequenzen haben.");
+    assertGood("Dann hat das Konsequenzen.");
+    assertGood("Sollte das Konsequenzen nach sich ziehen?");
+
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
 
