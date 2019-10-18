@@ -40,6 +40,9 @@ import java.util.List;
 
 /**
  * Creates a Lucene index of a {@link SentenceSource}.
+ * Performance examples (Dell XPS 13 9360):
+ * German Wikipedia and Tatoeba With POS tags: 22,000 sentences per minute 
+ * German Wikipedia and Tatoeba Without POS tags: 2.4 million sentences per minute 
  * @since 2.4
  */
 public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {

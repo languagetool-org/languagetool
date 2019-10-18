@@ -106,13 +106,15 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     AbstractPatternRule patternRule = makeRule(ruleXml);
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = patternRuleQueryBuilder.buildRelaxedQuery(patternRule);
-    assertEquals("+fieldLowercase:how +fieldLowercase:thin +fieldLowercase:this +fieldLowercase:/idea|proposal/", query.toString());
+    assertEquals("+fieldLowercase:how +fieldLowercase:_pos_prp +fieldLowercase:thin " +
+            "+spanNear([fieldLowercase:this, SpanMultiTermQueryWrapper(fieldLowercase:/_pos_(jj|dt)/)], 0, false) " +
+            "+fieldLowercase:/idea|proposal/", query.toString());
   }
 
   public void testCaseSensitive() throws Exception {
     InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" +
             "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'><token>How</token></pattern> </rule>" +
-            "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token>" + "</pattern> </rule>" +
+            "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token></pattern> </rule>" +
             "<rule id='TEST_RULE_3' name='test_3'> <pattern><token>How</token></pattern> </rule>" +
             "<rule id='TEST_RULE_4' name='test_4'> <pattern><token>how</token></pattern> </rule>" +
             "</category> </rules>").getBytes());
@@ -208,17 +210,13 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     assertMatches(makeRule("<token regexp='yes'>Foo|How</token>"), 1);
 
-    try {
-      assertMatches(makeRule("<token postag='WRB'></token>"), 1);
-      fail();
-    } catch (Exception ignore) {}
+    assertMatches(makeRule("<token postag='WRB'></token>"), 1);
+    assertMatches(makeRule("<token postag='FOO'></token>"), 0);
 
-    /* Would only work with PatternRuleQueryBuilder.makeQueryWithPosTags:
     assertMatches(makeRule("<token postag='[XW]RB' postag_regexp='yes'></token>"), 1);
     assertMatches(makeRule("<token postag='FOO|WRB' postag_regexp='yes'></token>"), 1);
     assertMatches(makeRule("<token postag='WRB|FOO' postag_regexp='yes'></token>"), 1);
     assertMatches(makeRule("<token postag='[XY]OO' postag_regexp='yes'></token>"), 0);
-    */
 
     // inflected
     assertMatches(makeRule("<token>grammar</token><token>checker</token>"), 0);
@@ -229,7 +227,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token postag='WRB'>How</token>"), 1);
     assertMatches(makeRule("<token postag='[XW]RB' postag_regexp='yes'>How</token>"), 1);
     assertMatches(makeRule("<token postag='WRB'>Foo</token>"), 0);
-    assertMatches(makeRule("<token postag='FOO'>How</token>"), 1);  // postag='FOO' isn't considered
+    assertMatches(makeRule("<token postag='FOO'>How</token>"), 0);
 
     // rules with more than one token:
     assertMatches(makeRule("<token>How</token> <token>do</token>"), 1);

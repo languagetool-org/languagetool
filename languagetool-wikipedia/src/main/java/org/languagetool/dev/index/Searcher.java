@@ -72,7 +72,7 @@ public class Searcher {
   private String fieldName;
 
   public Searcher(Directory directory) {
-    this(directory, FIELD_NAME);
+    this(directory, FIELD_NAME_LOWERCASE);
   }
 
   public Searcher(Directory directory, String fieldName) {
@@ -265,6 +265,9 @@ public class Searcher {
       }
       Document doc = indexSearcher.doc(match.doc);
       String sentence = doc.get(fieldName);
+      if (sentence == null) {
+        throw new RuntimeException("No field '" + fieldName + "' found in doc " + match.doc);
+      }
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
       docsChecked++;
       if (ruleMatches.size() > 0) {

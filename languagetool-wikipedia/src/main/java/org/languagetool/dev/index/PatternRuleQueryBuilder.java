@@ -91,15 +91,16 @@ public class PatternRuleQueryBuilder {
     }
     return query;
   }
-  
-  // Old method that also considers POS tags, i.e. turns POS tag patterns into Lucene queries, too.
-  // This is nice, but it only works with an index that has POS tags (see makeQuery() below):
-  private BooleanClause makeQueryWithPosTags(PatternToken patternToken) throws UnsupportedPatternRuleException {
+
+  private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {
     checkUnsupportedElement(patternToken);
+
     String termStr = patternToken.getString();
     String pos = patternToken.getPOStag();
+
     BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
     BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
+
     if (termQuery != null && posQuery != null) {
       // if both term and POS are set, we create a query where both are at the same position
       if (mustOccur(termQuery) && mustOccur(posQuery)) {
@@ -117,26 +118,6 @@ public class PatternRuleQueryBuilder {
 
     } else if (posQuery != null) {
       return posQuery;
-    }
-    throw new UnsupportedPatternRuleException("Neither POS tag nor term set for element: " + patternToken);
-  }
-
-  // Make a query for the terms, but not the POS patterns. This allows us having an index
-  // without POS tags in it (which makes indexing very, very slow compared the index without POS tags).
-  private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {
-    checkUnsupportedElement(patternToken);
-    String termStr = patternToken.getString();
-    String pos = patternToken.getPOStag();
-    BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
-    BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
-    if (termQuery != null && posQuery != null) {
-      if (mustOccur(termQuery)) {
-        return termQuery;
-      } else {
-        throw new UnsupportedPatternRuleException("Term/POS combination with no must-appear terms not supported yet: " + patternToken);
-      }
-    } else if (termQuery != null) {
-      return termQuery;
     }
     throw new UnsupportedPatternRuleException("Neither POS tag nor term set for element: " + patternToken);
   }

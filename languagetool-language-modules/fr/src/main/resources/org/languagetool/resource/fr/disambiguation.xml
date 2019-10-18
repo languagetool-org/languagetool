@@ -1713,6 +1713,18 @@ RB => Règles Brutes
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+  
+  <rule name="Ignore spelling of numbered list items ('1-')" id="IGNORE_SPELLING_OF_LIST_ITEMS">
+    <pattern>
+      <token postag="SENT_START"/>
+      <marker>
+        <token regexp="yes">\d{1,2}\-</token>
+      </marker>
+      <token regexp="yes">[^0-9].*</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
   </rulegroup>
     <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
       <pattern case_sensitive="yes">

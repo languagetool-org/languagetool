@@ -44,10 +44,10 @@ public class TatoebaSentenceSourceTest {
     assertFalse(source.hasNext());
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testTatoebaSourceInvalidInput() throws UnsupportedEncodingException {
     ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes(StandardCharsets.UTF_8));
     TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
-    source.hasNext();
+    source.hasNext();  // doesn't crash
   }
 }

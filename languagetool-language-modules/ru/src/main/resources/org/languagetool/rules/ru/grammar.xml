@@ -8864,6 +8864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется винительный падеж.</short>
             <example>Луч света попал сквозь окно в комнату.</example>
+            <example>Через тернии к звёздам.</example>
             <example correction="сквозь окно|окном">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
         </rule>
         <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги «сквозь», «через» и прилагательное">
@@ -9037,7 +9038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:R|NN:.*:.*:2P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни</exception>
                 </token>
@@ -9046,6 +9047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у опушки леса.</example>
             <example>У семи нянек дитя без глазу.</example>
+            <example>Он встретил у Гончаровых холодный приём.</example>
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
             <example correction="у опушек|у опушки|опушка">Заросший пруд <marker>у опушка</marker></example>
         </rule>
@@ -9090,14 +9092,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Егерь пошёл в лес <marker>с пушистая</marker> рысью.</example>
         </rule>
         <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
+            <antipattern case_sensitive="no">
+                <token postag="SENT_START"></token>
+                <marker>
+                    <token>о</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes" >
+                        <exception postag="NN:.*:.*:V" postag_regexp="yes"></exception>
+                        <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
+                        <exception postag="NN:.*:.*:Z" postag_regexp="yes"></exception>
+                        <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    </token>
+                </marker>
+                <token>,</token>
+            </antipattern>
+            
             <pattern case_sensitive="no">
-                <!--  PREP  о -> NN:.*:V or  NN:.*:P  (SENT_END|PARA_END)   -->
+                <!--  PREP  о -> NN:.*:V or  NN:.*:P  (SENT_END|PARA_END)  NN:.*:.*:Z -->
                 <token>о</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:Z" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «о» предполагает употребление существительного в винительном или предложном падеже.</message>
             <short>Требуется винительный или предложный падеж.</short>
             <example>Я прочитал газетную статью о ярмарке.</example>
+            <example>О жемчужина, сияющая в цветке лотоса!</example>
             <example correction="">Я прочитал газетную статью <marker>о ярмаркой</marker>.</example>
         </rule>
          <rule default="on" id="PREP_O_and_ADJ" name="Предлог «о» и прилагательное">
@@ -9445,6 +9462,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Просторечие.</short>
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
+        </rule>
+        <rule id="grammar_tut_zdes"  name="Просторечие «тут», «здесь»" default="temp_off">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token regexp="yes">тут|здесь</token>
+                </marker>
+            </pattern>
+            <message>Просторечие. Лучше: <suggestion>в этом случае</suggestion>.</message>           
+            <short>Разговорный стиль.</short>
+            <example correction="в этом случае">Важной характеристикой работы любой программы является её быстродействие, <marker>тут</marker> существенное значение оказывает выбор языка программирования.</example>
+            <example>Важной характеристикой работы любой программы является её быстродействие, в этом случае существенное значение оказывает выбор языка программирования.</example>
         </rule>
 
         <rule id="Two_PREP" name="Два предлога подряд">        

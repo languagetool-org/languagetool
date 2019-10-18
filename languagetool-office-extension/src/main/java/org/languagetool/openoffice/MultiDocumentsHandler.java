@@ -609,7 +609,8 @@ public class MultiDocumentsHandler {
       textLevelRules = new ArrayList<List<String>>();
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
-        if(rule instanceof TextLevelRule) {
+        if(rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
+            && !disabledRulesUI.contains(rule.getId())) {
           insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
         }
       }
