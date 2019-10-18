@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * Data for {@link DhaNoBeirt}.
+ * Data for {@link DhaNoBeirtRule}.
  * Loads list of humans from external files.
  * Based on AvsAnData
  */
@@ -52,7 +52,7 @@ final class DhaNoBeirtData {
     numbers.put("deich", "deichniúr");
   }
 
-  private static Map<String, String> getNumbers() {
+  static Map<String, String> getNumberReplacements() {
     return numbers;
   }
 
