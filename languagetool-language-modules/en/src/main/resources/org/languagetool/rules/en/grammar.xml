@@ -8962,8 +8962,13 @@ USA
                 <token spacebefore="no">he</token>
                 <token postag="VBG"/>
             </antipattern>
+            <antipattern>
+                <token>booking</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">com</token>
+            </antipattern>
             <pattern>
-                <token><exception regexp="yes">a(?:m|re|t)|is|t|re|w(?:as|ere)|with(out)?|of|in|to|much|find</exception><exception postag="VB.?" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">a(?:m|re)|is|t|re|w(?:as|ere)|much</exception><exception postag="VB.?|IN" postag_regexp="yes"/></token>
                 <token regexp="yes">I|you|[hw]e|she|it|they</token>
                 <token postag="RB" min="0"/>
                 <marker>
@@ -8980,6 +8985,7 @@ USA
             <example>There are a couple of new tasks for you waiting to be assigned.</example>
             <example>... of mails, but I wonder if I can hear from you regarding the mail?</example>
             <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
+            <example>Let's talk about it going door to door.</example>
         </rule>
         <rule id="I_LIFE" name="I life (live)">
             <antipattern>
@@ -10768,6 +10774,33 @@ USA
             </pattern>
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
+        </rule>
+        <rule id="ROYAL_MAIL" name="royal mail (Royal Mail)" default="temp_off">
+            <antipattern>
+                <token case_sensitive="yes">Royal</token>
+                <token case_sensitive="yes" regexp="yes">Mail|Canin|Bank</token>
+            </antipattern>
+            <pattern>
+                <token>royal</token>
+                <token regexp="yes">mail|canin|bank</token>
+            </pattern>
+            <message>The proper noun <suggestion>Royal <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
+            <example correction="Royal Mail">The <marker>royal mail</marker> is a postal service and courier company in the United Kingdom.</example>
+            <example correction="Royal Bank">The <marker>Royal bank</marker> of Canada</example>
+        </rule>
+        <rule id="ROYAL_AIR_FORCE" name="royal air force (Royal Air Force)" default="temp_off">
+            <antipattern>
+                <token case_sensitive="yes">Royal</token>
+                <token case_sensitive="yes">Air</token>
+                <token case_sensitive="yes" regexp="yes">Force|Maroc</token>
+            </antipattern>
+            <pattern>
+                <token>royal</token>
+                <token>air</token>
+                <token regexp="yes">force|maroc</token>
+            </pattern>
+            <message>The proper noun <suggestion>Royal Air <match no="3" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
+            <example correction="Royal Air Force">The <marker>royal air force</marker> is the United Kingdom's aerial warfare force</example>
         </rule>
         <rulegroup id="A_ATTACH" name="a/the attach">
             <rule>
@@ -17991,6 +18024,15 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
+        <rule id="HOW_YOU_DOING" name="how (are) you doing'" default="temp_off">
+            <pattern>
+                <token regexp="yes">how|what|when|where|which</token>
+                <token regexp="yes">you|u|ya</token>
+                <token regexp="yes">doing?</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 are you doing</suggestion>?</message>
+            <example correction="how are you doing">Hi, <marker>how you doin</marker>?</example>
+        </rule>
         <rulegroup id="PRP_VBG" name="He going (He is going)">
             <!-- TODO: add adverb case, e.g. "He only going there" -->
             <antipattern>
@@ -18193,6 +18235,23 @@ USA
                     <token regexp="yes">(every|no|some)(one|body)</token>
                     <token postag="VB"/>
                     <token postag="SENT_END" regexp="yes">[!\.]</token><!-- An imperative does not need an exclamation mark. -->
+                </antipattern>
+                <antipattern>
+                    <token postag="NNP" regexp="yes">GitHub|Facebook|Lyft|Snap|Microsoft|Outlook|Yahoo|AOL|Uber|Google|PayPal|YouTube|Instagram|WhatsApp|LinkedIn|XING|TikTok|Chase</token>
+                    <token postag="NN" regexp="yes">page|channel|campaign|account|certificate|report|link|message|screen|mail</token>
+                </antipattern>
+                <antipattern>
+                    <token>case</token>
+                    <token>study</token>
+                </antipattern>
+                <antipattern>
+                    <token>booking</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">com</token>
+                </antipattern>
+                <antipattern>
+                    <token>DNA</token>
+                    <token>strand</token>
                 </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
@@ -18444,11 +18503,21 @@ USA
                     <token>PO</token>
                    <token>Box</token>
                 </antipattern>
+                <antipattern>
+                    <token>good</token>
+                    <token>luck</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token>may</token>
+                    <token regexp="yes">contain|include</token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
                         <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be|make</exception>
                         <exception postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/>
+                        <exception>&amp;</exception>
                         <exception scope="previous" postag="PRP$"/>
                         <exception regexp="yes">initials|letters</exception>
                     </token>
@@ -18503,6 +18572,9 @@ USA
                 <example type="triggers_error">Asteraceae have a cosmopolitan distribution, and are found...</example><!-- MFU 2019-09-03. Possibly, Asteraceae is NNPS, but I did not find a reference. -->
                 <example type="triggers_error">...are made in Adelaide at the General Motors Holden plant in Elizabeth.</example>
                 <example type="triggers_error">England are the current holders after winning the Ashes in ...</example><!-- 2019-10-09 MFU. This is not an error in BrE. Groups are treated as singular or plural depending on the emphasis. -->
+                <example>May contain an occasional shell fragment.</example>
+                <example>He said: "Good luck to you"</example>
+                <example>Johnson &amp; Trump are both English-speaking leaders.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
