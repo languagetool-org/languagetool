@@ -34,8 +34,8 @@ public class DhaNoBeirtRule extends Rule {
   public DhaNoBeirtRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
-      Example.fixed("The train arrived <marker>an hour</marker> ago."));
+    addExamplePair(Example.wrong("Tá <marker>dhá</marker> dheartháireacha agam."),
+      Example.fixed("Tá <marker>beirt</marker> deartháireacha agam."));
   }
 
   @Override
