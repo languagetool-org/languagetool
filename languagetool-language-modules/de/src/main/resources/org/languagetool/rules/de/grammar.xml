@@ -139,6 +139,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="PRP_DM" name="über/mit dm (dem)">
+            <antipattern case_sensitive="yes">
+                <token>per</token>
+                <token>dm</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">dm</token> <!-- sonst akzeptiert ("dm Drogeriemarkt") -->
+            </pattern>
+            <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+            <example correction="dem">Über <marker>dm</marker> Herd hängt eine riesige Abzugshaube.</example>
+        </rule>
         <rulegroup id="STILLE_SUBST_TYPO" name="'in aller stille (Stille) beigesetzt' etc.">
             <rule>
                 <pattern case_sensitive="yes">
