@@ -35,6 +35,7 @@ public class LanguageSpecificTest {
     new WordListValidatorTest().testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules();
+    countTempOffRules(lang);
   }
 
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
@@ -166,4 +167,22 @@ public class LanguageSpecificTest {
     return example.replace("<marker>", "").replace("</marker>", "");
   }
 
+  private void countTempOffRules(Language lang) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    int count = 0;
+    for (Rule rule : lt.getAllRules()) {
+      if (rule.isDefaultTempOff()) {
+        count++;
+      }
+    }
+    System.out.println("Number of default='temp_off' rules for " + lang + ": " + count);
+    int limit = 10;
+    if (count > limit) {
+      System.out.println("################################################################################################");
+      System.out.println("WARNING: More than " + limit + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
+      System.out.println("WARNING: rules after they have been tested (or use default='off' to turn them off permanently)");
+      System.out.println("################################################################################################");
+    }
+  }
+  
 }
