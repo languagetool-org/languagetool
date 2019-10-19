@@ -32,9 +32,13 @@ import static org.junit.Assert.assertEquals;
 public class LanguageSpecificTest {
 
   protected void runTests(Language lang) throws IOException {
+    runTests(lang, null);
+  }
+
+  protected void runTests(Language lang, String onlyRunCode) throws IOException {
     new WordListValidatorTest().testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
-    testJavaRules();
+    testJavaRules(onlyRunCode);
     countTempOffRules(lang);
   }
 
@@ -43,10 +47,14 @@ public class LanguageSpecificTest {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
   }
 
-  private void testJavaRules() throws IOException {
+  private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
     Set<Class> ruleClasses = new HashSet<>();
     for (Language language : Languages.getWithDemoLanguage()) {
+      if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
+        System.out.println("Skipping " + language);   // speed up for languages that are sub classes (e.g. simple German)
+        continue;
+      }
       JLanguageTool lt = new JLanguageTool(language);
       List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
