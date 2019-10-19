@@ -31592,18 +31592,44 @@ Andere Projekte</example>
           <example>Sie hilft <marker>ihn</marker> gerne.</example>
         </rule>
         -->
-        <rule id="DR_FRAU" name="Dr. Frau (Frau Dr.)">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">Dr|Prof</token>
-                    <token>.</token>
-                    <token regexp="yes">Herr|Frau</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>\3 \1\2</suggestion>?</message>
-            <example correction="Frau Dr."><marker>Dr. Frau</marker> Hayali kommt gleich.</example>
-            <example correction="Herr Prof."><marker>Prof. Herr</marker> Müller wird sprechen.</example>
-        </rule>
+        <rulegroup id="DR_FRAU" name="Dr. Frau (Frau Dr.)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Doktor|Professor</token>
+                        <token regexp="yes">Herr|Frau</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2 \1</suggestion> (die übliche Reihenfolge)?</message>
+                <example correction="Frau Doktor"><marker>Doktor Frau</marker> Hayali kommt gleich.</example>
+                <example correction="Herr Professor"><marker>Professor Herr</marker> Müller wird sprechen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Dr|Prof</token>
+                        <token>.</token>
+                        <token regexp="yes">Herr|Frau</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\3 \1\2</suggestion> (die übliche Reihenfolge)?</message>
+                <example correction="Frau Dr."><marker>Dr. Frau</marker> Hayali kommt gleich.</example>
+                <example correction="Herr Prof."><marker>Prof. Herr</marker> Müller wird sprechen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Dr|Prof</token>
+                        <token>.</token>
+                        <token regexp="yes">Fr|Hr</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\3\4 \1\2</suggestion> (die übliche Reihenfolge)?</message>
+                <example correction="Fr. Dr."><marker>Dr. Fr.</marker> Hayali kommt gleich.</example>
+                <example correction="Hr. Prof."><marker>Prof. Hr.</marker> Müller wird sprechen.</example>
+            </rule>
+        </rulegroup>
         <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">helfen|geben|schenken|vertrauen|folgen</token>
