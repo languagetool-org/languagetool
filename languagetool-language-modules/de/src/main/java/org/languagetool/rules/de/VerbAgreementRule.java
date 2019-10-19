@@ -296,7 +296,6 @@ public class VerbAgreementRule extends TextLevelRule {
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
 
-      System.out.println("->"+tokens[i]);
       if (tokens[i].isImmunized()) {
         continue;
       }
