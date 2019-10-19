@@ -224,7 +224,7 @@ public class HunspellRule extends SpellingCheckRule {
                 Tools.i18n(messages, "accepted_in_alt_language", cleanWord, messages.getString(acceptingLanguage.getShortCode())));
               ruleMatch.setType(RuleMatch.Type.Hint);
             }
-            filterSuggestions(suggestions);
+            suggestions = filterSuggestions(suggestions, sentence, i);
             filterDupes(suggestions);
 
             // TODO user suggestions

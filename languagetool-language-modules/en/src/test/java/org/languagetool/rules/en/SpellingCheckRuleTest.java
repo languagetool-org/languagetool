@@ -38,10 +38,10 @@ import static org.junit.Assert.assertTrue;
 
 public class SpellingCheckRuleTest {
 
+  private final JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
+
   @Test
   public void testIgnoreSuggestionsWithMorfologik() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
-
     assertThat(lt.check("This is anArtificialTestWordForLanguageTool.").size(), is(0));   // no error, as this word is in ignore.txt
     assertThat(lt.check("How an ab initio calculation works.").size(), is(0));   // As a multi-word entry in spelling.txt "ab initio" must be accepted
     assertThat(lt.check("Test adjoint").size(), is(0));   // in spelling.txt
@@ -51,32 +51,34 @@ public class SpellingCheckRuleTest {
     assertThat(matches2.size(), is(1));
     assertThat(matches2.get(0).getRule().getId(), is("MORFOLOGIK_RULE_EN_US"));
 
-    List<RuleMatch> matches3 = lt.check("This is anotherArtificialTestWordForLanguageTol.");  // note the typo
-    assertThat(matches3.size(), is(1));
-    assertThat(matches3.get(0).getSuggestedReplacements().toString(), is("[anotherArtificialTestWordForLanguageTool]"));
+    assertThat(lt.check("This is anotherArtificialTestWordForLanguageTol.")  // note the typo
+               .get(0).getSuggestedReplacements().toString(), is("[anotherArtificialTestWordForLanguageTool]"));
+
+    assertThat(lt.check("This is Michaels new song.").get(0).getSuggestedReplacements().toString(), is("[Michael's, Michael]"));
+    assertThat(lt.check("This is Microsofts new product.").get(0).getSuggestedReplacements().toString(), is("[Microsoft's, Microsoft]"));
+    //assertThat(lt.check("This is Googles new product.").get(0).getSuggestedReplacements().toString(), is("[Googles, Googles's]"));  // "Googles" is accepted...
   }
 
   @Test
   public void testIgnorePhrases() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new AmericanEnglish());
-    assertThat(langTool.check("A test with myfoo mybar").size(), is(2));
-    for (Rule rule : langTool.getAllActiveRules()) {
+    assertThat(lt.check("A test with myfoo mybar").size(), is(2));
+    for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof SpellingCheckRule) {
         ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("myfoo mybar", "Myy othertest"));
       } else {
-        langTool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       }
     }
-    assertThat(langTool.check("A test with myfoo mybar").size(), is(0));
-    assertThat(langTool.check("A test with myfoo and mybar").size(), is(2));  // the words on their own are not ignored
-    assertThat(langTool.check("myfoo mybar here").size(), is(0));
-    assertThat(langTool.check("Myfoo mybar here").size(), is(0));
-    assertThat(langTool.check("MYfoo mybar here").size(), is(2));
+    assertThat(lt.check("A test with myfoo mybar").size(), is(0));
+    assertThat(lt.check("A test with myfoo and mybar").size(), is(2));  // the words on their own are not ignored
+    assertThat(lt.check("myfoo mybar here").size(), is(0));
+    assertThat(lt.check("Myfoo mybar here").size(), is(0));
+    assertThat(lt.check("MYfoo mybar here").size(), is(2));
     
-    assertThat(langTool.check("Myy othertest is okay").size(), is(0));
-    assertThat(langTool.check("And Myy othertest is okay").size(), is(0));
-    assertThat(langTool.check("But Myy Othertest is not okay").size(), is(2));
-    assertThat(langTool.check("But myy othertest is not okay").size(), is(2));
+    assertThat(lt.check("Myy othertest is okay").size(), is(0));
+    assertThat(lt.check("And Myy othertest is okay").size(), is(0));
+    assertThat(lt.check("But Myy Othertest is not okay").size(), is(2));
+    assertThat(lt.check("But myy othertest is not okay").size(), is(2));
   }
 
   @Test

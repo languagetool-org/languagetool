@@ -4270,6 +4270,21 @@ USA
                 <example correction="Maybe"><marker>May be</marker> I don't understand.</example>
                 <example>That they all may be one...</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>may</token>
+                        <token>be</token>
+                    </marker>
+                    <token postag="DT|PRP\$|NNP" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <short>Possible typo</short>
+                <example correction="Maybe"><marker>May be</marker> a new one?.</example>
+                <example correction="Maybe"><marker>May be</marker> his father knows.</example>
+                <example correction="Maybe"><marker>May be</marker> Google will announce a new version of Android tomorrow.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>(</token>
@@ -8962,8 +8977,13 @@ USA
                 <token spacebefore="no">he</token>
                 <token postag="VBG"/>
             </antipattern>
+            <antipattern>
+                <token>booking</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">com</token>
+            </antipattern>
             <pattern>
-                <token><exception regexp="yes">a(?:m|re|t)|is|t|re|w(?:as|ere)|with(out)?|of|in|to|much|find</exception><exception postag="VB.?" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">a(?:m|re)|is|t|re|w(?:as|ere)|much</exception><exception postag="VB.?|IN" postag_regexp="yes"/></token>
                 <token regexp="yes">I|you|[hw]e|she|it|they</token>
                 <token postag="RB" min="0"/>
                 <marker>
@@ -8980,6 +9000,7 @@ USA
             <example>There are a couple of new tasks for you waiting to be assigned.</example>
             <example>... of mails, but I wonder if I can hear from you regarding the mail?</example>
             <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
+            <example>Let's talk about it going door to door.</example>
         </rule>
         <rule id="I_LIFE" name="I life (live)">
             <antipattern>
@@ -9785,6 +9806,31 @@ USA
                 <example>The Palomar-Quest large-area CCD camera.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="THE_BUILT" name="'the built'" default="temp_off">
+            <!-- developer speech: "The built (build) is failing" -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s|.*CI|travis</token>
+                    <marker>
+                        <token>built</token>
+                    </marker>
+                    <token regexp="yes">is|was|has|fail(ing|ed|s|ure)?|success|succeed(ing|ed|s)|stages?|logs?|systems?|settings?|pipelines?|scripts?|pass(es)?|matrix|process</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>build</suggestion>?</message>
+                <example correction="build">The <marker>built</marker> is failing.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|their|our|your|s|.*CI|travis|failing|failed|succeeded</token>
+                    <marker>
+                        <token>built</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token><!-- Punctuation character -->
+                </pattern>
+                <message>Did you mean the noun <suggestion>build</suggestion>?</message>
+                <example correction="build">I have restarted the <marker>built</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MUST_HAVE" name="Hyphen in 'must have/see'">
             <rule>
                 <pattern>
@@ -9908,10 +9954,12 @@ USA
             <example correction="They aren|There aren"><marker>The aren</marker>'t ready yet.</example>
             <example correction="they are|there are">Here <marker>the are</marker> again the sums of powers of differences from the mean...</example>
             <example correction="They are|There are"><marker>The are</marker> going to the party.</example>
+            <example correction="they are|there are">They may be as basic as pictures on a board that <marker>the are</marker> used to request food, drink, or other care;</example>
             <example><marker>There are</marker> different places to see.</example>
             <example>The are is a unit of measurement (www.lexico.com/en/definition/are).</example>
             <example>Though the are has fallen out of use, the hectare is still ...</example>
             <example>... and the are became of historic interest only.</example>
+            <example type="triggers_error">The are used to be a common unit of measurement.</example><!-- TODO. Disambiguation VBN_VBD applies used/VBN, thus the AP fails. -->
         </rule>
         <rule id="AN_ARE" name="an + are">
             <pattern>
@@ -10769,6 +10817,33 @@ USA
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
         </rule>
+        <rule id="ROYAL_MAIL" name="royal mail (Royal Mail)" default="temp_off">
+            <antipattern>
+                <token case_sensitive="yes">Royal</token>
+                <token case_sensitive="yes" regexp="yes">Mail|Canin|Bank</token>
+            </antipattern>
+            <pattern>
+                <token>royal</token>
+                <token regexp="yes">mail|canin|bank</token>
+            </pattern>
+            <message>The proper noun <suggestion>Royal <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
+            <example correction="Royal Mail">The <marker>royal mail</marker> is a postal service and courier company in the United Kingdom.</example>
+            <example correction="Royal Bank">The <marker>Royal bank</marker> of Canada</example>
+        </rule>
+        <rule id="ROYAL_AIR_FORCE" name="royal air force (Royal Air Force)" default="temp_off">
+            <antipattern>
+                <token case_sensitive="yes">Royal</token>
+                <token case_sensitive="yes">Air</token>
+                <token case_sensitive="yes" regexp="yes">Force|Maroc</token>
+            </antipattern>
+            <pattern>
+                <token>royal</token>
+                <token>air</token>
+                <token regexp="yes">force|maroc</token>
+            </pattern>
+            <message>The proper noun <suggestion>Royal Air <match no="3" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
+            <example correction="Royal Air Force">The <marker>royal air force</marker> is the United Kingdom's aerial warfare force</example>
+        </rule>
         <rulegroup id="A_ATTACH" name="a/the attach">
             <rule>
                 <antipattern>
@@ -10866,7 +10941,7 @@ USA
             <example correction="month-to-month">My lease is up, so now I'm on the ordinary <marker>month to month</marker> portion of the contract.</example>
             <example correction="day-to-day">My <marker>day to day</marker> routine during finals weeks did not change dramatically</example>
         </rule>
-        <rule id="LOGGED_IN_HYPHEN" name="missing hyphen in 'logged in user'">
+        <rule id="LOGGED_IN_HYPHEN" name="missing hyphen in 'logged in'">
             <pattern>
                 <marker>
                     <token regexp="yes">logged|signed</token>
@@ -10878,6 +10953,45 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
+        <rulegroup id="BUILT_IN_HYPHEN" name="missing hyphen in 'built in'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>built</token>
+                        <token>in</token>
+                    </marker>
+                    <token regexp="yes">features?|quality|battery|voltage|functions?|furniture|effects|controllers?|project?|.*speaker|packages?|inductor|relay|ai|intelligence|cameras?|microphones?|alexa|google|protection|security|subwoofers?|pedometers?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="built-in">The iPhone has a <marker>built in</marker> camera.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>built</token>
+                        <token>up</token>
+                    </marker>
+                    <token regexp="yes">areas?|timber|wood(en)?|edges?|shapes?|land|roof(ing)?s?|sections?|columns?|footprints?|flat|utensils</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="built-up">In the UK Highway Code, a <marker>built up</marker> area is a settled area in which the speed limit of a road is automatically 30 mph.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?</token>
+                    <marker>
+                        <token>built</token>
+                        <token regexp="yes">in|up</token>
+                    </marker>
+                    <token></token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\2-\3</suggestion>
+                <example correction="built-in">The device has a <marker>built in</marker> module.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GO_TO_HYPHEN" name="missing hyphen in 'go to'">
             <antipattern>
                 <token>let</token>
@@ -17991,6 +18105,15 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
+        <rule id="HOW_YOU_DOING" name="how (are) you doing'" default="temp_off">
+            <pattern>
+                <token regexp="yes">how|what|when|where|which</token>
+                <token regexp="yes">you|u|ya</token>
+                <token regexp="yes">doing?</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 are you doing</suggestion>?</message>
+            <example correction="how are you doing">Hi, <marker>how you doin</marker>?</example>
+        </rule>
         <rulegroup id="PRP_VBG" name="He going (He is going)">
             <!-- TODO: add adverb case, e.g. "He only going there" -->
             <antipattern>
@@ -18193,6 +18316,23 @@ USA
                     <token regexp="yes">(every|no|some)(one|body)</token>
                     <token postag="VB"/>
                     <token postag="SENT_END" regexp="yes">[!\.]</token><!-- An imperative does not need an exclamation mark. -->
+                </antipattern>
+                <antipattern>
+                    <token postag="NNP" regexp="yes">GitHub|Facebook|Lyft|Snap|Microsoft|Outlook|Yahoo|AOL|Uber|Google|PayPal|YouTube|Instagram|WhatsApp|LinkedIn|XING|TikTok|Chase</token>
+                    <token postag="NN" regexp="yes">page|channel|campaign|account|certificate|report|link|message|screen|mail</token>
+                </antipattern>
+                <antipattern>
+                    <token>case</token>
+                    <token>study</token>
+                </antipattern>
+                <antipattern>
+                    <token>booking</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">com</token>
+                </antipattern>
+                <antipattern>
+                    <token>DNA</token>
+                    <token>strand</token>
                 </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
@@ -18444,6 +18584,15 @@ USA
                     <token>PO</token>
                    <token>Box</token>
                 </antipattern>
+                <antipattern>
+                    <token>good</token>
+                    <token>luck</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token>may</token>
+                    <token regexp="yes">contain|include</token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -18503,6 +18652,9 @@ USA
                 <example type="triggers_error">Asteraceae have a cosmopolitan distribution, and are found...</example><!-- MFU 2019-09-03. Possibly, Asteraceae is NNPS, but I did not find a reference. -->
                 <example type="triggers_error">...are made in Adelaide at the General Motors Holden plant in Elizabeth.</example>
                 <example type="triggers_error">England are the current holders after winning the Ashes in ...</example><!-- 2019-10-09 MFU. This is not an error in BrE. Groups are treated as singular or plural depending on the emphasis. -->
+                <example>May contain an occasional shell fragment.</example>
+                <example>He said: "Good luck to you"</example>
+                <example>Johnson &amp; Trump are both English-speaking leaders.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -33040,6 +33192,20 @@ The accident victim died from her injuries.
         <rulegroup id="GOTTA" name="informal 'gotta'">
             <rule>
                 <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>gotta</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>The word 'gotta' is informal. Consider an alternative.</message>
+                <suggestion>I've to</suggestion>
+                <suggestion>I've got to</suggestion>
+                <suggestion>I got a</suggestion>
+                <example correction="I've to|I've got to|I got a"><marker>Gotta</marker> go.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">I|we|they|you</token>
                     <marker>
                         <token>gotta</token>
@@ -33120,20 +33286,36 @@ The accident victim died from her injuries.
             <example correction="going to">I'm <marker>gonna</marker> let you finish.</example>
             <example>They call me Gonna.</example>
         </rule>
-        <rule id="WANNA" name="wanna (want to)">
-            <pattern>
-                <marker>
-                    <token>wanna</token>
-                </marker>
-                <token postag="VB" />
-            </pattern>
-            <message>The word 'wanna' is informal. Consider an alternative.</message>
-            <suggestion>want to</suggestion>
-            <example correction="Want to"><marker>Wanna</marker> be there.</example>
-            <example correction="want to">I'm <marker>wanna</marker> let you finish.</example>
-            <example correction="want to">I <marker>wanna</marker> have a big party on my birthday.</example>
-            <example>They call me Wanna.</example>
-        </rule>
+        <rulegroup id="WANNA" name="wanna (want to)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>wanna</token>
+                    </marker>
+                    <token postag="VB" />
+                </pattern>
+                <message>The word 'wanna' is informal. Consider an alternative.</message>
+                <suggestion>wants to</suggestion>
+                <example correction="wants to">He <marker>wanna</marker> be there.</example>
+                <example correction="wants to">He only <marker>wanna</marker> stay if I give him money.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wanna</token>
+                    </marker>
+                    <token postag="VB" />
+                </pattern>
+                <message>The word 'wanna' is informal. Consider an alternative.</message>
+                <suggestion>want to</suggestion>
+                <example correction="Want to"><marker>Wanna</marker> be there.</example>
+                <example correction="want to">I'm <marker>wanna</marker> let you finish.</example>
+                <example correction="want to">I <marker>wanna</marker> have a big party on my birthday.</example>
+                <example>They call me Wanna.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DUNNO" name="dunno (don't know)">
             <rule>
                 <pattern>
@@ -34111,6 +34293,102 @@ The accident victim died from her injuries.
     <!-- Semantic -->
     <!-- ====================================================================== -->
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
+        <rulegroup id="PH_D" name="abbreviation of 'philosophiae doctor' (PhD)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Ph</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">D</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>PhD</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>Ph</token>
+                    <token spacebefore="no" min="0">.</token>
+                    <token>D</token>
+                    <token spacebefore="no">
+                        .
+                        <exception postag="SENT_END" />
+                    </token>
+                </pattern>
+                <message>The abbreviation of the term 'philosophiae doctor' is either <suggestion>Ph.D.</suggestion> or <suggestion>PhD</suggestion>.</message>
+                <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
+                <example correction="Ph.D.|PhD">I got my <marker>PH.D.</marker> at an university in Germany.</example>
+                <example correction="Ph.D.|PhD">I got my <marker>Ph D.</marker> at an university in Germany.</example>
+                <example>He has a Ph.D.</example>
+                <example>He has a PhD.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Ph</token>
+                    <token spacebefore="no" min="0">.</token>
+                    <token>D</token>
+                </pattern>
+                <message>The abbreviation of the term 'philosophiae doctor' is either <suggestion>Ph.D.</suggestion> or <suggestion>PhD</suggestion>.</message>
+                <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
+                <example correction="Ph.D.|PhD">I got my <marker>Ph.D</marker> at an university in Germany.</example>
+                <example correction="Ph.D.|PhD">I got my <marker>Ph D</marker> at an university in Germany.</example>
+                <example>He has a Ph.D.</example>
+                <example>He has a PhD.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>PHD</token>
+                    <token spacebefore="no">
+                        .
+                        <exception postag="SENT_END" />
+                    </token>
+                </pattern>
+                <message>The abbreviation of the term 'philosophiae doctor' is either <suggestion>Ph.D.</suggestion> or <suggestion>PhD</suggestion>.</message>
+                <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
+                <example correction="Ph.D.|PhD">I got my <marker>PHD.</marker> at an university in Germany.</example>
+                <example>He has a Ph.D.</example>
+                <example>He has a PhD.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>PHD</token>
+                </pattern>
+                <message>The abbreviation of the term 'philosophiae doctor' is either <suggestion>Ph.D.</suggestion> or <suggestion>PhD</suggestion>.</message>
+                <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
+                <example correction="Ph.D.|PhD">I got my <marker>PHD</marker> at an university in Germany.</example>
+                <example>He has a Ph.D.</example>
+                <example>He has a PhD.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BACHELOR_ABBR" name="abbreviation for bachelor's degree" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>B</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">Sc|Eng|Comp</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>B</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Sc|Eng|Comp</token>
+                    <token>.</token>
+                </pattern>
+                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <suggestion>B.<match no="3" case_conversion="startupper" />.</suggestion>
+                <example correction="B.Sc.">I have a <marker>B. Sc.</marker> from CMU.</example>
+                <example correction="B.Eng.">I have a <marker>B. eng.</marker> from CMU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>B</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Sc|Eng|Comp</token>
+                </pattern>
+                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <suggestion>B.<match no="3" case_conversion="startupper" />.</suggestion>
+                <example correction="B.Sc.">I have a <marker>B.Sc</marker> from CMU.</example>
+                <example correction="B.Eng.">I have a <marker>B. Eng</marker> from CMU.</example>
+            </rule>
+        </rulegroup>
         <rule id="YEAR_20001" name="May 20001 (May 2001)">
             <pattern>
                 <token regexp="yes">&months;|year</token>

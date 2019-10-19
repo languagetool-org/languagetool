@@ -216,6 +216,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("ice cream");
     } else if ("fora".equals(word)) {
       return Arrays.asList("for a");
+    } else if ("ist".equals(word)) {
+      return Arrays.asList("is");
     } else if ("Boing".equals(word)) {
       return Arrays.asList("Boeing");
     } else if ("te".equals(word)) {
@@ -246,10 +248,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("e-learning");
     } else if ("ebook".equals(word)) {
       return Arrays.asList("e-book");
+    } else if ("ebooks".equals(word)) {
+      return Arrays.asList("e-books");
     } else if ("eBook".equals(word)) {
       return Arrays.asList("e-book");
+    } else if ("eBooks".equals(word)) {
+      return Arrays.asList("e-books");
     } else if ("Ebook".equals(word)) {
       return Arrays.asList("E-Book");
+    } else if ("Ebooks".equals(word)) {
+      return Arrays.asList("E-Books");
     } else if ("ie".equals(word)) {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {
@@ -270,6 +278,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Sucker");
     } else if ("sucka".equals(word)) {
       return Arrays.asList("sucker");
+    } else if ("sinc".equals(word)) {
+      return Arrays.asList("sync");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");

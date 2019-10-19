@@ -50,6 +50,9 @@ class StdoutHandler extends ResultHandler {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
         }
+        if (match.getRule().isDefaultTempOff()) {
+          output += " [temp_off]";
+        }
         System.out.println(output);
         String msg = match.getMessage();
         msg = msg.replaceAll("<suggestion>", "'");

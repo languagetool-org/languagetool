@@ -406,6 +406,7 @@ public class CaseRule extends Rule {
    */
   private static final String[] exceptions = {
     "Fr",   // "Fr. Dr. Müller"
+    "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
     "Studierende",

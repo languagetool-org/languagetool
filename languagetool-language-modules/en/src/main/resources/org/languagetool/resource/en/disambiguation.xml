@@ -667,7 +667,7 @@
     <rule id="CH_IN_DYNASTY" name="'in as parts of proper names">
       <pattern>
         <token regexp="yes">\p{Lu}\p{Ll}+</token>
-        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+        <token spacebefore="no" regexp="yes">['’]</token>
         <marker>
         <token spacebefore="no">in</token>
         </marker>
@@ -1162,6 +1162,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="AM[AM/NNP,be/VBP]" outputform="AM[AM/NNP]"><marker>AM</marker> was the earliest modulation method.</example>
     </rule>
     <rule name="are (noun/verb)  + adjective/gerund/preposition -&gt; are (verb)" id="ARE_JJ_VBG">
+        <antipattern>
+            <token postag="DT"/>
+            <token>are</token>
+            <token postag="VB[DZ]" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <marker>
                 <token>are</token>
@@ -1169,6 +1174,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"/>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"/></disambig>
+        <example type="untouched">Noun. The <marker>are</marker> used to be a common unit of measurement (www.lexico.com/en/definition/are).</example>
+        <example type="untouched">Noun. An <marker>are</marker> is a historical unit.</example>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
     </rule>
     <rule name="Are...?" id="SENT_START_ARE">
@@ -2255,7 +2262,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="Qur'an" id="QUARAN">
         <pattern>
             <token regexp="yes">\p{L}+</token>
-            <token spacebefore="no" regexp="yes">&apostrophe;</token>
+            <token spacebefore="no" regexp="yes">['’]</token>
             <marker>
                 <token spacebefore="no" inflected="yes">a</token>
             </marker>
@@ -4092,6 +4099,41 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 		<example type="ambiguous" inputform="AD[AD/NNP,ad/NN]" outputform="AD[AD/NNP]">24 <marker>AD</marker> is a memorable date.</example>
 	</rule>
 
+    <rule id="NNP_CIUDAD_DE" name="NNP for Mexican city names starting with 'Ciudad de'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>de</token>
+                <token regexp="yes" min="0">[Ll]a</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
+
+    <rule id="NNP_CIUDAD_DEL" name="NNP for Mexican city names starting with 'Ciudad del'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>del</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
+
+    <rule id="NNP_DE_LA" name="NNP for Hispanic city names containing 'de la'">
+        <pattern>
+            <marker>
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+                <token>de</token>
+                <token regexp="yes">las?</token>
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
+
 	<rule id="CAME_FROM" name="came -> vbd">
 		<pattern>
 		<marker><token>came</token></marker>
@@ -5345,6 +5387,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Mexican city names starting with 'Ciudad de'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>de</token>
+                <token regexp="yes" min="0">[Ll]a</token>
+            </marker>
+            <token regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+	</rule>
+
+    <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Mexican city names starting with 'Ciudad del'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Ciudad|Playa</token>
+                <token>del</token>
+            </marker>
+            <token regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+    
+    <rule id="IGNORE_SPELLING_OF_DE_LA" name="Ignore spelling of 'de la' in hispanic names">
+        <pattern>
+            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+            <marker>
+                <token>de</token>
+                <token regexp="yes">las?</token>
+            </marker>
+            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
       <pattern>
         <token/>

@@ -405,9 +405,31 @@ public abstract class SpellingCheckRule extends Rule {
    * Remove prohibited words from suggestions.
    * @since 2.8
    */
-  protected void filterSuggestions(List<String> suggestions) {
+  protected List<String> filterSuggestions(List<String> suggestions, AnalyzedSentence sentence, int i) {
     suggestions.removeIf(suggestion -> isProhibited(suggestion));
-    filterDupes(suggestions);
+    List<String> newSuggestions = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      String suggestionWithoutS = suggestion.length() > 3 ? suggestion.substring(0, suggestion.length() - 2) : "";
+      if (suggestion.endsWith(" s") && isProperNoun(suggestionWithoutS)) {
+        // "Michael s" -> "Michael's"
+        //System.out.println("### " + suggestion + " => " + sentence.getText().replaceAll(suggestionWithoutS + "s", "**" + suggestionWithoutS + "s**"));
+        newSuggestions.add(0, suggestionWithoutS);
+        newSuggestions.add(0, suggestionWithoutS + "'s");
+      } else {
+        newSuggestions.add(suggestion);
+      }
+    }
+    filterDupes(newSuggestions);
+    return newSuggestions;
+  }
+
+  private boolean isProperNoun(String wordWithoutS) {
+    try {
+      List<AnalyzedTokenReadings> tags = language.getTagger().tag(Collections.singletonList(wordWithoutS));
+      return tags.stream().anyMatch(k -> k.hasPosTag("NNP"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**

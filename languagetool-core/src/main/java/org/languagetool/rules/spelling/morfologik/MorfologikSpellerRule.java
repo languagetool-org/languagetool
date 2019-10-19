@@ -390,7 +390,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
       if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
-        filterSuggestions(defaultSuggestions);
+        defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
         filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
         

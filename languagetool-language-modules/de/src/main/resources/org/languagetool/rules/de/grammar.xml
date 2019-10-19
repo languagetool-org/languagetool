@@ -2269,18 +2269,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MIT_MIR" name="'mit (mir)'">
             <rule>
+                <antipattern>
+                    <token>mit</token>
+                    <token postag="PRO:IND:AKK:SIN:ALG:STV"></token>
+                    <token postag="VER:.+|PRO:IND:AKK:SIN:ALG:STV" postag_regexp="yes"/>
+                    <token skip="-1" min="0"></token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+|VER:MOD:INF" postag_regexp="yes">können</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"></token>
+                    <token>
+                        <exception postag="VER:.+" postag_regexp="yes"></exception>
+                    </token>
+                    <token skip="-1"></token>
+                    <token>mit</token>
+                    <token postag="PRO:IND:AKK:SIN:ALG:STV"></token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>mit</token>
                     </marker>
-                    <token postag="PRO:IND:AKK:SIN:ALG:STV"/>
-                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="PRO:IND:AKK:SIN:ALG:STV|ADV:A" postag_regexp="yes"/>
+                    <token postag="VER:.+|PRO:IND:AKK:SIN:ALG:STV" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>mir</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="mir">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
-                <!-- <example type="incorrect">Kann <marker>mit</marker> bitte jemand dabei helfen.</example> TODO -->
+                <example correction="mir">Kann <marker>mit</marker> bitte jemand helfen?</example>
                 <example>Ich komme <marker>mit</marker> jemand anders.</example>
+                <example>Es ist schön, mit jemanden schweigen zu können.</example>
+                <example>Du solltest dich nicht mit jemand vergleichen, dem du das Wasser nicht reichen kannst.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2311,6 +2331,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token>wo</token>
+                    <token>aus</token>
+                </antipattern>
+                <antipattern>
                     <token postag="PRO:PER:AKK.*" postag_regexp="yes"><exception postag="PRO:PER:(DAT|NOM).*|ART:.+" postag_regexp="yes"/></token>
                     <token postag="PA1:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -2321,6 +2345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Nach '\1' steht der Dativ. Prüfen Sie, ob hier <suggestion>\1 <match no="2" postag="(.+)AKK(.*)" postag_regexp="yes" postag_replace="$1DAT$2"/></suggestion> stehen sollte.</message>
                 <example correction="mit mir|mit sich">Du kommst <marker>mit mich</marker>.</example>
                 <example>Es schwebt sozusagen schwerelos im ihn umgebenden Fluid.</example>
+                <example>Sie zog nach Nancy, von wo aus sie sich nach Paris begab.</example>
             </rule>
         </rulegroup>
         <rule id="ER_EINZIGE" name="'er (der) einzige'">
@@ -29714,11 +29739,14 @@ Andere Projekte</example>
             <pattern>
                 <token>aufs</token>
                 <marker>
-                    <token postag='VER:INF:SFT'/>
+                    <token postag='VER:INF:(SFT|NON)' postag_regexp="yes">
+                        <exception postag="SUB:.+" postag_regexp="yes"/>
+                    </token>
                 </marker>
             </pattern>
-            <message>Da <suggestion>Lernen</suggestion> hier ein Nomen ist, muss es großgeschrieben werden.</message>
+            <message>Da <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier ein Nomen ist, muss es großgeschrieben werden.</message>
             <example correction="Lernen">Er müsste sich aufs <marker>lernen</marker> konzentrieren.</example>
+            <example correction="Schwimmen">Sie sollten sich nicht zu sehr aufs <marker>schwimmen</marker> freuen.</example>
             <example>Er müsste sich aufs <marker>Lernen</marker> konzentrieren.</example>
         </rule>
         <rule id="AUFS_GLEICHE" name="aufs gleiche (Gleiche) herauskommen">

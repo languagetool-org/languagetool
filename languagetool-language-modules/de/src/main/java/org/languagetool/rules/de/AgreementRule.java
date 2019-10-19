@@ -482,6 +482,11 @@ public class AgreementRule extends Rule {
       tokenRegex("macht|ergibt|stiftet|bringt")
     ),
     Arrays.asList(
+      tokenRegex("hat|hätte|kann|wird|dürfte|muss|sollte|soll|könnte|müsste|würde"),
+      token("das"),
+      token("Konsequenzen")
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().posRegex("VER:.*[1-3]:.+").setSkip(1).build(),
       csToken("vermehrt")
     )
