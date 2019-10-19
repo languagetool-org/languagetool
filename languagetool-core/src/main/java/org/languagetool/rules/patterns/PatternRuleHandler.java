@@ -144,7 +144,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
             name = ruleGroupDescription;
           }
         }
-        if (id == null) {
+        if (id == null && !relaxedMode) {
           throw new RuntimeException("id is null for rule with name '" + name + "'");
         }
         id = idPrefix != null ? idPrefix + id : id;
