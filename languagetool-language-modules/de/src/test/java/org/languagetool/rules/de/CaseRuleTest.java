@@ -38,13 +38,13 @@ public class CaseRuleTest {
   private JLanguageTool lt;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
     lt = new JLanguageTool(new GermanyGerman());
   }
 
   @Test
-  public void testRuleActivation() throws IOException {
+  public void testRuleActivation() {
     assertTrue(rule.supportsLanguage(new GermanyGerman()));
   }
 

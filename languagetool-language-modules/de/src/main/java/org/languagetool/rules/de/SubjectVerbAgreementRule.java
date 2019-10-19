@@ -38,6 +38,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+
 /**
  * Check subject verb agreement for verb forms "ist", "sind", "war" and "waren".
  * For example, it detects the errors in:
@@ -70,49 +72,49 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("ist|war").build(),
-      new PatternTokenBuilder().token("gemeinsam").build()
+      tokenRegex("ist|war"),
+      token("gemeinsam")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
-      new PatternTokenBuilder().pos("ZAL").build(),
-      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
-      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      pos("ZAL"),
+      tokenRegex("Tage|Monate|Jahre"),
+      posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
-      new PatternTokenBuilder().posRegex("ADV:MOD|ADJ:PRD:GRU").build(),
-      new PatternTokenBuilder().pos("ZAL").build(),
-      new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
-      new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      posRegex("ADV:MOD|ADJ:PRD:GRU"),
+      pos("ZAL"),
+      tokenRegex("Tage|Monate|Jahre"),
+      posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
       new PatternTokenBuilder().pos("PRP:CAU:GEN").setSkip(4).build(),
       new PatternTokenBuilder().csToken("und").setSkip(4).build(),
-      new PatternTokenBuilder().tokenRegex("ist|war").build()
+      tokenRegex("ist|war")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
-      new PatternTokenBuilder().posRegex("EIG:.*").build(),
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      posRegex("EIG:.*"),
       new PatternTokenBuilder().csToken("und").setSkip(2).build(),
-      new PatternTokenBuilder().tokenRegex("sind|waren").build()
+      tokenRegex("sind|waren")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos("KON:UNT").build(),
+      pos("KON:UNT"),
       new PatternTokenBuilder().csToken("sie").setSkip(3).build(),
-      new PatternTokenBuilder().tokenRegex("sind|waren").build()
+      tokenRegex("sind|waren")
     ),
     Arrays.asList( //Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
       new PatternTokenBuilder().posRegex("PRP:.+").setSkip(4).build(),
-      new PatternTokenBuilder().tokenRegex("ist|war").build(),
-      new PatternTokenBuilder().tokenRegex("d(as|er)|eine?").build()
+      tokenRegex("ist|war"),
+      tokenRegex("d(as|er)|eine?")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("zu").build(),
-      new PatternTokenBuilder().csToken("Fuß").build(),
-      new PatternTokenBuilder().tokenRegex("sind|waren").build()
+      token("zu"),
+      csToken("Fuß"),
+      tokenRegex("sind|waren")
     )
   );
 
