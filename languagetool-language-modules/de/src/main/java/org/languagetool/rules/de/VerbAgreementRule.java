@@ -126,7 +126,8 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("wie|als").build(),  // "Ein Mann wie ich braucht einen Hut"
-      new PatternTokenBuilder().token("ich").build()
+      new PatternTokenBuilder().token("ich").build(),
+      new PatternTokenBuilder().posRegex("VER:.*").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("ich").build(),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
@@ -295,6 +296,7 @@ public class VerbAgreementRule extends TextLevelRule {
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
 
+      System.out.println("->"+tokens[i]);
       if (tokens[i].isImmunized()) {
         continue;
       }
