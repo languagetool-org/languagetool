@@ -24,32 +24,32 @@ import static org.junit.Assert.assertEquals;
 
 public class WikipediaTextFilterTest {
 
-  final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
+  private final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
 
   @Test
-  public void testImageRemoval() throws Exception {
+  public void testImageRemoval() {
     assertExtract("foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar",
                   "foo bar");
   }
 
   @Test
-  public void testRemovalOfImageWithLink() throws Exception {
+  public void testRemovalOfImageWithLink() {
     assertExtract("foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]",
                   "foo bar Link");
   }
 
   @Test
-  public void testLink1() throws Exception {
+  public void testLink1() {
     assertExtract("foo [[Test]] bar", "foo Test bar");
   }
 
   @Test
-  public void testLink2() throws Exception {
+  public void testLink2() {
     assertExtract("foo [[Target|visible link]] bar", "foo visible link bar");
   }
 
   @Test
-  public void testEntity() throws Exception {
+  public void testEntity() {
     assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20\u00A0Kilometer südlich");
     assertExtract("one&lt;br/&gt;two", "one<br/>two");
     assertExtract("one &ndash; two", "one – two");
@@ -58,13 +58,13 @@ public class WikipediaTextFilterTest {
   }
 
   @Test
-  public void testLists() throws Exception {
+  public void testLists() {
     assertExtract("# one\n# two\n", "one\n\ntwo");
     assertExtract("* one\n* two\n", "one\n\ntwo");
   }
 
   @Test
-  public void testOtherStuff() throws Exception {
+  public void testOtherStuff() {
     assertExtract("Daniel Guerin, ''[http://theanarchistlibrary.org Anarchism: From Theory to Practice]''",
                   "Daniel Guerin, Anarchism: From Theory to Practice");
     assertExtract("foo <ref>\"At the end of the century in France [http://theanarchistlibrary.org] [[Daniel Guérin]]. ''Anarchism'']</ref>",
