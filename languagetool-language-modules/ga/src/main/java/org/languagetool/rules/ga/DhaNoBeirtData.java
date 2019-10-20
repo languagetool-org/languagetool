@@ -42,7 +42,7 @@ final class DhaNoBeirtData {
   private static final Map<String, String> numbers = new HashMap<String, String>();
   static {
     numbers.put("dhá", "beirt");
-    numbers.put("trí", "trúir");
+    numbers.put("trí", "triúr");
     numbers.put("ceathair", "ceathrar");
     numbers.put("cúig", "cúigear");
     numbers.put("sé", "seisear");
