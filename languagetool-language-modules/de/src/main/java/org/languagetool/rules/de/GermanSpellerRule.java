@@ -92,6 +92,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("packet", "Paket");
     put("Thanks", "Danke");
     put("Ghanesen?", "Ghanaer");
+    put("Thumberg", "Thunberg");
     put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     //put("gefaked", "gefakt");  -- don't suggest
