@@ -48,26 +48,6 @@ public class DhaNoBeirtRule extends Rule {
     return "'dhá' nó 'beirt'";
   }
 
-  private boolean isLenitedNoun(AnalyzedTokenReadings readings) {
-    for (AnalyzedToken tok : readings.getReadings()) {
-      String posTag = tok.getPOSTag();
-      if ((posTag.contains("Noun:") || posTag.contains("Subst:"))
-          && posTag.contains(":Len")) {
-        return true;
-      }
-    }
-    return false;
-  }
-  private String getFirstLenitedLemma(AnalyzedTokenReadings readings) {
-    for (AnalyzedToken tok : readings.getReadings()) {
-      String posTag = tok.getPOSTag();
-      if ((posTag.contains("Noun:") || posTag.contains("Subst:"))
-        && posTag.contains(":Len")) {
-        return tok.getLemma();
-      }
-    }
-    return "";
-  }
   private String[] getRestOfNP(AnalyzedTokenReadings[] tokens, int start, int end) {
     List<String> ret = new ArrayList<>();
     for (int i = start; i <= end; i++) {
@@ -93,9 +73,6 @@ public class DhaNoBeirtRule extends Rule {
               markEnd = j;
               replacement = "dháréag";
               String[] msgTokens = getRestOfNP(tokens, i + 1, j);
-              if (isLenitedNoun(tokens[i + 1])) {
-                msgTokens[0] = getFirstLenitedLemma(tokens[i + 1]);
-              }
               msg = "Ba chóir duit <suggestion>" + replacement + " " +
                 String.join(" ", msgTokens) + "</suggestion> a scríobh";
             }
