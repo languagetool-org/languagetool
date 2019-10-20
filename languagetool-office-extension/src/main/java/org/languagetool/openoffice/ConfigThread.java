@@ -41,7 +41,7 @@ class ConfigThread extends Thread {
   private final ConfigurationDialog cfgDialog;
   
   ConfigThread(Language docLanguage, Configuration config, Main main) {
-    if(config.getDefaultLanguage() == null) {
+    if (config.getDefaultLanguage() == null) {
       this.docLanguage = docLanguage;
     } else {
       this.docLanguage = config.getDefaultLanguage();
@@ -55,31 +55,22 @@ class ConfigThread extends Thread {
   public void run() {
     try {
       List<Rule> allRules = mainThread.getJLanguageTool().getAllRules();
-      Set<String> disabledRulesUI = null;
-      if (mainThread != null) {
-        disabledRulesUI = mainThread.getDisabledRules();
-        config.addDisabledRuleIds(disabledRulesUI);
-      }
+      Set<String> disabledRulesUI = mainThread.getDisabledRules();
+      config.addDisabledRuleIds(disabledRulesUI);
       boolean configChanged = cfgDialog.show(allRules);
-      if(configChanged) {
-        if (mainThread != null) {
-          Set<String> disabledRules = config.getDisabledRuleIds();
-          for(String ruleId : disabledRulesUI) {
-            if(!disabledRules.contains(ruleId)) {
-              disabledRulesUI.remove(ruleId);
-            }
+      if (configChanged) {
+        Set<String> disabledRules = config.getDisabledRuleIds();
+        for(String ruleId : disabledRulesUI) {
+          if(!disabledRules.contains(ruleId)) {
+            disabledRulesUI.remove(ruleId);
           }
-          mainThread.setDisabledRules(disabledRulesUI);
-          config.removeDisabledRuleIds(disabledRulesUI);
         }
+        mainThread.setDisabledRules(disabledRulesUI);
+        config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
-        if (mainThread != null) {
-          mainThread.resetDocument();
-        }
+        mainThread.resetDocument();
       } else {
-        if (mainThread != null) {
-          config.removeDisabledRuleIds(mainThread.getDisabledRules());
-        }
+        config.removeDisabledRuleIds(mainThread.getDisabledRules());
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);
