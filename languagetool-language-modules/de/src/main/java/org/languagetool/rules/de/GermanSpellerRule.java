@@ -1040,6 +1040,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
+  public boolean isMisspelled(String word) {
+    if (word.startsWith("Standart") && !word.equals("Standarte") && !word.equals("Standarten") && !word.startsWith("Standartenträger") && !word.startsWith("Standartenführer")) {
+      return true;
+    }
+    return super.isMisspelled(word);
+  }
+
+  @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
