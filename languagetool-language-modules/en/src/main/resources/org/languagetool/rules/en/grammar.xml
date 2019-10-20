@@ -4712,30 +4712,42 @@ USA
             <example correction="overrated">The movie was highly <marker>over rated</marker>.</example>
         </rule>
         <!-- over seas::word=overseas -->
-        <rule id="OVER_SEAS" name="over seas (overseas)">
-            <pattern>
-                <token>over</token>
-                <token>seas</token>
-            </pattern>
-            <message>Did you mean <suggestion>overseas</suggestion>?</message>
-            <example correction="overseas">He was stationed <marker>over seas</marker>.</example>
-        </rule>
+        <rulegroup id="OVER_SEAS" name="over seas (overseas)">
+            <rule>
+                <pattern>
+                    <token>over</token>
+                    <token>seas</token>
+                </pattern>
+                <message>Did you mean <suggestion>overseas</suggestion>?</message>
+                <example correction="overseas">He was stationed <marker>over seas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>over</token>
+                    <token>sea</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </pattern>
+                <message>Did you mean <suggestion>overseas</suggestion>?</message>
+                <example correction="overseas">He was stationed <marker>over sea's</marker>.</example>
+            </rule>
+        </rulegroup>
         <!-- short coming::word=shortcoming -->
         <rule id="SHORT_COMING" name="short coming (shortcoming)">
             <pattern>
                 <token>short</token>
-                <token>coming</token>
+                <token regexp="yes">comings?</token>
             </pattern>
-            <message>Did you mean <suggestion>shortcoming</suggestion>?</message>
+            <message>Did you mean <suggestion>short<match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="shortcoming">Being on time was his biggest <marker>short coming</marker>.</example>
         </rule>
         <!-- short cut::word=shortcut -->
         <rule id="SHORT_CUT" name="short cut (shortcut)">
             <pattern>
                 <token>short</token>
-                <token>cut</token>
+                <token regexp="yes">cuts?</token>
             </pattern>
-            <message>Did you mean <suggestion>shortcut</suggestion>?</message>
+            <message>Did you mean <suggestion>short<match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="shortcut">I know a <marker>short cut</marker>.</example>
             <example type="triggers_error">If you won't like your short cut, you can return to your long hair.</example><!-- FP -->
         </rule>
@@ -4743,9 +4755,9 @@ USA
         <rule id="SIDE_KICK" name="side kick (sidekick)">
             <pattern>
                 <token>side</token>
-                <token>kick</token>
+                <token regexp="yes">kicks?</token>
             </pattern>
-            <message>Did you mean <suggestion>sidekick</suggestion>?</message>
+            <message>Did you mean <suggestion>side<match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="sidekick">He had a zany <marker>side kick</marker>.</example>
         </rule>
         <!-- sky diving::word=skydiving -->
