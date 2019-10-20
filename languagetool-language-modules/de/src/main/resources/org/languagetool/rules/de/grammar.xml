@@ -31663,6 +31663,96 @@ Andere Projekte</example>
           <suggestion>einer</suggestion>
           <example correction="einer">Sie kommt in <marker>eine</marker> Stunde.</example>
         </rule>
+        <rulegroup id="ALL_INCLUSIVE" name="'all-inclusive'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>all</token>
+                        <token regexp="yes">in[ck]lusive?</token>
+                        <token regexp="yes">Urlaub(es|en|e|s)?|Hotels?|Paket(s|e)?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>All-inclusive-<match no="3" case_conversion="startupper" /></suggestion> (= Pauschalurlaub)?</message>
+                <url>https://www.duden.de/rechtschreibung/All_inclusive_Urlaub</url>
+                <example correction="All-inclusive-Urlaub">Sie buchten <marker>All Inclusive Urlaub</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">all-?in[ck]lusive?</token>
+                        <token regexp="yes">Urlaub(es|en|e|s)?|Hotels?|Paket(s|e)?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>All-inclusive-<match no="3" case_conversion="startupper" /></suggestion> (= Pauschalurlaub)?</message>
+                <url>https://www.duden.de/rechtschreibung/All_inclusive_Urlaub</url>
+                <example correction="All-inclusive-Hotels">Sie mussten sich zwischen mehreren <marker>all-inclusive Hotels</marker> entscheiden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>all</token>
+                        <token regexp="yes">in[ck]lusive?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>All-inclusive</suggestion> (= alles im Preis enthalten)?</message>
+                <url>https://www.duden.de/rechtschreibung/all_inclusive</url>
+                <example correction="All-inclusive"><marker>All inclusive</marker> ohne Sorgen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>all</token>
+                    <token regexp="yes">in[ck]lusive?</token>
+                </pattern>
+                <message>Meinten Sie das Adverb <suggestion><match no="1" case_conversion="alllower" />-inclusive</suggestion> (= alles im Preis enthalten)?</message>
+                <url>https://www.duden.de/rechtschreibung/all_inclusive</url>
+                <example correction="all-inclusive">Sie reisten <marker>All Inklusive</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker><token regexp="yes">allin[ck]lusive?</token></marker>
+                </pattern>
+                <message>Meinten Sie das Adverb <suggestion>all-inclusive</suggestion> (= alles im Preis enthalten)?</message>
+                <url>https://www.duden.de/rechtschreibung/all_inclusive</url>
+                <example correction="All-inclusive"><marker>Allinclusive</marker> ohne Sorgen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">allin[ck]lusive?</token>
+                </pattern>
+                <message>Meinten Sie das Adverb <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)allin.lusive?" regexp_replace="all-inclusive" /></suggestion> (= alles im Preis enthalten)?</message>
+                <url>https://www.duden.de/rechtschreibung/all_inclusive</url>
+                <example correction="all-inclusive">Sie reisten <marker>Allinclusive</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHECK_IN" name="'Check-in'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Check</token>
+                    <token case_sensitive="yes" regexp="yes">Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Check-<match no="2" case_conversion="alllower" /></suggestion> (= Anmeldung im Hotel oder am Flughafen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_in</url>
+                <example correction="Check-in">Bitte gehen Sie zum <marker>Check In</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Checkins?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="Checkin(s)?" regexp_replace="Check-in$1" /></suggestion> (= Anmeldung im Hotel oder am Flughafen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_in</url>
+                <example correction="Check-in">Bitte gehen Sie zum <marker>Checkin</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Check-?Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Check-in<match no="1" regexp_match=".+(s?)" regexp_replace="$1" /></suggestion> (= Anmeldung im Hotel oder am Flughafen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_in</url>
+                <example correction="Check-in">Während des <marker>Check-Ins</marker> ging etwas schief.</example>
+            </rule>
+        </rulegroup>
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="'seit/nach/... des (dem)'">
           <rule>
