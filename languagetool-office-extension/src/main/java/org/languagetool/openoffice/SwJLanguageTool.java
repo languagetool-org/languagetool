@@ -207,14 +207,14 @@ public class SwJLanguageTool {
     private RemoteLanguageTool remoteLanguageTool;
     private List<String> enabledRules = new ArrayList<>();
     private List<String> disabledRules = new ArrayList<>();
-    private List<Rule> allRules = new ArrayList<Rule>();
+    private List<Rule> allRules = new ArrayList<>();
     private CheckConfiguration remoteConfig;
     private CheckConfigurationBuilder configBuilder;
     private List<Rule> extraRemoteRules;
     private int maxTextLength;
     
-    LORemoteLanguageTool(Language language, Language motherTongue, UserConfig userConfig
-        , List<Rule> extraRemoteRules) throws MalformedURLException {
+    LORemoteLanguageTool(Language language, Language motherTongue, UserConfig userConfig,
+                         List<Rule> extraRemoteRules) throws MalformedURLException {
       this.language = language;
       this.motherTongue = motherTongue;
       serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
@@ -255,7 +255,7 @@ public class SwJLanguageTool {
       }
       remoteConfig = configBuilder.build();
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      int limit = maxTextLength;
+      int limit;
       for (int nStart = 0; text.length() > nStart; nStart += limit) {
         String subText;
         if(text.length() <= nStart + maxTextLength) {

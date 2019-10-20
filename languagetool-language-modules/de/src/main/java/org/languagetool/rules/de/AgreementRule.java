@@ -45,6 +45,12 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
  *
@@ -491,26 +497,6 @@ public class AgreementRule extends Rule {
       csToken("vermehrt")
     )
   );
-
-  private static PatternToken tokenRegex(String s) {
-    return new PatternTokenBuilder().tokenRegex(s).build();
-  }
-
-  private static PatternToken posRegex(String s) {
-    return new PatternTokenBuilder().posRegex(s).build();
-  }
-
-  private static PatternToken csToken(String s) {
-    return new PatternTokenBuilder().csToken(s).build();
-  }
-
-  private static PatternToken pos(String s) {
-    return new PatternTokenBuilder().pos(s).build();
-  }
-
-  private static PatternToken token(String s) {
-    return new PatternTokenBuilder().token(s).build();
-  }
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
       "besonders",

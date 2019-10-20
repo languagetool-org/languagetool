@@ -32,9 +32,14 @@ import static org.junit.Assert.assertEquals;
 public class LanguageSpecificTest {
 
   protected void runTests(Language lang) throws IOException {
+    runTests(lang, null);
+  }
+
+  protected void runTests(Language lang, String onlyRunCode) throws IOException {
     new WordListValidatorTest().testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
-    testJavaRules();
+    testJavaRules(onlyRunCode);
+    countTempOffRules(lang);
   }
 
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
@@ -42,10 +47,14 @@ public class LanguageSpecificTest {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
   }
 
-  private void testJavaRules() throws IOException {
+  private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
     Set<Class> ruleClasses = new HashSet<>();
     for (Language language : Languages.getWithDemoLanguage()) {
+      if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
+        System.out.println("Skipping " + language);   // speed up for languages that are sub classes (e.g. simple German)
+        continue;
+      }
       JLanguageTool lt = new JLanguageTool(language);
       List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
@@ -166,4 +175,22 @@ public class LanguageSpecificTest {
     return example.replace("<marker>", "").replace("</marker>", "");
   }
 
+  private void countTempOffRules(Language lang) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    int count = 0;
+    for (Rule rule : lt.getAllRules()) {
+      if (rule.isDefaultTempOff()) {
+        count++;
+      }
+    }
+    System.out.println("Number of default='temp_off' rules for " + lang + ": " + count);
+    int limit = 10;
+    if (count > limit) {
+      System.out.println("################################################################################################");
+      System.out.println("WARNING: More than " + limit + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
+      System.out.println("WARNING: rules after they have been tested (or use default='off' to turn them off permanently)");
+      System.out.println("################################################################################################");
+    }
+  }
+  
 }

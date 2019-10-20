@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.SimpleGerman;
-import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,6 +35,6 @@ public class SimpleGermanTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ", "TOO_LONG_SENTENCE_DE", "PASSIV", "LANGES_WORT", "VERNEINUNG", "ABSTRAKTE_WOERTER", "GENITIV")
     );
-    runTests(lang);
+    runTests(lang, "de-DE-x-simple-language");
   }
 }

@@ -319,7 +319,7 @@ public class FlatParagraphTools {
   /**
    * Get information of checked status of all paragraphs
    */
-  public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
+  List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     List<Boolean> isChecked = new ArrayList<>();
     try {
       if (xFlatPara == null) {

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,32 +16,35 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia.atom;
-
-import java.util.List;
-import java.util.Objects;
+package org.languagetool.rules.patterns;
 
 /**
- * @since 2.4
+ * @since 4.8
  */
-class CheckResult {
+public class PatternRuleBuilderHelper {
 
-  private final List<ChangeAnalysis> checkResults;
-  private final long latestDiffId;
-
-  CheckResult(List<ChangeAnalysis> checkResults, long latestDiffId) {
-    this.checkResults = Objects.requireNonNull(checkResults);
-    if (latestDiffId < 0) {
-      throw new IllegalArgumentException("latestDiffId must be >= 0: " + latestDiffId);
-    }
-    this.latestDiffId = latestDiffId;
+  public static PatternToken tokenRegex(String s) {
+    return new PatternTokenBuilder().tokenRegex(s).build();
   }
 
-  List<ChangeAnalysis> getCheckResults() {
-    return checkResults;
+  public static PatternToken posRegex(String s) {
+    return new PatternTokenBuilder().posRegex(s).build();
   }
 
-  long getLatestDiffId() {
-    return latestDiffId;
+  public static PatternToken csToken(String s) {
+    return new PatternTokenBuilder().csToken(s).build();
   }
+
+  public static PatternToken pos(String s) {
+    return new PatternTokenBuilder().pos(s).build();
+  }
+
+  public static PatternToken token(String s) {
+    return new PatternTokenBuilder().token(s).build();
+  }
+
+  public static PatternToken regex(String regex) {
+    return new PatternTokenBuilder().tokenRegex(regex).build();
+  }
+
 }

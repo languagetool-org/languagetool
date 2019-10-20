@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 /**
- * Provides access to the sentences of a Wikipedia XML dump. Note that
+ * Provides access to the sentences of CommonCrawl data. Note that
  * conversion exceptions are logged to STDERR and are otherwise ignored.
  * 
  * Get data from http://data.statmt.org/ngrams/deduped/

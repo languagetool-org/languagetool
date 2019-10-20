@@ -21,7 +21,6 @@ package org.languagetool.rules.fa;
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Persian;
-import org.languagetool.rules.WordListValidatorTest;
 
 import java.io.IOException;
 import java.util.Arrays;

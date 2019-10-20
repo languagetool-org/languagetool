@@ -31,6 +31,8 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+
 /**
  * Check if a word is repeated twice, taking into account an exception
  * for German where e.g. "..., die die ..." is often okay.
@@ -39,34 +41,34 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
 
-	private final Language GERMAN;
+  private final Language GERMAN;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Bora").build(),
-      new PatternTokenBuilder().csToken("Bora").build()
+      csToken("Bora"),
+      csToken("Bora")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("Moin").build(),
-      new PatternTokenBuilder().token("Moin").build()
+      token("Moin"),
+      token("Moin")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("Na").build(),
-      new PatternTokenBuilder().token("na").build()
+      token("Na"),
+      token("na")
     ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
-      new PatternTokenBuilder().csToken(",").build(),
+      csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build()
     ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
-      new PatternTokenBuilder().csToken(",").build(),
-      new PatternTokenBuilder().posRegex("PRP:.+").build(),
+      csToken(","),
+      posRegex("PRP:.+"),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build()
     ),
     Arrays.asList(// "Er will sein Leben leben"
-      new PatternTokenBuilder().csToken("Leben").build(),
-      new PatternTokenBuilder().csToken("leben").build()
+      csToken("Leben"),
+      csToken("leben")
     )
   );
 

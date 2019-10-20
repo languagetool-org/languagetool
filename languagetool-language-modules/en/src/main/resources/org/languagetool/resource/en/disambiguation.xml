@@ -4099,10 +4099,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 		<example type="ambiguous" inputform="AD[AD/NNP,ad/NN]" outputform="AD[AD/NNP]">24 <marker>AD</marker> is a memorable date.</example>
 	</rule>
 
-    <rule id="NNP_CIUDAD_DE" name="NNP for Mexican city names starting with 'Ciudad de'">
+    <rule id="NNP_CIUDAD_DE" name="NNP for Spanish geo names starting with 'Ciudad de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
@@ -4111,10 +4111,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NNP"/>
     </rule>
 
-    <rule id="NNP_CIUDAD_DEL" name="NNP for Mexican city names starting with 'Ciudad del'">
+    <rule id="NNP_CIUDAD_DEL" name="NNP for Spanish geo names starting with 'Ciudad del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto</token>
                 <token>del</token>
                 <token regexp="yes">[A-Z].+</token>
             </marker>
@@ -5391,7 +5391,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Mexican city names starting with 'Ciudad de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a</token>
             </marker>
@@ -5403,7 +5403,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Mexican city names starting with 'Ciudad del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto</token>
                 <token>del</token>
             </marker>
             <token regexp="yes">[A-Z].+</token>

@@ -108,6 +108,8 @@ public class VerbAgreementRuleTest {
     assertGood("Kannst mich gerne anrufen.");
     assertGood("Kannst ihn gerne anrufen.");
     assertGood("Kannst sie gerne anrufen.");
+    assertGood("Aber wie ich sehe, benötigt ihr Nachschub.");
+    assertGood("Wie ich sehe, benötigt ihr Nachschub.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

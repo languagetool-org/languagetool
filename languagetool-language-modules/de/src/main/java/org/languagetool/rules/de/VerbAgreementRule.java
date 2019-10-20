@@ -37,8 +37,13 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 
 /**
  * Simple agreement checker for German verbs and subject. Checks agreement in:
@@ -63,114 +68,115 @@ public class VerbAgreementRule extends TextLevelRule {
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       // "Kannst mich gerne anrufen" (ugs.)
-      new PatternTokenBuilder().pos("VER:MOD:2:SIN:PRÄ").build(),
-      new PatternTokenBuilder().posRegex("PRO:PER:.*").build()
+      pos("VER:MOD:2:SIN:PRÄ"),
+      posRegex("PRO:PER:.*")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("die|welche").build(),
-      new PatternTokenBuilder().tokenRegex(".*").build(),
-      new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
-      new PatternTokenBuilder().token("als").build(),
-      new PatternTokenBuilder().tokenRegex("ich|du|e[rs]|sie").build()
+      tokenRegex("die|welche"),
+      tokenRegex(".*"),
+      tokenRegex("mehr|weniger"),
+      token("als"),
+      tokenRegex("ich|du|e[rs]|sie")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("wenn").build(),
-      new PatternTokenBuilder().token("du").build(),
-      new PatternTokenBuilder().token("anstelle").build()
+      token("wenn"),
+      token("du"),
+      token("anstelle")
     ),
     Arrays.asList( // "Ok bin ab morgen bei euch." (umgangssprachlich, benötigt eigene Regel)
-      new PatternTokenBuilder().tokenRegex("ok|okay|ja|nein|vielleiecht|oh").build(),
-      new PatternTokenBuilder().tokenRegex("bin|sind").build()
+      tokenRegex("ok|okay|ja|nein|vielleiecht|oh"),
+      tokenRegex("bin|sind")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("das").build(),
-      new PatternTokenBuilder().csToken("Du").build(),
+      token("das"),
+      csToken("Du"),
       new PatternTokenBuilder().token("anbieten").matchInflectedForms().build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token(",").build(),
-      new PatternTokenBuilder().posRegex("VER:MOD:2:.*").build()
+      token(","),
+      posRegex("VER:MOD:2:.*")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Soll").build(),
-      new PatternTokenBuilder().token("ich").build()
+      csToken("Soll"),
+      token("ich")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Solltest").build(),
-      new PatternTokenBuilder().token("du").build()
+      csToken("Solltest"),
+      token("du")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Müsstest").build(), // Müsstest dir das mal genauer anschauen.
-      new PatternTokenBuilder().token("dir").build()
+      csToken("Müsstest"), // Müsstest dir das mal genauer anschauen.
+      token("dir")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Könntest").build(), // Könntest dir mal eine Scheibe davon abschneiden!
-      new PatternTokenBuilder().token("dir").build()
+      csToken("Könntest"), // Könntest dir mal eine Scheibe davon abschneiden!
+      token("dir")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("Sollte").build(),
-      new PatternTokenBuilder().tokenRegex("er|sie").build()
+      csToken("Sollte"),
+      tokenRegex("er|sie")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),  // "Bin gleich wieder da"
-      new PatternTokenBuilder().csToken("Bin").build()
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),  // "Bin gleich wieder da"
+      csToken("Bin")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token(",").build(),  // "..., hast aber keine Ahnung!"
-      new PatternTokenBuilder().tokenRegex("bin|hast").build()
+      token(","),  // "..., hast aber keine Ahnung!"
+      tokenRegex("bin|hast")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("er").build(),  // "egal, was er sagen wird, ..."
-      new PatternTokenBuilder().posRegex("VER:.*").build(),
-      new PatternTokenBuilder().token("wird").build()
+      token("er"),  // "egal, was er sagen wird, ..."
+      posRegex("VER:.*"),
+      token("wird")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("wie|als").build(),  // "Ein Mann wie ich braucht einen Hut"
-      new PatternTokenBuilder().token("ich").build()
+      tokenRegex("wie|als"),  // "Ein Mann wie ich braucht einen Hut"
+      token("ich"),
+      posRegex("VER:.*")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("ich").build(),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
-      new PatternTokenBuilder().pos("VER:INF:NON").build(),
-      new PatternTokenBuilder().token("werde").build()
+      tokenRegex("ich"),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
+      pos("VER:INF:NON"),
+      token("werde")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().pos("VER:IMP:SIN:SFT").build(),  // "Kümmere du dich mal nicht darum!"
-      new PatternTokenBuilder().token("du").build(),
-      new PatternTokenBuilder().token("dich").build()
+      pos("VER:IMP:SIN:SFT"),  // "Kümmere du dich mal nicht darum!"
+      token("du"),
+      token("dich")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("sei").build(),
-      new PatternTokenBuilder().token("du").build(),
-      new PatternTokenBuilder().token("selbst").build()
+      token("sei"),
+      token("du"),
+      token("selbst")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("als").build(),  // "Du bist in dem Moment angekommen, als ich gegangen bin."
-      new PatternTokenBuilder().token("ich").build(),
-      new PatternTokenBuilder().posRegex("PA2:.*").build(),
-      new PatternTokenBuilder().token("bin").build()
+      token("als"),  // "Du bist in dem Moment angekommen, als ich gegangen bin."
+      token("ich"),
+      posRegex("PA2:.*"),
+      token("bin")
     ),
     Arrays.asList(
-     new PatternTokenBuilder().token("als").build(),
-     new PatternTokenBuilder().tokenRegex("du|e[rs]|sie|ich").build(),
+     token("als"),
+     tokenRegex("du|e[rs]|sie|ich"),
      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
-     new PatternTokenBuilder().tokenRegex("[\\.,]").build()
+     tokenRegex("[\\.,]")
     ),
     Arrays.asList( // Musst du gehen?
-     new PatternTokenBuilder().tokenRegex("D[au]rf.*|Muss.*").build(),
-     new PatternTokenBuilder().posRegex("PRO:PER:NOM:.+").build(),
-     new PatternTokenBuilder().posRegex("VER:INF:.+").build(),
-     new PatternTokenBuilder().pos("PKT").build(),
-     new PatternTokenBuilder().tokenRegex("(?!die).+").build()
+     tokenRegex("D[au]rf.*|Muss.*"),
+     posRegex("PRO:PER:NOM:.+"),
+     posRegex("VER:INF:.+"),
+     pos("PKT"),
+     tokenRegex("(?!die).+")
     ),
     Arrays.asList(
-     new PatternTokenBuilder().csToken("(").build(),
-     new PatternTokenBuilder().posRegex("VER:2:SIN:.+").build(),
-     new PatternTokenBuilder().csToken(")").build()
+     csToken("("),
+     posRegex("VER:2:SIN:.+"),
+     csToken(")")
     ),
     Arrays.asList(
-     new PatternTokenBuilder().posRegex("VER:MOD:1:PLU:.+").build(),
-     new PatternTokenBuilder().csToken("wir").build(),
-     new PatternTokenBuilder().csToken("bitte").build()
+     posRegex("VER:MOD:1:PLU:.+"),
+     csToken("wir"),
+     csToken("bitte")
     )
   );
 

@@ -580,6 +580,11 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Arbeitnehmer")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Verhaltensänderung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Er bzw. sie.")).length); // abbreviations
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarten")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standartenführer")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standard")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standardversuch")).length);
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
@@ -590,6 +595,8 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
     assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standart")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standartversuch")).length);
   }
   
   @Test
