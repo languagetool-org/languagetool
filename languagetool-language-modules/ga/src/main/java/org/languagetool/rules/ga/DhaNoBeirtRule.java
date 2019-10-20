@@ -35,7 +35,7 @@ public class DhaNoBeirtRule extends Rule {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Tá <marker>dhá</marker> dheartháireacha agam."),
-      Example.fixed("Tá <marker>beirt</marker> deartháireacha agam."));
+      Example.fixed("Tá <marker>beirt</marker> dheartháireacha agam."));
   }
 
   @Override
@@ -48,31 +48,74 @@ public class DhaNoBeirtRule extends Rule {
     return "'dhá' nó 'beirt'";
   }
 
+  private boolean isLenitedNoun(AnalyzedTokenReadings readings) {
+    for (AnalyzedToken tok : readings.getReadings()) {
+      String posTag = tok.getPOSTag();
+      if ((posTag.contains("Noun:") || posTag.contains("Subst:"))
+          && posTag.contains(":Len")) {
+        return true;
+      }
+    }
+    return false;
+  }
+  private String getFirstLenitedLemma(AnalyzedTokenReadings readings) {
+    for (AnalyzedToken tok : readings.getReadings()) {
+      String posTag = tok.getPOSTag();
+      if ((posTag.contains("Noun:") || posTag.contains("Subst:"))
+        && posTag.contains(":Len")) {
+        return tok.getLemma();
+      }
+    }
+    return "";
+  }
+  private String[] getRestOfNP(AnalyzedTokenReadings[] tokens, int start, int end) {
+    List<String> ret = new ArrayList<>();
+    for (int i = start; i <= end; i++) {
+      ret.add(tokens[i].getToken());
+    }
+    return ret.toArray(new String[ret.size()]);
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int markEnd = 1;
+    int prevTokenIndex = 0;
     String replacement = null;
     String msg = null;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       if (isNumber(tokens[i]) && (i < tokens.length - 1 && isPerson(tokens[i + 1]))) {
         markEnd = i + 1;
         if ("dhá".equalsIgnoreCase(tokens[i].getToken())) {
-          for (int j = i + 1; j < tokens.length; j++) {
+          for (int j = i + 2; j < tokens.length; j++) {
             if ("déag".equalsIgnoreCase(tokens[j].getToken())) {
               markEnd = j;
               replacement = "dháréag";
-              msg = "";
+              String[] msgTokens = getRestOfNP(tokens, i + 1, j);
+              if (isLenitedNoun(tokens[i + 1])) {
+                msgTokens[0] = getFirstLenitedLemma(tokens[i + 1]);
+              }
+              msg = "Ba chóir duit <suggestion>" + replacement + " " +
+                String.join(" ", msgTokens) + "</suggestion> a scríobh";
             }
           }
         }
         if (replacement == null) {
           replacement = getNumberReplacements().get(tokens[i].getToken());
+          if (msg == null) {
+            msg = "Ba chóir duit <suggestion>" + replacement + "</suggestion> a scríobh";
+          }
         }
       }
+      if (msg != null) {
+        RuleMatch match = new RuleMatch(
+          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
+        ruleMatches.add(match);
+      }
+      prevTokenIndex = i;
     }
-    return null;
+    return toRuleMatchArray(ruleMatches);
   }
 
   private boolean isNumber(AnalyzedTokenReadings tok) {
