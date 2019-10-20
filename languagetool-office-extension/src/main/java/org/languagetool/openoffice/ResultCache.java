@@ -244,7 +244,7 @@ class ResultCache {
     return entries.size();
   }
 
-  class CacheEntry {
+  static class CacheEntry {
     int numberOfParagraph;
     final int startOfSentencePosition;
     final int nextSentencePosition;
