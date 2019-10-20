@@ -110,8 +110,9 @@ public class DhaNoBeirtRule extends Rule {
       }
       if (msg != null) {
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getStartPos()+tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
         ruleMatches.add(match);
+        msg = null;
       }
       prevTokenIndex = i;
     }

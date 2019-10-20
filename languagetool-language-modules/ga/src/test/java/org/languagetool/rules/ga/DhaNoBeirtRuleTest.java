@@ -44,6 +44,7 @@ public class DhaNoBeirtRuleTest {
     assertCorrect("Seo abairt bheag.");
     assertCorrect("Tá beirt dheartháireacha agam.");
     assertIncorrect("Tá dhá dheartháireacha agam.");
+    assertIncorrect("Tá dhá dheartháireacha nios aosta déag agam.");
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -53,6 +54,10 @@ public class DhaNoBeirtRuleTest {
 
   private void assertIncorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    System.out.println(matches.length);
+    for(RuleMatch m : matches) {
+      System.out.println(m.toString());
+    }
     assertEquals(1, matches.length);
   }
 
