@@ -43,9 +43,9 @@ public class DhaNoBeirtRuleTest {
   public void testRule() throws IOException {
     assertCorrect("Seo abairt bheag.");
     assertCorrect("Tá beirt dheartháireacha agam.");
-    assertIncorrectMessage("Tá dhá dheartháireacha agam.", "Tá <suggestion>beirt</suggestion> dheartháireacha agam.");
+    assertIncorrectMessage("Tá dhá dheartháireacha agam.", "Ba chóir duit <suggestion>beirt</suggestion> a scríobh");
     // this next sentence is incorrect, just want a list of words between dhá and déag
-    assertIncorrectMessage("Tá dhá dheartháireacha níos aosta déag agam.", "Tá <suggestion>dháréag dheartháireacha níos aosta</suggestion> agam.");
+    assertIncorrectMessage("Tá dhá dheartháireacha níos aosta déag agam.", "Ba chóir duit <suggestion>dháréag dheartháireacha níos aosta</suggestion> a scríobh");
   }
 
   private void assertCorrect(String sentence) throws IOException {
