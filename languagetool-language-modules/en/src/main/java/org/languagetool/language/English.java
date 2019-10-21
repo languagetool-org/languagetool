@@ -285,6 +285,7 @@ public class English extends Language implements AutoCloseable {
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
       case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
+      case "PRP_RB_NO_VB":              return -1;  // prefer other more specific rules (with suggestions)
       case "I_MOVING":                  return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "HE_VERB_AGR":               return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "PRONOUN_NOUN":              return -2;  // prefer other rules (e.g. PRP_VB)
