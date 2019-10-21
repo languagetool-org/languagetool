@@ -55,10 +55,6 @@ public class DhaNoBeirtRuleTest {
 
   private void assertIncorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
-    System.out.println(matches.length);
-    for(RuleMatch m : matches) {
-      System.out.println(m.toString());
-    }
     assertEquals(1, matches.length);
   }
 
