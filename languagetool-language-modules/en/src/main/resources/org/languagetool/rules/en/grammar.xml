@@ -9719,6 +9719,10 @@ USA
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
             </antipattern>
+            <antipattern><!-- brexit term -->
+                <token>remain</token>
+                <token regexp="yes">campaigns?|people|movement|party|politicians?</token>
+            </antipattern>
             <antipattern>
                 <token>redeem</token>
                 <token regexp="yes">code|gift</token>
@@ -9734,7 +9738,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VB|VBP" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -9774,6 +9778,12 @@ USA
                 <token spacebefore="no">.</token>
                 <token spacebefore="no" regexp="yes">\w{2,4}|&file_name_extensions;</token>
             </antipattern>
+            <antipattern><!-- the translate.google.com website -->
+                <token/>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -9801,7 +9811,28 @@ USA
             <example>A startle response.</example>
             <example>Okay, so I guess we add "merchandize" to the <marker>prohibit.txt</marker>?</example><!-- #489 -->
             <example>The Unroll.me website.</example>
+            <example>Please use the translate.google.com website.</example>
+            <example>The remain campaign.</example>
         </rule>
+        <rulegroup id="IN_A_HARRY" name="In a harry (hurry)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>a</token>
+                    <token>harry</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 \2 <match no="3" regexp_match="(?i)a" regexp_replace="u" /></suggestion>?</message>
+                <example correction="in a hurry">He was <marker>in a harry</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>harry</token>
+                    <token>up</token>
+                </pattern>
+                <message>Did you mean <suggestion>hurry up</suggestion>?</message>
+                <example correction="hurry up">Please <marker>harry up</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CC_VERB" name="Correct use of 'cc'">
             <url>https://www.merriam-webster.com/dictionary/cc</url>
             <rule>
@@ -10481,6 +10512,32 @@ USA
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)draw" regexp_replace="drawal" /></suggestion>?</message>
                 <example correction="withdrawal">The <marker>withdraw</marker> succeeded.</example>
+            </rule>
+            <rule default="temp_off"><!-- the misspell -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">misspells?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)spell" regexp_replace="spelling" /></suggestion>?</message>
+                <example correction="misspelling">The <marker>misspell</marker> was correctly detected by LanguageTool.</example>
+            </rule>
+            <rule default="temp_off"><!-- the resell -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">resells?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="seller" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="sale" /></suggestion>?</message>
+                <example correction="reseller|resale">The <marker>resell</marker> market is performing very well.</example>
             </rule>
             <rule><!-- the expire -->
                 <pattern>
@@ -18117,15 +18174,107 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
-        <rule id="HOW_YOU_DOING" name="how (are) you doing'">
+        <rule id="DIDIN" name="he didin't (didn't)">
             <pattern>
-                <token regexp="yes">how|what|when|where|which</token>
-                <token regexp="yes">you|u|ya</token>
-                <token regexp="yes">doing?</token>
+                <token>didin</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
             </pattern>
-            <message>Did you mean <suggestion>\1 are you doing</suggestion>?</message>
-            <example correction="how are you doing">Hi, <marker>how you doin</marker>?</example>
+            <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
+            <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
+        <rulegroup id="NED_NEED" name="we ned (need) to" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">ned</token>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion>need \2</suggestion>?</message>
+                <example correction="need to">Our <marker>ned to</marker> feel special is making us lonely.</example>
+                <example>Please also invite Ned to our party.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|it|we|they|should|[cw]could|did|do|was|were|has|have|can|cannot|must|might|may</token>
+                    <token case_sensitive="yes">ned</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 need</suggestion>?</message>
+                <example correction="I need"><marker>I ned</marker> a new car.</example>
+                <example>Was Ned there?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="APOLOGIES" name="I apologies (apologize)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|we|they|to</token>
+                    <token>apologies</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 apologize</suggestion> (American English) or <suggestion>\1 apologise</suggestion> (British English)?</message>
+                <example correction="I apologize|I apologise"><marker>I apologies</marker> for the confusion.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it</token>
+                    <token>apologies</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 apologizes</suggestion> (American English) or <suggestion>\1 apologises</suggestion> (British English)?</message>
+                <example correction="He apologizes|He apologises"><marker>He apologies</marker> for his bad english.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BELIVE_BELIEVE" name="I belive (believe)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PRP" />
+                    <token regexp="yes">belive[sd]?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 <match no="2" regexp_match="(?i)i" regexp_replace="ie" /></suggestion>?</message>
+                <example correction="I believe"><marker>I belive</marker> in god.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">should|[cw]could|did|do|was|were|has|have|can|cannot|must|might|may|to</token>
+                    <token regexp="yes">belive[sd]?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 <match no="2" regexp_match="(?i)i" regexp_replace="ie" /></suggestion>?</message>
+                <example correction="did believe">I <marker>did belive</marker> in god.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">shouldn|[cw]couldn|didn|wasn|weren|hasn|haven|can|mustn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token regexp="yes">belive[sd]?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1\2\3 <match no="4" regexp_match="(?i)i" regexp_replace="ie" /></suggestion>?</message>
+                <example correction="didn't believe">I <marker>didn't belive</marker> in god.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HOW_YOU_DOING" name="how (are) you doing'">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">how|what|when|where|which</token>
+                        <token regexp="yes">you|u|ya</token>
+                        <token regexp="yes">doing?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\2 are you doing</suggestion>?</message>
+                <example correction="how are you doing"><marker>how you doing</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">how|what|when|where|which</token>
+                        <token regexp="yes">you|u|ya</token>
+                        <token regexp="yes" skip="-1">doing?</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 are you doing</suggestion>?</message>
+                <example correction="what are you doing">Hi, <marker>what you doin</marker> today?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRP_VBG" name="He going (He is going)">
             <!-- TODO: add adverb case, e.g. "He only going there" -->
             <antipattern>
@@ -18153,6 +18302,11 @@ USA
             <antipattern>
                 <token>you</token>
                 <token postag="JJ" />
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token postag="VBG" />
+                <token regexp="yes">idiots?|douche(bag)?s?|morons?</token>
             </antipattern>
             <antipattern>
                 <token>t</token>
@@ -18220,6 +18374,7 @@ USA
                 <example>Go back to Russia, you fucking communists!</example>
                 <example>How're you doing?</example>
                 <example>I cannot continue my class with you chattering to one another.</example>
+                <example>You dithering idiot!</example>
             </rule>
             <rule>
                 <pattern>
@@ -18332,6 +18487,14 @@ USA
                 <antipattern>
                     <token postag="NNP" regexp="yes">GitHub|Facebook|Lyft|Snap|Microsoft|Outlook|Yahoo|AOL|Uber|Google|PayPal|YouTube|Instagram|WhatsApp|LinkedIn|XING|TikTok|Chase</token>
                     <token postag="NN" regexp="yes">page|channel|campaign|account|certificate|report|link|message|screen|mail</token>
+                </antipattern>
+                <antipattern>
+                    <token>Excel</token>
+                    <token>sheet</token>
+                </antipattern>
+                <antipattern>
+                    <token>pH</token>
+                    <token>scale</token>
                 </antipattern>
                 <antipattern>
                     <token>case</token>
@@ -34374,14 +34537,14 @@ The accident victim died from her injuries.
             <antipattern case_sensitive="yes">
                 <token>B</token>
                 <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">Sc|Eng|Comp</token>
+                <token spacebefore="no" regexp="yes">Sc|Eng|Comp|Arch</token>
                 <token spacebefore="no">.</token>
             </antipattern>
             <rule>
                 <pattern>
                     <token>B</token>
                     <token min="0">.</token>
-                    <token regexp="yes">Sc|Eng|Comp</token>
+                    <token regexp="yes">Sc|Eng|Comp|Arch</token>
                     <token>.</token>
                 </pattern>
                 <message>Consider using a better abbreviation of this bachelor's degree.</message>
