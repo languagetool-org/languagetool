@@ -102,6 +102,8 @@ public class MultiDocumentsHandler {
   private boolean switchOff = false;        //  is LT switched off
   private boolean noMultiReset = true;      //  will be overwritten by config;
 
+  private String menuDocId = null;          //  Id of document at which context menu was called 
+
   @SuppressWarnings("unused")
   private LanguagetoolMenu ltMenu = null;
 
@@ -569,8 +571,23 @@ public class MultiDocumentsHandler {
     return true;
   }
   
+  public void setMenuDocId(String docId) {
+    menuDocId = new String(docId);
+  }
+  
   public void ignoreOnce() {
-    documents.get(docNum).ignoreOnce();
+    for (SingleDocument document : documents) {
+      if(menuDocId.equals(document.getDocID())) {
+        document.ignoreOnce();
+        break;
+      }
+    }
+  }
+  
+  public void resetIgnoreOnce() {
+    for (SingleDocument document : documents) {
+      document.resetIgnoreOnce();
+    }
   }
 
   /**
