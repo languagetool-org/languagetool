@@ -65,9 +65,9 @@ public class DhaNoBeirtRule extends Rule {
     String replacement = null;
     String msg = null;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
-      if (isNumber(tokens[i]) && (i < tokens.length - 2 && isPerson(tokens[i + 1]))) {
+      if (isNumber(tokens[i]) && (i < tokens.length - 1 && isPerson(tokens[i + 1]))) {
         markEnd = i + 1;
-        if ("dhá".equalsIgnoreCase(tokens[i].getToken()) && (i < tokens.length - 2)) {
+        if ("dhá".equalsIgnoreCase(tokens[i].getToken())) {
           for (int j = i + 2; j < tokens.length; j++) {
             if ("déag".equalsIgnoreCase(tokens[j].getToken())) {
               markEnd = j;
@@ -81,13 +81,13 @@ public class DhaNoBeirtRule extends Rule {
         if (replacement == null) {
           replacement = getNumberReplacements().get(tokens[i].getToken());
           if (msg == null) {
-            msg = "Ba chóir duit <suggestion>" + tokens[i - 1].getToken() + " " + replacement + " " + tokens[i + 1].getToken() + "</suggestion> a scríobh";
+            msg = "Ba chóir duit <suggestion>" + replacement + "</suggestion> a scríobh";
           }
         }
       }
       if (msg != null) {
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getStartPos()+tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
         ruleMatches.add(match);
         msg = null;
       }
