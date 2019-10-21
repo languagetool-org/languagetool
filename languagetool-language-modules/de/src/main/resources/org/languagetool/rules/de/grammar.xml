@@ -31663,6 +31663,65 @@ Andere Projekte</example>
           <suggestion>einer</suggestion>
           <example correction="einer">Sie kommt in <marker>eine</marker> Stunde.</example>
         </rule>
+        <rulegroup id="TODO" name="Die Todos (To-dos)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">to-?do</token>
+                    <token regexp="yes">liste?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>To-do-Liste</suggestion> (= Aufgabenliste)?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do_Liste</url>
+                <example correction="To-do-Liste">Die <marker>Todo Liste</marker> ist noch nicht fertig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">to-?do</token>
+                    <token regexp="yes">list(s|en)</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>To-do-Listen</suggestion> (= Aufgabenlisten)?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do_Liste</url>
+                <example correction="To-do-Listen">Die <marker>Todo Lists</marker> sind abgearbeitet.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">To-do-Listen?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">to-?do-?liste?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>To-do-Liste</suggestion> (= Aufgabenliste)?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do_Liste</url>
+                <example correction="To-do-Liste">Die <marker>Todolist</marker> ist abgearbeitet.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">To-do-Listen?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">to-?do-?list(en|s)</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>To-do-Listen</suggestion> (= Aufgabenlisten)?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do_Liste</url>
+                <example correction="To-do-Listen">Die <marker>Todolists</marker> sind abgearbeitet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">todos?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="(?i)todo" regexp_replace="To-do" case_conversion="startupper" /></suggestion> (= Aufgabe(n))?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do</url>
+                <example correction="To-dos">Die <marker>Todos</marker> sind noch nicht abgearbeitet.</example>
+                <example correction="To-do">Das <marker>TODO</marker> ist abgehakt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">To-Dos?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="(?i)D" regexp_replace="d" case_conversion="startupper" /></suggestion> (= Aufgabe(n))?</message>
+                <url>https://www.duden.de/rechtschreibung/To_do</url>
+                <example correction="To-dos">Die <marker>To-Dos</marker> sind noch nicht abgearbeitet.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALL_INCLUSIVE" name="'all-inclusive'">
             <rule>
                 <pattern>

@@ -525,6 +525,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public void resetIgnoreRules() {
     documents.resetDisabledRules();
     documents.setRecheck();
+    documents.resetIgnoreOnce();
     docReset = true;
   }
 

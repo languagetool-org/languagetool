@@ -1103,6 +1103,10 @@ class SingleDocument {
     }
   }
   
+  public void resetIgnoreOnce() {
+    ignoredMatches = new HashMap<>();
+  }
+  
   public void ignoreOnce() {
     int x = docCursor.getViewCursorCharacter();
     int y = docCursor.getViewCursorParagraph();
@@ -1203,6 +1207,7 @@ class SingleDocument {
               }
             }
             if(n >= count) {
+              mDocHandler.setMenuDocId(getDocID());
               if(doResetCheck && paraNum >= 0) {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
               }

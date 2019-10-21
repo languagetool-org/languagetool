@@ -7171,10 +7171,10 @@ USA
         <!-- I'd would::word=I would::filter=none -->
         <rule id="ID_WOULD" name="Id would (I would)">
             <pattern>
-                <token regexp="yes">I|s?he|you|we|they</token>
+                <token regexp="yes">I|s?he|it|you|we|they</token>
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>d</token>
-                <token>would</token>
+                <token regexp="yes">[wc]ould|should</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> would</suggestion>?</message>
             <example correction="He would"><marker>He'd would</marker> want to wake up early.</example>
@@ -7210,12 +7210,14 @@ USA
         <!-- can setup::word=can set up -->
         <rule id="CAN_SETUP" name="can setup (set up)">
             <pattern>
-                <token regexp="yes">can(not)?|been|[wc]ould|should|might|may|got|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
+                <token regexp="yes">can(not)?|been|[wc]ould|should|might|must|was|were|may|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
                 <token>setup</token>
             </pattern>
-            <message>Did you mean <suggestion>\1 set up</suggestion>?</message>
+            <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
+             <suggestion>\1 set up</suggestion>
             <example correction="can set up">She <marker>can setup</marker> the tent in thirty seconds.</example>
             <example>She can set up the tent very quickly.</example>
+            <example>The setup is working.</example>
         </rule>
         <!-- can workout::word=can work out -->
         <rule id="CAN_WORKOUT" name="can workout (work out)">
@@ -10644,6 +10646,19 @@ USA
                 <example correction="replacement">After the accident, he needed a <marker>replace</marker> of the car's front window.</example>
                 <example>I will let her replace the furniture in our flat.</example>
             </rule>
+            <rule><!-- the intend -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>intend</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion>intent</suggestion>?</message>
+                <example correction="intent">My <marker>intend</marker> was to improve the overall situation.</example>
+            </rule>
             <rule><!-- the arrive -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -11508,7 +11523,7 @@ USA
             <example correction="Area 51">They say that aliens are being held at <marker>area 51</marker>.</example>
             <example>Alien enthusiasts are descending on <marker>Area 51</marker> following a viral Facebook event.</example>
         </rule>
-        <rule id="Y_ALL" name="Ya'll (Y'all)">
+        <rule id="YA_LL" name="Ya'll (Y'all)">
             <pattern>
                 <token>ya</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -18484,30 +18499,10 @@ USA
                     <token postag="VB"/>
                     <token postag="SENT_END" regexp="yes">[!\.]</token><!-- An imperative does not need an exclamation mark. -->
                 </antipattern>
-                <antipattern>
-                    <token postag="NNP" regexp="yes">GitHub|Facebook|Lyft|Snap|Microsoft|Outlook|Yahoo|AOL|Uber|Google|PayPal|YouTube|Instagram|WhatsApp|LinkedIn|XING|TikTok|Chase</token>
-                    <token postag="NN" regexp="yes">page|channel|campaign|account|certificate|report|link|message|screen|mail</token>
-                </antipattern>
-                <antipattern>
-                    <token>Excel</token>
-                    <token>sheet</token>
-                </antipattern>
-                <antipattern>
-                    <token>pH</token>
-                    <token>scale</token>
-                </antipattern>
-                <antipattern>
-                    <token>case</token>
-                    <token>study</token>
-                </antipattern>
-                <antipattern>
+                <antipattern><!-- TODO: booking.com should be NNP -->
                     <token>booking</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="no">com</token>
-                </antipattern>
-                <antipattern>
-                    <token>DNA</token>
-                    <token>strand</token>
                 </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
@@ -18764,6 +18759,26 @@ USA
                     <token>luck</token>
                 </antipattern>
                 <antipattern>
+                    <token postag="NNP" regexp="yes">GitHub|Facebook|Lyft|Snap|Microsoft|Outlook|Yahoo|AOL|Uber|Google|PayPal|YouTube|Instagram|WhatsApp|LinkedIn|XING|TikTok|Chase</token>
+                    <token postag="NN" regexp="yes">page|channel|campaign|account|certificate|report|link|message|screen|mail|calendar</token>
+                </antipattern>
+                <antipattern>
+                    <token>Excel</token>
+                    <token>sheet</token>
+                </antipattern>
+                <antipattern>
+                    <token>pH</token>
+                    <token>scale</token>
+                </antipattern>
+                <antipattern>
+                    <token>case</token>
+                    <token>study</token>
+                </antipattern>
+                <antipattern>
+                    <token>DNA</token>
+                    <token>strand</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
                     <token>may</token>
                     <token regexp="yes">contain|include</token>
@@ -18830,6 +18845,7 @@ USA
                 <example>May contain an occasional shell fragment.</example>
                 <example>He said: "Good luck to you"</example>
                 <example>Johnson &amp; Trump are both English-speaking leaders.</example>
+                <example>YouTube channel for cooking videos.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -33448,20 +33464,78 @@ The accident victim died from her injuries.
                 <example correction=" got a">You<marker>'ve gotta</marker> new car.</example>
             </rule>
         </rulegroup>
-        <rule id="GONNA" name="gonna (going to)">
-            <pattern>
-                <marker>
+        <rulegroup id="GONNA" name="gonna (going to)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">are|r</token>
+                    <token>u</token>
                     <token>gonna</token>
-                </marker>
-                <token postag="VB" />
+                </pattern>
+                <message>The phrase '\1 u gonna' is informal. Consider an alternative.</message>
+                <suggestion>are you going to</suggestion>
+                <suggestion>will you</suggestion>
+                <example correction="Are you going to|Will you"><marker>Are u gonna</marker> ignore me?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>u</token>
+                    <token>gonna</token>
+                </pattern>
+                <message>The phrase 'u gonna' is informal. Consider an alternative.</message>
+                <suggestion>you're going to</suggestion>
+                <suggestion>you are going to</suggestion>
+                <suggestion>you will</suggestion>
+                <example correction="you're going to|you are going to|you will">And now <marker>u gonna</marker> ignore me.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>gonna</token>
+                    </marker>
+                    <token postag="VB" />
+                </pattern>
+                <message>The word 'gonna' is informal. Consider an alternative.</message>
+                <suggestion>going to</suggestion>
+                <example correction="Going to"><marker>Gonna</marker> be there.</example>
+                <example correction="going to">I'm <marker>gonna</marker> let you finish.</example>
+                <example>They call me Gonna.</example>
+            </rule>
+        </rulegroup>
+        <rule id="Y_ALL" name="y'all (you all)">
+            <pattern>
+                <token>y</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>all</token>
             </pattern>
-            <message>The word 'gonna' is informal. Consider an alternative.</message>
-            <suggestion>going to</suggestion>
-            <example correction="Going to"><marker>Gonna</marker> be there.</example>
-            <example correction="going to">I'm <marker>gonna</marker> let you finish.</example>
-            <example>They call me Gonna.</example>
+            <message>This phrase is informal. Consider an alternative.</message>
+            <suggestion>you all</suggestion>
+            <suggestion>all of you</suggestion>
+            <example correction="You all|All of you"><marker>Y'all</marker> don't know what I'm talking about.</example>
         </rule>
         <rulegroup id="WANNA" name="wanna (want to)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">are|r</token>
+                        <token>u</token>
+                        <token>wanna</token>
+                    </marker>
+                </pattern>
+                <message>The phrase '\1 u wanna' is informal. Consider an alternative.</message>
+                <suggestion>are you want to</suggestion>
+                <example correction="Are you want to"><marker>Are u wanna</marker> publish your paper?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>u</token>
+                        <token>wanna</token>
+                    </marker>
+                </pattern>
+                <message>The phrase 'u wanna' is informal. Consider an alternative.</message>
+                <suggestion>you want to</suggestion>
+                <example correction="you want to">Do <marker>u wanna</marker> play?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
@@ -33492,6 +33566,15 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="DUNNO" name="dunno (don't know)">
+            <rule>
+                <pattern>
+                    <token>u</token>
+                    <token>dunno</token>
+                </pattern>
+                <message>The phrase 'u dunno' is informal. Consider an alternative.</message>
+                <suggestion>you don't know</suggestion>
+                <example correction="you don't know">Really, <marker>u dunno</marker>?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">I|you|s?he|it|we|they</token>

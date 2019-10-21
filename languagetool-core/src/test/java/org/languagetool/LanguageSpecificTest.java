@@ -187,8 +187,9 @@ public class LanguageSpecificTest {
     int limit = 10;
     if (count > limit) {
       System.out.println("################################################################################################");
-      System.out.println("WARNING: More than " + limit + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
+      System.out.println("WARNING: " + count + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
       System.out.println("WARNING: rules after they have been tested (or use default='off' to turn them off permanently)");
+      System.out.println("WARNING: (this warning appears if there are more than " + limit + " default='temp_off' rules)");
       System.out.println("################################################################################################");
     }
   }

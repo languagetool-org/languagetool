@@ -57,9 +57,9 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "System Administrator blubb");
     check(1, "Der System Administrator");
     check(1, "Der dumme System Administrator");
-    check(1, "CD ROM", new String[]{"CD-ROM"});
-    check(1, "Nur im Stand by Betrieb", new String[]{"Stand-by-Betrieb"});
-    check(1, "Ein echter Start Ziel Sieg", new String[]{"Start-Ziel-Sieg"});
+    check(1, "CD ROM", "CD-ROM");
+    check(1, "Nur im Stand by Betrieb", "Stand-by-Betrieb");
+    check(1, "Ein echter Start Ziel Sieg", "Start-Ziel-Sieg");
     check(1, "Ein echter Start Ziel Sieg.");
     check(1, "Ein Start Ziel Sieg");
     check(1, "Start Ziel Sieg");
@@ -70,28 +70,43 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
     check(2, "System Administrator CD ROM");
 //    check(2, "Hals Wirbel Säule");
-    check(1, "Und herum zu knobeln können.", new String[]{"herumzuknobeln"});
-    check(1, "Castrop Rauxel", new String[]{"Castrop-Rauxel"});
+    check(1, "Und herum zu knobeln können.", "herumzuknobeln");
+    check(1, "Castrop Rauxel", "Castrop-Rauxel");
     //FIXME: suggestions / longest match
     //check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "Spin off");
     // no hyphen suggestion for some words:
-    check(1, "Das ist Haar sträubend", new String[]{"Haarsträubend"});
+    check(1, "Das ist Haar sträubend", "Haarsträubend");
     // Only hyphen suggestion for some words:
-    check(1, "Reality TV", new String[]{"Reality-TV"});
-    check(1, "Spin off", new String[]{"Spin-off"});
+    check(1, "Reality TV", "Reality-TV");
+    check(1, "Spin off", "Spin-off");
     // also accept incorrect upper/lowercase spelling:
 //    check(1, "Spin Off", new String[]{"Spin-Off"});
 //    check(1, "CW Wert", new String[]{"CW-Wert"});
     // also detect an error if only some of the hyphens are missing:
-    check(1, "Roll-on-roll-off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
-    check(1, "E-Mail Adressen", new String[]{"E-Mail-Adressen"});
-    check(1, "Geräte Wahl", new String[]{"Geräte-Wahl", "Gerätewahl"});
+    check(1, "Roll-on-roll-off Schiff", "Roll-on-roll-off-Schiff");
+    check(1, "E-Mail Adressen", "E-Mail-Adressen");
+    check(1, "Geräte Wahl", "Geräte-Wahl", "Gerätewahl");
     // first part is a single character:
     check(0, "x-mal");
-    check(1, "x mal", new String[]{"x-mal"});
+    check(1, "x mal", "x-mal");
     check(0, "y-Achse");
-    check(1, "y Achse", new String[]{"y-Achse"});
+    check(1, "y Achse", "y-Achse");
+    
+    // "Blu-ray-Brenner*"
+    check(0, "Blu-ray-Brenner");
+    check(1, "Blu ray Brenner", "Blu-ray-Brenner");
+    // "nach-denken+"
+    check(0, "Ich muss nachdenken");
+    check(1, "Ich muss  nach denken", "nachdenken");
+    // "Afghanistan-Krieg$"
+    check(0, "Afghanistankkrieg");
+    check(0, "Afghanistank-Krieg");
+    check(1, "Afghanistan Krieg", "Afghanistan-Krieg", "Afghanistankrieg");
+    // "Aggregat-Zustand?"
+    check(0, "Aggregatzustand");
+    check(0, "Aggregat-Zustand");
+    check(1, "Aggregat Zustand", "Aggregatzustand");
   }
   
 }

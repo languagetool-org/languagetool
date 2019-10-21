@@ -43,10 +43,10 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "moll-tonart");
     check(0, "e-mail");
     // incorrect:
-    check(1, "skit bra", new String[]{"skitbra"});
-    check(1, "IP Adress", new String[]{"IP-Adress"});
-    check(1, "moll tonart", new String[]{"moll-tonart", "molltonart"});
-    check(1, "e mail", new String[]{"e-mail"});
+    check(1, "skit bra", "skitbra");
+    check(1, "IP Adress", "IP-Adress");
+    check(1, "moll tonart", "moll-tonart", "molltonart");
+    check(1, "e mail", "e-mail");
   }
   
 }
