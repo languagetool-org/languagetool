@@ -58,7 +58,7 @@ public class DhaNoBeirtRule extends Rule {
     String msg = null;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       if (isNumber(tokens[i]) && (i < tokens.length - 2 && isPerson(tokens[i + 1]))) {
-        if ("dhá".equalsIgnoreCase(tokens[i].getToken())) {
+        if ("dhá".equalsIgnoreCase(tokens[i].getToken()) && (i < tokens.length - 2)) {
           for (int j = i + 2; j < tokens.length; j++) {
             if ("déag".equalsIgnoreCase(tokens[j].getToken())) {
               markDeag = j;
