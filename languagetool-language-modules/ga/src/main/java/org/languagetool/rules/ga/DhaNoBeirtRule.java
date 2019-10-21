@@ -81,13 +81,13 @@ public class DhaNoBeirtRule extends Rule {
         if (replacement == null) {
           replacement = getNumberReplacements().get(tokens[i].getToken());
           if (msg == null) {
-            msg = "Ba chóir duit <suggestion>" + tokens[i - 1].getToken() + " " + replacement + " " + tokens[i + 1].getToken() + "</suggestion> a scríobh";
+            msg = "Ba chóir duit <suggestion>" + replacement + " " + tokens[i + 1].getToken() + "</suggestion> a scríobh";
           }
         }
       }
       if (msg != null) {
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex + 1].getStartPos(), tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
         ruleMatches.add(match);
         msg = null;
       }
