@@ -50,7 +50,7 @@ public class DhaNoBeirtRule extends Rule {
 
   private String[] getRestOfNP(AnalyzedTokenReadings[] tokens, int start, int end) {
     List<String> ret = new ArrayList<>();
-    for (int i = start; i <= end && i < tokens.length; i++) {
+    for (int i = start; i <= end; i++) {
       ret.add(tokens[i].getToken());
     }
     return ret.toArray(new String[ret.size()]);
@@ -65,7 +65,7 @@ public class DhaNoBeirtRule extends Rule {
     String replacement = null;
     String msg = null;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
-      if (isNumber(tokens[i]) && (i < tokens.length - 2 && isPerson(tokens[i + 1]))) {
+      if (isNumber(tokens[i]) && (i < tokens.length - 1 && isPerson(tokens[i + 1]))) {
         markEnd = i + 1;
         if ("dhá".equalsIgnoreCase(tokens[i].getToken())) {
           for (int j = i + 2; j < tokens.length; j++) {
@@ -86,9 +86,8 @@ public class DhaNoBeirtRule extends Rule {
         }
       }
       if (msg != null) {
-        int offset = (prevTokenIndex == markEnd) ? 0 : tokens[markEnd].getStartPos();
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex].getStartPos(), offset+tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[markEnd].getStartPos()+tokens[markEnd].getEndPos(), msg, "Uimhir phearsanta");
         ruleMatches.add(match);
         msg = null;
       }
