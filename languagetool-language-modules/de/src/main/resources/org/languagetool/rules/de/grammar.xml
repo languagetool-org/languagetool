@@ -39612,11 +39612,11 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                    <token>
-                        <exception postag="SENT_START"/>
-                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
-                    </token>
-                    <token regexp="yes" case_sensitive="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
+                        <token>
+                            <exception postag="SENT_START"/>
+                            <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                        <token regexp="yes" case_sensitive="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
                     </marker>
                     <token>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|und|oder</exception>
@@ -39699,14 +39699,19 @@ Andere Projekte</example>
                     <token>wie</token>
                     <token>vor</token>
                 </antipattern>
+                <antipattern>
+                    <token>Komme</token>
+                    <token>was</token>
+                    <token>wolle</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA1:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
-                        <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen</exception>
-                        <exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception>
-                       </token>
-                    <token regexp="yes" skip="-1" case_sensitive="yes">da|als|wie|bis|wer|wo(hin)?|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                        <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
+                            <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA1:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                            <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen</exception>
+                            <exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                        <token regexp="yes" skip="-1" case_sensitive="yes">da|als|wie|bis|wer|wo(hin)?|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -39723,6 +39728,7 @@ Andere Projekte</example>
                 <example>Für ein gutes Drittel der befragten 16- bis 29-Jährigen ist Wohnen extrem wichtig.</example>
                 <example>Einmal falsch überwiesenes Geld kann dadurch aber auch nicht durch eine zentrale Instanz zurücküberwiesen werden.</example>
                 <example>Es war besonders hinderlich, dass die bereits erreichten Einbrüche nach wie vor im Osten von den Sinjawino-Höhen flankiert wurden.</example>
+                <example>Komme was wolle, aber ich werde meine Entscheidung nicht ändern.</example>
             </rule>
 <!-- Komma nach Nebensatz   -->
             <rule>
