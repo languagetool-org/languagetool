@@ -47,7 +47,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Nie róbmy nic na łapu-capu.");
     check(0, "Jedzmy kogel-mogel.");
     // incorrect sentences:
-    check(1, "bim bom", new String[]{"bim-bom"});
+    check(1, "bim bom", "bim-bom");
   }
 
   @Test

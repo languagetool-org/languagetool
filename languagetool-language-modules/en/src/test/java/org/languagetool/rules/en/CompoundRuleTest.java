@@ -43,7 +43,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "If they're educated people, they will know.");
     check(0, "Another one bites the dust");
     // incorrect sentences:
-    check(1, "case sensitive", new String[]{"case-sensitive"});
+    check(1, "case sensitive", "case-sensitive");
     check(1, "Young criminals must be re educated.");
     check(1, "And an other one bites the dust");
     check(1, "An other one bites the dust");

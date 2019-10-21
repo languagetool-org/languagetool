@@ -41,7 +41,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "česko-slovenský");
     check(0, "rakúsko-uhorský");
     // incorrect:
-    check(1, "bim bam", new String[]{"bim-bam"});
+    check(1, "bim bam", "bim-bam");
   }
   
 }
