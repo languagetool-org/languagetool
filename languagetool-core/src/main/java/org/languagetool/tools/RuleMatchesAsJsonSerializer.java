@@ -22,7 +22,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -91,9 +90,9 @@ public class RuleMatchesAsJsonSerializer {
         writeSoftwareSection(g);
         writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, detectedLang);
-        writeMatchesSection("matches", g, matches, text, contextTools, detectedLang.getGivenLanguage());
+        writeMatchesSection("matches", g, matches, text, contextTools);
         if (hiddenMatches != null && hiddenMatches.size() > 0) {
-          writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools, detectedLang.getGivenLanguage());
+          writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools);
         }
         g.writeEndObject();
       }
@@ -152,7 +151,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools, Language lang) throws IOException {
+  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools) throws IOException {
     g.writeArrayFieldStart(sectionName);
     for (RuleMatch match : matches) {
       g.writeStartObject();
@@ -171,8 +170,7 @@ public class RuleMatchesAsJsonSerializer {
       // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
       // now that we have 'contextForSureMatch':
       int contextEstimate = match.getRule().estimateContextForSureMatch();
-      g.writeBooleanField("ignoreForIncompleteSentence",
-              RuleInformation.ignoreForIncompleteSentences(match.getRule().getId(), lang) || contextEstimate == -1 || contextEstimate > 3);
+      g.writeBooleanField("ignoreForIncompleteSentence", contextEstimate == -1 || contextEstimate > 3);
       g.writeNumberField("contextForSureMatch", contextEstimate);
       g.writeEndObject();
     }
