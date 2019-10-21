@@ -72,7 +72,7 @@ public class DhaNoBeirtRule extends Rule {
             if ("déag".equalsIgnoreCase(tokens[j].getToken())) {
               markEnd = j;
               replacement = "dháréag";
-              String[] msgTokens = getRestOfNP(tokens, i + 1, j);
+              String[] msgTokens = getRestOfNP(tokens, i + 1, j - 1);
               msg = "Ba chóir duit <suggestion>" + replacement + " " +
                 String.join(" ", msgTokens) + "</suggestion> a scríobh";
             }
