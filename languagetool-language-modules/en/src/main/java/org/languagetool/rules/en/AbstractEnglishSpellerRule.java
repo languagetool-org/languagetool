@@ -276,6 +276,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Sorry");
     } else if ("sry".equals(word)) {
       return Arrays.asList("sorry");
+    } else if ("im".equals(word)) {
+      return Arrays.asList("I'm");
     } else if ("Lil".equals(word)) {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
@@ -470,6 +472,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("I'm going to", "I'm a");
     } else if ("Imma".equals(word)) {
       return Arrays.asList("I'm going to", "I'm a");
+    } else if ("dontcha".equals(word)) {
+      return Arrays.asList("don't you");
+    } else if ("Dontcha".equals(word)) {
+      return Arrays.asList("don't you");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
