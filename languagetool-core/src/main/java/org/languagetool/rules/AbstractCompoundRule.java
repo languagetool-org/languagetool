@@ -48,7 +48,7 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withOrWithoutHyphenMessage;
   private final String shortDesc;
   // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
-  protected boolean sentenceStartsWithUpperCase = false;
+  protected boolean sentenceStartsWithUpperCase = true;
 
   @Override
   public abstract String getId();

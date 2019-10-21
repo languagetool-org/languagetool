@@ -92,6 +92,21 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "x mal", new String[]{"x-mal"});
     check(0, "y-Achse");
     check(1, "y Achse", new String[]{"y-Achse"});
+    
+    // "Blu-ray-Brenner*"
+    check(0, "Blu-ray-Brenner");
+    check(1, "Blu ray Brenner", new String[]{"Blu-ray-Brenner"});
+    // "nach-denken+"
+    check(0, "Ich muss nachdenken");
+    check(1, "Ich muss  nach denken", new String[]{"nachdenken"});
+    // "Afghanistan-Krieg$"
+    check(0, "Afghanistankkrieg");
+    check(0, "Afghanistank-Krieg");
+    check(1, "Afghanistan Krieg", new String[]{"Afghanistan-Krieg", "Afghanistankrieg"});
+    // "Aggregat-Zustand?"
+    check(0, "Aggregatzustand");
+    check(0, "Aggregat-Zustand");
+    check(1, "Aggregat Zustand", new String[]{"Aggregatzustand"});
   }
   
 }
