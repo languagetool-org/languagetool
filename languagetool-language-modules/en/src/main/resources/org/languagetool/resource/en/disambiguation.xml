@@ -2058,6 +2058,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">I|you|we|they|he|she|it</token>
             <token>last</token>
         </antipattern>
+        <antipattern><!-- What happens next shows -->
+            <token postag="WP"/>
+            <token postag_regexp="yes" postag="VB[DZ]"/>
+            <token postag="RB"/>
+            <token postag_regexp="yes" postag="VB[DZ]"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2076,6 +2082,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
         <example type="untouched">When did he last <marker>talk</marker> to them?</example>
         <example type="untouched">When did you last <marker>wipe</marker> someone's tears away?</example>
+        <example type="untouched">Verb. What happens next <marker>shows</marker> the problem in a new light.</example>
     </rule>
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
         <pattern>
