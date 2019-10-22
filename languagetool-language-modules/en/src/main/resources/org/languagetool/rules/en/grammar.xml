@@ -2978,17 +2978,149 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> awesome man.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>its</token>
+                    <token case_sensitive="yes">US</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token>you</token>
+                    <token regexp="yes">you|me|her|him|them|us</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> you!</example>
                 <example correction="it's|it is">I can't believe <marker>its</marker> you.</example>
+                <example>The album was ready for its US release.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                        <token case_sensitive="yes">u</token><!-- colloquial for "you" -->
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>it's you</suggestion> or <suggestion>it is you</suggestion>)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's you|It is you"><marker>Its u</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                        <token case_sensitive="yes" regexp="yes">ur|ya</token><!-- colloquial for "your" -->
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>it's your</suggestion> or <suggestion>it is your</suggestion>)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's your|It is your"><marker>Its ur</marker> fault!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="JJR?" postag_regexp="yes" />
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> so good.</example>
+                <example correction="It's|It is"><marker>Its</marker> nice.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END" regexp="yes">ok(ay)?|awesome|beautiful|ready|possible|dangerous|different|enough|there|&short_adjectives;|&optional_short_adjectives;</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> okay</example>
+                <example correction="It's|It is"><marker>Its</marker> already there</example>
+                <example correction="It's|It is"><marker>Its</marker> totally cool</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">ok(ay)?|awesome|beautiful|ready|possible|dangerous|different|enough|there|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> ready!</example>
+                <example correction="It's|It is"><marker>Its</marker> so awesome.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END">happening</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> finally happening</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token>happening</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token><!-- Punctuation character -->
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> finally happening!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>gonna</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> gonna be okay</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="IN" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> about you.</example>
+                <example correction="It's|It is"><marker>Its</marker> in there.</example>
             </rule>
             <rule>
                 <pattern>
@@ -33629,8 +33761,8 @@ The accident victim died from her injuries.
                     <token>bout</token>
                     <token>to</token>
                 </pattern>
-                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
-                <suggestion>You're about \5</suggestion>
+                <message>The phrase '\3 \4' is informal. Consider replacing it.</message>
+                <suggestion>You're about \4</suggestion>
                 <example correction="You're about to"><marker>U r bout to</marker> go crazy.</example>
             </rule>
             <rule>
