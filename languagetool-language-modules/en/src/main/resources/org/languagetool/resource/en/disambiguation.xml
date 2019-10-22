@@ -4604,6 +4604,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
           </antipattern>
+          <antipattern><!-- What makes you happy makes me -->
+            <token postag="WP"/>
+            <token postag_regexp="yes" postag="VB[DZ]"/>
+            <token postag_regexp="yes" postag="PRP|NNP"/>
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token postag="VBZ"/>
+            <token postag_regexp="yes" postag="PRP|NNP"/>
+          </antipattern>
           <pattern>
             <token postag="JJ">
               <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -4627,6 +4635,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Tom wishes that were true.</example>
           <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
           <example type="untouched">Verb. The reinforcement spar <marker>makes</marker> it stronger and less prone to deformation.</example>
+          <example type="untouched">Verb. What makes you happy <marker>makes</marker> me happy.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
 
