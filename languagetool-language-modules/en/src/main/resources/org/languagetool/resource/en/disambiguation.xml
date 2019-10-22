@@ -3015,6 +3015,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U,so/RB]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
     </rule>
     <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
+        <antipattern><!-- guesses the number wins  -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -3031,6 +3037,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
+        <example type="untouched">Noun. The persons who guessed the <marker>number</marker> won.</example>
+        <example type="untouched">Noun. Whoever correctly guesses the <marker>number</marker> wins the prize.</example>
     </rule>
     <rule name="required to" id="required_to">
         <pattern>
