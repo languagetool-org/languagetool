@@ -28,9 +28,9 @@ import java.util.Arrays;
 /**
  * Parser for the command line arguments.
  */
-public class CommandLineParser {
+class CommandLineParser {
 
-  public CommandLineOptions parseOptions(String[] args) {
+  CommandLineOptions parseOptions(String[] args) {
     if (args.length < 1 || args.length > 12) {
       throw new WrongParameterNumberException();
     }
@@ -179,7 +179,7 @@ public class CommandLineParser {
     return options;
   }
 
-  public void printUsage() {
+  void printUsage() {
     printUsage(System.out);
   }
 
@@ -187,7 +187,7 @@ public class CommandLineParser {
    * NOTE: please keep http://wiki.languagetool.org/command-line-options
    * up-to-date if you add an option
    */
-  public void printUsage(PrintStream stream) {
+  void printUsage(PrintStream stream) {
     stream.println("Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
             + " Available options:\n"
