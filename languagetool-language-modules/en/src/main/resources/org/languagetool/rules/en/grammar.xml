@@ -461,6 +461,18 @@ USA
             <example>We were wont to meet at that pleasant spot.</example>
             <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
+        <rulegroup id="DONT_T" name="I dont't (don't)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">dont|didnt|doesnt|wont|wasnt|werent|cant|havent|hasnt|[cw]ouldnt|shouldnt|mustnt|hadnt|aint|arent|isnt</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token spacebefore="no">t</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="(i?)nt" regexp_replace="n't" /></suggestion>?</message>
+                <example correction="didn't">He <marker>didnt't</marker> know about it.</example>
+                <example correction="Didn't"><marker>Didnt't</marker> you do it?</example>
+            </rule>
+        </rulegroup>
         <rule id="WANT_BE" name="want be (won't be)">
             <pattern>
                 <token>want</token>
