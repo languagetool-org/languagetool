@@ -48,7 +48,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your fix",  // fix = bug fix
       "on point",
       "chapter one",
-      "usb port"
+      "usb port",
+      "G Suite"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
