@@ -40,6 +40,7 @@ public class AbstractSimpleReplaceRule2Test {
     assertThat(csRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
     assertThat(csRule.match(lt.getAnalyzedSentence("But A propos")).length, is(0));
     assertThat(csRule.match(lt.getAnalyzedSentence("A propos")).length, is(0));
+    assertThat(csRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
     assertThat(csRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
     assertThat(csRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(0));
 
@@ -47,8 +48,9 @@ public class AbstractSimpleReplaceRule2Test {
     assertThat(ciRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
     assertThat(ciRule.match(lt.getAnalyzedSentence("But A propos")).length, is(1));
     assertThat(ciRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
-    //assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));  // TODO: should be found
-    //assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));  // TODO: should be found
+    assertThat(ciRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
+    assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
+    assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));
   }
   
   static class MyCaseSensitiveRule extends AbstractSimpleReplaceRule2 {
