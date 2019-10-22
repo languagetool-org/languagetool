@@ -150,7 +150,7 @@ final class ServerTools {
   }
 
   @NotNull
-  public static JLanguageTool.Mode getMode(Map<String, String> params) {
+  static JLanguageTool.Mode getMode(Map<String, String> params) {
     JLanguageTool.Mode mode;
     if (params.get("mode") != null) {
       String modeParam = params.get("mode");
