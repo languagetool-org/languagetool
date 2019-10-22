@@ -97,8 +97,9 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
         return;
       }
       Sentence sentence = mixingSource.next();
-      if (sentenceCount % 10000 == 0) {
-        System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");
+      if (sentenceCount % 10_000 == 0) {
+        //System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");  // doesn't work well with URLs as source
+        System.out.println("Indexing sentence #" + sentenceCount + ":");
         System.out.println("  [" +  sentence.getSource() + "] " + sentence);
       }
       indexer.indexSentence(sentence, sentenceCount);

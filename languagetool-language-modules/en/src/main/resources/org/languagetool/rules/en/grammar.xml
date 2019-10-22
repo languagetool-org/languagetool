@@ -9816,23 +9816,51 @@ USA
             <example>Please use the translate.google.com website.</example>
             <example>The remain campaign.</example>
         </rule>
-        <rulegroup id="IN_A_HARRY" name="In a harry (hurry)" default="temp_off">
+        <rulegroup id="IN_A_HARRY" name="In a harry (hurry)">
+            <antipattern>
+                <token>harry</token>
+                <token regexp="yes">potter.*</token>
+            </antipattern>
+            <antipattern>
+                <token>harry</token>
+                <token />
+                <token regexp="yes">prequel|sequel|movie|book|novel|film|song|track|context|quiz|spin|roleplay|costume|exhibit</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>in</token>
                     <token>a</token>
-                    <token>harry</token>
+                    <token case_sensitive="yes">harry</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 \2 <match no="3" regexp_match="(?i)a" regexp_replace="u" /></suggestion>?</message>
                 <example correction="in a hurry">He was <marker>in a harry</marker>.</example>
+                <example>Now you can rent and stay in a harry potter-themed apartment.</example>
+                <example>In a Harry Potter book.</example>
+                <example>In a Harry Gouding book.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token>harry</token>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">harry</token>
+                    </marker>
+                    <token>up</token>
+                </pattern>
+                <message>Did you mean the verb <suggestion>hurry</suggestion> or the name <suggestion><match no="1" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="hurry|Harry">Push <marker>harry</marker> up!</example>
+                <example correction="hurry|Harry">Please <marker>harry</marker> up.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>
+                        harry
+                        <exception postag="VB.*" postag_regexp="yes" scope="previous" />
+                    </token>
                     <token>up</token>
                 </pattern>
                 <message>Did you mean <suggestion>hurry up</suggestion>?</message>
-                <example correction="hurry up">Please <marker>harry up</marker>!</example>
+                <example correction="Hurry up"><marker>Harry up</marker>!</example>
+                <example>What's harry up to?</example>
+                <example>Freddy picked Harry up by his collar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CC_VERB" name="Correct use of 'cc'">
@@ -10515,7 +10543,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)draw" regexp_replace="drawal" /></suggestion>?</message>
                 <example correction="withdrawal">The <marker>withdraw</marker> succeeded.</example>
             </rule>
-            <rule default="temp_off"><!-- the misspell -->
+            <rule><!-- the misspell -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10528,7 +10556,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)spell" regexp_replace="spelling" /></suggestion>?</message>
                 <example correction="misspelling">The <marker>misspell</marker> was correctly detected by LanguageTool.</example>
             </rule>
-            <rule default="temp_off"><!-- the resell -->
+            <rule><!-- the resell -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -18198,30 +18226,64 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
-        <rulegroup id="NED_NEED" name="we ned (need) to" default="temp_off">
+        <rulegroup id="NED_NEED" name="we ned (need) to">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes">ned</token>
+                    <token case_sensitive="yes">
+                        ned
+                    </token>
                     <token>to</token>
                 </pattern>
-                <message>Did you mean <suggestion>need \2</suggestion>?</message>
-                <example correction="need to">Our <marker>ned to</marker> feel special is making us lonely.</example>
-                <example>Please also invite Ned to our party.</example>
+                <message>Did you mean <suggestion>need \2</suggestion> (verb) or <suggestion><match no="1" case_conversion="startupper" /> \2</suggestion> (a person's name)?</message>
+                <example correction="need to|Ned to">Our <marker>ned to</marker> feel special is making us lonely.</example>
+                <example correction="need to|Ned to">Please also invite <marker>ned to</marker> our party.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">I|you|s?he|it|we|they|should|[cw]could|did|do|was|were|has|have|can|cannot|must|might|may</token>
+                    <token regexp="yes">I|you|s?he|it|we|they|should|[cw]ould|did|do|might|may</token>
                     <token case_sensitive="yes">ned</token>
                 </pattern>
-                <message>Did you mean <suggestion>\1 need</suggestion>?</message>
-                <example correction="I need"><marker>I ned</marker> a new car.</example>
-                <example>Was Ned there?</example>
+                <message>Did you mean <suggestion>\1 need</suggestion> (verb) or <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion> (a person's name)?</message>
+                <example correction="I need|I Ned"><marker>I ned</marker> a new car.</example>
+                <example correction="Could need|Could Ned"><marker>Could ned</marker> be there?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="APOLOGIES" name="I apologies (apologize)" default="temp_off">
+        <rulegroup id="APOLOGIES" name="I apologies (apologize)">
+            <rule>
+                <antipattern>
+                    <token>when</token>
+                    <token>it</token>
+                    <token>comes</token>
+                    <token>to</token>
+                    <token>apologies</token>
+                </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token>addition</token>
+                    <token>to</token>
+                    <token>apologies</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">from</token>
+                    <token>to</token>
+                    <token>apologies</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        to
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|respond</exception>
+                    </token>
+                    <token>apologies</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 apologize</suggestion> (American English) or <suggestion>\1 apologise</suggestion> (British English)?</message>
+                <example correction="to apologize|to apologise">I wanted <marker>to apologies</marker> for the confusion.</example>
+                <example>When it comes to apologies, I now know that sooner is usually better than later.</example>
+                <example>I tried everything from forgiveness to apologies.</example>
+                <example>The database was not restricted to apologies between governments.</example>
+            </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">I|you|we|they|to</token>
+                    <token regexp="yes">I|you|we|they</token>
                     <token>apologies</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 apologize</suggestion> (American English) or <suggestion>\1 apologise</suggestion> (British English)?</message>
@@ -18236,7 +18298,7 @@ USA
                 <example correction="He apologizes|He apologises"><marker>He apologies</marker> for his bad english.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BELIVE_BELIEVE" name="I belive (believe)" default="temp_off">
+        <rulegroup id="BELIVE_BELIEVE" name="I belive (believe)">
             <rule>
                 <pattern>
                     <token postag="PRP" />
@@ -20282,7 +20344,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|sh(a|ould)n|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">’|'|´</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>not</token>
                 </pattern>
@@ -20293,7 +20355,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">’|'|´</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>have</token>
                     <token>not</token>
@@ -20360,7 +20422,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">c(an|ouldn)</token>
-                    <token regexp="yes">’|'|´</token>
+                    <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <token>hardly</token>
                 </pattern>
@@ -23315,7 +23377,7 @@ USA
           <token postag="PRP$" min='0'/>
           <token min='0'>
             <exception postag="PRP$"/></token>
-          <token regexp="yes" min='0'>'|‘|’|`</token>
+          <token regexp="yes" min='0'>&apostrophe;</token>
           <token min='0'>s</token>
           <token>money</token>
       </pattern>
@@ -25040,7 +25102,7 @@ The accident victim died from her injuries.
           <token>in</token>
           <token>the</token>
           <token regexp="yes">men|women|school</token>
-          <token regexp="yes">'|‘|’|`</token>
+          <token regexp="yes">&apostrophe;</token>
           <token>s</token>
           <token>team</token>
       </pattern>
@@ -25052,7 +25114,7 @@ The accident victim died from her injuries.
           <token>in</token>
           <token>the</token>
           <token regexp="yes">men|women|school</token>
-          <token regexp="yes">'|‘|’|`</token>
+          <token regexp="yes">&apostrophe;</token>
           <token>s</token>
           <token/>
           <token>team</token>
@@ -25065,7 +25127,7 @@ The accident victim died from her injuries.
           <token>in</token>
           <token>the</token>
           <token regexp="yes">men|women|school</token>
-          <token regexp="yes">'|‘|’|`</token>
+          <token regexp="yes">&apostrophe;</token>
           <token>s</token>
           <token/>
           <token>ball</token>
@@ -33512,6 +33574,92 @@ The accident victim died from her injuries.
             <suggestion>all of you</suggestion>
             <example correction="You all|All of you"><marker>Y'all</marker> don't know what I'm talking about.</example>
         </rule>
+        <rule id="DONTCHA" name="dontcha (don't you)" default="temp_off">
+            <pattern>
+                <token>dontcha</token>
+            </pattern>
+            <message>The word '\1' is informal. Consider replacing it.</message>
+            <suggestion>don't you</suggestion>
+            <example correction="Don't you"><marker>Dontcha</marker> think this could be done easier?</example>
+        </rule>
+        <rulegroup id="BOUT_TO" name="I'm bout (about) to" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">s</token>
+                    <token>bout</token>
+                    <token>to</token>
+                </pattern>
+                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
+                <suggestion>\1's about \5</suggestion>
+                <example correction="He's about to"><marker>He bout to</marker> go crazy.</example>
+                <example correction="He's about to"><marker>He's bout to</marker> go crazy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">m</token>
+                    <token>bout</token>
+                    <token>to</token>
+                </pattern>
+                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
+                <suggestion>\1'm about \5</suggestion>
+                <example correction="I'm about to"><marker>I bout to</marker> go crazy.</example>
+                <example correction="I'm about to"><marker>I'm bout to</marker> go crazy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">we|they|you</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">re</token>
+                    <token>bout</token>
+                    <token>to</token>
+                </pattern>
+                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
+                <suggestion>\1're about \5</suggestion>
+                <example correction="They're about to"><marker>They bout to</marker> go crazy.</example>
+                <example correction="They're about to"><marker>They're bout to</marker> go crazy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">you|u|ya|ur</token>
+                    <token regexp="yes" min="0">r|are</token>
+                    <token>bout</token>
+                    <token>to</token>
+                </pattern>
+                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
+                <suggestion>You're about \5</suggestion>
+                <example correction="You're about to"><marker>U r bout to</marker> go crazy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>bout</token>
+                        <token>to</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>The phrase '\2 \3' is informal. Consider replacing it.</message>
+                <suggestion>I'm about \3</suggestion>
+                <example correction="I'm about to"><marker>Bout to</marker> jam it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">am|are|is</token>
+                    <marker>
+                        <token>bout</token>
+                        <token>to</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>The phrase '\2 \3' is informal. Consider replacing it.</message>
+                <suggestion>about \3</suggestion>
+                <example correction="about to">It is <marker>bout to</marker> go down.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WANNA" name="wanna (want to)">
             <rule>
                 <pattern>

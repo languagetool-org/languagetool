@@ -52,7 +52,7 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
     langTool.check("Alexander between 369 and 358 BC\n\nAlexander");
   }
   
-  private class L2GermanRulesOnlyEnglish extends AmericanEnglish {
+  private static class L2GermanRulesOnlyEnglish extends AmericanEnglish {
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();
@@ -63,7 +63,7 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
     }
   }
 
-  private class L2FrenchRulesOnlyEnglish extends AmericanEnglish {
+  private static class L2FrenchRulesOnlyEnglish extends AmericanEnglish {
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();
