@@ -235,9 +235,12 @@ public class SwJLanguageTool {
           maxTextLength = SERVER_LIMIT;
           MessageHandler.printToLogFile("Server doesn't support maxTextLength, Limit text length set to: " + maxTextLength);
         }
+        initDone = true;
       }
       configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
-      configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
+      if(motherTongue != null) {
+        configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
+      }
       if(paraMode == ParagraphHandling.ONLYPARA) {
         if(!useServerConfig) {
           configBuilder.enabledRuleIds(enabledRules);
@@ -276,6 +279,7 @@ public class SwJLanguageTool {
         try {
           remoteResult = remoteLanguageTool.check(subText, remoteConfig);
         } catch (Throwable t) {
+          MessageHandler.printException(t);
           MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
           isRemote = false;
           isMultiThread = false;

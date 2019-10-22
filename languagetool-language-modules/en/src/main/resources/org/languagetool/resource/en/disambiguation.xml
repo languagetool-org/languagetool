@@ -1596,6 +1596,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
+        <antipattern><!-- , you fool. -->
+            <token>,</token>
+            <token>you</token>
+            <token postag="NN(:UN?)?" postag_regexp="yes"/>
+            <token postag="SENT_END"/>
+        </antipattern>
         <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|we|they</token>
@@ -1613,6 +1619,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. <marker>They account must</marker> include the...</example>
         <example type="untouched">Incorrect grammar. <marker>You account is</marker> a lie!</example>
         <example type="untouched">Incorrect grammar. <marker>You account stopped</marker> working, didn't it?</example>
+        <example type="untouched">Noun. What utter nonsense, you <marker>fool</marker>.</example>
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
@@ -3015,6 +3022,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U,so/RB]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
     </rule>
     <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
+        <antipattern><!-- guesses the number wins  -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -3031,6 +3044,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
+        <example type="untouched">Noun. The persons who guessed the <marker>number</marker> won.</example>
+        <example type="untouched">Noun. Whoever correctly guesses the <marker>number</marker> wins the prize.</example>
     </rule>
     <rule name="required to" id="required_to">
         <pattern>
@@ -4137,6 +4152,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">las?</token>
                 <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
             </marker>
+        </pattern>
+        <disambig postag="NNP"/>
+    </rule>
+
+    <rule id="NNP_OCCUPY_MOVEMENT" name="NNP for 'Occupy movement'">
+        <pattern>
+            <token>occupy</token>
+            <token>movement</token>
         </pattern>
         <disambig postag="NNP"/>
     </rule>

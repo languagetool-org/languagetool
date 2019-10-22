@@ -461,6 +461,18 @@ USA
             <example>We were wont to meet at that pleasant spot.</example>
             <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
+        <rulegroup id="DONT_T" name="I dont't (don't)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">dont|didnt|doesnt|wont|wasnt|werent|cant|havent|hasnt|[cw]ouldnt|shouldnt|mustnt|hadnt|aint|arent|isnt</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token spacebefore="no">t</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="(i?)nt" regexp_replace="n't" /></suggestion>?</message>
+                <example correction="didn't">He <marker>didnt't</marker> know about it.</example>
+                <example correction="Didn't"><marker>Didnt't</marker> you do it?</example>
+            </rule>
+        </rulegroup>
         <rule id="WANT_BE" name="want be (won't be)">
             <pattern>
                 <token>want</token>
@@ -2978,17 +2990,149 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> awesome man.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>its</token>
+                    <token case_sensitive="yes">US</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token>you</token>
+                    <token regexp="yes">you|me|her|him|them|us</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> you!</example>
                 <example correction="it's|it is">I can't believe <marker>its</marker> you.</example>
+                <example>The album was ready for its US release.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                        <token case_sensitive="yes">u</token><!-- colloquial for "you" -->
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>it's you</suggestion> or <suggestion>it is you</suggestion>)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's you|It is you"><marker>Its u</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                        <token case_sensitive="yes" regexp="yes">ur|ya</token><!-- colloquial for "your" -->
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>it's your</suggestion> or <suggestion>it is your</suggestion>)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's your|It is your"><marker>Its ur</marker> fault!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="JJR?" postag_regexp="yes" />
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> so good.</example>
+                <example correction="It's|It is"><marker>Its</marker> nice.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END" regexp="yes">ok(ay)?|awesome|beautiful|ready|possible|dangerous|different|enough|there|&short_adjectives;|&optional_short_adjectives;</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> okay</example>
+                <example correction="It's|It is"><marker>Its</marker> already there</example>
+                <example correction="It's|It is"><marker>Its</marker> totally cool</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">ok(ay)?|awesome|beautiful|ready|possible|dangerous|different|enough|there|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> ready!</example>
+                <example correction="It's|It is"><marker>Its</marker> so awesome.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END">happening</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> finally happening</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token>happening</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token><!-- Punctuation character -->
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> finally happening!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>gonna</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> gonna be okay</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="IN" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="It's|It is"><marker>Its</marker> about you.</example>
+                <example correction="It's|It is"><marker>Its</marker> in there.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9790,7 +9934,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|spend|merge|thank|add</exception>
+                    <exception regexp="yes">commit|remix|long-running|spend|merge|thank|add|re(map|store)</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -9815,6 +9959,7 @@ USA
             <example>The Unroll.me website.</example>
             <example>Please use the translate.google.com website.</example>
             <example>The remain campaign.</example>
+            <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
         </rule>
         <rulegroup id="IN_A_HARRY" name="In a harry (hurry)">
             <antipattern>
@@ -10530,6 +10675,32 @@ USA
                 <example>A <marker>requirement</marker> needs to be fulfilled.</example>
                 <example>McDonald's now requires a bachelor's in philosophy for its cashiers.</example>
             </rule>
+            <rule default="temp_off"><!-- the approve -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">approves?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)approve" regexp_replace="approval" /></suggestion>?</message>
+                <example correction="approval">Sally needs your <marker>approve</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- the remind -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">reminds?</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)remind" regexp_replace="reminder" /></suggestion>?</message>
+                <example correction="reminder">He sent a <marker>remind</marker> to her.</example>
+            </rule>
             <rule><!-- the withdraw -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -10635,7 +10806,7 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">(re-?)?deliver</token>
+                        <token regexp="yes">(re-?|mis)?deliver</token>
                     </marker>
                 </pattern>
                 <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)eliver" regexp_replace="elivery" /></suggestion>?</message>
@@ -12398,29 +12569,48 @@ USA
                 <example correction="have">You do not <marker>has</marker> a bicycle?</example>
             </rule>
         </rulegroup>
-        <rule id="DOES_X_HAS" name="does ... 3rd person verb">
-            <pattern>
-                <token>does<exception scope="previous" postag="NNP"/></token>
-                <token>
-                    <exception regexp="yes">so|th(is|at)|and|[:,]</exception>
-                    <exception postag_regexp="yes" postag="VB[PG]?|WP|CC"/>
-                </token>
-                <marker>
-                    <token postag="VBZ"><exception postag="NNS"/></token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>? As 'do' is already inflected, the verb cannot also be inflected.</message>
-            <example>He does not have expertise about that.</example>
-            <example>Does anybody have an idea about that?</example>
-            <example>An algorithm that does so is usually considered invalid.</example>
-            <example correction="have">He does not <marker>has</marker> expertise about that.</example>
-            <example correction="have">Does anybody <marker>has</marker> an idea about that?</example>
-            <example>What it does: increases rate of gain and improves feed efficiency.</example>
-            <example>Does Lincoln Mills suggest that if Congress granted jurisdiction over interstate divorce cases, the federal courts would be authorized to fashion a national law for the dissolution of marriages?</example>
-            <example>Everyone also who does what is just (righteous) has been born of him.</example>
-            <example>It seems like as technologies emerge, I love to jump on the bandwagon around the end of the early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
-            <example>The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
-        </rule>
+        <rulegroup id="DOES_X_HAS" name="does ... 3rd person verb">
+            <rule>
+                <pattern>
+                    <token>does<exception scope="previous" postag="NNP"/></token>
+                    <token>
+                        <exception regexp="yes">so|th(is|at)|and|[:,]</exception>
+                        <exception postag_regexp="yes" postag="VB[PG]?|WP|CC"/>
+                    </token>
+                    <marker>
+                        <token postag="VBZ"><exception postag="NNS"/></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>? As 'do' is already inflected, the verb cannot also be inflected.</message>
+                <example>He does not have expertise about that.</example>
+                <example>Does anybody have an idea about that?</example>
+                <example>An algorithm that does so is usually considered invalid.</example>
+                <example correction="have">He does not <marker>has</marker> expertise about that.</example>
+                <example correction="have">Does anybody <marker>has</marker> an idea about that?</example>
+                <example>What it does: increases rate of gain and improves feed efficiency.</example>
+                <example>Does Lincoln Mills suggest that if Congress granted jurisdiction over interstate divorce cases, the federal courts would be authorized to fashion a national law for the dissolution of marriages?</example>
+                <example>Everyone also who does what is just (righteous) has been born of him.</example>
+                <example>It seems like as technologies emerge, I love to jump on the bandwagon around the end of the early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
+                <example>The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="CC" min="0" />
+                    <token regexp="yes">do|did|does</token>
+                    <token regexp="yes">(any|some)(one|body|thing)</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token postag="VBZ" />
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="6" postag="VB" /></suggestion>?</message>
+                <example correction="use">Does anybody here <marker>uses</marker> a Mac?</example>
+                <example correction="know">Does someone here <marker>knows</marker> what I have to do?</example>
+                <example correction="know">But do anyone <marker>knows</marker> if the same is possible in Javascript?</example>
+                <example correction="have">Do anyone <marker>has</marker> any suggestion left?</example>
+            </rule>
+        </rulegroup>
         <rule id="A_RB_NN" name="Adverb instead of an adjective">
             <antipattern><!-- https://en.oxforddictionaries.com/definition/bit_part -->
                 <token>bit</token>
@@ -16031,12 +16221,16 @@ USA
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">a(dmit|ppreciate|void)|delay|practice|risk|deny|discuss|imagine|suggest|dislike|keep|tolerate|enjoy|mi(nd|ss)|re(commend|s(ent|istist))|finish|postpone<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
                     <token>to</token>
-                    <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
+                    <token postag="VB">
+                        <exception postag="NN:UN?" postag_regexp="yes"/>
+                        <exception>please</exception>
+                    </token>
                 </pattern>
                 <message>The verb '\1' is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
                 <short>Grammatical problem: use 'ing'</short>
                 <example correction="enjoy running">I <marker>enjoy to run</marker>.</example>
                 <example>I <marker>enjoy running</marker>.</example>
+                <example>Before we proceed, I recommend to please take a full backup of your database.</example>
                 <example>A three-man committee has recommended to Commission Chairman Charles O. Emmerich...</example>
                 <example>Although Peter also seems happy on the surface, he admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
             </rule>
@@ -18185,6 +18379,20 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1 no such thing as</suggestion>?</message>
             <example correction="is no such thing as">There <marker>is nothing such as</marker> as a free lunch.</example>
+        </rule>
+        <rule id="DO_ANYONE" name="Do (Does) anyone" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" />
+                <token postag="CC" min="0" />
+                <marker>
+                    <token>do</token>
+                    <token regexp="yes">(some|any)(one|body)</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>does \4</suggestion>?</message>
+            <example correction="does anybody">But <marker>do anybody</marker> use a Mac?</example>
+            <example correction="Does anyone"><marker>Do anyone</marker>?</example>
+            <example>Do something that relaxes you.</example>
         </rule>
         <rule id="DO_HE_VERB" name="do (does) he have">
             <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
@@ -21326,6 +21534,12 @@ USA
                 <antipattern>
                     <token>the</token>
                     <token>a</token>
+                    <token>to</token>
+                    <token regexp="yes">[b-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token>a</token>
                     <token>stands</token>
                     <token>for</token>
                 </antipattern>
@@ -21346,6 +21560,7 @@ USA
                 <example>In this example, use <marker>an A</marker>, not a B or a C.</example>
                 <example>The a in carry is not the short sound of the a in care.</example>
                 <example>And the A stands for 'alteration'.</example>
+                <example>The A to Z.</example>
                 <example type="triggers_error">... linearly in time (that is, in a word like cat the a sound comes after the c sound, and the t sound...</example>
             </rule>
             <rule>
@@ -33629,8 +33844,8 @@ The accident victim died from her injuries.
                     <token>bout</token>
                     <token>to</token>
                 </pattern>
-                <message>The phrase '\4 \5' is informal. Consider replacing it.</message>
-                <suggestion>You're about \5</suggestion>
+                <message>The phrase '\3 \4' is informal. Consider replacing it.</message>
+                <suggestion>You're about \4</suggestion>
                 <example correction="You're about to"><marker>U r bout to</marker> go crazy.</example>
             </rule>
             <rule>

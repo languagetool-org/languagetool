@@ -38,17 +38,19 @@ public class AbstractSimpleReplaceRule2Test {
     MyCaseSensitiveRule csRule = new MyCaseSensitiveRule(JLanguageTool.getMessageBundle(), lang);
     JLanguageTool lt = new JLanguageTool(lang);
     assertThat(csRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
-    assertThat(csRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
-    //assertThat(csRule.match(lt.getAnalyzedSentence("But A propos")).length, is(0));  // TODO: should not be found
-    //assertThat(csRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));  // TODO: should be found
+    assertThat(csRule.match(lt.getAnalyzedSentence("But A propos")).length, is(0));
+    assertThat(csRule.match(lt.getAnalyzedSentence("A propos")).length, is(0));
+    assertThat(csRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
+    assertThat(csRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
     assertThat(csRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(0));
 
     MyCaseInsensitiveRule ciRule = new MyCaseInsensitiveRule(JLanguageTool.getMessageBundle(), lang);
     assertThat(ciRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
     assertThat(ciRule.match(lt.getAnalyzedSentence("But A propos")).length, is(1));
-    //assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));  // TODO: should be found
-    //assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));  // TODO: should be found
+    assertThat(ciRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
+    assertThat(ciRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
+    assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
+    assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));
   }
   
   static class MyCaseSensitiveRule extends AbstractSimpleReplaceRule2 {
@@ -85,7 +87,7 @@ public class AbstractSimpleReplaceRule2Test {
     }
     @Override
     public boolean isCaseSensitive() {
-      return false;
+      return true;
     }
   }
 
