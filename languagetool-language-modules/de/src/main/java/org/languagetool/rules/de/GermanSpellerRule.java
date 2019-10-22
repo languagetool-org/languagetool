@@ -756,6 +756,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Amalgane", "Amalgame");
     put("Dammbock", w -> Arrays.asList("Dambock", "Rammbock"));
     put("Dammhirsch", "Damhirsch");
+    put("Fairnis", "Fairness");
     putRepl("asymetrisch(ere|ste)[mnrs]?$", "ym", "ymm");
     putRepl("alterwürdig(ere|ste)[mnrs]?$", "lter", "ltehr");
     putRepl("aufständig(ere|ste)[mnrs]?$", "ig", "isch");
