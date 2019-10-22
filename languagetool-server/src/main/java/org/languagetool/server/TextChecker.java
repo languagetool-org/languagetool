@@ -37,7 +37,6 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -334,7 +333,9 @@ abstract class TextChecker {
         logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
       }
       if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. Detected language: " + detLang);
+        print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+          "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
+          parameters, System.currentTimeMillis()-timeStart, reqCounter));
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {

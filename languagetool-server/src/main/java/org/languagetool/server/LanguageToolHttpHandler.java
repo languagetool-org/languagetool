@@ -258,7 +258,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
-            " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+            " - HTTP UserAgent: " + ServerTools.getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
     // TODO: might need more than 512 chars:
     //message += ", referrer: " + getHttpReferrer(httpExchange);
     //message += ", language: " + params.get("language");
@@ -277,27 +277,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
                         boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
-    String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
-    message += "Access from " + remoteAddress + ", ";
-    message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
-    message += "User agent param: " + params.get("useragent") + ", ";
-    if (params.get("v") != null) {
-      message += "v: " + params.get("v") + ", ";
-    }
-    message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
-    message += "language: " + params.get("language") + ", ";
-    message += "h: " + reqCounter.getHandleCount() + ", ";
-    message += "r: " + reqCounter.getRequestCount() + ", ";
-    if (params.get("username") != null) {
-      message += "user: " + params.get("username") + ", ";
-    }
-    if (params.get("apiKey") != null) {
-      message += "apiKey: " + params.get("apiKey") + ", ";
-    }
-    if (params.get("tokenV2") != null) {
-      message += "tokenV2: " + params.get("tokenV2") + ", ";
-    }
-    message += "time: " + runtimeMillis + ", ";
+    String message = ServerTools.getLoggingInfo(remoteAddress, e, errorCode, httpExchange, params, runtimeMillis, reqCounter);
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";
@@ -342,15 +322,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       // invalid username, api key or combination thereof - user stays null
     }
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
-  }
-
-  @Nullable
-  private String getHttpUserAgent(HttpExchange httpExchange) {
-    return httpExchange.getRequestHeaders().getFirst("User-Agent");
-  }
-  @Nullable
-  private String getHttpReferrer(HttpExchange httpExchange) {
-    return httpExchange.getRequestHeaders().getFirst("Referer");
   }
 
   /**
