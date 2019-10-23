@@ -28478,8 +28478,21 @@ The accident victim died from her injuries.
                     <token postag_regexp="yes" postag="JJ|VBN"/>
                     <token>to</token>
                 </antipattern>
+                <antipattern><!-- #2045 leads to much more -->
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">amount|contribute|lead|rise</token>
+                    <token>to</token>
+                    <token>much</token>
+                    <token min="0" max="1" postag="JJR"/>
+                    <token postag_regexp="yes" postag="NN:UN?|SENT_END"/>
+                </antipattern>
+                <antipattern><!-- #2045 leads to much more -->
+                    <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">access|lead|amount|rise</token>
+                    <token>to</token>
+                    <token>much</token>
+                    <token min="0" max="1" postag="JJR"/>
+                    <token postag_regexp="yes" postag="NN:UN?|SENT_END"/>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes" negate="yes">access|lea?d|amount|rise</token>
                     <marker>
                         <token regexp="yes">tw?o</token>
                     </marker>
@@ -28496,7 +28509,23 @@ The accident victim died from her injuries.
                 <example>He will never amount to much.</example>
                 <example>It is applicable to few objects.</example>
                 <example>Did your efforts <marker>come to much</marker>?</example>
+                <example>... and this leads to much more.</example>
+                <example>... which leads to much more poverty.</example>
+                <example>... and this amounted to much noise and nothing more.</example>
+                <example>... which amounted to much more poverty.</example>
+                <example>... and which contributes to much poverty in this country.</example>
+                <example>... and this is also contributing to much poverty in this country.</example>
+                <example>We're  not going to go <marker>too much more</marker> into it.</example>
                 <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
+                <example correction="too">I hate to replace them; they cost <marker>to</marker> much.</example>
+                <example correction="too">They cost <marker>two</marker> much money.</example>
+                <example correction="too">This led <marker>two</marker> much speculation.</example>
+                <example correction="too">... but it was because <marker>to</marker> much power was going to the doorbell.</example>
+                <example correction="too">I hate to replace them; they cost <marker>to</marker> much.</example>
+                <example correction="too">It is possible for Smarttapps to fail if the runtimes increase <marker>to</marker> much.</example>
+                <example correction="too">Don’t change the report rate to report <marker>to</marker> much.</example>
+                <example correction="too">We’re trying to avoid <marker>to</marker> much speculation until we collect sufficient data.</example>
+                <example correction="too">What's been suggested isn’t <marker>to</marker> much of a stretch.</example>
             </rule>
             <rule>
                 <pattern>
