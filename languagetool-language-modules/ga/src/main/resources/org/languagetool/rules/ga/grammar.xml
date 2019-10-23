@@ -423,7 +423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">ní <marker>hi</marker></example>
             </rule>
         </rulegroup>
-        <rule id="AR_NDOIGH" name="ar ndóigh">
+        <rule id="AR_NDOIGH_NOFADA" name="ar ndóigh">
             <pattern>
                 <token>ar</token>
                 <marker>
@@ -989,7 +989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_MHAITHE" name="a' mhaithe">
             <pattern>
                     <token>a</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
                     <token>mhaithe</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ar mhaithe</suggestion></message>
@@ -998,7 +998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_CHOR" name="a' chor">
             <pattern>
                     <token>a</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
                     <token>chor</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ar chor</suggestion></message>
@@ -1072,17 +1072,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>aon</suggestion></message>
             <example correction="aon"><marker>ao'</marker></example>
         </rule>
-        <rule id="N?AR" name="'n?ár">
+        <rule id="APOS_NAR" name="'nár">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no" regexp="yes">n?ár</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>inár</suggestion></message>
-            <example correction="inár"><marker>'n?ár</marker></example>
+            <example correction="inár"><marker>'nár</marker></example>
         </rule>
-        <rule id="AR_NDOIGH" name="'ar ndóigh">
+        <rule id="APOS_AR_NDOIGH" name="'ar ndóigh">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no">ar</token>
                     <token regexp="yes">ndóighe?</token>
             </pattern>
@@ -1685,31 +1685,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="IMIRT" name="'imirt">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no">imirt</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>a imirt</suggestion></message>
             <example correction="a imirt"><marker>'imirt</marker></example>
         </rule>
-        <rule id="IN" name="'in">
+        <rule id="APOS_IN" name="'in">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no">in</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>sin</suggestion></message>
             <example correction='sin'>nach <marker>'in</marker> cúrsaí an tsaoil</example>
         </rule>
-        <rule id="IN" name="in'">
+        <rule id="IN_APOS" name="in'">
             <pattern>
                     <token>in</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ina</suggestion></message>
             <example correction="ina"><marker>in'</marker></example>
         </rule>
         <rule id="INNSE" name="'innse">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no">innse</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>a insint</suggestion></message>
