@@ -14556,6 +14556,12 @@ USA
                     <token postag="NN">host</token>
                     <token>to</token>
                 </antipattern>
+                <antipattern><!-- #2056 We are also market leaders. -->
+                    <token inflected="yes">be</token>
+                    <token postag="RB"/>
+                    <token chunk="B-NP-plural" postag_regexp="yes" postag="NN:UN?|JJ"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -14587,6 +14593,7 @@ USA
                 <example>This was before people knew how to record voices, so we don't know...</example>
                 <example>...small role and the fact that the island is mostly bog means that its potential...</example>
                 <example>... these churches are generally <marker>host to</marker> staunch Anglicans who are ...</example>
+                <example>We are also <marker>market leaders</marker>.</example><!-- #2056 -->
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
