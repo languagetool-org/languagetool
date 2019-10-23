@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         ]>
 <rules lang="ga" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="CONTRACTIONS" name="syntactical errors: contractions" type="grammar">
-        <rulegroup id="CONTRACTIONS" name="Contractions">
+        <rulegroup id="PREP_CONTRACTIONS" name="Preposition Contractions">
             <rule id="LE_ME_LIOM" name="le + mé = liom">
                 <pattern>
                     <marker>
@@ -768,7 +768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Ba chóir duit “<match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/>” a scríobh.</message>
-                <example correction=""><marker><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></marker></example>
+		<example correction="">i <marker>páirc</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -778,7 +778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Ba chóir duit “in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/>” a scríobh.</message>
-                <example correction=""><marker>in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/></marker></example>
+		<example correction="">in <marker>áit</marker></example>
             </rule>
         </rulegroup>
     </category>
@@ -800,9 +800,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MUR_N" name="mur N">
             <pattern>
-                <match>
+                <marker>
                     <token>mur</token>
-                </match>
+                </marker>
                 <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>bhur</suggestion></message>
@@ -852,7 +852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                     <token>a</token>
                     <token>dh</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
                     <token>ól</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ag ól</suggestion></message>
@@ -969,9 +969,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>a</suggestion></message>
             <example correction="a"><marker>n-a</marker></example>
         </rule>
-        <rule id="A" name="'á">
+	<rule id="APOS_A" name="'á">
             <pattern>
-                    <token regexp="yes">[&apos;’]</token>
+                    <token regexp="yes">&apos;|’</token>
                     <token spacebefore="no">á</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
@@ -980,7 +980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_BITH" name="a' bith">
             <pattern>
                     <token>a</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
                     <token>bith</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ar bith</suggestion></message>
@@ -1022,10 +1022,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>ag</suggestion></message>
             <example correction="ag"><marker>a'ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</marker></example>
         </rule>
-        <rule id="A" name="a'">
+        <rule id="A_APOS" name="a'">
             <pattern>
                     <token>a</token>
-                    <token regexp="yes" spacebefore="no">[&apos;’]</token>
+                    <token regexp="yes" spacebefore="no">&apos;|’</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>an</suggestion></message>
             <example correction="an"><marker>a'</marker></example>
@@ -2595,10 +2595,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>an mogh</suggestion></message>
             <example correction="an mogh"><marker>an mogha</marker></example>
         </rule>
+        <rule id="AR_DTUIS" name="ar dtúis">
+            <pattern>
+                    <token>ar</token>
+                    <token>dtúis</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>ar dtús</suggestion></message>
+            <example correction="ar dtús"><marker>ar dtúis</marker></example>
+        </rule>
         <rule id="AR_TUS" name="ar tús">
             <pattern>
                     <token>ar</token>
-                    <token regexp="yes">dtúis|túi?s</token>
+                    <token regexp="yes">túi?s</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>ar dtús</suggestion></message>
             <example correction="ar dtús"><marker>ar dtúis|túi?s</marker></example>
