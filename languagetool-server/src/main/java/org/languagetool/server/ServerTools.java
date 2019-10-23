@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
@@ -37,6 +38,45 @@ final class ServerTools {
   private ServerTools() {
   }
 
+  @NotNull
+  static String getLoggingInfo(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, long runtimeMillis, RequestCounter reqCounter) {
+    String message = "";
+    if (e != null) {
+      message += "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
+    }
+    message += "Access from " + remoteAddress + ", ";
+    message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
+    message += "User agent param: " + params.get("useragent") + ", ";
+    if (params.get("v") != null) {
+      message += "v: " + params.get("v") + ", ";
+    }
+    message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
+    message += "language: " + params.get("language") + ", ";
+    message += "h: " + reqCounter.getHandleCount() + ", ";
+    message += "r: " + reqCounter.getRequestCount() + ", ";
+    if (params.get("username") != null) {
+      message += "user: " + params.get("username") + ", ";
+    }
+    if (params.get("apiKey") != null) {
+      message += "apiKey: " + params.get("apiKey") + ", ";
+    }
+    if (params.get("tokenV2") != null) {
+      message += "tokenV2: " + params.get("tokenV2") + ", ";
+    }
+    message += "time: " + runtimeMillis;
+    return message;
+  }
+
+  @Nullable
+  static String getHttpUserAgent(HttpExchange httpExchange) {
+    return httpExchange.getRequestHeaders().getFirst("User-Agent");
+  }
+  
+  @Nullable
+  static String getHttpReferrer(HttpExchange httpExchange) {
+    return httpExchange.getRequestHeaders().getFirst("Referer");
+  }
+  
   static String getSQLDatetimeString(Calendar date) {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -110,7 +150,7 @@ final class ServerTools {
   }
 
   @NotNull
-  public static JLanguageTool.Mode getMode(Map<String, String> params) {
+  static JLanguageTool.Mode getMode(Map<String, String> params) {
     JLanguageTool.Mode mode;
     if (params.get("mode") != null) {
       String modeParam = params.get("mode");

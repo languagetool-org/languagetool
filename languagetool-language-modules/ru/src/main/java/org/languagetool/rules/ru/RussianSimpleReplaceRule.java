@@ -18,14 +18,18 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Example;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.languagetool.language.Russian;
+import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.CategoryIds;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -36,28 +40,30 @@ import java.util.ResourceBundle;
  *
  * @author  Yakov Reztsov
  */
-public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
+ 
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/ru/replace.txt");
+public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
+
+  public static final String RUSSIAN_SIMPLE_REPLACE_RULE = "RU_SIMPLE_REPLACE";
+  
   private static final Locale RU_LOCALE = new Locale("ru");
-  
-  
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
-  }
 
   public RussianSimpleReplaceRule(ResourceBundle messages) throws IOException {
-    super(messages);
-  
+    super(messages, new Russian());
+    setLocQualityIssueType(ITSIssueType.Misspelling);
+    setCategory(new Category(new CategoryId("MISC"), "Общие правила"));
   addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),
                  Example.fixed("<marker>Эспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."));
-  
+  }
+
+  @Override
+  public String getFileName() {
+    return "/ru/replace.txt";
   }
 
   @Override
   public final String getId() {
-    return "RU_SIMPLE_REPLACE";
+    return RUSSIAN_SIMPLE_REPLACE_RULE;
   }
 
   @Override
@@ -69,20 +75,21 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Ошибка?";
   }
-  
+
   @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " - ошибочное слово/фраза, исправление: "
-        + String.join(", ", replacements) + ".";
+  public String getSuggestion() {
+    return "«$match» — ошибочное слово/фраза, исправление: $suggestions";
   }
 
   @Override
-  public boolean isCaseSensitive() {
-    return false;
+  public String getSuggestionsSeparator() {
+    return ", ";
   }
 
   @Override
   public Locale getLocale() {
     return RU_LOCALE;
   }
+
 }
+ 

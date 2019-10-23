@@ -39,9 +39,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.languagetool.server.ServerTools.print;
 
@@ -55,7 +52,6 @@ class ResultExtender {
   private final URL url;
   private final int connectTimeoutMillis;
   private final ObjectMapper mapper = new ObjectMapper();
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
   ResultExtender(String url, int connectTimeoutMillis) {
     this.url = Tools.getUrl(url);
@@ -83,11 +79,6 @@ class ResultExtender {
     return filteredExtMatches;
   }
 
-  @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Map<String, String> params) {
-    return executor.submit(() -> getExtensionMatches(plainText, params));
-  }  
-  
   @NotNull
   List<RemoteRuleMatch> getExtensionMatches(String plainText, Map<String, String> params) throws IOException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();

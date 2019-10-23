@@ -1131,6 +1131,30 @@ class SingleDocument {
       MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x);
     }
   }
+  
+  private String getRuleIdFromCache(int nPara, int nChar) {
+    SingleProofreadingError error = sentencesCache.getErrorAtPosition(nPara, nChar);
+    for(ResultCache paraCache : paragraphsCache) {
+      SingleProofreadingError err = paraCache.getErrorAtPosition(nPara, nChar);
+      if(err != null) {
+        if(error == null || error.nErrorStart < err.nErrorStart
+            || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+          error = err;
+        } 
+      }
+    }
+    if(error != null) {
+      return error.aRuleIdentifier;
+    } else {
+      return null;
+    }
+  }
+  
+  public String deactivateRule() {
+    int x = docCursor.getViewCursorCharacter();
+    int y = docCursor.getViewCursorParagraph();
+    return getRuleIdFromCache(y, x);
+  }
   /** 
    * Class to add a LanguageTool Options item to the context menu
    * since 4.6
@@ -1142,6 +1166,7 @@ class SingleDocument {
     private final static String ADD_TO_DICTIONARY_3 = "slot:3";
     private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
     private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
+    private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
 
     public ContextMenuInterceptor() {}
     
@@ -1212,11 +1237,18 @@ class SingleDocument {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
               }
               XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+
+              XPropertySet xNewMenuEntry1 = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+              xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
+              xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE);
+              xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
+
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
               xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
               xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-              xContextMenu.insertByIndex(i + 3, xNewMenuEntry);
+              xContextMenu.insertByIndex(i + 4, xNewMenuEntry);
   
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
             }
@@ -1229,7 +1261,6 @@ class SingleDocument {
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
         xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
         xContextMenu.insertByIndex(count, xSeparator);
-
         XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
         xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));

@@ -60,6 +60,13 @@ public class InsertCommaFilter extends RuleFilter {
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
+      } else if (parts.length == 4) {
+        if (patternTokenPos == 2 &&
+          patternTokens[0].hasPosTagStartingWith("VER:") &&
+          patternTokens[1].getToken().matches("der|die|das|seine|ihre|deine|unsere|meine")) {
+          // "Aristoteles meint das Genussleben führe nicht zum Glück." -> "Aristoteles meint, das..."
+          suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2] + " " + parts[3]);
+        }
       }
     }
     ruleMatch.setSuggestedReplacements(suggestions);

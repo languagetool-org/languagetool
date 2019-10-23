@@ -74,7 +74,7 @@ class ApiV2 {
       handleWordDeleteRequest(httpExchange, parameters, config);
     } else if (path.equals("rule/examples")) {
       // private (i.e. undocumented) API for our own use only
-      handleRuleExamplesRequest(httpExchange, parameters, config);
+      handleRuleExamplesRequest(httpExchange, parameters);
     } else if (path.equals("log")) {
       // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);
@@ -151,7 +151,7 @@ class ApiV2 {
     writeResponse("deleted", deleted, httpExchange);
   }
 
-  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
     if (params.get("lang") == null) {
       throw new IllegalArgumentException("'lang' parameter missing");
@@ -327,7 +327,7 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartArray();
       List<Language> languages = new ArrayList<>(Languages.get());
-      languages.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+      languages.sort(Comparator.comparing(Language::getName));
       for (Language lang : languages) {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
