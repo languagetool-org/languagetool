@@ -461,7 +461,7 @@ USA
             <example>We were wont to meet at that pleasant spot.</example>
             <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
-        <rulegroup id="DONT_T" name="I dont't (don't)" default="temp_off">
+        <rulegroup id="DONT_T" name="I dont't (don't)">
             <rule>
                 <pattern>
                     <token regexp="yes">(do|did|does|wo|was|were|ca|have|has|[cw]ould|should|must|had|ai|are|is)nt</token>
@@ -2385,29 +2385,48 @@ USA
         <rule id="THE_ONLY_ON" name="the only on (one)">
             <pattern>
                 <token>the</token>
-                <token>only</token>
+                <token regexp="yes">only|special|chosen</token>
                 <marker>
-                    <token>on</token>
+                    <token>
+                        on
+                        <exception scope="next" regexp="yes">premise|demand</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>one</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="one">The trash folder is the only <marker>on</marker> for me that works.</example>
+            <example>The only on demand service that works.</example>
         </rule>
-        <rule id="I_A" name="I a/an (am)">
-            <!--added exception for: 'Am I an annoyance' -->
-            <pattern>
-                <token><exception scope="previous" regexp="yes">am|were</exception>I</token>
-                <marker>
-                    <token regexp="yes">an?</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion>am</suggestion> (first person of 'to be')?</message>
-            <short>Possible typo</short>
-            <example>Am I An Atheist Or An Agnostic?</example>
-            <example>Were I a bird, I would fly to you.</example>
-            <example correction="am">I <marker>a</marker> not sure.</example>
-        </rule>
+        <rulegroup id="I_A" name="I a/an (am)">
+            <rule>
+                <pattern>
+                    <token><exception scope="previous" regexp="yes">am|were</exception>I</token>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>am</suggestion> (first person of 'to be') or <suggestion>can</suggestion>?</message>
+                <short>Possible typo</short>
+                <example>Am I An Atheist Or An Agnostic?</example>
+                <example>Were I a bird, I would fly to you.</example>
+                <example correction="am|can">I <marker>an</marker> not sure.</example>
+                <example correction="am|can">I <marker>an</marker> go there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception scope="previous" regexp="yes">am|were</exception>I</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>am</suggestion> (first person of 'to be')?</message>
+                <short>Possible typo</short>
+                <example>Am I a good employee?</example>
+                <example>Were I a bird, I would fly to you.</example>
+                <example correction="am">I <marker>a</marker> not sure.</example>
+            </rule>
+        </rulegroup>
         <rule id="PLEASE_NOT_THAT" name="please not (note) that">
             <pattern>
                 <token>please</token>
@@ -3007,7 +3026,7 @@ USA
                 <example correction="it's|it is">I can't believe <marker>its</marker> you.</example>
                 <example>The album was ready for its US release.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>its</token>
@@ -3019,7 +3038,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's you|It is you"><marker>Its u</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>its</token>
@@ -3031,7 +3050,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's your|It is your"><marker>Its ur</marker> fault!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -3047,7 +3066,7 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> so good.</example>
                 <example correction="It's|It is"><marker>Its</marker> nice.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -3063,7 +3082,7 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> already there</example>
                 <example correction="It's|It is"><marker>Its</marker> totally cool</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -3079,7 +3098,7 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> ready!</example>
                 <example correction="It's|It is"><marker>Its</marker> so awesome.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -3093,7 +3112,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> finally happening</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -3108,7 +3127,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> finally happening!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>its</token>
@@ -3120,7 +3139,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> gonna be okay</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -9934,7 +9953,7 @@ USA
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">commit|remix|long-running|spend|merge|thank|add|re(map|store)</exception>
+                    <exception regexp="yes">commit|remix|long-running|spend|merge|thank|add|create|re(map|store|place|quire)</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -10633,15 +10652,112 @@ USA
                 <example correction="restrained">The doctor hasn't <marker>restraint</marker> the blood flow yet.</example>
             </rule>
         </rulegroup>
+        <rule id="IS_THERE_ANY_NNS" name="Is (are) there any chances" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" />
+                <token postag="CC" min="0" />
+                <marker>
+                    <token>is</token>
+                </marker>
+                <token>there</token>
+                <token regexp="yes">any|some</token>
+                <token postag="NNP?S" postag_regexp="yes">
+                    <exception>data</exception>
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>are</suggestion>?</message>
+            <example correction="Are"><marker>Is</marker> there any chances that you will be buying a new car?</example>
+            <example correction="are">But <marker>is</marker> there any Germans that like Baseball?</example>
+            <example correction="Are"><marker>Is</marker> there some details you can share about your setup?</example>
+            <example>Is there any data that proves this?</example>
+        </rule>
+        <rulegroup id="AN_VB_PRP" name="'an' vs. 'and' vs. 'any'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>chance</token>
+                </pattern>
+                <message>Did you mean <suggestion>a \2</suggestion> or <suggestion>any \2</suggestion>?</message>
+                <example correction="a chance|any chance">Is there <marker>an chance</marker> you will be using a new username instead?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>chances</token>
+                </pattern>
+                <message>Did you mean <suggestion>any \2</suggestion> or <suggestion>and \2</suggestion>?</message>
+                <example correction="any chances|and chances">Are there <marker>an chances</marker> you will be using a new username instead?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <!-- already handled better by I_A -->
+                    <token>I</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <token>an</token>
+                    <token postag="VB.*" postag_regexp="yes">
+                        <exception case_sensitive="yes" regexp="yes">[AEIUO].*</exception>
+                        <exception postag="NN.*" postag_regexp="yes" regexp="yes">[aeiou].*</exception>
+                    </token>
+                    <token regexp="yes">it|you|him|her|them|us</token>
+                </pattern>
+                <message>Did you mean <suggestion>and \2 \3</suggestion>?</message>
+                <example correction="and replace it">Remove the annotation <marker>an replace it</marker> with a new one.</example>
+                <example>Your guild just wants an edge you don’t need.</example>
+                <example>If it’s an Encore it cant be very old.</example>
+                <example correction="and like it">They will find it <marker>an like it</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="THE_THIRD_PARTY" name="the third-party" default="temp_off">
+            <pattern>
+                <token regexp="yes">the|an?</token>
+                <marker>
+                    <token regexp="yes">
+                        third\-?part(y|ies)
+                        <exception scope="next" regexp="yes">and|or|add|log</exception>
+                        <exception scope="next" postag="NN.*|UNKNOWN|CD|JJ" postag_regexp="yes" />
+                    </token>
+                </marker>
+            </pattern>
+            <message>The noun <suggestion><match no="2" regexp_match="(?i)\-?(p)art" regexp_replace=" $1art" /></suggestion> is written as two words.</message>
+            <url>https://www.lexico.com/en/definition/third_party</url>
+            <example correction="third party">The <marker>third-party</marker> wasn't informed about the change.</example>
+            <example>A third-party service.</example>
+            <example>You can get the third-party Homeseer kit.</example>
+            <example>A third-party add on.</example><!-- rule ADD_ON will catch this -->
+        </rule>
         <rulegroup id="PREPOSITION_VERB" name="preposition + verb">
             <antipattern>
                 <token postag="VB.*" postag_regexp="yes" />
                 <token>her</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">team|person|participant|patient|probant</token>
+                <token>A</token>
+                <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
+            </antipattern>
+            <antipattern>
+                <token>A</token>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>B</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token postag="VBZ" />
+            </antipattern>
+            <antipattern>
+                <!-- "Many macro's require" (wrong apostrophe+s is handled by different rule) -->
+                <token postag="NN" />
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token postag="VB.*" postag_regexp="yes" />
             </antipattern>
             <rule><!-- the rebrand/understand -->
                 <pattern>
@@ -10658,13 +10774,20 @@ USA
                 <example>A <marker>rebranding</marker> of our Corporate Design might be necessary soon.</example>
                 <example correction="understanding">That's my <marker>understand</marker> of his motivation.</example>
                 <example>Please let her rebrand our company logo.</example>
+                <example>It helped her understand herself.</example>
                 <example>It is impossible to make her understand the theory.</example>
             </rule>
             <rule><!-- the require -->
+                <antipattern>
+                    <!-- dev speech -->
+                    <token skip="2">require</token>
+                    <token regexp="yes">state|statements?|modules?|code|paths?|urls?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
                         <exception postag="NN.*" postag_regexp="yes" />
+                        <exception regexp="yes">third-part.*</exception><!-- handled by THE_THIRD_PARTY -->
                     </token>
                     <marker>
                         <token regexp="yes">requires?</token>
@@ -10674,21 +10797,32 @@ USA
                 <example correction="requirements">One of the new <marker>requires</marker> is ...</example>
                 <example>A <marker>requirement</marker> needs to be fulfilled.</example>
                 <example>McDonald's now requires a bachelor's in philosophy for its cashiers.</example>
+                <example>It is the OAuth URI the third-party requires.</example>
+                <example>The require statement was missing, so it caused an error during runtime.</example>
+                <example>A requires B.</example>
+                <example>The students were chosen because St Paul's requires formal wear at dinner.</example>
             </rule>
-            <rule default="temp_off"><!-- the approve -->
+            <rule><!-- the approve -->
+                <antipattern>
+                    <token>APPROVe</token>
+                    <token>trial</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">approves?</token>
+                        <token regexp="yes">approves?
+                            <exception case_sensitive="yes">APPROVe</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)approve" regexp_replace="approval" /></suggestion>?</message>
                 <example correction="approval">Sally needs your <marker>approve</marker>.</example>
+                <example>The Adenomatous Polyp Prevention on Vioxx (APPROVe) trial was designed to assess whether rofecoxib could reduce the risk of adenomatous polyps in individuals with a recent history of these tumours.</example>
             </rule>
-            <rule default="temp_off"><!-- the remind -->
+            <rule><!-- the remind -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10767,6 +10901,7 @@ USA
                 <message>Did you mean <suggestion><match no="3" regexp_match="(?i)respond" regexp_replace="response" /></suggestion>?</message>
                 <example correction="response">He sent his <marker>respond</marker> to the mailing list.</example>
                 <example correction="responses">The <marker>responds</marker> were overall positive.</example>
+                <example correction="response">Sorry for the late <marker>respond</marker>.</example>
                 <example>A <marker>response</marker> will be prepared.</example>
                 <example>I'll have her respond to the customer's mail.</example>
             </rule>
@@ -10784,8 +10919,13 @@ USA
                 <example correction="invention">He presented the <marker>invent</marker> of electric cars.</example>
                 <example correction="invention">My only <marker>invent</marker> has been patented.</example>
                 <example>Let her invent the future.</example>
+                <example>Let’s invent something.</example>
             </rule>
             <rule><!-- the renew -->
+                <antipattern>
+                    <token>renew</token>
+                    <token>command</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10813,10 +10953,10 @@ USA
                 <example correction="redelivery">The <marker>redeliver</marker> service was on time.</example>
                 <example>I'll have her redeliver the parcel.</example>
             </rule>
-            <rule><!-- the create -->
+            <rule default="temp_off"><!-- the infect -->
                 <antipattern>
-                    <token skip="3">create</token>
-                    <token>operation</token>
+                    <token>infect</token>
+                    <token regexp="yes">decks?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -10824,14 +10964,67 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">creates?</token>
+                        <token regexp="yes">(dis|re-?)?infects?</token>
                     </marker>
                 </pattern>
-                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)reate" regexp_replace="reation" /></suggestion>?</message>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)infect" regexp_replace="infection" /></suggestion>?</message>
+                <example correction="infection">I couldn't go to work due to my <marker>infect</marker>.</example>
+                <example>My son has an infect deck we are constantly upgrading.</example>
+            </rule>
+            <rule default="temp_off"><!-- the prove -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>prove</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion>proof</suggestion>?</message>
+                <example correction="proof">Where's the <marker>prove</marker>?</example>
+                <example>I'd like to help her prove it.</example>
+            </rule>
+            <rule><!-- the create -->
+                <antipattern>
+                    <token skip="2">create</token>
+                    <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>
+                            create
+                            <exception case_sensitive="yes">CREATE</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion>creation</suggestion>?</message>
                 <example correction="creation">The <marker>create</marker> of the world.</example>
                 <example>I will make her <marker>create</marker> the future.</example>
+                <example>Person A creates something special.</example>
+                <example>After I did that I reopened the app and was directed to the create account screen.</example>
+                <example>Assuming both the CREATE and INSERT failed.</example>
             </rule>
             <rule><!-- the replace -->
+                <antipattern>
+                    <!-- dev speech -->
+                    <token>replace</token>
+                    <token regexp="yes">(string|field|expression|text)s?|all|regexp?|reg(ular)?|utilit(y|ies)</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2">replace</token>
+                    <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
+                </antipattern>
+                <antipattern>
+                    <token>replace</token>
+                    <token skip="2">this</token>
+                    <token>replace</token>
+                    <token>that</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10844,6 +11037,7 @@ USA
                 <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)place" regexp_replace="placement" /></suggestion>?</message>
                 <example correction="replacement">After the accident, he needed a <marker>replace</marker> of the car's front window.</example>
                 <example>I will let her replace the furniture in our flat.</example>
+                <example>This isn’t the sort of problem where a replace this, replace that approach is likely to be successful.</example>
             </rule>
             <rule><!-- the intend -->
                 <pattern>
@@ -10865,7 +11059,7 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">arrives?</token>
+                        <token>arrive</token>
                     </marker>
                 </pattern>
                 <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)rrive" regexp_replace="rrival" /></suggestion>?</message>
@@ -10886,6 +11080,15 @@ USA
                 <example correction="appointment">Let's setup an <marker>appoint</marker> to discuss the latest development.</example>
             </rule>
             <rule><!-- the grow -->
+                <antipattern>
+                    <token>grow</token>
+                    <token>room</token>
+                </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token>poor</token>
+                    <token>grow</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10897,6 +11100,9 @@ USA
                 </pattern>
                 <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)rows?" regexp_replace="rowth" /></suggestion>?</message>
                 <example correction="growth">The unexpected <marker>grow</marker> in revenue was caused by their new ad campaign.</example>
+                <example>The grow room.</example><!-- https://en.wikipedia.org/wiki/Growroom -->
+                <example>Help me to make her grow.</example>
+                <example>The rich grow richer and the poor grow poorer.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THE_ADD_ON" name="the + add on">
@@ -11073,7 +11279,7 @@ USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle|discover|aspire</token>
                 </marker>
-                <token postag_regexp="yes" postag="NN(S|P|:UN?)?"/>
+                <token postag_regexp="yes" postag="PCT|NN.*"/>
             </pattern>
             <message><suggestion><match no="3" case_conversion="startupper" /></suggestion> is a proper noun and needs to be capitalized.</message>
             <example correction="Google">Have you seen the simplified <marker>google</marker> doc?</example>
@@ -11089,6 +11295,8 @@ USA
             <example>He wanted to <marker>google</marker> for the medicine.</example>
             <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
             <example>Let's google life.</example>
+            <example correction="Excel">The <marker>excel</marker>, powerpoint and word program.</example>
+            <example correction="Skype">Please open your <marker>skype</marker>.</example>
         </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
@@ -12593,7 +12801,7 @@ USA
                 <example>It seems like as technologies emerge, I love to jump on the bandwagon around the end of the early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
                 <example>The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token postag="CC" min="0" />
@@ -18387,7 +18595,7 @@ USA
             <message>Did you mean <suggestion>\1 no such thing as</suggestion>?</message>
             <example correction="is no such thing as">There <marker>is nothing such as</marker> as a free lunch.</example>
         </rule>
-        <rule id="DO_ANYONE" name="Do (Does) anyone" default="temp_off">
+        <rule id="DO_ANYONE" name="Do (Does) anyone">
             <pattern>
                 <token postag="SENT_START" />
                 <token postag="CC" min="0" />
@@ -33825,7 +34033,7 @@ The accident victim died from her injuries.
             <suggestion>all of you</suggestion>
             <example correction="You all|All of you"><marker>Y'all</marker> don't know what I'm talking about.</example>
         </rule>
-        <rule id="DONTCHA" name="dontcha (don't you)" default="temp_off">
+        <rule id="DONTCHA" name="dontcha (don't you)">
             <pattern>
                 <token>dontcha</token>
             </pattern>
@@ -33833,7 +34041,7 @@ The accident victim died from her injuries.
             <suggestion>don't you</suggestion>
             <example correction="Don't you"><marker>Dontcha</marker> think this could be done easier?</example>
         </rule>
-        <rulegroup id="BOUT_TO" name="I'm bout (about) to" default="temp_off">
+        <rulegroup id="BOUT_TO" name="I'm bout (about) to">
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>

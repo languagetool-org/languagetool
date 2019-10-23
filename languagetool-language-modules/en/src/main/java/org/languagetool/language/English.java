@@ -274,12 +274,12 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "LIGATURES":                 return 1;   // prefer over spell checker
       case "APPSTORE":                  return 1;   // prefer over spell checker
-      case "DONT_T":                    return 1;   // prefer over spell checker
+      case "DONT_T":                    return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
-      case "A_INFINITIVE":              return -1;  // prefer other more specific rules (with suggestions)
+      case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
       case "PRP_VBG":                   return -1;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
       case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
@@ -287,6 +287,7 @@ public class English extends Language implements AutoCloseable {
       case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -1;  // prefer other more specific rules (with suggestions)
+      case "A_INFINITIVE":              return -2;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB)
       case "I_MOVING":                  return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "HE_VERB_AGR":               return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "PRONOUN_NOUN":              return -2;  // prefer other rules (e.g. PRP_VB)
