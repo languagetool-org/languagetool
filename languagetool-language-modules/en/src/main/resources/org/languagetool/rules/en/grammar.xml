@@ -7950,6 +7950,11 @@ USA
                 <token regexp="yes" spacebefore="no">[a-z-]+</token>
                 <token regexp="yes" spacebefore="no">['‘"“]</token>
             </antipattern>
+            <antipattern><!-- https://www.computerhope.com/jargon/p/publicht.htm -->
+                <token>public</token>
+                <token>_</token>
+                <token>html</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[a-z-]+</token>
                 <token spacebefore="no" min="1" max="-1">_<exception postag="NNP"/></token>
@@ -7969,6 +7974,7 @@ USA
             <example>But <marker>these_</marker> unlike other tests...</example><!-- TODO -->
             <example>Refer to <marker>_TESTS</marker>' on page 33.</example><!-- TODO -->
             <example>Status "payment_failed"</example>
+            <example>Public_html is a directory on computers running Apache web servers that stores all HTML files.</example>
         </rule>
         <rulegroup id="FR" name="fr [franc), Fr (Father, francium)">
             <url>https://www.collinsdictionary.com/dictionary/english/fr</url>
@@ -10671,6 +10677,7 @@ USA
                 <token regexp="yes">any|some</token>
                 <token postag="NNP?S" postag_regexp="yes">
                     <exception>data</exception>
+                    <exception case_sensitive="yes">DOS</exception>
                 </token>
             </pattern>
             <message>Did you mean <suggestion>are</suggestion>?</message>
@@ -16834,7 +16841,10 @@ USA
                     <marker>
                         <token>this</token>
                     </marker>
-                    <token postag="NNS"><exception postag="VBZ|NN|NN:UN?|JJ.?|RB" postag_regexp="yes"/><exception regexp="yes">data|follows</exception></token>
+                    <token postag="NNS"><exception postag="VBZ|NN|NN:UN?|JJ.?|RB" postag_regexp="yes"/>
+                        <exception regexp="yes">data|follows</exception>
+                        <exception case_sensitive="yes">DOS</exception>
+                    </token>
                     <token><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
@@ -20119,9 +20129,26 @@ USA
                     <token>fold</token>
                 </pattern>
                 <message>The adjective, adverb or verb 'tenfold' needs to be written as one word.</message>
-                <suggestion>\1\2</suggestion>
+                <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
                 <example>Ten Fold Technology is a company from the UK.</example>
                 <example correction="tenfold">After he returned to his normal self, the nausea had returned <marker>ten fold</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>two</token>
+                    <token>fold</token>
+                    <token regexp="yes">clothing|pt|album</token>
+                </antipattern>
+                <pattern>
+                    <token>two</token>
+                    <token>fold</token>
+                </pattern>
+                <message>The adjective or adverb 'twofold' needs to be written as one word.</message>
+                <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/en/definition/twofold</url>
+                <example>Two Fold Clothing.</example>
+                <example>Two Fold Pt. 1 is the fifth studio album by Martin Vogt.</example>
+                <example correction="twofold">It's a <marker>two fold</marker> increase in the risk.</example>
             </rule>
         </rulegroup>
         <rule id="BIT_HYPHEN" name="missing hyphen in 'a 32 bit processor'">
@@ -34511,8 +34538,8 @@ The accident victim died from her injuries.
                 <token regexp='yes'>cums?</token>
             </pattern>
           <message>This expression is informal. Consider a replacement.</message>
-          <suggestion><match no="1" regexp_replace="(?i)cum" regexp_match="come" /></suggestion>
-          <suggestion><match no="1" regexp_replace="(?i)cum" regexp_match="ejaculate" /></suggestion>
+          <suggestion><match no="1" regexp_match="(?i)cum" regexp_replace="come" /></suggestion>
+          <suggestion><match no="1" regexp_match="(?i)cum" regexp_replace="ejaculate" /></suggestion>
           <example correction="comes|ejaculates">He <marker>cums</marker>.</example>
           <example>Summa <marker>Cum</marker> Laude</example>
         </rule>
@@ -34520,9 +34547,11 @@ The accident victim died from her injuries.
           <pattern>
               <token case_sensitive='yes' regexp='yes'>yankees?</token>
           </pattern>
-          <message>This expression can be considered offensive.</message>
+          <message>This expression can be considered offensive or cause unclarity.</message>
+          <suggestion><match no="1" regexp_match="(?i)yankee" regexp_replace="American" case_conversion="startupper" /></suggestion>
+          <suggestion><match no="1" regexp_match="(?i)yankee" regexp_replace="tourist" /></suggestion>
           <url>https://en.wikipedia.org/wiki/Yankee</url>
-          <example correction="">So you are <marker>yankees</marker>, right?</example>
+          <example correction="Americans|tourists">So you are <marker>yankees</marker>, right?</example>
           <example>Are you <marker>Americans</marker>?</example>
           <example>He played for the Yankees last season.</example>
         </rule>
