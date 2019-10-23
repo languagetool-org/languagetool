@@ -584,6 +584,29 @@ public class MultiDocumentsHandler {
     }
   }
   
+  public void deactivateRule() {
+    for (SingleDocument document : documents) {
+      if(menuDocId.equals(document.getDocID())) {
+        String ruleId = document.deactivateRule();
+        if (ruleId != null) {
+          try {
+            Configuration confg = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
+            Set<String> ruleIds = new HashSet<>();
+            ruleIds.add(ruleId);
+            confg.addDisabledRuleIds(ruleIds);
+            confg.saveConfiguration(docLanguage);
+          } catch (IOException e) {
+            MessageHandler.printException(e);
+          }
+        }
+        if (debugMode) {
+          MessageHandler.printToLogFile("Rule Disabled: " + (ruleId == null ? "null" : ruleId));
+        }
+        break;
+      }
+    }
+  }
+  
   public void resetIgnoreOnce() {
     for (SingleDocument document : documents) {
       document.resetIgnoreOnce();

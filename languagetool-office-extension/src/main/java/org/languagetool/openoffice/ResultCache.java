@@ -244,6 +244,28 @@ class ResultCache {
     return entries.size();
   }
 
+  /**
+   * get an error from a position within a paragraph
+   * if there are more than one error at the position return the one which begins at second
+   * if there are more than one that begins at the same position return the one with the smallest size
+   */
+  SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
+    SingleProofreadingError error = null;
+    for(CacheEntry entry : entries) {
+      if(entry.numberOfParagraph == numPara) {
+        for(SingleProofreadingError err : entry.errorArray) {
+          if(numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
+            if(error == null || error.nErrorStart < err.nErrorStart
+                || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+              error = err;
+            } 
+          }
+        }
+      }
+    }
+    return error;
+  }
+
   static class CacheEntry {
     int numberOfParagraph;
     final int startOfSentencePosition;

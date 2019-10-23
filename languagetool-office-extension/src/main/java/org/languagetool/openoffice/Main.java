@@ -350,6 +350,9 @@ public class Main extends WeakBase implements XJobExecutor,
         documents.ignoreOnce();
         resetCheck();
         documents.optimizeReset();
+      } else if ("deactivateRule".equals(sEvent)) {
+        documents.deactivateRule();
+        resetDocument();
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
