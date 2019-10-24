@@ -40008,13 +40008,21 @@ Andere Projekte</example>
                     <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="PA2:.+" postag_regexp="yes"/>
-                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                    <token postag="PKT"></token>
+                    <token postag="ADV:PRO"></token>
+                    <token skip="-1"></token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token postag="PKT"></token>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:.+" postag_regexp="yes"/>
-                    <token postag="VER:MOD:.+" postag_regexp="yes"/>
-                    <token postag="PKT"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"></token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:IMP:.+" postag_regexp="yes"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
@@ -40047,6 +40055,7 @@ Andere Projekte</example>
                 <example correction="Sagt mal, habt"><marker>Sagt mal habt</marker> ihr morgen schon etwas vor?</example>
                 <example correction="meint, das Genussleben führe">Aristoteles <marker>meint das Genussleben führe</marker> nicht zum Glück.</example>
                 <example correction="denke, seine Meinung ist">Ich <marker>denke seine Meinung ist</marker> sehr wichtig.</example>
+                <example correction="glaube, folgender Fall ist">Ich <marker>glaube folgender Fall ist</marker> auch noch interessant.</example>
                 <example>Deine Gitarre ist so teuer, dass ich sie nicht kaufen kann.</example>
                 <example>Ich bin so müde, dass ich kaum laufen kann.</example>
                 <example>Sein Benehmen auf der Party war so lustig, dass ich das Lachen nicht zurückhalten konnte.</example>
@@ -40066,10 +40075,9 @@ Andere Projekte</example>
                 <example>Da die für Schmucksteine begehrteste Farbe nur selten zu finden ist, wird mindere Qualität durch Brennen verbessert.</example>
                 <example>Um sage und schreibe 190 Prozent war der Preis im Laufe des Jahres in die Höhe geschossen.</example>
                 <example>Hallo, da die Nachfrage nach diesem Produkt sehr hoch ist, möchten wir gerne noch weitere bestellen.</example>
-                <example>Verdächtigt sind vier Männer.</example>
-                <example>Sie dachte nicht, dass ihre Träume wahr werden könnten.</example>
-                <example>Ich frage mich, ob Sie mir bitte sagen könnten, ob es ein Postamt in der Nähe gibt.</example>
-                <example>Wir waren so aufgeregt, dass wir nicht still sitzen konnten.</example>
+                <example>Sie hatten weitererzählt, dass er sie entführt hat, weswegen sie keinen Groll hatte.</example>
+                <example>Das hatte die Folge, dass er beschuldigt wurde, wofür es keine Antworten gab.</example>
+                <example>Verdächtig sind vier Männer.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">

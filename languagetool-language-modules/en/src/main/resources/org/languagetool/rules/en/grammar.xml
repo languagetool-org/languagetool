@@ -18001,6 +18001,27 @@ USA
                 <example>Talking to the bully did not stop him. And neither did <marker>hitting</marker> him.</example>
                 <example>They were both scared: neither did <marker>confronting</marker> the bully.</example><!-- False negative with emphatic 'do'. -->
                 <example>The intensive course <marker>did marvels</marker> for my French.</example>
+                <example type="triggers_error">John Smith did rewrites.</example><!-- 'rewrite' is transitive (www.ldoceonline.com/dictionary/rewrite). Thus, this sentence must be the correct interpretation (did + NNS). -->
+                <example type="triggers_error">John Smith did rewrites for the editorial department.</example>
+                <example type="triggers_error">Would logs help?</example>
+                <example type="triggers_error">Sami did drugs.</example>
+                <example type="triggers_error">Maybe he can drop some knowledge since he can fucking OHP this more than I can flat bench it.</example>
+                <example type="triggers_error">How would targeting work?</example>
+                <example type="triggers_error">On Monday I did squats.</example>
+                <example type="triggers_error">Should voting be mandatory?</example>
+                <example type="triggers_error">Sami never did drugs.</example>
+                <example type="triggers_error">Sami did drugs at work.</example>
+                <example type="triggers_error">Ok, I will thanks.</example>
+                <example type="triggers_error">Some research I did revealed that Postman could import cURL.</example>
+                <example type="triggers_error">The session you just did reminds me of something I would do.</example>
+                <example type="triggers_error">How do you clear codes so that your service engine light will turn off and you can see if the repair you did worked?</example>
+                <example type="triggers_error">Or did changing it not make any difference?</example>
+                <example type="triggers_error">> Would switching to the newer hub help?</example><!-- Note the '>' at the start of the text. -->
+                <example type="triggers_error"> > Would rebooting make any difference?</example>
+                <example type="triggers_error">Supposedly 160k players did Ranked PvP this week.</example><!-- Better as 'played Ranked PvP', but the grammar is correct. -->
+                <example type="triggers_error">... and what would encrypting public posts achieve?</example>
+                <example type="triggers_error">How would suggesting people actually work?</example>
+                <example type="triggers_error">Or did testing reveal something scary?</example>
             </rule>
         <rule id='DID_FOUND_AMBIGUOUS' name='Auxiliary verb + ambiguous past tense'>
         <!-- Created by Tiago F. Santos, 2019-09-07 -->
@@ -23687,6 +23708,21 @@ USA
       <example>What was she doing running for the bus in 6-inch heels?</example>
       <example>Where is this play being performed?</example>
       <example type="triggers_error">Father does gardening whenever he gets a chance.</example><!-- MFU. Compare: Father does yoga whenever he gets a chance. -->
+      <example type="triggers_error">Did changing it make any difference?</example>
+      <example type="triggers_error">... and also, does changing it make any difference?</example>
+      <example type="triggers_error">... and did changing the rules make any difference?</example>
+      <example type="triggers_error">I do beading and sewing.</example>
+      <example type="triggers_error">Does resetting IIS restore reporting for that app?</example>
+      <example type="triggers_error">Does restarting the site restore reporting?</example>
+      <example type="triggers_error">Or does recirculating it keep the operating (reheating) cost down?</example>
+      <example type="triggers_error">One more question … Your collector hosts must be storing or doing some data crunching... and then doing graphing and visualisations.</example>
+      <example type="triggers_error">Does removing and reconnecting / naming them in ST ruin any webcore pistons that contain them?</example>
+      <example type="triggers_error">Does resetting a device heal ITS routing or would I need to heal the entire mesh?</example>
+      <example type="triggers_error">> Does resetting a device heal ITS routing or would I need to heal the entire mesh?</example>
+      <example type="triggers_error">The Robo Buddy itself has 6 blinking blue lights that flash while charging and stops when done charging.</example>
+      <example type="triggers_error">When you play using cheating tools, the word “ play ” losses it ’ s meaning</example>
+      <example type="triggers_error">What things should I do leading up to starting and running it and then after that?</example>
+      <example type="triggers_error">Does putting the transmission on Eco put more strain on the CVT – like lugging a traditional transmission?</example>
     </rule>
     <rule id='DAMAGE_OF_TO' name='Collocation: damage of/to'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -30917,12 +30953,20 @@ The accident victim died from her injuries.
             <example correction="yet">That is not <marker>jet</marker> decided.</example>
         </rule>
         <rule id="YOUR_NN" name="your (you're)">
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="JJ"/>
+                <token postag="VBG"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="no">you</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                 </marker>
+                <token postag="JJ" min="0"/>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
                     <exception regexp="yes">one|still|right|in|kind|well</exception></token>
@@ -30939,10 +30983,12 @@ The accident victim died from her injuries.
             <example>You're in perky form, aren't you?</example>
             <example> You're man enough to let her play, she's experimental and confident enough to do it.</example>
             <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
+            <example correction="Your"><marker>You're</marker> new optimization is a good example.</example>
             <example>You're Arthur Willis.</example>
             <example>You're kind of amazed.</example>
             <example>You're in better shape than I am.</example>
             <example>Hope you're well.</example>
+            <example>You're just making noise.</example>
         </rule>
         <rule id="IN_YOU_RE_NN" name="you're (your)">
             <pattern>
