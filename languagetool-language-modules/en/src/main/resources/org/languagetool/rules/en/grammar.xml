@@ -31426,7 +31426,28 @@ The accident victim died from her injuries.
                 <token>you</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
-                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses</token>
+                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now</token>
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token>sort</token>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token>way</token>
+                <token>too</token>
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token>way</token>
+                <token postag="JJR"/>
             </antipattern>
             <antipattern>
                 <token>you</token>
@@ -31435,13 +31456,21 @@ The accident victim died from her injuries.
                 <token>home</token>
                 <token regexp="yes">early|late</token>
             </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token/>
+                <token regexp="yes">seconds|minutes|hours|days|years|decades|centuries</token>
+                <token regexp="yes">early|late</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="no">you</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
                 </marker>
-                <token postag="JJ" min="0"/>
+                <token postag="JJ" min="0" max="2"/>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
                     <exception regexp="yes">one|still|right|in|kind|well</exception></token>
@@ -31456,9 +31485,10 @@ The accident victim died from her injuries.
             <example>You're old enough to know better.</example>
             <example>You're forever making mistakes.</example>
             <example>You're in perky form, aren't you?</example>
-            <example> You're man enough to let her play, she's experimental and confident enough to do it.</example>
+            <example>You're man enough to let her play, she's experimental and confident enough to do it.</example>
             <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
             <example correction="Your"><marker>You're</marker> new optimization is a good example.</example>
+            <example correction="Your"><marker>You're</marker> clever new optimization is a good example.</example>
             <example>You're Arthur Willis.</example>
             <example>You're kind of amazed.</example>
             <example>You're in better shape than I am.</example>
@@ -31466,6 +31496,15 @@ The accident victim died from her injuries.
             <example>You're just making noise.</example>
             <example>You're home early.</example>
             <example>You're geniuses.</example>
+            <example>You’re already hurt.</example>
+            <example>You're on schedule.</example>
+            <example>You're just idiots.</example>
+            <example>You're ten minutes late.</example>
+            <example>You're way younger than me.</example>
+            <example>You're way too pessimistic.</example>
+            <example>No, you're on time.</example>
+            <example>You're now part of my life.</example>
+            <example>You're sort of rude.</example>
         </rule>
         <rule id="IN_YOU_RE_NN" name="you're (your)">
             <pattern>
