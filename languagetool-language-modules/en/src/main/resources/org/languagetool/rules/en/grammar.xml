@@ -3042,7 +3042,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's your|It is your"><marker>Its ur</marker> fault!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
                     <marker>
@@ -3125,7 +3125,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> gonna be okay</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
                     <marker>
@@ -3139,7 +3139,7 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> in there.</example>
                 <example correction="it's|it is">In your case, <marker>its</marker> in the same dir as the command.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
                     <marker>
@@ -10670,7 +10670,7 @@ USA
                 <example correction="restrained">The doctor hasn't <marker>restraint</marker> the blood flow yet.</example>
             </rule>
         </rulegroup>
-        <rule id="IS_THERE_ANY_NNS" name="Is (are) there any chances" default="temp_off">
+        <rule id="IS_THERE_ANY_NNS" name="Is (are) there any chances">
             <pattern>
                 <token postag="SENT_START" />
                 <token postag="CC" min="0" />
@@ -10690,7 +10690,7 @@ USA
             <example correction="Are"><marker>Is</marker> there some details you can share about your setup?</example>
             <example>Is there any data that proves this?</example>
         </rule>
-        <rulegroup id="AN_VB_PRP" name="'an' vs. 'and' vs. 'any'" default="temp_off">
+        <rulegroup id="AN_VB_PRP" name="'an' vs. 'and' vs. 'any'">
             <rule>
                 <pattern>
                     <token>an</token>
@@ -10728,7 +10728,7 @@ USA
                 <example correction="and like it">They will find it <marker>an like it</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="THE_THIRD_PARTY" name="the third-party" default="temp_off">
+        <rule id="THE_THIRD_PARTY" name="the third-party">
             <pattern>
                 <token regexp="yes">the|an?</token>
                 <marker>
@@ -10972,7 +10972,7 @@ USA
                 <example correction="redelivery">The <marker>redeliver</marker> service was on time.</example>
                 <example>I'll have her redeliver the parcel.</example>
             </rule>
-            <rule default="temp_off"><!-- the infect -->
+            <rule><!-- the infect -->
                 <antipattern>
                     <token>infect</token>
                     <token regexp="yes">decks?</token>
@@ -10990,7 +10990,7 @@ USA
                 <example correction="infection">I couldn't go to work due to my <marker>infect</marker>.</example>
                 <example>My son has an infect deck we are constantly upgrading.</example>
             </rule>
-            <rule default="temp_off"><!-- the prove -->
+            <rule><!-- the prove -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11317,7 +11317,7 @@ USA
             <example correction="Excel">The <marker>excel</marker>, powerpoint and word program.</example>
             <example correction="Skype">Please open your <marker>skype</marker>.</example>
         </rule>
-        <rulegroup id="MICROSOFT_PROGRAMS" name="Microsoft software names" default="temp_off">
+        <rulegroup id="MICROSOFT_PROGRAMS" name="Microsoft software names">
             <rule>
                 <pattern>
                     <token>power</token>
@@ -11336,7 +11336,7 @@ USA
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Microsoft</token>
-                    <token regexp="yes">Word|Excel|Outlook</token>
+                    <token regexp="yes">Word|Excel|Outlook|Office</token>
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
@@ -11344,6 +11344,7 @@ USA
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft program)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
+                <example><marker>Microsoft Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20181,7 +20182,7 @@ USA
                 <example>Ten Fold Technology is a company from the UK.</example>
                 <example correction="tenfold">After he returned to his normal self, the nausea had returned <marker>ten fold</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>two</token>
                     <token>fold</token>
@@ -34133,7 +34134,7 @@ The accident victim died from her injuries.
             <suggestion>don't you</suggestion>
             <example correction="Don't you"><marker>Dontcha</marker> think this could be done easier?</example>
         </rule>
-        <rule id="LEMME" name="lemme (let me)" default="temp_off">
+        <rule id="LEMME" name="lemme (let me)">
             <pattern>
                 <token>lemme</token>
             </pattern>
