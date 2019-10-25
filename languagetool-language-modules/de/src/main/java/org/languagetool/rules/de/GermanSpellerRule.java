@@ -197,6 +197,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gefahl", "gefiel");
     put("Komplexibilität", "Komplexität");
     put("abbonement", "Abonnement");
+    put("zugegebenerweise", "zugegebenermaßen");
     put("perse", "per se");
     put("Schwitch", "Switch");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
