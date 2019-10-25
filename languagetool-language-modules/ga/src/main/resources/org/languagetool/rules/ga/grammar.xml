@@ -2510,7 +2510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">mé|sí|sibh|tú</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>sháigh</suggestion></message>
-            <example correction="sháigh"><marker>sháith</marker> mé</example>
+            <example correction="sháigh"><marker>sháith mé</marker></example>
         </rule>
         <rule id="A_D_APOST" name="a d'">
             <pattern>
@@ -2537,46 +2537,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>an crá</suggestion></message>
             <example correction="an crá"><marker>an crádh</marker></example>
         </rule>
-        <rulegroup id="ROIMHE_AN_NOUN" name="roimhe an NOUN">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>roimhe</token>
-                    </marker>
-                    <token>an</token>
-                    <token postag="(?:C[UMC]:)?Noun:.*(?::Ecl|:Len|:DefArt)" postag_regexp="yes"></token>
-                </pattern>
-                <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
-                <example correction="roimh"><marker>roimhe</marker> an ngeata</example>
-                <example correction="roimh"><marker>roimhe</marker> an bhean</example>
-                <example correction="roimh"><marker>roimhe</marker> an uisce</example>
-                <example correction="roimh"><marker>roimhe</marker> an sneachta</example>
-            </rule>
-	    <!--
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>roimhe</token>
-                    </marker>
-                    <token>an</token>
-		    <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes"><exception postag="(?:C[UMC]:)?Noun:.*(?::Ecl|:Len|:DefArt)" postag_regexp="yes"/>[aeiouáéíóú].*|s[lnraeiouáéíóúh].*|bhf|[bcfgmp][^h]</token>
-                </pattern>
-                <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
-                <example correction="roimh"><marker>roimhe</marker> an cathair</example>
-            </rule>
-	    -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>roimhe</token>
-                    </marker>
-                    <token>an</token>
-                    <token postag="UNKNOWN" regexp="yes">[aeiouáéíóú].*|s[lnraeiouáéíóúh].*|bhf|[bcfgmp][^h]</token>
-                </pattern>
-                <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
-                <example correction="roimh"><marker>roimhe</marker> an slibbity</example>
-            </rule>
-        </rulegroup>
+        <rule id="ROIMHE_AN_ECLIPSED" name="roimhe an ECLIPSED">
+            <pattern>
+                <marker>
+                    <token>roimhe</token>
+                </marker>
+                <token>an</token>
+                <token postag="(?:C[UMC]:)?Noun:.*:Ecl" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
+            <example correction="roimh"><marker>roimhe</marker> an ngeata</example>
+        </rule>
+        <rule id="ROIMHE_AN_UNLENITEDBCFGMP" name="roimhe an UNLENITEDBCFGMP">
+            <pattern>
+                <marker>
+                    <token>roimhe</token>
+                </marker>
+                <token>an</token>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">bhf|[bcfgmp][^h']</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
+            <example correction="roimh"><marker>roimhe</marker> an bhfuinneog</example>
+        </rule>
+        <rule id="ROIMHE_AN_INITIALVOWEL" name="roimhe an INITIALVOWEL">
+            <pattern>
+                <marker>
+                    <token>roimhe</token>
+                </marker>
+                <token>an</token>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
+            <example correction="roimh"><marker>roimhe</marker> an uisce</example>
+        </rule>
+        <rule id="ROIMHE_AN_INITIALS" name="roimhe an INITIALS">
+            <pattern>
+                <marker>
+                    <token>roimhe</token>
+                </marker>
+                <token>an</token>
+                <token postag="(?:C[UMC]:)?Noun:.*" postag_regexp="yes" regexp="yes">s[lnraeiouáéíóúh].*</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
+            <example correction="roimh"><marker>roimhe</marker> an sneachta</example>
+        </rule>
+        <rule id="ROIMHE_AN_LENITED" name="roimhe an LENITED">
+            <pattern>
+                <marker>
+                    <token>roimhe</token>
+                </marker>
+                <token>an</token>
+                <token postag="(?:C[UMC]:)?Noun:.*:Len" postag_regexp="yes"></token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
+            <example correction="roimh"><marker>roimhe</marker> an bhean</example>
+        </rule>
         <rule id="AN_MOGHA" name="an mogha">
             <pattern>
                     <token>an</token>
