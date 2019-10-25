@@ -1565,6 +1565,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <short>Concordancia de género dudosa.</short>
             <!-- DET_NOM_FEM Concordancia (la pavo) -->
+            <rule id="LAS_MILES" name="Concordancia: *las miles de/los miles de">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>las</token>
+                    </marker>
+                    <token>miles</token>
+                </pattern>
+                <message>Falta de concordancia. "Miles" es un sustantivo masculino.</message>
+                <suggestion>los</suggestion>
+                <url>https://www.fundeu.es/recomendacion/los-miles-de-personas-no-las-miles-de-personas-861/</url>
+                <example correction="los">Con <marker>las</marker> miles de personas que estaban allí.</example>
+            </rule>
             <rule id="DET_NOM_FEM" name="Concordancia femenino en Determinante + nombre">
                 <pattern case_sensitive="yes">
                     <token postag="D.{2}F.*" postag_regexp="yes"/>
