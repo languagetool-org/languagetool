@@ -65,7 +65,7 @@ public class DhaNoBeirtRule extends Rule {
               replacement = "dháréag";
               msg = "Ba chóir duit <suggestion>" + replacement + "</suggestion> a scríobh";
               RuleMatch match = new RuleMatch(
-                this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Uimhir phearsanta");
+                this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1].getEndPos(), msg, "Uimhir phearsanta");
               ruleMatches.add(match);
               msg = "Ba chóir duit \"déag\" a scriosadh.";
               RuleMatch match2 = new RuleMatch(
@@ -84,7 +84,7 @@ public class DhaNoBeirtRule extends Rule {
       }
       if (msg != null) {
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1 ].getEndPos(), msg, "Uimhir phearsanta");
         ruleMatches.add(match);
         msg = null;
       }
