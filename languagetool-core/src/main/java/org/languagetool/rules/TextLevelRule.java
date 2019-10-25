@@ -69,15 +69,16 @@ public abstract class TextLevelRule extends Rule {
   }
   
   /**
-   * Gives back the minimum number of paragraphs to check to give back a correct result
-   * only used by LO office extension
-   * return n;
-   * n == -1  --&gt; need to check full text (use only if really needed / bad performance)
+   * Gives back the minimum number of paragraphs to check to give back a correct result.
+   * Only used by LO office extension.
+   * <ul>
+   * <li>n == -1  --&gt; need to check full text (use only if really needed / bad performance)
    *              examples: AbstractWordCoherencyRule, GenericUnpairedBracketsRule, ...
-   * n == 0   --&gt; need only to check the current paragraph
+   * <li>n == 0   --&gt; need only to check the current paragraph
    *              examples: MultipleWhitespaceRule, LongParagraphRule, ...
-   * n &gt;= 1   --&gt; need only to check n paragraphs around the current paragraph
+   * <li>n &gt;= 1   --&gt; need only to check n paragraphs around the current paragraph
    *              examples: ParagraphRepeatBeginningRule (n == 1), WordRepeatBeginningRule (n == 2), ...
+   * </ul>
    */
   public abstract int minToCheckParagraph();
 
