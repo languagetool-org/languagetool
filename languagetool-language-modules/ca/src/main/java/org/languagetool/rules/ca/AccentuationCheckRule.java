@@ -268,6 +268,7 @@ public class AccentuationCheckRule extends Rule {
         }
         //una nova formula que (fórmula)
         else if (nextToken.equals("que") && i>2
+            && !token.equals("estipula")
             && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS)
                 && matchPostagRegexp(tokens[i - 2], DETERMINANT_MS))
             || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FS)
