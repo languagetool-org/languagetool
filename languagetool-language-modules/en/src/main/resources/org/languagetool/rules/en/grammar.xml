@@ -23394,14 +23394,24 @@ USA
             <url>https://grammar.collinsdictionary.com/easy-learning/do</url>
             <short>Possible grammar error</short>
             <rule><!-- do, does, did -->
-                <antipattern><!-- does setting ...? Does tapping on ...? -->
+                <antipattern><!-- does setting ...? / Does tapping on ...? -->
                     <token regexp="yes">did|does</token>
                     <token skip="-1" postag="VBG"/>
                     <token>?</token>
                 </antipattern>
-                <antipattern><!-- when the software does tests -->
+                <antipattern><!-- ... and do dreams last forever? / Where do dreams come from? -->
+                    <token>do</token>
+                    <token skip="-1" postag="NNS"/>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- when the software does tests / students do part-time jobs -->
                     <token regexp="yes">do(es)?|did</token>
+                    <token min="0" max="2" postag_regexp="yes" postag="JJR?|VBN"/><!-- VBN is a past participle adjective. Many of these are not in LT -->
                     <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- also does lighting / Father does gardening -->
+                    <token regexp="yes">do(es)?|did</token>
+                    <token  postag_regexp="yes" postag="NN:UN?"/><!-- Not chunk="E-NP-singular" because that causes FP for 'Father does gardening'. -->
                 </antipattern>
                 <antipattern><!-- What she does depends / Whatever John, you, and the rest of the team do influences -->
                     <token skip="-1" postag="WP">
@@ -23411,8 +23421,101 @@ USA
                     <token min="0" max="2" postag="RB"/>
                     <token postag_regexp="yes" postag="VB[DZ]"/>
                 </antipattern>
-                <pattern>
+                <antipattern><!-- Nothing I seem to do impacts a / All the tests the technicians tried to do generally failed -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>to</token>
+                    <token>do</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                </antipattern>
+                <antipattern><!-- can do depending on / can do dimming ['can do dim/VB' is not correct English] -->
+                    <token postag="MD"/>
+                    <token min="0" max="2" postag="RB"/>
+                    <token>do</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern><!-- can do about smoking -->
+                    <token postag="MD"/>
+                    <token min="0" max="2" postag="RB"/>
+                    <token>do</token>
+                    <token postag="IN"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
+                <antipattern><!-- that lay eggs do so in burrows  -->
                     <token regexp="yes">do(es)?|did</token>
+                    <token postag="RB"/>
+                    <token postag="IN"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- do very advanced automation -->
+                    <token regexp="yes">do(es)?|did</token>
+                    <token min="0" max="2" postag="JJ"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
+                <antipattern><!-- to do targeted heating/cooling -->
+                    <token>to</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token>do</token>
+                    <token postag="VBN"/>
+                    <token postag_regexp="yes" postag="NN:UN?|VBG"/>
+                    <token>/</token>
+                    <token postag_regexp="yes" postag="NN:UN?|VBG"/><!-- Unlike 'heating', 'cooling' is not NN:U in LT -->
+                </antipattern>
+                <antipattern><!-- to very quickly do using -->
+                    <token>to</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token>do</token>
+                    <token postag="VBG"/><!-- Should this be 'using' only? -->
+                </antipattern>
+                <antipattern><!-- to do rather slowly using -->
+                    <token>to</token>
+                    <token>do</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token postag="VBG"/><!-- Should this be 'using' only? -->
+                </antipattern>
+                <antipattern><!-- to do rather slowly using -->
+                    <token>to</token>
+                    <token>do</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token postag="VBG"/><!-- Should this be 'using' only? -->
+                </antipattern>
+                <antipattern><!-- The tests the technicians sometimes do showed the -->
+                    <token skip="-1" postag_regexp="yes" postag="NN.*">
+                        <exception scope="next" postag="CC"/>
+                        </token>
+                    <token regexp="yes">do(es)?|did</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token postag_regexp="yes" postag="VB[DZ]?"/>
+                </antipattern>
+                <antipattern><!-- it does very well tracking -->
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes">do(es)?|did</token>
+                    <token min="0" max="1" postag="RB"/>
+                    <token>well</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern><!-- What did you do yesterday evening? -->
+                    <token skip="-1" postag_regexp="yes" postag="W.*"/> 
+                    <token skip="-1" postag_regexp="yes" postag="VB.*" regexp="yes">do(es)?|did</token>
+                    <token skip="-1" >do</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- What will we do about getting tables, chairs and such? -->
+                    <token skip="-1" postag_regexp="yes" postag="W.*"/> 
+                    <token skip="-1" postag="MD"/>
+                    <token skip="-1" >do</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- It has the same problem that any standard controller does using a new bulb profile. -->
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token regexp="yes">does|did</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes">do(es)?|did</token>
                     <token min="0" max="2" postag="RB">
                         <exception postag="CC"/>
                         </token>
@@ -23433,13 +23536,14 @@ USA
                 <example correction="forget">Sometimes, they do <marker>forgets</marker> to correct the errors.</example>
                 <example correction="forget">I do sometimes <marker>forgets</marker> to do the work.</example>
                 <example correction="cut">He does not usually <marker>cuts</marker> the Christmas turkey.</example><!-- Also found by DID_BASEFORM -->
-                <example correction="seem">Yeah, that does <marker>seems</marker> a little weird.</example>
-                <example correction="require">... light bulbs and switches that do not <marker>required</marker> “touchlink commissioning”.</example>
                 <example correction="face">Our do <marker>faces</marker> intense sun most of the day.</example><!-- 'do' is probably a typo of 'door' -->
+                <example correction="decide">If someone does <marker>decides</marker> to break the rules …</example>
                 <example correction="decide">I do have 2 glass break sensors if someone does <marker>decides</marker> to break the glass to easily turn the locks …</example>
-                <example correction="copy">I did <marker>copying</marker> and paste the code that you recommended to create the app but I am getting this error:</example>
-
+                <example correction="use">Any standard controller does <marker>using</marker> a bulb profile.</example><!-- The correction 'does use' = emphatic 'do' -->
                 <example>I usually do not <marker>forget</marker>.</example>
+                <example>The does grazed peacefully in the wood.</example>
+                <example>Where do dreams come from?</example>
+                <example>... and do dreams last forever?</example>
                 <example>He does not usually cut the Christmas turkey.</example>
                 <example>What this does is insure that your computer will use Google for DNS.</example><!-- Found by AGREEMENT_SENT_START -->
                 <example>... all I did was update an existing piston by adding my cabinet lighting.</example><!-- Found by DID_FOUND_AMBIGUOUS -->
@@ -23461,37 +23565,57 @@ USA
                 <example>Does removing and reconnecting/naming them in ST ruin any webcore pistons that contain them?</example>
                 <example>What she does depends on her mood.</example>
                 <example>Whatever John, you, and the rest of the team do influences my decision.</example>
-
-<!-- TO DO
-Inovelli makes one similar to the Zooz but for the same price also does dimming.
-Also, you can create virtual zone devices to do targeted heating/cooling in your home:
-It can’t be found at all, nor does turning the power off/on to it four times at 2 second intervals seem to do anything either.
-My next step was to have the cameras “refresh” their view which I am currently able to do using SHM by having all the cameras record a 30-second clip.
-If in fact my controls are not hard wired, would I be able to use something like gradget to do opening?
-I’ll probably be back for more questions if the other 3 way switches don’t look quite the same as the one I just did looked.
-I know they have zigbee mesh network of your system for sure cause I did asked for it just yesterday.
-... and in that scenario it could also do dimming.
-One does keep it in his backpack, and it does very well tracking him away and home.
-Well, It suffers the same issue any rgbw controller does using a rgbw bulb profile.
-But there are a lot of creative things that you can do depending on exactly what you’re trying to accomplish.
-The research I did showed that the Dooya products were better than the ones carried by Home Depot and Lowes.
-Nothing I seem to do impacts a change in the LED behavior.
-And do you have any smart apps/pistons running which do polling/refresh?
-I do not do coding but seems like what I am doing is just copy and paste.
-I do lighting for a local theatre and we use Light Factory to control our DMX system.
-I would have just gotten that module so I could see stuff and then found a company to do monitoring.
-There is one battery operated switch I know of that can do dimming regardless of the protocol of the bulbs.
-Vista has a smartphone app controlled transformer/controller that does dimming and on/off but only over Bluetooth.
-But on their own, The smartapps that do grouping like dim and dimmer or trendsetter won’t give you the toggle feature.
-I confirmed this by setting the interval back to 1000 and indeed did experienced the slowness.
-Since it only does heating, a lot of the tiles in the DH will be useless.
-It is difficult to do timed events from within a SmartDevice driver, as you cannot schedule () events.
-With this approach I can do very advanced automation based on many conditions and states.
-I don’t have the device, so progress on this will completely depend on someone who does letting me know what is/isn’t working.
-It may be next to impossible for me to finish a fully working DTH without one of these in hand to do testing with …
-I spent week trying to find a GreenBean module and finally did followed by a week of trying to get it to work.
--->
-
+                <example>Nothing I seem to do impacts a change in the LED behavior.</example>
+                <example>All the tests the technicians tried to do generally failed to give the required results.</example>
+                <example>...but for the same price also does lighting.</example>
+                <example>I do not do coding but seems like what I am doing is just copy and paste.</example>
+                <example>I do lighting for a local theatre and we use Light Factory to control our DMX system.</example>
+                <example>I would have just gotten that module so I could see stuff and then found a company to do monitoring.</example>
+                <example>Since it only does heating, a lot of the tiles in the DH will be useless.</example>
+                <example>It may be next to impossible for me to finish a fully working DTH without one of these in hand to do testing with …</example>
+                <example>But there are a lot of creative things that you can do depending on exactly what you’re trying to accomplish.</example>
+                <example>... and in that scenario it could also do dimming.</example>
+                <example>There is one battery operated switch I know of that can do dimming regardless of the protocol of the bulbs.</example>
+                <example>A lot of students do part-time jobs.</example>
+                <example>... shapes of most asteroids, as did later images from the Voyager probes of the small moons of the...</example>
+                <example>I'd like to do shopping on Fifth Avenue in New York.</example>
+                <example>... terrestrial caecilians that lay eggs do so in burrows or moist places on land near bodies of water.</example>
+                <example>Father does gardening whenever he gets a chance.</example>
+                <example>And do you have any smart apps/pistons running which do polling/refresh?</example>
+                <example>... nor does turning the power off/on to it four times at 2 second intervals seem to do anything either.</example>
+                <example>I don’t have the device, so progress on this will completely depend on someone who does letting me know what is/isn’t working.</example>
+                <example>With this approach I can do very advanced automation based on many conditions and states.</example>
+                <example>... and thus eventually do very advanced automation based on the new statistical approach.</example>
+                <example>Also, you can create virtual zone devices to do targeted heating/cooling in your home:</example>
+                <example>It is difficult to do timed events from within a SmartDevice driver, as you cannot schedule () events.</example>
+                <example>... which I am currently able to very quickly do using SHM by having all the cameras record a 30-second clip.</example>
+                <example>... and this is possible to do using large devices.</example>
+                <example>... which I was able to do rather slowly using these methods:</example>
+                <example>The research I did showed that LanguageTool is better than Grammarly.</example>
+                <example>The tests that they did showed LanguageTool is better than Grammarly.</example>
+                <example>The tests the technicians sometimes do showed the problems of analysis.</example>
+                <example>The tests that the technicians sometimes do showed no signs of error.</example>
+                <example>One does keep it in his backpack, and it does very well tracking him away and home.</example>
+                <example>They (the police) did very well tracking him away to his hideaway in the suburbs.</example>
+                <example>Although the technician does very well tracking most of the bugs....</example>
+                <example>... but without this axiom we can do quite well developing (the more general) group theory...</example>
+                <example>... that there is nothing they can do about smoking anyway.</example>
+                <example>What did you do yesterday evening?</example>
+                <example>Whatever did the technicians (and their manager) do yesterday evening after they left the office?</example>
+                <example>Whatever does she do each morning to make her so late?</example>
+                <example>Be careful if you do do the test after 17:00.</example>
+                <example>What will we do about getting tables, chairs and such?</example>
+                <example>It has the same problem that any standard controller does using a new bulb profile.</example>
+                <example>It very frequently had the same problem that any standard controller does using a new bulb profile.</example>
+                <example>They have the same problem that our standard controller did using a new bulb profile.</example>
+                <example type="triggers_error">It suffers the same issue any rgbw controller does using a rgbw bulb profile.</example><!-- The correct adjective capitalization is 'RGBW' -->
+                <example type="triggers_error">Inovelli makes one similar to the Zooz but for the same price also does <marker>dimming</marker>.</example><!-- Unlike 'lighting', dimming is not NN:U in standard English. -->
+                <example type="triggers_error">Vista has a smartphone app controlled transformer/controller that does dimming and on/off but only over Bluetooth.</example>
+                <example type="triggers_error">I spent week trying to find a GreenBean module and finally did followed by a week of trying to get it to work.</example>
+<!-- TODO. FN caused by 'does lighting' AP --><example>I did <marker>copying</marker> and paste the code that you recommended to create the app but I am getting this error:</example>
+<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>Yeah, that does <marker>seems</marker> a little weird.</example>
+<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>... light bulbs and switches that do not <marker>required</marker> “touchlink commissioning”.</example>
+<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>I’ll probably be back for more questions if the other 3 way switches don’t look quite the same as the one I just did looked.</example>
 <!-- TODO --><example>If technicians who are rather lazy do sometimes (more like every day! lol) <marker>forgets</marker> to do the work, tell the manager.</example>
             </rule>
         </rulegroup>
