@@ -473,6 +473,27 @@ public class ReflexiveVerbsRule extends Rule {
   }
   
   /**
+   * Match POS tag 
+   */
+  private boolean matchPostag(AnalyzedTokenReadings aToken, String postag) {
+    for (AnalyzedToken analyzedToken : aToken) {
+      String p = analyzedToken.getPOSTag();
+      if (p != null && p.equals(postag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private boolean haveSamePostag(AnalyzedTokenReadings aToken, AnalyzedTokenReadings aToken2) {
+    if (!aToken.getReadings().get(0).hasNoTag() 
+        && !aToken2.getReadings().get(0).hasNoTag()) {
+      return StringUtils.equals(aToken.getReadings().get(0).getPOSTag(), aToken2.getReadings().get(0).getPOSTag());
+    }
+    return false;
+  }
+  
+  /**
    * Match lemma with regular expression
    */
   private boolean matchLemmaRegexp(AnalyzedTokenReadings aToken,
@@ -619,12 +640,12 @@ public class ReflexiveVerbsRule extends Rule {
         k--;
         // us animem a queixar-vos
         if (i - 1 > 0 && tokens[i - 1].getToken().equals("a") && i + 1 < tokens.length && i - k - 1 > 0) {
-          if (StringUtils.equals(tokens[i - k - 1].getReadings().get(0).getPOSTag(), tokens[i + 1].getReadings().get(0).getPOSTag())) {
+          if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
             return true;
           }
           //l'animem a queixar-se
           if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
-              && tokens[i + 1].getReadings().get(0).getPOSTag().equals("P0300000")
+              && matchPostag(tokens[i + 1], "P0300000")
               && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
             return true;
           }
