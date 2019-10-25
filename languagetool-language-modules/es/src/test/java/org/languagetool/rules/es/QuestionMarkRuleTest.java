@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.es;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
@@ -32,31 +33,35 @@ import static org.junit.Assert.*;
 
 public class QuestionMarkRuleTest {
 
-  @Test
-  public void test() throws IOException {
-    QuestionMarkRule rule = new QuestionMarkRule(JLanguageTool.getMessageBundle());
-    JLanguageTool lt = new JLanguageTool(new Spanish());
+  private final QuestionMarkRule rule = new QuestionMarkRule(JLanguageTool.getMessageBundle());
+  private final JLanguageTool lt = new JLanguageTool(new Spanish());
+  
+  @Before
+  public void setup() {
     for (Rule r : lt.getAllActiveRules()) {
       if (!r.getId().equals(rule.getId())) {
         lt.disableRule(r.getId());
       }
     }
+  }
 
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Hola, ¿cómo estás?"));
+  @Test
+  public void test() throws IOException {
+    RuleMatch[] matches = check("Hola, ¿cómo estás?");
     assertThat(matches.length, is(0));
 
-    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Hola, cómo estás?"));
+    RuleMatch[] matches2 = check("Hola, cómo estás?");
     assertThat(matches2.length, is(1));
     assertThat(matches2[0].getSuggestedReplacements().toString(), is("[¿Hola]"));  // maybe ¿ should in front of 'cómo'? 
 
-    RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("¿Que pasa?"));
+    RuleMatch[] matches3 = check("¿Que pasa?");
     assertThat(matches3.length, is(0));
 
-    RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("Que pasa?"));
+    RuleMatch[] matches4 = check("Que pasa?");
     assertThat(matches4.length, is(1));
     assertThat(matches4[0].getSuggestedReplacements().toString(), is("[¿Que]"));
 
-    RuleMatch[] matches5 = rule.match(lt.getAnalyzedSentence("Que pasa?\n"));
+    RuleMatch[] matches5 = check("Que pasa?\n");
     assertThat(matches5.length, is(1));
     assertThat(matches5[0].getSuggestedReplacements().toString(), is("[¿Que]"));
 
@@ -81,9 +86,13 @@ public class QuestionMarkRuleTest {
     List<RuleMatch> matches11 = lt.check("¡Usted tiene un gusto caro! -exclamó la dependienta- ¿Está seguro?");
     assertThat(matches11.size(), is(0));
 
-    // TODO?
-    //List<RuleMatch> matches12 = lt.check("¿Quién sabe hablar francés mejor: Tom o Mary?");
-    //assertThat(matches12.size(), is(0));
+    List<RuleMatch> matches12 = lt.check("¿Quién sabe hablar francés mejor: Tom o Mary?");
+    assertThat(matches12.size(), is(0));
+
+    List<RuleMatch> matches13 = lt.check("Esto es una prueba. Que pasa?\n\n");
+    assertThat(matches13.size(), is(1));
+    assertThat(matches13.get(0).getSuggestedReplacements().toString(), is("[¿Que]"));
+    assertThat(matches13.get(0).getFromPos(), is(20));
 
     // Exclamation marks:
     List<RuleMatch> matches20 = lt.check("Qué irritante!");
@@ -92,5 +101,9 @@ public class QuestionMarkRuleTest {
 
     List<RuleMatch> matches21 = lt.check("¡Qué irritante!");
     assertThat(matches21.size(), is(0));
+  }
+
+  private RuleMatch[] check(String s) throws IOException {
+    return rule.match(lt.analyzeText(s));
   }
 }

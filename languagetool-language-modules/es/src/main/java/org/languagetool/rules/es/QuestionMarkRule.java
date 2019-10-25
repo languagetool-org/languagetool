@@ -22,6 +22,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -30,14 +32,20 @@ import java.util.ResourceBundle;
  *
  * @since 4.8
  */
-public class QuestionMarkRule extends Rule {
+public class QuestionMarkRule extends TextLevelRule {
 
   public QuestionMarkRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
+    setDefaultTempOff();
     setLocQualityIssueType(ITSIssueType.Typographical);
     addExamplePair(Example.wrong("<marker>Que</marker> pasa?"),
                    Example.fixed("<marker>¿Que</marker> pasa?"));
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 1;
   }
 
   @Override
@@ -51,42 +59,50 @@ public class QuestionMarkRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    boolean needsInvQuestionMark = hasTokenAtEnd("?", tokens);
-    boolean needsInvExclMark = hasTokenAtEnd("!", tokens);
-    if (needsInvQuestionMark || needsInvExclMark) {
-      boolean hasInvQuestionMark = false;
-      boolean hasInvExlcMark = false;
-      AnalyzedTokenReadings firstToken = null;
-      for (AnalyzedTokenReadings token : tokens) {
-        if (firstToken == null && !token.isSentenceStart()) {
-          firstToken = token;
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) {
+    List<RuleMatch> matches = new ArrayList<>();
+    boolean prevSentEndsWithColon = false;
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      boolean needsInvQuestionMark = hasTokenAtEnd("?", tokens);
+      boolean needsInvExclMark = hasTokenAtEnd("!", tokens);
+      boolean endsWithColon = hasTokenAtEnd(":", tokens);
+      if (needsInvQuestionMark || needsInvExclMark) {
+        boolean hasInvQuestionMark = false;
+        boolean hasInvExlcMark = false;
+        AnalyzedTokenReadings firstToken = null;
+        for (AnalyzedTokenReadings token : tokens) {
+          if (firstToken == null && !token.isSentenceStart()) {
+            firstToken = token;
+          }
+          if (token.getToken().equals("¿")) {
+            hasInvQuestionMark = true;
+          } else if (token.getToken().equals("¡")) {
+            hasInvExlcMark = true;
+          }
         }
-        if (token.getToken().equals("¿")) {
-          hasInvQuestionMark = true;
-        } else if (token.getToken().equals("¡")) {
-          hasInvExlcMark = true;
+        if (firstToken != null) {
+          String s = null;
+          if (needsInvQuestionMark && needsInvExclMark) {
+            // ignore for now, e.g. "¡¿Nunca tienes clases o qué?!"
+          } else if (needsInvQuestionMark && !hasInvQuestionMark) {
+            s = "¿";
+          } else if (needsInvExclMark && !hasInvExlcMark) {
+            s = "¡";
+          }
+          if (s != null && !prevSentEndsWithColon) {  // skip sentences with ':' due to unclear sentence boundaries
+            String message = "Símbolo desparejado: Parece que falta un '" + s + "'";
+            RuleMatch match = new RuleMatch(this, sentence, pos + firstToken.getStartPos(), pos + firstToken.getEndPos(), message);
+            match.setSuggestedReplacement(s + firstToken.getToken());
+            matches.add(match);
+          }
         }
       }
-      if (firstToken != null) {
-        String s = null;
-        if (needsInvQuestionMark && needsInvExclMark) {
-          // ignore for now, e.g. "¡¿Nunca tienes clases o qué?!"
-        } else if (needsInvQuestionMark && !hasInvQuestionMark) {
-          s = "¿";
-        } else if (needsInvExclMark && !hasInvExlcMark) {
-          s = "¡";
-        }
-        if (s != null) {
-          String message = "Símbolo desparejado: Parece que falta un '" + s + "'";
-          RuleMatch match = new RuleMatch(this, sentence, firstToken.getStartPos(), firstToken.getEndPos(), message);
-          match.setSuggestedReplacement(s + firstToken.getToken());
-          return new RuleMatch[]{match};
-        }
-      }
+      pos += sentence.getText().length();
+      prevSentEndsWithColon = endsWithColon;
     }
-    return new RuleMatch[0];
+    return toRuleMatchArray(matches);
   }
 
   private boolean hasTokenAtEnd(String ch, AnalyzedTokenReadings[] tokens) {
