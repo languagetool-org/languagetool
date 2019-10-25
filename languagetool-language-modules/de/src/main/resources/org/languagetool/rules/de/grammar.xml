@@ -8263,16 +8263,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
-        <rule id="DESWEITEREN" name="desweiteren (des Weiteren)">
+        <rule id="DESWEITEREN" name="desweiteren (des Weiteren)" default="temp_off">
             <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
             <pattern>
-                <token>desweiteren</token>
+                <token regexp="yes">desweitere?n</token>
             </pattern>
             <message>Das Wort "\1" wird auseinandergeschrieben.</message>
             <suggestion>des Weiteren</suggestion>
             <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
             <example correction="Des Weiteren"><marker>Desweiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
         </rule>
+        <rulegroup id="FOLLOW_UP" name="Follow up (Follow-up)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Follow-ups?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>follow</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Follow-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Follow_up</url>
+                <example correction="Follow-up">Wir machen morgen dazu ein <marker>Follow Up</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">follow-?ups?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Follow-<match no="1" case_conversion="alllower" regexp_match="(?i)follow-?(ups?)$" regexp_replace="$1" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Follow_up</url>
+                <example correction="Follow-ups">Mehrere <marker>FollowUps</marker> werden dafür nötig sein.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GO_LIVE" name="Go live (Go-live)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Go-lives?</token>
+            </antipattern>
+            <antipattern>
+                <token>Adobe</token>
+                <token>GoLive</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>go</token>
+                    <token regexp="yes">lives?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Go-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Go_live</url>
+                <example correction="Go-live">Wir machen morgen das <marker>Go live</marker> noch heute Abend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">go-?lives?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Go-<match no="1" case_conversion="alllower" regexp_match="(?i)go-?(lives?)$" regexp_replace="$1" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Go_live</url>
+                <example correction="Go-lives">Wir planen für diese Woche zwei <marker>Golives</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="EBEN_FALLS" name="eben falls (ebenfalls)">
             <pattern>
                 <token>eben</token>
