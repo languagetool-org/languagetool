@@ -9897,6 +9897,10 @@ USA
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
             </antipattern>
+            <antipattern><!-- https://www.rotary.org/en/get-involved/interact-clubs -->
+                <token>interact</token>
+                <token regexp="yes">clubs?</token>
+            </antipattern>
             <antipattern><!-- brexit term -->
                 <token>remain</token>
                 <token regexp="yes">campaigns?|people|movement|party|politicians?</token>
@@ -10045,6 +10049,16 @@ USA
                 <example>Freddy picked Harry up by his collar.</example>
             </rule>
         </rulegroup>
+        <rule id="A_BLESS_DAY" name="Have a bless (blessed) day" default="temp_off">
+            <pattern>
+                <token regexp="yes">an?|the</token>
+                <marker>
+                    <token>bless</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>blessed</suggestion> or <suggestion>blessing</suggestion>?</message>
+            <example correction="blessed|blessing">Have a <marker>bless</marker> day!</example>
+        </rule>
         <rulegroup id="CC_VERB" name="Correct use of 'cc'">
             <url>https://www.merriam-webster.com/dictionary/cc</url>
             <rule>
@@ -20710,9 +20724,9 @@ USA
                         <token regexp="yes">\d+</token>
                         <token spacebefore="no">,</token>
                         <token spacebefore="no" regexp="yes">\d+</token>
-                        <token regexp="yes">word|letter|character</token>
+                        <token regexp="yes">word|character</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1\2\3-\4</suggestion>
@@ -20722,9 +20736,9 @@ USA
                 <pattern>
                     <marker>
                         <token postag="CD" />
-                        <token regexp="yes">word|letter|character</token>
+                        <token regexp="yes">word|character</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1-\2</suggestion>
@@ -20735,6 +20749,31 @@ USA
                 <example>Similar behavior is noticed when copying from one Word doc to another Word doc.</example>
                 <example>Four Word essays were stored in a separate folder.</example>
                 <example>Please complete one Word document first.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>digit</token>
+                    </marker>
+                    <token regexp="yes">limit|numbers?|ids?|codes?|iso|phone|account|salary|salaries|zip|postal</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="6-digit">She earns a <marker>6 digit</marker> salary.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>letter</token>
+                    </marker>
+                    <token regexp="yes">limit|words?|sentences?|codes?|iso|countr(y|ies)|scrabble</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="2-letter">He needed a <marker>2 letter</marker> scrabble word.</example>
+                <example correction="2-letter">The <marker>2 letter</marker> iso code for Germany is 'DE'.</example>
             </rule>
         </rulegroup>
         <rule id="BUY_TWO_GET_ONE_FREE" name="missing comma in 'buy two get one free'">
