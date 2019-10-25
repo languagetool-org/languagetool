@@ -114,6 +114,10 @@ public class CaseRule extends Rule {
       token("Gefahren")
     ),
     Arrays.asList(
+      regex("Digital|Global"),
+      pos("UNKNOWN")
+    ),
+    Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Goldenen?"),
