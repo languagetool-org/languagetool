@@ -15182,7 +15182,7 @@ USA
                 <example>... can only be held by someone in priestly orders who has been ordained for at least six years.</example>
             </rule>
         </rulegroup>
-        <rule id="AS_WILL_AS" name="as will (well) as" default="temp_off">
+        <rule id="AS_WILL_AS" name="as will (well) as">
             <pattern>
                 <token>as</token>
                 <token>will</token>
@@ -15204,6 +15204,11 @@ USA
                     <token>as</token>
                     <token>I</token>
                 </antipattern>
+                <antipattern>
+                    <token>I</token>
+                    <token>rather</token>
+                    <token>be</token>
+                </antipattern>
                 <antipattern><!-- A.I is future technology (missing dot) -->
                     <token>A</token>
                     <token spacebefore="no">.</token>
@@ -15212,9 +15217,7 @@ USA
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <token>I</token>
-                    <token min="0" postag="RB">
-                        <exception>rather</exception>
-                    </token>
+                    <token min="0" postag="RB" />
                     <marker>
                         <token regexp="yes">is|be</token>
                     </marker>
@@ -15255,7 +15258,7 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">and|&amp;|or</token>
+                    <token regexp="yes">and|&amp;|n?or</token>
                     <token>I</token>
                     <token>are</token>
                 </antipattern>
@@ -15278,10 +15281,11 @@ USA
                 <example correction="am|ate">I <marker>are</marker> at the restaurant.</example>
                 <example>Tom and I are quicker than you are.</example>
                 <example>Right now my youngest and I are taking a Netflix break from studying.</example>
+                <example>Neither you nor I are mistaken.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">and|&amp;|or</token>
+                    <token regexp="yes">and|&amp;|n?or</token>
                     <token>I</token>
                 </antipattern>
                 <antipattern>
@@ -15303,10 +15307,11 @@ USA
                 <message>Did you mean <suggestion>am not</suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="am not">I <marker>aren't</marker> at the restaurant.</example>
+                <example>Neither you nor I aren't mistaken.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">and|&amp;|or</token>
+                    <token regexp="yes">and|&amp;|n?or</token>
                     <token>I</token>
                 </antipattern>
                 <antipattern>
@@ -15346,10 +15351,11 @@ USA
                 <example>I felt as though I were plunging into something new and quite abnormal.</example>
                 <example>… but if, by any evil chance, I were not, then …</example>
                 <example correction="was">I <marker>were</marker> at the restaurant.</example>
+                <example>Neither you nor I were mistaken.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">and|&amp;|or</token>
+                    <token regexp="yes">and|&amp;|n?or</token>
                     <token>I</token>
                 </antipattern>
                 <antipattern>
@@ -15387,6 +15393,7 @@ USA
                 <example>… but if, by any evil chance, I weren't, then …</example>
                 <example>I <marker>am not</marker> at the restaurant.</example>
                 <example correction="wasn't">I <marker>weren't</marker> at the restaurant.</example>
+                <example>Neither you nor I weren't mistaken.</example>
             </rule>
             <rule>
                 <antipattern>
