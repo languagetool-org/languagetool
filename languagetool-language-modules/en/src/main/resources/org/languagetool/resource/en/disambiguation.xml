@@ -4546,6 +4546,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN(:UN?)?" postag_regexp="yes"/>
             <token postag_regexp="yes" postag="VB[PD]"/>
           </antipattern>
+          <antipattern><!-- do dreams last forever?-->
+            <token regexp="yes">do|did</token>
+            <token postag="NNS"/>
+            <token skip="-1" postag="VB"/>
+            <token>?</token>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -4568,6 +4574,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched"><marker>Living costs</marker> this month are lower than those of last month.</example>
           <example type="untouched">... and rising <marker>costs</marker> caused problems for many people.</example>
           <example type="untouched">... and the increasing <marker>costs</marker> each month are likely to cause more problems.</example>
+          <example type="untouched">... and do <marker>dreams</marker> last forever?</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
 
