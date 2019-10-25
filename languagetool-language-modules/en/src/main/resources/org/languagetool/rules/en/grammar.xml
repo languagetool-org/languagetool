@@ -38992,6 +38992,7 @@ The accident victim died from her injuries.
             <example correction="…">This is important<marker>...</marker> as far as I know.</example>
             <example>1. Introduction .................................... 3</example>
         </rule>
+
         <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
             <rule>
                 <pattern>
@@ -39042,6 +39043,33 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
                 <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
                 <example correction="couldn't|couldn’t">I <marker>couldn t</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="WP"/>
+                    <token spacebefore="no" regexp="yes">[´`]</token>
+                    <token spacebefore="no" regexp="yes">d|ll|re|s</token>
+                </pattern>
+                <message>The character between '\1' and '\3' is an accent character, not a standard apostrophe character. Use <suggestion>\1’\3</suggestion> (curly apostrophe) or <suggestion>\1'\3</suggestion> (straight apostrophe).</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="What’s|What's"><marker>What´s</marker> the problem?</example><!-- ANSI value 180. Also found by grammar-premium4 NON_STANDARD_WORD. This rule gives a more specific message. -->
+                <example correction="what’ll|what'll">... and <marker>what`ll</marker> you do?</example><!-- ANSI value 96. -->
+                <example correction="who’d|who'd">... but <marker>who´d</marker> do it?</example>
+                <example correction="that’d|that'd">... and <marker>that`d</marker> be a problem for us.</example>
+                <example><marker>What’s</marker> the problem?</example>
+                <example>... as follows: (`s, ´t, ...).</example>
+                <example>Sa`d ibn Abi Waqqas played a part in the...</example>
+            </rule>
+            <rule>
+                <pattern><!-- Possessive or abbreviation of 'is' -->
+                    <token postag_regexp="yes" postag="NN.*"/>
+                    <token spacebefore="no" regexp="yes">[´`]</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>The character between '\1' and '\3' is an accent character, not a standard apostrophe character. Use <suggestion>\1’\3</suggestion> (curly apostrophe) or <suggestion>\1'\3</suggestion> (straight apostrophe).</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="book’s|book's">The <marker>book´s</marker> easy to read.</example>
+                <example correction="agent’s|agent's">Go to the travel <marker>agent`s</marker> office.</example>
             </rule>
         </rulegroup>   
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
