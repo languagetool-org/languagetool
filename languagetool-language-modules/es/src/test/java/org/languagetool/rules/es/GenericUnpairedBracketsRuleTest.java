@@ -41,8 +41,8 @@ public class GenericUnpairedBracketsRuleTest {
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);
     // incorrect sentences:
-    assertMatches("De dónde vas?", 1);
-    assertMatches("¡Atención", 1);
+    assertMatches("Soy un hombre muy honrado).", 1);
+    assertMatches("Soy un hombre (muy honrado.", 1);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

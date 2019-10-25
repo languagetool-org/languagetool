@@ -1433,7 +1433,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <pattern>
         <token postag="DT"><exception postag="PDT" /><exception regexp="yes">each|some|these</exception></token>
         <marker>
-          <token>can<exception regexp="yes" scope="next">be|not</exception></token>
+          <token>can<exception regexp="yes" scope="next">be|do|not</exception></token>
         </marker>
       </pattern>
       <disambig postag="NN"/>
@@ -1444,6 +1444,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Although the <marker>divers</marker> can gather pearls with no danger, …</example><!-- Archaic DT in removed.txt -->
       <example type="untouched">... near the eye that <marker>can be</marker> extended and which have...</example>
       <example type="untouched">... to create art that <marker>can</marker> not be bought by the wealthy as a status object.</example>
+      <example type="untouched">There is one device that can do most of the ...</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
     </rule>
     <rule>
@@ -4545,6 +4546,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN(:UN?)?" postag_regexp="yes"/>
             <token postag_regexp="yes" postag="VB[PD]"/>
           </antipattern>
+          <antipattern><!-- do dreams last forever?-->
+            <token regexp="yes">do|did</token>
+            <token postag="NNS"/>
+            <token skip="-1" postag="VB"/>
+            <token>?</token>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -4567,6 +4574,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched"><marker>Living costs</marker> this month are lower than those of last month.</example>
           <example type="untouched">... and rising <marker>costs</marker> caused problems for many people.</example>
           <example type="untouched">... and the increasing <marker>costs</marker> each month are likely to cause more problems.</example>
+          <example type="untouched">... and do <marker>dreams</marker> last forever?</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
 
@@ -5125,6 +5133,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
           </antipattern>
+          <antipattern><!--  #2069. a good chance things will not become worse. -->
+            <token postag="DT"/>
+            <token postag="JJ"/>
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token postag="NNS"/>
+            <token postag="MD"/>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -5142,6 +5157,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
           <example type="untouched">His <marker>party</marker> may have brought the disease with them from Egypt.</example>
           <example type="untouched">This <marker>component</marker> parts the wires automatically.</example>
+          <example type="untouched">Noun. We have a good <marker>chance</marker> things will not become worse.</example><!--  #2069 -->
         </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">

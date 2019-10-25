@@ -272,6 +272,7 @@ public class English extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "MISSING_HYPHEN":            return 5;
+      case "WRONG_APOSTROPHE":          return 5;
       case "LIGATURES":                 return 1;   // prefer over spell checker
       case "APPSTORE":                  return 1;   // prefer over spell checker
       case "DONT_T":                    return 1;   // prefer over EN_CONTRACTION_SPELLING
@@ -279,6 +280,9 @@ public class English extends Language implements AutoCloseable {
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
+      case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
+      case "HAVE_PART_AGREEMENT":       return -1;  // prefer other more specific rules
+      case "BEEN_PART_AGREEMENT":       return -1;  // prefer other more specific rules (e.g. VARY_VERY)
       case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
       case "PRP_VBG":                   return -1;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
