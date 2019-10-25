@@ -14301,12 +14301,25 @@ USA
                 <example type="triggers_error">Dwan operated <marker>Flying A Studios</marker> in La Mesa, California from August 1911 to July 1912.</example>
             </rule>
             <rule>
+                <antipattern><!--  #2069. a good chance things will not become worse. -->
+                    <token postag="DT"/>
+                    <token postag="JJ"/>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                    <token postag="NNS"/>
+                    <token postag="MD"/>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">’|'</exception><exception postag="CD"/></token>
                     <token regexp="yes">an?</token>
-                    <token max="2" postag="JJ"><exception regexp="yes">few|(half-)?dozen|time</exception><exception postag="CD"/></token>
+                    <token max="2" postag="JJ">
+                        <exception regexp="yes">few|(half-)?dozen|time</exception>
+                        <exception postag="CD"/>
+                        </token>
                     <marker>
-                        <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters|innings|thanks</exception></token>
+                        <token postag="NNP?S" postag_regexp="yes">
+                            <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
+                            <exception regexp="yes">sometimes|savings|headquarters|innings|thanks</exception>
+                            </token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
                 </pattern>
@@ -14322,6 +14335,7 @@ USA
                 <example>Three weeks later his last <marker>first-class innings</marker> brought him 62 for Victoria at Sydney.</example>
                 <example>Arrangements of popular music for small a cappella ensembles typically include one voice singing the lead melody...</example>
                 <example>... and these were Grade A major milestones for me.</example>
+                <example>We have a good chance things will not become worse.</example><!--  #2069 -->
                 <example>I expressed a warm thanks.</example><!-- MFU 2019-10-11. Although 'a warm thanks' is possibly a FP, the 'correction' is '(thanks)'. Thus, I added an exception.-->
                 <example type="triggers_error">I'm going to sign up for a German class right now.</example><!-- MFU 2019-10-11. Caused by disambiguation NN_are_NNS. I do not know how to fix the disambiguation, because it's a semantic problem. -->
                 <example type="triggers_error">The American Military authorities established a displaced persons (DP) camp in what used to be a sanatorium...</example>
