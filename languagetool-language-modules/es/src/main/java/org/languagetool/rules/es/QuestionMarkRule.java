@@ -37,7 +37,6 @@ public class QuestionMarkRule extends TextLevelRule {
   public QuestionMarkRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
-    setDefaultTempOff();
     setLocQualityIssueType(ITSIssueType.Typographical);
     addExamplePair(Example.wrong("<marker>Que</marker> pasa?"),
                    Example.fixed("<marker>¿Que</marker> pasa?"));
