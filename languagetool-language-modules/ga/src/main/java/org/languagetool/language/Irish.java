@@ -107,6 +107,7 @@ public class Irish extends Language implements AutoCloseable {
       new CompoundRule(messages),
       new PrestandardReplaceRule(messages),
       new IrishReplaceRule(messages),
+      new EnglishHomophoneRule(messages),
       new DhaNoBeirtRule(messages)
     );
   }
