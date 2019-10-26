@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Irish;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class AnGramadoirTriailTest {
-  private DhaNoBeirtRule rule;
   private JLanguageTool langTool;
   private List<TriailError> errors;
   final String TRIAIL_XML = "org/languagetool/resource/ga/triail.xml";
@@ -60,4 +60,20 @@ public class AnGramadoirTriailTest {
     assert(errors != null);
   }
 
+  @Test
+  public void testCheckTrial() throws IOException {
+    int numerrors = 0;
+    int nummatches = 0;
+    for(TriailError te : errors) {
+      numerrors++;
+      System.err.println(te.getContext());
+      List<RuleMatch> matches = langTool.check(te.getContext());
+      for(RuleMatch match : matches) {
+        if(match.getFromPos() == te.getContextOffset() && match.getToPos() == te.getErrorLength()) {
+          nummatches++;
+        }
+      }
+    }
+    //assertEquals(numerrors, nummatches);
+  }
 }
