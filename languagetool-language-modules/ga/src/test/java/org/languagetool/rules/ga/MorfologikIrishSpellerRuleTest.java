@@ -47,6 +47,13 @@ public class MorfologikIrishSpellerRuleTest {
     assertEquals(5, matches[0].getToPos());
     assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(langTool.getAnalyzedSentence("amaċ"));
+    // check match positions:
+    assertEquals(1, matches.length);
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(4, matches[0].getToPos());
+    assertEquals("amach", matches[0].getSuggestedReplacements().get(0));
+
     matches = rule.match(langTool.getAnalyzedSentence("😂 botun"));
     // check match positions:
     assertEquals(1, matches.length);
