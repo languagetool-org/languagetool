@@ -33,8 +33,8 @@ import java.util.ResourceBundle;
  * A rule that matches words which should not be used and suggests
  * correct ones instead.
  *
- * Irish version for English names of people (Nero, etc.)
- * relevant words from <code>rules/ga/names.txt</code>.
+ * Irish version for pre-standard spellings
+ * relevant words from <code>rules/ga/replace-prestandard.txt</code>.
  *
  * @author Jim O'Regan
  */
