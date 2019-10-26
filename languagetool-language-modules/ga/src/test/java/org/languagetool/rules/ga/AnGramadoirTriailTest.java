@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
+import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,26 +36,17 @@ public class AnGramadoirTriailTest {
   private DhaNoBeirtRule rule;
   private JLanguageTool langTool;
   private List<TriailError> errors;
-  final String TRIAIL_XML = "org/languagetool/resource/ga/triail.xml";
-  ClassLoader cl;
   AnGramadoirTriailData data;
-  InputStream in;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() throws Exception {
     rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
     langTool = new JLanguageTool(new Irish());
-    cl = this.getClass().getClassLoader();
-    in = cl.getResourceAsStream(TRIAIL_XML);
-    data = new AnGramadoirTriailData(in);
+    data = new AnGramadoirTriailData();
     errors = data.getErrors();
   }
   @Test
   public void testTriailData() throws IOException {
-    assert(in != null);
-    byte[] buf = new byte[5];
-    assertEquals(5, in.read(buf, 0, 5));
-    assertEquals("<?xml", new String(buf, StandardCharsets.UTF_8));
     assert(data != null);
     assert(errors != null);
   }
