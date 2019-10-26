@@ -2420,6 +2420,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="([1-9][0-9]*)adh" regexp_replace="$1ú"/></suggestion></message>
             <example correction="10ú"><marker>10adh</marker></example>
         </rule>
+        <rule id="NUM_THSTNDRD" name="-th">
+            <pattern>
+                    <token regexp="yes">[1-9][0-9]*(?:st|th|[rn]d)</token>
+            </pattern>
+            <message>An <suggestion><match no="1" regexp_match="([1-9][0-9]*)(?:st|[rn]d)" regexp_replace="$1ú"/></suggestion> a bhí i gceist agat?</message>
+            <example correction="10ú"><marker>10th</marker></example>
+        </rule>
         <rule id="DAR_BAINM" name="d'ar b'ainm">
             <pattern>
                     <token>d</token>
