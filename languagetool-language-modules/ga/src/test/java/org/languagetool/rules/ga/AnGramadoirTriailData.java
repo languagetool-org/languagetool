@@ -36,9 +36,13 @@ public class AnGramadoirTriailData {
   AnGramadoirTriailData() {
     this.errors = new ArrayList<TriailError>();
   }
-  AnGramadoirTriailData(InputStream is) throws Exception {
+  AnGramadoirTriailData(InputStream is) throws IOException {
     this();
-    this.loadXML(is);
+    try {
+      this.loadXML(is);
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
   }
   public void loadXML(InputStream is) throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
