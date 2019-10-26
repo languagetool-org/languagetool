@@ -23,9 +23,11 @@ package org.languagetool.rules.ga;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class AnGramadoirTriailData {
   AnGramadoirTriailData() {
     this.errors = new ArrayList<TriailError>();
   }
-  AnGramadoirTriailData(InputStream is) throws IOException {
+  AnGramadoirTriailData(InputSource is) throws IOException {
     this();
     try {
       this.loadXML(is);
@@ -44,7 +46,7 @@ public class AnGramadoirTriailData {
       throw new IOException(e);
     }
   }
-  public void loadXML(InputStream is) throws Exception {
+  public void loadXML(InputSource is) throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
     Document doc = docBuilder.parse(is);
