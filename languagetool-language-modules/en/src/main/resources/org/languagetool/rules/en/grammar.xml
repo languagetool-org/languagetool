@@ -28339,7 +28339,7 @@ The accident victim died from her injuries.
         <rulegroup id="MISSING_HYPHEN" name="Missing hyphens in compounds">
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <marker>
                         <token postag="CD"/>
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
@@ -28355,7 +28355,22 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
+                    <marker>
+                        <token postag="CD"/>
+                        <token regexp="yes">thirds|fourths|fifths|sixths|seventh|eights|ninths|tenths</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3</suggestion></message>
+                <url>https://www.merriam-webster.com/dictionary/number</url>
+                <short>Missing hyphens</short>
+                <example correction="two-thirds">The decision requires a <marker>two thirds</marker> majority.</example>
+                <example>Only a majority of two thirds would be enough.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <marker>
                         <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y)</token>
                         <token regexp="yes">high|old|long</token>
@@ -28370,7 +28385,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <token postag="JJ" min="0"/>
                     <marker>
                         <token postag="CD"></token>
