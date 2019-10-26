@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Irish;
-import org.xml.sax.InputSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -45,16 +44,9 @@ public class AnGramadoirTriailTest {
     langTool = new JLanguageTool(new Irish());
     cl = this.getClass().getClassLoader();
     in = cl.getResourceAsStream(TRIAIL_XML);
-    Reader r = new InputStreamReader(in, StandardCharsets.UTF_8);
-    StringBuffer sb = new StringBuffer();
-    String line;
-    while((line = br.readLine()) != null) {
-      sb.append(line);
-    }
-    System.err.println(sb.toString());
 
     data = new AnGramadoirTriailData(in);
-    //errors = data.getErrors();
+    errors = data.getErrors();
   }
   @Test
   public void testTriailData() throws IOException {
@@ -62,10 +54,10 @@ public class AnGramadoirTriailTest {
     assert(in != null);
     byte[] buf = new byte[5];
     assertEquals(5, in.read(buf, 0, 5));
-
     assertEquals("<?xml", new String(buf, StandardCharsets.UTF_8));
-    //assert(data != null);
-    //assert(errors != null);
+
+    assert(data != null);
+    assert(errors != null);
   }
 
 }

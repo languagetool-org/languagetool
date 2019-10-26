@@ -47,6 +47,7 @@ public class AnGramadoirTriailData {
   }
   public void loadXML(InputStream is) throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+    docBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
     Document doc = docBuilder.parse(is);
     String root = doc.getDocumentElement().getNodeName();
@@ -57,7 +58,7 @@ public class AnGramadoirTriailData {
     for(int i=0; i < nl.getLength(); i++) {
       Node n = nl.item(i);
       String nodename = n.getNodeName();
-      if(!"#text".equals(nodename)) {
+      if("#text".equals(nodename)) {
         continue;
       } else if(!"error".equals(nodename)) {
         throw new IOException("Unexpected node " + nodename);
