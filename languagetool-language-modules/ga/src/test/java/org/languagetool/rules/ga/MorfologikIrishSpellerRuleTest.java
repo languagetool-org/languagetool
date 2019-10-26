@@ -16,14 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pl;
+package org.languagetool.rules.ga;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.ga.MorfologikIrishSpellerRule;
 
 import java.io.IOException;
 import java.util.Collections;
