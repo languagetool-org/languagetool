@@ -3007,33 +3007,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>is gasta</suggestion></message>
             <example correction="is gasta"><marker>is gaiste</marker></example>
         </rule>
-        <rule id="GHA_LENITED" name="ghá LENITED">
+        <rule id="GHA_MUTATED" name="ghá MUTATED">
             <pattern>
                 <marker>
                     <token>ghá</token>
                 </marker>
-                <token postag="(?:C[UMC]:)?Noun:.*:Len" postag_regexp="yes"></token>
+                <token postag="Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem.*:(?:Len|Ecl)" postag_regexp="yes"></token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
-            <example correction=""><marker>á</marker></example>
-        </rule>
-        <rule id="GHA_ECLIPSED" name="ghá ECLIPSED">
-            <pattern>
-                <marker>
-                    <token>ghá</token>
-                </marker>
-                <token postag="(?:C[UMC]:)?Noun:.*:Ecl" postag_regexp="yes"></token>
-            </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
-            <example correction=""><marker>á</marker></example>
+            <example correction=""><marker>á</marker> gceannach</example>
+            <example correction=""><marker>á</marker> cheilt</example>
         </rule>
         <rule id="GHA_UNMUTATEDVNISH" name="ghá UNMUTATEDVNISH">
             <pattern>
                     <token>ghá</token>
-                    <token>UNMUTATEDVNISH</token>
+                    <token>([BbCcDdFfGgMmPpTt][^hHbBcCpPsStT']|[^BbCcDdFfGgMmPpTt]).*(?:a[dm]h|i[nr]t|áil|ú)</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
-            <example correction="á"><marker>ghá UNMUTATEDVNISH</marker></example>
+            <example correction="á"><marker>ghá</marker> flibertáil</example>
         </rule>
         <rule id="GHA_CEANNACH" name="ghá ceannach">
             <pattern>
@@ -3043,7 +3034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
-            <example correction=""><marker>á</marker></example>
+            <example correction=""><marker>ghá</marker> ceannach</example>
         </rule>
         <rule id="V_GOIR" name="V goir">
             <pattern>
@@ -3053,7 +3044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>gair</suggestion></message>
-            <example correction=""><marker>gair</marker></example>
+            <example correction="gair">Níl <marker>goir</marker> aige a bheith chomh láidir leat</example>
         </rule>
         <rule id="AON_GHOIR" name="aon ghoir">
             <pattern>
