@@ -85,27 +85,28 @@ public class Irish extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+      new CommaWhitespaceRule(messages),
 	    new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“"),
                     Arrays.asList("]", ")", "}", "\"", "”")),
             new DoublePunctuationRule(messages),
             new UppercaseSentenceStartRule(messages, this),
-	    new LongSentenceRule(messages, userConfig, -1, true),
-	    new LongParagraphRule(messages, this, userConfig),
-	    new UppercaseSentenceStartRule(messages, this),
-            new MultipleWhitespaceRule(messages, this),
-	    new SentenceWhitespaceRule(messages),
-	    new WhiteSpaceBeforeParagraphEnd(messages, this),
-	    new WhiteSpaceAtBeginOfParagraph(messages),
-	    new ParagraphRepeatBeginningRule(messages, this),
-	    new WordRepeatRule(messages, this),
-	    new MorfologikIrishSpellerRule(messages, this, userConfig),
-	    new LogainmRule(messages),
-	    new PeopleRule(messages),
-	    new SpacesRule(messages),
-	    new CompoundRule(messages),
-	    new DhaNoBeirtRule(messages)
+      new LongSentenceRule(messages, userConfig, -1, true),
+      new LongParagraphRule(messages, this, userConfig),
+      new UppercaseSentenceStartRule(messages, this),
+      new MultipleWhitespaceRule(messages, this),
+      new SentenceWhitespaceRule(messages),
+      new WhiteSpaceBeforeParagraphEnd(messages, this),
+      new WhiteSpaceAtBeginOfParagraph(messages),
+      new ParagraphRepeatBeginningRule(messages, this),
+      new WordRepeatRule(messages, this),
+      new MorfologikIrishSpellerRule(messages, this, userConfig),
+      new LogainmRule(messages),
+      new PeopleRule(messages),
+      new SpacesRule(messages),
+      new CompoundRule(messages),
+      new PrestandardReplaceRule(messages),
+      new DhaNoBeirtRule(messages)
     );
   }
 
