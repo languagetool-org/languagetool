@@ -21,7 +21,6 @@ package org.languagetool.rules.ga;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
 import org.xml.sax.InputSource;
 
@@ -43,21 +42,23 @@ public class AnGramadoirTriailTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
     langTool = new JLanguageTool(new Irish());
     cl = this.getClass().getClassLoader();
     in = cl.getResourceAsStream(TRIAIL_XML);
-    br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+    Reader r = new InputStreamReader(in, StandardCharsets.UTF_8);
     StringBuffer sb = new StringBuffer();
     String line;
     while((line = br.readLine()) != null) {
       sb.append(line);
     }
-    data = new AnGramadoirTriailData(new InputSource(new StringReader(sb.toString())));
+    System.err.println(sb.toString());
+
+    data = new AnGramadoirTriailData(in);
     //errors = data.getErrors();
   }
   @Test
   public void testTriailData() throws IOException {
+    in = cl.getResourceAsStream(TRIAIL_XML);
     assert(in != null);
     byte[] buf = new byte[5];
     assertEquals(5, in.read(buf, 0, 5));
