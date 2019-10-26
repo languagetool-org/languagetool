@@ -23,7 +23,6 @@ package org.languagetool.rules.ga;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,22 +32,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnGramadoirTriailData {
-  final String TRIAIL_XML = "org/languagetool/resource/ga/triail.xml";
-
   List<TriailError> errors;
-  AnGramadoirTriailData() throws Exception {
+  AnGramadoirTriailData() {
     this.errors = new ArrayList<TriailError>();
-    ClassLoader cl = this.getClass().getClassLoader();
-    InputStream in = cl.getResourceAsStream(TRIAIL_XML);
-    loadXML(in);
   }
-  private void loadXML(InputStream is) throws Exception {
+  AnGramadoirTriailData(InputStream is) throws IOException {
+    this();
+    try {
+      this.loadXML(is);
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+  public void loadXML(InputStream is) throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
     Document doc = docBuilder.parse(is);
-    if(doc == null) {
-      throw new Exception("Failed to parse!");
-    }
     String root = doc.getDocumentElement().getNodeName();
     if (root != "matches") {
       throw new IOException("Expected root node " + root);
