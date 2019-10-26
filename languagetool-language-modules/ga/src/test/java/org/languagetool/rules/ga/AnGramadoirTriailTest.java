@@ -24,33 +24,39 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class AnGramadoirTriailTest {
   private DhaNoBeirtRule rule;
   private JLanguageTool langTool;
   private List<TriailError> errors;
   final String TRIAIL_XML = "org/languagetool/resource/ga/triail.xml";
+  ClassLoader cl;
+  AnGramadoirTriailData data;
+  InputStream in;
 
   @Before
   public void setUp() throws IOException {
     rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
     langTool = new JLanguageTool(new Irish());
-    ClassLoader cl = this.getClass().getClassLoader();
-    InputStream in = cl.getResourceAsStream(TRIAIL_XML);
-    String fp = cl.getResource(TRIAIL_XML).getFile();
-    System.err.println(fp);
-    File f = new File(fp);
-    System.err.println(f.getAbsolutePath());
-    //AnGramadoirTriailData data = new AnGramadoirTriailData(in);
-    //errors = data.getErrors();
+    cl = this.getClass().getClassLoader();
+    in = cl.getResourceAsStream(TRIAIL_XML);
+    data = new AnGramadoirTriailData(in);
+    errors = data.getErrors();
   }
   @Test
   public void testTriailData() throws IOException {
-    System.err.println(errors.size());
+    assert(in != null);
+    byte[] buf = new byte[5];
+    assertEquals(5, in.read(buf, 0, 5));
+    assertEquals("<?xml", new String(buf, StandardCharsets.UTF_8));
+    assert(data != null);
+    assert(errors != null);
   }
 
 }
