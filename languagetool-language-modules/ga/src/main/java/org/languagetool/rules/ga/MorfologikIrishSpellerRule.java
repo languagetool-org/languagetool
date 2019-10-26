@@ -20,11 +20,14 @@
 package org.languagetool.rules.ga;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
@@ -34,8 +37,11 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern IRISH_TOKENIZING_CHARS = Pattern.compile("-");
 
   public MorfologikIrishSpellerRule(ResourceBundle messages,
-                                     Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+                                     Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
+    setCategory(Categories.TYPOS.getCategory(messages));
+    addExamplePair(Example.wrong("Tá <marker>botun</marker> san abairt seo."),
+      Example.fixed("Tá <marker>botún</marker> san abairt seo."));
     // this.setIgnoreTaggedWords();
   }
 

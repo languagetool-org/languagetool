@@ -100,7 +100,7 @@ public class Irish extends Language implements AutoCloseable {
       new WhiteSpaceAtBeginOfParagraph(messages),
       new ParagraphRepeatBeginningRule(messages, this),
       new WordRepeatRule(messages, this),
-      new MorfologikIrishSpellerRule(messages, this, userConfig),
+      new MorfologikIrishSpellerRule(messages, this, userConfig, altLanguages),
       new LogainmRule(messages),
       new PeopleRule(messages),
       new SpacesRule(messages),
