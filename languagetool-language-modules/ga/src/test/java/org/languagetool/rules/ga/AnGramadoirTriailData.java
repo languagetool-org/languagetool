@@ -33,17 +33,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnGramadoirTriailData {
-  private final String TRIAIL_XML = "/org/languagetool/resource/ga/triail.xml";
+  final String TRIAIL_XML = "org/languagetool/resource/ga/triail.xml";
 
   List<TriailError> errors;
   AnGramadoirTriailData() throws Exception {
     this.errors = new ArrayList<TriailError>();
     ClassLoader cl = this.getClass().getClassLoader();
     InputStream in = cl.getResourceAsStream(TRIAIL_XML);
-    InputSource is = new InputSource(in);
-    loadXML(is);
+    loadXML(in);
   }
-  private void loadXML(InputSource is) throws Exception {
+  private void loadXML(InputStream is) throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
     Document doc = docBuilder.parse(is);
