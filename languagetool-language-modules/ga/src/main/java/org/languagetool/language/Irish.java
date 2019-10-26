@@ -89,8 +89,8 @@ public class Irish extends Language implements AutoCloseable {
 	    new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“"),
                     Arrays.asList("]", ")", "}", "\"", "”")),
-            new DoublePunctuationRule(messages),
-            new UppercaseSentenceStartRule(messages, this),
+      new DoublePunctuationRule(messages),
+      new UppercaseSentenceStartRule(messages, this),
       new LongSentenceRule(messages, userConfig, -1, true),
       new LongParagraphRule(messages, this, userConfig),
       new UppercaseSentenceStartRule(messages, this),
@@ -106,6 +106,7 @@ public class Irish extends Language implements AutoCloseable {
       new SpacesRule(messages),
       new CompoundRule(messages),
       new PrestandardReplaceRule(messages),
+      new IrishReplaceRule(messages),
       new DhaNoBeirtRule(messages)
     );
   }
