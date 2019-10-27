@@ -23,7 +23,7 @@ package org.languagetool.openoffice;
  * @since 2.7
  */
 @SuppressWarnings("MagicNumber")
-class TamilDetector extends LanguageDetector {
+class TamilDetector extends UnicodeLanguageDetector {
 
   @Override
   int getLowerBound() {
