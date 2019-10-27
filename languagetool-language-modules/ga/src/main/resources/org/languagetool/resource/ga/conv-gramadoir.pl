@@ -7,6 +7,20 @@ use utf8;
 binmode(STDIN, ":utf8");
 binmode(STDOUT, ":utf8");
 
+my %TOKEN = (
+    '<A>ANYTHING</A>' => '<token postag="Adj:.*" postag_regexp="yes"></token>',
+    '<N>ANYTHING</N>' => '<token postag=".*Noun.*" postag_regexp="yes"></token>',
+    '<N>UNLENITED</N>' => '<token postag=".*Noun.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
+    '<A>UNLENITED</A>' => '<token postag="Adj:.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
+    '<N pl="n" gnt="n" gnd="f">ECLIPSED</N>' => '<token postag="(?:C[UMC]:)?Noun:Fem:Com:Sg:Ecl" postag_regexp="yes"></token>',
+);
+
+my %POS = (
+    'A' => 'Adj:.*';
+    'N' => '.*Noun.*';
+    'NG' => '.*Noun.*:Gen.*';
+);
+
 while(<>) {
 	chomp;
 	s/\[Aa\]/a/g;
