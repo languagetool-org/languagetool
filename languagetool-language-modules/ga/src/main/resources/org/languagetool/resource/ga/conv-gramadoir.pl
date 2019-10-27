@@ -28,9 +28,9 @@ my %PARTTOKEN = (
 );
 
 my %POS = (
-    'A' => 'Adj:.*';
-    'N' => '.*Noun.*';
-    'NG' => '.*Noun.*:Gen.*';
+    'A' => 'Adj:.*',
+    'N' => '.*Noun.*',
+    'NG' => '.*Noun.*:Gen.*',
 );
 
 while(<>) {
@@ -57,32 +57,15 @@ while(<>) {
 	s/\[Uu\]/u/g;
 	s/\[Úú\]/ú/g;
 
-	if(/([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
-		my $num = $1;
-		my $word = $2;
-		my $repl = $3;
-
-		my $titlenum = uc($num);
-		$titlenum =~ s/.\?//g;
-		my $titleword = uc($word);
-		my $title = $titlenum . '_' . $titleword;
-
-		my $egnum = $num;
-		$egnum =~ s/.\?//g;
-
-my $out=<<__END__;
-        <rule id="$title" name="$egnum $word">
-            <pattern>
-                <token regexp="yes">$num</token>
-                <marker>
-                    <token>$word</token>
-                </marker>
-            </pattern>
-            <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
-            <example correction='$repl'>$egnum <marker>$word</marker></example>
-        </rule>
-__END__
-
-	print $out;
-	}
+    next if(/^#/);
+    if(/^s\/([^\/]*)[\/](.*)\/g;$/) {
+        my $name = $1;
+        my $regex = $2;
+        $name = lc($name);
+        $regex =~ s/\[\^<\]\+/.+/g;
+        $regex =~ s/\[\^<\]\*/.*/g;
+        print "        <!ENTITY $name \"$regex\">\n";
+    } else {
+        print "Missed: $_\n";
+    }
 }

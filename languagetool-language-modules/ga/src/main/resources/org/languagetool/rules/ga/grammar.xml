@@ -35,7 +35,104 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY abairpast "dú(?:irt|ra[dm]ar|radh)">
         <!ENTITY abairprfu "d(?:eir|éar).*">
         <!ENTITY faighfc "bhfaigh.*">
-
+        <!ENTITY abspastverb "(?:rinne.*|chonai?c.*|chua(?:igh|[md]ar|thas)|bhí(?:o[md]ar|othas)?)">
+        <!ENTITY absnonpastverb "(?:n?gh?eo[bf].+|d'íosf.+|tá(?:im|imid|thar)?)">
+        <!ENTITY dependent "(?:rai?bh(?:a[md]ar|thas)?|bhfuil(?:im|imid|tear)?|n?dh?each(?:aigh|a[md]ar|thas)|íosf[aá].+|(?:bhf|fh)ac(?:a|a[dm]ar|thas)|(?:bhf|fh)aigh(?:idh|fear|inn|feá|eadh|imis|idís|fí)|n?dh?earn.+)">
+        <!ENTITY justta "tá(?:i[dm]|imid|thar)?">
+        <!ENTITY justata "atá(?:i[dm]|imid|thar)?">
+        <!ENTITY nonrformconj "(?:go|mura|sula)">
+        <!ENTITY nonrformprep "(?:faoi|i|le|ó|trí)na">
+        <!ENTITY rformconj "(?:gur|murar|sular)">
+        <!ENTITY rformprep "(?:dár|(?:faoi|i|le|ó|trí)nar)">
+        <!ENTITY ahnumber "a .+">
+        <!ENTITY cheadcompound "[^ ]+ chéad">
+        <!ENTITY noncompound "[^ ]+">
+        <!ENTITY compound "[^ ]+ .+">
+        <!ENTITY synthpast ".+[md]ar">
+        <!ENTITY allgenitivepreps "(?:chun|cois|dála|fearacht|timpeall|trasna)">
+        <!ENTITY genitiveprep "(?:cois|dála|fearacht|timpeall|trasna)">
+        <!ENTITY irregularpast "(?:raibh|dtáinig|dtug|ndearnadh|gcuala|bhfuair)">
+        <!ENTITY pastnorformlen "(?:(?:dúi?r|rai?bh|fuair|fhac|dheach|dhearna).*|fuarthas)">
+        <!ENTITY pastnorform "(?:ndúi?r|rai?bh|bhfuai?r|bhfac|ndeach|ndearna).*">
+        <!ENTITY pastafterni "(?:bhfuai?r|dúi?r|rai?bh|fhac|dheach|dhearna).*">
+        <!ENTITY faigheclipsed "bhfua(?:ir(?:ea[md]ar)?|rthas)">
+        <!ENTITY faightoeclipse "fua(?:ir(?:ea[md]ar)?|rthas)">
+        <!ENTITY positiveint "[0-9]+">
+        <!ENTITY twotonineteen "(?:[2-9]|1[0-9])">
+        <!ENTITY vowelnumeral "(?:[0-9]?[18]|1?8[0-9][0-9][0-9]*)">
+        <!ENTITY vowelordinal "(?:80|[0-9]?[18]|1?8[0-9][0-9][0-9]*)ú">
+        <!ENTITY vowelnumadj "(?:aonú?|ocht(?:[óú]|ódú)?)">
+        <!ENTITY nibs "ní(?: ?ba|b)">
+        <!ENTITY unleniteds "s[lnraeiouáéíóú].+">
+        <!ENTITY initialvowelorf "(?:[aeiouáéíóú]|fh?[aeiouáéíóú]).+">
+        <!ENTITY initialvowel "[aeiouáéíóú].*">
+        <!ENTITY initialconsonant "[^aeiouáéíóú].+">
+        <!ENTITY nonvowelnonf "(?:[^aeiouáéíóúf]|fh?[lr]).+">
+        <!ENTITY uneclipseddt "(?:t|d[^t']).+">
+        <!ENTITY uneclipsedcons "(?:[cfpt]|d[^t']|g[^c]|b[^ph]|bh[^f]).+">
+        <!ENTITY uneclipsed "(?:[aeiouáéíóúcfpt]|d[^t']|g[^c]|b[^ph]|bh[^f]).*">
+        <!ENTITY eclipsedvowel "n(?:-[aeiouáéíóú]).*">
+        <!ENTITY eclipseddt "(?:dt|nd).+">
+        <!ENTITY eclipsedbcfgp "(?:gc|bp|mb|ng|bhf).+">
+        <!ENTITY eclipsed "(?:n(?:-[aeiouáéíóú])|dt|gc|bp|mb|n[dg]|bhf).*">
+        <!ENTITY maybeeclipsingnumber "(?:[1-9][0-9]*[789]|[0-9]*10)">
+        <!ENTITY eclipsingnumber "(?:n?dh?eich|naoi|(?:h|[mbd]'|n-)?ocht|sh?eacht|[789]|10)">
+        <!ENTITY eclipsingposs "(?:(?:faoin|in|len|ón|trín)?(?:a|ár)|d?ár?|bhur|arna)">
+        <!ENTITY unboundadj "(?:.+th?[ae]|céad|cibé|cosúil|deich|dhá|gach|seacht|seo|sin|trí|úd|uile|.+ .+)">
+        <!ENTITY unpplike "(?:.+(?:[^ae]|[^th][ae]|[^t]h[ae]))">
+        <!ENTITY fakepp "(?:.*aimseartha|ch?athartha|ch?oitianta|gh?alánta|gh?inearálta|logánta|mh?íleata|nádúrtha|(?:idir)?náisiúnta|sóisialta|speisialta|th?raidisiúnta)">
+        <!ENTITY unlenitable "(?:[^bcdfgmpt]|s[^lnraeiouáéíóú]).*">
+        <!ENTITY unlenitedbcgmp "[bcgmp][^h'].*">
+        <!ENTITY unlenitedbcfgmp "(?:[bcfgmp][^h']|bhf).*">
+        <!ENTITY unmutatedvnish "(?:[bcdfgmpt][^hbcpst']|[^bcdfgmpt]).*(?:a[dm]h|i[nr]t|áil|ú)">
+        <!ENTITY unmutatedbcfgp "[bcfgp][^hcp'].*">
+        <!ENTITY unmutated "[bcdfgpt][^hcpt'].*">
+        <!ENTITY unlenitedf "f[aeiouáéíóú].*">
+        <!ENTITY unlenitedcdfgst "(?:[cdfgt][^h']|s[lnraeiouáéíóú]|bhf).*">
+        <!ENTITY unlenited "(?:[bcdfgmpt][^h']|s[lnraeiouáéíóú]|bhf).*">
+        <!ENTITY lenitedf "fh[aeiouáéíóú].*">
+        <!ENTITY ordinaladj "(?:[^<].*[^m]|[0-9]+)ú">
+        <!ENTITY prefixedt "t(?:[AEIOUÁÉÍÓÚ]|-[aeiouáéíóú]).+">
+        <!ENTITY eire "(?:[nh])?Éire(?:ann)?">
+        <!ENTITY lenitedngmperson "(?:(?:[cdfgmpst]h|bh[^fF]).+(?:[óú]ra|eora|éara|aí)|chailín|dhuine|fhir|pháiste|bhuachalla)">
+        <!ENTITY lenitedngfperson "(?:bhaintrí|chlainne|mhná|ghirsí)">
+        <!ENTITY ngmperson "(?:.+(?:[óú]ra|eora|éara|aí)|cailín|duine|fir|páiste|buachalla)">
+        <!ENTITY ngfperson "(?:baintrí|clainne|mná|girsí)">
+        <!ENTITY regularposs "(?:[md]o|a|ár|bhur)">
+        <!ENTITY fusedposs "(?:dár?|(?:faoi|i|le|trí)n(?:a|ár))">
+        <!ENTITY fusedprep "(?:d[eo]n|san?|faoin|ón)">
+        <!ENTITY dativeprep "(?:a[grs]|chuig|d[eo]|faoi|gan|go|le|ó|in?|roimh|thar|tríd?|um)">
+        <!ENTITY initialmordapost "[md]'.+">
+        <!ENTITY initialbigdapost "D'.+">
+        <!ENTITY initialdapostf "d'f.+">
+        <!ENTITY initialdapost "d'.+">
+        <!ENTITY initialbapost "b'.+">
+        <!ENTITY initialmbapost "mb'.+">
+        <!ENTITY lenitedcapcg "[CG]h.+">
+        <!ENTITY lenitedbcfgmps "(?:[cfgmps]h|bh[^f]).+">
+        <!ENTITY lenitedbmp "(?:[mp]h|bh[^f]).+">
+        <!ENTITY mutateddst "(?:nd|dt|[dst]h).+">
+        <!ENTITY leniteddfst "[dfst]h.+">
+        <!ENTITY leniteddst "[dst]h.+">
+        <!ENTITY lenited "(?:[cdfgmpst]h|bh[^fF]).+">
+        <!ENTITY slenderfinalconsonant "[^ ]*[eéií][^aeiouáéíóú]+">
+        <!ENTITY broadfinalconsonant "[^ ]*[aáoóuú][^aeiouáéíóú]+">
+        <!ENTITY finalvowel ".*[^bcdfghjlmnprstvxz ]+">
+        <!ENTITY finala ".*[aá]">
+        <!ENTITY slenderfinaldlnst ".*[eéií][^aeiouáéíóú]*[dlnst]">
+        <!ENTITY finaldlnst ".+[DdLlNnSsTt]">
+        <!ENTITY dayoftheweek "Dé .+">
+        <!ENTITY nobeeapost "(?:[^b]|b[^']).+">
+        <!ENTITY femvn "(?:.+i[lnr]t|.+áil|breith|foghlaim|iarraidh|obair|seilg)">
+        <!ENTITY subjectpronoun "s(?:[éí]|iad(?:san)?|ise|eisean)">
+        <!ENTITY notvnishunlen "(?:ceannach|cur|díol|dul|foghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|soláthar|teacht)">
+        <!ENTITY notvnishvn "(?:bheith|cheannach|chur|dhíol|dhul|fhoghlaim|íoc|iompar|oscailt|rá|roinnt|scríobh|sholáthar|theacht)">
+        <!ENTITY vnish ".*(?:a[dm]h|i[nr]t|áil|ú)">
+        <!ENTITY femabstractrestricted "(?:.+íl|h?acmhainn|h?airde|h?aois|g?ch?omhairle|h?[Éé]iric|(?:bh)?fh?(?:airsinge|earg|inne)|n?gh?éarchéim|h?[Íí](?:d|sl)e|laige|mh?aise|h?oiread|h?óige|t?sh?aoirse|d?th?itim)">
+        <!ENTITY femabstract "(?:.+[ao]cht|t?scéim)">
+        <!ENTITY quantityword "(?:ailp|(?:h?an-|g|n?gh?ann|mh?ór|g?ch?aol|leath)?ch?uid|m?bh?arraíocht|m?bh?reis|n?dh?íolaim|n?dh?íth|n?dh?óthain|h?[Éé]agmais|h?easpa|(?:bh)?fh?lúirse|h?iomarca|leath|raidhse|roinnt)">
+        <!ENTITY doword "(?:d[áió]|do[mn]|dár|duit|dúinn|daoibh|dóibh)">
+        <!ENTITY arword "(?:or[mt](?:sa)?|uirthi(?:se)?|air(?:sean)?|orainne?|oraibh(?:se)?|orthu(?:san)?)">
         <!ENTITY initialc "c.*">
         <!ENTITY initialdst "[dst].*">
         <!ENTITY initialf "f.*">
@@ -45,6 +142,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY initialn "n.*">
         <!ENTITY initials "s[lnraeiouáéíóúh].*">
         <!ENTITY initialts "ts.*">
+        <!ENTITY notna "(?:...|[^n]|.[^á]).*">
+        <!ENTITY broadfirstpres ".+[^eé]ann">
+        <!ENTITY slenderfirstpres ".+[eé]ann">
+        <!ENTITY broadsecondpres ".+aíonn">
+        <!ENTITY slendersecondpres ".+[^a]íonn">
+        <!ENTITY broadfirstfuture ".+faidh">
+        <!ENTITY slenderfirstfuture ".+fidh">
+        <!ENTITY broadsecondfuture ".+óidh">
+        <!ENTITY slendersecondfuture ".+eoidh">
+        <!ENTITY broadfirstcond ".+fadh">
+        <!ENTITY slenderfirstcond ".+feadh">
+        <!ENTITY broadsecondcond ".+ódh">
+        <!ENTITY slendersecondcond ".+eodh">
+        <!ENTITY broadfirstimp ".+[^ée]adh">
+        <!ENTITY slenderfirstimp ".+[ée]adh">
+        <!ENTITY broadsecondimp ".+aíodh">
+        <!ENTITY slendersecondimp ".+[^a]íodh">
         ]>
 <rules lang="ga" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <phrases>
