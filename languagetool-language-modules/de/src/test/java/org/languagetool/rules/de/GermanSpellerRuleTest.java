@@ -398,6 +398,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("geflechtetes", "geflochtenes", rule, lt);
     assertFirstSuggestion("ärtlichem", "ärztlichem", rule, lt);
     assertFirstSuggestion("großzüges", "großzügiges", rule, lt);
+    assertFirstSuggestion("Einbahnfrei", "Einwandfrei", rule, lt);
+    assertFirstSuggestion("einbandfreier", "einwandfreier", rule, lt);
+    assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
+    assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
   }
 
   @Test

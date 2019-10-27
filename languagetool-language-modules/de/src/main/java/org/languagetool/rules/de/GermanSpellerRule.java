@@ -334,6 +334,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[gG]ewohnheitsbedürftig(e[mnrs]?)?", "wohnheit", "wöhnung");
     putRepl("[eE]infühlungsvoll(e[mnrs]?)?", "fühlungsvoll", "fühlsam");
     putRepl("[vV]erwant(e[mnrs]?)?", "want", "wandt");
+    putRepl("[bB]eanstandigung(en)?", "ig", "");
+    putRepl("[eE]inba(hn|nd)frei(e[mnrs]?)?", "ba(hn|nd)", "wand");
     putRepl("[äÄaAeE]rtzten?", "[äÄaAeE]rt", "Är");
     putRepl("pdf-Datei(en)?", "pdf", "PDF");
     putRepl("rumänern?", "rumäner", "Rumäne");
