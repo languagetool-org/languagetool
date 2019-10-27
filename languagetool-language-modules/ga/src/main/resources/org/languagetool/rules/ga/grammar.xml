@@ -6143,7 +6143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_BHLIAIN" name="cúig bhliain">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>bhliain</token>
                 </marker>
@@ -6153,7 +6153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_CHEANN" name="cúig cheann">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>cheann</token>
                 </marker>
@@ -6163,7 +6163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_CHLOIGEANN" name="cúig chloigeann">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>chloigeann</token>
                 </marker>
@@ -6173,7 +6173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_CHUAIRT" name="cúig chuairt">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>chuairt</token>
                 </marker>
@@ -6183,7 +6183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_FHICHE" name="cúig fhiche">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>fhiche</token>
                 </marker>
@@ -6193,7 +6193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_ORLACH" name="cúig orlach">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>orlach</token>
                 </marker>
@@ -6203,7 +6203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_PHINGIN" name="cúig phingin">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>phingin</token>
                 </marker>
@@ -6213,7 +6213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_SCILLING" name="cúig scilling">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>scilling</token>
                 </marker>
@@ -6223,7 +6223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_SHEACHTAIN" name="cúig sheachtain">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>sheachtain</token>
                 </marker>
@@ -6233,7 +6233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_THROIGH" name="cúig throigh">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>throigh</token>
                 </marker>
@@ -6243,7 +6243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CÚIG_UBH" name="cúig ubh">
             <pattern>
-                <token regexp="yes">(gc|ch|c)(úig|eithre)</token>
+                <token regexp="yes">(gc|ch|c)(úig|eithre)|sh?é</token>
                 <marker>
                     <token>ubh</token>
                 </marker>
@@ -6450,6 +6450,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='thine'>trí <marker>tine</marker></example>
             <example>trí fichid</example>
+        </rule>
+    </category>
+    <category id="GRAMADOIR_BACHOIR" name="Ba chóir">
+        <rule id="NA_NUASAL" name="na n-uasal">
+            <pattern>
+                <token>na</token>
+                <marker>
+                    <token regexp="yes">(n-uasal|nUasal)</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>n-uaisle</suggestion> a scríobh.</message>
+            <example correction='n-uaisle'>na <marker>n-uasal</marker></example>
+        </rule>
+        <rule id="INIS_GLÓIRE" name="Inis Glóire">
+            <pattern>
+                <token>Inis</token>
+                <marker>
+                    <token>Glóire</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>Gluaire</suggestion> a scríobh.</message>
+            <example correction='Gluaire'>Inis <marker>Glóire</marker></example>
+        </rule>
+        <rule id="AN_NFGS" name="an NFGS">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token postag=".*Noun:Fem:Gen:Sg:DefArt" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction='na'>teach <marker>an</marker> mná</example>
+        </rule>
+        <rule id="AN_NP" name="an NP">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token postag=".*Noun:.*:Pl:DefArt" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction='na'>teach <marker>an</marker> mban</example>
         </rule>
     </category>
 </rules>

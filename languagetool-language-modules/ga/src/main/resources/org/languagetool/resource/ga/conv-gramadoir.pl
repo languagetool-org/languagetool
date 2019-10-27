@@ -233,15 +233,23 @@ sub macro_to_entity {
 
 sub num_bachoir {
     my $in = shift;
+    print "<!-- $in -->\n";
     
     my $num;
     my $word;
     my $repl;
-    if ($in =~ /<A[^>]+>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+    if ($in =~ /^<[ATN][^>]*>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+    print "<!-- 1 -->\n";
 		$num = $1;
 		$word = $2;
 		$repl = $3;
-	} elsif($in =~ /([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+	} elsif($in =~ /([^ <]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+    print "<!-- 2 -->\n";
+		$num = $1;
+		$word = $2;
+		$repl = $3;
+	} elsif($in =~ /<[N][^>]+>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
+    print "<!-- 3 -->\n";
 		$num = $1;
 		$word = $2;
 		$repl = $3;
