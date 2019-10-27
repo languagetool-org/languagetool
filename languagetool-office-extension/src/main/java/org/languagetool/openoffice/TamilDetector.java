@@ -26,13 +26,8 @@ package org.languagetool.openoffice;
 class TamilDetector extends UnicodeLanguageDetector {
 
   @Override
-  int getLowerBound() {
-    return 2946;
+  protected boolean isInAlphabet(int numericValue) {
+    return numericValue >= 2946 && numericValue <= 3066;
   }
 
-  @Override
-  int getUpperBound() {
-    return 3066;
-  }
-  
 }

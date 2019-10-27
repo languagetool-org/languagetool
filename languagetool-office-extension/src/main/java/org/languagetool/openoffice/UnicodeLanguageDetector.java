@@ -25,18 +25,14 @@ package org.languagetool.openoffice;
 abstract class UnicodeLanguageDetector {
 
   private static final int MAX_CHECK_LENGTH = 100;
-  
-  /** Lower bound of Unicode range that this language's characters use. */
-  abstract int getLowerBound();
 
-  /** Upper bound of Unicode range that this language's characters use. */
-  abstract int getUpperBound();
+  protected abstract boolean isInAlphabet(int numericValue);
 
   boolean isThisLanguage(String str) {
     int maxCheckLength = Math.min(str.length(), MAX_CHECK_LENGTH);
     for (int i = 0; i < maxCheckLength; i++) {
       int numericValue = str.charAt(i);
-      if (numericValue >= getLowerBound() && numericValue <= getUpperBound()) {
+      if (isInAlphabet(numericValue)) {
         return true;
       }
     }

@@ -23,15 +23,10 @@ package org.languagetool.openoffice;
  */
 @SuppressWarnings("MagicNumber")
 class KhmerDetector extends UnicodeLanguageDetector {
+
+  @Override
+  protected boolean isInAlphabet(int numericValue) {
+    return numericValue >= 6016 && numericValue <= 6143;
+  }
   
-  @Override
-  int getLowerBound() {
-    return 6016;
-  }
-
-  @Override
-  int getUpperBound() {
-    return 6143;
-  }
-
 }
