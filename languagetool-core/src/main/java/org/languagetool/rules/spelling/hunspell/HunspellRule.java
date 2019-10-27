@@ -22,6 +22,7 @@ package org.languagetool.rules.spelling.hunspell;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
@@ -355,11 +356,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (language.getCountries().length > 0) {
       langCountry += "_" + language.getCountries()[0];
     }
-    String shortDicPath = "/"
-        + language.getShortCode()
-        + "/hunspell/"
-        + langCountry
-        + FILE_EXTENSION;
+    String shortDicPath = getDictFilenameInResources(langCountry);
     String wordChars = "";
     // set dictionary only if there are dictionary files:
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
@@ -368,14 +365,24 @@ public class HunspellRule extends SpellingCheckRule {
         hunspellDict = null;
       } else {
         hunspellDict = Hunspell.getInstance().getDictionary(path);
-        if (!hunspellDict.getWordChars().isEmpty()) {
-          wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
-        }
         addIgnoreWords();
+      }
+    } else if (new File(shortDicPath + ".dic").exists()) {
+      // for dynamic languages
+      hunspellDict = Hunspell.getInstance().getDictionary(shortDicPath);
+    }
+    if (hunspellDict != null) {
+      if (!hunspellDict.getWordChars().isEmpty()) {
+        wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
       }
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;
+  }
+
+  @NotNull
+  protected String getDictFilenameInResources(String langCountry) {
+    return "/" + language.getShortCode() + "/hunspell/" + langCountry + FILE_EXTENSION;
   }
 
   private void addIgnoreWords() throws IOException {
