@@ -2095,14 +2095,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>murab</suggestion></message>
             <example correction="murab"><marker>murab'</marker></example>
         </rule>
-	<rule id="I_N" name="i n'"><!-- check -->
+        <rule id="I_N" name="i n'">
             <pattern>
                     <token regexp="yes">i|le</token>
                     <token>n</token>
                     <token regexp="yes" spacebefore="no">&apost;</token>
             </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>ina</suggestion></message>
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(i|le)" regexp_replace="$1na"/></suggestion></message>
             <example correction="ina"><marker>i n'</marker></example>
+            <example correction="lena"><marker>le n'</marker></example>
         </rule>
         <rule id="N_INA" name="'n'">
             <pattern>
@@ -2722,6 +2723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Foirm neamhchaighdeánach de <suggestion>roimh</suggestion></message>
                 <example correction="roimh"><marker>roimhe</marker> an slibbity</example>
+                <example correction="roimh"><marker>roimhe</marker> an bhfoobar</example>
             </rule>
         </rulegroup>
         <rule id="AN_MOGHA" name="an mogha">
