@@ -231,7 +231,7 @@ sub macro_to_entity {
     }
 }
 
-sub simple_bachoir {
+sub num_bachoir {
     my $in = shift;
     
 	if($in =~ /([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
@@ -260,7 +260,10 @@ my $out=<<__END__;
         </rule>
 __END__
 
-	return $out;
+        return $out;
+    } else {
+        return "";
+    }
 }
 
 while(<>) {
@@ -287,6 +290,10 @@ while(<>) {
 	s/\[Uu\]/u/g;
 	s/\[Úú\]/ú/g;
 
-#    next if(/^#/);
+    next if(/^#/);
+    next if($_ !~ /BACHOIR/);
+    next if(/^</);
+    
+    print num_bachoir($_);
 }
 
