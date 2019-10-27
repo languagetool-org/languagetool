@@ -37,12 +37,12 @@ while(<>) {
 		my $repl = $3;
 
 		my $titlenum = uc($num);
-		$titlenum =~ s/.\?//;
+		$titlenum =~ s/.\?//g;
 		my $titleword = uc($word);
 		my $title = $titlenum . '_' . $titleword;
 
 		my $egnum = $num;
-		$egnum =~ s/.\?//;
+		$egnum =~ s/.\?//g;
 
 my $out=<<__END__;
         <rule id="$title" name="$egnum $word">
