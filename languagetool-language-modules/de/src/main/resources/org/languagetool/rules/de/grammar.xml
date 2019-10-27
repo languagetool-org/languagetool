@@ -36926,47 +36926,47 @@ Andere Projekte</example>
                 <suggestion>⇛</suggestion>
                 <example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Erster Punkt</example>
             </rule>
-            <!-- TODO tests fail (because of &lt;?)
             <rule>
-              <pattern mark_to="-1">
-                <token>&lt;</token>
-                <token regexp="yes">(\-|=){1,2}</token>
-                <token negate="yes"></token>
-              </pattern>
-              <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
-              <example>A ← B</example>
-              <example correction="">A <marker>&lt;-</marker> B</example>
+                <antipattern>
+                    <token>&lt;</token>
+                    <token regexp="yes">(-|=){1,2}</token>
+                    <token>&gt;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token regexp="yes">(-|=){1,2}</token>
+                    </marker>
+                    <token/>
+                </pattern>
+                <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+                <example>A ← B</example>
+                <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
             </rule>
             <rule>
-              <pattern>
-                <token>&lt;</token>
-                <token regexp="yes">\-|=</token>
-                <token>></token>
-              </pattern>
-              <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
-              <example>A ⇔ B</example>
-              <example correction="">A <marker>&lt;=></marker> B</example>
-            </rule>-->
+                <pattern>
+                    <token>&lt;</token>
+                    <token regexp="yes">\-|=</token>
+                    <token>&gt;</token>
+                </pattern>
+                <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
+                <example>A ⇔ B</example>
+                <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GROESSERALS" name="&gt;= (≥)">
             <rule>
-                <regexp>&gt;=</regexp>
-                <message>Meinten Sie <suggestion>≥</suggestion> oder <suggestion>≧</suggestion>?</message>
-                <example>1 = 1</example>
-                <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token>=</token>
+                    </marker>
+                    <token negate="yes">></token>
+                </pattern>
+                <message>Möchten Sie das typografisch schönere Zeichen <suggestion>≤</suggestion> oder <suggestion>≦</suggestion> benutzen?</message>
+                <example>1 ≤ 3</example>
+                <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
             </rule>
-            <!-- TODO tests fail (because of &lt;?)
-            <rule>
-              <pattern mark_to="-1">
-                <token>&lt;</token>
-                <token>=</token>
-                <token negate="yes">></token>
-              </pattern>
-              <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>?</message>
-              <example>1 ≤ 3</example>
-              <example correction="">1 <marker>&lt;=</marker> 3</example>
-            </rule>
-           -->
         </rulegroup>
         <rulegroup id="GRAD_ZU_VIEL" name="Gradzeichen zu viel ('°K (K)')">
             <url>https://de.wikipedia.org/wiki/Kelvin</url>
