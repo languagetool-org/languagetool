@@ -53,7 +53,14 @@ public final class Languages {
    * @since 4.5
    */
   public static Language addLanguage(String name, String code, File dictPath) {
-    Language lang = new DynamicMorfologikLanguage(name, code, dictPath);
+    Language lang;
+    if (dictPath.getName().endsWith(".dict")) {
+      lang = new DynamicMorfologikLanguage(name, code, dictPath);
+    } else if (dictPath.getName().endsWith(".dic")) {
+      lang = new DynamicHunspellLanguage(name, code, dictPath);
+    } else {
+      throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
+    }
     dynLanguages.add(lang);
     return lang;
   }
