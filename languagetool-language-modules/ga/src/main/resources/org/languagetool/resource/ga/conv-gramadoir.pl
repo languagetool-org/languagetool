@@ -217,9 +217,19 @@ sub mktoken {
     }
 }
 
-print mktoken "<FOO>BAR</FOO>";
-print mktoken "<A>foo</A>";
-print mktoken '<N pl="n" gnt="n" gnd="f">NOTNA</N>';
+sub macro_to_entity {
+    my $in = shift;
+    if($in =~ /^s\/([^\/]*)[\/](.*)\/g;$/) {
+        my $name = $1;
+        my $regex = $2;
+        $name = lc($name);
+        $regex =~ s/\[\^<\]\+/.+/g;
+        $regex =~ s/\[\^<\]\*/.*/g;
+        return "        <!ENTITY $name \"$regex\">\n";
+    } else {
+        return "";
+    }
+}
 
 while(<>) {
 	chomp;
@@ -246,14 +256,5 @@ while(<>) {
 	s/\[Úú\]/ú/g;
 
 #    next if(/^#/);
-#    if(/^s\/([^\/]*)[\/](.*)\/g;$/) {
-#        my $name = $1;
-#        my $regex = $2;
-#        $name = lc($name);
-#        $regex =~ s/\[\^<\]\+/.+/g;
-#        $regex =~ s/\[\^<\]\*/.*/g;
-#        print "        <!ENTITY $name \"$regex\">\n";
-#    } else {
-#        print "Missed: $_\n";
-#    }
 }
+
