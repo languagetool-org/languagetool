@@ -231,6 +231,38 @@ sub macro_to_entity {
     }
 }
 
+sub simple_bachoir {
+    my $in = shift;
+    
+	if($in =~ /([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+		my $num = $1;
+		my $word = $2;
+		my $repl = $3;
+
+		my $titlenum = uc($num);
+		$titlenum =~ s/.\?//;
+		my $titleword = uc($word);
+		my $title = $titlenum . '_' . $titleword;
+
+		my $egnum = $num;
+		$egnum =~ s/.\?//;
+
+my $out=<<__END__;
+        <rule id="$title" name="$egnum $word">
+            <pattern>
+                <token regexp="yes">$num</token>
+                <marker>
+                    <token>$word</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
+            <example correction='$repl'>$egnum <marker>$word</marker></example>
+        </rule>
+__END__
+
+	return $out;
+}
+
 while(<>) {
 	chomp;
 	s/\[Aa\]/a/g;
