@@ -1196,22 +1196,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="an- und" id="AN_AUS_ETC">
-        <pattern>
-            <token regexp="yes">(an|aus|um|über|ab)-</token>
-            <token regexp="yes">und|oder</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="an-," id="AN_AUS_ETC_KOMMA">
-        <pattern>
-            <token regexp="yes">(an|aus|um|über|ab)-</token>
-            <token spacebefore="no">,</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
@@ -3241,17 +3225,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="hin- und hergerissen" id="HIN_HER">
       <pattern case_sensitive="yes">
-        <marker><token regexp="yes">(a[bn]|auf|hin|nach|vor|zurück)-</token></marker>
+        <marker><token regexp="yes">(a[bn]|aus|um|über|unter|auf|hin|nach|vor|zurück)-</token></marker>
         <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">(a[bn]|auf|her|hin|nach|vor|weg|zurück)\w+</token>
+        <token regexp="yes">(a[bn]|aus|um|über|unter|auf|her|hin|nach|vor|weg|zurück)\w+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="hin- und hergerissen" id="HIN_HER_KOMMA">
+      <pattern case_sensitive="yes">
+        <marker><token regexp="yes">(a[bn]|aus|um|über|unter|auf|hin|nach|vor|zurück)-</token></marker>
+        <token>,</token>
+        <token regexp="yes">(a[bn]|aus|um|über|unter|auf|her|hin|nach|vor|weg|zurück)[\w-]+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Auf- oder Abwertung" id="HIN_HER_GROSS">
       <pattern case_sensitive="yes">
-        <marker><token regexp="yes">(A[bn]|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
+        <marker><token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
         <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">(A[bn]|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
+        <token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
