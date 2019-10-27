@@ -152,7 +152,7 @@ public class HunspellRule extends SpellingCheckRule {
       int prevStartPos = -1;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
-        if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
+        if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
           len += word.length() + 1;
           continue;
@@ -288,14 +288,10 @@ public class HunspellRule extends SpellingCheckRule {
               && (hunspellDict != null && hunspellDict.misspelled(word))
               && !ignoreWord(word)
              )
-             || isProhibited(removeTrailingDot(word));
+             || isProhibited(cutOffDot(word));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private String removeTrailingDot(String word) {
-    return StringUtils.removeEnd(word, ".");
   }
 
   public List<String> getSuggestions(String word) throws IOException {
