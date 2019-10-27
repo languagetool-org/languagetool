@@ -6255,5 +6255,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion>phúdair</suggestion></message>
             <example correction='phúdair'>adharc <marker>púdair</marker></example>
         </rule>
+        <rule id="GACH_UILE_N" name="gach uile NOUN-unlenited">
+            <pattern>
+                <token>gach</token>
+                <token>uile</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhean'>gach uile <marker>bean</marker></example>
+        </rule>
+        <!-- replace rule should suggest 'gach uile' for 'chuile', but it still needs a séimhiú -->
+        <rule id="CHUILE_N" name="chuile NOUN-unlenited">
+            <pattern>
+                <token>chuile</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhean'>chuile <marker>bean</marker></example>
+        </rule>
     </category>
 </rules>
