@@ -58,6 +58,9 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
         TestTools.myAssert("á haistriú.",
                 "/[null]SENT_START á/[do]Prep:Poss:3P:Sg:Fem:Obj  /[null]null haistriú/[aistriú]Verbal:Noun:VTI:hPref ./[null]null",
                 tokenizer, sentenceTokenizer, tagger, disambiguator);
+        TestTools.myAssert("a haon",
+                "/[null]SENT_START a/[a]Part:Nm  /[null]null haon/[aon]Num:Card:hPref",
+                tokenizer, sentenceTokenizer, tagger, disambiguator);
     }
 
 }
