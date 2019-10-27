@@ -334,7 +334,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
         fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule.getFullId());
       }
-      String badSentence = cleanXML(origBadSentence);
+      String badSentence = cleanMarkersInExample(origBadSentence);
       assertTrue(badSentence.trim().length() > 0);
       
       // necessary for XML Pattern rules containing <or>
@@ -540,6 +540,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   protected String cleanXML(String str) {
     return str.replaceAll("<([^<].*?)>", "");
+  }
+
+  protected String cleanMarkersInExample(String str) {
+    return str.replace("<marker>", "").replace("</marker>", "");
   }
 
   private boolean match(Rule rule, String sentence, JLanguageTool lt) throws IOException {

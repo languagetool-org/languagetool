@@ -673,7 +673,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="gewachsen">Meine neue Freundin ist mir richtig ans Herz <marker>gewaschen</marker>.</example>
         </rule>
         <rule id="GENANT" name="genant (genannt)">
-        <!-- Jan: TODO: Kontext prüfen. -->
             <regexp>\bgenant(e[rsnm]?)?\b</regexp>
             <message>Meinten Sie <suggestion>genannt\1</suggestion>, das Partizip von 'nennen'?</message>
             <example correction="genannt">Seit seiner Kindheit wurde er Tom <marker>genant</marker>.</example>
@@ -1586,7 +1585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">In der <marker>anstrengen</marker> Fragephase ist Geduld erforderlich.</example>
                 <example>In der <marker>anstrengenden</marker> Fragephase ist Geduld erforderlich.</example>
                 <example>Der Haushalt umfasste 2010 Ausgaben von 100 Mrd. Euro, dem <marker>standen</marker> Einnahmen von 110 Mrd. Euro gegenüber.</example>
-                <!-- <example>Die <marker>ortstreuen</marker> Weibchen verpaaren sich</example> TODO -->
+                <example>Die <marker>ortstreuen</marker> Weibchen verpaaren sich</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERMEIDEN_VERMIEDEN" name="'vermeiden (vermieden)'">
@@ -4948,7 +4947,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="harmonieren">Die <marker>harmonisieren</marker> gut mit den eingelegten Pilzen.</example>
         </rule>
         <rule id="KATHEDER" name="Katheder/Katheter">
-            <!-- TODO: False pos. vermeiden -->
             <antipattern>
                 <token>vom</token>
                 <token>Katheder</token>
@@ -8853,7 +8851,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="VON_NOETEN" name="'von Nöten (vonnöten)'">
-        <!-- TODO: Needs testing and exceptions: "Er sprach von Nöten und Ängsten" -->
             <antipattern>
                 <token>von</token>
                 <token>Nöten</token>
@@ -12642,7 +12639,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
                 <example>Ich habe mich zum 1.1.2020 beworben.</example>
-                <!-- TODO: Fehlalarm: "Ist erledigt, ab 5.2.2019 nutzen Sie wieder die kostenlose Basisversion." -->
             </rule>
             <rule><!-- Waren am DD.MM.JJJJ  -->
                 <pattern>
@@ -13224,7 +13220,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
-                <!-- TODO change examples -->
                 <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4.\6.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Sonntag, 23.08.</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23.8.</marker></example>
@@ -15918,7 +15913,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- TODO find a better group?-->
         <rulegroup id="ZITAT_VGL" name="'vgl.' bei direkten Zitaten">
             <!--
             <rule>
@@ -16434,8 +16428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
                 <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
-                <!--TODO: not detected as verb
-                <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>-->
+                <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
@@ -36933,47 +36926,47 @@ Andere Projekte</example>
                 <suggestion>⇛</suggestion>
                 <example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Erster Punkt</example>
             </rule>
-            <!-- TODO tests fail (because of &lt;?)
             <rule>
-              <pattern mark_to="-1">
-                <token>&lt;</token>
-                <token regexp="yes">(\-|=){1,2}</token>
-                <token negate="yes">></token>
-              </pattern>
-              <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
-              <example>A ← B</example>
-              <example correction="">A <marker>&lt;-</marker> B</example>
+                <antipattern>
+                    <token>&lt;</token>
+                    <token regexp="yes">(-|=){1,2}</token>
+                    <token>&gt;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token regexp="yes">(-|=){1,2}</token>
+                    </marker>
+                    <token/>
+                </pattern>
+                <message>Wollen Sie einen Pfeil oder <suggestion>≤</suggestion> verwenden? Vorschläge: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+                <example>A ← B</example>
+                <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
             </rule>
             <rule>
-              <pattern>
-                <token>&lt;</token>
-                <token regexp="yes">\-|=</token>
-                <token>></token>
-              </pattern>
-              <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
-              <example>A ⇔ B</example>
-              <example correction="">A <marker>&lt;=></marker> B</example>
-            </rule>-->
+                <pattern>
+                    <token>&lt;</token>
+                    <token regexp="yes">\-|=</token>
+                    <token>&gt;</token>
+                </pattern>
+                <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
+                <example>A ⇔ B</example>
+                <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GROESSERALS" name="&gt;= (≥)">
             <rule>
-                <regexp>&gt;=</regexp>
-                <message>Meinten Sie <suggestion>≥</suggestion> oder <suggestion>≧</suggestion>?</message>
-                <example>1 = 1</example>
-                <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token>=</token>
+                    </marker>
+                    <token negate="yes">></token>
+                </pattern>
+                <message>Möchten Sie das typografisch schönere Zeichen <suggestion>≤</suggestion> oder <suggestion>≦</suggestion> benutzen?</message>
+                <example>1 ≤ 3</example>
+                <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
             </rule>
-            <!-- TODO tests fail (because of &lt;?)
-            <rule>
-              <pattern mark_to="-1">
-                <token>&lt;</token>
-                <token>=</token>
-                <token negate="yes">></token>
-              </pattern>
-              <message>Meinten Sie <suggestion>≤</suggestion> oder <suggestion>≦</suggestion>?</message>
-              <example>1 ≤ 3</example>
-              <example correction="">1 <marker>&lt;=</marker> 3</example>
-            </rule>
-           -->
         </rulegroup>
         <rulegroup id="GRAD_ZU_VIEL" name="Gradzeichen zu viel ('°K (K)')">
             <url>https://de.wikipedia.org/wiki/Kelvin</url>
