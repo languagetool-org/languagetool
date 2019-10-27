@@ -33,6 +33,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY apost "['`’]">
         ]>
 <rules lang="ga" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <phrases>
+        <phrase id="NI">
+            <token>ní</token>
+        </phrase>
+        <phrase id="NI_BA">
+            <token>ní</token>
+            <token>ba</token>
+        </phrase>
+        <phrase id="NI_BAPOS">
+            <token>ní</token>
+            <token>b</token>
+            <token spacebefore="no" regexp="yes">&apost;</token>
+        </phrase>
+        <phrase id="NIBS">
+            <includephrases>
+                <phraseref idref="NI"></phraseref>
+                <phraseref idref="NI_BA"></phraseref>
+                <phraseref idref="NI_BAPOS"></phraseref>
+            </includephrases>
+        </phrase>
+    </phrases>
     <category id="CONTRACTIONS" name="syntactical errors: contractions" type="grammar">
         <rulegroup id="PREP_CONTRACTIONS" name="Preposition Contractions">
             <rule id="LE_ME_LIOM" name="le + mé = liom">
