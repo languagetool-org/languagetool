@@ -19,11 +19,32 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
@@ -34,14 +55,7 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtr
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import com.google.common.io.Resources;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -368,10 +382,8 @@ public class HunspellRule extends SpellingCheckRule {
       // for dynamic languages
       hunspellDict = Hunspell.getInstance().getDictionary(shortDicPath);
     }
-    if (hunspellDict != null) {
-      if (!hunspellDict.getWordChars().isEmpty()) {
-        wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
-      }
+    if (hunspellDict != null && !hunspellDict.getWordChars().isEmpty()) {
+      wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;
@@ -443,8 +455,10 @@ public class HunspellRule extends SpellingCheckRule {
   /**
    * Used in combination with <code>acceptedInAlternativeLanguage</code> to surpress spelling
    * errors for words from a foreign language
-   * @since 4.6
+   * @param language
+   * @param word
    * @return true if the {@code word} from {@code language} can be considered as correctly spelled
+   * @since 4.6
    */
   protected boolean isAcceptedWordFromLanguage(Language language, String word) {
     return false;
