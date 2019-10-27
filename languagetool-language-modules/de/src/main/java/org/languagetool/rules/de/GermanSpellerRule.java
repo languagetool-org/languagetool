@@ -321,8 +321,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[sS]chwarzwälderkirschtorten?", "[sS]chwarzwälderk", "Schwarzwälder K");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
-    putRepl("([üÜ]ber|[uU]unter)durs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
-    putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
+    putRepl("([üÜ]ber|[uU]unter)?[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
     putRepl("[dD]urs?chnitts?", "s?chnitt", "chschnitt");
     putRepl("[sS]triktlich(e[mnrs]?)?", "lich", "");
     putRepl("[hH]öchstwahrlich(e[mnrs]?)?", "wahr", "wahrschein");
@@ -1023,12 +1022,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean isNoun(String word) {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
-      for (AnalyzedTokenReadings atr : readings) {
-        if (atr.hasPosTagStartingWith("SUB:")) {
-          return true;
-        }
-      }
-      return false;
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

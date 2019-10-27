@@ -1196,6 +1196,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="an- und" id="AN_AUS_ETC">
+        <pattern>
+            <token regexp="yes">(an|aus|um|über|ab)-</token>
+            <token regexp="yes">und|oder</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="an-," id="AN_AUS_ETC_KOMMA">
+        <pattern>
+            <token regexp="yes">(an|aus|um|über|ab)-</token>
+            <token spacebefore="no">,</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
