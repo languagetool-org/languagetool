@@ -37,6 +37,7 @@ import org.languagetool.tools.Tools;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
@@ -389,7 +390,7 @@ public class HunspellRule extends SpellingCheckRule {
     hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
     hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOLER);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
-    List<String> ignoreLines = Resources.readLines(ignoreUrl, Charsets.UTF_8);
+    List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
       if (!ignoreLine.startsWith("#")) {
         hunspellDict.addWord(ignoreLine);
