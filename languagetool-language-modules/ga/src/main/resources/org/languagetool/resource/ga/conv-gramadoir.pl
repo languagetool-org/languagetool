@@ -234,18 +234,27 @@ sub macro_to_entity {
 sub num_bachoir {
     my $in = shift;
     
-	if($in =~ /([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
-		my $num = $1;
-		my $word = $2;
-		my $repl = $3;
+    my $num;
+    my $word;
+    my $repl;
+    if ($in =~ /<A[^>]+>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+		$num = $1;
+		$word = $2;
+		$repl = $3;
+	} elsif($in =~ /([^ ]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+		$num = $1;
+		$word = $2;
+		$repl = $3;
+    } else {
+        return "";
+    }
+	my $titlenum = uc($num);
+	$titlenum =~ s/.\?//g;
+	my $titleword = uc($word);
+	my $title = $titlenum . '_' . $titleword;
 
-		my $titlenum = uc($num);
-		$titlenum =~ s/.\?//;
-		my $titleword = uc($word);
-		my $title = $titlenum . '_' . $titleword;
-
-		my $egnum = $num;
-		$egnum =~ s/.\?//;
+	my $egnum = $num;
+    $egnum =~ s/.\?//g;
 
 my $out=<<__END__;
         <rule id="$title" name="$egnum $word">
@@ -260,10 +269,7 @@ my $out=<<__END__;
         </rule>
 __END__
 
-        return $out;
-    } else {
-        return "";
-    }
+    return $out;
 }
 
 while(<>) {
@@ -292,7 +298,7 @@ while(<>) {
 
     next if(/^#/);
     next if($_ !~ /BACHOIR/);
-    next if(/^</);
+    next if(/^[^<]/);
     
     print num_bachoir($_);
 }

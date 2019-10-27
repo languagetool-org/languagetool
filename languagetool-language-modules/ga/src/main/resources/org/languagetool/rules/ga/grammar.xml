@@ -6013,7 +6013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMADOIR_UIMHREACHA" name="Ba chóir" type="grammar">
         <rule id="TRI_UAIRE" name="trí uaire">
             <pattern>
-                <token>trí</token>
+                <token regexp="yes">trí|(?:gc|ch|c)eithre|(?:gc|ch|c)úig|sé</token>
                 <marker>
                     <token regexp="yes">uaire?</token>
                 </marker>
@@ -6270,6 +6270,116 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <example correction='bliana'>thrí <marker>bhliana</marker></example>
+        </rule>
+        <rule id="CEITHRE_BHLIAIN" name="ceithre bhliain">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>bhliain</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>bliana</suggestion> a scríobh.</message>
+            <example correction='bliana'>ceithre <marker>bhliain</marker></example>
+        </rule>
+        <rule id="CEITHRE_CHEANN" name="ceithre cheann">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>cheann</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cinn</suggestion> a scríobh.</message>
+            <example correction='cinn'>ceithre <marker>cheann</marker></example>
+        </rule>
+        <rule id="CEITHRE_CHLOIGEANN" name="ceithre chloigeann">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>chloigeann</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cloigne</suggestion> a scríobh.</message>
+            <example correction='cloigne'>ceithre <marker>chloigeann</marker></example>
+        </rule>
+        <rule id="CEITHRE_CHUAIRT" name="ceithre chuairt">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>chuairt</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cuarta</suggestion> a scríobh.</message>
+            <example correction='cuarta'>ceithre <marker>chuairt</marker></example>
+        </rule>
+        <rule id="CEITHRE_FHICHE" name="ceithre fhiche">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>fhiche</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>fichid</suggestion> a scríobh.</message>
+            <example correction='fichid'>ceithre <marker>fhiche</marker></example>
+        </rule>
+        <rule id="CEITHRE_ORLACH" name="ceithre orlach">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>orlach</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>horlaí</suggestion> a scríobh.</message>
+            <example correction='horlaí'>ceithre <marker>orlach</marker></example>
+        </rule>
+        <rule id="CEITHRE_PHINGIN" name="ceithre phingin">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>phingin</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>pingine</suggestion> a scríobh.</message>
+            <example correction='pingine'>ceithre <marker>phingin</marker></example>
+        </rule>
+        <rule id="CEITHRE_SCILLING" name="ceithre scilling">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>scilling</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>scillinge</suggestion> a scríobh.</message>
+            <example correction='scillinge'>ceithre <marker>scilling</marker></example>
+        </rule>
+        <rule id="CEITHRE_SHEACHTAIN" name="ceithre sheachtain">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>sheachtain</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>seachtaine</suggestion> a scríobh.</message>
+            <example correction='seachtaine'>ceithre <marker>sheachtain</marker></example>
+        </rule>
+        <rule id="CEITHRE_THROIGH" name="ceithre throigh">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>throigh</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>troithe</suggestion> a scríobh.</message>
+            <example correction='troithe'>ceithre <marker>throigh</marker></example>
+        </rule>
+        <rule id="CEITHRE_UBH" name="ceithre ubh">
+            <pattern>
+                <token regexp="yes">g?ch?eithre</token>
+                <marker>
+                    <token>ubh</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>uibhe</suggestion> a scríobh.</message>
+            <example correction='uibhe'>ceithre <marker>ubh</marker></example>
         </rule>
     </category>
     <category id="SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
