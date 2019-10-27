@@ -6,11 +6,11 @@ use utf8;
 
 binmode(STDIN, ":utf8");
 binmode(STDOUT, ":utf8");
-binmode(STDERR, ":utf8");
 
 my %TOKEN = (
+    '<A>ANYTHING</A>' => '<token postag="Adj:.*" postag_regexp="yes"></token>',
+    '<N>ANYTHING</N>' => '<token postag=".*Noun.*" postag_regexp="yes"></token>',
     '<N>UNLENITED</N>' => '<token postag=".*Noun.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
-    '<NG>UNLENITED</NG>' => '<token postag=".*Noun.*:Gen.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
     '<A>UNLENITED</A>' => '<token postag="Adj:.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
     '<N pl="n" gnt="n" gnd="f">ECLIPSED</N>' => '<token postag="(?:C[UMC]:)?Noun:Fem:Com:Sg:Ecl" postag_regexp="yes"></token>',
 );
@@ -31,153 +31,8 @@ my %POS = (
     'A' => 'Adj:.*',
     'N' => '.*Noun.*',
     'NG' => '.*Noun.*:Gen.*',
-    'NFCS' => '.*Noun:Fem:Com:Sg',
-    'NMCS' => '.*Noun:Masc:Com:Sg',
-    'NCS' => '.*Noun:(?:Fem|Masc):Com:Sg',
-    'NFGS' => '.*Noun:Fem:Gen:Sg',
-    'NMGS' => '.*Noun:Masc:Gen:Sg',
-    'NP' => '.*Noun:.*:Pl',
 );
 
-my @mentities = qq/
-lenitedfuture
-abairpast
-abairprfu
-faighfc
-abspastverb
-absnonpastverb
-dependent
-justta
-justata
-nonrformconj
-nonrformprep
-rformconj
-rformprep
-ahnumber
-cheadcompound
-noncompound
-compound
-synthpast
-allgenitivepreps
-genitiveprep
-irregularpast
-pastnorformlen
-pastnorform
-pastafterni
-faigheclipsed
-faightoeclipse
-positiveint
-twotonineteen
-vowelnumeral
-vowelordinal
-vowelnumadj
-nibs
-unleniteds
-initialvowelorf
-initialvowel
-initialconsonant
-nonvowelnonf
-uneclipseddt
-uneclipsedcons
-uneclipsed
-eclipsedvowel
-eclipseddt
-eclipsedbcfgp
-eclipsed
-maybeeclipsingnumber
-eclipsingnumber
-eclipsingposs
-unboundadj
-unpplike
-fakepp
-unlenitable
-unlenitedbcgmp
-unlenitedbcfgmp
-unmutatedvnish
-unmutatedbcfgp
-unmutated
-unlenitedf
-unlenitedcdfgst
-unlenited
-lenitedf
-ordinaladj
-prefixedt
-eire
-lenitedngmperson
-lenitedngfperson
-ngmperson
-ngfperson
-regularposs
-fusedposs
-fusedprep
-dativeprep
-initialmordapost
-initialbigdapost
-initialdapostf
-initialdapost
-initialbapost
-initialmbapost
-lenitedcapcg
-lenitedbcfgmps
-lenitedbmp
-mutateddst
-leniteddfst
-leniteddst
-lenited
-slenderfinalconsonant
-broadfinalconsonant
-finalvowel
-finala
-slenderfinaldlnst
-finaldlnst
-dayoftheweek
-nobeeapost
-femvn
-subjectpronoun
-notvnishunlen
-notvnishvn
-vnish
-femabstractrestricted
-femabstract
-quantityword
-doword
-arword
-initialc
-initialdst
-initialf
-initialh
-initiall
-initialm
-initialn
-initials
-initialts
-notna
-broadfirstpres
-slenderfirstpres
-broadsecondpres
-slendersecondpres
-broadfirstfuture
-slenderfirstfuture
-broadsecondfuture
-slendersecondfuture
-broadfirstcond
-slenderfirstcond
-broadsecondcond
-slendersecondcond
-broadfirstimp
-slenderfirstimp
-broadsecondimp
-slendersecondimp
-/;
-
-my %entities = map { $_ => 1 } @mentities;
-
-my %msg = (
-    'SEIMHIU' => 'Séimhiú ar iarraidh: ',
-);
-
-my @examples = ();
-my @tokens = ();
 while(<>) {
 	chomp;
 	s/\[Aa\]/a/g;
@@ -202,71 +57,15 @@ while(<>) {
 	s/\[Uu\]/u/g;
 	s/\[Úú\]/ú/g;
 
-    if(/^#\. (.*)$/) {
-        push @examples, $1;
-    }
     next if(/^#/);
-	if(/(.*):BACHOIR\{([^\}]+)\}$/) {
-		my $match = $1;
-		my $repl = $2;
-
-        # save for later, in case
-        my $line = $_;
-print STDERR "In! $line\n";
-        $match =~ s/> ([A-Z]+) </> <X>$1<\/X> </g;
-        while(/(<[^>]*>[^<]*<[^>]*>)/) {
-            my $rawtoken = $1;
-            if(exists $TOKEN{$rawtoken}) {
-                my $token = $TOKEN{$rawtoken};
-                push @tokens, $token;
-                next;
-            } elsif ($rawtoken =~ /(<([^ ]*)[^>]*>)([^<]*)<[^>]>/) {
-                my $rawfulltok = $1;
-                my $postag = $2;
-                my $inner = $3;
-                my $tokout = '<token';
-                if(exists $PARTTOKEN{$rawfulltok}) {
-                    $tokout .= " postag=\"$PARTTOKEN{$rawfulltok}\" postag_regexp=\"yes\"";
-                } elsif(exists $POS{$postag}) {
-                    $tokout .= " postag=\"$POS{$rawfulltok}\" postag_regexp=\"yes\"";
-                } elsif($postag eq 'X') {
-                    # Do nothing
-                } else {
-                    print STDERR "WARNING: unknown POS tag $postag\n";
-                }
-                if($inner eq 'ANYTHING') {
-                    $tokout .= '></token>';
-                    push @tokens, $tokout;
-                    next;
-                } elsif($inner =~ /[A-Z][A-Z]+/) {
-                    if(exists $entities{lc($inner)}) {
-                        $tokout .= " regexp=\"yes\">&" . lc($inner) .";</token>";
-                        push @tokens, $tokout;
-                        next;
-                    } else {
-                        print STDERR "CONVERSION_FAILURE: $line\n";
-                    }
-                } else {
-                    if($inner =~ /[\?\|\(]/) {
-                        $tokout .= " regexp=\"yes\">$inner</token>";
-                        push @tokens, $tokout;
-                        next;
-                    } else {
-                        $tokout .= ">$inner</token>";
-                        push @tokens, $tokout;
-                        next;
-                    }
-                }
-                die "Shouldn't get here";
-            }
-        }
-        for my $tok (@tokens) {
-            print "$tok\n";
-        }
-        @tokens = ();
-        for my $eg (@examples) {
-            print "$eg\n";
-        }
-        @examples = ();
+    if(/^s\/([^\/]*)[\/](.*)\/g;$/) {
+        my $name = $1;
+        my $regex = $2;
+        $name = lc($name);
+        $regex =~ s/\[\^<\]\+/.+/g;
+        $regex =~ s/\[\^<\]\*/.*/g;
+        print "        <!ENTITY $name \"$regex\">\n";
+    } else {
+        print "Missed: $_\n";
     }
 }
