@@ -244,7 +244,7 @@ sub num_bachoir {
 	} elsif($in =~ /^([^ <]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
     print "<!-- 2 -->\n";
         return write_bachoir_simple_second($1, $2, $3);
-	} elsif($in =~ /^<[ASTN][^>]+>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
+	} elsif($in =~ /^<[ASTN][^>]*>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
     print "<!-- 3 -->\n";
         return write_bachoir_simple_second($1, $2, $3);
     } else {
