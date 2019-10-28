@@ -29252,7 +29252,7 @@ The accident victim died from her injuries.
         <rule id="BOLD_FACED" name="a bold-faced (bald-faced) lie">
             <pattern>
                 <marker>
-                    <token regexp="yes">bold-?faced</token>
+                    <token regexp="yes">bold-?faced?</token>
                 </marker>
                 <token regexp="yes">lies?</token>
             </pattern>
@@ -29260,6 +29260,53 @@ The accident victim died from her injuries.
             <url>https://dictionary.cambridge.org/us/dictionary/english/bald-faced</url>
             <short>Commonly confused word</short>
             <example correction="bald-faced">It was a <marker>bold-faced</marker> lie.</example>
+        </rule>
+        <rule id="ONE_FELL_SWOOP" name="one foul (fell) swoop">
+            <pattern>
+                <token>one</token>
+                <marker>
+                    <token>foul</token>
+                </marker>
+                <token>swoop</token>
+            </pattern>
+            <message>Did you mean <suggestion>fell</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="fell">I got it done in one <marker>foul</marker> swoop.</example>
+        </rule>
+        <rule id="DOG-EAT-DOG" name="doggy-dog (dog-eat-dog)">
+            <pattern>
+                <marker>
+                    <token>doggy-dog</token>
+                </marker>
+                <token>world</token>
+            </pattern>
+            <message>Did you mean <suggestion>dog-eat-dog</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="dog-eat-dog">We live in a <marker>doggy-dog</marker> world.</example>
+        </rule>
+        <rule id="GRANITE" name="take for granite (granted)">
+            <pattern>
+                <token inflected="yes" skip="1">take</token>
+                <token>for</token>
+                <marker>
+                    <token>granite</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>granted</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="granted">Do not take anything for <marker>granite</marker>.</example>
+        </rule>
+        <rule id="INTENSIVE_PURPOSES" name="intensive purposes (intents and purposes)">
+            <pattern>
+                <token>all</token>
+                <marker>
+                    <token>intensive</token>
+                    <token>purposes</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>intents and \3</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="intents and purposes">For all <marker>intensive purposes</marker>.</example>
         </rule>
         <rule id="LESS_MORE_THEN" name="less/more ... then (than)">
             <pattern>
