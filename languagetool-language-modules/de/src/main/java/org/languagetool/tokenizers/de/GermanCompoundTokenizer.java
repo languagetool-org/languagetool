@@ -26,6 +26,8 @@ import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.languagetool.tokenizers.Tokenizer;
 
+import static java.util.Arrays.*;
+
 /**
  * Split German nouns using the jWordSplitter library.
  * 
@@ -63,14 +65,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter = new ExtendedGermanWordSplitter(false);
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
-    wordSplitter.addException("Sportshorts", Arrays.asList("Sport", "shorts")); 
-    wordSplitter.addException("Bermudashorts", Arrays.asList("Bermuda", "shorts"));
-    wordSplitter.addException("Laufshorts", Arrays.asList("Lauf", "shorts"));
-    wordSplitter.addException("Badeshorts", Arrays.asList("Bade", "shorts"));
-    wordSplitter.addException("Buchungstrick", Arrays.asList("Buchungs", "trick"));
-    wordSplitter.addException("Buchungstricks", Arrays.asList("Buchungs", "tricks"));
-    wordSplitter.addException("Rückzugsorte", Arrays.asList("Rückzugs", "orte"));
-    wordSplitter.addException("Malerarbeiten", Arrays.asList("Maler", "arbeiten"));
+    wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    wordSplitter.addException("Bermudashorts", asList("Bermuda", "shorts"));
+    wordSplitter.addException("Laufshorts", asList("Lauf", "shorts"));
+    wordSplitter.addException("Badeshorts", asList("Bade", "shorts"));
+    wordSplitter.addException("Buchungstrick", asList("Buchungs", "trick"));
+    wordSplitter.addException("Buchungstricks", asList("Buchungs", "tricks"));
+    wordSplitter.addException("Rückzugsorte", asList("Rückzugs", "orte"));
+    wordSplitter.addException("Malerarbeiten", asList("Maler", "arbeiten"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
