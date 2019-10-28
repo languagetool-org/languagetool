@@ -23565,6 +23565,12 @@ USA
         <rulegroup id="AUXILIARY_DO_WITH_INCORRECT_VERB_FORM" name="After auxiliary 'do', use the base form of a verb" default="temp_off"><!-- #1871 -->
             <url>https://grammar.collinsdictionary.com/easy-learning/do</url>
             <short>Possible grammar error</short>
+            <antipattern><!-- does trials and tests -->
+                <token regexp="yes">do(es)?|did</token>
+                <token chunk="B-NP-plural" postag="NNS"/>
+                <token chunk="I-NP-plural" regexp="yes">and|or</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
             <rule><!-- do, does, did -->
                 <antipattern><!-- does setting ...? / Does tapping on ...? -->
                     <token regexp="yes">did|does</token>
@@ -23677,14 +23683,28 @@ USA
                     <token skip="-1" >do</token>
                     <token>?</token>
                 </antipattern>
-                <antipattern><!-- It has the same problem that any standard controller does using a new bulb profile. -->
-                    <token postag_regexp="yes" postag="DT|PRP\$"/>
-                    <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
+                <antipattern><!-- the same problem that any standard controller does using a -->
+                    <token regexp="yes">that|which</token>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
                     <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                     <token regexp="yes">does|did</token>
                     <token postag="VBG"/>
+                </antipattern>
+                <antipattern><!-- the same problems any standard controller does handling a -->
+                    <token postag_regexp="yes" postag="NN.*"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token regexp="yes">does|did</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern><!-- those that did not required further work before -->
+                    <token postag="DT"/>
+                    <token postag_regexp="yes" postag="W?DT"/>
+                    <token min="0" max="2" postag="RB"/>
+                    <token>did</token>
+                    <token>not</token>
                 </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" regexp="yes">do(es)?|did</token>
@@ -23712,8 +23732,13 @@ USA
                 <example correction="decide">If someone does <marker>decides</marker> to break the rules …</example>
                 <example correction="decide">I do have 2 glass break sensors if someone does <marker>decides</marker> to break the glass to easily turn the locks …</example>
                 <example correction="use">Any standard controller does <marker>using</marker> a bulb profile.</example><!-- The correction 'does use' = emphatic 'do' -->
+                <example correction="make">That does <marker>makes</marker> sense but then wouldn’t the same logic apply...</example>
+                <example correction="copy">I did not usually <marker>copying</marker> and paste the code.</example>
                 <example>I usually do not <marker>forget</marker>.</example>
                 <example>The does grazed peacefully in the wood.</example>
+                <example>... and that does trials and tests.</example>
+                <example>... and the technician does trials and tests.</example>
+                <example>Try to find the wholesale shop that does clutches.</example>
                 <example>Where do dreams come from?</example>
                 <example>... and do dreams last forever?</example>
                 <example>He does not usually cut the Christmas turkey.</example>
@@ -23777,19 +23802,98 @@ USA
                 <example>Whatever does she do each morning to make her so late?</example>
                 <example>Be careful if you do do the test after 17:00.</example>
                 <example>What will we do about getting tables, chairs and such?</example>
+                <example>Most units had the modification, and those that did not required further analysis before we could complete the modification.</example>
                 <example>It has the same problem that any standard controller does using a new bulb profile.</example>
                 <example>It very frequently had the same problem that any standard controller does using a new bulb profile.</example>
                 <example>They have the same problem that our standard controller did using a new bulb profile.</example>
+                <example>I’ll probably be back for more questions if the other 3 way switches don’t look quite the same as the one I just did looked.</example><!-- The final 'looked' is redundant. Compare: "I'll be back if the other switches don't work the same as the switch I just tested." But the sentence is correct in the context of this rule. -->
+                <example>It has the same problems any RGBW controller does handling an RGBW bulb profile.</example>
                 <example type="triggers_error">It suffers the same issue any rgbw controller does using a rgbw bulb profile.</example><!-- The correct adjective capitalization is 'RGBW' -->
                 <example type="triggers_error">Inovelli makes one similar to the Zooz but for the same price also does <marker>dimming</marker>.</example><!-- Unlike 'lighting', dimming is not NN:U in standard English. -->
                 <example type="triggers_error">Vista has a smartphone app controlled transformer/controller that does dimming and on/off but only over Bluetooth.</example>
                 <example type="triggers_error">I spent week trying to find a GreenBean module and finally did followed by a week of trying to get it to work.</example>
-<!-- TODO. FN caused by 'does lighting' AP --><example>I did <marker>copying</marker> and paste the code that you recommended to create the app but I am getting this error:</example>
-<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>Yeah, that does <marker>seems</marker> a little weird.</example>
-<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>... light bulbs and switches that do not <marker>required</marker> “touchlink commissioning”.</example>
-<!-- TODO. FN caused by 'the tests the technicians sometimes do showed' AP --><example>I’ll probably be back for more questions if the other 3 way switches don’t look quite the same as the one I just did looked.</example>
+<!-- TODO. FN caused by 'does lighting' AP. No easy fix. Refer to the commented rule. --><example>I did <marker>copying</marker> and paste the code that you recommended to create the app but I am getting this error:</example>
+<!-- FN caused by 'the tests the technicians sometimes do showed' AP. Found by rule 2. --><example>Yeah, that does <marker>seems</marker> a little weird.</example>
+<!-- FN caused by 'the tests the technicians sometimes do showed' AP. Found by rule 3. --><example>... light bulbs and switches that do not <marker>required</marker> “touchlink commissioning”.</example>
 <!-- TODO --><example>If technicians who are rather lazy do sometimes (more like every day! lol) <marker>forgets</marker> to do the work, tell the manager.</example>
             </rule>
+            <rule><!-- that does seems -->
+                <antipattern>
+                    <token>that</token>
+                    <token  postag="VBZ">does</token>
+                    <token min="0" max="2" postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token>that</token>
+                    <token  postag="VBZ">does</token>
+                    <token min="0" max="2" postag="RB">
+                        </token>
+                    <marker>
+                        <token postag="VBZ">
+                            <exception postag="VB"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <message>After the auxiliary verb 'do', use the base form of a verb. Did you mean <suggestion><match no="4" postag="VB"/></suggestion>?</message>
+                <example correction="seem">Yes, that does <marker>seems</marker> strange.</example><!-- does/E-NP-plural -->
+                <example correction="make">That does <marker>makes</marker> sense but then wouldn’t the same logic apply...</example>
+                <example correction="sound">That does <marker>sounds</marker> solid.</example>
+                <example correction="exist">However, I got an error when I check the element that does not <marker>exists</marker>.</example>
+                <example correction="explore">Took me 24 hours of gameplay using a team that does <marker>explores</marker> in 1-3 rounds on average to get courage traits…</example><!-- Not a noun in standard English. -->
+                <example>Yes, that does <marker>seem</marker> strange.</example>
+                <example>... and which does seemed a bit unusual.</example><!-- Possibly correct, possibly incorrect: a larger n-gram is necessary in the pattern -->
+                <example>Yes, that did <marker>seemed</marker> strange.</example><!-- Found by DID_BASEFORM -->
+                <example>... and that does trials and tests.</example>
+                <example>... and the technician does trials and tests.</example>
+                <example>Try to find the wholesale shop that does clutches.</example>
+                <example>I left a message with the person that does prices at Paperloop and hopefully he will get back to me soon.</example>
+            </rule>
+            <rule><!-- ... light bulbs and switches that do not required the modification. -->
+                <pattern>
+                    <token regexp="yes">that|which</token>
+                    <token postag="VB">do</token>
+                    <token>not</token>
+                    <token min="0" max="1" postag="RB"/>
+                    <marker>
+                        <token postag="VBD">
+                            <exception postag="VB"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <message>After the auxiliary verb 'do', use the base form of a verb. Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
+                <example correction="require">… the devices which do not <marker>required</marker> the modification.</example>
+                <example correction="require">Devices that do not usually <marker>required</marker> the modification...</example>
+                <example correction="require">… light bulbs and switches that do not <marker>required</marker> the modification.</example>
+                <example>… the devices which do not <marker>require</marker> the modification.</example>
+                <example>Most units had the modification, and those that did not required further analysis before we could complete the modification.</example>
+            </rule>
+<!--             <rule> I did copying and paste the code 
+                <pattern>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token min="0" max="1" postag="RB">
+                        <exception>not</exception>
+                        </token>
+                    <token postag="VBD">did</token>
+                    <token min="0" max="1">not</token>
+                    <marker>
+                        <token postag="VBG">
+                            <exception postag="VB"/>
+                            </token>
+                    </marker>
+                    <token regexp="yes">and|or|but</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <token postag="VB"/>
+                </pattern>
+                <message>After the auxiliary verb 'do', use the base form of a verb. Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
+                <example correction="copy">I did <marker>copying</marker> and paste the code.</example>
+                <example correction="copy">I did <marker>copying</marker> and also sometimes paste the code.</example>
+                <example correction="copy">They also did <marker>copying</marker> but not correctly paste the code.</example>
+                <example>I did <marker>copy</marker> and paste the code.</example>
+                <example>I also did <marker>troubleshooting</marker> and found out that you need (a lot of) patience.</example>
+                <example>I also did <marker>troubleshooting</marker> and think a lot of patience is necessary.</example>
+                <example>He did <marker>dancing</marker> and thinks that to be good, intense concentration is necessary.</example>
+            </rule>-->
         </rulegroup>
     </category>
 
@@ -29148,7 +29252,7 @@ The accident victim died from her injuries.
         <rule id="BOLD_FACED" name="a bold-faced (bald-faced) lie">
             <pattern>
                 <marker>
-                    <token regexp="yes">bold-?faced</token>
+                    <token regexp="yes">bold-?faced?</token>
                 </marker>
                 <token regexp="yes">lies?</token>
             </pattern>
@@ -29156,6 +29260,53 @@ The accident victim died from her injuries.
             <url>https://dictionary.cambridge.org/us/dictionary/english/bald-faced</url>
             <short>Commonly confused word</short>
             <example correction="bald-faced">It was a <marker>bold-faced</marker> lie.</example>
+        </rule>
+        <rule id="ONE_FELL_SWOOP" name="one foul (fell) swoop">
+            <pattern>
+                <token>one</token>
+                <marker>
+                    <token>foul</token>
+                </marker>
+                <token>swoop</token>
+            </pattern>
+            <message>Did you mean <suggestion>fell</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="fell">I got it done in one <marker>foul</marker> swoop.</example>
+        </rule>
+        <rule id="DOG-EAT-DOG" name="doggy-dog (dog-eat-dog)">
+            <pattern>
+                <marker>
+                    <token>doggy-dog</token>
+                </marker>
+                <token>world</token>
+            </pattern>
+            <message>Did you mean <suggestion>dog-eat-dog</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="dog-eat-dog">We live in a <marker>doggy-dog</marker> world.</example>
+        </rule>
+        <rule id="GRANITE" name="take for granite (granted)">
+            <pattern>
+                <token inflected="yes" skip="1">take</token>
+                <token>for</token>
+                <marker>
+                    <token>granite</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>granted</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="granted">Do not take anything for <marker>granite</marker>.</example>
+        </rule>
+        <rule id="INTENSIVE_PURPOSES" name="intensive purposes (intents and purposes)">
+            <pattern>
+                <token>all</token>
+                <marker>
+                    <token>intensive</token>
+                    <token>purposes</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>intents and \3</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction="intents and purposes">For all <marker>intensive purposes</marker>.</example>
         </rule>
         <rule id="LESS_MORE_THEN" name="less/more ... then (than)">
             <pattern>
@@ -39325,7 +39476,7 @@ The accident victim died from her injuries.
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Point 1</example>
     </rule>
-    <!--rule> FIXME &lt; equence is not being properly escaped. Verify interpreter.
+    <rule default="temp_off">
       <pattern>
         <marker>
           <token>&lt;</token>
@@ -39344,7 +39495,7 @@ The accident victim died from her injuries.
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
       <example >A ← B</example>
     </rule>
-    <rule>
+    <rule default="temp_off">
       <pattern>
           <token>&lt;</token>
           <token regexp="yes">\-|=</token>
@@ -39358,9 +39509,9 @@ The accident victim died from her injuries.
         <suggestion>⇋</suggestion>
         <suggestion>⇌</suggestion>
         <suggestion>⇔</suggestion>
-      <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+      <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=&gt;</marker> B</example>
       <example>A ⇔ B</example>
-            </rule-->
+    </rule>
   </rulegroup>
 
   <rulegroup id='HYPOTHESIS_TYPOGRAPHY' name='Tipografia de Hipóteses'>

@@ -8319,6 +8319,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Go-lives">Wir planen für diese Woche zwei <marker>Golives</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PUSH_UP" name="Push Up (Push-up)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Push-ups?</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Push-up-BHs?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>push</token>
+                    <token>up</token>
+                    <token regexp="yes">bhs?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Push-up-BH<match no="3" regexp_match="(?i)..(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrichen getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Push_up_BH</url>
+                <example correction="Push-up-BHs">Sie besaß mehrere <marker>Push up BHs</marker>.</example>
+                <example>Bei H&amp;M kaufte sie einen Push-up-BH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">push-?up-bhs?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Push-up-BH<match no="1" regexp_match="(?i)push-?up-bh(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrichen getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Push_up_BH</url>
+                <example correction="Push-up-BHs">Sie besaß mehrere <marker>Pushup-BHs</marker>.</example>
+                <example>Bei H&amp;M kaufte sie einen Push-up-BH.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>push</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Push-up<match no="2" regexp_match="(?i)..(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Push_up</url>
+                <example correction="Push-ups">Sie besaß mehrere <marker>Push ups</marker>.</example>
+                <example>Bei H&amp;M kaufte sie einen Push-up.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">push-?ups?</token>
+                </pattern>
+                <message>Das Wort <suggestion>Push-up<match no="1" regexp_match="(?i)push-?up(s?)" regexp_replace="$1" case_conversion="alllower" /></suggestion> wird mit Bindestrich getrennt.</message>
+                <url>https://www.duden.de/rechtschreibung/Push_up</url>
+                <example correction="Push-ups">Sie besaß mehrere <marker>Pushups</marker>.</example>
+                <example>Bei H&amp;M kaufte sie einen Push-up-BH.</example>
+            </rule>
+        </rulegroup>
         <rule id="EBEN_FALLS" name="eben falls (ebenfalls)">
             <pattern>
                 <token>eben</token>
@@ -15573,7 +15620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
-                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
+                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|rechnen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>
@@ -15582,7 +15629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|reden|reißen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
+                    <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|rechnen|reden|reißen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>
