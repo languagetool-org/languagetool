@@ -2666,7 +2666,7 @@ USA
         <rule id="VBZ_VBD" name="it (is)">
             <pattern>
                 <marker>
-                    <token>is</token>
+                    <token case_sensitive="yes" regexp="yes">[Ii]s</token>
                 </marker>
                 <token regexp="yes">wasn?</token>
             </pattern>
@@ -2675,6 +2675,7 @@ USA
             <example>...which <marker>it</marker> was the last day.</example>
             <example correction="it">...which <marker>is</marker> wasn't the last day.</example>
             <example correction="it">...which <marker>is</marker> was not the last day.</example>
+            <example>The IS was defeated (Islamic State).</example>
         </rule>
         <rule id="FORE_DPS" name="fore (for)">
             <pattern>
@@ -10908,6 +10909,46 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="seller" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="sale" /></suggestion>?</message>
                 <example correction="reseller|resale">The <marker>resell</marker> market is performing very well.</example>
             </rule>
+            <rule default="temp_off"><!-- the oversell -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>oversell</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="sale" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="selling" /></suggestion>?</message>
+                <example correction="oversale|overselling">The <marker>oversell</marker> caused a shortage.</example>
+            </rule>
+            <rule default="temp_off"><!-- the portray -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>portray</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)ay" regexp_replace="ayal" /></suggestion>?</message>
+                <example correction="portrayal">They did a <marker>portray</marker> of my life.</example>
+            </rule>
+            <rule default="temp_off"><!-- the scissor -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>scissor</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>scissors</suggestion> (= instrument for cutting)?</message>
+                <url>https://writingexplained.org/scissor-or-scissors-difference</url>
+                <example correction="scissors">The <marker>scissor</marker> were cutting through paper.</example>
+            </rule>
             <rule><!-- the expire -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -11408,6 +11449,15 @@ USA
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
+        <rule id="WHATS_APP" name="WhatsApp" default="temp_off">
+            <pattern>
+                <token>whats</token>
+                <token>app</token>
+            </pattern>
+            <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
+            <url>https://en.wikipedia.org/wiki/WhatsApp</url>
+            <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
                 <marker>
@@ -14755,6 +14805,59 @@ USA
 <!-- False negative cause by non-standard drank/VBN --><example>He has <marker>drank</marker> that too quickly.</example>
         </rule>
         </rulegroup>
+        <rulegroup id="CONFUSION_RIDE_RIGHT" name="confusion of ride/right" default="temp_off">
+            <antipattern>
+                <token>ride</token>
+                <token>sharing</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">am|are|is|was|were</token>
+                    <token regexp="yes">s?he|it|I|we|they|you</token>
+                    <marker>
+                        <token>ride</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>right</suggestion>?</message>
+                <example correction="right">Am I <marker>ride</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it|I|we|they|you</token>
+                    <token regexp="yes">am|are|is|was|were</token>
+                    <marker>
+                        <token>ride</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>right</suggestion>?</message>
+                <example correction="right">I am <marker>ride</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it|I|we|they|you</token>
+                    <token regexp="yes">has|have</token>
+                    <token>been</token>
+                    <marker>
+                        <token>ride</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>right</suggestion>?</message>
+                <example correction="right">They have been <marker>ride</marker> about it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s?he|it|I|we|they|you</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">m|re|s</token>
+                    <marker>
+                        <token>ride</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>right</suggestion>?</message>
+                <example correction="right">She's <marker>ride</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
             <antipattern>
                 <token>does</token>
@@ -22915,13 +23018,17 @@ USA
             <rule id="CA_FOLLOW_UP" name="Compound adjective: follow up">
                 <pattern>
                     <marker>
-                        <token>follow</token>
+                        <token>
+                            <exception scope="previous" postag="MD" />
+                            follow
+                        </token>
                         <token regexp="yes">up|on</token>
                     </marker>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </pattern>
                 <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
                 <example correction="follow-up">Here's a <marker>follow up</marker> task.</example>
+                <example>I will follow up tonight.</example>
             </rule>
             <rule id="CA_HAND_TO_HAND" name="Compound adjective: hand to hand">
                 <pattern>
@@ -35872,7 +35979,7 @@ The accident victim died from her injuries.
         <rulegroup id="CAPITALIZATION" name="capitalize proper names, geographic terms, historic episodes...">
             <url>https://www.grammarbook.com/punctuation/capital.asp</url>
             <rule>
-                <regexp case_sensitive="yes">\b(((north|south) (Atlantic|American?|African?|Korean?|Carolina|Dakota))|((east|west)(ern)? (Germany?|Europe|Virginia))|(grand [cC]anyon)|(mount Everest)|(great [Bb]ritain))\b</regexp>
+                <regexp case_sensitive="yes">\b(((north|south) (Atlantic|American?|African?|Korean?|Carolina|Dakota))|((east|west)(ern)? (Germany?|Europe|Virginia))|(grand [cC]anyon)|(mount Everest)|(great [Bb]ritain)|(great [Bb]ritish))\b</regexp>
                 <message>Capitalize specific, well-defined geographical regions: <suggestion><match no="1" regexp_match="(^.)" regexp_replace="$1"  case_conversion="startupper"/></suggestion></message>
                 <example correction="South America">She lived several years in <marker>south America</marker>.</example>
                 <example correction="East Germany">With the reunification of West and <marker>east Germany</marker>, the Federal Republic
@@ -36008,6 +36115,30 @@ The accident victim died from her injuries.
                 <message>Capitalize <suggestion>The</suggestion>, if it refers to 'The Hague' (city on the western coast of the Netherlands)</message>
                 <example correction="The">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the</marker>  Hague.</example>
                 <example>When did <marker>the Hague</marker> Congress take place?</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>European</token>
+                    <token>Union</token>
+                </antipattern>
+                <pattern>
+                    <token>european</token>
+                    <token>union</token>
+                </pattern>
+                <message>The proper noun <suggestion>European Union</suggestion> needs to be capitalized.</message>
+                <example correction="European Union">The <marker>European union</marker> elected a new president.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>United</token>
+                    <token regexp="yes">States|Kingdom</token>
+                </antipattern>
+                <pattern>
+                    <token>united</token>
+                    <token regexp="yes">states|kingdom</token>
+                </pattern>
+                <message>The proper noun <suggestion>United <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
+                <example correction="United States">The <marker>united states</marker> elected a new president.</example>
             </rule>
         </rulegroup>
         <rule id="ALSO_SENT_END" name="'also' at the end of the sentence" default="off"><!-- https://forum.languagetool.org/t/en-delete-also-sent-end/4918 -->
@@ -39165,7 +39296,7 @@ The accident victim died from her injuries.
             </rule>
             <rule><!-- adjectives -->
                 <pattern>
-                    <token postag="JJ" regexp="yes" case_sensitive="yes">abelian|bohemian|byzantine|draconian|herculean|philistine|platonic|stentorian|stoic</token>
+                    <token postag="JJ" regexp="yes" case_sensitive="yes">abelian|bohemian|byzantine|draconian|herculean|philistine|platonic|stentorian|stoic|thespian</token>
                 </pattern>
                 <message>Possible incorrect capitalization. Some adjectives that are derived from proper nouns can have both an initial capital letter and an initial lower case letter. If there is a close association with the proper noun, use <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
                 <short>Capitalization: words from proper nouns</short>
