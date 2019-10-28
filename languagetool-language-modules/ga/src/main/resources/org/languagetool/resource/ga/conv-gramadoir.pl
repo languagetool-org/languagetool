@@ -238,24 +238,25 @@ sub num_bachoir {
     my $num;
     my $word;
     my $repl;
-    if ($in =~ /^<[ATN][^>]*>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}$/) {
+    if ($in =~ /^<[ATNS][^>]*>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}$/) {
     print "<!-- 1 -->\n";
-		$num = $1;
-		$word = $2;
-		$repl = $3;
+        return write_bachoir_simple_second($1, $2, $3);
 	} elsif($in =~ /^([^ <]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
     print "<!-- 2 -->\n";
-		$num = $1;
-		$word = $2;
-		$repl = $3;
+        return write_bachoir_simple_second($1, $2, $3);
 	} elsif($in =~ /^<[ASTN][^>]+>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
     print "<!-- 3 -->\n";
-		$num = $1;
-		$word = $2;
-		$repl = $3;
+        return write_bachoir_simple_second($1, $2, $3);
     } else {
         return "";
     }
+}
+
+sub write_bachoir_simple_second {    
+    my $num = shift;
+    my $word = shift;
+    my $repl = shift;
+
 	my $titlenum = uc($num);
 	$titlenum =~ s/.\?//g;
 	my $titleword = uc($word);
