@@ -10049,12 +10049,13 @@ USA
                 <example>Freddy picked Harry up by his collar.</example>
             </rule>
         </rulegroup>
-        <rule id="A_BLESS_DAY" name="Have a bless (blessed) day" default="temp_off">
+        <rule id="A_BLESS_DAY" name="Have a bless (blessed) day">
             <pattern>
                 <token regexp="yes">an?|the</token>
                 <marker>
                     <token>bless</token>
                 </marker>
+                <token regexp="yes">day|week|month|year</token>
             </pattern>
             <message>Did you mean <suggestion>blessed</suggestion> or <suggestion>blessing</suggestion>?</message>
             <example correction="blessed|blessing">Have a <marker>bless</marker> day!</example>
@@ -11331,7 +11332,7 @@ USA
             <example correction="Excel">The <marker>excel</marker>, powerpoint and word program.</example>
             <example correction="Skype">Please open your <marker>skype</marker>.</example>
         </rule>
-        <rulegroup id="GOOGLE_PRODUCTS" name="Google product names" default="temp_off">
+        <rulegroup id="GOOGLE_PRODUCTS" name="Google product names">
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Google</token>
@@ -20707,7 +20708,7 @@ USA
             <example correction="2-room">He lives in a small <marker>2 room</marker> apartment.</example>
             <example correction="3-bedroom">The old woman lived in a <marker>3 bedroom</marker> house by herself.</example>
         </rule>
-        <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'" default="temp_off">
+        <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'">
             <antipattern>
                 <token postag="CD" />
                 <token case_sensitive="yes">Word</token>
@@ -35016,7 +35017,7 @@ The accident victim died from her injuries.
             <suggestion>don't you</suggestion>
             <example correction="Don't you"><marker>Dontcha</marker> think this could be done easier?</example>
         </rule>
-        <rule id="WHATCHA" name="whatcha (what are you)" default="temp_off">
+        <rule id="WHATCHA" name="whatcha (what are you)">
             <pattern>
                 <token regexp="yes">wh?atcha</token>
             </pattern>
@@ -35024,7 +35025,7 @@ The accident victim died from her injuries.
             <suggestion>what are you</suggestion>
             <example correction="What are you"><marker>Whatcha</marker> doing?</example>
         </rule>
-        <rule id="OUTTA" name="outta (out of)" default="temp_off">
+        <rule id="OUTTA" name="outta (out of)">
             <pattern>
                 <token>outta</token>
             </pattern>
