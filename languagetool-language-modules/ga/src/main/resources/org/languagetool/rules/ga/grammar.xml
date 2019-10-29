@@ -8419,6 +8419,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='trínar'><marker>trí ar</marker></example>
         </rule>
     </category>
+    <category id="SUPERLATIVES" name="superlatives" type="grammar">
+        <rule id="NÍOS_THE" name="níos the">
+            <pattern>
+                <token>níos</token>
+                <marker>
+                    <token regexp="yes">th?e</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
+            <example correction='teo'>níos <marker>the</marker></example>
+        </rule>
+        <rulegroup id="NIBS_THE" name="ní ba the">
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <token>ba</token>
+                    <marker>
+                        <token regexp="yes">th?e</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
+                <example correction='teo'>ní ba <marker>the</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <token>b</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <marker>
+                        <token regexp="yes">th?e</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
+                <example correction='teo'>ní b'<marker>the</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <marker>
+                        <token regexp="yes">th?e</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
+                <example correction='teo'>ní <marker>the</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="COLLOCATIONS" name="collocations" type="style">
         <rule id="DIRIU_ISTEACH_AR" name="díriú isteach ar">
             <pattern>
