@@ -385,6 +385,9 @@ class ApiV2 {
         g.writeStartObject();
         g.writeStringField("ruleId", rule.getId());
         g.writeStringField("description", rule.getDescription());
+        if(rule.isDictionaryBasedSpellingRule()) {
+          g.writeStringField("isDictionaryBasedSpellingRule", "yes");
+        }
         if(rule.isDefaultOff()) {
           g.writeStringField("isDefaultOff", "yes");
         }
