@@ -216,7 +216,6 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>   
     <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
-
 		<!--
 		Deze regels zijn gegenereerd op basis van algemen fonetische veranderingen van woorden (deels handmatig aangepast), onder de aanname dat dyslectici geneigd zijn fonetisch te schrijven.
 		Daadwerkelijke gegevens van schrijvende dyslectici ontbreken nog, helaas.
@@ -6909,7 +6908,7 @@ onwaarschijnlijk
         
         <!-- ######### TODO : meer ######## -->
     </category>
-    <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
+    <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on" type="style">
         <rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
             <rule>
                 <antipattern><token>over</token></antipattern>
@@ -7014,7 +7013,7 @@ onwaarschijnlijk
             </rule>            
         </rulegroup>
     </category>
-    <category id="BE_NL" name="Verschil België en Nederland">
+    <category id="BE_NL" name="Verschil België en Nederland" type="style">
         <rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
             <rule>
                 <pattern>
@@ -8294,7 +8293,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
     </category>
-    <category id="LEESBAARHEID" name="Leesbaarheid">
+    <category id="LEESBAARHEID" name="Leesbaarheid" type="style">
         <rulegroup id="LANG_WOORD" name="Lang woord" default="off">
             <rule>
                 <pattern>
@@ -12339,7 +12338,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
     </category>
-    <category id="BELEDIGEND" name="Beledigend">
+    <category id="BELEDIGEND" name="Beledigend" type="register" >
         <rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik">
             <!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
             <rule>
@@ -12534,7 +12533,7 @@ onwaarschijnlijk
                     </marker>
                     <token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts</exception></token>
                 </pattern>
-                <message>Die spatie hoort er vast niet: <suggestion>\1\2\3</suggestion></message>
+                <message>Die spatie hoort er vast niet: <suggestion>\1'\3</suggestion></message>
                 <example correction="foto's">Zie <marker>foto 's</marker> !</example>
                 <example correction="chipolata's">Gebakken spek, <marker>chipolata 's</marker> van kalf, gebakken schouderham.</example>
                 <example correction="risico's">De essentie van het leven is het gevaar, het nemen van <marker>risico 's</marker>.</example>
@@ -12861,7 +12860,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
     </category>
-    <category id="GEOGRAFIE" name="Geografie">
+    <category id="GEOGRAFIE" name="Geografie" type="misspelling">
 
 		<rulegroup id="STRAAT_HL" name="Straat als soortnaam of eigennaam">
 			<rule>
@@ -13292,7 +13291,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
     </category>
-    <category id="GETALLEN" name="Getallen">
+    <category id="GETALLEN" name="Getallen" type="misspelling">
         <rulegroup id="DUIZEND" name="Na duizend een spatie">
             <!-- 2014-08-20 TaalTik -->
             <rule>
@@ -13402,7 +13401,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
     </category>
-    <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
+    <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style">
         <rulegroup id="NADRUKTEKENS" name= "optionele accenten">
             <rule>
                 <pattern>
@@ -13441,7 +13440,7 @@ onwaarschijnlijk
     </category>
     <category id="CASING" name="Hoofdletters">
 		
-		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden">
+		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
 				<antipattern><token regexp="yes">keizer|fort|villa</token><token>Augustus</token></antipattern>
 				<!-- <antipattern><token>April</token><token regexp="yes"></token></antipattern> voor eigennaam April-->
@@ -17252,7 +17251,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="COLLOQUIALISMS" name="Informeel">
+    <category id="COLLOQUIALISMS" name="Informeel" type="style">
         <rulegroup id="OVERNIEUW" name="overnieuw → opnieuw">
             <rule>
                 <pattern>
@@ -17725,7 +17724,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief">
+    <category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style">
         <rulegroup id="GOAL" name="goal → doel(punt)">
             <!-- 2014-08-22 TaalTik -->
             <rule>
@@ -18354,7 +18353,7 @@ steenwijk;Steenwijk
         </rulegroup>
 		-->
     </category>
-    <category id="NOTATIES" name="Notaties">
+    <category id="NOTATIES" name="Notaties" type="style">
         <rulegroup id="EURO" name="Correcties rond euro">
             <!-- 2014-08-21 TaalTik -->
             <rule>
@@ -18543,7 +18542,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="OUDERWETS" name="Ouderwets">
+    <category id="OUDERWETS" name="Ouderwets" type="style">
         <rulegroup id="BIJ_MIDDEL_VAN" name="Bij middel van → door middel van">
             <!-- 2014-09-08 TaalTik -->
             <rule>
@@ -30282,7 +30281,7 @@ steenwijk;Steenwijk
         </rulegroup>
 
     </category>
-    <category id="TYPOS" name="Spellingcontrole">
+    <category id="TYPOS" name="Spellingcontrole" type="misspelling">
         <!--
         <rulegroup id="TYPEFOUT" name="Grote kans op typefout">
         <rule>
@@ -30569,7 +30568,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="STYLE" name="Stijl">
+    <category id="STYLE" name="Stijl" type="style">
         <rulegroup id="ER_MIST" name="Er mist → Er ontbreekt">
             <rule>
                 <pattern>
@@ -30681,7 +30680,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="STREEKTAAL" name="Streektaal">
+    <category id="STREEKTAAL" name="Streektaal" type="style">
         <rulegroup id="TE_BED" name="te bed">
             <rule>
                 <pattern>
@@ -30694,7 +30693,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="VASTE_UITDRUKKINGEN" name="Vaste uitdrukkingen">
+    <category id="VASTE_UITDRUKKINGEN" name="Vaste uitdrukkingen" type="misspelling">
         <rulegroup id="NAAR_VERLOOP" name="naar verloop van → na verloop van">
             <rule>
                 <pattern>
@@ -30747,7 +30746,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven">
+    <category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" >
         <rulegroup id="M" name="'m">
             <rule>
                 <pattern>
@@ -31275,7 +31274,7 @@ steenwijk;Steenwijk
         </rulegroup>
 		-->
     </category>
-    <category id="WOORDGROEPEN" name="Woordgroepen">
+    <category id="WOORDGROEPEN" name="Woordgroepen" type="misspelling">
 
         <rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
             <rule>
@@ -35284,7 +35283,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés">
+    <category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés" type="style">
         <rulegroup id="KASSA_RINKELT" name="De kassa rinkelt">
             <rule>
                 <pattern>
@@ -36507,7 +36506,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden">
+    <category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden" type="style">
         <rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
             <rule>
                 <pattern>
@@ -36896,7 +36895,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
     </category>
-    <category id="REPETITIONS" name="Herhaling van woorden of woordgroepen.">
+    <category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
         <rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
             <rule>
                 <antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
@@ -36971,7 +36970,6 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
-		
         <rulegroup id="KOMMA_APO" name=",&quot; → &quot;,">
             <rule>
                 <pattern>
@@ -37262,7 +37260,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>	
-	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven">
+	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style">
 		
 		<rulegroup id="SEKSE_VOLGORDE" name="wellicht volgorde omdraaien">
 			<rule>
