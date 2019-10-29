@@ -17556,6 +17556,12 @@ USA
                 <token skip='-1' postag_regexp='yes' postag='JJ|RB'/>
                 <token>than</token>
             </antipattern>
+            <antipattern><!-- #2077 and display them differently than grammar errors. -->
+                <token chunk="B-VP" postag_regexp='yes' postag='VB.*'/>
+                <token postag='PRP'/>
+                <token>differently</token><!-- Or use postag RB? -->
+                <token>than</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
@@ -17566,6 +17572,7 @@ USA
             </pattern>
             <message>Use <suggestion><match no='1' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1R'/></suggestion> to make a comparison with this adjective.</message>
             <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
+            <example correction="(differently)">This was <marker>differently</marker> than I had expected.</example><!-- #2077 -->
             <example>...rather than receiving goods being distributed "according...</example>
             <example>The two traditions may have had more in common than initially appears.</example>
             <example>...als with Asperger syndrome tend to perform better cognitively than those with autism, the extent of the overlap...</example>
@@ -17579,6 +17586,8 @@ USA
             <example>Most scientific breakthroughs are nothing else than the discovery of the obvious.</example>
             <example>...t his use of the term science carries a different meaning than that covered by the term "scientific method"...</example>
             <example>...don't think that there is any better way to learn English than by living in America.</example>
+            <example>This will allow us to identify style issues and display them differently than grammar errors.</example><!-- #2077 -->
+            <example type="triggers_error">They seem to behave differently than some other other types of error.</example><!-- #2077 -->
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
         </rule>
