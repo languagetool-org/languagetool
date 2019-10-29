@@ -9,7 +9,7 @@ my @prnrule = qw/mé tú|thú é í|sí sinn|muid sibh iad|siad mise tusa|thusa 
 binmode(STDOUT, ":utf8");
 
 my %forms = (
-"chuig" => [ "chugam", "chugat", "chuige", "chuici", "chugainn", "chughaibh", "chucu", "chugamsa", "chugatsa", "chuigesean", "chuicise", "chugainne", "chughaibhse", "chucusan" ],
+"chuig" => [ "chugam", "chugat", "chuige", "chuici", "chugainn", "chugaibh", "chucu", "chugamsa", "chugatsa", "chuigesean", "chuicise", "chugainne", "chugaibhse", "chucusan" ],
 "ar" => [ "orm", "ort", "air", "uirthi", "orainn", "oraibh", "orthu", "ormsa", "ortsa", "airsean", "uirthise", "orainne", "oraibhse", "orthusan" ],
 "faoi" => [ "fúm", "fút", "faoi", "fúithi", "fúinn", "fúibh", "fúthu", "fúmsa", "fútsa", "faoisean", "fúithise", "fúinne", "fúibhse", "fúthusan" ],
 "as" => [ "asam", "asat", "as", "aisti", "asainn", "asaibh", "astu", "asamsa", "asatsa", "as-san", "aistise", "asainne", "ashaibhse", "astusan" ],
@@ -23,7 +23,7 @@ my %forms = (
 "um" => [ "umam", "umat", "uime", "uimpi", "umainn", "umaibh", "umpu", "umamsa", "umatsa", "uimesean", "uimpise", "umainne", "umaibhse", "umpusan" ],
 "ionsar" => [ "ionsorm", "ionsort", "ionsair", "ionsuirthi", "ionsorainn", "ionsoraibh", "ionsorthu", "ionsormsa", "ionsortsa", "ionsairsean", "ionsuirthise", "ionsorainne", "ionsoraibhse", "ionsorthusan" ],
 "thar" => [ "tharam", "tharat", "thairis", "thairsti", "tharainn", "tharaibh", "tharstu", "tharamsa", "tharatsa", "thairis-sean", "thairstise", "tharainne", "tharaibhse", "tharstusan" ],
-"chun" => [ "chugam", "chugat", "chuige", "chuici", "chugainn", "chughaibh", "chucu", "chugamsa", "chugatsa", "chuigesean", "chuicise", "chugainne", "chughaibhse", "chucusan" ],
+"chun" => [ "chugam", "chugat", "chuige", "chuici", "chugainn", "chugaibh", "chucu", "chugamsa", "chugatsa", "chuigesean", "chuicise", "chugainne", "chugaibhse", "chucusan" ],
 );
 
 sub unfada {
