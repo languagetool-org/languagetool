@@ -10909,7 +10909,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="seller" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="sale" /></suggestion>?</message>
                 <example correction="reseller|resale">The <marker>resell</marker> market is performing very well.</example>
             </rule>
-            <rule default="temp_off"><!-- the oversell -->
+            <rule><!-- the oversell -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10922,7 +10922,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="sale" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)sell" regexp_replace="selling" /></suggestion>?</message>
                 <example correction="oversale|overselling">The <marker>oversell</marker> caused a shortage.</example>
             </rule>
-            <rule default="temp_off"><!-- the portray -->
+            <rule><!-- the portray -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -10934,20 +10934,6 @@ USA
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)ay" regexp_replace="ayal" /></suggestion>?</message>
                 <example correction="portrayal">They did a <marker>portray</marker> of my life.</example>
-            </rule>
-            <rule default="temp_off"><!-- the scissor -->
-                <pattern>
-                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
-                    <token postag="JJS?" postag_regexp="yes" min="0">
-                        <exception postag="NN.*" postag_regexp="yes" />
-                    </token>
-                    <marker>
-                        <token>scissor</token>
-                    </marker>
-                </pattern>
-                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>scissors</suggestion> (= instrument for cutting)?</message>
-                <url>https://writingexplained.org/scissor-or-scissors-difference</url>
-                <example correction="scissors">The <marker>scissor</marker> were cutting through paper.</example>
             </rule>
             <rule><!-- the expire -->
                 <pattern>
@@ -15878,25 +15864,9 @@ USA
             <token>It</token>
             <token>May</token>
           </antipattern>
-          <antipattern><!--  #1869 MFU 2019-09-04: He was calling you several times today -->
-            <token postag="VB.*" postag_regexp="yes" />
-            <token regexp="yes">you|it</token>
-            <token chunk="B-NP-plural" postag="JJ|NN" postag_regexp="yes" />
-          </antipattern>
-          <antipattern><!--  "I transferred you white Admin rights" -->
-            <token postag="VB.*" postag_regexp="yes" />
-            <token regexp="yes">you|it</token>
-            <token chunk="I-NP-plural" postag="JJ|NN.*" postag_regexp="yes" />
-          </antipattern>
-          <antipattern><!--  "Is it anything like" -->
-            <token regexp="yes">is|was</token>
-            <token>it</token>
-            <token regexp="yes">(some|any)(thing|where|one)</token>
-          </antipattern>
           <antipattern>
             <token postag="VB.*" postag_regexp="yes" />
             <token regexp="yes">you|it</token>
-            <token>if</token>
           </antipattern>
           <antipattern><!-- t(he) -->
             <token>(</token>
@@ -16074,6 +16044,9 @@ USA
           <example>Is it something like meat?</example>
           <example>I could hire you if needed.</example>
           <example>Hugo Chávez stated that "[t]he world is for all of us...</example>
+          <example>Is it worth adding the extra money?</example>
+          <example>And name it something like ...</example>
+          <example>I can offer you Lifetime Warranty.</example>
         </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
@@ -17583,6 +17556,12 @@ USA
                 <token skip='-1' postag_regexp='yes' postag='JJ|RB'/>
                 <token>than</token>
             </antipattern>
+            <antipattern><!-- #2077 and display them differently than grammar errors. -->
+                <token chunk="B-VP" postag_regexp='yes' postag='VB.*'/>
+                <token postag='PRP'/>
+                <token>differently</token><!-- Or use postag RB? -->
+                <token>than</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
@@ -17593,6 +17572,7 @@ USA
             </pattern>
             <message>Use <suggestion><match no='1' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1R'/></suggestion> to make a comparison with this adjective.</message>
             <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
+            <example correction="(differently)">This was <marker>differently</marker> than I had expected.</example><!-- #2077 -->
             <example>...rather than receiving goods being distributed "according...</example>
             <example>The two traditions may have had more in common than initially appears.</example>
             <example>...als with Asperger syndrome tend to perform better cognitively than those with autism, the extent of the overlap...</example>
@@ -17606,6 +17586,8 @@ USA
             <example>Most scientific breakthroughs are nothing else than the discovery of the obvious.</example>
             <example>...t his use of the term science carries a different meaning than that covered by the term "scientific method"...</example>
             <example>...don't think that there is any better way to learn English than by living in America.</example>
+            <example>This will allow us to identify style issues and display them differently than grammar errors.</example><!-- #2077 -->
+            <example type="triggers_error">They seem to behave differently than some other other types of error.</example><!-- #2077 -->
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
         </rule>
@@ -19919,11 +19901,17 @@ USA
                     <token>may</token>
                     <token regexp="yes">contain|include</token>
                 </antipattern>
+                <antipattern><!-- #2075 Mr Johnson’s Brexit deal -->
+                    <token postag="POS" regexp="yes">&apostrophe;</token>
+                    <token postag="POS">s</token>
+                    <token postag="NNP"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
                         <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be|make</exception>
-                        <exception postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/>
+                        <exception postag="C[CD]|IN|DT|UNKNOWN|MD|NNP|\." postag_regexp="yes"/>
                         <exception scope="previous" postag="PRP$"/>
                         <exception regexp="yes">initials|letters</exception>
                     </token>
@@ -19939,6 +19927,7 @@ USA
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
+                <example>- Right click on the item.</example>
                 <example>Boys are at higher risk for autism than girls.</example>
                 <example>In reply, he said he was too old for this.</example>
                 <example>I can see Bill looking through the window.</example>
@@ -19959,13 +19948,13 @@ USA
                 <example><marker>God bless</marker> the United States of America.</example>
                 <example>Ask people to help.</example>
                 <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
-                <example type="triggers_error">… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
+                <example>… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
                 <example>We elected Jeffrey <marker>captain</marker> of our team.</example>
                 <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
-                <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
+                <example>… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
                 <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
                 <example>... Lumet led a successful campaign to have Kurosawa receive an Oscar nomination for Best Director that year...</example>
-                <example type="triggers_error">...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
+                <example>...small bodies database Current down-loadable ASCII table of orbit data and absolute...</example>
                 <example>Add your <marker>Google calendar</marker> to your mobile phone.</example><!-- #1886 -->
                 <example>...1802 – William Wordsworth and his sister, Dorothy, see a "long belt" of daffodils, inspiring the former ...</example>
                 <example>The people of Antigua &amp; Barbuda enjoy a more-than-90% literacy rate.</example>
@@ -19982,6 +19971,7 @@ USA
                 <example>He said: "Good luck to you"</example>
                 <example>Johnson &amp; Trump are both English-speaking leaders.</example>
                 <example>YouTube channel for cooking videos.</example>
+                <example>He was required to put Mr Johnson’s Brexit deal into law.</example><!-- #2075 -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -21310,7 +21300,7 @@ USA
                         <exception postag="NN:U|NNP?S|JJ.*|MD|CC|VBG|IN|RB" postag_regexp="yes"/>
                         <exception inflected="yes">be</exception></token>
                 </marker>
-                <token><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
+                <token><exception postag="NN.*|JJ.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="2"/> seems to be countable; consider using: <suggestion><match no="1"/> <match suppress_misspelled="yes" no="2" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -21334,7 +21324,9 @@ USA
             <example>...lanthanum and actinium compounds differ by only a few percent.</example>
             <example>There are many Taxicab and Hackney carriage services on the Island.</example>
             <example>Are there many taxi and hackney carriage services here?</example>
+            <example>Many Volkswagen XYZs.</example><!-- ignore unknown tokens (most likely proper nouns we don't have a POS for) -->
             <example>Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
+            <example>Many Labour MPs remain adamantly opposed to an election in any circumstances.</example><!-- #2074 -->
         </rule>
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
@@ -22739,6 +22731,12 @@ USA
                     <token>as</token>
                     <token postag="PRP"/>
                 </antipattern>
+                <antipattern>
+                    <token>step</token>
+                    <token>by</token>
+                    <token>step</token>
+                    <token>by</token>
+                </antipattern>
                 <antipattern><!-- comparison with a repeated adjective -->
                     <token>as</token>
                     <token postag="JJ"/>
@@ -22771,6 +22769,7 @@ USA
                 <example>Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
                 <example>No credit is almost <marker>as bad as</marker> bad credit.</example>
                 <example>He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
+                <example>I think this rule should be replaced step by step by new rules.</example>
             </rule>
         </rulegroup>
         <rule id="ACCORDING_TO" name="according to">
@@ -22811,6 +22810,16 @@ USA
             <short>Possible grammar error</short>
             <example correction="well">You speak English very <marker>good</marker>.</example>
         </rule>
+        <rulegroup id="WEEK_END" name="week end (weekend)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>week</token>
+                    <token>end</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>weekend</suggestion> (Saturday + Sunday)?</message>
+                <example correction="weekend">We went golfing on the <marker>week end</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMPOUND_ADJECTIVE_NOUN" name="Missing hyphen in a compound adjective before a noun"><!-- Refer to https://github.com/languagetool-org/languagetool/issues/1318. Reference dictionary: www.ldoceonline.com/dictionary/ otherwise stated -->
             <url>https://www.grammarbook.com/punctuation/hyphens.asp</url>
             <short>Compound adjective + noun: missing hyphen</short>
@@ -28491,7 +28500,7 @@ The accident victim died from her injuries.
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
-                    <token negate="yes" regexp="yes">[,:!\.\?]</token>
+                    <token negate="yes" regexp="yes">[,:!\.\?\-\–]</token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\2,</suggestion>
@@ -28523,6 +28532,7 @@ The accident victim died from her injuries.
 <!-- TODO -->   <example><marker>Anyway</marker> you look after the disambiguation, and I'll do the grammar rules.</example>
                 <example><marker>Anyway you look at it</marker>, the rule is good.</example>
                 <example>Still and calm he was sitting there.</example>
+                <example>Also - and this is a recurring theme here - a government cannot just decide about this.</example>
                 <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
                 <example type="triggers_error"><marker>Currently under construction in Edmonton</marker> is the new...</example>
@@ -33055,12 +33065,15 @@ The accident victim died from her injuries.
                 <marker>
                     <token>since</token>
                 </marker>
-                <token><exception postag="NN.*|DT|CD" postag_regexp="yes"/></token>
+                <token><exception postag="NN.*|DT|CD|PRP" postag_regexp="yes"/></token>
             </pattern>
             <message>Did you mean <suggestion>sense</suggestion>?</message>
             <short>Nonstandard phrase</short>
             <example correction="sense">Something like 90 most likely never makes <marker>since</marker>.</example>
+            <example correction="sense">It makes <marker>since</marker> to do it like that.</example>
             <example>There have been three made <marker>since</marker> the launch.</example>
+            <example>A promise Mr Johnson had repeatedly made since he became prime minister.</example>
+            <example>Especially since you have done it.</example>
             <example>Many changes have been made <marker>since</marker> my previous visit.</example>
         </rule>
         <rule id="ALL_AND_ALL" name="all and all (all in all)">
@@ -36267,7 +36280,7 @@ The accident victim died from her injuries.
                 <example correction="The">Some of the most prosperous neighbourhoods of the Netherlands can be found in <marker>the</marker>  Hague.</example>
                 <example>When did <marker>the Hague</marker> Congress take place?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>European</token>
                     <token>Union</token>
@@ -36279,7 +36292,7 @@ The accident victim died from her injuries.
                 <message>The proper noun <suggestion>European Union</suggestion> needs to be capitalized.</message>
                 <example correction="European Union">The <marker>European union</marker> elected a new president.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>United</token>
                     <token regexp="yes">States|Kingdom</token>

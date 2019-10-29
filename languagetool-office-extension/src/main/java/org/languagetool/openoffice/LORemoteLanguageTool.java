@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
-import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.remote.CheckConfiguration;
@@ -83,7 +82,7 @@ class LORemoteLanguageTool {
     try {
       String urlParameters = "language=" + language.getShortCodeWithCountryAndVariant();
       RemoteConfigurationInfo configInfo = remoteLanguageTool.getConfigurationInfo(urlParameters);
-      MessageHandler.printToLogFile("Number of rules: " + configInfo.getRemoteRules().size());
+//      MessageHandler.printToLogFile("Number of rules: " + configInfo.getRemoteRules().size());
       storeAllRules(configInfo.getRemoteRules());
       maxTextLength = configInfo.getMaxTextLength();
       MessageHandler.printToLogFile("Server Limit text length: " + maxTextLength);
@@ -102,11 +101,13 @@ class LORemoteLanguageTool {
     if(paraMode == ParagraphHandling.ONLYPARA) {
       if(!useServerConfig) {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+/*
         MessageHandler.printToLogFile("Number of enabled rules:");
         for(String rule : enabledRules) {
           MessageHandler.printToLogFile(rule);
         }
         MessageHandler.printToLogFile("Number of rule values: " + ruleValues.size());
+*/
         configBuilder.ruleValues(ruleValues);
         configBuilder.enabledOnly();
       }
@@ -115,7 +116,7 @@ class LORemoteLanguageTool {
       if(!useServerConfig) {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
         configBuilder.disabledRuleIds(enabledRules.toArray(new String[0]));
-        MessageHandler.printToLogFile("Number of rule values: " + ruleValues.size());
+//        MessageHandler.printToLogFile("Number of rule values: " + ruleValues.size());
         configBuilder.ruleValues(ruleValues);
       }
       configBuilder.mode("allButTextLevelOnly");
@@ -219,7 +220,7 @@ class LORemoteLanguageTool {
     Set<String> rules = configurableValues.keySet();
     for (String rule : rules) {
       String ruleValueString = new String(rule + ":" + configurableValues.get(rule));
-      MessageHandler.printToLogFile("ruleValueString: " + ruleValueString);
+//      MessageHandler.printToLogFile("ruleValueString: " + ruleValueString);
       ruleValues.add(ruleValueString);
     }
   }

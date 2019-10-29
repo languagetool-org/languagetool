@@ -187,12 +187,19 @@ class SingleDocument {
             + ", sErrors: " + (sErrors == null ? 0 : sErrors.length) + logLineBreak);
       }
       if(sErrors == null) {
-        SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition, langTool);
-        String sentence = sfp.getSentence();
-        paRes.nStartOfSentencePosition = sfp.getPosition();
-        paRes.nStartOfNextSentencePosition = sfp.getPosition() + sentence.length();
+        String text;
+        if(!langTool.isRemote()) {
+          SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition, langTool);
+          text = sfp.getSentence();
+          paRes.nStartOfSentencePosition = sfp.getPosition();
+          paRes.nStartOfNextSentencePosition = sfp.getPosition() + text.length();
+        } else {
+          text = paraText;
+          paRes.nStartOfSentencePosition = 0;
+          paRes.nStartOfNextSentencePosition = text.length();
+        }
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
+        sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
             paraNum, footnotePositions, isParallelThread, langTool);
       }
       List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, paraNum, paRes.nStartOfSentencePosition,
@@ -965,8 +972,13 @@ class SingleDocument {
       if (StringTools.isEmpty(sentence)) {
         errorArray = new SingleProofreadingError[0];
       } else {
-        AnnotatedText annotatedText = getAnnotatedText(sentence, footnotePositions, startPos);
-        List<RuleMatch> ruleMatches = langTool.check(annotatedText, false, JLanguageTool.ParagraphHandling.ONLYNONPARA);
+        List<RuleMatch> ruleMatches;
+        if(!langTool.isRemote()) {
+          AnnotatedText annotatedText = getAnnotatedText(sentence, footnotePositions, startPos);
+          ruleMatches = langTool.check(annotatedText, false, JLanguageTool.ParagraphHandling.ONLYNONPARA);
+        } else {
+          ruleMatches = langTool.check(sentence, true, JLanguageTool.ParagraphHandling.ONLYNONPARA);
+        }
         if (!ruleMatches.isEmpty()) {
           errorArray = new SingleProofreadingError[ruleMatches.size()];
           int i = 0;
