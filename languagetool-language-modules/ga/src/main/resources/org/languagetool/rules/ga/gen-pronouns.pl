@@ -4,7 +4,7 @@ use strict;
 use utf8;
 
 my @prnname = qw/mé tú é í sinn sibh iad mise tusa eisean ise sinne sibhse iadsan/;
-my @prnrule = qw/mé tú|thú é|sé í|sí sinn|muid sibh iad|siad mise tusa|thusa eisean|seisean ise|sise sinne|muidne|muide sibhse iadsan|siadsan/;
+my @prnrule = qw/mé tú|thú é í|sí sinn|muid sibh iad|siad mise tusa|thusa eisean|seisean ise|sise sinne|muidne|muide sibhse iadsan|siadsan/;
 
 binmode(STDOUT, ":utf8");
 
@@ -23,6 +23,7 @@ my %forms = (
 "um" => [ "umam", "umat", "uime", "uimpi", "umainn", "umaibh", "umpu", "umamsa", "umatsa", "uimesean", "uimpise", "umainne", "umaibhse", "umpusan" ],
 "ionsar" => [ "ionsorm", "ionsort", "ionsair", "ionsuirthi", "ionsorainn", "ionsoraibh", "ionsorthu", "ionsormsa", "ionsortsa", "ionsairsean", "ionsuirthise", "ionsorainne", "ionsoraibhse", "ionsorthusan" ],
 "thar" => [ "tharam", "tharat", "thairis", "thairsti", "tharainn", "tharaibh", "tharstu", "tharamsa", "tharatsa", "thairis-sean", "thairstise", "tharainne", "tharaibhse", "tharstusan" ],
+"chun" => [ "chugam", "chugat", "chuige", "chuici", "chugainn", "chughaibh", "chucu", "chugamsa", "chugatsa", "chuigesean", "chuicise", "chugainne", "chughaibhse", "chucusan" ],
 );
 
 sub unfada {
