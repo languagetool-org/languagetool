@@ -238,18 +238,72 @@ sub num_bachoir {
     my $num;
     my $word;
     my $repl;
-    if ($in =~ /^<[ATNS][^>]*>([^<]+)<\/[^>]*> <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}$/) {
+    if($in =~ /^<R>NIBS<\/R> <A [^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}$/) {
+        write_nibs($1, $2);
+    } elsif($in =~ /^<[A-Z]+[^>]*>([^<]+)<\/[^>]*> <[A-Z]+[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}$/) {
     print "<!-- 1 -->\n";
         return write_bachoir_simple_second($1, $2, $3);
-	} elsif($in =~ /^([^ <]+) <N[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
+	} elsif($in =~ /^([^ <]+) <[A-Z]+[^>]+>([^<]+)<\/[^>]*>:BACHOIR\{([^\}]+)\}/) {
     print "<!-- 2 -->\n";
         return write_bachoir_simple_second($1, $2, $3);
-	} elsif($in =~ /^<[ASTN][^>]*>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
+	} elsif($in =~ /^<[A-Z]+[^>]*>([^<]+)<\/[^>]*> ([^ :<]+):BACHOIR\{([^\}]+)\}/) {
     print "<!-- 3 -->\n";
         return write_bachoir_simple_second($1, $2, $3);
     } else {
         return "";
     }
+}
+
+sub write_nibs {
+    my $word = shift;
+    my $repl = shift;
+
+	my $titleword = uc($word);
+    $titleword =~ s/.\?//g;
+	my $title = 'NIBS_' . $titleword;
+    my $isregex = ($word =~ /[\?\|]/) ? ' regexp="yes"' : '';
+
+	my $egword = $word;
+    $egword =~ s/.\?//g;
+
+my $out=<<__END__;
+        <rulegroup id="$title" name="ní ba $egword">
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <token>ba</token>
+                    <marker>
+                        <token$isregex>$word</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
+                <example correction='$repl'>ní ba <marker>$egword</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <token>b</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <marker>
+                        <token$isregex>$word</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
+                <example correction='$repl'>ní b'<marker>$egword</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <marker>
+                        <token$isregex>$word</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
+                <example correction='$repl'>ní <marker>$egword</marker></example>
+            </rule>
+        </rulegroup>
+__END__
+
 }
 
 sub write_bachoir_simple_second {    
@@ -264,17 +318,20 @@ sub write_bachoir_simple_second {
 
 	my $egnum = $num;
     $egnum =~ s/.\?//g;
+	my $egword = $word;
+    $egword =~ s/.\?//g;
+    my $isregex = ($word =~ /[\?\|]/) ? ' regexp="yes"' : '';
 
 my $out=<<__END__;
         <rule id="$title" name="$egnum $word">
             <pattern>
                 <token regexp="yes">$num</token>
                 <marker>
-                    <token>$word</token>
+                    <token$isregex>$word</token>
                 </marker>
             </pattern>
             <message>Ba chóir duit <suggestion>$repl</suggestion> a scríobh.</message>
-            <example correction='$repl'>$egnum <marker>$word</marker></example>
+            <example correction='$repl'>$egnum <marker>$egword</marker></example>
         </rule>
 __END__
 
