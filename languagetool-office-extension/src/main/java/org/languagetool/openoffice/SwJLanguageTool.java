@@ -53,8 +53,8 @@ public class SwJLanguageTool {
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
     if(isRemote) {
-//      lt = null;
-      lt = new JLanguageTool(language, motherTongue, null, userConfig);
+      lt = null;
+//      lt = new JLanguageTool(language, motherTongue, null, userConfig);
       mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
     } else if(isMultiThread) {
@@ -66,6 +66,10 @@ public class SwJLanguageTool {
       mlt = null;
       rlt = null;
     }
+  }
+  
+  public boolean isRemote() {
+    return isRemote;
   }
 
   public List<Rule> getAllRules() {
@@ -168,7 +172,7 @@ public class SwJLanguageTool {
 
   public List<String> sentenceTokenize(String text) {
     if(isRemote) {
-      return lt.sentenceTokenize(text);
+      return lt.sentenceTokenize(text);   // This is only a dummy; don't use it for call of remote server
     } else if(isMultiThread) {
         return mlt.sentenceTokenize(text); 
     } else {
