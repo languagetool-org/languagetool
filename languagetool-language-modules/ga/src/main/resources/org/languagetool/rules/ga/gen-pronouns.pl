@@ -20,7 +20,9 @@ my %forms = (
 "ó" => [ "uaim", "uait", "uaidh", "uaithi", "uainn", "uaibh", "uathu", "uaimse", "uaitse", "uaidhsean", "uaithise", "uainne", "uaibhse", "uathusan" ],
 "trí" => [ "tríom", "tríot", "tríd", "tríthi", "trínn", "tríbh", "tríothu", "tríomsa", "tríotsa", "trídsean", "tríthise", "trínne", "tríbhse", "tríothusan" ],
 "roimh" => [ "romham", "romhat", "roimhe", "roimpi", "romhainn", "romhaibh", "rompu", "romhamsa", "romhatsa", "roimhesean", "roimpise", "romhainne", "romhaibhse", "rompusan" ],
-"um" => [ "umam", "umat", "uime", "uimpi", "umainn", "umaibh", "umpu", "umamsa", "umatsa", "uimesean", "uimpise", "umainne", "umaibhse", "umpusan" ]
+"um" => [ "umam", "umat", "uime", "uimpi", "umainn", "umaibh", "umpu", "umamsa", "umatsa", "uimesean", "uimpise", "umainne", "umaibhse", "umpusan" ],
+"ionsar" => [ "ionsorm", "ionsort", "ionsair", "ionsuirthi", "ionsorainn", "ionsoraibh", "ionsorthu", "ionsormsa", "ionsortsa", "ionsairsean", "ionsuirthise", "ionsorainne", "ionsoraibhse", "ionsorthusan" ],
+"thar" => [ "tharam", "tharat", "thairis", "thairsti", "tharainn", "tharaibh", "tharstu", "tharamsa", "tharatsa", "thairis-sean", "thairstise", "tharainne", "tharaibhse", "tharstusan" ],
 );
 
 sub unfada {
