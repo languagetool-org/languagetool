@@ -8420,6 +8420,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SUPERLATIVES" name="superlatives" type="grammar">
+        <rule id="NÍOS_MHAITHE" name="níos mhaithe">
+            <pattern>
+                <token>níos</token>
+                <marker>
+                    <token regexp="yes">mh?aithe</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>fearr</suggestion> a scríobh.</message>
+            <example correction='fearr'>níos <marker>maithe</marker></example>
+        </rule>
+        <rulegroup id="NIBS_MAITHE" name="ní ba maithe">
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <marker>
+                        <token>ba</token>
+                        <token regexp="yes">mh?aithe</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>b'fhearr</suggestion> a scríobh.</message>
+                <example correction="b'fhearr">ní <marker>ba maithe</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <token>b</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <marker>
+                        <token regexp="yes">mh?aithe</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>fhearr</suggestion> a scríobh.</message>
+                <example correction="fhearr">ní b'<marker>mhaithe</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ní</token>
+                    <marker>
+                        <token regexp="yes">mh?aithe</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>fearr</suggestion> a scríobh.</message>
+                <example correction='fearr'>ní <marker>maithe</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="IS_MAITHE" name="is maithe">
             <pattern>
                 <token>is</token>
@@ -8449,8 +8494,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">mh?óire</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>mó</suggestion> a scríobh.</message>
-                <example correction='mó'>ní ba <marker>móire</marker></example>
+                <message>Ba chóir duit <suggestion>mhó</suggestion> a scríobh.</message>
+                <example correction='mhó'>ní ba <marker>móire</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -8461,8 +8506,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">mh?óire</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>ba mó</suggestion> a scríobh.</message>
-                <example correction='ba mó'>ní <marker>b'mhóire</marker></example>
+                <message>Ba chóir duit <suggestion>ba mhó</suggestion> a scríobh.</message>
+                <example correction='ba mhó'>ní <marker>b'mhóire</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -8504,8 +8549,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>oilce</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>measa</suggestion> a scríobh.</message>
-                <example correction='measa'>ní ba <marker>oilce</marker></example>
+                <message>Ba chóir duit <suggestion>mheasa</suggestion> a scríobh.</message>
+                <example correction='mheasa'>ní ba <marker>oilce</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -8516,8 +8561,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>oilce</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>ba measa</suggestion> a scríobh.</message>
-                <example correction='ba measa'>ní <marker>b'oilce</marker></example>
+                <message>Ba chóir duit <suggestion>ba mheasa</suggestion> a scríobh.</message>
+                <example correction='ba mheasa'>ní <marker>b'oilce</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -8559,20 +8604,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">th?e</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
-                <example correction='teo'>ní ba <marker>te</marker></example>
+                <message>Ba chóir duit <suggestion>theo</suggestion> a scríobh.</message>
+                <example correction='theo'>ní ba <marker>te</marker></example>
             </rule>
             <rule>
                 <pattern>
                     <token>ní</token>
-                    <token>b</token>
-                    <token regexp="yes" spacebefore="no">&apost;</token>
                     <marker>
+                        <token>b</token>
+                        <token regexp="yes" spacebefore="no">&apost;</token>
                         <token regexp="yes">th?e</token>
                     </marker>
                 </pattern>
-                <message>Ba chóir duit <suggestion>teo</suggestion> a scríobh.</message>
-                <example correction='teo'>ní b'<marker>te</marker></example>
+                <message>Ba chóir duit <suggestion>ba theo</suggestion> a scríobh.</message>
+                <example correction='ba theo'>ní <marker>b'the</marker></example>
             </rule>
             <rule>
                 <pattern>
