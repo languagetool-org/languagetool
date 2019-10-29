@@ -19919,6 +19919,12 @@ USA
                     <token>may</token>
                     <token regexp="yes">contain|include</token>
                 </antipattern>
+                <antipattern><!-- #2075 Mr Johnson’s Brexit deal -->
+                    <token postag="POS" regexp="yes">&apostrophe;</token>
+                    <token postag="POS">s</token>
+                    <token postag="NNP"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -19982,6 +19988,7 @@ USA
                 <example>He said: "Good luck to you"</example>
                 <example>Johnson &amp; Trump are both English-speaking leaders.</example>
                 <example>YouTube channel for cooking videos.</example>
+                <example>He was required to put Mr Johnson’s Brexit deal into law.</example><!-- #2075 -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
