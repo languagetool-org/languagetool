@@ -18,7 +18,7 @@ then
 fi
 
 REPO=/home/dnaber/.m2/repository
-LT_VERSION=4.7-SNAPSHOT
+LT_VERSION=4.8-SNAPSHOT
 # see https://sourceforge.net/projects/germandict/files/ (conversion to UTF-8 needed):
 ADDITIONAL_DICT_FILE=/home/dnaber/data/corpus/jan_schreiber/20170702/german/german.dic.utf8
 # see https://sourceforge.net/p/germandict/code/HEAD/tree/hunspell_words.txt?format=raw (conversion to UTF-8 needed):
