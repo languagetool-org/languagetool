@@ -114,7 +114,7 @@ public class CaseRule extends Rule {
       token("Gefahren")
     ),
     Arrays.asList(
-      regex("Digital|Global|Smart"),
+      regex("Digital|Global|Smart|International"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
