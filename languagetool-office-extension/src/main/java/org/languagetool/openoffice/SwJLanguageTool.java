@@ -21,7 +21,9 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.JLanguageTool;
@@ -42,21 +44,29 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SwJLanguageTool {
   
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private boolean isMultiThread;
   private boolean isRemote;
   private final MultiThreadedJLanguageTool mlt;
   private final LORemoteLanguageTool rlt;
-  private final JLanguageTool lt;
+  private JLanguageTool lt;
+  private boolean doReset;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
       Configuration config, List<Rule> extraRemoteRules, boolean testMode) throws MalformedURLException {
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
+    doReset = false;
     if(isRemote) {
       lt = null;
-//      lt = new JLanguageTool(language, motherTongue, null, userConfig);
       mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
+      if(!rlt.remoteRun()) {
+        MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
+        isRemote = false;
+        isMultiThread = false;
+        lt = new JLanguageTool(language, motherTongue, null, userConfig);
+      }
     } else if(isMultiThread) {
       lt = null;
       mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);
@@ -150,7 +160,12 @@ public class SwJLanguageTool {
 
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if(isRemote) {
-      return rlt.check(text, paraMode); 
+      List<RuleMatch> ruleMatches = rlt.check(text, paraMode);
+      if(ruleMatches == null) {
+        doReset = true;
+        ruleMatches = new ArrayList<RuleMatch>();
+      }
+      return ruleMatches;
     } else if(isMultiThread) {
       return mlt.check(text, tokenizeText, paraMode); 
     } else {
@@ -190,5 +205,8 @@ public class SwJLanguageTool {
     }
   }
   
+  public boolean doReset() {
+    return doReset;
+  }
 
 }

@@ -53,22 +53,22 @@ class LORemoteLanguageTool {
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;
-//  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private final boolean useServerConfig;
   private final String serverUrl;
-  private URL serverBaseUrl;
-  private Language language;
-  private Language motherTongue;
-  private RemoteLanguageTool remoteLanguageTool;
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final List<Rule> allRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
+  private URL serverBaseUrl;
+  private Language language;
+  private Language motherTongue;
+  private RemoteLanguageTool remoteLanguageTool;
   private CheckConfiguration remoteConfig;
   private CheckConfigurationBuilder configBuilder;
   private int maxTextLength;
+  private boolean remoteRun;
   
   LORemoteLanguageTool(Language language, Language motherTongue, Configuration config,
                        List<Rule> extraRemoteRules) throws MalformedURLException {
@@ -82,18 +82,22 @@ class LORemoteLanguageTool {
     try {
       String urlParameters = "language=" + language.getShortCodeWithCountryAndVariant();
       RemoteConfigurationInfo configInfo = remoteLanguageTool.getConfigurationInfo(urlParameters);
-//      MessageHandler.printToLogFile("Number of rules: " + configInfo.getRemoteRules().size());
       storeAllRules(configInfo.getRemoteRules());
       maxTextLength = configInfo.getMaxTextLength();
       MessageHandler.printToLogFile("Server Limit text length: " + maxTextLength);
+      remoteRun = true;
     } catch (Throwable t) {
       MessageHandler.printException(t);
       maxTextLength = SERVER_LIMIT;
       MessageHandler.printToLogFile("Server doesn't support maxTextLength, Limit text length set to: " + maxTextLength);
+      remoteRun = false;
     }
   }
   
   List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
+    if(!remoteRun) {
+      return null;
+    }
     configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
     if(motherTongue != null) {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
@@ -101,13 +105,6 @@ class LORemoteLanguageTool {
     if(paraMode == ParagraphHandling.ONLYPARA) {
       if(!useServerConfig) {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-/*
-        MessageHandler.printToLogFile("Number of enabled rules:");
-        for(String rule : enabledRules) {
-          MessageHandler.printToLogFile(rule);
-        }
-        MessageHandler.printToLogFile("Number of rule values: " + ruleValues.size());
-*/
         configBuilder.ruleValues(ruleValues);
         configBuilder.enabledOnly();
       }
@@ -115,8 +112,7 @@ class LORemoteLanguageTool {
     } else {
       if(!useServerConfig) {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-        configBuilder.disabledRuleIds(enabledRules.toArray(new String[0]));
-//        MessageHandler.printToLogFile("Number of rule values: " + ruleValues.size());
+        configBuilder.disabledRuleIds(disabledRules.toArray(new String[0]));
         configBuilder.ruleValues(ruleValues);
       }
       configBuilder.mode("allButTextLevelOnly");
@@ -144,14 +140,9 @@ class LORemoteLanguageTool {
       try {
         remoteResult = remoteLanguageTool.check(subText, remoteConfig);
       } catch (Throwable t) {
-        MessageHandler.showError(t);
-/*
         MessageHandler.printException(t);
-        MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
-        isRemote = false;
-        isMultiThread = false;
-        return lt.check(text, true, paraMode);
-*/
+        remoteRun = false;
+        return null;
       }
       ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
     }
@@ -164,6 +155,10 @@ class LORemoteLanguageTool {
   
   List<Rule> getAllRules() {
     return allRules;
+  }
+  
+  boolean remoteRun() {
+    return remoteRun;
   }
   
   private boolean ignoreRule(Rule rule) {
@@ -220,7 +215,6 @@ class LORemoteLanguageTool {
     Set<String> rules = configurableValues.keySet();
     for (String rule : rules) {
       String ruleValueString = new String(rule + ":" + configurableValues.get(rule));
-//      MessageHandler.printToLogFile("ruleValueString: " + ruleValueString);
       ruleValues.add(ruleValueString);
     }
   }
@@ -276,6 +270,7 @@ class LORemoteLanguageTool {
     private final String ruleId;
     private final String description;
     private final boolean hasConfigurableValue;
+    private final boolean isDictionaryBasedSpellingRule;
     private final int defaultValue;
     private final int minConfigurableValue;
     private final int maxConfigurableValue;
@@ -292,6 +287,11 @@ class LORemoteLanguageTool {
       }
       if(ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
+      }
+      if(ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
+        isDictionaryBasedSpellingRule = true;
+      } else {
+        isDictionaryBasedSpellingRule = false;
       }
       if(ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
@@ -318,6 +318,11 @@ class LORemoteLanguageTool {
     @Override
     public String getDescription() {
       return description;
+    }
+
+    @Override
+    public boolean isDictionaryBasedSpellingRule() {
+      return isDictionaryBasedSpellingRule;
     }
 
     @Override
@@ -357,6 +362,7 @@ class LORemoteLanguageTool {
     private final String ruleId;
     private final String description;
     private final boolean hasConfigurableValue;
+    private final boolean isDictionaryBasedSpellingRule;
     private final int defaultValue;
     private final int minConfigurableValue;
     private final int maxConfigurableValue;
@@ -374,6 +380,11 @@ class LORemoteLanguageTool {
       }
       if(ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
+      }
+      if(ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
+        isDictionaryBasedSpellingRule = true;
+      } else {
+        isDictionaryBasedSpellingRule = false;
       }
       if(ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
@@ -401,6 +412,11 @@ class LORemoteLanguageTool {
     @Override
     public String getDescription() {
       return description;
+    }
+
+    @Override
+    public boolean isDictionaryBasedSpellingRule() {
+      return isDictionaryBasedSpellingRule;
     }
 
     @Override

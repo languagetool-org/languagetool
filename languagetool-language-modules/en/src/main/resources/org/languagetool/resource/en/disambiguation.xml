@@ -2642,6 +2642,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
            <token chunk="E-NP-plural" postag="NNS"/>
            <token regexp="yes">are|were</token>
        </antipattern>
+       <antipattern><!-- Whatever was said showed  -->
+           <token postag="WP"/>
+           <token>was</token>
+           <token postag="VBN"/>
+           <token postag="VBD"/>
+       </antipattern>
         <pattern>
             <marker>
                 <token postag="VBN"><exception regexp="yes">been|had|got</exception></token>
@@ -2655,6 +2661,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and they just <marker>got</marker> carried away.</example>
         <example type="untouched">He <marker>looked</marker> tired then.</example>
         <example type="untouched">Verb. ... of the World War I era that <marker>succeeded</marker> armored cruisers were now classified...</example>
+        <example type="untouched">Passive voice verb. Whatever was <marker>said</marker> showed great insight.</example>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>
