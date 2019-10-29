@@ -5427,6 +5427,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule name="Proper noun: U.S. Highway 101" id="US_HIGHWAY_101"><!-- #2077, https://en.wikipedia.org/wiki/U.S._Route_101 -->
+      <pattern case_sensitive="yes">
+          <token>U</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no">S</token>
+          <token spacebefore="no">.</token>
+          <token regexp="yes">Route|Highway</token>
+          <token>101</token><!-- Possibly use postag CD. The safe option is to add the known correct numbers -->
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule name="NN: Enter Key" id="ENTER_KEY">
       <pattern>
           <marker>
