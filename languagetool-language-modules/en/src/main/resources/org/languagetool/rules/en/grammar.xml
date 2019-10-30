@@ -4124,6 +4124,14 @@ USA
                 <token regexp="yes">singles|doubles</token>
                 <token regexp="yes">players?</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">human|civil|natural</token>
+                <token regexp="yes">rights|resources|ingredients</token>
+            </antipattern>
+            <antipattern>
+                <token>dangerous</token>
+                <token>goods</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- Allow "Tom hates / likes / play ...." -->
                     <token postag="SENT_START"/>
@@ -4141,10 +4149,6 @@ USA
                     <token regexp="yes">person|face</token>
                     <token>to</token>
                     <token regexp="yes">person|face</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">human|civil</token>
-                    <token regexp="yes">rights|resources</token>
                 </antipattern>
                 <antipattern>
                     <token>arms</token>
@@ -12461,11 +12465,14 @@ USA
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
                 <token regexp="yes" case_sensitive="yes">[Ii]t</token>
-                <token min="0" max="1" postag="RB"/>
+                <token min="0" max="1" postag="RB">
+                    <exception regexp="yes">as|so</exception>
+                </token>
                 <marker>
                     <token postag="VBP?" postag_regexp="yes">
                         <exception postag_regexp="yes" postag="VBD|R[BP]|IN|JJ."/>
                         <exception regexp="yes">true|cant</exception><!-- see rule CANT -->
+                        <exception>will</exception>
                     </token>
                 </marker>
             </pattern>
@@ -12502,6 +12509,7 @@ USA
             <example>I'm not paying to have it continue.</example><!-- #1960 -->
             <example>He had put it right at the beginning.</example>
             <example>He removed it right then.</example>
+            <example>They confirmed it so will you please do it?</example>
             <example>They say it cant happen.</example><!-- rule CANT will catch this -->
             <example>... to the cheerfully optimistic, and it need not imply anything specific about the writer's...</example>
             <example type="triggers_error">Si le grain ne meurt – 1926 (translated as If It Die)</example>
@@ -14805,7 +14813,7 @@ USA
 <!-- False negative cause by non-standard drank/VBN --><example>He has <marker>drank</marker> that too quickly.</example>
         </rule>
         </rulegroup>
-        <rulegroup id="CONFUSION_RIDE_RIGHT" name="confusion of ride/right" default="temp_off">
+        <rulegroup id="CONFUSION_RIDE_RIGHT" name="confusion of ride/right">
             <antipattern>
                 <token>ride</token>
                 <token>sharing</token>
@@ -20988,7 +20996,7 @@ USA
                 <token>student</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
-                <token>level</token>
+                <token regexp="yes">level|tier|unit</token>
                 <token regexp="yes">\d+</token>
                 <token postag="NN.*" postag_regexp="yes" />
             </antipattern>
@@ -21001,6 +21009,11 @@ USA
                 <token>need</token>
                 <token>4</token>
                 <token>speed</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>right</token>
+                <token>now</token>
             </antipattern>
             <antipattern> <!-- two week's time - there's another rule for this mistake: CD_WEEK_S -->
                 <token postag="CD"><exception regexp="yes">one|1</exception></token>
@@ -21036,8 +21049,12 @@ USA
                 <token>by</token>
                 <token postag="NNP"/>
             </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>year</token>
+                <token>guarantee</token>
+            </antipattern>
             <antipattern><!-- #1903. slide 8 and click on -->
-                <token postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token postag="CD" regexp="yes">[0-9]+</token>
                 <token>and</token>
                 <token postag="VB"/>
@@ -21092,12 +21109,13 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception>will</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
-                        <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">trained|mentioned|assisting</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception>caused</exception>
+                        <exception>so</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
@@ -21114,6 +21132,10 @@ USA
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
             <example>It was 30 cm long.</example>
+            <example>It's below 60 lux.</example>
+            <example>5 year guarantee.</example>
+            <example>There are around 50 right now.</example>
+            <example>One or two mentioned earlier.</example>
             <example>By 700 BC war between the two Empires became inevitable.</example>
             <example>I have two book readers in my palmtop.</example>
             <example>US$10,000 for a single 25 minute episode.</example>
@@ -21137,6 +21159,7 @@ USA
             <example>The World War 2 German bomber rolled down a runway and took off.</example>
             <example>Volume dipped to 3.28 million shares from 3.98 million Monday.</example>
             <example>It is five and seventeen.</example>
+            <example>He maintains two and so can the police.</example>
             <example>Last week the board, by a 4 to 3 vote, decided to ask voters.</example>
             <example>Before he was forty Griffith had created the art of the film.</example>
             <example>In the 1860 - 70 decade there are many poems like Revulsion.</example>
@@ -27210,12 +27233,48 @@ The accident victim died from her injuries.
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Thanks</token>
+                        <token postag="NNP"><exception regexp="yes">for|to</exception></token>
+                    </marker>
+                    <or>
+                        <token>for</token>
+                        <token postag="PRP">
+                            <exception postag="NNP" />
+                        </token>
+                    </or>
+                </pattern>
+                <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3,</suggestion>?</message>
+                <short>Missing comma</short>
+                <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> for taking care.</example>
+                <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> you are the best.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>Thank</token>
+                        <token>you</token>
+                        <token postag="NNP"><exception regexp="yes">for|to</exception></token>
+                    </marker>
+                    <or>
+                        <token>for</token>
+                        <token postag="PRP" />
+                    </or>
+                </pattern>
+                <message>When a person is directly addressed, a comma should set off the name: <suggestion>\1 \2, \3,</suggestion>?</message>
+                <short>Missing comma</short>
+                <example correction="Thank you, Tom,"><marker>Thank you Tom</marker> for helping us.</example>
+                <example>Thank You For That.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">Thanks|Please|Welcome|Goodbye</token>
-                        <token postag="NNP"/>
+                        <token postag="NNP"><exception regexp="yes">for|to</exception></token>
                     </marker>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\2, \3</suggestion>?</message>
@@ -27226,11 +27285,12 @@ The accident victim died from her injuries.
                 <pattern>
                     <token>Thank</token>
                     <token>you</token>
-                    <token postag="NNP"/>
+                    <token postag="NNP"><exception regexp="yes">for|to</exception></token>
                 </pattern>
                 <message>When a person is directly addressed, a comma should set off the name: <suggestion>\1 \2, \3</suggestion>?</message>
                 <short>Missing comma</short>
                 <example correction="Thank you, Tom"><marker>Thank you Tom</marker>, for helping us.</example>
+                <example>THANK YOU FOR TAKING CARE.</example>
             </rule>
             <rule>
                 <pattern>
@@ -28508,6 +28568,16 @@ The accident victim died from her injuries.
                     <token>here</token>
                     <token postag="SENT_END|PCT" postag_regexp="yes" />
                 </antipattern>
+                <antipattern><!-- "Still on fire!", "Still on the ground." -->
+                    <token>still</token>
+                    <token postag="IN" />
+                    <token postag="DT|NN.*|JJ.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- "Still the greatest" -->
+                    <token>still</token>
+                    <token postag="DT" />
+                    <token postag="JJ.*|NN.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
@@ -28533,6 +28603,7 @@ The accident victim died from her injuries.
                 <example>However implausible this is, it is certainly the case that...</example>
                 <example>Also specify your gender.</example>
                 <example>Also known as UCB, ...</example>
+                <example>Still the greatest.</example>
                 <example>However you look at it, existing investors are likely to lose out.</example>
                 <example correction="Alas,"><marker>Alas</marker> James had finals and couldn’t attend.</example>
                 <example>Alas! Her heart belonged to another.</example>
@@ -28584,7 +28655,7 @@ The accident victim died from her injuries.
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
-                    <token postag="NN.*|SENT_END" postag_regexp="yes"/>
+                    <token postag="NN.*|SENT_END|PCT" postag_regexp="yes"/>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3-\4</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
@@ -28614,7 +28685,7 @@ The accident victim died from her injuries.
                         <token postag="JJ" regexp="yes">.*(second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y)</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
-                    <token postag="NN.*|SENT_END" postag_regexp="yes"/>
+                    <token postag="NN.*|SENT_END|PCT" postag_regexp="yes"/>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\2-\3</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
