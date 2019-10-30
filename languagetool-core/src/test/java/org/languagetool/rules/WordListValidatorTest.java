@@ -37,6 +37,7 @@ public class WordListValidatorTest {
           "Ææ" +  // English
           "ÍÚÑ" + // for Spanish
           "õș" +   // for Portuguese
+          "ā" + // for Persian
           "·" +   // for Catalan
           "'’" +
           "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
@@ -64,6 +65,7 @@ public class WordListValidatorTest {
           "ångströms",
           "'Ndrangheta",
           "McDonald's",
+          "Bahrām",
           "µm",
           "µg",
           "µl",
