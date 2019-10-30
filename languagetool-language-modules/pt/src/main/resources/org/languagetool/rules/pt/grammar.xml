@@ -25187,11 +25187,11 @@ TODO Write better examples
       <example>1 = 1</example>
       <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
           <marker>
             <token>&lt;</token>
-            <token>=</token>
+            <token spacebefore="no">=</token>
           </marker>
           <token negate="yes">&gt;</token>
       </pattern>
@@ -25207,7 +25207,7 @@ TODO Write better examples
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
       <pattern>
-          <token negate="yes">&lt;</token>
+        <token negate="yes">&lt;</token>
         <marker>
           <token regexp="yes">(?:\-|=){1,2}</token>
           <token>&gt;</token>
@@ -25223,13 +25223,13 @@ TODO Write better examples
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Ponto 1</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
         <marker>
           <token>&lt;</token>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
         </marker>
-          <token negate="yes">&gt;</token>
+        <token negate="yes">&gt;</token>
       </pattern>
       <message>Pretende utilizar uma seta?</message>
         <suggestion>≤</suggestion>
@@ -25240,9 +25240,10 @@ TODO Write better examples
         <suggestion>⇦</suggestion>
         <suggestion>⇚</suggestion>
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
-      <example >A ← B</example>
+      <example>A ← B</example>
+      <example>-128 &lt; -127 &lt; -126</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
           <token>&lt;</token>
           <token regexp="yes">\-|=</token>
