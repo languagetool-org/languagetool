@@ -48,6 +48,21 @@ public class WordListValidatorTest {
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Będzin",
+          "Bhagavad-gītā",
+          "Brāhmaṇa",
+          "Forlì-Cesena",
+          "Hárbarðsljóð",
+          "Hassānīya",
+          "Hyndluljóð",
+          "Kazanlǎk",
+          "Kesäranta",
+          "Kŭrdzhali",
+          "Rígsþula",
+          "Savitṛ",
+          "Vafþrúðnismál",
+          "Völundarkviða",
+          "Kṛṣṇa",
           "art.º",
           "Klaipėda",
           "Mondelēz",
