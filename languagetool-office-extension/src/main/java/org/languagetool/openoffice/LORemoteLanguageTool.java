@@ -53,7 +53,6 @@ class LORemoteLanguageTool {
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;
-  private final boolean useServerConfig;
   private final String serverUrl;
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
@@ -74,7 +73,6 @@ class LORemoteLanguageTool {
                        List<Rule> extraRemoteRules) throws MalformedURLException {
     this.language = language;
     this.motherTongue = motherTongue;
-    useServerConfig = config.useServerConfiguration();
     serverUrl = config.getServerUrl();
     setRuleValues(config.getConfigurableValues());
     serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
@@ -103,18 +101,14 @@ class LORemoteLanguageTool {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
     }
     if(paraMode == ParagraphHandling.ONLYPARA) {
-      if(!useServerConfig) {
-        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-        configBuilder.ruleValues(ruleValues);
-        configBuilder.enabledOnly();
-      }
+      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+      configBuilder.ruleValues(ruleValues);
+      configBuilder.enabledOnly();
       configBuilder.mode("textLevelOnly");
     } else {
-      if(!useServerConfig) {
-        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-        configBuilder.disabledRuleIds(disabledRules.toArray(new String[0]));
-        configBuilder.ruleValues(ruleValues);
-      }
+      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+      configBuilder.disabledRuleIds(disabledRules.toArray(new String[0]));
+      configBuilder.ruleValues(ruleValues);
       configBuilder.mode("allButTextLevelOnly");
     }
     remoteConfig = configBuilder.build();

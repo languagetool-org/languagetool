@@ -141,6 +141,12 @@ public class ConfigurationDialog implements ActionListener {
     if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff()) && !config.getEnabledRuleIds().contains(rule.getId())) {
       ret = false;
     }
+    if (insideOffice && rule.isOfficeDefaultOff() && !config.getEnabledRuleIds().contains(rule.getId())) {
+      ret = false;
+    }
+    if (insideOffice && rule.isOfficeDefaultOn() && !config.getDisabledRuleIds().contains(rule.getId())) {
+      ret = true;
+    }
     if (rule.isDefaultOff() && rule.getCategory().isDefaultOff()
             && config.getEnabledRuleIds().contains(rule.getId())) {
       config.getDisabledCategoryNames().remove(rule.getCategory().getName());
@@ -653,22 +659,15 @@ public class ConfigurationDialog implements ActionListener {
       otherServerNameField.setEnabled(useServerBox.isSelected());
     });
 
-    JCheckBox useServerSettingsBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServerSettings")));
-    useServerSettingsBox.setSelected(config.useServerConfiguration());
-    useServerSettingsBox.addItemListener(e -> config.setUseServerConfiguration(useServerSettingsBox.isSelected()));
-
     JCheckBox useRemoteServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseRemoteServer")));
     useRemoteServerBox.setSelected(config.doRemoteCheck());
     useServerBox.setEnabled(useRemoteServerBox.isSelected());
     otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
-//    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
     isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
     useRemoteServerBox.addItemListener(e -> {
       config.setRemoteCheck(useRemoteServerBox.isSelected());
       useServerBox.setEnabled(useRemoteServerBox.isSelected());
       otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-      useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
       isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
     });
     
@@ -690,8 +689,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
-    cons.gridy++;
-    portPanel.add(useServerSettingsBox, cons);
 
   }
 
