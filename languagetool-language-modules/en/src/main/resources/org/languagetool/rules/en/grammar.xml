@@ -39577,11 +39577,11 @@ The accident victim died from her injuries.
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Point 1</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
         <marker>
           <token>&lt;</token>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
         </marker>
           <token negate="yes">&gt;</token>
       </pattern>
@@ -39595,12 +39595,13 @@ The accident victim died from her injuries.
         <suggestion>⇚</suggestion>
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
       <example >A ← B</example>
+      <example>-128 &lt; -127 &lt; -126</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
           <token>&lt;</token>
-          <token regexp="yes">\-|=</token>
-          <token>&gt;</token>
+          <token spacebefore="no" regexp="yes">\-|=</token>
+          <token spacebefore="no">&gt;</token>
       </pattern>
       <message>Do you wish to insert an arrow?</message>
         <suggestion>↔</suggestion>
