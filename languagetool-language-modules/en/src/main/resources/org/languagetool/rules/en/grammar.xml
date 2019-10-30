@@ -14539,6 +14539,16 @@ USA
                     <token postag="VB.?" postag_regexp="yes" />
                     <token regexp="yes">is|are|was|were</token>
                 </antipattern>
+                <antipattern><!-- #2089 Do you have pen and paper? 'pen and paper' can be used in a non-count way, as shown in the definition on www.lexico.com/en/definition/pen-and-paper -->
+                    <token postag="VB.?" postag_regexp="yes" inflected="yes">have</token>
+                    <token chunk="B-NP-singular" postag="NN"/><!-- The pattern has an exception for NN:U. This AP is a special case. -->
+                    <token regexp="yes">and|or</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
+                <antipattern><!-- #2089 Do you have bicycle in your garage? [Missing article before a countable noun.] -->
+                    <token postag="VB.?" postag_regexp="yes" inflected="yes">have</token>
+                    <token chunk="E-NP-singular" postag="NN"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
@@ -14580,6 +14590,9 @@ USA
                 <example>The job I had was in Germany.</example>
                 <example>The new job I have is about plumbing.</example>
                 <example>The problems I have are all related to something else.</example><!-- #2090 -->
+                <example>Do you have pen and paper?</example><!-- #2089 -->
+                <example>Make sure that the candidate has pen and paper for the written test.</example><!-- #2089 -->
+                <example>Do you have bicycle in your garage?</example><!-- #2089. Missing article before a count noun, but that problem is not applicable to this rule. -->
             </rule>
             <rule>
                 <antipattern><!-- www.ldoceonline.com/dictionary/far -->
