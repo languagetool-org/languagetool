@@ -9099,6 +9099,12 @@ USA
                 <token postag="CD"/>
                 <token>people</token>
             </antipattern>
+            <antipattern><!-- #2095 the risk to people -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+                <token postag="IN"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
@@ -9122,6 +9128,8 @@ USA
             <example>... believed that <marker>the freedom given to people</marker> leaves the human in a constant fear of failing his/her ...</example>
             <example><marker>Anxiety when meeting or interacting with unknown people</marker> is a common stage of development in young people.</example>
             <example>It will not be long before <marker>one out of five people</marker> owns a car.</example>
+            <example>PHE says the risk to people is still “very low”.</example><!--  #2095 -->
+            <example>PHE says the risk for people is still “very low”.</example><!--  #2095 -->
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
