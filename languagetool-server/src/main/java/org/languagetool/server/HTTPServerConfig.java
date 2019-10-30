@@ -27,6 +27,8 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -49,6 +51,8 @@ public class HTTPServerConfig {
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
+
+  protected URI serverURL = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
   protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
@@ -203,6 +207,8 @@ public class HTTPServerConfig {
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
+        String url = getOptionalProperty(props, "serverURL", null);
+        setServerURL(url);
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -380,6 +386,34 @@ public class HTTPServerConfig {
   public void setAllowOriginUrl(String allowOriginUrl) {
     this.allowOriginUrl = allowOriginUrl;
   }
+
+
+  /**
+   * @since 4.8
+   * @return prefix / base URL for API requests
+   */
+  @Nullable
+  public URI getServerURL() {
+    return serverURL;
+  }
+
+  /**
+   * @since 4.8
+   * @param url prefix / base URL for API requests
+   */
+  public void setServerURL(@Nullable String url) {
+    if (url != null) {
+      try {
+        // ignore different protocols, ports,... just use path for relative requests
+        serverURL = new URI(new URI(url).getPath());
+      } catch (URISyntaxException e) {
+        throw new IllegalArgumentException("Could not parse provided serverURL: '" + url + "'", e);
+      }
+    } else {
+      serverURL = null;
+    }
+  }
+
 
   /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer

@@ -2093,7 +2093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <antipattern>
         <token>&lt;</token>
         <token regexp="yes">\-|=</token>
@@ -2102,7 +2102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>&lt;</token>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
         </marker>
         <token/>
       </pattern>
@@ -2116,12 +2116,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>⇚</suggestion>
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
       <example >A ← B</example>
+      <example>-128 &lt; -127 &lt; -126</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
           <token>&lt;</token>
-          <token regexp="yes">\-|=</token>
-          <token>&gt;</token>
+          <token spacebefore="no" regexp="yes">\-|=</token>
+          <token spacebefore="no">&gt;</token>
       </pattern>
       <message>¿Desea utilizar una flecha?</message>
         <suggestion>↔</suggestion>

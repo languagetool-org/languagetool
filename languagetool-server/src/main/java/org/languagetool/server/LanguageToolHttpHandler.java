@@ -76,9 +76,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     boolean incrementHandleCount = false;
     try {
       URI requestedUri = httpExchange.getRequestURI();
-      if (requestedUri.getRawPath().startsWith("/v2/")) {
+      String path = requestedUri.getRawPath();
+      if (config.getServerURL() != null) {
+        path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
+        if (!path.startsWith("/")) {
+          path = "/" + path;
+        }
+      }
+      if (path.startsWith("/v2/")) {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
-        String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+        String pathWithoutVersion = path.substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
           if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
@@ -148,17 +155,17 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
-        if (requestedUri.getRawPath().startsWith("/v2/")) {
+        if (path.startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
-          String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+          String pathWithoutVersion = path.substring("/v2/".length());
           apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
-        } else if (requestedUri.getRawPath().endsWith("/Languages")) {
+        } else if (path.endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
-        } else if (requestedUri.getRawPath().equals("/")) {
+        } else if (path.equals("/")) {
           throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
-        } else if (requestedUri.getRawPath().contains("/v2/")) {
+        } else if (path.contains("/v2/")) {
           throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
-        } else if (requestedUri.getRawPath().equals("/favicon.ico")) {
+        } else if (path.equals("/favicon.ico")) {
           sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
           throw new IllegalArgumentException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);

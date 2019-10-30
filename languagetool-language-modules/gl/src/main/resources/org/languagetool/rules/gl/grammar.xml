@@ -1380,17 +1380,17 @@
       <example>1 = 1</example>
       <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
           <marker>
             <token>&lt;</token>
-            <token>=</token>
+            <token spacebefore="no">=</token>
           </marker>
           <token negate="yes">&gt;</token>
       </pattern>
       <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>≤</suggestion>
-        <suggestion>≦</suggestion>
+      <suggestion>≤</suggestion>
+      <suggestion>≦</suggestion>
       <example>1 ≤ 3</example>
       <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
     </rule>
@@ -1416,11 +1416,11 @@
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
     </rule>
-    <rule default="temp_off">
+    <rule>
       <pattern>
         <marker>
           <token>&lt;</token>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
         </marker>
         <token negate="yes">&gt;</token>
       </pattern>
@@ -1433,7 +1433,8 @@
         <suggestion>⇦</suggestion>
         <suggestion>⇚</suggestion>
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
-      <example >A ← B</example>
+      <example>A ← B</example>
+      <example>-128 &lt; -127 &lt; -126</example>
     </rule>
     <rule>
       <pattern>
