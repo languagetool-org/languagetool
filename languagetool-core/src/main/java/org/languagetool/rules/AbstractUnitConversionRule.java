@@ -546,7 +546,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
     // there should be no influence on other results
     matchUnits(sentence, matches, ignoreRanges, true);
     matchUnits(sentence, matches, ignoreRanges, false);
-    return matches.toArray(new RuleMatch[0]);
+    Map<Integer, RuleMatch> matchesByStart = new HashMap<>();
+    // deduplicate matches with equal start, longer match should win, e.g. miles per hour over just miles
+    for (RuleMatch match : matches) {
+      matchesByStart.compute(match.getFromPos(), (pos, other) ->
+        other == null ? match :
+        match.getToPos() > other.getToPos() ? match : other);
+    }
+    return matchesByStart.values().toArray(new RuleMatch[0]);
   }
   
 }
