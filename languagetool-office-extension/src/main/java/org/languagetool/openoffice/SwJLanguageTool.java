@@ -143,18 +143,22 @@ public class SwJLanguageTool {
   }
 
   public void activateLanguageModelRules(File indexDir) throws IOException {
-    if(isMultiThread && !isRemote) {
-      mlt.activateLanguageModelRules(indexDir); 
-    } else {
-      lt.activateLanguageModelRules(indexDir); 
+    if(!isRemote) {
+      if(isMultiThread) {
+        mlt.activateLanguageModelRules(indexDir); 
+      } else {
+        lt.activateLanguageModelRules(indexDir); 
+      }
     }
   }
 
   public void activateWord2VecModelRules(File indexDir) throws IOException {
-    if(isMultiThread && !isRemote) {
-      mlt.activateWord2VecModelRules(indexDir); 
-    } else {
-      lt.activateWord2VecModelRules(indexDir); 
+    if(!isRemote) {
+      if(isMultiThread) {
+        mlt.activateWord2VecModelRules(indexDir); 
+      } else {
+        lt.activateWord2VecModelRules(indexDir); 
+      }
     }
   }
 
