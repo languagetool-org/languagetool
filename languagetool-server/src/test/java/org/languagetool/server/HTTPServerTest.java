@@ -18,33 +18,23 @@
  */
 package org.languagetool.server;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.language.*;
+import org.languagetool.tools.StringTools;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.language.Polish;
-import org.languagetool.language.Romanian;
-import org.languagetool.tools.StringTools;
-import org.xml.sax.SAXException;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 public class HTTPServerTest {
 
@@ -338,6 +328,20 @@ public class HTTPServerTest {
           fail("Expected exception with error 400, got: " + expected);
         }
       }
+    } finally {
+      server.stop();
+    }
+  }
+
+  @Test
+  public void testServerUrlSetting() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    String prefix = "/languagetool-api/";
+    config.setServerURL(prefix);
+    HTTPServer server = new HTTPServer(config, false);
+    try {
+      server.run();
+      HTTPTools.checkAtUrl(new URL("http://localhost:" + HTTPTools.getDefaultPort() + prefix + "v2/check?text=Test&language=en"));
     } finally {
       server.stop();
     }
