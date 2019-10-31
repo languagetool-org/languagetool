@@ -9099,6 +9099,12 @@ USA
                 <token postag="CD"/>
                 <token>people</token>
             </antipattern>
+            <antipattern><!-- #2095 the risk to people -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+                <token postag="IN"/>
+                <token>people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
@@ -9122,6 +9128,8 @@ USA
             <example>... believed that <marker>the freedom given to people</marker> leaves the human in a constant fear of failing his/her ...</example>
             <example><marker>Anxiety when meeting or interacting with unknown people</marker> is a common stage of development in young people.</example>
             <example>It will not be long before <marker>one out of five people</marker> owns a car.</example>
+            <example>PHE says the risk to people is still “very low”.</example><!--  #2095 -->
+            <example>PHE says the risk for people is still “very low”.</example><!--  #2095 -->
         </rule>
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
@@ -12811,20 +12819,45 @@ USA
         </rulegroup>
         <rule id="ADVERB_VERB_ADVERB_REPETITION" name="Adverb repetition: e.g. 'also see also'">
     <!-- Created by Tiago F. Santos, 2018-11-10    -->
+            <antipattern>
+                <token>first</token>
+                <token>come</token>
+                <token>first</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
+                <token>in</token>
+            </antipattern>
+            <antipattern>
+                <token>never</token>
+                <token>say</token>
+                <token>never</token>
+            </antipattern>
+            <antipattern>
+                <token>interested</token>
+                <token>in</token>
+            </antipattern>
             <pattern>
                 <token postag='RB'>
-                  <exception>as</exception></token>
-                <token postag='V.+' postag_regexp='yes'/>
+                    <exception>as</exception>
+                </token>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception>yes</exception>
+                </token>
                 <token><match no='0'/></token>
             </pattern>
             <message>Adverb repetition. Please, verify.</message>
-              <suggestion>\1 \2</suggestion>
-              <suggestion>\2 \3</suggestion>
+            <suggestion>\1 \2</suggestion>
+            <suggestion>\2 \3</suggestion>
             <url>https://en.oxforddictionaries.com/grammar/positions-of-adverbs</url>
             <example correction="also see|see also">You may <marker>also see also</marker> Scotland...</example>
             <example>You may <marker>also see</marker> Scotland...</example>
-            <example type="triggers_error">... marine foods such as fish and algae, and also in mushrooms in larger concentrations.</example>
-            <example type="triggers_error">Actinium is found only in traces in uranium ores as 227Ac – one tonne of ore contains...</example>
+            <example>First come first serve.</example><!-- missing comma -->
+            <example>Country star breaks down in tears in heartbreaking performance.</example>
+            <example>Are you interested in participating in the world championship?</example>
+            <example>... marine foods such as fish and algae, and also in mushrooms in larger concentrations.</example>
+            <example>Actinium is found only in traces in uranium ores as 227Ac – one tonne of ore contains...</example>
         </rule>
         <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
             <pattern>
@@ -21113,7 +21146,7 @@ USA
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
-                        <exception regexp="yes">trained|mentioned|assisting</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception>caused</exception>
                         <exception>so</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
@@ -21149,6 +21182,7 @@ USA
             <example>$800 billion economy was envisioned for the 1970s</example>
             <example>Middle East peace after Israel's 1956 invasion of Egypt</example>
             <example>The Apollo 8 mission was well covered in the British documentary.</example>
+            <example>Labour abstained in Monday’s ballot, meaning that despite 299 MPs voting in favour and only 70 voting against, the bill failed to get the required 434 votes to pass.</example>
             <example>This is 3 H2O.</example>
             <example>The primary 911 responder.</example>
             <example>The concept of six sigma has a simple goal.</example>
@@ -22667,7 +22701,7 @@ USA
                 <token>first</token>
                 <marker><token>serve</token></marker>
             </pattern>
-            <message>Did you mean <suggestion>served</suggestion>?</message>
+            <message>Did you mean <suggestion>served</suggestion> (as in the idiom 'first come, first served')?</message>
             <url>https://www.merriam-webster.com/dictionary/first%20come,%20first%20served</url>
             <example correction="served">First come, first <marker>serve</marker>.</example>
         </rule>
@@ -27232,6 +27266,20 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'" default="temp_off">
+            <pattern>
+                <token>first</token>
+                <marker>
+                    <token>come</token>
+                </marker>
+                <token>first</token>
+                <token>served</token>
+            </pattern>
+            <message>It seems that a comma is missing.</message>
+            <suggestion>\2,</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/first%20come,%20first%20served</url>
+            <example correction="come,">First <marker>come</marker> first served.</example>
+        </rule>
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
             <rule default="temp_off">
                 <pattern>
