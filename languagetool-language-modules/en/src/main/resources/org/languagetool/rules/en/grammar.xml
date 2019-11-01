@@ -27273,6 +27273,82 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rulegroup id="PRP_COMMA" name="Missing comma after 'it'" default="temp_off">
+            <rule>
+                <antipattern><!-- confusion of it/if (found by CC_IT_PRP) -->
+                    <token regexp="yes">but|and|as</token>
+                    <token>it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">it|you</token>
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token>it</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>you</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">
+                            <!-- TODO add 'his/him/her/hers/yours/theirs/their/our/us' -->
+                            [Ii]t|[Yy]ou
+                            <exception postag="SENT_START" scope="previous" />
+                            <exception scope="previous" regexp="yes">[Oo]f</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">
+                        I|you|s?he|we|they|it
+                        <exception postag="SENT_END" />
+                        <exception regexp="yes" scope="next">\p{P}</exception>
+                    </token>
+                </pattern>
+                <message>Consider adding a comma here.</message>
+                <suggestion>\1,</suggestion>
+                <example correction="you,">With <marker>you</marker> I can finally be happy.</example>
+                <example correction="you,">While speaking to <marker>you</marker> I was able to learn a lot.</example>
+                <example correction="it,">Every time I try to reach for <marker>it</marker> you hinder me.</example>
+                <example correction="it,">However every time I click on <marker>it</marker> I get nothing from GitHub.</example>
+                <example correction="it,">It’s really hard, but if you work at <marker>it</marker> you can do it.</example>
+                <example correction="it,">With <marker>it</marker> you can have it set up.</example>
+                <example correction="it,">Now that I can finally work with <marker>it</marker> I will start working on a device type.</example>
+                <example correction="it,">For <marker>it</marker> I also like that I can use my ST devices to trigger recording.</example>
+                <example correction="it,">As I thought about <marker>it</marker> I became more concerned about how changing these devices would effect it’s security.</example>
+                <example correction="it,">I think it will work but playing round with <marker>it</marker> I notice that the Config is only sent to the thermostat.</example>
+                <example correction="it,">To get around <marker>it</marker> I have created Smart Lighting automations that have the buttons as triggers.</example>
+                <example correction="it,">In <marker>it</marker> you can see I’m reporting a 32 bit unsigned integer.</example>
+                <example correction="it,">Or just something odd about <marker>it</marker> I should know?</example>
+                <example correction="it,">After tinkering with <marker>it</marker> I figured out my error.</example>
+                <example correction="it,">And by <marker>it</marker> I mean the bombot.</example>
+                <example correction="it,">After <marker>it</marker> I created a support ticket about my autorenew.</example>
+                <example correction="it,">Looking at <marker>it</marker> we need to create new policies for alerts.</example>
+                <example correction="you,">I have seen them out of the package and to be honest with <marker>you</marker> they have looked like the FEIT electronics ones.</example>
+                <example correction="you,">If it doesn’t work for <marker>you</marker> I can make guide with images as soon as i have the time.</example>
+                <example correction="it,">If I POST to <marker>it</marker> I get 202 but parse is never called.</example>
+                <example correction="you,">Okay thank <marker>you</marker> I will update when I receive the device.</example>
+                <example correction="you,">Thanks I always know when I see a reply from <marker>you</marker> I am getting the best info.</example>
+                <example correction="you,">The preference pages above definitely work so if they don’t work for <marker>you</marker> it might be something wrong with the IDE.</example>
+                <example correction="it,">If you have a look at <marker>it</marker> you will understand the problem very quickly.</example>
+                <example correction="it,">Or just something odd about <marker>it</marker>, I should know?</example>
+                <example correction="you,">Same as <marker>you</marker> I noticed it was registering presses.</example>
+                <example correction="it,">After tinkering with <marker>it</marker> I figured out my error.</example>
+                <example correction="you,">Do take a look at my handler and binder smart app this will work for <marker>you</marker> I think.</example>
+                <example>The IT we have is very modern.</example>
+                <example>The only trace of it I have is in a WebCore Piston it now refers to it by an alphanumeric string and no longer the name.</example>
+                <example>Some of it you can do easily.</example>
+                <example>Was it you?</example>
+                <example>He gives it you.</example>
+                <example>Was it he?</example><!-- different error -->
+                <example>Is it you???</example>
+                <example>It you are looking to try it ...</example><!-- different error -->
+                <example>Feel free to add to it it anytime.</example><!-- different error -->
+                <example>Yes you you.</example><!-- different error -->
+                <example>Depends on how much of it you can afford</example>
+            </rule>
+        </rulegroup>
         <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'">
             <pattern>
                 <token>first</token>
