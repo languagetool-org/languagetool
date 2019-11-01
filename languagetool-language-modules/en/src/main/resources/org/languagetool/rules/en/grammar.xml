@@ -36763,10 +36763,20 @@ The accident victim died from her injuries.
                     <token regexp="yes">Sc|Eng|Comp|Arch</token>
                     <token>.</token>
                 </pattern>
-                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <message>Consider using a better abbreviation of this university degree.</message>
                 <suggestion><match no="1" case_conversion="allupper" />.<match no="3" case_conversion="startupper" />.</suggestion>
                 <example correction="B.Sc.">I have a <marker>B. Sc.</marker> from CMU.</example>
                 <example correction="B.Eng.">I have a <marker>B. eng.</marker> from CMU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[B|M](Sc|Eng|Comp|Arch)</token>
+                    <token>.</token>
+                </pattern>
+                <message>Consider using a better abbreviation of this university degree.</message>
+                <suggestion><match no="1" match_regexp="^(.).+$" match_replace="$1" />.<match no="3" match_regexp="^.(.+)$" match_replace="$1" />.</suggestion>
+                <example correction="M.Sc.">I have a <marker>MSc.</marker> from CMU.</example>
+                <example correction="B.Eng.">I have a <marker>BEng.</marker> from CMU.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36774,7 +36784,7 @@ The accident victim died from her injuries.
                     <token min="0">.</token>
                     <token regexp="yes">Sc|Eng|Comp|Arch</token>
                 </pattern>
-                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <message>Consider using a better abbreviation of this university degree.</message>
                 <suggestion><match no="1" case_conversion="allupper" />.<match no="3" case_conversion="startupper" />.</suggestion>
                 <example correction="B.Sc.">I have a <marker>B.Sc</marker> from CMU.</example>
                 <example correction="B.Eng.">I have a <marker>B. Eng</marker> from CMU.</example>
