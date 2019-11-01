@@ -39,6 +39,7 @@ public class LanguageSpecificTest {
     new WordListValidatorTest().testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
+    //testExampleAvailable(onlyRunCode);
     countTempOffRules(lang);
   }
 
@@ -46,7 +47,6 @@ public class LanguageSpecificTest {
   static {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
   }
-
   private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
     Set<Class> ruleClasses = new HashSet<>();
@@ -63,6 +63,22 @@ public class LanguageSpecificTest {
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
+        }
+      }
+    }
+  }
+
+  private void testExampleAvailable(String onlyRunCode) {
+    for (Language language : Languages.getWithDemoLanguage()) {
+      if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
+        System.out.println("Skipping " + language);   // speed up for languages that are sub classes (e.g. simple German)
+        continue;
+      }
+      JLanguageTool lt = new JLanguageTool(language);
+      List<Rule> allRules = lt.getAllRules();
+      for (Rule rule : allRules) {
+        if (rule.getIncorrectExamples().size() == 0) {
+          System.out.println("*** WARNING: " + language.getShortCodeWithCountryAndVariant() + " rule " + rule.getId() + " has no incorrect examples");
         }
       }
     }
