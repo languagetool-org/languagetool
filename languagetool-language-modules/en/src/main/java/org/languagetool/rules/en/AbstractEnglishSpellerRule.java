@@ -216,6 +216,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("speech");
     } else if ("icecreem".equals(word)) {
       return Arrays.asList("ice cream");
+    } else if ("math".equals(word)) { // in en-gb it's 'maths'
+      return Arrays.asList("maths");
     } else if ("fora".equals(word)) {
       return Arrays.asList("for a");
     } else if ("lotsa".equals(word)) {
