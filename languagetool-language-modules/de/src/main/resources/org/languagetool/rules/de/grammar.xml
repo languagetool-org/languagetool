@@ -31928,6 +31928,33 @@ Andere Projekte</example>
                 <example correction="Check-ins">Während des <marker>Check-Ins</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CHECK_OUT" name="'Check-out'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Check</token>
+                    <token case_sensitive="yes" regexp="yes">Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Check-<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_out</url>
+                <example correction="Check-out">Bitte gehen Sie zum <marker>Check Out</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Checkouts?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="Checkout" regexp_replace="Check-out" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_out</url>
+                <example correction="Check-out">Bitte gehen Sie zum <marker>Checkout</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Check-?Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="(?i)check-?out" regexp_replace="Check-out" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Check_out</url>
+                <example correction="Check-outs">Während des <marker>Check-Outs</marker> ging etwas schief.</example>
+            </rule>
+        </rulegroup>
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="'seit/nach/... des (dem)'">
           <rule>
