@@ -33708,6 +33708,20 @@ The accident victim died from her injuries.
             <example>You cannot solve this problem in an ordinary way.</example>
             <example>You must perform all assignments in a timely manner.</example>
         </rule>
+        <rulegroup id="VERY_SMALL_TINY" name="Wordiness: very small" default="off">
+            <rule>
+                <pattern>
+                    <token postag="DT"></token>
+                        <marker>
+                            <token regexp="yes">extremely|very</token>
+                            <token postag="JJ">small</token>
+                        </marker>
+                </pattern>
+                <message>Consider replacing "\2 \3" with <suggestion>tiny</suggestion>, <suggestion>microscopic</suggestion>, or <suggestion>insignificant</suggestion>.</message>
+                <short>Possible wordiness</short>
+                <example correction="tiny|microscopic|insignificant">He came to a <marker>very small</marker> house.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ATM_MACHINE" name="ATM machine (ATM)">
             <rule>
                 <pattern>
