@@ -11447,7 +11447,7 @@ USA
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
-        <rule id="WHATS_APP" name="WhatsApp" default="temp_off">
+        <rule id="WHATS_APP" name="WhatsApp">
             <pattern>
                 <token>whats</token>
                 <token>app</token>
@@ -21113,6 +21113,12 @@ USA
                 <token postag="NNS"/>
                 <token postag="CD"/>
             </antipattern>
+            <antipattern>
+                <token>iphone</token>
+                <token />
+                <token>pro</token>
+                <token>max</token>
+            </antipattern>
             <antipattern><!--  Of your 9 questions 8 show a -->
                 <token>of</token>
                 <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -21140,16 +21146,14 @@ USA
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
-                        <exception>will</exception>
+                        <exception regexp="yes">will|year|so|pst</exception>
+                        <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception>year</exception><!-- "16 year old Ahmad" -->
-                        <exception regexp="yes">trained|mentioned|assisting|voting</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
-                        <exception>caused</exception>
-                        <exception>so</exception>
-                        <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
             </pattern>
@@ -21165,7 +21169,10 @@ USA
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
             <example>It was 30 cm long.</example>
+            <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
+            <example>The iphone 11 pro max.</example>
+            <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
             <example>There are around 50 right now.</example>
             <example>One or two mentioned earlier.</example>
@@ -27266,7 +27273,7 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
-        <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'" default="temp_off">
+        <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'">
             <pattern>
                 <token>first</token>
                 <marker>
@@ -27281,7 +27288,7 @@ The accident victim died from her injuries.
             <example correction="come,">First <marker>come</marker> first served.</example>
         </rule>
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -27300,7 +27307,7 @@ The accident victim died from her injuries.
                 <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> for taking care.</example>
                 <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> you are the best.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>Thank</token>
@@ -28616,7 +28623,7 @@ The accident victim died from her injuries.
                     <token>here</token>
                     <token postag="SENT_END|PCT" postag_regexp="yes" />
                 </antipattern>
-                <antipattern><!-- "Still on fire!", "Still on the ground." -->
+                <antipattern><!-- short sentences: "Still on fire!", "Still on the ground." -->
                     <token>still</token>
                     <token postag="IN" />
                     <token postag="DT|NN.*|JJ.*" postag_regexp="yes" />
@@ -28624,7 +28631,12 @@ The accident victim died from her injuries.
                 <antipattern><!-- "Still the greatest" -->
                     <token>still</token>
                     <token postag="DT" />
-                    <token postag="JJ.*|NN.*" postag_regexp="yes" />
+                    <token postag="JJ.*|NN.*" postag_regexp="yes" min="0" />
+                    <token postag="SENT_END" />
+                </antipattern>
+                <antipattern>
+                    <token>similarly</token>
+                    <token>to</token>
                 </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
@@ -28668,6 +28680,8 @@ The accident victim died from her injuries.
 <!-- TODO -->   <example><marker>Anyway</marker> you look after the disambiguation, and I'll do the grammar rules.</example>
                 <example><marker>Anyway you look at it</marker>, the rule is good.</example>
                 <example>Still and calm he was sitting there.</example>
+                <example>Similarly to Tom, Joe has good grades at school.</example>
+                <example correction="Still,"><marker>Still</marker> the banking system is considered an important element.</example>
                 <example>Also - and this is a recurring theme here - a government cannot just decide about this.</example>
                 <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
