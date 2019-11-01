@@ -113,9 +113,15 @@ public class CaseRule extends Rule {
       regex("vor|den"),
       token("Gefahren")
     ),
+    // company names with english adjectives
     Arrays.asList(
       regex("Digital|Global|Smart|International"),
       pos("UNKNOWN")
+    ),
+    // company names with english adjectives
+    Arrays.asList(
+      pos("UNKNOWN"),
+      regex("Digital|Global|Smart|International")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
