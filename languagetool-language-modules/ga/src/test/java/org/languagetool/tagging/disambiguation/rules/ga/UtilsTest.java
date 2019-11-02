@@ -40,6 +40,7 @@ public class UtilsTest {
     assertEquals("Kate", Utils.unLenite("Khate"));
     assertEquals("can", Utils.unLenite("chan"));
     assertEquals("ba", Utils.unLenite("bha"));
+    assertEquals("b", Utils.unLenite("bh"));
     assertEquals(null, Utils.unLenite("can"));
     assertEquals(null, Utils.unLenite("a"));
   }
