@@ -46,6 +46,9 @@ public class UtilsTest {
 
   @Test
   public void testUnEclipseChar() {
-    assertEquals("carr", Utils.unEclipseChar("gcarr", 'g', 'c'));
+    assertEquals(null, Utils.unEclipseChar("gcarr", 'g', 'c'));
+    assertEquals("Carr", Utils.unEclipseChar("G-carr", 'g', 'c'));
+    assertEquals("Carr", Utils.unEclipseChar("Gcarr", 'g', 'c'));
+    assertEquals("CARR", Utils.unEclipseChar("GCARR", 'g', 'c'));
   }
 }

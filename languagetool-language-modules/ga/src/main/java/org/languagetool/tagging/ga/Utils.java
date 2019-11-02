@@ -113,10 +113,12 @@ public class Utils {
     if(in.length() < 2) {
       return null;
     }
-    if(in.charAt(0) != first) {
+    // no match
+    if(in.charAt(0) != first && in.charAt(0) != upperFirst) {
       return null;
     }
-    if(in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
+    // properly eclipsed
+    if(in.charAt(0) == first && in.charAt(1) == second) {
       return null;
     }
 
@@ -126,7 +128,7 @@ public class Utils {
       ch1 = in.charAt(2);
     }
     if(ch1 == second || ch1 == upperSecond) {
-      return first + retSecond + in.substring(from);
+      return Character.toString(retSecond)+ in.substring(from);
     } else {
       return null;
     }
