@@ -113,13 +113,36 @@ public class IrishTagger extends BaseTagger {
       return tagged;
     }
     for(Retaggable rt : tocheck) {
+      boolean pfx = false;
       List<TaggedWord> cur = getWordTagger().tag(rt.getWord());
-      if(cur == null || cur.size() == 0) {
+      if(rt.getPrefix() != null && !rt.getPrefix().equals("")) {
+        pfx = true;
+        String tryword = rt.getPrefix() + Utils.lenite(rt.getWord());
+        List<TaggedWord> joined = getWordTagger().tag(tryword);
+        String hyphword = rt.getPrefix() + "-" + Utils.lenite(rt.getWord());
+        List<TaggedWord> hyphen = getWordTagger().tag(hyphword);
+
+        if(!joined.isEmpty()) {
+          cur = joined;
+          pfx = false;
+        } else if(!hyphen.isEmpty()) {
+          pfx = false;
+          cur = hyphen;
+        } else {
+          pfx = true;
+        }
+      } else {
+        cur = getWordTagger().tag(rt.getWord());
+      }
+
+      if(cur.isEmpty()) {
         continue;
       }
       for(TaggedWord tw : cur) {
+        String append = (pfx) ? rt.getAppendTag() + ":NonStdCmpd" : rt.getAppendTag();
         if(tw.getPosTag().matches(rt.getRestrictToPos())) {
-          tagged.add(new TaggedWord(tw.getLemma(), tw.getPosTag() + rt.getAppendTag()));
+          String lemma = (pfx) ? rt.getPrefix() + Utils.lenite(tw.getLemma()) : tw.getLemma();
+          tagged.add(new TaggedWord(lemma, tw.getPosTag() + append));
         }
       }
     }
