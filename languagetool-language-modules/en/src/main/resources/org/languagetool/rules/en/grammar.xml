@@ -10813,7 +10813,7 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">(rebr|underst)and</token>
+                        <token regexp="yes">(rebr|underst|misunderst)and</token>
                     </marker>
                 </pattern>
                 <message>The word 'rebrand' is not a noun. Did you mean <suggestion><match no="3" regexp_match="$" regexp_replace="ing" /></suggestion>?</message>
@@ -10848,6 +10848,68 @@ USA
                 <example>The require statement was missing, so it caused an error during runtime.</example>
                 <example>A requires B.</example>
                 <example>The students were chosen because St Paul's requires formal wear at dinner.</example>
+            </rule>
+            <rule><!-- the double-click -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">double\-?clicks?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion><match no="3" regexp_match="(?i)double\-?click(s)?" regexp_replace="double click$1" /></suggestion> (spelled as two words)?</message>
+                <url>https://www.merriam-webster.com/dictionary/double%20click</url>
+                <example correction="double click">I believe so, since I also tried to open it with a <marker>double-click</marker>.</example>
+                <example correction="double clicks">My <marker>doubleclicks</marker> didn't open the folder.</example>
+            </rule>
+            <rule><!-- the announce -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>announce</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>announcement</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/announcement</url>
+                <example correction="announcement">The <marker>announce</marker> of his resign.</example>
+            </rule>
+            <rule><!-- the assemble -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>assemble</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>assembly</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/assembly</url>
+                <example correction="assembly">The <marker>assemble</marker> line.</example>
+            </rule>
+            <rule><!-- the publish -->
+                <antipattern>
+                    <!-- dev speech -->
+                    <token skip="2">publish</token>
+                    <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>publish</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>publishing</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/publishing</url>
+                <example correction="publishing">The <marker>publish</marker> date.</example>
             </rule>
             <rule><!-- the approve -->
                 <antipattern>
@@ -11350,7 +11412,7 @@ USA
                 <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
                 <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle|discover|aspire</token>
+                    <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle|discover|aspire|velcro</token>
                 </marker>
                 <token postag_regexp="yes" postag="PCT|NN.*"/>
             </pattern>
@@ -11447,7 +11509,7 @@ USA
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
-        <rule id="WHATS_APP" name="WhatsApp" default="temp_off">
+        <rule id="WHATS_APP" name="WhatsApp">
             <pattern>
                 <token>whats</token>
                 <token>app</token>
@@ -21020,6 +21082,10 @@ USA
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
+                <token>season</token>
+                <token postag="CD" />
+            </antipattern>
+            <antipattern>
                 <token>six</token>
                 <token>sigma</token>
             </antipattern>
@@ -21113,6 +21179,12 @@ USA
                 <token postag="NNS"/>
                 <token postag="CD"/>
             </antipattern>
+            <antipattern>
+                <token>iphone</token>
+                <token />
+                <token>pro</token>
+                <token>max</token>
+            </antipattern>
             <antipattern><!--  Of your 9 questions 8 show a -->
                 <token>of</token>
                 <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -21140,16 +21212,14 @@ USA
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
-                        <exception>will</exception>
+                        <exception regexp="yes">will|year|so|pst</exception>
+                        <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception>year</exception><!-- "16 year old Ahmad" -->
-                        <exception regexp="yes">trained|mentioned|assisting|voting</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
-                        <exception>caused</exception>
-                        <exception>so</exception>
-                        <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
             </pattern>
@@ -21165,7 +21235,10 @@ USA
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
             <example>It was 30 cm long.</example>
+            <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
+            <example>The iphone 11 pro max.</example>
+            <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
             <example>There are around 50 right now.</example>
             <example>One or two mentioned earlier.</example>
@@ -21199,6 +21272,7 @@ USA
             <example>In the 1860 - 70 decade there are many poems like Revulsion.</example>
             <example>And also a twin 15 mm version based on the Light Tank Mk.</example>
             <example>The right half is split into two silver and black triangles.</example>
+            <example>A couple of weeks on the show turned into a job from October to May working on season one specials and the start of season two.</example>
             <example>List of players to wear the number 14 shirt since Johan Cruyff's departure</example>
             <example>She said he would be sixteen next month.</example>
             <example>We can drink beer when you are 21 next month.</example>
@@ -22621,6 +22695,12 @@ USA
             </antipattern>
             <antipattern>
                 <token>the</token>
+                <token>me</token>
+                <token>film</token>
+                <token>festival</token>
+            </antipattern>
+            <antipattern>
+                <token>the</token>
                 <token case_sensitive="yes">My</token>
                 <token case_sensitive="yes">Lai</token>
             </antipattern>
@@ -22682,6 +22762,7 @@ USA
             <example>...Anglican Communion considers itself to be part of the One, Holy, Catholic and Apostolic Church and...</example>
             <example>When the All Blacks came out onto the field a roar like 'woooa...</example>
             <example>Is this baby a he or a she?</example>
+            <example>The ME Film Festival.</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
@@ -27266,7 +27347,82 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
-        <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'" default="temp_off">
+        <rulegroup id="PRP_COMMA" name="Missing comma after pronoun">
+            <rule>
+                <antipattern><!-- confusion of it/if (found by CC_IT_PRP) -->
+                    <token regexp="yes">but|and|as</token>
+                    <token>it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">it|you</token>
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token>it</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>you</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">
+                            <!-- TODO add 'his/him/her/hers/yours/theirs/their/our/us' -->
+                            [Ii]t|[Yy]ou
+                            <exception postag="SENT_START" scope="previous" />
+                            <exception scope="previous" regexp="yes">[Oo]f</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">
+                        I|you|s?he|we|they|it
+                        <exception postag="SENT_END" />
+                        <exception regexp="yes" scope="next">\p{P}</exception>
+                    </token>
+                </pattern>
+                <message>Consider adding a comma here.</message>
+                <suggestion>\1,</suggestion>
+                <example correction="you,">With <marker>you</marker> I can finally be happy.</example>
+                <example correction="you,">While speaking to <marker>you</marker> I was able to learn a lot.</example>
+                <example correction="it,">Every time I try to reach for <marker>it</marker> you hinder me.</example>
+                <example correction="it,">However every time I click on <marker>it</marker> I get nothing from GitHub.</example>
+                <example correction="it,">It’s really hard, but if you work at <marker>it</marker> you can do it.</example>
+                <example correction="it,">With <marker>it</marker> you can have it set up.</example>
+                <example correction="it,">Now that I can finally work with <marker>it</marker> I will start working on a device type.</example>
+                <example correction="it,">For <marker>it</marker> I also like that I can use my ST devices to trigger recording.</example>
+                <example correction="it,">As I thought about <marker>it</marker> I became more concerned about how changing these devices would effect it’s security.</example>
+                <example correction="it,">I think it will work but playing round with <marker>it</marker> I notice that the Config is only sent to the thermostat.</example>
+                <example correction="it,">To get around <marker>it</marker> I have created Smart Lighting automations that have the buttons as triggers.</example>
+                <example correction="it,">In <marker>it</marker> you can see I’m reporting a 32 bit unsigned integer.</example>
+                <example correction="it,">Or just something odd about <marker>it</marker> I should know?</example>
+                <example correction="it,">After tinkering with <marker>it</marker> I figured out my error.</example>
+                <example correction="it,">And by <marker>it</marker> I mean the bombot.</example>
+                <example correction="it,">After <marker>it</marker> I created a support ticket about my autorenew.</example>
+                <example correction="it,">Looking at <marker>it</marker> we need to create new policies for alerts.</example>
+                <example correction="you,">I have seen them out of the package and to be honest with <marker>you</marker> they have looked like the FEIT electronics ones.</example>
+                <example correction="you,">If it doesn’t work for <marker>you</marker> I can make guide with images as soon as i have the time.</example>
+                <example correction="it,">If I POST to <marker>it</marker> I get 202 but parse is never called.</example>
+                <example correction="you,">Thanks, I always know when I see a reply from <marker>you</marker> I am getting the best info.</example>
+                <example correction="you,">The preference pages above definitely work so if they don’t work for <marker>you</marker> it might be something wrong with the IDE.</example>
+                <example correction="it,">If you have a look at <marker>it</marker> you will understand the problem very quickly.</example>
+                <example correction="you,">Same as <marker>you</marker> I noticed it was registering presses.</example>
+                <example correction="it,">After tinkering with <marker>it</marker> I figured out my error.</example>
+                <example correction="you,">Do take a look at my handler and binder smart app this will work for <marker>you</marker> I think.</example>
+                <example>With <marker>you,</marker> I can finally be happy.</example>
+                <example>The IT we have is very modern.</example>
+                <example>The only trace of it I have is in a WebCore Piston it now refers to it by an alphanumeric string and no longer the name.</example>
+                <example>Some of it you can do easily.</example>
+                <example>Was it you?</example>
+                <example>He gives it you.</example>
+                <example>Was it he?</example><!-- different error -->
+                <example>Is it you???</example>
+                <example>It you are looking to try it ...</example><!-- different error -->
+                <example>Feel free to add to it it anytime.</example><!-- different error -->
+                <example>Yes you you.</example><!-- different error -->
+                <example>Depends on how much of it you can afford</example>
+            </rule>
+        </rulegroup>
+        <rule id="FIRST_COME_FIRST_SERVED_COMMA" name="Missing comma 'first come first serve'">
             <pattern>
                 <token>first</token>
                 <marker>
@@ -27281,7 +27437,7 @@ The accident victim died from her injuries.
             <example correction="come,">First <marker>come</marker> first served.</example>
         </rule>
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -27300,7 +27456,7 @@ The accident victim died from her injuries.
                 <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> for taking care.</example>
                 <example correction="Thanks, Tom,"><marker>Thanks Tom</marker> you are the best.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>Thank</token>
@@ -28616,7 +28772,7 @@ The accident victim died from her injuries.
                     <token>here</token>
                     <token postag="SENT_END|PCT" postag_regexp="yes" />
                 </antipattern>
-                <antipattern><!-- "Still on fire!", "Still on the ground." -->
+                <antipattern><!-- short sentences: "Still on fire!", "Still on the ground." -->
                     <token>still</token>
                     <token postag="IN" />
                     <token postag="DT|NN.*|JJ.*" postag_regexp="yes" />
@@ -28624,7 +28780,12 @@ The accident victim died from her injuries.
                 <antipattern><!-- "Still the greatest" -->
                     <token>still</token>
                     <token postag="DT" />
-                    <token postag="JJ.*|NN.*" postag_regexp="yes" />
+                    <token postag="JJ.*|NN.*" postag_regexp="yes" min="0" />
+                    <token postag="SENT_END" />
+                </antipattern>
+                <antipattern>
+                    <token>similarly</token>
+                    <token>to</token>
                 </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
@@ -28668,6 +28829,8 @@ The accident victim died from her injuries.
 <!-- TODO -->   <example><marker>Anyway</marker> you look after the disambiguation, and I'll do the grammar rules.</example>
                 <example><marker>Anyway you look at it</marker>, the rule is good.</example>
                 <example>Still and calm he was sitting there.</example>
+                <example>Similarly to Tom, Joe has good grades at school.</example>
+                <example correction="Still,"><marker>Still</marker> the banking system is considered an important element.</example>
                 <example>Also - and this is a recurring theme here - a government cannot just decide about this.</example>
                 <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
@@ -33708,6 +33871,20 @@ The accident victim died from her injuries.
             <example>You cannot solve this problem in an ordinary way.</example>
             <example>You must perform all assignments in a timely manner.</example>
         </rule>
+        <rulegroup id="VERY_SMALL_TINY" name="Wordiness: very small" default="off">
+            <rule>
+                <pattern>
+                    <token postag="DT"></token>
+                        <marker>
+                            <token regexp="yes">extremely|very</token>
+                            <token postag="JJ">small</token>
+                        </marker>
+                </pattern>
+                <message>Consider replacing "\2 \3" with <suggestion>tiny</suggestion>, <suggestion>microscopic</suggestion>, or <suggestion>insignificant</suggestion>.</message>
+                <short>Possible wordiness</short>
+                <example correction="tiny|microscopic|insignificant">He came to a <marker>very small</marker> house.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ATM_MACHINE" name="ATM machine (ATM)">
             <rule>
                 <pattern>
@@ -36611,7 +36788,7 @@ The accident victim died from her injuries.
                     <token>D</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>The abbreviation of the term 'philosophiae doctor' is <suggestion>Ph.D.</suggestion>.</message>
+                <message>The more common abbreviation of the term 'philosophiae doctor' is <suggestion>Ph.D.</suggestion>.</message>
                 <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
                 <example correction="Ph.D.">I got my <marker>PH.D.</marker> at an university in Germany.</example>
                 <example correction="Ph.D.">I got my <marker>Ph D.</marker> at an university in Germany.</example>
@@ -36626,7 +36803,7 @@ The accident victim died from her injuries.
                     <token spacebefore="no" min="0">.</token>
                     <token>D</token>
                 </pattern>
-                <message>The abbreviation of the term 'philosophiae doctor' is <suggestion>Ph.D.</suggestion>.</message>
+                <message>The more common abbreviation of the term 'philosophiae doctor' is <suggestion>Ph.D.</suggestion>.</message>
                 <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
                 <example correction="Ph.D.">I got my <marker>Ph.D</marker> at an university in Germany.</example>
                 <example correction="Ph.D.">I got my <marker>Ph D</marker> at an university in Germany.</example>
@@ -36638,7 +36815,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">PHD|Phd|PHd|phd</token>
                 </pattern>
-                <message>The abbreviation of the term 'philosophiae doctor' is <suggestion>PhD</suggestion>.</message>
+                <message>The more common abbreviation of the term 'philosophiae doctor' is <suggestion>PhD</suggestion>.</message>
                 <url>https://english.stackexchange.com/questions/25685/should-i-write-phd-or-ph-d</url>
                 <example correction="PhD">I got my <marker>PHD</marker> at an university in Germany.</example>
                 <example>He has a Ph.D.</example>
@@ -36647,22 +36824,32 @@ The accident victim died from her injuries.
         </rulegroup>
         <rulegroup id="BACHELOR_ABBR" name="abbreviation for bachelor's degree">
             <antipattern case_sensitive="yes">
-                <token regexp="yes">B|M</token>
+                <token regexp="yes">[BM]</token>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no" regexp="yes">Sc|Eng|Comp|Arch</token>
                 <token spacebefore="no">.</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">B|M</token>
+                    <token regexp="yes">[BM]</token>
                     <token min="0">.</token>
                     <token regexp="yes">Sc|Eng|Comp|Arch</token>
                     <token>.</token>
                 </pattern>
-                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <message>Consider using a more common abbreviation of this university degree.</message>
                 <suggestion><match no="1" case_conversion="allupper" />.<match no="3" case_conversion="startupper" />.</suggestion>
                 <example correction="B.Sc.">I have a <marker>B. Sc.</marker> from CMU.</example>
                 <example correction="B.Eng.">I have a <marker>B. eng.</marker> from CMU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[BM](Sc|Eng|Comp|Arch)</token>
+                    <token>.</token>
+                </pattern>
+                <message>Consider using a more common abbreviation of this university degree.</message>
+                <suggestion><match no="1" regexp_match="^(.).+$" regexp_replace="$1" />.<match no="1" regexp_match="^.(.+)$" regexp_replace="$1" />.</suggestion>
+                <example correction="M.Sc.">I have a <marker>MSc.</marker> from CMU.</example>
+                <example correction="B.Eng.">I have a <marker>BEng.</marker> from CMU.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36670,7 +36857,7 @@ The accident victim died from her injuries.
                     <token min="0">.</token>
                     <token regexp="yes">Sc|Eng|Comp|Arch</token>
                 </pattern>
-                <message>Consider using a better abbreviation of this bachelor's degree.</message>
+                <message>Consider using a more common abbreviation of this university degree.</message>
                 <suggestion><match no="1" case_conversion="allupper" />.<match no="3" case_conversion="startupper" />.</suggestion>
                 <example correction="B.Sc.">I have a <marker>B.Sc</marker> from CMU.</example>
                 <example correction="B.Eng.">I have a <marker>B. Eng</marker> from CMU.</example>
