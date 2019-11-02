@@ -61,6 +61,27 @@ public class Utils {
     return new Retaggable(in, "", "");
   }
 
+  public static List<Retaggable> morphWord(String in) {
+    List<Retaggable> out = new ArrayList<>();
+    // First, mutations
+    Retaggable mut = demutate(in);
+    if(mut.getAppendTag().equals(":Len") || mut.getAppendTag().equals(":Ecl") || mut.getAppendTag().equals(":EclLen")) {
+      out.add(mut);
+      out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), ":DefArt"));
+    } else if(!"".equals(mut.getAppendTag())) {
+      out.add(mut);
+    }
+    // Second, suffixes
+    Retaggable sfx = fixSuffix(mut.getWord());
+    if(!"".equals(sfx.getAppendTag())) {
+      sfx.setAppendTag(mut.getAppendTag());
+      out.add(sfx);
+    }
+    // TODO: prefix corrections
+    // TODO: other alterations
+    return out;
+  }
+
   public static Retaggable demutate(String in) {
     String out;
     if((out = unLeniteDefiniteS(in)) != null) {
