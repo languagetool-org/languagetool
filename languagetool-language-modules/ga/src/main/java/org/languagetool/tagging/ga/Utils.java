@@ -21,10 +21,52 @@
  */
 package org.languagetool.tagging.ga;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Utils {
+    private static class FormGuess {
+      String prefix;
+      String prefixReplacement;
+      String suffix;
+      String suffixReplacement;
+      String restrictToTags;
+      String appendTags;
+      FormGuess(String prefix,
+                String prefixReplacement,
+                String suffix,
+                String suffixReplacement,
+                String restrictToTags,
+                String appendTags) {
+        this.prefix = prefix;
+        this.prefixReplacement = prefixReplacement;
+        this.suffix = suffix;
+        this.suffixReplacement = suffixReplacement;
+        this.restrictToTags = restrictToTags;
+        this.appendTags = appendTags;
+      }
+    }
+    private static final List<FormGuess> guesses = Arrays.asList(
+      new FormGuess("", "", "éaracht", "éireacht", ".*Noun.*", ":MorphError"),
+      new FormGuess("", "", "éarachta", "éireachta", ".*Noun.*", ":MorphError"),
+      new FormGuess("ts", "s", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("t-s", "s", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("tS", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("Ts", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("TS", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("t-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("T-s", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
+      new FormGuess("T-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError")
+    );
 
+  public class Mutation {
+    String word;
+    List<String> tags;
+    public Mutation() {
+      tags = new ArrayList<String>();
+    }
+  }
   public static String fixMutationCase(String in) {
     String orig = in;
     int from = 1;
@@ -50,6 +92,16 @@ public class Utils {
       }
     }
     return in;
+  }
+
+  public static String unLenite(String in) {
+    if(in.length() < 2) {
+      return null;
+    }
+    if(in.charAt(1) == 'h' || in.charAt(1) == 'H') {
+      return in.charAt(0) + in.substring(2);
+    }
+    return null;
   }
 
   private static String unEclipseChar(String in, char first, char second) {
