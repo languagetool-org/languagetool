@@ -59,17 +59,23 @@ public class Utils {
       char ch1 = in.charAt(1);
       switch(in.charAt(0)) {
         case 'N':
-          if(in.length() > 2 && in.charAt(1) == '-') {
+        case 'n':
+          if(in.length() > 3 && in.charAt(1) == '-') {
             ch1 = in.charAt(2);
           }
-          if(ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1)) {
+          if(ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1) || ch1 == 'g' || ch1 == 'd' || isLowerVowel(ch1)) {
             return unEclipseChar(in, 'n', Character.toLowerCase(ch1));
           } else {
             return null;
           }
         case 'B':
         case 'b':
-          return unEclipseChar(in, 'b', 'p');
+          if((ch1 == 'p' || ch1 == 'P') ||
+            in.length() > 3 && in.charAt(1) == '-' && (ch1 == 'p' || ch1 == 'P')) {
+            return unEclipseChar(in, 'b', 'p');
+          } else {
+            return unEclipseF(in);
+          }
         case 'D':
         case 'd':
           return unEclipseChar(in, 'd', 't');
@@ -81,7 +87,7 @@ public class Utils {
           return unEclipseChar(in, 'm', 'b');
       }
     }
-    return in;
+    return null;
   }
 
   /**
@@ -118,6 +124,27 @@ public class Utils {
       }
       if(in.startsWith(start)) {
         return "s" + in.substring(start.length());
+      }
+    }
+    return null;
+  }
+  public static String unEclipseF(String in) {
+    String[] uppers = {"Bhf", "bhF", "Bf", "bhF", "bF", "Bh-f", "bh-F", "B-f", "bh-F", "b-F"};
+    String[] lowers = {"bhf", "bh-f", "bf", "b-f"};
+    for(String start : uppers) {
+      if(in.length() < start.length()) {
+        continue;
+      }
+      if(in.startsWith(start)) {
+        return "F" + in.substring(start.length());
+      }
+    }
+    for(String start : lowers) {
+      if(in.length() < start.length()) {
+        continue;
+      }
+      if(in.startsWith(start)) {
+        return "f" + in.substring(start.length());
       }
     }
     return null;

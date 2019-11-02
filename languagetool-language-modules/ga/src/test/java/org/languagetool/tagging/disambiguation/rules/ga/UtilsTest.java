@@ -59,6 +59,20 @@ public class UtilsTest {
   }
 
   @Test
+  public void testUnEclipse() {
+    assertEquals("carr", Utils.unEclipse("g-carr"));
+    assertEquals("doras", Utils.unEclipse("n-doras"));
+    assertEquals("Geata", Utils.unEclipse("N-geata"));
+    assertEquals("peann", Utils.unEclipse("bpeann"));
+    assertEquals("bean", Utils.unEclipse("mbean"));
+    assertEquals("Éin", Utils.unEclipse("N-éin"));
+    assertEquals("focal", Utils.unEclipse("bhfocal"));
+    assertEquals("Focal", Utils.unEclipse("Bhfocal"));
+    assertEquals("Focal", Utils.unEclipse("Bfocal"));
+    assertEquals(null, Utils.unEclipse("carr"));
+  }
+
+  @Test
   public void testUnLeniteDefiniteS() {
     assertEquals("seomra1", Utils.unLeniteDefiniteS("t-seomra1"));
     assertEquals("seomra2", Utils.unLeniteDefiniteS("tseomra2"));
