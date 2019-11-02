@@ -51,6 +51,16 @@ public class Utils {
     new SuffixGuess("amhuil", "úil", ".*Noun.*|.*Adj.*", ":MorphError")
   );
 
+  public static Retaggable fixSuffix(String in) {
+    for(SuffixGuess guess : guesses) {
+      if(in.endsWith(guess.suffix)) {
+        String base = in.substring(0, in.length() - guess.suffix.length());
+        return new Retaggable(base + guess.suffixReplacement, guess.restrictToTags, guess.appendTags);
+      }
+    }
+    return new Retaggable(in, "", "");
+  }
+
   public static Retaggable demutate(String in) {
     String out;
     if((out = unLeniteDefiniteS(in)) != null) {

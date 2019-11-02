@@ -95,4 +95,10 @@ public class UtilsTest {
     assertEquals(tmp.getWord(), "seomra");
     assertEquals(tmp.getRestrictToPos(), "(?:C[UMC]:)?Noun:.*:DefArt");
   }
+
+  @Test
+  public void testFixSuffix() {
+    Retaggable tmp = Utils.fixSuffix("caimiléaracht");
+    assertEquals(tmp.getWord(), "caimiléireacht");
+  }
 }
