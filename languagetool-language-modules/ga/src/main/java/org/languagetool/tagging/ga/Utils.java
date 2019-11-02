@@ -26,38 +26,25 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
-    private static class FormGuess {
-      String prefix;
-      String prefixReplacement;
+    private static class SuffixGuess {
       String suffix;
       String suffixReplacement;
       String restrictToTags;
       String appendTags;
-      FormGuess(String prefix,
-                String prefixReplacement,
-                String suffix,
+      SuffixGuess(String suffix,
                 String suffixReplacement,
                 String restrictToTags,
                 String appendTags) {
-        this.prefix = prefix;
-        this.prefixReplacement = prefixReplacement;
         this.suffix = suffix;
         this.suffixReplacement = suffixReplacement;
         this.restrictToTags = restrictToTags;
         this.appendTags = appendTags;
       }
     }
-    private static final List<FormGuess> guesses = Arrays.asList(
-      new FormGuess("", "", "éaracht", "éireacht", ".*Noun.*", ":MorphError"),
-      new FormGuess("", "", "éarachta", "éireachta", ".*Noun.*", ":MorphError"),
-      new FormGuess("ts", "s", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("t-s", "s", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("tS", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("Ts", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("TS", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("t-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("T-s", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError"),
-      new FormGuess("T-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError")
+    private static final List<SuffixGuess> guesses = Arrays.asList(
+      new SuffixGuess("éaracht", "éireacht", ".*Noun.*", ":MorphError"),
+      new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError")
+      //new FormGuess("T-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError")
     );
 
   public class Mutation {
