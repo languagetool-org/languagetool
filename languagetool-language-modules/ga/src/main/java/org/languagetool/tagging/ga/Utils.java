@@ -331,10 +331,16 @@ public class Utils {
       return in;
     }
     String outh = (Character.isUpperCase(in.charAt(0)) && Character.isUpperCase(1)) ? "H" : "h";
-    if(in.charAt(0) == 'S' || in.charAt(0) == 's' && isSLenitable(Character.toLowerCase(in.charAt(1)))) {
-      return Character.toString(in.charAt(0)) + outh + in.substring(1);
-    } else if(isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
-      return Character.toString(in.charAt(0)) + outh + in.substring(1);
+    if(isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
+      if(in.charAt(0) == 'S' || in.charAt(0) == 's') {
+        if(isSLenitable(Character.toLowerCase(in.charAt(1)))) {
+          return Character.toString(in.charAt(0)) + outh + in.substring(1);
+        } else {
+          return in;
+        }
+      } else {
+        return Character.toString(in.charAt(0)) + outh + in.substring(1);
+      }
     } else {
       return in;
     }
