@@ -131,8 +131,6 @@ public class IrishTagger extends BaseTagger {
         } else {
           pfx = true;
         }
-      } else {
-        cur = getWordTagger().tag(rt.getWord());
       }
 
       if(cur.isEmpty()) {
