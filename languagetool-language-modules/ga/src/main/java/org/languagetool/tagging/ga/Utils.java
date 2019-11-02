@@ -271,6 +271,75 @@ public class Utils {
     }
   }
 
+  public static boolean isUpperLenitable(char c) {
+    switch(c) {
+      case 'B':
+      case 'C':
+      case 'D':
+      case 'F':
+      case 'G':
+      case 'M':
+      case 'P':
+      case 'S':
+      case 'T':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public static boolean isLowerLenitable(char c) {
+    switch(c) {
+      case 'b':
+      case 'c':
+      case 'd':
+      case 'f':
+      case 'g':
+      case 'm':
+      case 'p':
+      case 's':
+      case 't':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public static boolean isSLenitable(char c) {
+    switch(c) {
+      case 'l':
+      case 'n':
+      case 'r':
+      case 'a':
+      case 'e':
+      case 'i':
+      case 'o':
+      case 'u':
+      case '\u00e1':
+      case '\u00e9':
+      case '\u00ed':
+      case '\u00f3':
+      case '\u00fa':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public static String lenite(String in) {
+    if(in.length() < 2) {
+      return in;
+    }
+    String outh = (Character.isUpperCase(in.charAt(0)) && Character.isUpperCase(1)) ? "H" : "h";
+    if(in.charAt(0) == 'S' || in.charAt(0) == 's' && isSLenitable(Character.toLowerCase(in.charAt(1)))) {
+      return Character.toString(in.charAt(0)) + outh + in.substring(1);
+    } else if(isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
+      return Character.toString(in.charAt(0)) + outh + in.substring(1);
+    } else {
+      return in;
+    }
+  }
+
   public static String toLowerCaseIrish(String s) {
     if(s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
       return s.substring(0,1) + "-" + s.substring(1).toLowerCase();
