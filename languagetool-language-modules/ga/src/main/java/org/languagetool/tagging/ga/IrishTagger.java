@@ -24,6 +24,7 @@ import java.util.List;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tools.StringTools;
 import java.util.Locale;
 
@@ -71,13 +72,28 @@ public class IrishTagger extends BaseTagger {
 
       //uppercase
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
+        List<AnalyzedToken> guessedTokens = asAnalyzedTokenListForTaggedWords(word, filterMorph(word));
+        List<AnalyzedToken> lowerGuessedTokens = asAnalyzedTokenListForTaggedWords(word,
+          filterMorph(Utils.toLowerCaseIrish(word)));
+        if (!guessedTokens.isEmpty()) {
+          addTokens(guessedTokens, l);
+        }
+        if (guessedTokens.isEmpty() && !lowerGuessedTokens.isEmpty()) {
+          addTokens(lowerGuessedTokens, l);
+        }
         if (isLowercase) {
           upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
               getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
             addTokens(upperTaggerTokens, l);
           } else {
-            l.add(new AnalyzedToken(word, null, null));
+            List<AnalyzedToken> upperGuessedTokens = asAnalyzedTokenListForTaggedWords(word,
+              filterMorph(StringTools.uppercaseFirstChar(word)));
+            if(!upperGuessedTokens.isEmpty()) {
+              addTokens(upperGuessedTokens, l);
+            } else {
+              l.add(new AnalyzedToken(word, null, null));
+            }
           }
         } else {
           l.add(new AnalyzedToken(word, null, null));
@@ -88,6 +104,26 @@ public class IrishTagger extends BaseTagger {
     }
 
     return tokenReadings;
+  }
+
+  private List<TaggedWord> filterMorph(String in) {
+    List<TaggedWord> tagged = new ArrayList<>();
+    List<Retaggable> tocheck = Utils.morphWord(in);
+    if(tocheck == null || tocheck.size() == 0) {
+      return tagged;
+    }
+    for(Retaggable rt : tocheck) {
+      List<TaggedWord> cur = getWordTagger().tag(rt.getWord());
+      if(cur == null || cur.size() == 0) {
+        continue;
+      }
+      for(TaggedWord tw : cur) {
+        if(tw.getPosTag().matches(rt.getRestrictToPos())) {
+          tagged.add(new TaggedWord(tw.getLemma(), tw.getPosTag() + rt.getAppendTag()));
+        }
+      }
+    }
+    return tagged;
   }
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
