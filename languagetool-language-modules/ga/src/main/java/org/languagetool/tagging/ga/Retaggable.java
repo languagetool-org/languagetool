@@ -46,6 +46,14 @@ public class Retaggable {
     }
   }
 
+  public void setRestrictToPos(String restrictToPos) {
+    if(this.restrictToPos == null || this.restrictToPos == "") {
+      this.restrictToPos = restrictToPos;
+    } else {
+      this.restrictToPos = this.restrictToPos + "|" + restrictToPos;
+    }
+  }
+
   public String getWord() {
     return word;
   }
