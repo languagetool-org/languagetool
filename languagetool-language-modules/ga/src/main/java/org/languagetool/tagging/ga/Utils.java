@@ -67,11 +67,11 @@ public class Utils {
       tags = new ArrayList<String>();
     }
   }
-  public static String fixMutationCase(String in) {
+  public static String unEclipse(String in) {
     String orig = in;
     int from = 1;
     char first = in.charAt(0);
-    if(in.length()> 2) {
+    if(in.length() > 2) {
       char ch1 = in.charAt(1);
       switch(in.charAt(0)) {
         case 'N':
@@ -94,6 +94,13 @@ public class Utils {
     return in;
   }
 
+  /**
+   * Attempts to unlenite a string
+   * Deliberately does not check if first character is one
+   * that ought to be lenited (this can be checked in XML rules)
+   * @param in
+   * @return
+   */
   public static String unLenite(String in) {
     if(in.length() < 2) {
       return null;
@@ -104,6 +111,14 @@ public class Utils {
     return null;
   }
 
+  /**
+   * Helper to uneclipse single-letter consonant eclipsis (i.e., not bhfear or
+   *  n-éin), handling miscapitalised eclipsed words: Gcarr -> Carr, etc.
+   * @param in string to uneclipse
+   * @param first first (eclipsis) character
+   * @param second second character; first character of the word proper
+   * @return String with uneclipsed word or null if no match
+   */
   public static String unEclipseChar(String in, char first, char second) {
     int from = 2;
     char upperFirst = Character.toUpperCase(first);
@@ -118,8 +133,8 @@ public class Utils {
       return null;
     }
     // properly eclipsed
-    if(in.charAt(0) == first && in.charAt(1) == second) {
-      return null;
+    if(in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
+      return in.substring(1);
     }
 
     char ch1 = in.charAt(1);
