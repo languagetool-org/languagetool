@@ -34,4 +34,18 @@ public class UtilsTest {
     assertEquals("t-aon", Utils.toLowerCaseIrish("tAON"));
     assertEquals("n-aon", Utils.toLowerCaseIrish("nAON"));
   }
+
+  @Test
+  public void testUnLenited() {
+    assertEquals("Kate", Utils.unLenite("Khate"));
+    assertEquals("can", Utils.unLenite("chan"));
+    assertEquals("ba", Utils.unLenite("bha"));
+    assertEquals(null, Utils.unLenite("can"));
+    assertEquals(null, Utils.unLenite("a"));
+  }
+
+  @Test
+  public void testUnEclipseChar() {
+    assertEquals("carr", Utils.unEclipseChar("gcarr", 'g', 'c'));
+  }
 }

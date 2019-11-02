@@ -104,7 +104,7 @@ public class Utils {
     return null;
   }
 
-  private static String unEclipseChar(String in, char first, char second) {
+  public static String unEclipseChar(String in, char first, char second) {
     int from = 2;
     char upperFirst = Character.toUpperCase(first);
     char upperSecond = Character.toUpperCase(second);
