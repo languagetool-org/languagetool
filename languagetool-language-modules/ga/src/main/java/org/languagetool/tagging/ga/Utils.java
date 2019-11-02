@@ -65,9 +65,9 @@ public class Utils {
     List<Retaggable> out = new ArrayList<>();
     // First, mutations
     Retaggable mut = demutate(in);
-    if(mut.getAppendTag().equals(":Len") || mut.getAppendTag().equals(":Ecl") || mut.getAppendTag().equals(":EclLen")) {
+    if(mut.getAppendTag().equals(":Len:MorphError") || mut.getAppendTag().equals(":Ecl:MorphError") || mut.getAppendTag().equals(":EclLen")) {
       out.add(mut);
-      out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), ":DefArt"));
+      out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), ":DefArt:MorphError"));
     } else if(!"".equals(mut.getAppendTag())) {
       out.add(mut);
     }
@@ -88,12 +88,12 @@ public class Utils {
       return new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError");
     }
     if((out = unLenite(in)) != null) {
-      return new Retaggable(out, "", ":Len");
+      return new Retaggable(out, "", ":Len:MorphError");
     }
     if((out = unEclipse(in)) != null) {
       String out2 = unLenite(out);
       if(out2 == null) {
-        return new Retaggable(out, "", ":Ecl");
+        return new Retaggable(out, "", ":Ecl:MorphError");
       } else {
         return new Retaggable(out2, "", ":EclLen");
       }
