@@ -22,6 +22,7 @@
 package org.languagetool.tagging.disambiguation.rules.ga;
 
 import org.junit.Test;
+import org.languagetool.tagging.ga.Retaggable;
 import org.languagetool.tagging.ga.Utils;
 
 import static org.junit.Assert.*;
@@ -83,5 +84,15 @@ public class UtilsTest {
     assertEquals("Seomra7", Utils.unLeniteDefiniteS("T-Seomra7"));
     assertEquals("Seomra8", Utils.unLeniteDefiniteS("T-seomra8"));
     assertEquals(null, Utils.unLeniteDefiniteS("seomra9"));
+  }
+
+  @Test
+  public void testDemutate() {
+    Retaggable tmp = Utils.demutate("gcharr");
+    assertEquals(tmp.getWord(), "carr");
+    assertEquals(tmp.getAppendTag(), ":EclLen");
+    tmp = Utils.demutate("t-seomra");
+    assertEquals(tmp.getWord(), "seomra");
+    assertEquals(tmp.getRestrictToPos(), "(?:C[UMC]:)?Noun:.*:DefArt");
   }
 }

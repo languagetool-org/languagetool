@@ -45,4 +45,17 @@ public class Retaggable {
       this.appendTag = this.appendTag + appendTag;
     }
   }
+
+  public String getWord() {
+    return word;
+  }
+  public String getRestrictToPos() {
+    return restrictToPos;
+  }
+  public String getAppendTag() {
+    return appendTag;
+  }
+  public String getPrefix() {
+    return prefix;
+  }
 }

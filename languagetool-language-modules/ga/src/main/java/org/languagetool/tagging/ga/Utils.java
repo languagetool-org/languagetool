@@ -26,34 +26,46 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
-    private static class SuffixGuess {
-      String suffix;
-      String suffixReplacement;
-      String restrictToTags;
-      String appendTags;
-      SuffixGuess(String suffix,
+  private static class SuffixGuess {
+    String suffix;
+    String suffixReplacement;
+    String restrictToTags;
+    String appendTags;
+    SuffixGuess(String suffix,
                 String suffixReplacement,
                 String restrictToTags,
                 String appendTags) {
-        this.suffix = suffix;
-        this.suffixReplacement = suffixReplacement;
-        this.restrictToTags = restrictToTags;
-        this.appendTags = appendTags;
-      }
-    }
-    private static final List<SuffixGuess> guesses = Arrays.asList(
-      new SuffixGuess("éaracht", "éireacht", ".*Noun.*", ":MorphError"),
-      new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError")
-      //new FormGuess("T-S", "S", "", "", "(?:C[UMC]:)?Noun:Masc:Com:Sg:DefArt", ":MorphError")
-    );
-
-  public class Mutation {
-    String word;
-    List<String> tags;
-    public Mutation() {
-      tags = new ArrayList<String>();
+      this.suffix = suffix;
+      this.suffixReplacement = suffixReplacement;
+      this.restrictToTags = restrictToTags;
+      this.appendTags = appendTags;
     }
   }
+  private static final List<SuffixGuess> guesses = Arrays.asList(
+    new SuffixGuess("éaracht", "éireacht", ".*Noun.*", ":MorphError"),
+    new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError")
+    //new FormGuess("T-S", "S", "", "", )
+  );
+
+  public static Retaggable demutate(String in) {
+    String out;
+    if((out = unLeniteDefiniteS(in)) != null) {
+      return new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError");
+    }
+    if((out = unLenite(in)) != null) {
+      return new Retaggable(out, "", ":Len");
+    }
+    if((out = unEclipse(in)) != null) {
+      String out2 = unLenite(out);
+      if(out2 == null) {
+        return new Retaggable(out, "", ":Ecl");
+      } else {
+        return new Retaggable(out2, "", ":EclLen");
+      }
+    }
+    return new Retaggable(in, "", "");
+  }
+
   public static String unEclipse(String in) {
     if(in.length() > 2) {
       char ch1 = in.charAt(1);
