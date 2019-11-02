@@ -27,10 +27,10 @@ import java.util.List;
 
 public class Utils {
   private static class SuffixGuess {
-    public String suffix;
-    public String suffixReplacement;
-    public String restrictToTags;
-    public String appendTags;
+    String suffix;
+    String suffixReplacement;
+    String restrictToTags;
+    String appendTags;
     SuffixGuess(String suffix,
                 String suffixReplacement,
                 String restrictToTags,
@@ -43,37 +43,27 @@ public class Utils {
   }
   private static final List<SuffixGuess> guesses = Arrays.asList(
     new SuffixGuess("éaracht", "éireacht", ".*Noun.*", ":MorphError"),
-    new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError"),
-    new SuffixGuess("eamhail", "iúil", ".*Noun.*|.*Adj.*", ":MorphError"),
-    new SuffixGuess("eamhuil", "iúil", ".*Noun.*|.*Adj.*", ":MorphError"),
-    new SuffixGuess("eamhla", "iúla", ".*Noun.*|.*Adj.*", ":MorphError"),
-    new SuffixGuess("amhail", "úil", ".*Noun.*|.*Adj.*", ":MorphError"),
-    new SuffixGuess("amhuil", "úil", ".*Noun.*|.*Adj.*", ":MorphError")
+    new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError")
+    //new FormGuess("T-S", "S", "", "", )
   );
 
-  public static List<Retaggable> demutate(String in) {
+  public static Retaggable demutate(String in) {
     String out;
-    List<Retaggable> ret = new ArrayList<>();
     if((out = unLeniteDefiniteS(in)) != null) {
-      ret.add(new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError"));
-      return ret;
+      return new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError");
     }
     if((out = unLenite(in)) != null) {
-      ret.add(new Retaggable(out, "", ":Len"));
-      ret.add(new Retaggable(out, "", ":DefArt"));
+      return new Retaggable(out, "", ":Len");
     }
     if((out = unEclipse(in)) != null) {
       String out2 = unLenite(out);
       if(out2 == null) {
-        ret.add(new Retaggable(out, "", ":Ecl"));
-        ret.add(new Retaggable(out, "", ":DefArt"));
+        return new Retaggable(out, "", ":Ecl");
       } else {
-        ret.add(new Retaggable(out2, "", ":EclLen"));
-        ret.add(new Retaggable(out2, "", ":DefArt"));
+        return new Retaggable(out2, "", ":EclLen");
       }
     }
-    ret.add(new Retaggable(in, "", ""));
-    return ret;
+    return new Retaggable(in, "", "");
   }
 
   public static String unEclipse(String in) {
