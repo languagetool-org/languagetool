@@ -27,10 +27,10 @@ import java.util.List;
 
 public class Utils {
   private static class SuffixGuess {
-    String suffix;
-    String suffixReplacement;
-    String restrictToTags;
-    String appendTags;
+    public String suffix;
+    public String suffixReplacement;
+    public String restrictToTags;
+    public String appendTags;
     SuffixGuess(String suffix,
                 String suffixReplacement,
                 String restrictToTags,
@@ -43,8 +43,12 @@ public class Utils {
   }
   private static final List<SuffixGuess> guesses = Arrays.asList(
     new SuffixGuess("éaracht", "éireacht", ".*Noun.*", ":MorphError"),
-    new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError")
-    //new FormGuess("T-S", "S", "", "", )
+    new SuffixGuess("éarachta", "éireachta", ".*Noun.*", ":MorphError"),
+    new SuffixGuess("eamhail", "iúil", ".*Noun.*|.*Adj.*", ":MorphError"),
+    new SuffixGuess("eamhuil", "iúil", ".*Noun.*|.*Adj.*", ":MorphError"),
+    new SuffixGuess("eamhla", "iúla", ".*Noun.*|.*Adj.*", ":MorphError"),
+    new SuffixGuess("amhail", "úil", ".*Noun.*|.*Adj.*", ":MorphError"),
+    new SuffixGuess("amhuil", "úil", ".*Noun.*|.*Adj.*", ":MorphError")
   );
 
   public static Retaggable demutate(String in) {
