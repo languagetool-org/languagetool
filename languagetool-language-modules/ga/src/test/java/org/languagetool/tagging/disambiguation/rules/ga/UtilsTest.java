@@ -60,14 +60,14 @@ public class UtilsTest {
 
   @Test
   public void testUnLeniteDefiniteS() {
-    assertEquals("seomra", Utils.unLeniteDefiniteS("t-seomra"));
-    assertEquals("seomra", Utils.unLeniteDefiniteS("tseomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("tSeomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("TSeomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("Tseomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("t-Seomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("T-Seomra"));
-    assertEquals("Seomra", Utils.unLeniteDefiniteS("T-seomra"));
-    assertEquals(null, Utils.unLeniteDefiniteS("seomra"));
+    assertEquals("seomra1", Utils.unLeniteDefiniteS("t-seomra1"));
+    assertEquals("seomra2", Utils.unLeniteDefiniteS("tseomra2"));
+    assertEquals("Seomra3", Utils.unLeniteDefiniteS("tSeomra3"));
+    assertEquals("Seomra4", Utils.unLeniteDefiniteS("TSeomra4"));
+    assertEquals("Seomra5", Utils.unLeniteDefiniteS("Tseomra5"));
+    assertEquals("Seomra6", Utils.unLeniteDefiniteS("t-Seomra6"));
+    assertEquals("Seomra7", Utils.unLeniteDefiniteS("T-Seomra7"));
+    assertEquals("Seomra8", Utils.unLeniteDefiniteS("T-seomra8"));
+    assertEquals(null, Utils.unLeniteDefiniteS("seomra9"));
   }
 }

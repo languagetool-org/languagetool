@@ -118,13 +118,19 @@ public class Utils {
     String[] uppers = {"Ts", "T-s", "TS", "T-S", "t-S", "tS"};
     String[] lowers = {"ts", "t-s"};
     for(String start : uppers) {
+      if(in.length() < start.length()) {
+        continue;
+      }
       if(in.startsWith(start)) {
-        return "S" + in.substring(start.length() - 1);
+        return "S" + in.substring(start.length());
       }
     }
     for(String start : lowers) {
+      if(in.length() < start.length()) {
+        continue;
+      }
       if(in.startsWith(start)) {
-        return "s" + in.substring(start.length() - 1);
+        return "s" + in.substring(start.length());
       }
     }
     return null;
