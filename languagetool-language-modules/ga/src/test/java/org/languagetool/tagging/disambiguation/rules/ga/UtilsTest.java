@@ -57,4 +57,17 @@ public class UtilsTest {
     // not eclipsed
     assertEquals(null, Utils.unEclipseChar("carr", 'g', 'c'));
   }
+
+  @Test
+  public void testUnLeniteDefiniteS() {
+    assertEquals("seomra", Utils.unLeniteDefiniteS("t-seomra"));
+    assertEquals("seomra", Utils.unLeniteDefiniteS("tseomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("tSeomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("TSeomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("Tseomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("t-Seomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("T-Seomra"));
+    assertEquals("Seomra", Utils.unLeniteDefiniteS("T-seomra"));
+    assertEquals(null, Utils.unLeniteDefiniteS("seomra"));
+  }
 }

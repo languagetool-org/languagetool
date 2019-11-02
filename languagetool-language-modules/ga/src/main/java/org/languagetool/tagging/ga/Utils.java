@@ -68,9 +68,6 @@ public class Utils {
     }
   }
   public static String unEclipse(String in) {
-    String orig = in;
-    int from = 1;
-    char first = in.charAt(0);
     if(in.length() > 2) {
       char ch1 = in.charAt(1);
       switch(in.charAt(0)) {
@@ -83,6 +80,12 @@ public class Utils {
           } else {
             return null;
           }
+        case 'B':
+        case 'b':
+          return unEclipseChar(in, 'b', 'p');
+        case 'D':
+        case 'd':
+          return unEclipseChar(in, 'd', 't');
         case 'G':
         case 'g':
           return unEclipseChar(in, 'g', 'c');
@@ -107,6 +110,22 @@ public class Utils {
     }
     if(in.charAt(1) == 'h' || in.charAt(1) == 'H') {
       return in.charAt(0) + in.substring(2);
+    }
+    return null;
+  }
+
+  public static String unLeniteDefiniteS(String in) {
+    String[] uppers = {"Ts", "T-s", "TS", "T-S", "t-S", "tS"};
+    String[] lowers = {"ts", "t-s"};
+    for(String start : uppers) {
+      if(in.startsWith(start)) {
+        return "S" + in.substring(start.length() - 1);
+      }
+    }
+    for(String start : lowers) {
+      if(in.startsWith(start)) {
+        return "s" + in.substring(start.length() - 1);
+      }
     }
     return null;
   }
