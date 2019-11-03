@@ -623,19 +623,39 @@
             </pattern>
             <disambig action="filterall"></disambig>
         </rule>
-        <!--
         <rule>
             <pattern>
                 <marker>
                     <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                </marker>
+                <token>b</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token postag="Adj:Comp:Len" spacebefore="no"></token>
+            </pattern>
+            <disambig action="filter" postag="Subst:Noun:Sg:Part:Comp"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                <marker>
                     <token>b</token>
-                    <token>'</token>
-                    <token postag="Adj:Comp:Len"></token>
+                </marker>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token postag="Adj:Comp:Len" spacebefore="ignore"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="ba" pos="Part:Sup"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                <token>b</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <marker>
+                    <token postag="Adj:Comp:Len" spacebefore="ignore"></token>
                 </marker>
             </pattern>
-            <disambig action="filterall"></disambig>
+            <disambig action="filter" postag="Adj:Comp:Len"></disambig>
         </rule>
-        -->
         <rule>
             <pattern>
                 <marker>
