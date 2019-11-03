@@ -888,6 +888,26 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="SA_CHEAD_NOUN" name="sa chéad áit">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Num:Ord:Len">chéad</token>
+                <token postag_regexp="yes" postag=".*Noun:(?:Masc|Fem):(?:Com|Dat):Sg:Len"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="SA_CHEAD_SEO" name="sa chéad seo">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Noun:Masc:Com:Sg:Len">chéad</token>
+                <token postag_regexp="yes" postag="CM:Det:Dem|Det:Dem" regexp="yes">sin|seo|san|úd</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="SA_CHEAD" name="sa chéad">
         <antipattern>
             <token>sa</token>
