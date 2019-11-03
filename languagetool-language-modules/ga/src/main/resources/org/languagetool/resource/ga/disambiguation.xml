@@ -889,6 +889,16 @@
         <disambig action="filterall"/>
     </rule>
     <rule id="SA_CHEAD" name="sa chéad">
+        <antipattern>
+            <token>sa</token>
+            <token>chéad</token>
+            <token postag_regexp="yes" postag=".*Noun.*"></token>
+        </antipattern>
+        <antipattern>
+            <token>sa</token>
+            <token>chéad</token>
+            <token regexp="yes">sin|seo|úd</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="Prep:Art:Sg">sa</token>
