@@ -8809,6 +8809,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
             <example correction='bhaile'>amhail an <marker>mbaile</marker></example>
         </rule>
+        <rule id="GAN_AN_ECLTAG" name="amhail an ECL">
+            <pattern>
+                <token>gan</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>gan an <marker>mbaile</marker></example>
+        </rule>
         <rule id="CHUIG_AN_NMCS_ADJ" name="chuig an NOUN ADJ">
             <pattern>
                 <token>chuig</token>
