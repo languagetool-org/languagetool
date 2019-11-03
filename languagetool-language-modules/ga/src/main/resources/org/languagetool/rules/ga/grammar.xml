@@ -10723,6 +10723,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='bochta'>caoirigh <marker>bhochta</marker></example>
         </rule>
+        <rule id="CHAOIRIGH_ADJ" name="caoirigh ADJ">
+            <pattern>
+                <token>chaoirigh</token>
+                <marker>
+                    <token postag_regexp="yes" postag=".*Adj.*Len.*"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bochta'>chaoirigh <marker>bhochta</marker></example>
+        </rule>
         <rule id="UM_LENBMP" name="um bhaile">
             <pattern>
                 <token>um</token>
