@@ -852,6 +852,33 @@
         </rule>
     </rulegroup>
     -->
+    <rule id="I_BHFUIL" name="i bhfuil">
+        <pattern>
+            <token postag="Prep:Simp">i</token>
+            <marker>
+                <token postag="Noun:Fem:Com:Sg:Ecl">bhfuil</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="Noun:Fem:Com:Sg:Ecl"/>
+    </rule>
+    <rule id="NI_OLANN" name="ní NEGVERB">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg">ní</token>
+                <token postag=".*Verb.*:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall" />
+    </rule>
+    <rule id="CHAN_OLANN" name="chan NEGVERB">
+        <pattern>
+            <marker>
+                <token postag="CU:Part:Vb:Neg">chan</token>
+                <token postag=".*Verb.*:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall" />
+    </rule>
     <rule id="AR_AR" name="ar ar">  <!-- suppress in word repeat rule -->
         <pattern>
             <marker><token>ar</token></marker>
