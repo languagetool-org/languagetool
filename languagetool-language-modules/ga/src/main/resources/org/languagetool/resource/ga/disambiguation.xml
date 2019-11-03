@@ -1011,17 +1011,29 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="GO_SUBJ" name="go SUBJ">
-        <pattern>
-            <token postag="SENT_START"></token>
-            <!--token min="0" max="1" regexp="yes">&interp;</token-->
-            <marker>
-                <token postag="Part:Vb:Subj">go</token>
-                <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    <rulegroup id="GO_SUBJ" name="go SUBJ">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <marker>
+                    <token postag="Part:Vb:Subj">go</token>
+                    <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token regexp="yes">&interp;</token>
+                <marker>
+                    <token postag="Part:Vb:Subj">go</token>
+                    <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rule id="AR_AR" name="ar ar">  <!-- suppress in word repeat rule -->
         <pattern>
             <marker><token>ar</token></marker>
