@@ -3016,7 +3016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sibh</token>
                     </marker>
                 </pattern>
-		<message>Ba chóir duit <suggestion>do bhur <match no="2" /></suggestion> a scríobh.</message>
+                <message>Ba chóir duit <suggestion>do bhur <match no="2" /></suggestion> a scríobh.</message>
                 <example correction="do bhur lorg"><marker>ag lorg sibh</marker></example>
             </rule>
         </rulegroup>
@@ -3032,7 +3032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='Prep:Simp' regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
                     <token postag='.*Noun.*Com.*' postag_regexp="yes"></token>
                 </pattern>
-		<message>Bíonn ainmfhocail i lorg “<match no="1"/>” sa tuiseal ginideach: <suggestion><match no="1"/> <match no="2" postag="(.*):Com(.*)" postag_regexp="yes" postag_replace="$1:Gen$2"/></suggestion>.</message>
+                <message>Bíonn ainmfhocail i lorg “<match no="1"/>” sa tuiseal ginideach: <suggestion><match no="1"/> <match no="2" postag="(.*):Com(.*)" postag_regexp="yes" postag_replace="$1:Gen$2"/></suggestion>.</message>
                 <example correction="chun báis"><marker>chun bás</marker></example>
             </rule>
         </rulegroup>
@@ -3046,8 +3046,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
                     </marker>
                 </pattern>
-		<message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
-		<example correction="bpáirc">i <marker>páirc</marker></example>
+                <message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
+                <example correction="bpáirc">i <marker>páirc</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -3057,7 +3057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Ba chóir duit <suggestion>in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/></suggestion> a scríobh.</message>
-		<example correction="in áit"><marker>i áit</marker></example>
+                <example correction="in áit"><marker>i áit</marker></example>
             </rule>
         </rulegroup>
     </category>
@@ -9681,4 +9681,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <!--
+    <category name="MORPH" id="morph errors">
+        <rule id="GUESSED" name="guessed">
+            <pattern>
+                <token postag=".*:MorphError" postag_regexp="yes"><exception postag=".*:MorphError" postag_regexp="yes" negate_pos="yes"/></token>
+            </pattern>
+            <message><suggestion><match no="1" postag="(.*)(?::MorphError)?" postag_regexp="yes" postag_replace="$1"/></suggestion></message>
+        </rule>
+    </category>
+    -->
 </rules>
