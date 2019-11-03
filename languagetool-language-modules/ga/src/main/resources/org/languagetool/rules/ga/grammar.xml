@@ -10214,7 +10214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion>dáréag</suggestion></message>
             <example correction='dáréag'>faoin <marker>dháréag</marker></example>
         </rule>
-        <rule id="AON_LENDST" name="faoin dháréag">
+        <rule id="AON_LENDST" name="aon thaobh">
             <pattern>
                 <token regexp="yes">h?aon</token>
                 <marker>
@@ -10223,6 +10223,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='taobh'>aon <marker>thaobh</marker></example>
+        </rule>
+        <rule id="UM_LENBMP" name="um bhaile">
+            <pattern>
+                <token>um</token>
+                <marker>
+                    <token regexp="yes" postag_regexp="yes" postag=".*Noun.*">&lenitedbmp;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='baile'>um <marker>bhaile</marker></example>
         </rule>
     </category>
 </rules>
