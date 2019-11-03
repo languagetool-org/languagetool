@@ -8622,6 +8622,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([f])(.*)" regexp_replace="$1h$2"/></suggestion></message>
             <example correction='fhearr'>ab <marker>fearr</marker></example>
         </rule>
+        <rule id="DARBH_UNLENITEDF" name="darbh Unlenited-F">
+            <pattern>
+                <token postag="Cop.*" postag_regexp="yes">darbh</token>
+                <marker>
+                    <token regexp="yes">f[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([f])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='fhearr'>darbh <marker>fearr</marker></example>
+        </rule>
         <rule id="AG_FAIL_BAIS" name="ag fáil báis">
             <pattern>
                 <token>ag</token>
@@ -8743,7 +8753,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='thine'>trí <marker>tine</marker></example>
             <example>trí fichid</example>
         </rule>
-        <!-- First: disambiguation 
+        <!-- First: disambiguation
         <rule id="NFCS_A" name="NFCS Adj" default="temp_off">
             <antipattern>
                 <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
@@ -8757,7 +8767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='cheannasach'>Tá sé riachtanach ar mhaithe le feidhmiú an phlean a bheidh ceaptha ag an eagraíocht
- <marker>cheannasach</marker>.</example>
+ <marker>ceannasach</marker>.</example>
             <example correction="mhór">bó <marker>mór</marker></example>
             <example>Léimeann an fharraige céad méadar suas sa spéir.</example>
         </rule>
