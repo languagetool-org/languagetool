@@ -8912,8 +8912,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='mhóir'>Tugadh cuireadh dó a theacht i láthair an fhir <marker>móir</marker>.</example>
             <example correction='Pholainéisigh'>Tugaimid é amach le haghaidh béile <marker>Polainéisigh</marker>.</example>
         </rule>
-        -->
         <rule id="NPslender_ADJunlen" name="béil bochta">
+            <antipattern>
+                <token regexp="yes">g?ch?aoirigh</token>
+                <token postag=".*Adj.*Len.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
+                <token postag=".*Adj.*" postag_regexp="yes" regexp="yes">&unboundadj;</token>
+            </antipattern>
             <pattern>
                 <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
                 <marker>
@@ -8922,7 +8929,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='bhochta'>béil <marker>bochta</marker>.</example>
+            <example>caoirigh bochta.</example>
+            <example>Mhair cuid mhór dár sinsir céad caoga bliain ó shin.</example>
+            <example>Tá sé le cloisteáil sna meáin gach seachtain.</example>
         </rule>
+        -->
         <rule id="NO_DO" name="nó dó">
             <pattern>
                 <token>nó</token>
