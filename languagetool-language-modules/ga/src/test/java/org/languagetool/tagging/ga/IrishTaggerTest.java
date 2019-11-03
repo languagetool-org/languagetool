@@ -46,7 +46,7 @@ public class IrishTaggerTest extends TestCase {
     TestTools.myAssert("t-athair","t-athair/[athair]Noun:Masc:Com:Sg:DefArt", tokenizer, tagger);
     TestTools.myAssert("tAthair","tAthair/[athair]Noun:Masc:Com:Sg:DefArt", tokenizer, tagger);
     TestTools.myAssert("nAthair","nAthair/[athair]Noun:Fem:Com:Sg:Ecl|nAthair/[athair]Noun:Masc:Com:Sg:Ecl", tokenizer, tagger);
-    TestTools.myAssert("t-seomra","t-seomra/[null]null|[seomra]Noun:Masc:Com:Sg:DefArt:MorphError", tokenizer, tagger);
+    TestTools.myAssert("t-seomra","t-seomra/[null]null|t-seomra/[seomra]Noun:Masc:Com:Sg:DefArt:MorphError", tokenizer, tagger);
   }
 
 }
