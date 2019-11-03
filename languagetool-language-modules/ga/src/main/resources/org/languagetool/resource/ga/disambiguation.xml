@@ -957,6 +957,31 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <!-- if singular, on 'her'; if plural, on 'their' -->
+    <rulegroup id="BO_AR_A_LACHT" name="bó ar a lacht">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem:(Com|Gen):Sg.*" postag_regexp="yes" inflected="yes">bó</token>
+                    <token postag="Prep:Simp">ar</token>
+                    <token postag="Det:Poss:3P:Sg:Fem">a</token>
+                    <token postag="Noun:Masc:Com:Sg">lacht</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem:(Com|Gen):Pl.*" postag_regexp="yes" inflected="yes">bó</token>
+                    <token postag="Prep:Simp">ar</token>
+                    <token postag="Det:Poss:3P:Pl">a</token>
+                    <token postag="Noun:Masc:Com:Sg:Ecl">lacht</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rule id="BA_AG_INIOR" name="ba ag iníor">
         <pattern>
             <marker>
