@@ -8768,7 +8768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dtí</token>
                 <token>an</token>
                 <marker>
-                    <token postag=".*Noun.*:Ecl" postag_regexp="yes"></token>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
                 </marker>
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="4" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
@@ -8785,6 +8785,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="4" regexp_match="[bngdm]h?([pgdctbf])(.*)" regexp_replace="$1h$2"/></suggestion></message>
             <example correction='fhoobar'>go dtí an <marker>bhfoobar</marker></example>
+        </rule>
+        <rule id="NO_DO" name="nó dó">
+            <pattern>
+                <token>nó</token>
+                <marker>
+                    <token>dó</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>dhó</suggestion></message>
+            <example correction='dhó'>nó <marker>dó</marker></example>
         </rule>
         <rule id="CA_MINIC" name="cá minic">
             <pattern>
