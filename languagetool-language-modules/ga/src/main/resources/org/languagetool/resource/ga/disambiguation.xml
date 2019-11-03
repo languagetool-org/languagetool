@@ -6,6 +6,7 @@
 <!DOCTYPE rules [
         <!ENTITY nbsp " ">
         <!ENTITY apost "['`’]">
+        <!ENTITY interp "[\p{Punct}\-−–—―„«»…’]+">
         ]>
 <rules lang="ga" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -1006,6 +1007,17 @@
             <marker>
                 <token postag="Part:Vb:Subj">go</token>
                 <token postag=".*Verb.*PresSubj.*" postag_regexp="yes" inflected="yes">oibrigh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="GO_SUBJ" name="go SUBJ">
+        <pattern>
+            <token postag="SENT_START"></token>
+            <token min="0" max="1" regexp="yes">&interp;</token>
+            <marker>
+                <token postag="Part:Vb:Subj">go</token>
+                <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
