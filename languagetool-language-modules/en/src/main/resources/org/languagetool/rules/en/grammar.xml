@@ -29221,6 +29221,41 @@ The accident victim died from her injuries.
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="CD" />
+                    <token>day</token>
+                    <token skip="1">trip</token>
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="CD">
+                            <exception>one</exception>
+                        </token>
+                        <token>day</token>
+                    </marker>
+                    <token regexp="yes">weeks?|shipping|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip</token>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
+                <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
+                <example correction="60-day">Some states require a 30/<marker>60 day</marker> warranty on major components.</example>
+                <example correction="three-day">Have a nice time tonite and for the <marker>three day</marker> weekend.</example>
+                <example>He indicated that he hoped to one day work on the official supplement.</example>
+                <example>The use of the roadstead in front of St Peter Port by over 100 cruise ships a year is bringing over 100,000 day trip passengers to the island each year.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>day</token>
+                    </marker>
+                    <token regexp="yes">work(ing)?</token>
+                    <token regexp="yes">weeks?</token>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
+                <example correction="4-day">Sign the contract and get <marker>4 day</marker> work weeks.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="V.+" postag_regexp='yes'/>
