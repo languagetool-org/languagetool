@@ -228,6 +228,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("should have");
     } else if ("woulda".equals(word)) {
       return Arrays.asList("would have");
+    } else if ("afro-american".equals(word)) {
+      return Arrays.asList("Afro-American");
+    } else if ("Afro-american".equals(word)) {
+      return Arrays.asList("Afro-American");
+    } else if ("Webex".equals(word)) {
+      return Arrays.asList("WebEx");
     } else if ("didint".equals(word)) {
       return Arrays.asList("didn't");
     } else if ("Didint".equals(word)) {
