@@ -8809,6 +8809,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
             <example correction='bhaile'>amhail an <marker>mbaile</marker></example>
         </rule>
+        <rule id="GAN_AN_ECLTAG" name="gan an ECL">
+            <pattern>
+                <token>gan</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>gan an <marker>mbaile</marker></example>
+        </rule>
+        <rule id="MAR_AN_ECLTAG" name="mar an ECL">
+            <pattern>
+                <token>mar</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>mar an <marker>mbaile</marker></example>
+        </rule>
+        <rule id="MURACH_AN_ECLTAG" name="murach an ECL">
+            <pattern>
+                <token>murach</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>murach an <marker>mbaile</marker></example>
+        </rule>
+        <rule id="NA_AN_ECLTAG" name="ná an ECL">
+            <pattern>
+                <token>ná</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>ná an <marker>mbaile</marker></example>
+        </rule>
+        <rule id="IDIR_AN_ECLTAG" name="idir an ECL">
+            <pattern>
+                <token>idir</token>
+                <token>an</token>
+                <marker>
+                    <token postag=".*Noun.*Fem.*:Ecl" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):Ecl" postag_regexp="yes" postag_replace="$1:Len"/></suggestion></message>
+            <example correction='bhaile'>idir an <marker>mbaile</marker></example>
+        </rule>
+        <rule id="NFCS_NG" name="bean baile">
+            <antipattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
+                <token>Dé</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">fh?éile</token>
+                <token postag=".*Noun.*Gen.*" postag_regexp="yes"></token>
+            </antipattern>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>bean <marker>baile</marker></example>
+            <example>lámh Dé</example>
+            <example>Féile baile</example>
+        </rule>
         <rule id="CHUIG_AN_NMCS_ADJ" name="chuig an NOUN ADJ">
             <pattern>
                 <token>chuig</token>
@@ -8820,6 +8895,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="4" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='mhór'>chuig an fear <marker>mór</marker></example>
+        </rule>
+        <!--
+        <rule id="NMGS_ADJunlen" name="fhir móir">
+            <antipattern>
+                <token postag=".*Noun:Masc:Gen:Sg.*" postag_regexp="yes"></token>
+                <token regexp="yes">&unboundadj;</token>
+            </antipattern>
+            <pattern>
+                <token postag=".*Noun:Masc:Gen:Sg.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='mhóir'>Tugadh cuireadh dó a theacht i láthair an fhir <marker>móir</marker>.</example>
+            <example correction='Pholainéisigh'>Tugaimid é amach le haghaidh béile <marker>Polainéisigh</marker>.</example>
+        </rule>
+        <rule id="NPslender_ADJunlen" name="béil bochta">
+            <antipattern>
+                <token regexp="yes">g?ch?aoirigh</token>
+                <token postag=".*Adj.*Len.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
+                <token postag=".*Adj.*" postag_regexp="yes" regexp="yes">&unboundadj;</token>
+            </antipattern>
+            <pattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhochta'>béil <marker>bochta</marker>.</example>
+            <example>caoirigh bochta.</example>
+            <example>Mhair cuid mhór dár sinsir céad caoga bliain ó shin.</example>
+            <example>Tá sé le cloisteáil sna meáin gach seachtain.</example>
+        </rule>
+        -->
+        <rule id="NPslender_NG" name="béil ba">
+            <antipattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
+                <token>Dé</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&finaldlnst;</token>
+                <token regexp="yes">&initialdst;</token>
+            </antipattern>
+            <pattern>
+                <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='mhadra'>béil <marker>madra</marker>.</example>
+            <example>mic Dé</example>
+            <example>Chonaic mé líon agus crainn tógála ann.</example>
         </rule>
         <rule id="NO_DO" name="nó dó">
             <pattern>
@@ -8957,6 +9090,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion>Mhantáin</suggestion></message>
             <example correction='Mhantáin'>Cill <marker>Mantáin</marker></example>
         </rule>
+        <rule id="A_CLOG" name="a clog">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token regexp="yes">g?clog</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>chlog</suggestion></message>
+            <example correction='chlog'>a <marker>clog</marker></example>
+        </rule>
+        <rule id="A_CLOIG" name="a cloig">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token regexp="yes">g?cloig</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>chloig</suggestion></message>
+            <example correction='chloig'>a <marker>cloig</marker></example>
+        </rule>
+        <rule id="CLUAS_MARA" name="cluas mara">
+            <pattern>
+                <token regexp="yes">g?ch?luas</token>
+                <marker>
+                    <token>mara</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>mhara</suggestion></message>
+            <example correction='mhara'>cluas <marker>mara</marker></example>
+        </rule>
+        <rule id="CNAMH_GAOIL" name="cnámh gaoil">
+            <pattern>
+                <token regexp="yes">g?ch?námh</token>
+                <marker>
+                    <token>gaoil</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>ghaoil</suggestion></message>
+            <example correction='ghaoil'>cnámh <marker>gaoil</marker></example>
+        </rule>
         <rule id="AR_ADJ" name="ar ADJ">
             <pattern>
                 <token>ar</token>
@@ -9032,6 +9205,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dhearg">bó mhór <marker>dearg</marker></example>
         </rule>
         -->
+        <rule id="NFCS_A_ACH_A" name="NFCS Adj ach Adj">
+            <antipattern>
+                <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <token>ach</token>
+                <token postag=".*Adj.*" postag_regexp="yes" regexp="yes">&unboundadj;</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes" regexp="yes">bheith|oiread</token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <token>ach</token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <token>ach</token>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="4" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction="dhearg">bó mhór ach <marker>dearg</marker></example>
+            <example>bheith mhór ach dearg</example>
+        </rule>
         <rule id="BEIRT_NOUN" name="beirt NOUN">
             <pattern>
                 <token>beirt</token>
@@ -9052,6 +9250,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='mhóra'>beirt fhear <marker>móra</marker></example>
+        </rule>
+        <rule id="DHA_NOUN" name="dhá NOUN">
+            <pattern>
+                <token regexp="yes">dh?á</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhád'>dhá <marker>bád</marker></example>
+        </rule>
+        <rule id="DHA_NOUN_ADJ" name="dhá NOUN ADJ">
+            <pattern>
+                <token regexp="yes">dh?á</token>
+                <token postag=".*Noun.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='mhóra'>dhá bhád <marker>móra</marker></example>
+        </rule>
+        <rule id="DHA_NOUN_DEAG_ADJ" name="dhá NOUN déag ADJ">
+            <pattern>
+                <token regexp="yes">dh?á</token>
+                <token postag=".*Noun.*" postag_regexp="yes"/>
+                <token regexp="yes">dh?éag</token>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="4" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='mhóra'>dhá bhád déag <marker>móra</marker></example>
         </rule>
         <rule id="TRI_NOUN_ADJ" name="trí NOUN ADJ">
             <pattern>
