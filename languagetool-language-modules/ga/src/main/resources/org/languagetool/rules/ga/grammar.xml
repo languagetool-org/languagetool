@@ -10633,6 +10633,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='bó'>cá <marker>bhó</marker></example>
         </rule>
+        <rule id="A_CEAD_NOUN" name="a céad NOUN">
+            <pattern>
+                <token>a</token>
+                <token>céad</token>
+                <marker>
+                    <token postag=".*Noun.*Len.*" postag_regexp="yes" regexp="yes">&leniteddst;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="3" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='doras'>a céad <marker>dhoras</marker></example>
+        </rule>
         <rule id="NACH_ADJ-NOUN" name="nach ADJ/NOUN">
             <pattern>
                 <token>nach</token>
