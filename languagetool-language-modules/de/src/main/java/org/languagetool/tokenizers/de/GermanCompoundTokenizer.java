@@ -48,6 +48,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     static Set<String> extendedList() {
       Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      words.add("thermostat");
       words.add("fehl");
       words.add("circus");
       words.add("schi");
