@@ -10644,6 +10644,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="3" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='doras'>a céad <marker>dhoras</marker></example>
         </rule>
+        <rule id="COS_NOUN" name="cos NOUN">
+            <pattern>
+                <token regexp="yes">g?cos</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>cos <marker>bhó</marker></example>
+        </rule>
+        <rule id="CRUB_NOUN" name="crúb NOUN">
+            <pattern>
+                <token regexp="yes">g?ch?rúb</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>crúb <marker>bhó</marker></example>
+        </rule>
         <rule id="NACH_ADJ-NOUN" name="nach ADJ/NOUN">
             <pattern>
                 <token>nach</token>
