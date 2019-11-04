@@ -10456,6 +10456,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <example correction='bliana'>cheithre <marker>bhliana</marker></example>
         </rule>
+        <rule id="CUIG_BHLIANA" name="cúig bhliana">
+            <pattern>
+                <token regexp="yes">g?cúig</token>
+                <marker>
+                    <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <example correction='bliana'>cúig <marker>bhliana</marker></example>
+        </rule>
+        <rule id="CHUIG_BHLIANA" name="chúig bhliana">
+            <pattern>
+                <token>chúig</token>
+                <marker>
+                    <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <example correction='bliana'>chúig <marker>bhliana</marker></example>
+        </rule>
         <rule id="SE_BHLIANA" name="sé bhliana">
             <pattern>
                 <token>sé</token>
@@ -10498,7 +10518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CLUAS_NOUN" name="cluas NOUN">
             <pattern>
-                <token regexp="yes">g?ch?luas</token>
+                <token regexp="yes">g?cluas</token>
                 <marker>
                     <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
                 </marker>
@@ -10506,9 +10526,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='bó'>cluas <marker>bhó</marker></example>
         </rule>
+        <rule id="CHLUAS_NOUN" name="cluas NOUN">
+            <pattern>
+                <token>chluas</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>chluas <marker>bhó</marker></example>
+        </rule>
         <rule id="CNAMH_NOUN" name="cnámh NOUN">
             <pattern>
-                <token regexp="yes">g?ch?námh</token>
+                <token regexp="yes">g?cnámh</token>
                 <marker>
                     <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
                 </marker>
@@ -10516,15 +10546,133 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='bó'>cnámh <marker>bhó</marker></example>
         </rule>
+        <rule id="CHNAMH_NOUN" name="cnámh NOUN">
+            <pattern>
+                <token>chnámh</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>chnámh <marker>bhó</marker></example>
+        </rule>
         <rule id="COLAINN_BHAID" name="colainn bháid">
             <pattern>
-                <token regexp="yes">g?ch?olainn</token>
+                <token regexp="yes">g?colainn</token>
                 <marker>
                     <token>bháid</token>
                 </marker>
             </pattern>
             <message>Séimhiú gan ghá: <suggestion>báid</suggestion></message>
             <example correction='báid'>colainn <marker>bháid</marker></example>
+        </rule>
+        <rule id="CHOLAINN_BHAID" name="colainn bháid">
+            <pattern>
+                <token>cholainn</token>
+                <marker>
+                    <token>bháid</token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion>báid</suggestion></message>
+            <example correction='báid'>cholainn <marker>bháid</marker></example>
+        </rule>
+        <rule id="CINN_DEAG" name="cinn déag">
+            <pattern>
+                <token regexp="yes">g?cinn</token>
+                <marker>
+                    <token>dhéag</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion>déag</suggestion></message>
+            <example correction='déag'>cinn <marker>dhéag</marker></example>
+        </rule>
+        <rule id="CHINN_DEAG" name="cinn déag">
+            <pattern>
+                <token>chinn</token>
+                <marker>
+                    <token>dhéag</token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion>déag</suggestion></message>
+            <example correction='déag'>chinn <marker>dhéag</marker></example>
+        </rule>
+        <rule id="DHEARDAOIN" name="Dhéardaoin">
+            <pattern>
+                <token>Dhéardaoin</token>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion>Déardaoin</suggestion></message>
+            <example correction='Déardaoin'><marker>Dhéardaoin</marker></example>
+        </rule>
+        <rule id="SRON_NOUN" name="srón NOUN">
+            <pattern>
+                <token regexp="yes">t?srón</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>srón <marker>bhó</marker></example>
+        </rule>
+        <rule id="SHRON_NOUN" name="shrón NOUN">
+            <pattern>
+                <token>shrón</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>shrón <marker>bhó</marker></example>
+        </rule>
+        <rule id="CA_NOUN" name="cá NOUN">
+            <pattern>
+                <token>cá</token>
+                <marker>
+                    <token postag=".*Noun.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>cá <marker>bhó</marker></example>
+        </rule>
+        <rule id="A_CEAD_NOUN" name="a céad NOUN">
+            <pattern>
+                <token>a</token>
+                <token>céad</token>
+                <marker>
+                    <token postag=".*Noun.*Len.*" postag_regexp="yes" regexp="yes">&leniteddst;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="3" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='doras'>a céad <marker>dhoras</marker></example>
+        </rule>
+        <rule id="COS_NOUN" name="cos NOUN">
+            <pattern>
+                <token regexp="yes">g?cos</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>cos <marker>bhó</marker></example>
+        </rule>
+        <rule id="CRUB_NOUN" name="crúb NOUN">
+            <pattern>
+                <token regexp="yes">g?ch?rúb</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>crúb <marker>bhó</marker></example>
+        </rule>
+        <rule id="NACH_ADJ-NOUN" name="nach ADJ/NOUN">
+            <pattern>
+                <token>nach</token>
+                <marker>
+                    <token postag=".*Noun.*Len.*|.*Adj.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='fada'>nach <marker>fhada</marker></example>
         </rule>
         <rule id="AN_DHAREAG" name="an dháréag">
             <pattern>
@@ -10576,6 +10724,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion>dá</suggestion></message>
             <example correction='dá'>céad <marker>dhá</marker></example>
         </rule>
+        <rule id="CHEAD_DHA" name="céad dhá">
+            <pattern>
+                <token>chéad</token>
+                <marker>
+                    <token>dhá</token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion>dá</suggestion></message>
+            <example correction='dá'>chéad <marker>dhá</marker></example>
+        </rule>
         <rule id="CEAD_DHAREAG" name="céad dháréag">
             <pattern>
                 <token>céad</token>
@@ -10586,6 +10744,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion>dáréag</suggestion></message>
             <example correction='dáréag'>céad <marker>dháréag</marker></example>
         </rule>
+        <rule id="CHEAD_DHAREAG" name="céad dháréag">
+            <pattern>
+                <token>chéad</token>
+                <marker>
+                    <token>dháréag</token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion>dáréag</suggestion></message>
+            <example correction='dáréag'>chéad <marker>dháréag</marker></example>
+        </rule>
+        <rule id="AON_DHA" name="aon dhá">
+            <pattern>
+                <token>aon</token>
+                <marker>
+                    <token>dhá</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion>dá</suggestion></message>
+            <example correction='dá'>aon <marker>dhá</marker></example>
+        </rule>
+        <rule id="AON_DHAREAG" name="aon dháréag">
+            <pattern>
+                <token>aon</token>
+                <marker>
+                    <token>dháréag</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion>dáréag</suggestion></message>
+            <example correction='dáréag'>aon <marker>dháréag</marker></example>
+        </rule>
         <rule id="AON_LENDST" name="aon thaobh">
             <pattern>
                 <token regexp="yes">h?aon</token>
@@ -10595,6 +10783,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <example correction='taobh'>aon <marker>thaobh</marker></example>
+        </rule>
+        <rule id="CAOIRIGH_ADJ" name="caoirigh ADJ">
+            <pattern>
+                <token regexp="yes">g?caoirigh</token>
+                <marker>
+                    <token postag_regexp="yes" postag=".*Adj.*Len.*"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bochta'>caoirigh <marker>bhochta</marker></example>
+        </rule>
+        <rule id="CHAOIRIGH_ADJ" name="caoirigh ADJ">
+            <pattern>
+                <token>chaoirigh</token>
+                <marker>
+                    <token postag_regexp="yes" postag=".*Adj.*Len.*"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bochta'>chaoirigh <marker>bhochta</marker></example>
         </rule>
         <rule id="UM_LENBMP" name="um bhaile">
             <pattern>
