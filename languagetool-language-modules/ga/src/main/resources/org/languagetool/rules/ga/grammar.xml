@@ -10603,6 +10603,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion>Déardaoin</suggestion></message>
             <example correction='Déardaoin'><marker>Dhéardaoin</marker></example>
         </rule>
+        <rule id="SRON_NOUN" name="srón NOUN">
+            <pattern>
+                <token regexp="yes">t?srón</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>srón <marker>bhó</marker></example>
+        </rule>
+        <rule id="SHRON_DHA" name="shrón NOUN">
+            <pattern>
+                <token>shrón</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*Len.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
+            <example correction='bó'>shrón <marker>bhó</marker></example>
+        </rule>
         <rule id="AN_DHAREAG" name="an dháréag">
             <pattern>
                 <token>an</token>
