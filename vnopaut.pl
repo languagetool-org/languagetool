@@ -18,11 +18,11 @@ sub unfada {
 for my $word (qw/ár bhur dár faoinár inár lenár ónár sula trínár/) {
     my $upper = uc(unfada($word));
 my $out=<<__END__;
-        <rule id="${upper}_VNOPAUT" name="$word VNOPAUT">
+        <rule id="${upper}_UNECLIPSED" name="$word UNECLIPSED">
             <pattern>
                 <token>$word</token>
                 <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/><exception postag=".*:PastInd.*:Auto.*" postag_regexp="yes"/></token>
+                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="\$1:\$2:Ecl"/></suggestion></message>
