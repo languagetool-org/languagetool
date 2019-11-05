@@ -76,7 +76,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY eclipsedbcfgp "(?:gc|bp|mb|ng|bhf).+">
         <!ENTITY eclipsed "(?:n(?:-[aeiouáéíóú])|dt|gc|bp|mb|n[dg]|bhf).*">
         <!ENTITY maybeeclipsingnumber "(?:[1-9][0-9]*[789]|[0-9]*10)">
-        <!ENTITY eclipsingnumber "(?:n?dh?eich|naoi|(?:h|[mbd]['`’]|n-)?ocht|sh?eacht|[789]|10)">
+        <!ENTITY eclipsingnumber "(?:n?dh?eich|naoi|(?:h|n-)?ocht|sh?eacht|[789]|10)">
         <!ENTITY eclipsingposs "(?:(?:faoin|in|len|ón|trín)?(?:a|ár)|d?ár?|bhur|arna)">
         <!ENTITY unboundadj "(?:.+th?[ae]|céad|cibé|cosúil|deich|dhá|gach|seacht|seo|sin|trí|úd|uile|.+ .+)">
         <!ENTITY unpplike "(?:.+(?:[^ae]|[^th][ae]|[^t]h[ae]))">
@@ -11564,15 +11564,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='dteach'>i <marker>teach</marker></example>
         </rule>
-        <rule id="NOTNPNUM_NOUN" name="i NA">
+        <rule id="NOTNPNUM_NOUN" name="seach bád">
             <pattern>
-                <token postag=".*Prop:Noun.*" postag_regexp="yes" negate_pos="yes">&eclipsingnumber;</token>
+                <token postag=".*Prop:Noun.*" postag_regexp="yes" negate_pos="yes" regexp="yes">&eclipsingnumber;</token>
                 <marker>
-                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Ecl.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='mbád'>seach <marker>bád</marker></example>
+            <example correction='mbád'>seacht <marker>bád</marker></example>
         </rule>
         <rulegroup id="GO_BAPOST" name="go b'fhéidir">
             <rule>
