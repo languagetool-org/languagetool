@@ -11564,7 +11564,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='dteach'>i <marker>teach</marker></example>
         </rule>
-        <rulegroup id="GO_BAPOSTlen" name="go b'fhéidir">
+        <rule id="NOTNPNUM_NOUN" name="i NA">
+            <pattern>
+                <token postag=".*Prop:Noun.*" postag_regexp="yes" negate_pos="yes">&eclipsingnumber;</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+            <example correction='mbád'>seach <marker>bád</marker></example>
+        </rule>
+        <rulegroup id="GO_BAPOST" name="go b'fhéidir">
             <rule>
                 <pattern>
                     <token>go</token>
