@@ -9412,6 +9412,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion>dhuine</suggestion></message>
             <example correction='dhuine'>chuile <marker>duine</marker></example>
         </rule>
+        <rule id="MUIN_MAIRC" name="muin mairc">
+            <pattern>
+                <token regexp="yes">mh?uin</token>
+                <marker>
+                    <token>mairc</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>mhairc</suggestion></message>
+            <example correction='mhairc'>muin <marker>mairc</marker></example>
+        </rule>
+        <rule id="GUALAINN_BAGUIN" name="gualainn bagúin">
+            <pattern>
+                <token regexp="yes">n?gh?ualainn</token>
+                <marker>
+                    <token regexp="yes">bagúin|caoireola|mairteola</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([bcm])(agúin|aoireola|airteola)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='bhagúin'>gualainn <marker>bagúin</marker></example>
+        </rule>
         <rule id="CILL_MANTAIN" name="Cill Mantáin">
             <pattern>
                 <token regexp="yes">(?:gC|Ch|C)ill</token>
