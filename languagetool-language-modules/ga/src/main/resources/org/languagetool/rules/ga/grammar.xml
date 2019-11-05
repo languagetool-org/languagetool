@@ -11574,6 +11574,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='mbád'>seacht <marker>bád</marker></example>
         </rule>
+        <rule id="NI_FAIGHTOECLIPSE" name="ní fuarthas">
+            <pattern>
+                <token>ní</token>
+                <marker>
+                    <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes"><exception postag=".*:Ecl.*" postag_regexp="yes"/>&faightoeclipse;</token>
+                </marker>
+            </pattern>
+            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+            <example correction='bhfuarthas'>ní <marker>fuarthas</marker></example>
+        </rule>
         <rulegroup id="GO_BAPOST" name="go b'fhéidir">
             <rule>
                 <pattern>
