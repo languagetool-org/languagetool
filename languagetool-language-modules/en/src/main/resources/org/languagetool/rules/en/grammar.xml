@@ -2567,7 +2567,7 @@ USA
             <example correction="response">Thanks for the <marker>responds</marker>.</example>
             <example>Is there an audience that <marker>responds</marker> more strongly?</example>
         </rule>
-        <rulegroup id="PRP_RESPONSE" name="responds vs. response" default="temp_off">
+        <rulegroup id="PRP_RESPONSE" name="responds vs. response">
             <rule>
                 <pattern>
                     <marker>
@@ -7445,7 +7445,7 @@ USA
             <example correction="can back up">Did you know you <marker>can backup</marker> your data on an external drive?</example>
             <example>The car can back up out of the driveway easily.</example>
         </rule>
-        <rule id="PRP_BACKUP" name="They backup (back up)" default="temp_off">
+        <rule id="PRP_BACKUP" name="They backup (back up)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -7478,7 +7478,7 @@ USA
             <example>She can set up the tent very quickly.</example>
             <example>The setup is working.</example>
         </rule>
-        <rule id="PRP_SETUP" name="They setup (set up)" default="temp_off">
+        <rule id="PRP_SETUP" name="They setup (set up)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -11552,7 +11552,7 @@ USA
             <example correction="Excel">The <marker>excel</marker>, powerpoint and word program.</example>
             <example correction="Skype">Please open your <marker>skype</marker>.</example>
         </rule>
-        <rulegroup id="GOGGLE_GOOGLE" name="goggle vs. Google"  default="temp_off">
+        <rulegroup id="GOGGLE_GOOGLE" name="goggle vs. Google">
             <rule>
                 <pattern>
                     <marker>
@@ -11790,7 +11790,7 @@ USA
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
             <example>Let's thank you.</example>
         </rule>
-        <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'" default="temp_off">
+        <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <pattern>
                 <marker>
                     <token>all</token>
@@ -11805,7 +11805,7 @@ USA
             <example correction="all-time">He is the best <marker>all time</marker> goalscorer.</example>
             <example>He is the best of all time.</example>
         </rule>
-        <rule id="AFRO_AMERICAN_HYPHEN" name="missing hyphen in 'Afro American'" default="temp_off">
+        <rule id="AFRO_AMERICAN_HYPHEN" name="missing hyphen in 'Afro American'">
             <pattern>
                 <token>afro</token>
                 <token regexp="yes">americans?</token>
@@ -11814,7 +11814,7 @@ USA
             <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>
             <example correction="Afro-American">He is an <marker>afro american</marker>.</example>
         </rule>
-        <rulegroup id="ZERO_DAY_EXPLOIT" name="a zero day (zero-day) exploit" default="temp_off">
+        <rulegroup id="ZERO_DAY_EXPLOIT" name="a zero day (zero-day) exploit">
             <rule>
                 <pattern>
                     <marker>
@@ -11912,7 +11912,7 @@ USA
                 <example correction="built-in">The device has a <marker>built in</marker> module.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ALL_YOU_CAN_EAT_HYPHEN" name="hyphens in 'all-you-can-eat'" default="temp_off">
+        <rulegroup id="ALL_YOU_CAN_EAT_HYPHEN" name="hyphens in 'all-you-can-eat'">
             <rule>
                 <pattern>
                     <marker>
@@ -19629,7 +19629,7 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
-        <rule id="DOSNT" name="he dosn't (doesn't)" default="temp_off">
+        <rule id="DOSNT" name="he dosn't (doesn't)">
             <pattern>
                 <token regexp="yes">do[se]n|does</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -19638,7 +19638,7 @@ USA
             <message>Did you mean <suggestion>doesn\2t</suggestion>?</message>
             <example correction="doesn't">He <marker>dosn't</marker> know about it.</example>
         </rule>
-        <rule id="HAVNT" name="they havn't (haven't)" default="temp_off">
+        <rule id="HAVNT" name="they havn't (haven't)">
             <pattern>
                 <token>havn</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -21175,7 +21175,7 @@ USA
             <example correction="3-bedroom">The old woman lived in a <marker>3 bedroom</marker> house by herself.</example>
             <example correction="2-bath">A <marker>2 bath</marker> apartment.</example>
         </rule>
-        <rule id="DOOR_HYPHEN" name="missing hyphen in '2 door coupe'" default="temp_off">
+        <rule id="DOOR_HYPHEN" name="missing hyphen in '2 door coupe'">
             <pattern>
                 <marker>
                     <token regexp="yes">2|3|4|5|6|7|8|two|three|four|five|six|seven|eight</token>
@@ -21587,7 +21587,7 @@ USA
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
-        <rulegroup id="TH_CENTURY" name="'19 century' (19th century)" default="temp_off">
+        <rulegroup id="TH_CENTURY" name="'19 century' (19th century)">
             <rule>
                 <pattern>
                     <token regexp="yes">[3-9]10|1[2-9]|20</token>
@@ -29221,7 +29221,7 @@ The accident victim died from her injuries.
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="CD" />
                     <token>day</token>
@@ -29244,7 +29244,7 @@ The accident victim died from her injuries.
                 <example>He indicated that he hoped to one day work on the official supplement.</example>
                 <example>The use of the roadstead in front of St Peter Port by over 100 cruise ships a year is bringing over 100,000 day trip passengers to the island each year.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token postag="CD" />
