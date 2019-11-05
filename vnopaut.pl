@@ -15,18 +15,19 @@ sub unfada {
     $in =~ s/ú/u/g;
     return $in;
 }
-for my $word (qw/a an cá dá go mura nach/) {
+for my $word (qw/ár bhur dár faoinár inár lenár ónár trínár/) {
     my $upper = uc(unfada($word));
 my $out=<<__END__;
-        <rule id="${upper}_VERB" name="$word VERB">
+        <rule id="${upper}_DHA_VERB" name="$word dhá VERB">
             <pattern>
                 <token>$word</token>
+                <token>dhá</token>
                 <marker>
-                    <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    <token postag=".*NOUN.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="\$1:\$2:Ecl"/></suggestion></message>
-            <example correction='gcantar'>$word <marker>cantar</marker></example>
+            <message>Urú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="\$1:\$2:Ecl"/></suggestion></message>
+            <example correction='dteach'>$word dhá <marker>teach</marker></example>
         </rule>
 __END__
     print $out;
