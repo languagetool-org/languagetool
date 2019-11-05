@@ -11565,6 +11565,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='dteach'>i <marker>teach</marker></example>
         </rule>
         <rule id="NOTNPNUM_NOUN" name="seach bád">
+            <antipattern>
+                <token regexp="yes">&eclipsingnumber;</token>
+                <token regexp="yes">Eanáir|Feabhra|Aibreán|Bealtaine|Iúil|Deireadh</token>
+            </antipattern>
             <pattern>
                 <token postag=".*Prop:Noun.*" postag_regexp="yes" negate_pos="yes" regexp="yes">&eclipsingnumber;</token>
                 <marker>
@@ -11573,6 +11577,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='mbád'>seacht <marker>bád</marker></example>
+            <example correction='dtobar'>Bhí deich <marker>tobar</marker> fíoruisce agus seachtó crann pailme ann.</example>
+            <example correction='dtreibh'>Rinneadh an roinnt do na naoi <marker>treibh</marker> go leith ar chrainn.</example>
+            <example correction='dtábla'>Bhí ocht <marker>tábla</marker> ar fad ar a maraídís na híobairtí.</example>
+            <!--example correction='mbliana'>Sáraíonn sé na seacht nó na hocht <marker>bliana</marker>.</example-->
+            <example correction='bpíopa'>Tá seacht lampa air agus seacht <marker>píopa</marker> ar gach ceann díobh.</example>
         </rule>
         <rule id="NI_FAIGHTOECLIPSE" name="ní fuarthas">
             <pattern>
