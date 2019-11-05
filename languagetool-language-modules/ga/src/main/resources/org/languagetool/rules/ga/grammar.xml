@@ -11564,6 +11564,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='dteach'>i <marker>teach</marker></example>
         </rule>
+        <rulegroup id="GO_BAPOSTlen" name="go b'fhéidir">
+            <rule>
+                <pattern>
+                    <token>go</token>
+                    <marker>
+                        <token>b</token>
+                        <token regexp="yes" spacebefore="no">&apost;</token>
+                        <token spacebefore="ignore"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Urú ar iarraidh: <suggestion><match no="4" postag="([^:]*):(.*):Len" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+                <example correction='bhféidir'>go <marker>b&apos;fhéidir</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>go</token>
+                    <marker>
+                        <token>b</token>
+                        <token regexp="yes" spacebefore="no">&apost;</token>
+                        <token spacebefore="ignore"><exception postag=".*:(Ecl|Len)" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Urú ar iarraidh: <suggestion><match no="4" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+                <example correction='bhféidir'>go <marker>b&apos;féidir</marker></example>
+            </rule>
+        </rulegroup>
         <!-- need to relax tagging for this to work
         <rule id="NA_NGP" name="na NGP">
             <pattern>
