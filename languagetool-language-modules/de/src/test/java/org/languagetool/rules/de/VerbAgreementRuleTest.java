@@ -102,6 +102,7 @@ public class VerbAgreementRuleTest {
     assertGood("„Werde ich tun!“");
     assertGood("Könntest dir mal eine Scheibe davon abschneiden!");
     assertGood("Müsstest dir das mal genauer anschauen.");
+    assertGood("Kannst ein neues Release machen.");
     assertGood("Sie fragte: „Muss ich aussagen?“");
     assertGood("„Können wir bitte das Thema wechseln, denn ich möchte ungern darüber reden?“");
     assertGood("Er sagt: „Willst du behaupten, dass mein Sohn euch liebt?“");
