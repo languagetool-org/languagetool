@@ -15,18 +15,18 @@ sub unfada {
     $in =~ s/ú/u/g;
     return $in;
 }
-for my $word (qw/faoina ina lena óna trína/) {
+for my $word (qw/ár bhur dár faoinár inár lenár ónár sula trínár/) {
     my $upper = uc(unfada($word));
 my $out=<<__END__;
         <rule id="${upper}_VNOPAUT" name="$word VNOPAUT">
             <pattern>
                 <token>$word</token>
                 <marker>
-                    <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/><exception postag=".*:PastInd.*:Auto.*" postag_regexp="yes"/></token>
+                    <token><exception postag=".*:Ecl" postag_regexp="yes"/><exception postag=".*:PastInd.*:Auto.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="\$1:\$2:Ecl"/></suggestion></message>
-            <example correction='gcantar'>$word <marker>cantar</marker></example>
+            <example correction='dteach'>$word <marker>teach</marker></example>
         </rule>
 __END__
     print $out;
