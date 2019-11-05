@@ -9289,6 +9289,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='bhaile'>gach uile <marker>baile</marker></example>
         </rule>
+        <rule id="A_NOUNUNLEN" name="a NOUN">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>a <marker>baile</marker></example>
+        </rule>
+        <rule id="DE_NOUN" name="de NOUN">
+            <pattern>
+                <token regexp="yes">d[eo]</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>de <marker>baile</marker></example>
+        </rule>
+        <rule id="MAR_NOUN" name="mar NOUN">
+            <pattern>
+                <token>mar</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>mar <marker>baile</marker></example>
+        </rule>
+        <rule id="O_NOUN" name="ó NOUN">
+            <pattern>
+                <token>ó</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>ó <marker>baile</marker></example>
+        </rule>
+        <rule id="ROIMH_NOUN" name="roimh NOUN">
+            <pattern>
+                <token>roimh</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>roimh <marker>baile</marker></example>
+        </rule>
+        <rule id="TRI_NOUN" name="trí NOUN">
+            <pattern>
+                <token regexp="yes">d?th?rí </token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='bhaile'>trí <marker>baile</marker></example>
+        </rule>
         <rule id="FUSEDPREP_UILE_NOUN" name="faoin uile NOUN">
             <pattern>
                 <token regexp="yes">&fusedprep;</token>
