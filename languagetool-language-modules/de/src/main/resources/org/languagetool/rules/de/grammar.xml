@@ -31901,6 +31901,45 @@ Andere Projekte</example>
                 <example correction="all-inclusive">Sie reisten <marker>Allinclusive</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BUY_OUT" name="'Buy-out'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>Management</token>
+                    <token>Buy</token>
+                    <token regexp="yes">(in|out)s?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Management-Buy-<match no="3" case_conversion="alllower" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Management_Buy_out</url>
+                <example correction="Management-Buy-out">Es kam zum <marker>Management Buy Out</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Management</token>
+                    <token case_sensitive="yes" regexp="yes">Buy\-?(in|out)s?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Management-Buy-<match no="2" regexp_match="(?i)buy-?(ins?|outs?)" regexp_replace="$1" case_conversion="alllower" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Management_Buy_out</url>
+                <example correction="Management-Buy-out">Es kam zum <marker>Management Buyout</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Buy</token>
+                    <token regexp="yes">outs?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Buy-<match no="2" case_conversion="alllower" /></suggestion> (= Kurzform für Management-Buy-out)?</message>
+                <url>https://www.duden.de/rechtschreibung/Buy_out</url>
+                <example correction="Buy-outs">Es kam zu <marker>Buy Outs</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Buy-?Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="(?i)buy-?out" regexp_replace="Buy-out" /></suggestion> (= Kurzform für Management-Buy-out)?</message>
+                <url>https://www.duden.de/rechtschreibung/Buy_out</url>
+                <example correction="Buy-outs">Während des <marker>Buy-Outs</marker> kamen negative Schlagzeilen in die Presse.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CHECK_IN" name="'Check-in'">
             <rule>
                 <pattern>

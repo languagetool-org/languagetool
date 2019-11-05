@@ -58,6 +58,7 @@ public class WordListValidatorTest {
           "Kazanlǎk",
           "Kesäranta",
           "Kŭrdzhali",
+          "Malko Tŭrnovo",
           "Rígsþula",
           "Savitṛ",
           "Vafþrúðnismál",
