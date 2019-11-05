@@ -11244,76 +11244,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='gcantar'>trína <marker>cantar</marker></example>
         </rule>
-        <rule id="AR_UNECLIPSED" name="ár UNECLIPSED">
-            <pattern>
-                <token>ár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>ár <marker>teach</marker></example>
-        </rule>
-        <rule id="BHUR_UNECLIPSED" name="bhur UNECLIPSED">
-            <pattern>
-                <token>bhur</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>bhur <marker>teach</marker></example>
-        </rule>
-        <rule id="DAR_UNECLIPSED" name="dár UNECLIPSED">
-            <pattern>
-                <token>dár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>dár <marker>teach</marker></example>
-        </rule>
-        <rule id="FAOINAR_UNECLIPSED" name="faoinár UNECLIPSED">
-            <pattern>
-                <token>faoinár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>faoinár <marker>teach</marker></example>
-        </rule>
-        <rule id="INAR_UNECLIPSED" name="inár UNECLIPSED">
-            <pattern>
-                <token>inár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>inár <marker>teach</marker></example>
-        </rule>
-        <rule id="LENAR_UNECLIPSED" name="lenár UNECLIPSED">
-            <pattern>
-                <token>lenár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>lenár <marker>teach</marker></example>
-        </rule>
-        <rule id="ONAR_UNECLIPSED" name="ónár UNECLIPSED">
-            <pattern>
-                <token>ónár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>ónár <marker>teach</marker></example>
-        </rule>
+        <rulegroup id="AR_UNECLIPSED" name="ár UNECLIPSED">
+            <antipattern>
+                <token></token>
+                <token>dhá</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ár|bhúr|dár|faoinár|inár|lenár|ónár|trínár</token>
+                    <marker>
+                        <token><exception postag=".*:Ecl.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*):Len.*" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+                <example correction='dteach'>ár <marker>theach</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ár|bhúr|dár|faoinár|inár|lenár|ónár|trínár</token>
+                    <marker>
+                        <token><exception postag=".*:(Ecl|Len).*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
+                <example correction='dteach'>ár <marker>teach</marker></example>
+                <example correction="dtithe">Gheobhaimid maoin de gach sórt, agus líonfaimid ár <marker>tithe</marker> le creach.</example>
+                <example>Ní amháin bhur dhá chosa, ach nigh bhur lámha!</example>
+                <!--example correction="mbriathra">Déanaigí beart leis de réir bhur <marker>briathra</marker>.</example-->
+            </rule>
+        </rulegroup>
         <rule id="SULA_UNECLIPSED" name="sula UNECLIPSED">
             <pattern>
                 <token>sula</token>
@@ -11323,16 +11282,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='dteach'>sula <marker>teach</marker></example>
-        </rule>
-        <rule id="TRINAR_UNECLIPSED" name="trínár UNECLIPSED">
-            <pattern>
-                <token>trínár</token>
-                <marker>
-                    <token><exception postag=".*:Ecl" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
-            <example correction='dteach'>trínár <marker>teach</marker></example>
         </rule>
         <rule id="A_VERB" name="a VERB">
             <pattern>
