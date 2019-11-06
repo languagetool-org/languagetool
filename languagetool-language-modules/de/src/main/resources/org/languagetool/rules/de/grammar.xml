@@ -15962,6 +15962,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Googles?</token>
+                    <token>AdWords</token>
+                </pattern>
+                <message>Im Jahr 2018 hat Google seinen Dienst 'AdWords' zu <suggestion>Google Ads</suggestion> umbenannt.</message>
+                <example correction="Google Ads">Wir müssen Werbung bei <marker>Google AdWords</marker> schalten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>AdWords</token>
+                </pattern>
+                <message>Im Jahr 2018 hat Google seinen Dienst 'AdWords' zu <suggestion>Google Ads</suggestion> umbenannt.</message>
+                <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZITAT_VGL" name="'vgl.' bei direkten Zitaten">
             <!--
             <rule>
@@ -24445,6 +24462,18 @@ Andere Projekte</example>
                 <example correction="Rote">Ich esse gerne <marker>rote</marker> Johannisbeeren.</example>
             </rule>
         </rulegroup>
+        <rule id="GROSSCHREIBUNG_CO" name="Großschreibung Abkürzung 'Co.'">
+            <pattern>
+                <token case_sensitive="yes">
+                    co
+                    <exception scope="previous">.</exception>
+                </token>
+                <token>.</token>
+            </pattern>
+            <message>Die Abkürzung <suggestion>Co.</suggestion> wird großgeschrieben.</message>
+            <example correction="Co.">WhatsApp und <marker>co.</marker> sind an den Schulen verboten.</example>
+            <example>101 Gemälde von Hatton bei bbc.co.uk.</example>
+        </rule>
         <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
             <rule>
                 <pattern case_sensitive="yes">
