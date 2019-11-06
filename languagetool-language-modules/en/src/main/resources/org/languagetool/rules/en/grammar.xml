@@ -11747,6 +11747,16 @@ USA
                 <example correction="Google Ads">We use <marker>Adwords</marker>.</example>
                 <example>The city is also home to the headquarters of Google's AdWords program.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">chrome</token>
+                    </marker>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab</token>
+                </pattern>
+                <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
+                <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
             <rule>
@@ -11766,12 +11776,24 @@ USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
+                    <token>Internet</token>
+                    <token>Explorer</token>
+                </antipattern>
+                <pattern>
+                    <token>internet</token>
+                    <token>explorer</token>
+                </pattern>
+                <message>The proper noun <suggestion>Internet Explorer</suggestion> (= Microsoft browser) needs to be capitalized.</message>
+                <example correction="Internet Explorer"><marker>Internet explorer</marker> is an ancient and outdated web browser.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
                     <token>Microsoft</token>
-                    <token regexp="yes">Word|Excel|Outlook|Office</token>
+                    <token regexp="yes">Word|Excel|Outlook|Office|Edge</token>
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office</token>
+                    <token regexp="yes">word|excel|outlook|office|edge</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft program)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -21412,7 +21434,7 @@ USA
                         <token regexp="yes">\d+</token>
                         <token spacebefore="no">,</token>
                         <token spacebefore="no" regexp="yes">\d+</token>
-                        <token regexp="yes">word|character</token>
+                        <token regexp="yes">word|character|paragraph</token>
                     </marker>
                     <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
@@ -21424,7 +21446,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag="CD" />
-                        <token regexp="yes">word|character</token>
+                        <token regexp="yes">word|character|paragraph</token>
                     </marker>
                     <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
@@ -21437,6 +21459,7 @@ USA
                 <example>Similar behavior is noticed when copying from one Word doc to another Word doc.</example>
                 <example>Four Word essays were stored in a separate folder.</example>
                 <example>Please complete one Word document first.</example>
+                <example correction="6-paragraph">He wrote a <marker>6 paragraph</marker> essay.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21562,6 +21585,10 @@ USA
             <antipattern>
                 <token>six</token>
                 <token>sigma</token>
+            </antipattern>
+            <antipattern>
+                <token>room</token>
+                <token>51</token>
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|semester</token>
@@ -21717,6 +21744,7 @@ USA
             <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
             <example>The iphone 11 pro max.</example>
+            <example>The room 51 movie.</example>
             <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
             <example>There are around 50 right now.</example>
@@ -36548,6 +36576,39 @@ The accident victim died from her injuries.
             <example correction="times when">There are <marker>times where</marker> you need to measure high current devices.</example>
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
+        <rulegroup id="MAC_OS" name="Mac OS (macOS)">
+            <rule>
+                <pattern>
+                    <token>mac</token>
+                    <token>
+                        os
+                        <exception scope="next">x</exception>
+                    </token>
+                </pattern>
+                <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="alllower" />OS</suggestion></message>
+                <url>https://en.wikipedia.org/wiki/MacOS</url>
+                <example correction="macOS">Do you prefer Windows or <marker>mac OS</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>MacOS</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>macOS</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        MacOS
+                        <exception scope="next">x</exception>
+                    </token>
+                </pattern>
+                <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="startlower" regexp_match="(?i)macos" regexp_replace="macOS" /></suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/MacOS</url>
+                <example correction="macOS">Do you prefer Windows or <marker>MacOS</marker>?</example>
+                <example>MacOS updates were failing.</example>
+            </rule>
+        </rulegroup>
 
       <rulegroup id="PROFANITY" name="Profanity">
          <rule>
