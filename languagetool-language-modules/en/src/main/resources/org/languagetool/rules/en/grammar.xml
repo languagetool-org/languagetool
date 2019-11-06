@@ -19713,6 +19713,13 @@ USA
         </rule>
         <rule id="DO_HE_VERB" name="do (does) he have">
             <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
+            <antipattern><!-- #2125 Do it after school. -->
+                <token>do</token>
+                <token skip="-1">it
+                    <exception scope="next">?</exception>
+                    </token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>do</token>
@@ -19723,7 +19730,13 @@ USA
             </pattern>
             <message>Did you mean <suggestion>does</suggestion>?</message>
             <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
+            <example correction="Does"><marker>Do</marker> it look broken to you?</example>
+            <example correction="does">... but <marker>do</marker> it usually look good or bad?</example>
             <example>If you do it at all, try to do it well.</example>
+            <example>Then please do it after school.</example><!-- #2125 -->
+            <example>Then do it after school.</example>
+            <example>Do it after school.</example>
+            <example>You should do it before school.</example>
         </rule>
         <rule id="WHEN_IS_NNP_AND_NNP" name="Incorrect use of 'is' vs. 'are'">
             <pattern>
