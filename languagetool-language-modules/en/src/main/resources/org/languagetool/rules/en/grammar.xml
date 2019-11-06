@@ -15356,6 +15356,10 @@ USA
                     <token>are</token>
                     <token>go</token>
                 </antipattern>
+                <antipattern><!-- #2123 You will be queen. -->
+                    <token regexp="yes">be</token>
+                    <token chunk="E-NP-singular" postag="NN">queen</token><!-- Do not make a general exception for NN:U because 'queen' is NN. Refer to https://www.lexico.com/en/definition/queen: "[as complement] ‘he insisted the princess could be crowned queen’" -->
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -15397,6 +15401,7 @@ USA
                 <example>The Egyptians believed that every human being was composed of ...</example>
                 <example>All systems are go.</example>
                 <example>What is Google AMP?</example>
+                <example>You will be queen.</example><!-- #2123 -->
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
