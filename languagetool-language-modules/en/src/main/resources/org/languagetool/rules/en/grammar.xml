@@ -7468,6 +7468,10 @@ USA
         </rule>
         <!-- can setup::word=can set up -->
         <rule id="CAN_SETUP" name="can setup (set up)">
+            <antipattern>
+                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">can(not)?|been|[wc]ould|should|might|must|was|were|may|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
                 <token regexp="yes">set-?up</token>
@@ -7479,7 +7483,7 @@ USA
             <example>She can set up the tent very quickly.</example>
             <example>The setup is working.</example>
         </rule>
-        <rule id="PRP_SETUP" name="They setup (set up)" default="temp_off">
+        <rule id="PRP_SETUP" name="They setup (set up)">
             <pattern>
                 <token regexp="yes">I|you|they|we|s?he</token>
                 <marker>
@@ -7492,7 +7496,7 @@ USA
             <example correction="set up">They <marker>setup</marker> a meeting.</example>
             <example>The setup is working.</example>
         </rule>
-        <rulegroup id="CAN_CHECKIN" name="can checkin (check in)" default="temp_off">
+        <rulegroup id="CAN_CHECKIN" name="can checkin (check in)">
             <antipattern>
                 <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
                 <token>to</token>
@@ -7510,7 +7514,7 @@ USA
                 <example>I will go to check-in and complain.</example>
             </rule>
         </rulegroup>
-        <rule id="PRP_CHECKIN" name="They checkin (check in)" default="temp_off">
+        <rule id="PRP_CHECKIN" name="They checkin (check in)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -7522,7 +7526,7 @@ USA
             <example correction="check in">They <marker>check-in</marker> tomorrow</example>
             <example>The check-in was yesterday.</example>
         </rule>
-        <rule id="CAN_CHECKOUT" name="can checkout (check out)" default="temp_off">
+        <rule id="CAN_CHECKOUT" name="can checkout (check out)">
             <antipattern>
                 <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
                 <token>to</token>
@@ -7536,7 +7540,7 @@ USA
             <example correction="can check out">She <marker>can checkout</marker> tomorrow.</example>
             <example>Click the "Proceed to checkout" button.</example>
         </rule>
-        <rule id="PRP_CHECKOUT" name="They checkout (check out)" default="temp_off">
+        <rule id="PRP_CHECKOUT" name="They checkout (check out)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -16288,6 +16292,31 @@ USA
           <example correction="">I am <em>searched</em> through some fields.</example>
         </rule>
         -->
+        <rule id="TAKE_IT_PERSONAL" name="Take it personal (personally)" default="temp_off">
+            <pattern>
+                <token inflected="yes">take</token>
+                <token>it</token>
+                <marker>
+                    <token>personal</token>
+                </marker>
+            </pattern>
+            <message>It seems that the adverb <suggestion>personally</suggestion> should be used here (as in the expression "Don't take it personally!").</message>
+            <example correction="personally">Don't take it <marker>personal</marker>.</example>
+        </rule>
+        <rule id="I_PERSONAL" name="I personal (personally)" default="temp_off">
+            <antipattern>
+                <token>personal</token>
+                <token>computer</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">I</token>
+                <token>personal</token>
+            </pattern>
+            <message>Did you mean the adverb 'personally'?</message>
+            <suggestion>I personally</suggestion>
+            <example correction="I personally"><marker>I personal</marker> don't belive it is true.</example>
+            <example>Apple was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in April 1976 to develop and sell Wozniak's Apple I personal computer.</example>
+        </rule>
         <rule id="PRONOUN_NOUN" name="Pronoun + noun">
         <!-- Created by Tiago F. Santos, 2018-11-11 -->
           <antipattern>
@@ -16352,6 +16381,10 @@ USA
             <token spacebefore="no">he</token>
             <token postag_regexp="yes" postag="N.+"/>
           </antipattern>
+          <antipattern>
+            <token>if</token>
+            <token regexp="yes" inflected="yes">needed|required|desired</token>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -16360,6 +16393,7 @@ USA
               <token postag="N.+" postag_regexp='yes'>
                 <exception postag='V.+|RB|IN' postag_regexp='yes'/>
                 <exception>wont</exception><!-- already caught by WONT_CONTRACTION -->
+                <exception>can</exception><!-- 'can' is only tagged as 'NN' in 'The best I can is ...'-->
               </token>
             </marker>
             <token postag="V.+" postag_regexp='yes'/>
@@ -16368,10 +16402,12 @@ USA
           <example correction=""><marker>I downtown</marker> went yesterday.</example><!-- XXX home is also a verb. fixing it may mess with disambiguation -->
           <example correction=""><marker>It alpha</marker> decays to the extremely long-lived (in practice, ...</example><!-- 'Alpha decay' is a noun, not a verb: www.merriam-webster.com/dictionary/alpha%20decay -->
           <example>I went downtown yesterday.</example>
+          <example>I'm going to send it to you if needed.</example>
           <example>Sarah was discerning enough to realize that her friends were trying to prank her.</example>
           <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
           <example>She's got a fair complexion while her brother is very dark.</example>
           <example>Her garden is a work of art.</example>
+          <example>Part of what motivates me to cope with ME/CFS the best I can is to make things easier for the people I love.</example>
           <example>We men are used to waiting for the women.</example>
           <example>UAB Hospital is the only Level I trauma center in Alabama.</example>
           <example>Her eyes were shining with joy.</example>
@@ -19775,6 +19811,14 @@ USA
             </pattern>
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
+        </rule>
+        <rule id="PRP_DOCENT" name="he docent (doesn't)">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token>docent</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 doesn't</suggestion> instead of docent (= university teacher)?</message>
+            <example correction="He doesn't"><marker>He docent</marker> know anything.</example>
         </rule>
         <rule id="DOSNT" name="he dosn't (doesn't)">
             <pattern>
