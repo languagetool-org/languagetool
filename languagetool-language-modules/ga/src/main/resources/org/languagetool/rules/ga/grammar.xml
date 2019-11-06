@@ -11204,6 +11204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*):Len" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
                 <example correction='gcantar'>faoina <marker>chantar</marker></example>
+                <example correction="ndearna">Bhí lúcháir ar an Tiarna faoina <marker>dhearna</marker> sé!</example>
             </rule>
             <rule>
                 <pattern>
@@ -11244,6 +11245,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ní amháin bhur dhá chosa, ach nigh bhur lámha!</example>
                 <example correction="mbriathra">Déanaigí beart leis de réir bhur <marker>briathra</marker>.</example>
                 <example correction="mbraighdeanas">Sa dara bliain déag dár <marker>braighdeanas</marker>, tháinig fear ar a theitheadh.</example>
+                <example correction="gcúram">Ní bheidh gearán ag duine ar bith faoin gciste fial atá faoinár <marker>cúram</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SULA_UNECLIPSED" name="sula UNECLIPSED">
@@ -11281,6 +11283,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='gcantar'>an <marker>cantar</marker></example>
         </rule>
         <rulegroup id="NACH_VERB" name="nach VERB">
+            <antipattern>
+                <token>go</token>
+                <token regexp="yes">&justta;</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">cá|dá|go|mura|nach</token>
@@ -11302,6 +11308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
                 <example correction='gcantar'>nach <marker>cantar</marker></example>
                 <example correction="gcuireann">Cá <marker>cuireann</marker> tú do thréad ar féarach?</example>
+                <example correction="mbeidh">Ní bheidh bonn comparáide ann go <marker>beidh</marker> torthaí Dhaonáireamh 2007 ar fáil.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ONAR_DHA_VERB" name="ónár dhá VERB">
@@ -11412,6 +11419,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*):Len.*" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
                 <example correction='dteach'>i <marker>theach</marker></example>
+                <example correction="gcuisneoir">An bhfuil aon uachtar reoite agat i <marker>chuisneoir</marker>?</example>
             </rule>
             <rule>
                 <pattern>
@@ -11422,6 +11430,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
                 <example correction='dteach'>i <marker>teach</marker></example>
+                <example correction="gcuisneoir">An bhfuil aon uachtar reoite agat i <marker>cuisneoir</marker>?</example>
+                <example correction="ngach">Táimid ag lorg 200 Club Gailf i <marker>gach</marker> cearn d'Éirinn.</example>
             </rule>
         </rulegroup>
         <rule id="NOTNPNUM_NOUN" name="seach bád">
