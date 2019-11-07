@@ -64,17 +64,17 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return (behind? "Fehlendes Komma nach Relativsatz" : "Fehlendes Komma vor Relativsatz");
   }
 
-/**
- * is a separator
- */
-  static boolean isSeparator(String token) {
+  /**
+   * is a separator
+   */
+  private static boolean isSeparator(String token) {
     return (MARKS_REGEX.matcher(token).matches() || token.equals("und") || token.equals("oder"));
   }
 
-/**
- * get the position of the next separator
- */
-  static int nextSeparator(AnalyzedTokenReadings[] tokens, int start) {
+  /**
+   * get the position of the next separator
+   */
+  private static int nextSeparator(AnalyzedTokenReadings[] tokens, int start) {
     for(int i = start; i < tokens.length; i++) {
       if(isSeparator(tokens[i].getToken())) {
         return i;
@@ -83,44 +83,44 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return tokens.length - 1;
   }
 
-/**
- * is preposition  
- */
-  static boolean isPrp(AnalyzedTokenReadings token) {
+  /**
+   * is preposition  
+   */
+  private static boolean isPrp(AnalyzedTokenReadings token) {
     return token.hasPosTagStartingWith("PRP:");
   }
   
-/**
- * is a potential verb used in sentence or subclause
- */
-  static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
+  /**
+   * is a potential verb used in sentence or subclause
+   */
+  private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
     return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*") 
         && !tokens[n].matchesPosTagRegex("(ZAL|ADJ|ADV|ART|SUB|PRO:POS).*")
         && (!tokens[n].matchesPosTagRegex("VER:INF:.*") || !tokens[n-1].getToken().equals("zu"))
       );
   }
 
-/**
- * is any verb but not an "Infinitiv mit zu"
- */
-  static boolean isAnyVerb(AnalyzedTokenReadings[] tokens, int n) {
+  /**
+   * is any verb but not an "Infinitiv mit zu"
+   */
+  private static boolean isAnyVerb(AnalyzedTokenReadings[] tokens, int n) {
     return tokens[n].matchesPosTagRegex("VER:.*") 
         || (n < tokens.length - 1 
             && ((tokens[n].getToken().equals("zu") && tokens[n+1].matchesPosTagRegex("VER:INF:.*"))
              || (tokens[n].hasPosTagStartingWith("NEG") && tokens[n+1].matchesPosTagRegex("VER:.*")))); 
   }
   
-/**
- * is a verb after sub clause
- */
+  /**
+   * is a verb after sub clause
+   */
   static boolean isVerbBehind(AnalyzedTokenReadings[] tokens, int end) {
     return (end < tokens.length - 1 && tokens[end].getToken().equals(",") && tokens[end+1].hasPosTagStartingWith("VER:"));
   }
   
-/**
- * gives the positions of verbs in a subclause
- */
-  static List<Integer> verbPos(AnalyzedTokenReadings[] tokens, int start, int end) {
+  /**
+   * gives the positions of verbs in a subclause
+   */
+  private static List<Integer> verbPos(AnalyzedTokenReadings[] tokens, int start, int end) {
     List<Integer>verbs = new ArrayList<>();
     for(int i = start; i < end; i++) {
       if(isVerb(tokens, i)) {
@@ -140,20 +140,20 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return verbs;
   }
   
-/**
- * first token initiate a subclause
- */
-  static boolean isKonUnt(AnalyzedTokenReadings token) {
+  /**
+   * first token initiate a subclause
+   */
+  private static boolean isKonUnt(AnalyzedTokenReadings token) {
     return (token.hasPosTagStartingWith("KON:UNT") 
         || StringUtils.equalsAnyIgnoreCase(token.getToken(), "wer", "wo", "wohin"));
   }
   
 
-/**
- * checks to what position a test of relative clause should done
- * return -1 if no potential relative clause is assumed
- */
-  static int hasPotentialSubclause(AnalyzedTokenReadings[] tokens, int start, int end) {
+  /**
+   * checks to what position a test of relative clause should done
+   * return -1 if no potential relative clause is assumed
+   */
+  private static int hasPotentialSubclause(AnalyzedTokenReadings[] tokens, int start, int end) {
     List<Integer> verbs = verbPos(tokens, start, end);
     if(verbs.size() == 1 && end < tokens.length - 2 && verbs.get(0) == end - 1) {
       int nextEnd = nextSeparator(tokens, end + 1);
@@ -194,18 +194,18 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return -1;
   }
   
-/**
- * is potential relative pronoun 
- */
-  static boolean isPronoun(AnalyzedTokenReadings[] tokens, int n) {
+  /**
+   * is potential relative pronoun 
+   */
+  private static boolean isPronoun(AnalyzedTokenReadings[] tokens, int n) {
     return (tokens[n].getToken().matches("(d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen|was)")
             && !tokens[n - 1].getToken().equals("sowie"));
   }
   
-/**
- * get the gender of of a token
- */
-  static String getGender(AnalyzedTokenReadings token) {
+  /**
+   * get the gender of of a token
+   */
+  private static String getGender(AnalyzedTokenReadings token) {
     int nMatches = 0;
     String ret = "";
     if(token.matchesPosTagRegex(".*:SIN:FEM.*")) {
@@ -239,10 +239,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return ret;
   }
   
-/**
- * does the gender match with a subject or name?
- */
-  static boolean matchesGender(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
+  /**
+   * does the gender match with a subject or name?
+   */
+  private static boolean matchesGender(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
     String mStr;
     if(gender.isEmpty()) {
       mStr = "PRO:DEM:.*SIN:NEU.*";
@@ -257,24 +257,24 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * is the token a potential article without a noun
- */
-  static boolean isArticleWithoutSub(String gender, AnalyzedTokenReadings[] tokens, int n) {
+  /**
+   * is the token a potential article without a noun
+   */
+  private static boolean isArticleWithoutSub(String gender, AnalyzedTokenReadings[] tokens, int n) {
     if(gender.isEmpty()) {
       return false;
     }
-    if(!gender.isEmpty() && tokens[n].matchesPosTagRegex("VER:.*") && tokens[n-1].matchesPosTagRegex("(ADJ|PRO:POS):.*" + gender +".*")) {
+    if(tokens[n].matchesPosTagRegex("VER:.*") && tokens[n - 1].matchesPosTagRegex("(ADJ|PRO:POS):.*" + gender + ".*")) {
       return true;
     }
     return false;
   }
   
-/**
- * skip tokens till the next noun
- * check for e.g. "das in die dunkle Garage fahrende Auto" -> "das" is article
- */
-  static int skipSub(AnalyzedTokenReadings[] tokens, int n, int to) {
+  /**
+   * skip tokens till the next noun
+   * check for e.g. "das in die dunkle Garage fahrende Auto" -> "das" is article
+   */
+  private static int skipSub(AnalyzedTokenReadings[] tokens, int n, int to) {
     String gender = getGender(tokens[n]);
     for(int i = n + 1; i < to; i++) {
       if(tokens[i].matchesPosTagRegex("(SUB|EIG):.*" + gender + ".*")) {
@@ -284,11 +284,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return -1;
   }
 
-/**
- * skip tokens till the next noun
- * check for e.g. "das in die dunkle Garage fahrende Auto" -> "das" is article
- */
-  static int skipToSub(String gender, AnalyzedTokenReadings[] tokens, int n, int to) {
+  /**
+   * skip tokens till the next noun
+   * check for e.g. "das in die dunkle Garage fahrende Auto" -> "das" is article
+   */
+  private static int skipToSub(String gender, AnalyzedTokenReadings[] tokens, int n, int to) {
     if(tokens[n+1].matchesPosTagRegex("PA[12]:.*" + gender + ".*")) {
       return n+1;
     }
@@ -306,10 +306,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return -1;
   }
 
-/**
- * check if token is potentially an article
- */
-  static boolean isArticle(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
+  /**
+   * check if token is potentially an article
+   */
+  private static boolean isArticle(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
     if(gender.isEmpty()) {
       return false;
     }
@@ -337,11 +337,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * gives back position where a comma is missed
- * PRP has to be treated separately
- */
-  static int missedCommaInFront(AnalyzedTokenReadings[] tokens, int start, int end, int lastVerb) {
+  /**
+   * gives back position where a comma is missed
+   * PRP has to be treated separately
+   */
+  private static int missedCommaInFront(AnalyzedTokenReadings[] tokens, int start, int end, int lastVerb) {
     for(int i = start; i < lastVerb - 1; i++) {
       if(isPronoun(tokens, i)) {
         String gender = getGender(tokens[i]);
@@ -354,20 +354,20 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return -1;
   }
   
-/**
- * is a special combination of two verbs combination
- */
-  static boolean isTwoCombinedVerbs(AnalyzedTokenReadings first, AnalyzedTokenReadings second) {
+  /**
+   * is a special combination of two verbs combination
+   */
+  private static boolean isTwoCombinedVerbs(AnalyzedTokenReadings first, AnalyzedTokenReadings second) {
     if(first.matchesPosTagRegex("(VER:.*INF|.*PA[12]:).*") && second.hasPosTagStartingWith("VER:")) {
       return true;
     }
     return false;
   }
   
-/**
- * is a special combination of three verbs combination
- */
-  static boolean isThreeCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+  /**
+   * is a special combination of three verbs combination
+   */
+  private static boolean isThreeCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
     if(tokens[first].matchesPosTagRegex("VER:(AUX|INF|PA[12]).*") && tokens[first + 1].matchesPosTagRegex("VER:(.*INF|PA[12]).*") 
         && tokens[last].matchesPosTagRegex("VER:(MOD|AUX).*")) {
       return true;
@@ -375,10 +375,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * is a special combination of four verbs combination
- */
-  static boolean isFourCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+  /**
+   * is a special combination of four verbs combination
+   */
+  private static boolean isFourCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
     if(tokens[first].hasPartialPosTag("KJ2") && tokens[first + 1].hasPosTagStartingWith("PA2") 
         && tokens[first + 2].matchesPosTagRegex("VER:(.*INF|PA[12]).*") 
         && tokens[last].matchesPosTagRegex("VER:(MOD|AUX).*")) {
@@ -387,30 +387,30 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * is participle
- */
-  static boolean isPar(AnalyzedTokenReadings token) {
+  /**
+   * is participle
+   */
+  private static boolean isPar(AnalyzedTokenReadings token) {
     if(token.hasPosTagStartingWith("PA2:")) {
       return true;
     }
     return false;
   }
     
-/**
- * is participle plus special combination of two verbs combination
- */
-  static boolean isInfinitivZu(AnalyzedTokenReadings[] tokens, int last) {
+  /**
+   * is participle plus special combination of two verbs combination
+   */
+  private static boolean isInfinitivZu(AnalyzedTokenReadings[] tokens, int last) {
     if(tokens[last - 1 ].getToken().equals("zu")&& tokens[last].matchesPosTagRegex("VER:.*INF.*")) {
       return true;
     }
     return false;
   }
     
-/**
- * is verb plus special combination of two verbs combination
- */
-  static boolean isTwoPlusCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+  /**
+   * is verb plus special combination of two verbs combination
+   */
+  private static boolean isTwoPlusCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
     if(tokens[first].matchesPosTagRegex(".*PA[12]:.*") && tokens[last-1].matchesPosTagRegex("VER:.*INF.*") 
         && tokens[last].matchesPosTagRegex("VER:(MOD.*|AUX.*KJ[12])")) {
       return true;
@@ -418,10 +418,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
     
-/**
- * conjunction follows last verb
- */
-  static boolean isKonAfterVerb(AnalyzedTokenReadings[] tokens, int start, int end) {
+  /**
+   * conjunction follows last verb
+   */
+  private static boolean isKonAfterVerb(AnalyzedTokenReadings[] tokens, int start, int end) {
     if(tokens[start].matchesPosTagRegex("VER:(MOD|AUX).*") && tokens[start + 1].matchesPosTagRegex("(KON|PRP).*")) {
       if(start + 3 == end) {
         return true;
@@ -435,10 +435,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * two infinitive verbs as pair
- */
-  static boolean isSpecialPair(AnalyzedTokenReadings[] tokens, int first, int second) {
+  /**
+   * two infinitive verbs as pair
+   */
+  private static boolean isSpecialPair(AnalyzedTokenReadings[] tokens, int first, int second) {
     if(first + 3 >= second && tokens[first].matchesPosTagRegex("VER:.*INF.*") 
         && StringUtils.equalsAny(tokens[first+1].getToken(), "als", "noch")
         && tokens[first + 2].matchesPosTagRegex("VER:.*INF.*")) {
@@ -450,20 +450,20 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * is a pair of verbs to build the perfect
- */
-  static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second) {
+  /**
+   * is a pair of verbs to build the perfect
+   */
+  private static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second) {
     if(tokens[first].hasPosTagStartingWith("VER:AUX:") && tokens[second].matchesPosTagRegex("VER:.*(INF|PA2).*")) {
       return true;
     }
     return false;
   }
 
-/**
- * is Infinitive in combination with substantiv
- */
-  static boolean isSpecialInf(AnalyzedTokenReadings[] tokens, int first, int second, int start) {
+  /**
+   * is Infinitive in combination with substantiv
+   */
+  private static boolean isSpecialInf(AnalyzedTokenReadings[] tokens, int first, int second, int start) {
     if(!tokens[first].hasPosTagStartingWith("VER:INF")) {
       return false;
     }
@@ -480,20 +480,20 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * is a pair of verbs to build the perfect
- */
-  static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second, int third) {
+  /**
+   * is a pair of verbs to build the perfect
+   */
+  private static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second, int third) {
     if(tokens[second].matchesPosTagRegex("VER:.*INF.*") && isPerfect(tokens, first, third)) {
       return true;
     }
     return false;
   }
 
-/**
- * is separator or VER:INF
- */
-  static boolean isSeparatorOrInf(AnalyzedTokenReadings[] tokens, int n) {
+  /**
+   * is separator or VER:INF
+   */
+  private static boolean isSeparatorOrInf(AnalyzedTokenReadings[] tokens, int n) {
     if(isSeparator(tokens[n].getToken()) || tokens[n].hasPosTagStartingWith("VER:INF")
         || (tokens.length > n + 1 && tokens[n].getToken().equals("zu") && tokens[n + 1].matchesPosTagRegex("VER:.*INF.*"))) { 
       return true;
@@ -501,10 +501,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return false;
   }
 
-/**
- * gives back position where a comma is missed
- */
-  static int getCommaBehind(AnalyzedTokenReadings[] tokens, List<Integer> verbs, int start, int end) {
+  /**
+   * gives back position where a comma is missed
+   */
+  private static int getCommaBehind(AnalyzedTokenReadings[] tokens, List<Integer> verbs, int start, int end) {
     if(verbs.size() == 1) {
       if(isSeparator(tokens[verbs.get(0) + 1].getToken())) {
         return -1;
@@ -573,11 +573,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
     return verbs.get(0);
   }
   
-/**
- * gives back position where a comma is missed
- * PRP has to be treated separately
- */
-  static int missedCommaBehind(AnalyzedTokenReadings[] tokens, int inFront, int start, int end) {
+  /**
+   * gives back position where a comma is missed
+   * PRP has to be treated separately
+   */
+  private static int missedCommaBehind(AnalyzedTokenReadings[] tokens, int inFront, int start, int end) {
     for (int i = start; i < end; i++) {
       if(isPronoun(tokens, i)) {
         List<Integer> verbs = verbPos(tokens, i, end);
