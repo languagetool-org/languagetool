@@ -3865,15 +3865,16 @@ title="Easy editing stylesheet" ?>
             <exception inflected='yes'>ser</exception></token>
           <token postag='R.' min='0' postag_regexp='yes'>
             <exception postag='C.+' postag_regexp='yes'/></token>
-          <token>a</token>
+          <token regexp='yes'>as?</token>
         </marker>
           <token postag_regexp='yes' postag='N.F.+'>
-            <exception postag='D..F.+|R.+|N.FP.+' postag_regexp='yes'/></token>
+            <exception postag='D..F.+|R.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Esta palavra rege-se com a preposição "a".</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Crase</url>
       <short>Erro de crase</short>
+      <example correction='Vamos às'><marker>Vamos as</marker> compras no supermercado.</example>
       <example correction='Iremos à'><marker>Iremos a</marker> escola, falar com os professores.</example>
     <!--<example correction='foi à'>Ele <marker>foi a</marker> herdade.</example>--><!-- TODO Replace exception by 'ir' and 'ser' verbs disambiguation -->
       <example correction='adere à'>A cola <marker>adere a</marker> folha.</example>
