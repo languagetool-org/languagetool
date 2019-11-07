@@ -11747,12 +11747,12 @@ USA
                 <example correction="Google Ads">We use <marker>Adwords</marker>.</example>
                 <example>The city is also home to the headquarters of Google's AdWords program.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">chrome</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
@@ -16314,7 +16314,7 @@ USA
           <example correction="">I am <em>searched</em> through some fields.</example>
         </rule>
         -->
-        <rule id="TAKE_IT_PERSONAL" name="Take it personal (personally)" default="temp_off">
+        <rule id="TAKE_IT_PERSONAL" name="Take it personal (personally)">
             <pattern>
                 <token inflected="yes">take</token>
                 <token>it</token>
@@ -16325,7 +16325,7 @@ USA
             <message>It seems that the adverb <suggestion>personally</suggestion> should be used here (as in the expression "Don't take it personally!").</message>
             <example correction="personally">Don't take it <marker>personal</marker>.</example>
         </rule>
-        <rule id="I_PERSONAL" name="I personal (personally)" default="temp_off">
+        <rule id="I_PERSONAL" name="I personal (personally)">
             <antipattern>
                 <token>personal</token>
                 <token>computer</token>
@@ -36576,13 +36576,33 @@ The accident victim died from her injuries.
             <example correction="times when">There are <marker>times where</marker> you need to measure high current devices.</example>
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
-        <rulegroup id="MAC_OS" name="Mac OS (macOS)" default="temp_off">
+        <rulegroup id="MAC_OS" name="Mac OS (macOS)">
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token>X</token>
+            </antipattern>
+            <antipattern>
+                <token>MacOS</token>
+                <token>X</token>
+            </antipattern>
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token regexp="yes">\d</token>
+            </antipattern>
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token>10</token>
+                <token>.</token>
+                <token regexp="yes">[0-9]|10|11</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>mac</token>
                     <token>
                         os
-                        <exception scope="next">x</exception>
                     </token>
                 </pattern>
                 <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="alllower" />OS</suggestion></message>
@@ -36600,7 +36620,6 @@ The accident victim died from her injuries.
                 <pattern>
                     <token>
                         MacOS
-                        <exception scope="next">x</exception>
                     </token>
                 </pattern>
                 <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="startlower" regexp_match="(?i)macos" regexp_replace="macOS" /></suggestion>.</message>
