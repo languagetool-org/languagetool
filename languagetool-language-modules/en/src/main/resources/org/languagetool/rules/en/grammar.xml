@@ -27687,6 +27687,72 @@ The accident victim died from her injuries.
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
 
+    <rulegroup id="NON_ANTI_PRE_JJ" name="missing hyphen in adjectives with 'non/anti/pre'" default="temp_off">
+        <rule>
+            <pattern>
+                <token regexp="yes">non|anti</token>
+                <token postag="JJ">
+                    <exception regexp="yes">compos|troppo|mis|me|non|up</exception>
+                    <exception scope="next">relic</exception><!-- New Relic is a proper noun-->
+                </token>
+            </pattern>
+            <message>It appears that a comma is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <url>https://en.wiktionary.org/wiki/non-</url>
+            <example correction="non-American">He is <marker>non American</marker></example>
+            <example correction="non-alcoholic">This is <marker>non alcoholic</marker> traditional drink.</example>
+            <example correction="non-standard">Maybe you used <marker>non standard</marker> commands?</example>
+            <example correction="anti-communist">Roy almost brought the US to its knees in the early 1950s in an orgy of <marker>anti communist</marker> rights.</example>
+            <example correction="Non-religious"><marker>Non religious</marker> people comprised the 32.0% of the population</example>
+            <!-- Todo: -->
+            <!-- <example correction="pre-Islamic">The <marker>pre Islamic</marker> heritage of Afghanistan.</example> -->
+            <example>Non compos mentis (Latin) is a legal term.</example>
+            <example>When I time them myself using a non new relic source.</example>
+            <example>Non Khun District.</example>
+            <example>Non nobis solum.</example>
+            <example>Non occides.</example>
+            <example>Anti Up</example>
+        </rule>
+    </rulegroup>
+
+  <rule id="THANK_NNP_PRP" name="'Thank' + Proper noun" default="temp_off">
+    <pattern>
+        <token postag="SENT_START|CC" postag_regexp="yes" />
+        <marker>
+            <token>thank</token>
+            <token postag="NNP">
+                <exception regexp="yes">god|allah?</exception>
+            </token>
+        </marker>
+        <token postag="PRP\$?" postag_regexp="yes" />
+    </pattern>
+    <message>Did you mean <suggestion>\2s to \3</suggestion> or <suggestion>\2s \3,</suggestion>?</message>
+    <example correction="Thanks to Carl|Thanks Carl,"><marker>Thank Carl</marker> we can finally start the project.</example>
+    <example>Thank God it's Friday.</example>
+  </rule>
+
+  <rule id="THANK_THE_NN" name="'Thank the' + noun" default="temp_off">
+    <antipattern>
+        <token skip="-1">thank</token>
+        <token>for</token>
+    </antipattern>
+    <pattern>
+        <token postag="SENT_START" />
+        <marker>
+            <token>thank</token>
+        </marker>
+        <token>the</token>
+        <token postag="NN.*" postag_regexp="yes">
+            <exception>lord</exception>
+        </token>
+    </pattern>
+    <message>Did you mean <suggestion>\2s to</suggestion>?</message>
+    <example correction="Thanks to"><marker>Thank</marker> the clarifications.</example>
+    <example correction="Thanks to"><marker>Thank</marker> the meds, I guess.</example>
+    <example>Thank the police officer for saving us.</example>
+    <example>Thank the lord.</example>
+  </rule>
+
   <rule id="MISSING_PREPOSITION" name='Missing preposition'>
         <antipattern>
             <token>Prior</token>
