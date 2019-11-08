@@ -14417,6 +14417,10 @@ USA
                     <token regexp="yes">[A-Z]+</token>
                     <token regexp="yes">means|stands</token>
                 </antipattern>
+                <antipattern>
+                    <token>thanks</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -14428,6 +14432,7 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="Do dogs|Does dog"><marker>Does dogs</marker> sleep more than 15 hours per day?</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
+                <example>Thanks guys for replying.</example><!-- TODO: requires a comma rule -->
                 <!--example><marker>Cats sleeps</marker> more than 15 hours per day.</example>< 2018-11-26 corrected VBZNNS_NNS such that it does not give 'Cats' the postag VBZ. -->
             </rule>
             <rule><!-- needed after changes in VBZNNS_NNS in disambiguation.xml [3f2b9f5]: -->
@@ -27684,37 +27689,41 @@ The accident victim died from her injuries.
 
   <rule id="MISSING_PREPOSITION" name='Missing preposition'>
         <antipattern>
-            <token>thanks</token>
-            <token>a</token>
-            <token regexp="yes">lot|bunch|ton|mill?</token>
-        </antipattern>
-        <antipattern>
             <token>Prior</token>
-            <token>General</token>
+            <token regexp="yes">General|Executive</token>
         </antipattern>
         <antipattern>
             <token>due</token>
             <token regexp="yes">east|west</token>
         </antipattern>
+        <antipattern>
+            <token>now</token>
+            <token>due</token>
+            <token postag="NNP" />
+        </antipattern>
         <pattern>
             <token postag="SENT_START|CC" postag_regexp="yes" />
             <marker>
-                <token regexp="yes">thanks|according|due|prior</token>
-                <token postag_regexp="yes" postag='PRP\$?|NNP|DT' />
+                <token regexp="yes">according|due|prior</token>
+                <token postag_regexp="yes" postag='PRP\$?|NNP|DT|W.+'>
+                    <exception>however</exception>
+                </token>
             </marker>
         </pattern>
         <message>It appears that a preposition is missing after '\2'.</message>
         <suggestion>\2 to \3</suggestion>
         <example correction='According to Angela'><marker>According Angela</marker>, they are dating.</example>
+        <example correction='According to what'><marker>According what</marker> I heard.</example>
         <example correction='According to his'><marker>According his</marker> friend, they are dating.</example>
         <example correction='According to him'><marker>According him</marker>, they are dating.</example>
         <example correction="According to a"><marker>According a</marker> TV forecast, it will rain tomorrow.</example>
         <example correction="Prior to the"><marker>Prior the</marker> storm everything was calm.</example>
         <example correction="Due to the"><marker>Due the</marker> unique climate in Azerbaijan , the flora is much richer in the number of species.</example>
-        <example correction="Thanks to the"><marker>Thanks the</marker> friend of Mike.</example>
         <example>Thanks a lot.</example>
         <example>The arc connecting the points on the horizon due East and due West.</example>
         <example>His term as Prior General of the Camaldolese.</example>
+        <example>They are now due January 1st.</example>
+        <example>According however to the common account, Hecuba was the daughter of Cisseus, a Thracian prince.</example>
   </rule>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
