@@ -31803,6 +31803,18 @@ The accident victim died from her injuries.
             <example>Due to</example>
             <example>Because of</example>
         </rule>
+        <rule id="DO_TO_THE_LACK_OF" name="'Do to the lack of' -> 'Due to lack of'" default="temp_off">
+            <pattern>
+                <token>do</token>
+                <token>to</token>
+                <token>the</token>
+                <token regexp="yes">lack|absence</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>due to the \4 of</suggestion>?</message>
+            <url>https://public.wsu.edu/~brians/errors/dueto.html</url>
+            <example correction='due to the lack of'>He feels powerless <marker>do to the lack of</marker> friends.</example>
+        </rule>
         <rule id="MINUETS" name="minuet (minute)">
             <antipattern>
                 <token regexp="yes">minuets?</token>
