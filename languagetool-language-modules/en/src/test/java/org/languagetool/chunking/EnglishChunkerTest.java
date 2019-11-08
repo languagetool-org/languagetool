@@ -19,6 +19,7 @@
 package org.languagetool.chunking;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -100,6 +101,18 @@ public class EnglishChunkerTest {
     assertThat(res2.toString(), is(expected));
   }
 
+  @Test
+  @Ignore("active when #2119 is fixed")
+  public void testZeroWidthNoBreakSpace() throws IOException {
+    String expected = "[[], [B-NP-singular], [], [I-NP-singular], [], [E-NP-singular]]";
+    EnglishChunker chunker = new EnglishChunker();
+    JLanguageTool lt = new JLanguageTool(new English());
+    List<String> res1 = getChunksAsString("The long-term stability", chunker, lt);
+    assertThat(res1.toString(), is(expected));
+    List<String> res2 = getChunksAsString("The\u200B \u200Blong-term\u200B \u200Bstability\u200B", chunker, lt);
+    assertThat(res2.toString(), is(expected));
+  }
+  
   @NotNull
   private List<String> getChunksAsString(String input, EnglishChunker chunker, JLanguageTool lt) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
