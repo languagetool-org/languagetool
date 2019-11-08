@@ -15962,6 +15962,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Googles?</token>
+                    <token>AdWords</token>
+                </pattern>
+                <message>Im Jahr 2018 hat Google seinen Dienst 'AdWords' zu <suggestion>Google Ads</suggestion> umbenannt.</message>
+                <url>https://de.wikipedia.org/wiki/Google_Ads</url>
+                <example correction="Google Ads">Wir müssen Werbung bei <marker>Google AdWords</marker> schalten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>AdWords</token>
+                </pattern>
+                <message>Im Jahr 2018 hat Google seinen Dienst 'AdWords' zu <suggestion>Google Ads</suggestion> umbenannt.</message>
+                <url>https://de.wikipedia.org/wiki/Google_Ads</url>
+                <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZITAT_VGL" name="'vgl.' bei direkten Zitaten">
             <!--
             <rule>
@@ -24445,6 +24464,18 @@ Andere Projekte</example>
                 <example correction="Rote">Ich esse gerne <marker>rote</marker> Johannisbeeren.</example>
             </rule>
         </rulegroup>
+        <rule id="GROSSCHREIBUNG_CO" name="Großschreibung Abkürzung 'Co.'">
+            <pattern>
+                <token case_sensitive="yes">
+                    co
+                    <exception scope="previous">.</exception>
+                </token>
+                <token>.</token>
+            </pattern>
+            <message>Die Abkürzung <suggestion>Co.</suggestion> wird großgeschrieben.</message>
+            <example correction="Co.">WhatsApp und <marker>co.</marker> sind an den Schulen verboten.</example>
+            <example>101 Gemälde von Hatton bei bbc.co.uk.</example>
+        </rule>
         <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -31901,7 +31932,7 @@ Andere Projekte</example>
                 <example correction="all-inclusive">Sie reisten <marker>Allinclusive</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BUY_OUT" name="'Buy-out'" default="temp_off">
+        <rulegroup id="BUY_OUT" name="'Buy-out'">
             <rule>
                 <pattern>
                     <token>Management</token>
@@ -32061,7 +32092,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
-                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager</token>
+                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager</token>
             </antipattern>
             <pattern>
                 <token>Sehr</token>
@@ -32490,7 +32521,7 @@ Andere Projekte</example>
                 <marker>
                     <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'>
                         <exception postag_regexp="yes" postag="SUB:NOM:PLU:(MAS|FEM|NEU)|ADJ:(PRD:GRU|NOM:PLU:...:GRU:SOL)"/>
-                        <exception regexp="yes">Entweder|Bitte|Mal|Laut|Wein|Angst|Glück|Gewicht|Geld|Vorzugsweise|.+tag|Wasser|Können</exception><!--TODO: alle unzählbaren Nomen-->
+                        <exception regexp="yes">Datum|Entweder|Bitte|Mal|Laut|Wein|Angst|Glück|Gewicht|Geld|Vorzugsweise|.+tag|Wasser|Können</exception><!--TODO: alle unzählbaren Nomen-->
                         <exception regexp="yes">&sprachadj1;</exception>
                         <exception regexp="yes">&wochentage;</exception>
                         <!--exception regexp="yes">Positiv|Negativ</exception-->
@@ -32518,6 +32549,7 @@ Andere Projekte</example>
             <example>Hauptthema werden EU-Bürger sein, die dort leben.</example>
             <example>Reich werden in China</example>
             <example>Junge bleiben bei Einkommen in der EU zurück.</example>
+            <example>Datum füllen wir dann aus.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
@@ -40343,6 +40375,7 @@ Andere Projekte</example>
                     <token>,</token>
                     <token>
                         <exception regexp="yes">als|bevor|bis|da(mit|ss?)?|de([mnr]|nn|[nr]en|ssen)|die|falls|indem|nachdem|ob(gleich|wohl)?|seitdem|so(bald|dass|fern|lange)?|während|was|we(il|lche[mrs]?|nn|r|ssen)|wie|wo(her|hin|mit|rum|von)?</exception>
+                        <exception postag="ABK:.+" postag_regexp="yes"/>
                     </token>
                     </marker>
                 </pattern>
@@ -40354,6 +40387,7 @@ Andere Projekte</example>
                 <example>Was immer das in drei, fünf oder zehn Jahren bedeuten mag.</example>
                 <example>Sehr geehrte Frau Schmidt, zum 20. Jahrestag Ihrer Firma gratulieren wir Ihnen recht herzlich!</example>
                 <example>Klarheit über die eigenen Kompetenzen, Erfolge und den Mehrwert für das Unternehmen können dabei helfen.</example>
+                <example>In der ersten Version eher nicht, d.h. es gibt kein User Interface dafür.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">

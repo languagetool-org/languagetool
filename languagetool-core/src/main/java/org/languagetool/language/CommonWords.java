@@ -65,6 +65,9 @@ public class CommonWords {
                 continue;
               }
               String key = line.toLowerCase();
+              if (key.length() == 1 && Character.isSpaceChar(key.charAt(0))) {
+                continue;
+              }
               List<Language> languages = word2langs.get(key);
               if (languages == null) {
                 // word2langs is static, so this can be accessed from multiple threads concurrently -> prevent exceptions

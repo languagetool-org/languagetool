@@ -7468,6 +7468,10 @@ USA
         </rule>
         <!-- can setup::word=can set up -->
         <rule id="CAN_SETUP" name="can setup (set up)">
+            <antipattern>
+                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">can(not)?|been|[wc]ould|should|might|must|was|were|may|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
                 <token regexp="yes">set-?up</token>
@@ -7479,7 +7483,7 @@ USA
             <example>She can set up the tent very quickly.</example>
             <example>The setup is working.</example>
         </rule>
-        <rule id="PRP_SETUP" name="They setup (set up)" default="temp_off">
+        <rule id="PRP_SETUP" name="They setup (set up)">
             <pattern>
                 <token regexp="yes">I|you|they|we|s?he</token>
                 <marker>
@@ -7492,7 +7496,7 @@ USA
             <example correction="set up">They <marker>setup</marker> a meeting.</example>
             <example>The setup is working.</example>
         </rule>
-        <rulegroup id="CAN_CHECKIN" name="can checkin (check in)" default="temp_off">
+        <rulegroup id="CAN_CHECKIN" name="can checkin (check in)">
             <antipattern>
                 <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
                 <token>to</token>
@@ -7510,7 +7514,7 @@ USA
                 <example>I will go to check-in and complain.</example>
             </rule>
         </rulegroup>
-        <rule id="PRP_CHECKIN" name="They checkin (check in)" default="temp_off">
+        <rule id="PRP_CHECKIN" name="They checkin (check in)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -7522,7 +7526,7 @@ USA
             <example correction="check in">They <marker>check-in</marker> tomorrow</example>
             <example>The check-in was yesterday.</example>
         </rule>
-        <rule id="CAN_CHECKOUT" name="can checkout (check out)" default="temp_off">
+        <rule id="CAN_CHECKOUT" name="can checkout (check out)">
             <antipattern>
                 <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
                 <token>to</token>
@@ -7536,7 +7540,7 @@ USA
             <example correction="can check out">She <marker>can checkout</marker> tomorrow.</example>
             <example>Click the "Proceed to checkout" button.</example>
         </rule>
-        <rule id="PRP_CHECKOUT" name="They checkout (check out)" default="temp_off">
+        <rule id="PRP_CHECKOUT" name="They checkout (check out)">
             <pattern>
                 <token regexp="yes">I|you|they|we</token>
                 <marker>
@@ -8066,6 +8070,11 @@ USA
                 <token>Voyage</token>
                 <token>au</token>
                 <token>Congo</token>
+            </antipattern>
+            <antipattern><!-- www.lexico.com/en/definition/cafe_au_lait -->
+                <token>café</token>
+                <token>au</token>
+                <token>lait</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token>au
@@ -11738,6 +11747,16 @@ USA
                 <example correction="Google Ads">We use <marker>Adwords</marker>.</example>
                 <example>The city is also home to the headquarters of Google's AdWords program.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">chrome</token>
+                    </marker>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release</token>
+                </pattern>
+                <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
+                <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
             <rule>
@@ -11757,12 +11776,24 @@ USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
+                    <token>Internet</token>
+                    <token>Explorer</token>
+                </antipattern>
+                <pattern>
+                    <token>internet</token>
+                    <token>explorer</token>
+                </pattern>
+                <message>The proper noun <suggestion>Internet Explorer</suggestion> (= Microsoft browser) needs to be capitalized.</message>
+                <example correction="Internet Explorer"><marker>Internet explorer</marker> is an ancient and outdated web browser.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
                     <token>Microsoft</token>
-                    <token regexp="yes">Word|Excel|Outlook|Office</token>
+                    <token regexp="yes">Word|Excel|Outlook|Office|Edge|Azure</token>
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft program)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -12860,6 +12891,12 @@ USA
                 <token>need</token>
                 <token>not</token>
             </antipattern>
+            <antipattern><!-- #2124 do it after school -->
+                <token inflected="yes">do</token>
+                <token>it</token>
+                <token postag="IN"/>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -12911,6 +12948,7 @@ USA
             <example>They confirmed it so will you please do it?</example>
             <example>They say it cant happen.</example><!-- rule CANT will catch this -->
             <example>... to the cheerfully optimistic, and it need not imply anything specific about the writer's...</example>
+            <example>Then please do it after school.</example><!-- #2124 -->
             <example type="triggers_error">Si le grain ne meurt – 1926 (translated as If It Die)</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
@@ -14379,6 +14417,10 @@ USA
                     <token regexp="yes">[A-Z]+</token>
                     <token regexp="yes">means|stands</token>
                 </antipattern>
+                <antipattern>
+                    <token>thanks</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -14390,6 +14432,7 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="Do dogs|Does dog"><marker>Does dogs</marker> sleep more than 15 hours per day?</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
+                <example>Thanks guys for replying.</example><!-- TODO: requires a comma rule -->
                 <!--example><marker>Cats sleeps</marker> more than 15 hours per day.</example>< 2018-11-26 corrected VBZNNS_NNS such that it does not give 'Cats' the postag VBZ. -->
             </rule>
             <rule><!-- needed after changes in VBZNNS_NNS in disambiguation.xml [3f2b9f5]: -->
@@ -15356,6 +15399,10 @@ USA
                     <token>are</token>
                     <token>go</token>
                 </antipattern>
+                <antipattern><!-- #2123 You will be queen. -->
+                    <token>be</token>
+                    <token chunk="E-NP-singular" postag="NN">queen</token><!-- Do not make a general exception for NN:U because 'queen' is NN. Refer to https://www.lexico.com/en/definition/queen: "[as complement] ‘he insisted the princess could be crowned queen’" -->
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -15397,6 +15444,7 @@ USA
                 <example>The Egyptians believed that every human being was composed of ...</example>
                 <example>All systems are go.</example>
                 <example>What is Google AMP?</example>
+                <example>You will be queen.</example><!-- #2123 -->
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
@@ -16271,6 +16319,31 @@ USA
           <example correction="">I am <em>searched</em> through some fields.</example>
         </rule>
         -->
+        <rule id="TAKE_IT_PERSONAL" name="Take it personal (personally)">
+            <pattern>
+                <token inflected="yes">take</token>
+                <token>it</token>
+                <marker>
+                    <token>personal</token>
+                </marker>
+            </pattern>
+            <message>It seems that the adverb <suggestion>personally</suggestion> should be used here (as in the expression "Don't take it personally!").</message>
+            <example correction="personally">Don't take it <marker>personal</marker>.</example>
+        </rule>
+        <rule id="I_PERSONAL" name="I personal (personally)">
+            <antipattern>
+                <token>personal</token>
+                <token>computer</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">I</token>
+                <token>personal</token>
+            </pattern>
+            <message>Did you mean the adverb 'personally'?</message>
+            <suggestion>I personally</suggestion>
+            <example correction="I personally"><marker>I personal</marker> don't belive it is true.</example>
+            <example>Apple was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in April 1976 to develop and sell Wozniak's Apple I personal computer.</example>
+        </rule>
         <rule id="PRONOUN_NOUN" name="Pronoun + noun">
         <!-- Created by Tiago F. Santos, 2018-11-11 -->
           <antipattern>
@@ -16335,6 +16408,10 @@ USA
             <token spacebefore="no">he</token>
             <token postag_regexp="yes" postag="N.+"/>
           </antipattern>
+          <antipattern>
+            <token>if</token>
+            <token regexp="yes" inflected="yes">needed|required|desired</token>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -16343,6 +16420,7 @@ USA
               <token postag="N.+" postag_regexp='yes'>
                 <exception postag='V.+|RB|IN' postag_regexp='yes'/>
                 <exception>wont</exception><!-- already caught by WONT_CONTRACTION -->
+                <exception>can</exception><!-- 'can' is only tagged as 'NN' in 'The best I can is ...'-->
               </token>
             </marker>
             <token postag="V.+" postag_regexp='yes'/>
@@ -16351,10 +16429,12 @@ USA
           <example correction=""><marker>I downtown</marker> went yesterday.</example><!-- XXX home is also a verb. fixing it may mess with disambiguation -->
           <example correction=""><marker>It alpha</marker> decays to the extremely long-lived (in practice, ...</example><!-- 'Alpha decay' is a noun, not a verb: www.merriam-webster.com/dictionary/alpha%20decay -->
           <example>I went downtown yesterday.</example>
+          <example>I'm going to send it to you if needed.</example>
           <example>Sarah was discerning enough to realize that her friends were trying to prank her.</example>
           <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
           <example>She's got a fair complexion while her brother is very dark.</example>
           <example>Her garden is a work of art.</example>
+          <example>Part of what motivates me to cope with ME/CFS the best I can is to make things easier for the people I love.</example>
           <example>We men are used to waiting for the women.</example>
           <example>UAB Hospital is the only Level I trauma center in Alabama.</example>
           <example>Her eyes were shining with joy.</example>
@@ -19708,6 +19788,13 @@ USA
         </rule>
         <rule id="DO_HE_VERB" name="do (does) he have">
             <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
+            <antipattern><!-- #2125 Do it after school. -->
+                <token>do</token>
+                <token skip="-1">it
+                    <exception scope="next">?</exception>
+                    </token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>do</token>
@@ -19718,7 +19805,13 @@ USA
             </pattern>
             <message>Did you mean <suggestion>does</suggestion>?</message>
             <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
+            <example correction="Does"><marker>Do</marker> it look broken to you?</example>
+            <example correction="does">... but <marker>do</marker> it usually look good or bad?</example>
             <example>If you do it at all, try to do it well.</example>
+            <example>Then please do it after school.</example><!-- #2125 -->
+            <example>Then do it after school.</example>
+            <example>Do it after school.</example>
+            <example>You should do it before school.</example>
         </rule>
         <rule id="WHEN_IS_NNP_AND_NNP" name="Incorrect use of 'is' vs. 'are'">
             <pattern>
@@ -19745,6 +19838,14 @@ USA
             </pattern>
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
+        </rule>
+        <rule id="PRP_DOCENT" name="he docent (doesn't)">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token>docent</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 doesn't</suggestion> instead of docent (= university teacher)?</message>
+            <example correction="He doesn't"><marker>He docent</marker> know anything.</example>
         </rule>
         <rule id="DOSNT" name="he dosn't (doesn't)">
             <pattern>
@@ -20487,6 +20588,11 @@ USA
                 <example>Has anyone done this?</example>
             </rule>
             <rule>
+                <antipattern><!-- #2122 -->
+                    <token regexp="yes">Have|Are</token>
+                    <token chunk="B-NP-plural" postag="NNP"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
@@ -20496,7 +20602,8 @@ USA
                 </pattern>
                 <message>The singular proper name <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
                 <example correction="Has"><marker>Have</marker> Mary bought a ticket?</example>
-                <example>Has Jack done this?</example>
+                <example><marker>Has</marker> Jack done this?</example>
+                <example>Are NASA images really taken from space?</example><!-- #2122 -->
             </rule>
             <rule>
                 <pattern case_sensitive="no">
@@ -21332,7 +21439,7 @@ USA
                         <token regexp="yes">\d+</token>
                         <token spacebefore="no">,</token>
                         <token spacebefore="no" regexp="yes">\d+</token>
-                        <token regexp="yes">word|character</token>
+                        <token regexp="yes">word|character|paragraph</token>
                     </marker>
                     <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
@@ -21344,7 +21451,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag="CD" />
-                        <token regexp="yes">word|character</token>
+                        <token regexp="yes">word|character|paragraph</token>
                     </marker>
                     <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary</token>
                 </pattern>
@@ -21357,6 +21464,7 @@ USA
                 <example>Similar behavior is noticed when copying from one Word doc to another Word doc.</example>
                 <example>Four Word essays were stored in a separate folder.</example>
                 <example>Please complete one Word document first.</example>
+                <example correction="6-paragraph">He wrote a <marker>6 paragraph</marker> essay.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21482,6 +21590,10 @@ USA
             <antipattern>
                 <token>six</token>
                 <token>sigma</token>
+            </antipattern>
+            <antipattern>
+                <token>room</token>
+                <token>51</token>
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|semester</token>
@@ -21637,6 +21749,7 @@ USA
             <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
             <example>The iphone 11 pro max.</example>
+            <example>The room 51 movie.</example>
             <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
             <example>There are around 50 right now.</example>
@@ -27576,37 +27689,41 @@ The accident victim died from her injuries.
 
   <rule id="MISSING_PREPOSITION" name='Missing preposition'>
         <antipattern>
-            <token>thanks</token>
-            <token>a</token>
-            <token regexp="yes">lot|bunch|ton|mill?</token>
-        </antipattern>
-        <antipattern>
             <token>Prior</token>
-            <token>General</token>
+            <token regexp="yes">General|Executive</token>
         </antipattern>
         <antipattern>
             <token>due</token>
             <token regexp="yes">east|west</token>
         </antipattern>
+        <antipattern>
+            <token>now</token>
+            <token>due</token>
+            <token postag="NNP" />
+        </antipattern>
         <pattern>
             <token postag="SENT_START|CC" postag_regexp="yes" />
             <marker>
-                <token regexp="yes">thanks|according|due|prior</token>
-                <token postag_regexp="yes" postag='PRP\$?|NNP|DT' />
+                <token regexp="yes">according|due|prior</token>
+                <token postag_regexp="yes" postag='PRP\$?|NNP|DT|W.+'>
+                    <exception>however</exception>
+                </token>
             </marker>
         </pattern>
         <message>It appears that a preposition is missing after '\2'.</message>
         <suggestion>\2 to \3</suggestion>
         <example correction='According to Angela'><marker>According Angela</marker>, they are dating.</example>
+        <example correction='According to what'><marker>According what</marker> I heard.</example>
         <example correction='According to his'><marker>According his</marker> friend, they are dating.</example>
         <example correction='According to him'><marker>According him</marker>, they are dating.</example>
         <example correction="According to a"><marker>According a</marker> TV forecast, it will rain tomorrow.</example>
         <example correction="Prior to the"><marker>Prior the</marker> storm everything was calm.</example>
         <example correction="Due to the"><marker>Due the</marker> unique climate in Azerbaijan , the flora is much richer in the number of species.</example>
-        <example correction="Thanks to the"><marker>Thanks the</marker> friend of Mike.</example>
         <example>Thanks a lot.</example>
         <example>The arc connecting the points on the horizon due East and due West.</example>
         <example>His term as Prior General of the Camaldolese.</example>
+        <example>They are now due January 1st.</example>
+        <example>According however to the common account, Hecuba was the daughter of Cisseus, a Thracian prince.</example>
   </rule>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
@@ -29121,7 +29238,7 @@ The accident victim died from her injuries.
             <rule>
                 <antipattern>
                     <token>further</token>
-                    <token regexp="yes">research|down|details|to</token>
+                    <token regexp="yes">research|down|details|to|reads</token>
                 </antipattern>
                 <antipattern>
                     <token>instead</token>
@@ -31694,6 +31811,18 @@ The accident victim died from her injuries.
             <example correction='Due to|Because of'><marker>Do to the fact that</marker> the MTA has burned through leaders at a rate of nearly one per year over the last six years, ...</example>
             <example>Due to</example>
             <example>Because of</example>
+        </rule>
+        <rule id="DO_TO_THE_LACK_OF" name="'Do to the lack of' -> 'Due to lack of'" default="temp_off">
+            <pattern>
+                <token>do</token>
+                <token>to</token>
+                <token>the</token>
+                <token regexp="yes">lack|absence</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>due to the \4 of</suggestion>?</message>
+            <url>https://public.wsu.edu/~brians/errors/dueto.html</url>
+            <example correction='due to the lack of'>He feels powerless <marker>do to the lack of</marker> friends.</example>
         </rule>
         <rule id="MINUETS" name="minuet (minute)">
             <antipattern>
@@ -36468,6 +36597,58 @@ The accident victim died from her injuries.
             <example correction="times when">There are <marker>times where</marker> you need to measure high current devices.</example>
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
+        <rulegroup id="MAC_OS" name="Mac OS (macOS)">
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token>X</token>
+            </antipattern>
+            <antipattern>
+                <token>MacOS</token>
+                <token>X</token>
+            </antipattern>
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token regexp="yes">\d</token>
+            </antipattern>
+            <antipattern>
+                <token>Mac</token>
+                <token>OS</token>
+                <token>10</token>
+                <token>.</token>
+                <token regexp="yes">[0-9]|10|11</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>mac</token>
+                    <token>
+                        os
+                    </token>
+                </pattern>
+                <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="alllower" />OS</suggestion></message>
+                <url>https://en.wikipedia.org/wiki/MacOS</url>
+                <example correction="macOS">Do you prefer Windows or <marker>mac OS</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>MacOS</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>macOS</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        MacOS
+                    </token>
+                </pattern>
+                <message>The operating system from Apple is called <suggestion><match no="1" case_conversion="startlower" regexp_match="(?i)macos" regexp_replace="macOS" /></suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/MacOS</url>
+                <example correction="macOS">Do you prefer Windows or <marker>MacOS</marker>?</example>
+                <example>MacOS updates were failing.</example>
+            </rule>
+        </rulegroup>
 
       <rulegroup id="PROFANITY" name="Profanity">
          <rule>
