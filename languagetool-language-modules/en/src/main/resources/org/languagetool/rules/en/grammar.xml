@@ -19830,6 +19830,48 @@ USA
             <example correction="are">It's exciting but when <marker>is</marker> Christmas and New Years finally over?</example>
             <example>What is Carl's and Peter's favorite meal?</example>
         </rule>
+        <rule id="WAS_IS" name="was is" default="temp_off">
+            <antipattern>
+                <token postag="W.+" postag_regexp="yes" skip="-1" />
+                <token>was</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[Ww]as</token>
+                    <token regexp="yes">[Ii]s</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1 it</suggestion>, or <suggestion>\1 and \2</suggestion>?</message>
+            <example correction="was|is|was it|was and is">He <marker>was is</marker> a good boy.</example>
+            <example correction="was|is|was it|was and is">Tom <marker>was is</marker> in the passenger seat.</example>
+            <example>Whatever it was is not relevant anymore.</example>
+            <example>Was IS defeated by Obama or Trump?</example>
+        </rule>
+        <rule id="IS_WAS" name="is was" default="temp_off">
+            <antipattern>
+                <token postag="W.+" postag_regexp="yes" skip="-1" />
+                <token>is</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[Ii]s</token>
+                    <token regexp="yes">[Ww]as</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>it \2</suggestion>, or <suggestion>\1 and \2</suggestion>?</message>
+            <example correction="is|was|it was|is and was">He <marker>is was</marker> a good boy.</example>
+            <example correction="is|was|it was|is and was"><marker>Is was</marker> a very simple install except.</example>
+            <example>Whatever it is was not relevant anymore.</example>
+            <example>IS was defeated by Obama or Trump.</example>
+        </rule>
+        <rule id="IS_OWN" name="is own" default="temp_off">
+            <pattern>
+                <token>is</token>
+                <token>own</token>
+            </pattern>
+            <message>Did you mean <suggestion>its \2</suggestion>?</message>
+            <example correction="its own">Currently SAMI has <marker>is own</marker> API</example>
+        </rule>
         <rule id="DIDINT" name="he didin't (didn't)">
             <pattern>
                 <token regexp="yes">didin|din|did</token>
