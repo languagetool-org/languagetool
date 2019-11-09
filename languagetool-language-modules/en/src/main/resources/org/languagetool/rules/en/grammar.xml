@@ -21703,6 +21703,16 @@ USA
                 <token postag="NNS"/>
                 <token postag="CD"/>
             </antipattern>
+            <antipattern><!--   2 sextillion (2×1021) atoms. LT loses the formatting of 10^21 -->
+                <token postag="CD"/>
+                <token postag="NN"/><!-- Assume that the entire fragment of text is correct. If that causes errors, specify the tokens (thousand, million etc) -->
+                <token>(</token>
+                <token postag="CD"/>
+                <token regexp="yes">×|x</token>
+                <token postag="CD"/>
+                <token>)</token>
+                <token postag="NNS"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -21716,7 +21726,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -21726,7 +21736,7 @@ USA
                         <exception regexp="yes">will|year|so|pst</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -21825,6 +21835,9 @@ USA
             <example>Of those 1,839 buses 416 run on compressed natural gas.</example><!-- Better to put a comma before 'run', but that is a different problem. -->
             <example>Of your 9 questions 8 show a complete lack of understanding.</example>
             <example>Earlier than 900 CE progressing past the 13th century, the population complexes ...</example><!-- Possible missing comma or 'and' before 'CE', but that is a different problem -->
+            <example>... included production of a small but sturdy 125 cc motorcycle and a DKW delivery van.</example><!-- regression 2019-11-08 -->
+            <example>A single drop of water contains about 2 sextillion (2×1021) atoms of oxygen, and twice the number of...</example><!-- regression 2019-11-08 -->
+            <example>= 90° = π/2 rad = 1/4 turn = 100 grad.</example><!-- regression 2019-11-08 -->
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
