@@ -27742,7 +27742,7 @@ The accident victim died from her injuries.
     <!-- XXX Beware/couple OF rules have too many obvious exceptions -->
   </rulegroup>
 
-    <rulegroup id="NON_ANTI_PRE_JJ" name="missing hyphen in adjectives with 'non/anti/pre'" default="temp_off">
+    <rulegroup id="NON_ANTI_JJ" name="missing hyphen in adjectives with 'non/anti'">
         <rule>
             <pattern>
                 <token regexp="yes">non|anti</token>
@@ -27770,7 +27770,7 @@ The accident victim died from her injuries.
         </rule>
     </rulegroup>
 
-  <rule id="THANK_NNP_PRP" name="'Thank' + Proper noun" default="temp_off">
+  <rule id="THANK_NNP_PRP" name="'Thank' + Proper noun">
     <pattern>
         <token postag="SENT_START|CC" postag_regexp="yes" />
         <marker>
@@ -27786,7 +27786,7 @@ The accident victim died from her injuries.
     <example>Thank God it's Friday.</example>
   </rule>
 
-  <rule id="THANK_THE_NN" name="'Thank the' + noun" default="temp_off">
+  <rule id="THANK_THE_NN" name="'Thank the' + noun">
     <antipattern>
         <token skip="-1">thank</token>
         <token>for</token>
@@ -31933,7 +31933,7 @@ The accident victim died from her injuries.
             <example>Due to</example>
             <example>Because of</example>
         </rule>
-        <rule id="DO_TO_THE_LACK_OF" name="'Do to the lack of' -> 'Due to lack of'" default="temp_off">
+        <rule id="DO_TO_THE_LACK_OF" name="'Do to the lack of' -> 'Due to lack of'">
             <pattern>
                 <token>do</token>
                 <token>to</token>
