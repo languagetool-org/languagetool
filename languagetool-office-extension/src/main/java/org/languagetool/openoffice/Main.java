@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -355,7 +356,8 @@ public class Main extends WeakBase implements XJobExecutor,
         resetDocument();
       } else if ("remoteHint".equals(sEvent)) {
         if(documents.getConfiguration().useOtherServer()) {
-          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoOtherServer"));
+          MessageHandler.showMessage(MessageFormat.format(MESSAGES.getString("loRemoteInfoOtherServer"), 
+              documents.getConfiguration().getServerUrl()));
         } else {
           MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoDefaultServer"));
         }

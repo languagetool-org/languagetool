@@ -40,6 +40,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
@@ -724,7 +725,8 @@ public class ConfigurationDialog implements ActionListener {
   
   private int showRemoteServerHint(Component component, boolean otherServer) {
     if(config.useOtherServer() || otherServer) {
-        return JOptionPane.showConfirmDialog(component, messages.getString("loRemoteInfoOtherServer"), 
+        return JOptionPane.showConfirmDialog(component, 
+            MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), config.getServerUrl()), 
           messages.getString("loMenuRemoteInfo"), JOptionPane.OK_CANCEL_OPTION);
     } else {
       return JOptionPane.showConfirmDialog(component, messages.getString("loRemoteInfoDefaultServer"), 
