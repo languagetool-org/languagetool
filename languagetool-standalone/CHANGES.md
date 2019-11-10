@@ -21,6 +21,9 @@
 #### French
   * improved rules
 
+#### Greek
+  * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
+
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
     has been removed. It hadn't been maintained for years and didn't work properly
