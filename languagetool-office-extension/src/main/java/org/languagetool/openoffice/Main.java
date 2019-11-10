@@ -353,6 +353,12 @@ public class Main extends WeakBase implements XJobExecutor,
       } else if ("deactivateRule".equals(sEvent)) {
         documents.deactivateRule();
         resetDocument();
+      } else if ("remoteHint".equals(sEvent)) {
+        if(documents.getConfiguration().useOtherServer()) {
+          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoOtherServer"));
+        } else {
+          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoDefaultServer"));
+        }
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
