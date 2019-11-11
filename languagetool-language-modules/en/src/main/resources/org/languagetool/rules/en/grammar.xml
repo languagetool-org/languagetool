@@ -28232,6 +28232,18 @@ The accident victim died from her injuries.
                     <token skip="3">everything</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern><!-- #2091 Before writing you this message -->
+                    <token postag='IN'></token>
+                    <token postag='VBG'/>
+                     <token>you</token>
+                     <token postag="DT"/>
+                </antipattern>
+                <antipattern><!-- #2091 While saying we are all for change -->
+                    <token postag='IN'></token>
+                    <token postag='VBG'/>
+                     <token regexp="yes">you|we|they</token>
+                     <token postag_regexp='yes' postag="VB[DP]"/>
+                </antipattern>
                 <pattern>
                      <token postag='SENT_START'></token>
                      <token postag='IN'></token>
@@ -28253,6 +28265,8 @@ The accident victim died from her injuries.
                  <example><marker>As best I can</marker> tell, the rule does exactly what it should.</example>
                  <example>In Act I Scene 2 of Jacques Offenbach's Orpheus in the...</example>
                  <example>After everything she experienced, he finally paid her.</example>
+                 <example>Before writing you this message, I ate my lunch.</example><!-- #2091 -->
+                 <example>While saying we are all for change, we are selling something which tells us that change doesn't really matter.</example><!-- #2091 -->
             </rule>
         </rulegroup>
         <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing puncutation after an interjection">
