@@ -29,6 +29,7 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.RegexPatternRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +60,15 @@ public class GermanTest extends LanguageSpecificTest {
       InputStream is = this.getClass().getResourceAsStream(ruleFileName);
       List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
       for (AbstractPatternRule rule : rules) {
-        // TODO: rule.getAntiPatterns()
+        for (DisambiguationPatternRule antiPattern : rule.getAntiPatterns()) {
+          for (PatternToken patternToken : antiPattern.getPatternTokens()) {
+            String pattern = patternToken.getString();
+            if (lacksSwitzerlandSpelling(pattern)) {
+              System.out.println(rule.getFullId() + ": " + pattern + " [antipattern]");
+              i++;
+            }
+          }
+        }
         if (rule instanceof RegexPatternRule) {
           String pattern = ((RegexPatternRule) rule).getPattern().toString();
           if (lacksSwitzerlandSpelling(pattern)) {
