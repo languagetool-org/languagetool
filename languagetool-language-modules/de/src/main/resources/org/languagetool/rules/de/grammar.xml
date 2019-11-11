@@ -31642,6 +31642,44 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="DATIV_PRP_PA1_SUB" name="Ab kommenden (kommendem) Montag wird es schneien." default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ab|außer|aus|bei|mit|nach|seit|von
+                        <exception scope="previous" postag="KON:.+" postag_regexp="yes"/>
+                    </token>
+                    <token min="0">nicht</token>
+                    <marker>
+                        <token postag="PA1:AKK:SIN:MAS:GRU:IND:VER"/>
+                    </marker>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception postag="SUB:.+:FEM" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Präposition '\1' verlangt in der Regel einen Dativ.</message>
+                <suggestion><match no="3" postag="PA1:AKK:SIN:MAS:GRU:IND:VER" postag_replace="PA1:DAT:SIN:MAS:GRU:SOL:VER" postag_regexp="yes"/></suggestion>
+                <example correction="wachsendem">Mit <marker>wachsenden</marker> Garten vergrößerte sich ihr Anwesen.</example>
+                <example correction="kommendem">Ab <marker>kommenden</marker> Montag wird der Verkehr eingestellt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ab|außer|aus|bei|mit|nach|seit|von
+                        <exception scope="previous" postag="KON:.+" postag_regexp="yes"/>
+                    </token>
+                    <token min="0">nicht</token>
+                    <marker>
+                        <token postag="PA1:AKK:SIN:MAS:GRU:IND:VER"/>
+                    </marker>
+                    <token postag="SUB:.+:SIN:FEM" postag_regexp="yes">
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Präposition '\1' verlangt in der Regel einen Dativ.</message>
+                <suggestion><match no="3" postag="PA1:AKK:SIN:MAS:GRU:IND:VER" postag_replace="PA1:DAT:SIN:FEM:GRU:SOL:VER" postag_regexp="yes"/></suggestion>
+                <example correction="wachsender">Mit <marker>wachsenden</marker> Anlage vergrößerte sich auch sein Garten.</example>
+            </rule>
+        </rulegroup>
         <rule id="IST_UNTERSCHIED" name="ist (der) Unterschied">
             <antipattern>
                 <token>genug</token>
