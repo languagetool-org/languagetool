@@ -8405,6 +8405,34 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="LOWERCASE_MONTHS" name="august (August)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>may</token>
+                    <token postag="[RV]B.*|PRP.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="2" /></suggestion> needs to be capitalized.</message>
+                <example correction="August">My birthday is in <marker>august</marker>.</example>
+                <example>What I'm working on may have an impact on our success.</example>
+                <example>An electric blanket which is bunched up or even folded over itself and then turned on may easily catch fire since the heat cannot disperse.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?</token>
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
+                <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
+            </rule>
+        </rulegroup>
         <rule id="GETTED" name="getted (got)">
             <pattern>
                 <token>getted</token>
