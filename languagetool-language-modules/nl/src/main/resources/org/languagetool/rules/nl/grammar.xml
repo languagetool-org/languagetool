@@ -31109,6 +31109,32 @@ steenwijk;Steenwijk
         <example>Dit is wat wij <marker>beheerd</marker> hebben.</example>
         </rule>
         -->
+        <rulegroup id="WE_WILDE" name="wij wilde">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>we</token>
+                        <token postag="WKW:VLT:1EP"/>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:VLT:INF"/></suggestion></message>
+                <example correction="We wilden|We wouden"><marker>We wilde</marker> vertrekken.</example>
+            </rule>
+            <rule>
+                <antipattern><token>wij</token><token postag="ZNW:MRV:DE_"/></antipattern>
+                <antipattern><token>wij</token><token postag="WKW:VTD:VRB"/></antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>wij</token>
+                        <token postag="WKW:VLT:1EP"/>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:VLT:INF"/></suggestion></message>
+                <example correction="Wij maakten"><marker>Wij maakte</marker> een fout.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IK_LOOPT" name="ik loopt">
             <rule>
                 <pattern>
