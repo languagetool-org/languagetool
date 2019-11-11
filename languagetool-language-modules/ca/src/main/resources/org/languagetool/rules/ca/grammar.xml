@@ -35564,7 +35564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
                 <example correction="perjudici">Ho fa sens <marker>prejudici</marker> d'altres possibilitats.</example>
             </rule>
-    </rulegroup>
+        </rulegroup>
         <rule id="ABASSEGADOR" name="*abassegador/contundent,aclaparador">
             <pattern>
                 <token regexp="yes" inflected="yes" skip="4">victòria|triomf|resultat|èxit|majoria|domini|atac|predomini|efecte|influència</token>
@@ -35588,17 +35588,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>parer</suggestion>?</message>
             <example correction="parer">Canvis de <marker>parèixer</marker>.</example>
         </rule>
-        <rule id="REQUERIMENT_REQUISIT" name="requeriment/requisit">
-            <pattern>
-                <marker>
-                    <token inflected="yes">requeriment</token>
-                </marker>
-                <token inflected="yes" regexp="yes">tècnic|tecnològic|científic|funcional|lingüístic</token>
-            </pattern>
-            <message>Possible anglicisme.</message>
-            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
-            <example correction="requisits">Els <marker>requeriments</marker> tècnics.</example>
-        </rule>
+        <rulegroup id="REQUERIMENT_REQUISIT" name="requeriment/requisit">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">requeriment</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">tècnic|tecnològic|científic|funcional|lingüístic|administratiu</token>
+                </pattern>
+                <message>Possible anglicisme. "Requeriment" pot ser adequada en llenguatge jurídic.</message>
+                <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
+                <example correction="requisits">Els <marker>requeriments</marker> tècnics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="2">requeriment</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">programa|projecte|sistema|ordinador|programari|software|hardware|maquinari</token>
+                </pattern>
+                <message>Possible anglicisme. "Requeriment" pot ser adequada en llenguatge jurídic.</message>
+                <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
+                <example correction="requisits">Els <marker>requeriments</marker> del projecte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="2" inflected="yes" regexp="yes">anàlisi|avaluació</token>
+                    <marker>
+                        <token inflected="yes">requeriment</token>
+                    </marker>
+                </pattern>
+                <message>Possible anglicisme. "Requeriment" pot ser adequada en llenguatge jurídic.</message>
+                <suggestion><match no="2" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
+                <example correction="requisits">En l'anàlisi dels <marker>requeriments</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DECA_DEGA" name="decà/degà">
             <pattern>
                 <token inflected="yes">decà</token>
@@ -47487,6 +47511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>M'estimo molt més ser dona que home.</example>
                 <example>Té la temperatura mitjana més baixa de l'any.</example>
                 <example>Les possibilitats són aquí baixes.</example>
+                <example>La frase que la revista ens presenta aquesta setmana és aquesta.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">

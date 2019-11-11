@@ -18,12 +18,23 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
+import org.languagetool.Languages;
 import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.RegexPatternRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 
 public class GermanTest extends LanguageSpecificTest {
   
@@ -37,4 +48,80 @@ public class GermanTest extends LanguageSpecificTest {
     );
     runTests(lang);
   }
+  
+  // test that patterns with 'ß' also contain that pattern with 'ss' so the rule can match for de-CH users
+  @Test
+  @Ignore("too many warnings yet - activate once the conversion has (mostly) been finished")
+  public void testSwissSpellingVariants() throws IOException {
+    Language lang = Languages.getLanguageForShortCode("de-DE");
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortCode() + "/";
+    for (String ruleFileName : lang.getRuleFileNames()) {
+      int i = 0;
+      InputStream is = this.getClass().getResourceAsStream(ruleFileName);
+      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
+      for (AbstractPatternRule rule : rules) {
+        for (DisambiguationPatternRule antiPattern : rule.getAntiPatterns()) {
+          for (PatternToken patternToken : antiPattern.getPatternTokens()) {
+            String pattern = patternToken.getString();
+            if (lacksSwitzerlandSpelling(pattern)) {
+              System.out.println(rule.getFullId() + ": " + pattern + " [antipattern]");
+              i++;
+            }
+          }
+        }
+        if (rule instanceof RegexPatternRule) {
+          String pattern = ((RegexPatternRule) rule).getPattern().toString();
+          if (lacksSwitzerlandSpelling(pattern)) {
+            System.out.println(rule.getFullId() + ": " + pattern);
+            i++;
+          }
+        } else {
+          List<PatternToken> patternTokens = rule.getPatternTokens();
+          if (patternTokens != null) {
+            for (PatternToken patternToken : patternTokens) {
+              String pattern = patternToken.getString();
+              if (lacksSwitzerlandSpelling(pattern)) {
+                System.out.println(rule.getFullId() + ": " + pattern);
+                i++;
+              }
+            }
+          }
+        }
+      }
+      System.out.println("*** " + ruleFileName + ": " + i + " <token>s with 'ß' but not 'ss' - these will not match for users of German (Switzerland)");
+    }
+  }
+
+  private boolean lacksSwitzerlandSpelling(String pattern) {
+    return pattern != null && pattern.contains("ß") && !containsSwitzerlandSpelling(pattern) && !allInBrackets('ß', pattern);
+  }
+
+  // only works for e.g.: foo|baß|bla
+  private boolean containsSwitzerlandSpelling(String pattern) {
+    String[] parts = pattern.split("\\|");
+    for (String part : parts) {
+      if (part.contains("ß")) {
+        if (!pattern.contains(part.replace("ß", "ss"))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  private boolean allInBrackets(char searchChar, String pattern) {
+    boolean inBrackets = false;
+    for (int i = 0; i < pattern.length(); i++) {
+      char c = pattern.charAt(i);
+      if (c == '[') {
+        inBrackets = true;
+      } else if (c == ']') {
+        inBrackets = false;
+      } else if (c == searchChar && !inBrackets) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }

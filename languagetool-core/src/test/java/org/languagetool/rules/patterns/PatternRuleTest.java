@@ -289,7 +289,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     int skipCount = 0;
     for (AbstractPatternRule rule : rules) {
       String sourceFile = rule.getSourceFile();
-      if (lang.isVariant() && sourceFile != null && sourceFile.matches("/org/languagetool/rules/" + lang.getShortCode() + "/grammar.*\\.xml")) {
+      if (lang.isVariant() && sourceFile != null &&
+        sourceFile.matches("/org/languagetool/rules/" + lang.getShortCode() + "/grammar.*\\.xml") &&
+        !sourceFile.contains("-l2-")) {
         //System.out.println("Skipping " + rule.getFullId() + " in " + sourceFile + " because we're checking a variant");
         skipCount++;
         continue;

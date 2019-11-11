@@ -3914,6 +3914,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="VBP"/>
         <token postag="PRP"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. Can't wait to -->
+        <token postag="SENT_START"/>
+        <token postag="MD"/>
+        <token regexp="yes">&apostrophe;</token>
+        <token>t</token>
+        <token postag_regexp="yes" postag="VB|RB"/>
+      </antipattern>
+      <antipattern><!-- Fix for chunker. Won't further address it -->
+        <token postag="SENT_START"/>
+        <token postag="MD"/>
+        <token regexp="yes">&apostrophe;</token>
+        <token>t</token>
+        <token postag_regexp="yes" postag="JJR|RBR"/><!-- I tried this token with min/max in an attempt to use only 1 antipattern for this and for "Can't wait to", but I could not get it to work. -->
+        <token postag_regexp="yes" postag="VB|RB"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -3947,6 +3962,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Verb. Areas of southern Nevada, Utah and Colorado <marker>form</marker> a loose northern boundary, while the southern ...</example>
       <example type="untouched">Verb. Darker (denser) regions of chromium <marker>form</marker> a band at right angles to the equator.</example>
       <example type="untouched">Incorrect grammar. The creature in this den <marker>love</marker> me.</example>
+      <example type="untouched">Can’t <marker>wait</marker> to get your update.</example><!-- Incomplete sentence, but a verb in this context. -->
+      <example type="untouched">Can’t <marker>control</marker> with switches.</example><!-- Incomplete sentence, but a verb in this context. -->
+      <example type="untouched">Won’t <marker>start</marker>, but turns over.</example><!-- Incomplete sentence, but a verb in this context. -->
+      <example type="untouched">Won’t further <marker>address</marker> it.</example><!-- Incomplete sentence, but a verb in this context. -->
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
     </rule>

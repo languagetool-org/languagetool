@@ -40,6 +40,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class ConfigurationDialog implements ActionListener {
   private boolean configChanged = false;
   private boolean profileChanged = true;
   private boolean restartShow = false;
+  private boolean firstSelection = true;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
@@ -655,8 +657,22 @@ public class ConfigurationDialog implements ActionListener {
     JCheckBox useServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServer")) + " ");
     useServerBox.setSelected(config.useOtherServer());
     useServerBox.addItemListener(e -> {
-      config.setUseOtherServer(useServerBox.isSelected());
-      otherServerNameField.setEnabled(useServerBox.isSelected());
+      int select = JOptionPane.OK_OPTION;
+      boolean selected = useServerBox.isSelected();
+      if(selected && firstSelection) {
+        select = showRemoteServerHint(useServerBox, true);
+        firstSelection = false;
+      } else {
+        firstSelection = true;
+      }
+      if(select == JOptionPane.OK_OPTION) {
+        useServerBox.setSelected(selected);
+        config.setUseOtherServer(useServerBox.isSelected());
+        otherServerNameField.setEnabled(useServerBox.isSelected());
+      } else {
+        useServerBox.setSelected(false);
+        firstSelection = true;
+      }
     });
 
     JCheckBox useRemoteServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseRemoteServer")));
@@ -664,13 +680,28 @@ public class ConfigurationDialog implements ActionListener {
     useServerBox.setEnabled(useRemoteServerBox.isSelected());
     otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
     isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
-    useRemoteServerBox.addItemListener(e -> {
-      config.setRemoteCheck(useRemoteServerBox.isSelected());
-      useServerBox.setEnabled(useRemoteServerBox.isSelected());
-      otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-      isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
-    });
     
+    useRemoteServerBox.addItemListener(e -> {
+      int select = JOptionPane.OK_OPTION;
+      boolean selected = useRemoteServerBox.isSelected();
+      if(selected && firstSelection) {
+        select = showRemoteServerHint(useRemoteServerBox, false);
+        firstSelection = false;
+      } else {
+        firstSelection = true;
+      }
+      if(select == JOptionPane.OK_OPTION) {
+        useRemoteServerBox.setSelected(selected);
+        config.setRemoteCheck(useRemoteServerBox.isSelected());
+        useServerBox.setEnabled(useRemoteServerBox.isSelected());
+        otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
+        isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+      } else {
+        useRemoteServerBox.setSelected(false);
+        firstSelection = true;
+      }
+    });
+  
     cons.gridy++;
     portPanel.add(useRemoteServerBox, cons);
     cons.insets = new Insets(0, 30, 0, 0);
@@ -690,6 +721,17 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(serverPanel, cons);
 
+  }
+  
+  private int showRemoteServerHint(Component component, boolean otherServer) {
+    if(config.useOtherServer() || otherServer) {
+        return JOptionPane.showConfirmDialog(component, 
+            MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), config.getServerUrl()), 
+          messages.getString("loMenuRemoteInfo"), JOptionPane.OK_CANCEL_OPTION);
+    } else {
+      return JOptionPane.showConfirmDialog(component, messages.getString("loRemoteInfoDefaultServer"), 
+          messages.getString("loMenuRemoteInfo"), JOptionPane.OK_CANCEL_OPTION);
+    }
   }
 
   @NotNull
@@ -1331,5 +1373,5 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-  
+
 }

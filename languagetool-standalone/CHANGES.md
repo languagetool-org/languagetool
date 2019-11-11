@@ -6,8 +6,23 @@
   * updated part-of-speech dictionaries to dicollecte-6.4.1
     (https://github.com/languagetool-org/languagetool/pull/1963)
 
+#### German
+  * added and improved rules
+
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### French
+  * improved rules
+
+#### Greek
+  * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
 
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`

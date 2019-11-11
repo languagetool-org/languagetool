@@ -126,7 +126,8 @@ class SingleDocument {
   private int paraNum;                            //  Number of current checked paragraph
   List<Integer> minToCheckPara;                   //  List of minimal to check paragraphs for different classes of text level rules
   List<List<String>> textLevelRules;              //  List of text level rules sorted by different classes
-  Map<Integer, List<Integer>> ignoredMatches;           //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called  
+  Map<Integer, List<Integer>> ignoredMatches;     //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+  private boolean isRemote;
 
   @SuppressWarnings("unused") 
   private ContextMenuInterceptor contextMenuInterceptor;
@@ -165,6 +166,7 @@ class SingleDocument {
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       int[] footnotePositions, boolean isParallelThread, boolean docReset, SwJLanguageTool langTool) {
+    isRemote = langTool.isRemote();
     try {
       if(docReset) {
         numLastVCPara = 0;
@@ -1179,6 +1181,7 @@ class SingleDocument {
     private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
     private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
     private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
+    private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
 
     public ContextMenuInterceptor() {}
     
@@ -1255,12 +1258,22 @@ class SingleDocument {
               xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
               xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE);
               xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
-
+              
+              int nId = i + 4;
+              if(isRemote) {
+                XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
+                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+                xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
+                xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT);
+                xContextMenu.insertByIndex(nId, xNewMenuEntry2);
+                nId++;
+              }
+              
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
               xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
               xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-              xContextMenu.insertByIndex(i + 4, xNewMenuEntry);
+              xContextMenu.insertByIndex(nId, xNewMenuEntry);
   
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
             }
@@ -1273,11 +1286,22 @@ class SingleDocument {
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
         xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
         xContextMenu.insertByIndex(count, xSeparator);
+        
+        int nId = count + 1;
+        if(isRemote) {
+          XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
+              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+          xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
+          xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT);
+          xContextMenu.insertByIndex(nId, xNewMenuEntry2);
+          nId++;
+        }
+
         XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
         xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
         xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-        xContextMenu.insertByIndex(count + 1, xNewMenuEntry);
+        xContextMenu.insertByIndex(nId, xNewMenuEntry);
 
         return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
 

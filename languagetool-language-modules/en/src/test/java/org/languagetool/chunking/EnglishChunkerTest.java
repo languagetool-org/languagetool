@@ -92,13 +92,17 @@ public class EnglishChunkerTest {
 
   @Test
   public void testNonBreakingSpace() throws IOException {
-    String expected = "[[], [B-ADVP], [], [B-PP], [], [B-NP-singular, E-NP-singular], [], [B-ADVP], [O]]";
+    String expectedTags = "[[/SENT_START], [away/JJ, away/NN, away/RB, away/RP, away/UH], [from/IN, from/RP], " +
+      "[home/NN:UN], [often/JJ, often/RB], [?/SENT_END, ?/PCT]]";
+    String expectedChunks = "[[], [B-ADVP], [], [B-PP], [], [B-NP-singular, E-NP-singular], [], [B-ADVP], [O]]";
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());
-    List<String> res1 = getChunksAsString("Away from home often?", chunker, lt);
-    assertThat(res1.toString(), is(expected));
-    List<String> res2 = getChunksAsString("Away from home\u00A0often?", chunker, lt);
-    assertThat(res2.toString(), is(expected));
+    String input1 = "Away from home often?";
+    assertThat(getPosTagsAsString(input1, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
+    assertThat(getChunksAsString(input1, chunker, lt).toString(), is(expectedChunks));
+    String input2 = "Away from home\u00A0often?";
+    assertThat(getPosTagsAsString(input2, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
+    assertThat(getChunksAsString(input2, chunker, lt).toString(), is(expectedChunks));
   }
 
   @Test
@@ -120,6 +124,14 @@ public class EnglishChunkerTest {
     List<AnalyzedTokenReadings> l = Arrays.asList(tokens);
     chunker.addChunkTags(l);
     return l.stream().map(k -> k.getChunkTags().toString()).collect(Collectors.toList());
+  }
+
+  @NotNull
+  private List<String> getPosTagsAsString(String input, JLanguageTool lt) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
+    AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
+    List<AnalyzedTokenReadings> l = Arrays.asList(tokens);
+    return l.stream().map(k -> k.getReadings().toString()).collect(Collectors.toList());
   }
 
   private List<AnalyzedTokenReadings> createReadingsList(String sentence) {
