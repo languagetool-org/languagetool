@@ -330,7 +330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>zu</token>
                 <marker>
-                    <token regexp='yes'>schrien|anstiegen|aufwiesen|beliehen|beschienen|beschrieen|beschrieben|bestiegen|betrieben|bewiesen|blieben|durchschienen|durchstiegen|entliehen|entschieden|entstiegen|erschienen|erwiesen|gediehen|liehen|mieden|priesen|rieben|schieden|schienen|schrieben|schrieen|schwiegen|spieen|stiegen|trieben|wiesen|hießen|sien|überschrieben|überstiegen|überwiesen|umschrieben|unterblieben|unterschieden|unterschrieben|untertrieben|unterwiesen|verblieben|verhießen|verliehen|vermieden|verrieben|verschrieen|verschrieben|verschwiegen|vertrieben|verwiesen|verziehen|zerrieben</token>
+                    <token regexp='yes'>schrien|anstiegen|aufwiesen|beliehen|beschienen|beschrieen|beschrieben|bestiegen|betrieben|bewiesen|blieben|durchschienen|durchstiegen|entliehen|entschieden|entstiegen|erschienen|erwiesen|gediehen|liehen|mieden|priesen|rieben|schieden|schienen|schrieben|schrieen|schwiegen|spieen|stiegen|trieben|wiesen|hießen|hiessen|sien|überschrieben|überstiegen|überwiesen|umschrieben|unterblieben|unterschieden|unterschrieben|untertrieben|unterwiesen|verblieben|verhießen|verhiessen|verliehen|vermieden|verrieben|verschrieen|verschrieben|verschwiegen|vertrieben|verwiesen|verziehen|zerrieben</token>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion><match no="2" regexp_match="ie" regexp_replace="ei"/></suggestion>?</message>
@@ -834,7 +834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SITZEN_SETZEN" name="sitzen (setzen)">
             <pattern>
-                <marker><token regexp="yes" case_sensitive="yes">saß(en)?|säßen?|sitzt|sitzen</token></marker>
+                <marker><token regexp="yes" case_sensitive="yes">saß(en)?|säßen?|sässen?|sitzt|sitzen</token></marker>
                 <token postag="PRO:REF:AKK:SIN:ALG.*" postag_regexp="yes"><exception scope="next">gegenüber</exception></token>
             </pattern>
             <message>Prüfen Sie, ob hier eine Form von 'setzen' stehen sollte.</message>
@@ -920,7 +920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Beachtung|Berücksichtigung</token>
                     <token skip="2">von</token>
                     <marker>
-                        <token regexp="yes">(Klein|Groß|Zusammen|Getrennt)schreiben</token>
+                        <token regexp="yes">(Klein|Groß|Gross|Zusammen|Getrennt)schreiben</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="ben" regexp_replace="bung"/></suggestion>?</message>
@@ -2573,7 +2573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="LEERE_DROHUNG" name="'lehre (leere) Drohungen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß|bloss</token>
                     <marker>
                         <token regexp="yes">lehren?</token>
                     </marker>
@@ -2586,7 +2586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß|bloss</token>
                     <marker>
                         <token regexp="yes">lehren?</token>
                     </marker>
@@ -2598,7 +2598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß|bloss</token>
                     <marker>
                         <token regexp="yes">holen?</token>
                     </marker>
@@ -2610,7 +2610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß|bloss</token>
                     <token regexp="yes">hohlen?|abgedroschenen?</token>
                     <marker>
                         <token regexp="yes">Phasen?</token>
@@ -2854,7 +2854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">eine|lodernde|helle|brennende|die|heiße|verzehrende|verlöschende|unauslöschliche</token>
+                    <token regexp="yes">eine|lodernde|helle|brennende|die|heiße|heisse|verzehrende|verlöschende|unauslöschliche</token>
                     <marker>
                         <token>Flame</token>
                     </marker>
@@ -5415,7 +5415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">Akte|Betrieb|Geschäft|Fenster|Frieden|Lücke|Pforte|.*Tür|Vertrag</token>
                     <token min="0" regexp="yes">nicht|zu</token>
-                    <marker><token inflected="yes" regexp="yes">(ab|ver)?schießen</token></marker>
+                    <marker><token inflected="yes" regexp="yes">(ab|ver)?schie(ß|ss)en</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="geschlossen">Hast du die Fenster <marker>geschossen</marker>?</example>
@@ -5478,7 +5478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Art</token>
                     <token>und</token>
                     <marker>
-                        <token regexp="yes">Wiese|Weiße</token>
+                        <token regexp="yes">Wiese|Weiße|Weisse</token>
                     </marker>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode)?</message>
@@ -5501,7 +5501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" skip="2">W(ais|eiß)en?</token>
+                        <token regexp="yes" skip="2">W(ais|eiß|eiss)en?</token>
                     </marker>
                     <token>Morgenland</token>
                 </pattern>
@@ -5792,7 +5792,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Champignon/Champion">
             <rule>
                 <pattern>
-                    <token regexp="yes">Dosen?|P(izz|ast)a|Nudeln|Soße|Sauce|Salat</token>
+                    <token regexp="yes">Dosen?|P(izz|ast)a|Nudeln|Soße|Sosse|Sauce|Salat</token>
                     <token>mit</token>
                     <marker>
                         <token>Champions</token>
@@ -6641,7 +6641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>dass</token>
                     </marker>
-                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|äusserst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
                 <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
@@ -7114,7 +7114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"/>
                     <token regexp="yes">aus|in|nach</token>
                     <marker>
-                        <token regexp="yes">kamen|halle|erlangen|baden|gießen|siegen|essen|polen</token>
+                        <token regexp="yes">kamen|halle|erlangen|baden|gießen|giessen|siegen|essen|polen</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;es sich bei <suggestion><match no="3" case_conversion="startupper"/></suggestion> um einen geographischen Eigennamen handelt, der großgeschrieben werden muss.</message>
@@ -9208,7 +9208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|hundert|tausend|(zwanz|dreiß|vierz|fünfz|sechz|siebz|achtz|neunz)ig)mal</token>
+                        <token regexp="yes">(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|hundert|tausend|(zwanz|dreiß|dreiss|vierz|fünfz|sechz|siebz|achtz|neunz)ig)mal</token>
                         <token postag="ZAL"/>
                     </marker>
                     <token regexp="yes">gleich|ist|sind|ergibt</token>
@@ -9523,7 +9523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>da</token>
                         <token regexp="yes">nach|neben|ran|rauf|runter</token>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|äusserst|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>da\2</suggestion>?</message>
                 <short>&getrennt;.</short>
@@ -9559,10 +9559,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(nach|trotz|seit|außer|in)dem</token>
+                        <token regexp="yes">(nach|trotz|seit|außer|ausser|in)dem</token>
                     </marker>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">werden|sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">werden|sieben|äußerst|äusserst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
                 <example correction="nach dem">Die Ruhe <marker>nachdem</marker> Sturm ist vollkommen.</example>
@@ -10039,7 +10039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erklärter|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er|Berge
+                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erklärter|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig|zweckmässig)er|Berge
                             <exception scope="previous">in</exception>
                         </token>
                         <token>Weise</token>
@@ -10654,7 +10654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">besichtigen|evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen|erblicken|buchen|erwerben|betreten</token>
+                <token regexp="yes">besichtigen|evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|beschiessen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen|erblicken|buchen|erwerben|betreten</token>
             </antipattern>
             <antipattern>
                 <token skip="2" regexp="yes">von|vom</token>
@@ -10692,12 +10692,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>bei</token>
                 <token>zu</token>
-                <token regexp="yes">schnellen|feuchten|langen|heißen</token>
+                <token regexp="yes">schnellen|feuchten|langen|heißen|heissen</token>
             </antipattern>
             <antipattern>
                 <token>durch</token>
                 <token>zu</token>
-                <token regexp="yes">schnellen|feuchten|langen|heißen</token>
+                <token regexp="yes">schnellen|feuchten|langen|heißen|heissen</token>
             </antipattern>
             <antipattern>
                 <token>zu</token>
@@ -10772,7 +10772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>auf</token>
                         <token>zu</token>
-                        <token regexp="yes">arbeiten|atmen|bahren|bauen|begehren|bereiten|bessern|bewahren|bieten|binden|blähen|blasen|blättern|blicken|blinken|bohren|brauchen|brechen|bringen|brummen|bürden|dampfen|decken|drängen|drehen|drücken|erlegen|erwecken|essen|fächern|fahren|fallen|fangen|fassen|finden|fischen|fliegen|fordern|forsten|frischen|führen|füllen|geben|gehen|geilen|gliedern|glühen|greifen|halten|hängen|häufen|heben|heitern|heizen|helfen|hellen|hetzen|heulen|holen|hören|kaufen|klären|klauben|kleben|knöpfen|knüpfen|kommen|kreuzen|kündigen|laden|lassen|lasten|laufen|leben|legen|lehnen|lesen|leuchten|listen|lockern|lösen|machen|mauern|muntern|nehmen|opfern|passen|pfropfen|picken|polieren|prägen|raffen|rauen|räumen|rechnen|regen|reiben|reißen|reizen|richten|rollen|rücken|rufen|rüsten|rütteln|sammeln|sammelnden|schauen|scheinen|schichten|schieben|schlagen|schließen|schlüsseln|schneiden|schnüren|schrecken|schreiben|schreien|schwingen|sehen|setzen|spalten|sparen|sperren|spielen|spießen|springen|spüren|stacheln|stauen|stecken|stehen|steigen|stellen|stöbern|stocken|stoßen|suchen|summieren|tauchen|teilen|tischen|tragen|treffen|treiben|trennen|treten|tun|wachen|wachsen|wärmen|warten|wecken|weichen|weisen|weiten|werfen|werten|wiegeln|wiegen|wühlen|zählen|zehren|zeichnen|zeigen|ziehen|zwingen</token>
+                        <token regexp="yes">arbeiten|atmen|bahren|bauen|begehren|bereiten|bessern|bewahren|bieten|binden|blähen|blasen|blättern|blicken|blinken|bohren|brauchen|brechen|bringen|brummen|bürden|dampfen|decken|drängen|drehen|drücken|erlegen|erwecken|essen|fächern|fahren|fallen|fangen|fassen|finden|fischen|fliegen|fordern|forsten|frischen|führen|füllen|geben|gehen|geilen|gliedern|glühen|greifen|halten|hängen|häufen|heben|heitern|heizen|helfen|hellen|hetzen|heulen|holen|hören|kaufen|klären|klauben|kleben|knöpfen|knüpfen|kommen|kreuzen|kündigen|laden|lassen|lasten|laufen|leben|legen|lehnen|lesen|leuchten|listen|lockern|lösen|machen|mauern|muntern|nehmen|opfern|passen|pfropfen|picken|polieren|prägen|raffen|rauen|räumen|rechnen|regen|reiben|reißen|reissen|reizen|richten|rollen|rücken|rufen|rüsten|rütteln|sammeln|sammelnden|schauen|scheinen|schichten|schieben|schlagen|schließen|schliessen|schlüsseln|schneiden|schnüren|schrecken|schreiben|schreien|schwingen|sehen|setzen|spalten|sparen|sperren|spielen|spießen|spiessen|springen|spüren|stacheln|stauen|stecken|stehen|steigen|stellen|stöbern|stocken|stoßen|stossen|suchen|summieren|tauchen|teilen|tischen|tragen|treffen|treiben|trennen|treten|tun|wachen|wachsen|wärmen|warten|wecken|weichen|weisen|weiten|werfen|werten|wiegeln|wiegen|wühlen|zählen|zehren|zeichnen|zeigen|ziehen|zwingen</token>
                     </marker>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="2"/><match no="3"/><match no="4"/></suggestion>?</message>
@@ -10787,7 +10787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>an</token>
                         <token>zu</token>
-                        <token regexp="yes">bahnen|bauen|behalten|belangen|beten|betteln|biedern|bieten|binden|blicken|brechen|bringen|dauern|deuten|dichten|dienen|docken|drehen|ecken|eignen|empfehlen|erkennen|fachen|fahren|fallen|fangen|fassen|fechten|fertigen|feuchten|feuern|flehen|fordern|fragen|freunden|fügen|fühlen|führen|geben|gehen|gehören|gewöhnen|gleichen|gliedern|greifen|halten|hängen|häufen|heben|heften|himmeln|hören|kämpfen|kaufen|ketten|klagen|kleiden|klicken|klingeln|klopfen|knüpfen|kommen|kreiden|kündigen|kuppeln|kurbeln|lächeln|lassen|lasten|laufen|legen|lehnen|leiern|leinen|leiten|lernen|liefern|locken|malen|maßen|melden|merken|mieten|nageln|nähen|nähern|nehmen|ordnen|packen|passen|peilen|pflanzen|prangern|preisen|raten|rechnen|reden|regen|reichern|reißen|rempeln|rennen|richten|rufen|rühren|sagen|sammeln|schaffen|schalten|schauen|schicken|schieben|schlagen|schließen|schnallen|schreiben|schreien|sehen|setzen|siedeln|spannen|sparen|spielen|spornen|sprechen|springen|stacheln|starren|stecken|stehen|steigen|stellen|steuern|stimmen|stoßen|streben|streichen|strengen|tasten|tragen|treffen|treiben|treten|vertrauen|visieren|wachsen|wählen|wärmen|weisen|werben|werfen|zapfen|zeichnen|zeigen|zetteln|ziehen|zünden|zweifeln</token>
+                        <token regexp="yes">bahnen|bauen|behalten|belangen|beten|betteln|biedern|bieten|binden|blicken|brechen|bringen|dauern|deuten|dichten|dienen|docken|drehen|ecken|eignen|empfehlen|erkennen|fachen|fahren|fallen|fangen|fassen|fechten|fertigen|feuchten|feuern|flehen|fordern|fragen|freunden|fügen|fühlen|führen|geben|gehen|gehören|gewöhnen|gleichen|gliedern|greifen|halten|hängen|häufen|heben|heften|himmeln|hören|kämpfen|kaufen|ketten|klagen|kleiden|klicken|klingeln|klopfen|knüpfen|kommen|kreiden|kündigen|kuppeln|kurbeln|lächeln|lassen|lasten|laufen|legen|lehnen|leiern|leinen|leiten|lernen|liefern|locken|malen|maßen|massen|melden|merken|mieten|nageln|nähen|nähern|nehmen|ordnen|packen|passen|peilen|pflanzen|prangern|preisen|raten|rechnen|reden|regen|reichern|reißen|reissen|rempeln|rennen|richten|rufen|rühren|sagen|sammeln|schaffen|schalten|schauen|schicken|schieben|schlagen|schließen|schliessen|schnallen|schreiben|schreien|sehen|setzen|siedeln|spannen|sparen|spielen|spornen|sprechen|springen|stacheln|starren|stecken|stehen|steigen|stellen|steuern|stimmen|stoßen|stossen|streben|streichen|strengen|tasten|tragen|treffen|treiben|treten|vertrauen|visieren|wachsen|wählen|wärmen|weisen|werben|werfen|zapfen|zeichnen|zeigen|zetteln|ziehen|zünden|zweifeln</token>
                     </marker>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="2"/><match no="3"/><match no="4"/></suggestion>?</message>
@@ -10803,7 +10803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>nach</token>
                         <token>zu</token>
-                        <token regexp="yes">äffen|ahmen|arbeiten|bauen|bearbeiten|bereiten|bessern|bestellen|beten|bilden|blicken|bluten|bohren|datieren|denken|dichten|drängen|drehen|drucken|dunkeln|eifern|eilen|empfinden|entrichten|erzählen|färben|fassen|feiern|folgen|fordern|formen|forschen|fragen|fügen|fühlen|füllen|gären|geben|gehen|gestalten|gießen|glühen|grübeln|haken|hallen|hängen|helfen|hinken|holen|hören|installieren|jagen|kaufen|klingen|kommen|konstruieren|kontrollieren|laden|lassen|laufen|legen|lesen|liefern|lösen|machen|messen|pfeifen|prägen|prüfen|rechnen|reden|regeln|reichen|reifen|reiten|rennen|rufen|rühmen|rüsten|sagen|salzen|schauen|schenken|schieben|schießen|schlagen|schleichen|schleppen|schmeißen|schneiden|schnüffeln|schreiben|schütten|schwatzen|schwimmen|sehen|setzen|singen|sinnen|sitzen|sortieren|spionieren|sprechen|springen|spülen|spüren|starren|stehen|stellen|stoßen|streben|stürzen|suchen|synchronisieren|tanken|tönen|tragen|trauern|träumen|treten|trimmen|verfolgen|versichern|vollziehen|wachsen|weinen|weisen|werfen|wiegen|winken|wirken|zahlen|zählen|zeichnen|ziehen</token>
+                        <token regexp="yes">äffen|ahmen|arbeiten|bauen|bearbeiten|bereiten|bessern|bestellen|beten|bilden|blicken|bluten|bohren|datieren|denken|dichten|drängen|drehen|drucken|dunkeln|eifern|eilen|empfinden|entrichten|erzählen|färben|fassen|feiern|folgen|fordern|formen|forschen|fragen|fügen|fühlen|füllen|gären|geben|gehen|gestalten|gießen|giessen|glühen|grübeln|haken|hallen|hängen|helfen|hinken|holen|hören|installieren|jagen|kaufen|klingen|kommen|konstruieren|kontrollieren|laden|lassen|laufen|legen|lesen|liefern|lösen|machen|messen|pfeifen|prägen|prüfen|rechnen|reden|regeln|reichen|reifen|reiten|rennen|rufen|rühmen|rüsten|sagen|salzen|schauen|schenken|schieben|schießen|schiessen|schlagen|schleichen|schleppen|schmeißen|schmeissen|schneiden|schnüffeln|schreiben|schütten|schwatzen|schwimmen|sehen|setzen|singen|sinnen|sitzen|sortieren|spionieren|sprechen|springen|spülen|spüren|starren|stehen|stellen|stoßen|stossen|streben|stürzen|suchen|synchronisieren|tanken|tönen|tragen|trauern|träumen|treten|trimmen|verfolgen|versichern|vollziehen|wachsen|weinen|weisen|werfen|wiegen|winken|wirken|zahlen|zählen|zeichnen|ziehen</token>
                     </marker>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="2"/><match no="3"/><match no="4"/></suggestion>?</message>
@@ -10836,7 +10836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ein</token>
                     <token>zu</token>
-                    <token regexp="yes">arbeiten|atmen|balsamieren|bauen|behalten|berufen|betten|beziehen|biegen|bilden|binden|blenden|brechen|bringen|bürgern|büßen|checken|dämmen|decken|drehen|dringen|drücken|ebnen|engen|fädeln|fahren|fallen|fangen|finden|flechten|fliegen|fließen|flößen|fordern|frieren|fügen|führen|geben|gehen|gestehen|gewöhnen|gießen|gliedern|greifen|grenzen|halten|handeln|hängen|hauchen|holen|hüllen|impfen|kaufen|kehren|kerkern|klagen|kleiden|kochen|kommen|kreisen|laden|lagern|lassen|laufen|leben|legen|leiten|lenken|lesen|loggen|lösen|marschieren|mauern|mischen|nähen|nehmen|nisten|ordnen|packen|passen|pflanzen|planen|prägen|quartieren|räumen|rechnen|reden|reiben|reichen|reihen|reisen|reißen|richten|sammeln|saugen|scannen|schalten|schätzen|schenken|schieben|schiffen|schlafen|schläfern|schlagen|schleusen|schließen|schmeicheln|schmelzen|schmuggeln|schneiden|schränken|schreiben|schreiten|schüchtern|schwenken|schwören|sehen|setzen|sinken|sitzen|spannen|sparen|speisen|sperren|spielen|sprechen|springen|stampfen|stecken|stehen|steigen|stellen|steuern|stimmen|streichen|streuen|studieren|stufen|stürzen|tauchen|tauschen|teilen|tippen|tragen|treffen|treiben|treten|tüten|üben|verleiben|weihen|weisen|werben|werfen|wickeln|willigen|wirken|zahlen|zäunen|zeichnen|ziehen|zwängen</token>
+                    <token regexp="yes">arbeiten|atmen|balsamieren|bauen|behalten|berufen|betten|beziehen|biegen|bilden|binden|blenden|brechen|bringen|bürgern|büßen|büssen|checken|dämmen|decken|drehen|dringen|drücken|ebnen|engen|fädeln|fahren|fallen|fangen|finden|flechten|fliegen|fließen|fliessen|flößen|flössen|fordern|frieren|fügen|führen|geben|gehen|gestehen|gewöhnen|gießen|giessen|gliedern|greifen|grenzen|halten|handeln|hängen|hauchen|holen|hüllen|impfen|kaufen|kehren|kerkern|klagen|kleiden|kochen|kommen|kreisen|laden|lagern|lassen|laufen|leben|legen|leiten|lenken|lesen|loggen|lösen|marschieren|mauern|mischen|nähen|nehmen|nisten|ordnen|packen|passen|pflanzen|planen|prägen|quartieren|räumen|rechnen|reden|reiben|reichen|reihen|reisen|reißen|reissen|richten|sammeln|saugen|scannen|schalten|schätzen|schenken|schieben|schiffen|schlafen|schläfern|schlagen|schleusen|schließen|schliessen|schmeicheln|schmelzen|schmuggeln|schneiden|schränken|schreiben|schreiten|schüchtern|schwenken|schwören|sehen|setzen|sinken|sitzen|spannen|sparen|speisen|sperren|spielen|sprechen|springen|stampfen|stecken|stehen|steigen|stellen|steuern|stimmen|streichen|streuen|studieren|stufen|stürzen|tauchen|tauschen|teilen|tippen|tragen|treffen|treiben|treten|tüten|üben|verleiben|weihen|weisen|werben|werfen|wickeln|willigen|wirken|zahlen|zäunen|zeichnen|ziehen|zwängen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="einzuarbeiten">Er versprach, mich bald <marker>ein zu arbeiten</marker>.</example>
@@ -10845,7 +10845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>hin</token>
                     <token>zu</token>
-                    <token regexp="yes">bekommen|biegen|bringen|fahren|fallen|geben|gehen|gucken|halten|hängen|hocken|horchen|hören|langen|legen|nehmen|reißen|rennen|richten|schauen|scheiden|schicken|schlachten|schmeißen|schreiben|schütten|schwimmen|sehen|setzen|sinken|starren|stellen|weisen|werfen|wirken</token>
+                    <token regexp="yes">bekommen|biegen|bringen|fahren|fallen|geben|gehen|gucken|halten|hängen|hocken|horchen|hören|langen|legen|nehmen|reißen|reissen|rennen|richten|schauen|scheiden|schicken|schlachten|schmeißen|schmeissen|schreiben|schütten|schwimmen|sehen|setzen|sinken|starren|stellen|weisen|werfen|wirken</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hinzubringen">Er versprach, mich dort <marker>hin zu bringen</marker>.</example>
@@ -10854,7 +10854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>hinein</token>
                     <token>zu</token>
-                    <token regexp="yes">bauen|begeben|begleiten|bekommen|bemühen|beugen|bewegen|biegen|bitten|blasen|blicken|bohren|bringen|deuten|drücken|dürfen|eilen|fahren|finden|fliegen|fließen|flitzen|führen|gehen|gehören|gelangen|gießen|gleiten|greifen|halten|hängen|heben|heiraten|helfen|holen|klettern|kommen|können|kriechen|kriegen|lachen|laufen|leben|legen|leiten|lesen|mischen|nehmen|neigen|packen|passen|pferchen|pfuschen|plumpsen|pumpen|quetschen|rasen|rasseln|reden|reiten|riechen|rollen|sausen|schaffen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schliddern|schlüpfen|schmuggeln|schwingen|sehen|springen|spritzen|spucken|stechen|stecken|stehlen|steigen|stellen|steuern|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|tropfen|trudeln|wagen|wälzen|weben|wehen|werfen|wirken|zerren|ziehen|zwängen</token>
+                    <token regexp="yes">bauen|begeben|begleiten|bekommen|bemühen|beugen|bewegen|biegen|bitten|blasen|blicken|bohren|bringen|deuten|drücken|dürfen|eilen|fahren|finden|fliegen|fließen|fliessen|flitzen|führen|gehen|gehören|gelangen|gießen|giessen|gleiten|greifen|halten|hängen|heben|heiraten|helfen|holen|klettern|kommen|können|kriechen|kriegen|lachen|laufen|leben|legen|leiten|lesen|mischen|nehmen|neigen|packen|passen|pferchen|pfuschen|plumpsen|pumpen|quetschen|rasen|rasseln|reden|reiten|riechen|rollen|sausen|schaffen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schliddern|schlüpfen|schmuggeln|schwingen|sehen|springen|spritzen|spucken|stechen|stecken|stehlen|steigen|stellen|steuern|stoßen|stossen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|tropfen|trudeln|wagen|wälzen|weben|wehen|werfen|wirken|zerren|ziehen|zwängen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hineinzubringen">Er versprach, mich dort <marker>hinein zu bringen</marker>.</example>
@@ -10863,7 +10863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>herein</token>
                     <token>zu</token>
-                    <token regexp="yes">begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen</token>
+                    <token regexp="yes">begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|fliessen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmeissen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|stossen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hereinzubringen">Er versprach, mich hier <marker>herein zu bringen</marker>.</example>
@@ -10872,7 +10872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">hinunter|herab|hinab|herunter</token>
                     <token>zu</token>
-                    <token regexp="yes">baumeln|befördern|begeben|begleiten|bemühen|beugen|bewegen|biegen|bitten|blicken|brechen|brennen|bringen|bücken|drücken|dürfen|eilen|fahren|fallen|finden|fliegen|fließen|flitzen|führen|geben|gehen|gießen|gleiten|greifen|hauen|heben|helfen|holen|kippen|klappen|klettern|knallen|kommen|können|kraxeln|kriechen|kriegen|kugeln|kullern|kurbeln|laden|langen|lassen|laufen|leiern|leiten|machen|müssen|nehmen|neigen|pendeln|putzen|rasen|rasseln|reichen|reißen|reiten|rinnen|rollen|rufen|rutschen|sausen|schaffen|schalten|schauen|schicken|schießen|schlagen|schleichen|schleifen|schlendern|schleppen|schleudern|schlingen|schlucken|schmeißen|schnurren|schütten|schwingen|sehen|senken|setzen|sinken|spielen|springen|spülen|steigen|stoßen|strömen|stufen|stürmen|stürzen|tauchen|taumeln|torkeln|tragen|treiben|tröpfeln|tropfen|trudeln|wälzen|werfen|wollen|würdigen|würgen|zerren|ziehen</token>
+                    <token regexp="yes">baumeln|befördern|begeben|begleiten|bemühen|beugen|bewegen|biegen|bitten|blicken|brechen|brennen|bringen|bücken|drücken|dürfen|eilen|fahren|fallen|finden|fliegen|fließen|fliessen|flitzen|führen|geben|gehen|gießen|giessen|gleiten|greifen|hauen|heben|helfen|holen|kippen|klappen|klettern|knallen|kommen|können|kraxeln|kriechen|kriegen|kugeln|kullern|kurbeln|laden|langen|lassen|laufen|leiern|leiten|machen|müssen|nehmen|neigen|pendeln|putzen|rasen|rasseln|reichen|reißen|reissen|reiten|rinnen|rollen|rufen|rutschen|sausen|schaffen|schalten|schauen|schicken|schießen|schiessen|schlagen|schleichen|schleifen|schlendern|schleppen|schleudern|schlingen|schlucken|schmeißen|schmeissen|schnurren|schütten|schwingen|sehen|senken|setzen|sinken|spielen|springen|spülen|steigen|stoßen|stossen|strömen|stufen|stürmen|stürzen|tauchen|taumeln|torkeln|tragen|treiben|tröpfeln|tropfen|trudeln|wälzen|werfen|wollen|würdigen|würgen|zerren|ziehen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hinunterzuziehen">Er versuchte, es <marker>hinunter zu ziehen</marker>.</example>
@@ -10890,7 +10890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>los</token>
                     <token>zu</token>
-                    <token regexp="yes">ballern|bekommen|bellen|binden|brausen|brechen|brüllen|donnern|drehen|dreschen|drücken|eisen|fahren|flennen|fliegen|gehen|gurten|haben|haken|hauen|heften|hetzen|heulen|kaufen|ketten|knüpfen|kommen|koppeln|kriegen|lachen|lassen|laufen|legen|lösen|machen|marschieren|platzen|poltern|prügeln|prusten|rasen|reißen|rennen|rollen|sagen|sausen|schicken|schießen|schlagen|schluchzen|schnallen|schneiden|schrauben|schreien|schwimmen|sprechen|springen|treten|werden|wickeln|wiehern</token>
+                    <token regexp="yes">ballern|bekommen|bellen|binden|brausen|brechen|brüllen|donnern|drehen|dreschen|drücken|eisen|fahren|flennen|fliegen|gehen|gurten|haben|haken|hauen|heften|hetzen|heulen|kaufen|ketten|knüpfen|kommen|koppeln|kriegen|lachen|lassen|laufen|legen|lösen|machen|marschieren|platzen|poltern|prügeln|prusten|rasen|reißen|reissen|rennen|rollen|sagen|sausen|schicken|schießen|schiessen|schlagen|schluchzen|schnallen|schneiden|schrauben|schreien|schwimmen|sprechen|springen|treten|werden|wickeln|wiehern</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="loszubrüllen">Das ist kein Grund <marker>los zu brüllen</marker>.</example>
@@ -10899,7 +10899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>fort</token>
                     <token>zu</token>
-                    <token regexp="yes">begleiten|bestehen|beugen|bewegen|biegen|bilden|bringen|dauern|denken|eilen|entwickeln|fahren|fließen|flitzen|führen|gehen|gelangen|gleiten|helfen|holen|klettern|kommen|lassen|laufen|leiten|nehmen|neigen|pflanzen|rasen|reißen|rollen|sausen|schaffen|schicken|schleifen|schlendern|schleppen|schleudern|schreiben|schreiten|schwingen|setzen|springen|stehlen|steigen|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|trudeln|wälzen|werfen|zerren|ziehen</token>
+                    <token regexp="yes">begleiten|bestehen|beugen|bewegen|biegen|bilden|bringen|dauern|denken|eilen|entwickeln|fahren|fließen|fliessen|flitzen|führen|gehen|gelangen|gleiten|helfen|holen|klettern|kommen|lassen|laufen|leiten|nehmen|neigen|pflanzen|rasen|reißen|reissen|rollen|sausen|schaffen|schicken|schleifen|schlendern|schleppen|schleudern|schreiben|schreiten|schwingen|setzen|springen|stehlen|steigen|stoßen|stossen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|trudeln|wälzen|werfen|zerren|ziehen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="fortzubewegen">Das ist eine seltsame Methode, sich <marker>fort zu bewegen</marker>.</example>
@@ -10921,7 +10921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>zu</token>
                     <token>zu</token>
-                    <token regexp="yes">arbeiten|bauen|beißen|bekommen|bereiten|betonieren|billigen|binden|bringen|decken|denken|drehen|drücken|eignen|erkennen|fallen|fassen|faxen|fliegen|fließen|frieren|fügen|führen|geben|gehen|gehören|gesellen|gestehen|gießen|greifen|haken|halten|hängen|hauen|heilen|hören|jauchzen|kaufen|kehren|kiffen|klappen|kleben|klinken|knallen|knöpfen|kommen|korken|lachen|lächeln|laden|langen|lassen|laufen|legen|leiten|löten|machen|messen|mischen|muten|nähen|nehmen|neigen|ordnen|packen|pfropfen|prosten|raten|raunen|rechnen|reden|reichen|reiten|richten|rollen|rren|rufen|rüsten|sagen|schalten|schanzen|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schnappen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|schwellen|sehen|setzen|sperren|spielen|spitzen|sprechen|springen|stechen|stecken|stehen|stellen|stimmen|stopfen|stoßen|streben|strömen|stürzen|teilen|tragen|trauen|treffen|trinken|wachsen|warten|weisen|werfen|winken|ziehen</token>
+                    <token regexp="yes">arbeiten|bauen|beißen|beissen|bekommen|bereiten|betonieren|billigen|binden|bringen|decken|denken|drehen|drücken|eignen|erkennen|fallen|fassen|faxen|fliegen|fließen|fliessen|frieren|fügen|führen|geben|gehen|gehören|gesellen|gestehen|gießen|giessen|greifen|haken|halten|hängen|hauen|heilen|hören|jauchzen|kaufen|kehren|kiffen|klappen|kleben|klinken|knallen|knöpfen|kommen|korken|lachen|lächeln|laden|langen|lassen|laufen|legen|leiten|löten|machen|messen|mischen|muten|nähen|nehmen|neigen|ordnen|packen|pfropfen|prosten|raten|raunen|rechnen|reden|reichen|reiten|richten|rollen|rren|rufen|rüsten|sagen|schalten|schanzen|schauen|schicken|schieben|schießen|schiessen|schlagen|schließen|schliessen|schmeißen|schmeissen|schmieren|schnallen|schnappen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|schwellen|sehen|setzen|sperren|spielen|spitzen|sprechen|springen|stechen|stecken|stehen|stellen|stimmen|stopfen|stoßen|stossen|streben|strömen|stürzen|teilen|tragen|trauen|treffen|trinken|wachsen|warten|weisen|werfen|winken|ziehen</token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
                 <example correction="zuzumuten">Das ist ihm wohl nicht <marker>zu zu muten</marker>.</example>
@@ -11247,7 +11247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>krank</token>
-                        <token inflected="yes" regexp="yes">feiern|lachen|melden|schießen|schreiben</token>
+                        <token inflected="yes" regexp="yes">feiern|lachen|melden|schießen|schiessen|schreiben</token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs 'krankschreiben/-melden' (=Arbeitsunfägikeit attestieren/melden) oder eine verwandte Form ('krankfeiern/-lachen') meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
@@ -11672,7 +11672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern case_sensitive="yes">
                 <token>hoch</token>
-                <token inflected="yes" regexp="yes">ge(schlossen|schlitzt|stochen)|prozentig|biegen|blicken|bringen|dekoriert|drehen|gehen|gesteckt|gewachsen|gucken|halten|heben|kurbeln|steigen|werfen|ziehen|bekommen|binden|dienen|erfreut|fahren|fliegen|gebildet|glänzend|gradig|hackig|herzig|hieven|holen|hopsen|jagen|jubeln|karätig|klappbar|kommen|kraxeln|langen|leben|mütig|näsig|nehmen|ohmig|päpplen|peitschen|ragen|rangig|rappeln|rechnen|reißen|schalten|schaukeln|scheuchen|schicken|schieben|schnellen|schrauben|schrecken|sehen|spielen|sprachlich|springen|stapeln|stecken|stemmen|trabend|tragen|treiben|verdient|verehrt|wertig|willkommen|wölben|wüchsig|wuchten|zeiten|achtungsvoll|arbeiten|beinig|busig|geboren|gelehrt|gemut|gezüchtet|kant|klettern|krempeln|ländisch|mögend|notpeinlich|preisen|preisig|räderig|rädrig|schulterig|schultrig|stehen|stellen|stilisieren|tönend|tonig|tourig|winden|wirbeln|wohlgeboren|wohllöblich|würdig|auflösend|achtend|bocken|branden|brechen|drücken|dürfen|hüpfen|kämmen|klappen|kochen|können|kriechen|kriegen|schauen|schichten|schießen|schlagen|schleichen|schleudern|schürzen|schwingen|scrollen|sollen|spülen|streben|strecken|streifen|stülpen|türmen|altrig|lagern|befähigt|befriedigt|bejahrt|beladen|bepackt|deckend|differenziert|energetisch|erhoben|feudal|florig|geschürzt|gesinnt|gestimmt|glanzpoliert|kultiviert|mechanisiert</token>
+                <token inflected="yes" regexp="yes">ge(schlossen|schlitzt|stochen)|prozentig|biegen|blicken|bringen|dekoriert|drehen|gehen|gesteckt|gewachsen|gucken|halten|heben|kurbeln|steigen|werfen|ziehen|bekommen|binden|dienen|erfreut|fahren|fliegen|gebildet|glänzend|gradig|hackig|herzig|hieven|holen|hopsen|jagen|jubeln|karätig|klappbar|kommen|kraxeln|langen|leben|mütig|näsig|nehmen|ohmig|päpplen|peitschen|ragen|rangig|rappeln|rechnen|reißen|reissen|schalten|schaukeln|scheuchen|schicken|schieben|schnellen|schrauben|schrecken|sehen|spielen|sprachlich|springen|stapeln|stecken|stemmen|trabend|tragen|treiben|verdient|verehrt|wertig|willkommen|wölben|wüchsig|wuchten|zeiten|achtungsvoll|arbeiten|beinig|busig|geboren|gelehrt|gemut|gezüchtet|kant|klettern|krempeln|ländisch|mögend|notpeinlich|preisen|preisig|räderig|rädrig|schulterig|schultrig|stehen|stellen|stilisieren|tönend|tonig|tourig|winden|wirbeln|wohlgeboren|wohllöblich|würdig|auflösend|achtend|bocken|branden|brechen|drücken|dürfen|hüpfen|kämmen|klappen|kochen|können|kriechen|kriegen|schauen|schichten|schießen|schiessen|schlagen|schleichen|schleudern|schürzen|schwingen|scrollen|sollen|spülen|streben|strecken|streifen|stülpen|türmen|altrig|lagern|befähigt|befriedigt|bejahrt|beladen|bepackt|deckend|differenziert|energetisch|erhoben|feudal|florig|geschürzt|gesinnt|gestimmt|glanzpoliert|kultiviert|mechanisiert</token>
             </pattern>
             <message>Prüfen Sie, ob <suggestion><match no="1"/><match no="2"/></suggestion> zusammengeschrieben werden soll - das ist der Fall, wenn die Betonung auf 'hoch' liegt.</message>
             <example correction="hochgegangen">Die Bombe ist <marker>hoch gegangen</marker>.</example>
@@ -11787,7 +11787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zurück</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">Wege?|Pfade?|Strecke|Straße|Bahn|Bus|Busse|Zug|Bahnen|Züge</token>
+                <token regexp="yes">Wege?|Pfade?|Strecke|Straße|Strasse|Bahn|Bus|Busse|Zug|Bahnen|Züge</token>
                 <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
                 <token>zurück</token>
             </antipattern>
@@ -11951,7 +11951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token>dazu</token>
-                <token case_sensitive="yes" inflected="yes" regexp="yes">tun|können|schlagen|schauen|sagen|stellen|halten|geben|rechnen|schreiben|lernen|stoßen|kommen|setzen|legen|erfinden|verdienen|bekommen|gehören|gewinnen|gesellen
+                <token case_sensitive="yes" inflected="yes" regexp="yes">tun|können|schlagen|schauen|sagen|stellen|halten|geben|rechnen|schreiben|lernen|stoßen|stossen|kommen|setzen|legen|erfinden|verdienen|bekommen|gehören|gewinnen|gesellen
                     <exception regexp="yes">(a[bn]|au[fs]|her|durch|weg|über|unter).*</exception>
                 </token>
                 </marker>
@@ -12242,7 +12242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min='0'>,</token>
                     <token regexp='yes'>(das|es)</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
+                        <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schiessen|schlagen|schließen|schliessen|schmeißen|schmeissen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|stossen|teilen|tragen|treffen|treiben|werfen)</token>
                     </marker>
                 </pattern>
                 <message>Die Infinitivgruppe <suggestion><match no="5" regexp_match="zu" regexp_replace="zu "/></suggestion> wird auseinandergeschrieben.</message>
@@ -12262,7 +12262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='PRO:REF:.*' postag_regexp='yes'/>
                     <token min='0'>,</token>
                     <marker>
-                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
+                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schiessen|schlagen|schließen|schliessen|schmeißen|schmeissen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|stossen|teilen|tragen|treffen|treiben|werfen)</token>
                     </marker>
                     <token>,</token>
                 </pattern>
@@ -12283,7 +12283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='PRO:PER:(AKK|DAT):.+' postag_regexp='yes'/>
                     <token min='0'>,</token>
                     <marker>
-                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
+                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schiessen|schlagen|schließen|schliessen|schmeißen|schmeissen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|stossen|teilen|tragen|treffen|treiben|werfen)</token>
                     </marker>
                     <token>,</token>
                 </pattern>
@@ -12307,7 +12307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min='0'>,</token>
                     <token regexp="yes">(es|das)</token>
                     <marker>
-                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
+                    <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schiessen|schlagen|schließen|schliessen|schmeißen|schmeissen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|stossen|teilen|tragen|treffen|treiben|werfen)</token>
                     </marker>
                 </pattern>
                 <message>Die Infinitivgruppe <suggestion><match no="6" regexp_match="zu" regexp_replace="zu "/></suggestion> wird auseinandergeschrieben.</message>
@@ -12642,7 +12642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">doppelt|halb|(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|hundert|\d+-)mal</token>
                     <token>so</token>
-                    <token regexp="yes">(warm|heiß|kalt)(e[nrs]?)?</token>
+                    <token regexp="yes">(warm|heiß|heiss|kalt)(e[nrs]?)?</token>
                 </pattern>
                 <message>Diese Formulierung ergibt nur Sinn, wenn für die Temperaturmessung die Kelvinskala verwendet wird.</message>
                 <url>https://de.wikipedia.org/wiki/Intervallskala</url>
@@ -15006,7 +15006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="ART:.*"/>
                 <marker>
-                    <token regexp="yes">Wahnsinns|scheiß|hammer|super|riesen|mega</token>
+                    <token regexp="yes">Wahnsinns|scheiß|scheiss|hammer|super|riesen|mega</token>
                     <token postag_regexp="yes" postag="SUB:.*"/>
                 </marker>
             </pattern>
@@ -15019,7 +15019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="VOLL_BLOED" name="'voll' als Adverb, z.B. 'das ist voll blöd'" default="off">
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes">voll|echt|scheiße</token>
+                    <token regexp="yes">voll|echt|scheiße|scheisse</token>
                 </marker>
                 <token postag_regexp="yes" postag="(ADJ|VER):.*">
                     <exception postag_regexp="yes" postag="SUB:.*"/>
@@ -15161,7 +15161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">wird|werden|war|waren|sein|Maße?</token>
+                    <token regexp="yes" negate="yes">wird|werden|war|waren|sein|Maße?|Masse?</token>
                     <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
                     <marker>
                         <token>wie</token>
@@ -15621,7 +15621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
-                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|rechnen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
+                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|rechnen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|liessen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|reissen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmeissen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>
@@ -15630,7 +15630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|rechnen|reden|reißen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
+                    <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|rechnen|reden|reißen|reissen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^raus" regexp_replace="heraus"/></suggestion>
@@ -15639,7 +15639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rein(brachten|bringen|fallen|fielen|gebracht|gefallen|gefallenen|gegangen|gehen|gehst|geht|geklettert|gekommen|gelassen|gelegt|gelegten|geplatzt|geplatzten|gerannt|geredet|geritten|geschaut|geschneit|gezogen|gezogenen|gingen|ging|kamen|kam|kämen|käme|klettern|kletterten|kommen|können|konnten|könnten|krabbeln|kriechen|kriegen|kriegten|krochen|lassen|laufen|legen|legten|ließen|locken|lockten|reden|redeten|regnen|reiten|rennen|ritten|schauen|schauten|stecken|steckten|ziehen|zogen|zog|zubringen|zufallen|zugehen|zuklettern|zukommen|zukönnen|zukriegen|zulassen|zulaufen|zureden|zuregnen|zureiten|zuschauen|zuschmeißen|zuschmuggeln|zuspringen|zustecken|zutragen|zuziehen|zuzwängen)</token>
+                    <token regexp="yes">rein(brachten|bringen|fallen|fielen|gebracht|gefallen|gefallenen|gegangen|gehen|gehst|geht|geklettert|gekommen|gelassen|gelegt|gelegten|geplatzt|geplatzten|gerannt|geredet|geritten|geschaut|geschneit|gezogen|gezogenen|gingen|ging|kamen|kam|kämen|käme|klettern|kletterten|kommen|können|konnten|könnten|krabbeln|kriechen|kriegen|kriegten|krochen|lassen|laufen|legen|legten|ließen|liessen|locken|lockten|reden|redeten|regnen|reiten|rennen|ritten|schauen|schauten|stecken|steckten|ziehen|zogen|zog|zubringen|zufallen|zugehen|zuklettern|zukommen|zukönnen|zukriegen|zulassen|zulaufen|zureden|zuregnen|zureiten|zuschauen|zuschmeißen|zuschmeissen|zuschmuggeln|zuspringen|zustecken|zutragen|zuziehen|zuzwängen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^rein" regexp_replace="herein"/></suggestion>
@@ -15658,7 +15658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rumzu(albern|ärgern|basteln|bohren|brüllen|fummeln|gammeln|hüpfen|huren|knobeln|knutschen|kramen|kriegen|kurven|laufen|liegen|pfuschen|quälen|schnüffeln|schrauben|schreien|schubsen|sitzen|spielen|spionieren|springen|spuken|stänkern|stehen|stochern|stoßen|streunen|stümpern|suchen|tappen|tasten|toben|tollen|tragen|trampeln|vagabundieren|wälzen|wandern|werfen|werkeln|wickeln|wühlen|wursteln|zanken)</token>
+                    <token regexp="yes">rumzu(albern|ärgern|basteln|bohren|brüllen|fummeln|gammeln|hüpfen|huren|knobeln|knutschen|kramen|kriegen|kurven|laufen|liegen|pfuschen|quälen|schnüffeln|schrauben|schreien|schubsen|sitzen|spielen|spionieren|springen|spuken|stänkern|stehen|stochern|stoßen|stossen|streunen|stümpern|suchen|tappen|tasten|toben|tollen|tragen|trampeln|vagabundieren|wälzen|wandern|werfen|werkeln|wickeln|wühlen|wursteln|zanken)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>
@@ -15667,7 +15667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">alber[nt]?|alberten?|ärger[nt]?|balge[nt]?|balgten?|baller[nt]?|ballerten?|bastel[nt]?|bastelten?|brüllen?|brüll[nt]?|brüllten?|bummel[nt]?|bummelten?|dokter[nt]?|drucksen?|druckst|drucksten|drücken?|drückt|drückten?|dümpel[nt]?|dümpelten?|erzählen?|erzählt|erzählten?|finger[nt]?|fingerten?|fuchtel[nt]?|fuchtelten?|fummel[nt]?|fummelten?|gammel[nt]?|gammelten?|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken?|hackte?|hackten|hämmer[nt]?|hämmerten?|hängt|hängte|hängen|hantieren?|hantierten?|hingen|hinge?|hocken?|hockten?|hüpfen?|hüpften?|huren?|hurten?|jammer[nt]?|jammerten?|knobel[nt]?|knobelten?|knutscht?en?|kommandiere?n?|kommandierte?n?|krame?n?|kramte?n?|kroche?n?|krochten?|kurve?n?|kurvte?n?|lagen?|lagten?|läster[nt]?|lästerten?|laufen?|liefe?n?|liege?n?|lümmel[nt]?|lümmelten?|lunger[nt]?|lungerten?|mache?n?|machte?n?|mecker[nt]?|meckerten?|motze?n?|motzte?n?|murkse?n?|murkste?n?|nörgel[nt]?|nörgeln?|probiere?n?|probierte?n?|rannte?n?|schleppe?n?|schleppte?n?|schnüffel[nt]?|schnüffelten?|schraube?n?|schraubte?n?|schreie?n?|schreite?n?|schubse?n?|schubste?n?|sitze?n?|saße?n?|spaziere?n?|spazierte?n?|spiele?n?|spielte?n?|sprange?n?|springe?n?|spritze?n?|spritzte?n?|spuke?n?|spukte?n?|stande?n?|stänker[nt]?|stänkerten?|stehe?n?|stöber[nt]?|stöberten?|stocher[nt]?|stocherten?|stümper[nt]?|stümperten?|suche?n?|suchte?n?|tobe?n?|tobte?n?|tolle?n?|tollte?n?|trödel[nt]?|trödelten?|wander[nt]?|wanderten?|winsel[nt]?|wühle?n?|wurstel[nt]?|wurstelten?|zanke?n?|zankte?n?|zappel[nt]?|zappelten?</token>
+                    <token regexp="yes">alber[nt]?|alberten?|ärger[nt]?|balge[nt]?|balgten?|baller[nt]?|ballerten?|bastel[nt]?|bastelten?|brüllen?|brüll[nt]?|brüllten?|bummel[nt]?|bummelten?|dokter[nt]?|drucksen?|druckst|drucksten|drücken?|drückt|drückten?|dümpel[nt]?|dümpelten?|erzählen?|erzählt|erzählten?|finger[nt]?|fingerten?|fuchtel[nt]?|fuchtelten?|fummel[nt]?|fummelten?|gammel[nt]?|gammelten?|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken?|hackte?|hackten|hämmer[nt]?|hämmerten?|hängt|hängte|hängen|hantieren?|hantierten?|hingen|hinge?|hocken?|hockten?|hüpfen?|hüpften?|huren?|hurten?|jammer[nt]?|jammerten?|knobel[nt]?|knobelten?|knutscht?en?|kommandiere?n?|kommandierte?n?|krame?n?|kramte?n?|kroche?n?|krochten?|kurve?n?|kurvte?n?|lagen?|lagten?|läster[nt]?|lästerten?|laufen?|liefe?n?|liege?n?|lümmel[nt]?|lümmelten?|lunger[nt]?|lungerten?|mache?n?|machte?n?|mecker[nt]?|meckerten?|motze?n?|motzte?n?|murkse?n?|murkste?n?|nörgel[nt]?|nörgeln?|probiere?n?|probierte?n?|rannte?n?|schleppe?n?|schleppte?n?|schnüffel[nt]?|schnüffelten?|schraube?n?|schraubte?n?|schreie?n?|schreite?n?|schubse?n?|schubste?n?|sitze?n?|saße?n?|sasse?n?|spaziere?n?|spazierte?n?|spiele?n?|spielte?n?|sprange?n?|springe?n?|spritze?n?|spritzte?n?|spuke?n?|spukte?n?|stande?n?|stänker[nt]?|stänkerten?|stehe?n?|stöber[nt]?|stöberten?|stocher[nt]?|stocherten?|stümper[nt]?|stümperten?|suche?n?|suchte?n?|tobe?n?|tobte?n?|tolle?n?|tollte?n?|trödel[nt]?|trödelten?|wander[nt]?|wanderten?|winsel[nt]?|wühle?n?|wurstel[nt]?|wurstelten?|zanke?n?|zankte?n?|zappel[nt]?|zappelten?</token>
                     <marker>
                         <token case_sensitive="yes">rum</token>
                     </marker>
@@ -15680,7 +15680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ran(arbeite(te)?n?|bilde(te)?n?|brausen?|brausten?|brechen?|brachten?|bringen?|drängt?en|dränge|dürfen?|durften?|fahren?|fuhren|führen?|führten?|gleiten?|glitten|holt?en?|kämpft?en?|karrt?en?|könnt?en?|kommen?|kriechen?|kroch(en)?|lassen?|ließe?n?|lockt?en?|macht?en?|müsst?en?|naht?en?|nehmen?|nahm(en)?|pfeifen?|pfiff(en)?|pirscht?en?|reicht?en?|reift?en?|rollt?en?|rückt?en?|rufen?|rief(en)?|stehen?|stand(en)?|schleicht?en?|schafft?en?|tasten?|tasteten?|tragt?en?|treten?|traten|traut?en?|wachsen?|wuchsen?|wagt?en?|winkt?en?|wollt?en?|zieht?en?|zoomt?en?|züchten?)</token>
+                    <token regexp="yes">ran(arbeite(te)?n?|bilde(te)?n?|brausen?|brausten?|brechen?|brachten?|bringen?|drängt?en|dränge|dürfen?|durften?|fahren?|fuhren|führen?|führten?|gleiten?|glitten|holt?en?|kämpft?en?|karrt?en?|könnt?en?|kommen?|kriechen?|kroch(en)?|lassen?|ließe?n?|liesse?n?|lockt?en?|macht?en?|müsst?en?|naht?en?|nehmen?|nahm(en)?|pfeifen?|pfiff(en)?|pirscht?en?|reicht?en?|reift?en?|rollt?en?|rückt?en?|rufen?|rief(en)?|stehen?|stand(en)?|schleicht?en?|schafft?en?|tasten?|tasteten?|tragt?en?|treten?|traten|traut?en?|wachsen?|wuchsen?|wagt?en?|winkt?en?|wollt?en?|zieht?en?|zoomt?en?|züchten?)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion>
@@ -15705,7 +15705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">runter(baumeln|baumelten|drücken|drückten|fallen|fielen|fliegen|fließen|flitzen|flitzten|flogen|flossen|fuhren|gefallen|gefallenen|geflogen|gegangen|gehangelt|gehauen|gehen|geholt|geholten|gehst|geht|geklappt|geklettert|gekommen|gekommenen|gekullert|gekurbelt|gekurbelten|geladen|geladenen|gelassen|gelassenen|gelaufen|geleiert|geleierten|geputzt|gerannt|gerasselt|gerissen|gerollt|gerutscht|geschluckt|geschluckten|geschraubt|geschraubten|getragen|getropft|geworfen|gewürgt|gewürgten|gezerrt|gezogen|gezogenen|gingen|handeln|hängen|hauen|hauten|holen|holten|kamen|kam|kippen|kippten|klappen|klappten|klettern|kletterten|knallen|knallten|kommen|kullern|kullerten|kurbeln|kurbelten|laden|lassen|leiern|leierten|ließen|machen|putzen|putzten|rasseln|rasselten|rissen|rutschen|rutschten|schlingen|schlucken|schluckten|schmeißen|schmissen|schrauben|schütten|setzen|spielen|spielten|spülen|spülten|tropfen|würgen|würgten|zubrechen|zugehen|zukommen|zukraxeln|zumachen|zurennen|zurinnen|zurutschen|zuschleppen|zuschlingen|zuschlucken|zuschmeißen|zusetzen|zuspringen|zuspülen|zusteigen|zuwerfen|zuwürgen|zuzerren)</token>
+                    <token regexp="yes">runter(baumeln|baumelten|drücken|drückten|fallen|fielen|fliegen|fließen|fliessen|flitzen|flitzten|flogen|flossen|fuhren|gefallen|gefallenen|geflogen|gegangen|gehangelt|gehauen|gehen|geholt|geholten|gehst|geht|geklappt|geklettert|gekommen|gekommenen|gekullert|gekurbelt|gekurbelten|geladen|geladenen|gelassen|gelassenen|gelaufen|geleiert|geleierten|geputzt|gerannt|gerasselt|gerissen|gerollt|gerutscht|geschluckt|geschluckten|geschraubt|geschraubten|getragen|getropft|geworfen|gewürgt|gewürgten|gezerrt|gezogen|gezogenen|gingen|handeln|hängen|hauen|hauten|holen|holten|kamen|kam|kippen|kippten|klappen|klappten|klettern|kletterten|knallen|knallten|kommen|kullern|kullerten|kurbeln|kurbelten|laden|lassen|leiern|leierten|ließen|liessen|machen|putzen|putzten|rasseln|rasselten|rissen|rutschen|rutschten|schlingen|schlucken|schluckten|schmeißen|schmeissen|schmissen|schrauben|schütten|setzen|spielen|spielten|spülen|spülten|tropfen|würgen|würgten|zubrechen|zugehen|zukommen|zukraxeln|zumachen|zurennen|zurinnen|zurutschen|zuschleppen|zuschlingen|zuschlucken|zuschmeißen|zuschmeissen|zusetzen|zuspringen|zuspülen|zusteigen|zuwerfen|zuwürgen|zuzerren)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^runter" regexp_replace="herunter"/></suggestion>
@@ -16507,7 +16507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Mit</token>
                         <token regexp="yes">freundliche[mn]|beste[nm]|schöne[nm]</token>
-                        <token regexp="yes">Grüßen|Gruße?</token>
+                        <token regexp="yes">Grüßen|Gruße?|Grusse?</token>
                         <token regexp="yes">,|\.|:|\!|;</token>
                     </marker>
                 </pattern>
@@ -17386,7 +17386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive='yes'>
                     <token regexp='yes'>[iI]ch</token>
                     <marker>
-                        <token regexp="yes">Band|Beichte|Beule|Binde|Bitte|Blase|Bräune|Breite|Bremse|Buche|Bürde|Bürste|Decke|Dichte|Dusche|Düse|Ecke|Ehre|Eiche|Eile|Erde|Falle|Falte|Feile|Flamme|Fliege|Fliese|Flöte|Folge|Frage|Fresse|Geige|Grenze|Hacke|Härte|Hecke|Heimfahrt|Höhle|Illustrierte|Kappe|Keule|Kippe|Klage|Klappe|Klaue|Klemme|Klinge|Klingel|Krähe|Kralle|Kürze|Lehre|Leine|Leiste|Leuchte|Liege|Linse|Liste|Lüge|Menge|Messe|Miete|Nähe|Pauke|Pause|Perle|Pfeife|Presse|Probe|Pumpe|Puste|Quelle|Rede|Reibe|Reife|Reihe|Reise|Ritze|Robbe|Rolle|Rüge|Ruhe|Runde|Rutsche|Sage|Säge|Salbe|Scheide|Scheiße|Schere|Schiene|Schippe|Schlampe|Schleife|Schleuse|Schlinge|Schmelze|Schmiede|Schnalle|Schneide|Schule|Schürze|Schwäche|Schwärze|Schwebe|Schwelle|Sehne|Seife|Sonne|Sorge|Spalte|Speise|Spitze|Spritze|Stärke|Starre|Stelle|Stille|Stimme|Strafe|Strecke|Strippe|Stufe|Stütze|Suche|Summe|Taste|Tat|Taufe|Trage|Wache|Wärme|Weiche|Weide|Weihe|Weile|Weise|Wende|Wiege|Winde|Würde|Würze|Wüste|Zeche|Zwinge</token>
+                        <token regexp="yes">Band|Beichte|Beule|Binde|Bitte|Blase|Bräune|Breite|Bremse|Buche|Bürde|Bürste|Decke|Dichte|Dusche|Düse|Ecke|Ehre|Eiche|Eile|Erde|Falle|Falte|Feile|Flamme|Fliege|Fliese|Flöte|Folge|Frage|Fresse|Geige|Grenze|Hacke|Härte|Hecke|Heimfahrt|Höhle|Illustrierte|Kappe|Keule|Kippe|Klage|Klappe|Klaue|Klemme|Klinge|Klingel|Krähe|Kralle|Kürze|Lehre|Leine|Leiste|Leuchte|Liege|Linse|Liste|Lüge|Menge|Messe|Miete|Nähe|Pauke|Pause|Perle|Pfeife|Presse|Probe|Pumpe|Puste|Quelle|Rede|Reibe|Reife|Reihe|Reise|Ritze|Robbe|Rolle|Rüge|Ruhe|Runde|Rutsche|Sage|Säge|Salbe|Scheide|Scheiße|Scheisse|Schere|Schiene|Schippe|Schlampe|Schleife|Schleuse|Schlinge|Schmelze|Schmiede|Schnalle|Schneide|Schule|Schürze|Schwäche|Schwärze|Schwebe|Schwelle|Sehne|Seife|Sonne|Sorge|Spalte|Speise|Spitze|Spritze|Stärke|Starre|Stelle|Stille|Stimme|Strafe|Strecke|Strippe|Stufe|Stütze|Suche|Summe|Taste|Tat|Taufe|Trage|Wache|Wärme|Weiche|Weide|Weihe|Weile|Weise|Wende|Wiege|Winde|Würde|Würze|Wüste|Zeche|Zwinge</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie die Verbform <suggestion><match no="2" case_conversion="startlower"/></suggestion>, die dann kleinzuschreiben ist?</message>
@@ -17416,7 +17416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp='yes'>zur|ihrer?|[dms]einer?|eurer?|unserer?</token>
                 <marker>
-                    <token regexp="yes" case_sensitive='yes'>abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|anfahrt|anfrage|angst|anklage|anreise|anrichte|ansage|anzeige|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|beichte|beule|binde|bitte|blase|bräune|bremse|buche|bürde|bürste|decke|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ecke|ehe|ehre|eiche|eile|einfahrt|einreise|erde|fahrt|falle|falte|feile|flamme|fliege|fliese|flöte|flucht|folge|frage|fresse|geige|gemeinde|gnade|grenze|großtat|hacke|halle|härte|hast|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kante|kappe|keule|kippe|klage|klammer|klappe|klaue|klemme|klinge|klingel|kraft|krähe|kralle|kürze|kutsche|last|legende|lehre|leine|leiste|leuchte|liege|linse|liste|lüge|menge|messe|miete|mithilfe|mühe|nachfrage|nachlese|nachrede|nähe|naht|pauke|pause|perle|pfeife|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reihe|reise|reue|rille|ritze|robbe|rolle|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|salbe|säure|schanze|scharte|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|schuld|schule|schürze|schwäche|schwärze|schwebe|schwelle|sehne|seife|sonne|sorge|spalte|sparte|speise|spritze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|summe|taste|taufe|trage|träne|uniform|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wacht|wand|wärme|weide|weihe|weile|welle|wende|werft|wiege|wiese|winde|wolle|wunde|würze|zahl|zeche|zeit|zier|zufahrt|zufuhr|zusage|zwinge</token>
+                    <token regexp="yes" case_sensitive='yes'>abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|anfahrt|anfrage|angst|anklage|anreise|anrichte|ansage|anzeige|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|beichte|beule|binde|bitte|blase|bräune|bremse|buche|bürde|bürste|decke|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ecke|ehe|ehre|eiche|eile|einfahrt|einreise|erde|fahrt|falle|falte|feile|flamme|fliege|fliese|flöte|flucht|folge|frage|fresse|geige|gemeinde|gnade|grenze|großtat|grosstat|hacke|halle|härte|hast|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kante|kappe|keule|kippe|klage|klammer|klappe|klaue|klemme|klinge|klingel|kraft|krähe|kralle|kürze|kutsche|last|legende|lehre|leine|leiste|leuchte|liege|linse|liste|lüge|menge|messe|miete|mithilfe|mühe|nachfrage|nachlese|nachrede|nähe|naht|pauke|pause|perle|pfeife|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reihe|reise|reue|rille|ritze|robbe|rolle|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|salbe|säure|schanze|scharte|schau|scheide|scheiße|scheisse|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|schuld|schule|schürze|schwäche|schwärze|schwebe|schwelle|sehne|seife|sonne|sorge|spalte|sparte|speise|spritze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|summe|taste|taufe|trage|träne|uniform|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wacht|wand|wärme|weide|weihe|weile|welle|wende|werft|wiege|wiese|winde|wolle|wunde|würze|zahl|zeche|zeit|zier|zufahrt|zufuhr|zusage|zwinge</token>
                 </marker>
             </pattern>
             <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
@@ -17601,7 +17601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">diese|jene|wir|ihr|durch|vo[nr]|um|nach|mit|bis|unter|über|gegen|an|wegen|plus|minus|mal|als|in|ist|sind|war(en)?</token>
                     <token min="0">die</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">(Ein|Zwei|Zwan|Dreiß?|Vier|Fünf|Sechs?|Sieb|Acht|Neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
+                        <token regexp="yes" case_sensitive="yes">(Ein|Zwei|Zwan|Dreiß?|Dreiss?|Vier|Fünf|Sechs?|Sieb|Acht|Neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|dreiss?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
                     </marker>
                 </pattern>
                 <message>Zahlen unter einer Million werden in der Regel kleingeschrieben.</message>
@@ -17860,7 +17860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">am|beim|hinterm|überm|unterm|vorm</token>
                 <marker>
-                    <token postag="VER:INF:NON" regexp="yes">[a-zöäü].*<exception regexp="yes">gleichen|heißen|testweisen</exception></token>
+                    <token postag="VER:INF:NON" regexp="yes">[a-zöäü].*<exception regexp="yes">gleichen|heißen|heissen|testweisen</exception></token>
                 </marker>
                 <token><exception postag="SUB:NOM:SIN:(NEU|MAS)" postag_regexp="yes" /></token>
             </pattern>
@@ -18441,7 +18441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes" negate="yes">ich|e[rs]|sie|ihr|und|man</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
+                        <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|grosstat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
                     </marker>
                     <token postag="VER:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">^[a-zäöü].+
                         <exception regexp="yes">ein(en?)?|deutschen?|klaren?|bitte|dringend</exception>
@@ -19035,7 +19035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="STROEME_SUBST" name="'in strömen (Strömen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="2">regnete?|goss|gießt|fl[öo]ss(en)?|fließt|k[aä]men|kommen</token>
+                    <token regexp="yes" skip="2">regnete?|goss|gießt|giesst|fl[öo]ss(en)?|fließt|fliesst|k[aä]men|kommen</token>
                     <token>in</token>
                     <marker>
                         <token>strömen</token>
@@ -19052,7 +19052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>strömen</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">regnen|gießen|fließen|kommen</token>
+                    <token regexp="yes" inflected="yes">regnen|gießen|giessen|fließen|fliessen|kommen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Strömen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -20342,7 +20342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes" skip="1">[sS]tinken|[rR]iechen|[sS]chmecken</token>
                     <token regexp="yes">nach|wie</token>
                     <marker>
-                        <token regexp="yes">pisse|kacke|scheiße|kotze|fischen?</token>
+                        <token regexp="yes">pisse|kacke|scheiße|scheisse|kotze|fischen?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -20353,7 +20353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">nach|wie</token>
                     <marker>
-                        <token regexp="yes">pisse|kacke|scheiße|kotze</token>
+                        <token regexp="yes">pisse|kacke|scheiße|scheisse|kotze</token>
                     </marker>
                     <token regexp="yes" inflected="yes">stinken|riechen|schmecken</token>
                 </pattern>
@@ -21339,7 +21339,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]u</token>
                     <token regexp="yes">(&meindein;)em</token>
-                    <token regexp="yes">großen|größten|tiefen|tiefsten|aufrichtigen|äußersten</token>
+                    <token regexp="yes">großen|größten|grössten|tiefen|tiefsten|aufrichtigen|äußersten|äussersten</token>
                     <marker>
                         <token>bedauern</token>
                     </marker>
@@ -21364,7 +21364,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
-                    <token regexp="yes">gewissem|großem|größtem|tiefem|tiefstem|leichtem|leisem|aufrichtigem|äußerstem</token>
+                    <token regexp="yes">gewissem|großem|grossem|größtem|grösstem|tiefem|tiefstem|leichtem|leisem|aufrichtigem|äußerstem|äusserstem</token>
                     <marker>
                         <token>bedauern</token>
                     </marker>
@@ -21417,7 +21417,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>das</token>
-                    <token regexp="yes">kleinere|größere</token>
+                    <token regexp="yes">kleinere|größere|grössere</token>
                     <marker>
                         <token case_sensitive="yes">übel</token>
                     </marker>
@@ -22088,7 +22088,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">in|im|außer|keinen|kein</token>
+                    <token regexp="yes">in|im|außer|ausser|keinen|kein</token>
                     <marker>
                         <token>dienst</token>
                     </marker>
@@ -22168,7 +22168,7 @@ Andere Projekte</example>
         <rule id="UNTER_OPFERN" name="'unter großen opfern (Opfern)' etc.">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[uU]nter</token>
-                <token regexp="yes">den|großen|erheblichen</token>
+                <token regexp="yes">den|großen|grossen|erheblichen</token>
                 <marker>
                     <token>opfern</token>
                 </marker>
@@ -22564,7 +22564,7 @@ Andere Projekte</example>
                     <marker>
                         <token>gläsern</token>
                     </marker>
-                    <token regexp="yes">Wein(schorle)?|(Rot|Weiß|Rosé|Schaum)wein|Rosé|Sekt|Champagner|Bier|Weizen(bier)?|Pils|Alt(bier)?|Tee|Rum|Schnaps|Likör|Martini|Jägermeister|Whiske?y|Wodka|Wasser|Mineralwasser|Cola|Fanta|.*[lL]imonade|Milch|.*[sS]aft</token>
+                    <token regexp="yes">Wein(schorle)?|(Rot|Weiß|Weiss|Rosé|Schaum)wein|Rosé|Sekt|Champagner|Bier|Weizen(bier)?|Pils|Alt(bier)?|Tee|Rum|Schnaps|Likör|Martini|Jägermeister|Whiske?y|Wodka|Wasser|Mineralwasser|Cola|Fanta|.*[lL]imonade|Milch|.*[sS]aft</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Gläsern</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -22902,7 +22902,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
-                    <token regexp="yes">aller|voller|ganzer|letzter|großer|viel</token>
+                    <token regexp="yes">aller|voller|ganzer|letzter|großer|grosser|viel</token>
                     <marker>
                         <token>kraft</token>
                     </marker>
@@ -23142,7 +23142,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(ausgekugelte|ausgerenkte|breite|eingezogene|entblößte|gebeugte|gepolsterte|hängende|hochgezogene|kräftige|lädierte|schmale|schmerzende|starke|verspannte|wattierte)n</token>
+                    <token regexp="yes">(ausgekugelte|ausgerenkte|breite|eingezogene|entblößte|entblösste|gebeugte|gepolsterte|hängende|hochgezogene|kräftige|lädierte|schmale|schmerzende|starke|verspannte|wattierte)n</token>
                     <marker>
                         <token>schultern</token>
                     </marker>
@@ -25279,7 +25279,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(eis)?kalte|heiße|warme|mit</token>
+                    <token regexp="yes">(eis)?kalte|heiße|heisse|warme|mit</token>
                     <marker>
                         <token>dusche</token>
                     </marker>
@@ -26456,7 +26456,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(entscheidend|groß|klein|mutig|wichtig)e[rn]?</token>
+                    <token regexp="yes">(entscheidend|groß|gross|klein|mutig|wichtig)e[rn]?</token>
                     <marker>
                         <token regexp="yes">schritte?</token>
                     </marker>
@@ -26946,7 +26946,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="1" regexp="yes">[iI]n</token>
-                    <token regexp="yes">großen|größeren|klein(er)?en|riesigen|rauen|solchen</token>
+                    <token regexp="yes">großen|größeren|grösseren|klein(er)?en|riesigen|rauen|solchen</token>
                     <marker>
                         <token>mengen</token>
                     </marker>
@@ -26958,7 +26958,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="1" regexp="yes">[eE]ine</token>
-                    <token regexp="yes">ganze|große|größere|klein(er)?e|riesige|solche</token>
+                    <token regexp="yes">ganze|große|grosse|größere|grössere|klein(er)?e|riesige|solche</token>
                     <marker>
                         <token regexp="yes">menge|fülle|summe</token>
                     </marker>
@@ -27115,7 +27115,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]as|[eE]in|machen?|macht?|[ai]ns|(helle|grelle|gleißende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
+                    <token regexp="yes">[dD]as|[eE]in|machen?|macht?|[ai]ns|(helle|grelle|gleißende|gleissende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
                     <marker>
                         <token>licht</token>
                     </marker>
@@ -27251,7 +27251,7 @@ Andere Projekte</example>
         <rulegroup id="ANGST_SUBST" name="'angst (Angst)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">vor|keine|große(r)?|lauter|ha[sb]?t|hatte(st|n)?|bekam(st|t|en)?</token>
+                    <token regexp="yes">vor|keine|große(r)?|grosse(r)?|lauter|ha[sb]?t|hatte(st|n)?|bekam(st|t|en)?</token>
                     <marker>
                         <token>angst</token>
                     </marker>
@@ -28649,7 +28649,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(ihr|weich|klein|groß|winzig|riesig|entblößt|nackt|schlaff|herunterhängend|herabhängend)en?</token>
+                    <token regexp="yes">(ihr|weich|klein|groß|gross|winzig|riesig|entblößt|entblösst|nackt|schlaff|herunterhängend|herabhängend)en?</token>
                     <marker>
                         <token regexp="yes">brüsten?</token>
                     </marker>
@@ -29579,7 +29579,7 @@ Andere Projekte</example>
         <rule id="ER_BEGRIFF" name="'er Begriff (begriff)'">
             <pattern>
                 <token regexp="yes">e[rs]|ich|sie</token>
-                <token regexp="yes" min="0">nichts?|(schließ|end)lich</token>
+                <token regexp="yes" min="0">nichts?|(schließ|schliess|end)lich</token>
                 <marker>
                     <token case_sensitive="yes">Begriff</token>
                 </marker>
@@ -30930,7 +30930,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token regexp="yes">bilde|schweiße</token>
+                        <token regexp="yes">bilde|schweiße|schweisse</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -31558,7 +31558,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker><token>bedenken</token></marker>
-                    <token inflected="yes" regexp="yes">anmelden|äußern|ge[bg]en|haben|melden|vorbringen|verwerfen|zerstreuen</token>
+                    <token inflected="yes" regexp="yes">anmelden|äußern|äussern|ge[bg]en|haben|melden|vorbringen|verwerfen|zerstreuen</token>
                 </pattern>
                 <message>Meinten Sie das Hauptwort 'die <suggestion><match no="1" case_conversion="startupper"/></suggestion>?</message>
                 <short>&prgk;.</short>
@@ -31701,7 +31701,7 @@ Andere Projekte</example>
         <rulegroup id="BEHARREN_AUF_DATIV" name="'beharren auf' ohne Dativ">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">b(eharr|eruh|asier)en|fußen|liegen</token>
+                    <token inflected="yes" regexp="yes">b(eharr|eruh|asier)en|fußen|fussen|liegen</token>
                     <token>auf</token>
                     <marker>
                         <token regexp="yes">([mds]?ein|unser|eue?r|ihr|d(ies)?)en?</token>
@@ -31719,7 +31719,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">be(harren|ruhen)|fußen|liegen</token>
+                    <token inflected="yes" regexp="yes">be(harren|ruhen)|fußen|fussen|liegen</token>
                     <token>auf</token>
                     <marker>
                         <token regexp="yes">([mds]?ein|unser|eue?r|ihr|dies)en?</token>
@@ -32822,7 +32822,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
+                        <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                     </marker>
                 </pattern>
@@ -32844,7 +32844,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token postag="VER:.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
+                        <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|[dm]?eine|diese)[mn]?</token>
                     </marker>
                 </pattern>
@@ -32870,7 +32870,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
+                        <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Ausserhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks|Hinsichtlich</token>
                         <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jen|dein|dies)e[mn]?</token>
                     </marker>
                 </pattern>
@@ -33649,7 +33649,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <token regexp="yes">bei|entsprechend|gemäß|gemäss|entgegen|nahe</token>
                     <marker>
                         <token regexp="yes">[dkms]eine|unsere|eue?re|ihre</token>
                     </marker>
@@ -33663,7 +33663,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <token regexp="yes">bei|entsprechend|gemäß|gemäss|entgegen|nahe</token>
                     <marker>
                         <token regexp="yes">mein|dein|sein|unser|euer</token>
                     </marker>
@@ -33681,7 +33681,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|gemäss|nahe</token>
                     <marker>
                         <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
                     </marker>
@@ -33702,7 +33702,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|gemäss|nahe</token>
                     <marker>
                         <token>des</token>
                         <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -33716,7 +33716,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|gemäss|nahe</token>
                     <marker>
                         <token>eines</token>
                         <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
@@ -36472,7 +36472,7 @@ Andere Projekte</example>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
                     <token regexp="yes">&fragewoerter;</token>
-                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|nicht|nur|bloß</token>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|nicht|nur|bloß|bloss</token>
                     <marker>
                         <token postag="SENT_END">
                             <exception>?</exception>
@@ -36493,7 +36493,7 @@ Andere Projekte</example>
                     <token regexp="yes">&fragewoerter;</token>
                     <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
-                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß</token>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß|bloss</token>
                     <marker>
                         <token postag="SENT_END">
                             <exception>?</exception>
@@ -36519,7 +36519,7 @@ Andere Projekte</example>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                     <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
-                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß</token>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß|bloss</token>
                     <marker>
                         <token postag="SENT_END">
                             <exception>?</exception>
@@ -37270,7 +37270,7 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Verhältnis|unentschieden</token>
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Massstab|Verhältnis|unentschieden</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
@@ -37544,7 +37544,7 @@ Andere Projekte</example>
                     <token regexp="yes">dass|weil|obwohl|obgleich|sodass|wenn</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">als|anstatt|außer</token>
+                    <token regexp="yes">als|anstatt|außer|ausser</token>
                     <token>dass</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
@@ -37655,7 +37655,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <!-- TODO Warum diese Ausnahmen? Quelle? -->
-                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Grössen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
@@ -37672,7 +37672,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Grössen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
                         <token regexp="yes">[0-9]{1,5}</token>
@@ -37860,11 +37860,11 @@ Andere Projekte</example>
             <rule>
                  <antipattern>
                     <token skip="-1" regexp="yes">,|;|–|:<exception scope="next" postag="VER:[^IMP].*" postag_regexp="yes"/></token>
-                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
-                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1">um</token>
@@ -37891,7 +37891,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token inflected="yes" regexp="yes">sein|haben</token>
                     <token min="0" regexp="yes">nicht|deshalb|somit</token>
-                    <token regexp="yes">ohne|außer</token>
+                    <token regexp="yes">ohne|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token>um</token>
@@ -37933,8 +37933,8 @@ Andere Projekte</example>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|,|;|—|-</exception></token></marker>
-                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer</token>
+                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|ausser|,|;|—|-</exception></token></marker>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer|ausser</token>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                 </pattern>
@@ -38011,11 +38011,11 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">,|;|–|:<exception scope="next" postag="VER:[^IMP].*" postag_regexp="yes"/></token>
-                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
-                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token>um</token>
@@ -38033,7 +38033,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token inflected="yes" regexp="yes">sein|haben</token>
                     <token min="0" regexp="yes">nicht|deshalb|somit</token>
-                    <token regexp="yes">ohne|außer</token>
+                    <token regexp="yes">ohne|außer|ausser</token>
                 </antipattern>
                 <antipattern>
                     <token/>
@@ -38070,8 +38070,8 @@ Andere Projekte</example>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|,|;|—|-</exception></token></marker>
-                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer</token>
+                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|ausser|,|;|—|-</exception></token></marker>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer|ausser</token>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Mit 'um', 'ohne', 'statt', 'anstatt' oder 'außer' eingeleitete Infinitivgruppen sind mit Komma abzutrennen. Vorschlag: <suggestion>\1,</suggestion> (In seltenen Fällen muss die vorgeschlagene Position des Kommas noch manuell korrigiert werden: „Er liebt es, Kaffe ohne Zucker zu trinken.”)</message>
@@ -38133,7 +38133,7 @@ Andere Projekte</example>
             </antipattern>
             <pattern>
                 <token postag='VER:.*' postag_regexp='yes'><exception>mal</exception></token>
-                <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|endlich</token>
+                <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich</token>
                 <marker>
                     <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
                 </marker>
@@ -39136,7 +39136,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                     <token skip="-1"><exception scope="next" postag="VER.*[1-3].*" postag_regexp="yes"/></token>
-                    <token skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token skip="-1" regexp="yes">a(ls|nstatt|ußer|usser)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -39154,7 +39154,7 @@ Andere Projekte</example>
                     <token skip="-1">sowohl</token>
                     <token>als</token>
                     <token>auch</token>
-                    <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
+                    <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" regexp="yes">noch|mehr</token>
@@ -39182,7 +39182,7 @@ Andere Projekte</example>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
                         <exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     </marker>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
@@ -39201,7 +39201,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                     <token skip="-1"><exception scope="next" postag="VER.*[1-3].*" postag_regexp="yes"/></token>
-                    <token  skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -39218,7 +39218,7 @@ Andere Projekte</example>
                     <token skip="-1">sowohl</token>
                     <token>als</token>
                     <token>auch</token>
-                    <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
+                    <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
                     <token>noch</token>
@@ -39231,7 +39231,7 @@ Andere Projekte</example>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
                         <exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token  skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     </marker>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </pattern>
@@ -39247,7 +39247,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|aber</exception>
                     </token>
-                    <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
+                    <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
                     <token>als</token>
@@ -39272,7 +39272,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                    <token  skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"><exception regexp="yes">essen|trinken</exception></token>
                     </marker>
@@ -39293,7 +39293,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|aber</exception>
                        </token>
-                    <token regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um</token>
+                    <token regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
@@ -39311,7 +39311,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                    <token  skip="-1" regexp="yes">a(ls|nstatt|ußer)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                    <token  skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                     </marker>
                     <token>
@@ -39401,20 +39401,20 @@ Andere Projekte</example>
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
                     <token postag="PRO:.+|EIG:.+" postag_regexp="yes"/>
-                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">,|;|:|-|–|—</token>
                     <token/>
-                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token/>
-                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
+                    <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                     <token regexp="yes">\.|\?|!|:|nicht</token>
                 </antipattern>
                 <antipattern>
@@ -39511,7 +39511,7 @@ Andere Projekte</example>
                     <token skip= "-1" regexp="yes">„|»|«|"</token>
                     <marker>
                     <token regexp="yes">“|»|«|"<exception scope="previous">,</exception></token>
-                    <token inflected="yes" regexp="yes">fragen|sagen|erzählen|behaupten|erwidern|antworten|entgegnen|gestehen|versichern|bekennen|äußern|bemerken|erwähnen|rufen|schreien|brüllen|warnen|kommandieren|befehlen|bitten|betteln|flehen|klagen|winseln|wimmern|jammern|beschwören|stöhnen|flüstern|wispern|raunen|murmeln|brummen|loben|tadeln</token>
+                    <token inflected="yes" regexp="yes">fragen|sagen|erzählen|behaupten|erwidern|antworten|entgegnen|gestehen|versichern|bekennen|äußern|äussern|bemerken|erwähnen|rufen|schreien|brüllen|warnen|kommandieren|befehlen|bitten|betteln|flehen|klagen|winseln|wimmern|jammern|beschwören|stöhnen|flüstern|wispern|raunen|murmeln|brummen|loben|tadeln</token>
 <!--                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>     -->
                     </marker>
                 </pattern>
@@ -39726,7 +39726,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|aber|denn|doch</exception>
                        </token>
-                    <token regexp="yes">nur|auch|selbst|aber|außer|schon</token>
+                    <token regexp="yes">nur|auch|selbst|aber|außer|ausser|schon</token>
                     <token skip="-1">wenn</token>
                     </marker>
                 </pattern>
@@ -39743,7 +39743,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
-                    <token regexp="yes">anstatt|ohne|so(ndern)?|außer|nicht</token>
+                    <token regexp="yes">anstatt|ohne|so(ndern)?|außer|ausser|nicht</token>
                     <token skip="-1">dass</token>
                     </marker>
                 </pattern>
@@ -39760,11 +39760,11 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
-                    <token regexp="yes">anstatt|ohne|so(ndern)?|außer|nicht</token>
+                    <token regexp="yes">anstatt|ohne|so(ndern)?|außer|ausser|nicht</token>
                     <token>dass</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">nur|auch|selbst|aber|außer|schon</token>
+                    <token regexp="yes">nur|auch|selbst|aber|außer|ausser|schon</token>
                     <token>wenn</token>
                 </antipattern>
                 <antipattern>
@@ -40469,7 +40469,7 @@ Andere Projekte</example>
         <rulegroup id="KOMMA_NACH_INFINITIVGRUPPEN_OPT" name="Optional: Komma nach Infinitivgruppen" default="off">
             <rule>
                 <antipattern>
-                    <token skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                     <token>zu</token>
                     <token postag="VER:INF.*" postag_regexp="yes"/>
                 </antipattern>
@@ -40503,7 +40503,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token skip="-1" regexp="yes">als|anstatt|außer|ohne|statt|um</token>
+                    <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um</token>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -40721,7 +40721,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
@@ -40909,7 +40909,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>frei</token>
-                    <token case_sensitive="yes" inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schaufeln|kämpfen|legen|kratzen|räumen</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schiessen|schaufeln|kämpfen|legen|kratzen|räumen</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
@@ -41327,7 +41327,7 @@ Andere Projekte</example>
                 <token postag="SENT_START"/>
                 <token min="0" regexp="yes">„|“|»|«|"</token>
                 <marker>
-                <token skip="-1" regexp="yes">aber|allerdings|also?|andererseits|anschließend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|ehe?|entweder|falls|ferner|folglich|genauso|geschweige|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solange?|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar
+                <token skip="-1" regexp="yes">aber|allerdings|also?|andererseits|anschließend|anschliessend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|ehe?|entweder|falls|ferner|folglich|genauso|geschweige|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solange?|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar
                     <exception scope="next">,</exception>
                 </token>
                 </marker>
