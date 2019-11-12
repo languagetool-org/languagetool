@@ -28,12 +28,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 
@@ -44,8 +41,8 @@ public class SubjectVerbAgreementRuleTest {
 
   @BeforeClass
   public static void setUp() {
-    German german = new GermanyGerman();
-    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), german);
+    Language german = Languages.getLanguageForShortCode("de-DE");
+    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
     langTool = new JLanguageTool(german);
   }
 

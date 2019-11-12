@@ -29,8 +29,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.German;
 
 public class CaseRuleTest {
 
@@ -39,13 +40,13 @@ public class CaseRuleTest {
 
   @Before
   public void setUp() {
-    rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
-    lt = new JLanguageTool(new GermanyGerman());
+    rule = new CaseRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   }
 
   @Test
   public void testRuleActivation() {
-    assertTrue(rule.supportsLanguage(new GermanyGerman()));
+    assertTrue(rule.supportsLanguage(Languages.getLanguageForShortCode("de-DE")));
   }
 
   @Test

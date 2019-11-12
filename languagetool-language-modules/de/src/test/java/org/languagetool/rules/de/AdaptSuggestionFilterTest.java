@@ -20,11 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import org.languagetool.*;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
@@ -40,7 +36,7 @@ import static org.junit.Assert.*;
 public class AdaptSuggestionFilterTest {
 
   private final AdaptSuggestionFilter filter = new AdaptSuggestionFilter();
-  private final JLanguageTool lt = new JLanguageTool(new German());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
 
   @Ignore("for development")
   @Test

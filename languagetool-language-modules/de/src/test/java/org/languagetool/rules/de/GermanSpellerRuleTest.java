@@ -36,6 +36,7 @@ import java.util.stream.Stream;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
@@ -52,8 +53,8 @@ import morfologik.stemming.Dictionary;
 
 public class GermanSpellerRuleTest {
 
-  private static final GermanyGerman GERMAN_DE = new GermanyGerman();
-  private static final SwissGerman GERMAN_CH = new SwissGerman();
+  private static final GermanyGerman GERMAN_DE = (GermanyGerman) Languages.getLanguageForShortCode("de-DE");
+  private static final SwissGerman GERMAN_CH = (SwissGerman) Languages.getLanguageForShortCode("de-CH");
 
   //
   // NOTE: also manually run SuggestionRegressionTest when the suggestions are changing!
@@ -558,7 +559,7 @@ public class GermanSpellerRuleTest {
   // note: copied from HunspellRuleTest
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
-    AustrianGerman language = new AustrianGerman();
+    AustrianGerman language = (AustrianGerman) Languages.getLanguageForShortCode("de-AT");
     HunspellRule rule = new AustrianGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);
@@ -569,7 +570,7 @@ public class GermanSpellerRuleTest {
   // note: copied from HunspellRuleTest
   @Test
   public void testRuleWithSwissGerman() throws Exception {
-    SwissGerman language = new SwissGerman();
+    SwissGerman language = (SwissGerman) Languages.getLanguageForShortCode("de-CH");
     HunspellRule rule = new SwissGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);

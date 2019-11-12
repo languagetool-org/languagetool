@@ -32,9 +32,9 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 import morfologik.speller.Speller;
@@ -46,8 +46,8 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     MorfologikGermanyGermanSpellerRule rule =
-          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), new GermanyGerman(), null, Collections.emptyList());
-    JLanguageTool lt = new JLanguageTool(new German());
+          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), Languages.getLanguageForShortCode("de-DE"), null, Collections.emptyList());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Hir nicht so ganz.")).length);

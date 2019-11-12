@@ -24,14 +24,14 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 
 public class UppercaseSentenceStartRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     TestTools.disableAllRulesExcept(lt, "UPPERCASE_SENTENCE_START");
     
     assertEquals(2, lt.check("etwas beginnen. und der auch nicht").size());

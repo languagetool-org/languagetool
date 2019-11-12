@@ -25,8 +25,8 @@ import java.io.IOException;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Rule;
 
 /**
@@ -34,7 +34,7 @@ import org.languagetool.rules.Rule;
  */
 public class GermanParagraphRepeatBeginningRuleTest {
   
-  private final Language lang = new GermanyGerman();
+  private final Language lang = Languages.getLanguageForShortCode("de-DE");
 
   @Test
   public void testRule() throws IOException {
