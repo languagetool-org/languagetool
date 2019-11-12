@@ -30,7 +30,8 @@ import org.languagetool.rules.Rule;
  * @author Fred Kruse
  */
 public class GermanStyleRepeatedWordRuleTest {
-  Language lang = Languages.getLanguageForShortCode("de-DE");
+  
+  private Language lang = Languages.getLanguageForShortCode("de-DE");
 
   @Test
   public void testRule() throws IOException {
