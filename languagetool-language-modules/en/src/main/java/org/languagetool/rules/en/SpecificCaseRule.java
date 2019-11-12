@@ -20,9 +20,11 @@ package org.languagetool.rules.en;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -31,7 +33,26 @@ import java.util.*;
  */
 public class SpecificCaseRule extends Rule {
   
-  private static final Set<String> phrases = new HashSet<>(Arrays.asList("Harry Potter"));  // TODO: extend, read from external file
+  private static final Set<String> phrases = new HashSet<>(loadPhrases("/en/specific_case.txt"));
+  private static int maxLen;
+
+  private static List<String> loadPhrases(String path) {
+    List<String> l = new ArrayList<>();
+    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+    try (Scanner scanner = new Scanner(file, "UTF-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine().trim();
+        if (line.isEmpty() || line.startsWith("#")) {
+          continue;
+        }
+        int parts = line.split(" ").length;
+        maxLen = Math.max(parts, maxLen);
+        l.add(line.trim());
+      }
+    }
+    return l;
+  }
+
   private static final Map<String,String> lcToProperSpelling = new HashMap<>();
   static {
     for (String phrase : phrases) {
@@ -60,7 +81,6 @@ public class SpecificCaseRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> matches = new ArrayList<>();
-    int maxLen = 2; // TODO: length of the longest phrase
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
       List<String> l = new ArrayList<>();
