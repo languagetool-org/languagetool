@@ -54,7 +54,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   public void testCompoundFile() throws IOException {
     MorfologikPolishSpellerRule spellRule =
         new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish(), null, Collections.emptyList());
-    InputStream   file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
+    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
     try (Scanner scanner = new Scanner(file, "UTF-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
