@@ -13191,7 +13191,7 @@ USA
                     <token inflected="yes">be</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Always|Never</token>
                     <token>be</token>
                 </antipattern>
@@ -13199,6 +13199,13 @@ USA
                     <token>only</token>
                     <token regexp="yes">rarely|seldom|sometimes</token>
                     <token inflected="yes">be</token>
+                </antipattern>
+                <antipattern><!-- #1810 He'd never been responsible -->
+                    <token postag="PRP"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>d</token>
+                    <token min="1" max="2" postag="RB"/>
+                    <token>been</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
@@ -13218,6 +13225,9 @@ USA
                 <example>They always are.</example>
                 <example>Never be afraid of monsters!</example>
                 <example>Only rarely is the reader drawn directly into the ...</example>
+                <example>He'd never been responsible for this mess.</example><!--  #1810 -->
+                <example>Although I'd often been responsible for our office parties, I decided not to arrange one this year.</example><!-- #1810 -->
+                <example>Since she'd not often been to Paris, she didn't know it very well.</example><!-- #1810 -->
             </rule>
             <rule>
                 <antipattern>
