@@ -592,6 +592,44 @@ public class MissingCommaRelativeClauseRule extends Rule {
     }
     return -1;
   }
+  
+  /**
+   * checks if personal pronoun is singular or plural
+   * gives back null if token is not a  personal pronoun
+   */
+  private static String getSinOrPluOfPro(AnalyzedTokenReadings token) {
+    if(!token.hasPosTagStartingWith("PRO:PER:") && !token.hasPosTagStartingWith("IND:")) {
+      return null;
+    }
+    String ret = "";
+    int nMatches = 0;
+    if(token.matchesPosTagRegex(".*:SIN.*")) {
+      ret += "SIN";
+      nMatches++;
+    }
+    if(token.matchesPosTagRegex(".*:PLU.*")) {
+      if(!ret.isEmpty()) {
+        ret += "|";
+      }
+      ret += "PLU";
+      nMatches++;
+    }
+    if(nMatches > 1) {
+      ret = "(" + ret + ")";
+    }
+    return ret;
+  }
+  
+  private static boolean isVerbProPair(AnalyzedTokenReadings[] tokens, int n) {
+    String sinOrPlu = getSinOrPluOfPro(tokens[n+1]);
+    if(sinOrPlu == null) {
+      return false;
+    }
+    if(tokens[n].matchesPosTagRegex("VER:.*" + sinOrPlu + ".*")) {
+      return true;
+    }
+    return false;
+  }
       
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
@@ -613,10 +651,24 @@ public class MissingCommaRelativeClauseRule extends Rule {
         if(lastVerb > 0) {
           int nToken = missedCommaBehind(tokens, subInFront, subStart, subEnd);
           if( nToken > 0) {
-            RuleMatch match = new RuleMatch(this, sentence, tokens[nToken].getStartPos(), tokens[nToken + 1].getEndPos(), 
-                "Sollten Sie hier ein Komma einfügen?");
-            match.setSuggestedReplacement(tokens[nToken].getToken() + ", " + tokens[nToken + 1].getToken());
-            ruleMatches.add(match);
+            if(isVerbProPair(tokens, nToken)) {
+              RuleMatch match = new RuleMatch(this, sentence, tokens[nToken - 1].getStartPos(), tokens[nToken + 1].getEndPos(), 
+                  "Sollten Sie hier ein Komma einfügen oder zwei?");
+              List<String>suggestedReplacements = new ArrayList<String>();
+              suggestedReplacements.add(new String(tokens[nToken - 1].getToken() + ", "
+                                  + tokens[nToken].getToken() + " " + tokens[nToken + 1].getToken()) + ",");
+              suggestedReplacements.add(new String(tokens[nToken - 1].getToken() + " " 
+                                  + tokens[nToken].getToken() + " " + tokens[nToken + 1].getToken()) + ",");
+              suggestedReplacements.add(new String(tokens[nToken - 1].getToken() + " " 
+                                  + tokens[nToken].getToken() + ", " + tokens[nToken + 1].getToken()));
+              match.setSuggestedReplacements(suggestedReplacements);
+              ruleMatches.add(match);
+            } else {
+              RuleMatch match = new RuleMatch(this, sentence, tokens[nToken].getStartPos(), tokens[nToken + 1].getEndPos(), 
+                  "Sollten Sie hier ein Komma einfügen?");
+              match.setSuggestedReplacement(tokens[nToken].getToken() + ", " + tokens[nToken + 1].getToken());
+              ruleMatches.add(match);
+            }
           }
         }
         subInFront = subStart;
