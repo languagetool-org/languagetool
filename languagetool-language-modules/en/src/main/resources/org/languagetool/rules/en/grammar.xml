@@ -34122,6 +34122,21 @@ The accident victim died from her injuries.
             <example>I was asked <marker>by</marker> one of my friends…</example>
             <example>The reports were downloaded <marker>Buy_Sell_HPL_May_13_2000</marker>.</example>
         </rule>
+        <rule id="AN_A_PRIORY" name="a priory (a priori)" default="temp_off"><!-- https://github.com/languagetool-org/languagetool/issues/1412 -->
+            <pattern>
+                <token regexp="yes">an?|the</token>
+                <marker>
+                    <token>a</token>
+                    <token>priory</token>
+                </marker>
+            </pattern>
+            <message>Did you mean the Latin term <suggestion>a priori</suggestion>?</message>
+            <url>https://www.lexico.com/en/definition/a_priori</url>
+            <short>Possible typo</short>
+            <example correction="a priori">This is an <marker>a priory</marker> assumption.</example>
+            <example correction="a priori">Particle volume should not be treated as an a <marker>a priory</marker> given value.</example>
+            <example>This is an <marker>a priori</marker> assumption.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
