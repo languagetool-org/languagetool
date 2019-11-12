@@ -19,8 +19,9 @@
 package org.languagetool.rules.en;
 
 import org.junit.Test;
+import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.Languages;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class EnglishTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
     String s = "LanguageTool offers spell and grammar checking. Just paste your text here and click the 'Check Text' button. Click the colored phrases for details on potential errors. or use this text too see an few of of the problems that LanguageTool can detecd. What do you thinks of grammar checkers? Please not that they are not perfect. Style issues get a blue marker: It's 5 P.M. in the afternoon. The weather was nice on Thursday, 27 June 2017.";
-    AmericanEnglish lang = new AmericanEnglish();
+    Language lang = Languages.getLanguageForShortCode("en-US");
     testDemoText(lang, s,
       Arrays.asList("UPPERCASE_SENTENCE_START",
                     "TOO_TO",
