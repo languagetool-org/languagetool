@@ -19743,6 +19743,21 @@ USA
                     <token postag_regexp="yes" postag="VB(Z|D)?"/>
                     <token>you</token>
                 </antipattern>
+                <antipattern><!-- #2148 He sent you messages -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>you</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2148 giving you a heads up -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>you</token>
+                    <token postag="DT"/>
+                </antipattern>
+                <antipattern><!-- #2148 Missing you is -->
+                    <token postag="VBG"/>
+                    <token>you</token>
+                    <token postag="VBZ"/>
+                </antipattern>
                 <pattern>
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
@@ -19770,6 +19785,12 @@ USA
                 <example>Next to seeing you is the pleasure of seeing your handwriting.</example>
                 <example>The API I provided you is only useful for capturing.</example>
                 <example>The API I will provide you is great.</example>
+                <example>He sent you messages asking for help.</example><!-- #2148 -->
+                <example>I'm giving you a heads up.</example><!-- #2148. The noun 'heads up' is hyphenated [www.lexico.com/en/definition/heads-up], but that is a different problem. -->
+                <example>I'm asking you questions.</example><!-- #2148 -->
+                <example>Missing you is something I hate.</example><!-- #2148 -->
+                <example>The manager sent you messages asking for help.</example><!-- #2148 -->
+                <example>Loving you makes me happy.</example><!-- #2148 -->
             </rule>
             <rule>
                 <pattern>
