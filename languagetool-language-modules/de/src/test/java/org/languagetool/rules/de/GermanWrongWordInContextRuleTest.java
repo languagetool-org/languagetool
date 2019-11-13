@@ -25,7 +25,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 
 /**
  * @author Markus Brenneis
@@ -37,7 +37,7 @@ public class GermanWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new GermanyGerman());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     rule = new GermanWrongWordInContextRule(null);
   }
 

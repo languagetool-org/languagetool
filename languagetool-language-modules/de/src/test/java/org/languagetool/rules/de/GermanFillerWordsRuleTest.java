@@ -25,10 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Rule;
 
@@ -37,7 +34,7 @@ import org.languagetool.rules.Rule;
  */
 public class GermanFillerWordsRuleTest {
   
-  private final Language lang = new GermanyGerman();
+  private final Language lang = Languages.getLanguageForShortCode("de-DE");
 
   @Test
   public void testRule() throws IOException {

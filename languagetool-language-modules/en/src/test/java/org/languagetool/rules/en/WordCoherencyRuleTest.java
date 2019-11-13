@@ -29,13 +29,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.RuleMatch;
 
 public class WordCoherencyRuleTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
 
   @Before
   public void before() throws IOException {

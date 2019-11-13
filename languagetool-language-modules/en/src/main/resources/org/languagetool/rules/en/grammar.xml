@@ -8405,11 +8405,15 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="LOWERCASE_MONTHS" name="august (August)" default="temp_off">
+        <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
             <rule>
                 <antipattern>
                     <token>may</token>
                     <token postag="[RV]B.*|PRP.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>to</token>
+                    <token>march</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to</token>
@@ -8421,6 +8425,7 @@ USA
                 <example correction="August">My birthday is in <marker>august</marker>.</example>
                 <example>What I'm working on may have an impact on our success.</example>
                 <example>An electric blanket which is bunched up or even folded over itself and then turned on may easily catch fire since the heat cannot disperse.</example>
+                <example>Alexander tried to persuade his soldiers to march farther, but his general Coenus pleaded with him ...</example>
             </rule>
             <rule>
                 <pattern>
@@ -8594,7 +8599,7 @@ USA
             <example>It is <marker>on</marker> his father that he <marker>depends</marker>.</example>
             <example>They are important as pheromones, chemical messenger materials, <marker>on</marker> which insects <marker>depend</marker> for communication.</example>
         </rule>
-        <rule id="THANKS_IN_ADVANCED" name="Thanks in advanced (advance)" default="temp_off">
+        <rule id="THANKS_IN_ADVANCED" name="Thanks in advanced (advance)">
             <pattern>
                 <token regexp="yes">thanks?</token>
                 <token min="0">you</token>
@@ -11090,7 +11095,7 @@ USA
                 <example correction="double click">I believe so, since I also tried to open it with a <marker>double-click</marker>.</example>
                 <example correction="double clicks">My <marker>doubleclicks</marker> didn't open the folder.</example>
             </rule>
-            <rule default="temp_off"><!-- the bodypaint -->
+            <rule><!-- the bodypaint -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11118,7 +11123,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/announcement</url>
                 <example correction="announcement">The <marker>announce</marker> of his resign.</example>
             </rule>
-            <rule default="temp_off"><!-- the receive -->
+            <rule><!-- the receive -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11906,7 +11911,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="HARRY_POTTER" name="capitalization of 'Harry Potter'" default="temp_off">
+        <rule id="HARRY_POTTER" name="capitalization of 'Harry Potter'">
             <pattern case_sensitive="yes">
                 <token>harry</token>
                 <token>potter</token>
@@ -13191,7 +13196,7 @@ USA
                     <token inflected="yes">be</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Always|Never</token>
                     <token>be</token>
                 </antipattern>
@@ -13199,6 +13204,13 @@ USA
                     <token>only</token>
                     <token regexp="yes">rarely|seldom|sometimes</token>
                     <token inflected="yes">be</token>
+                </antipattern>
+                <antipattern><!-- #1810 He'd never been responsible -->
+                    <token postag="PRP"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>d</token>
+                    <token min="1" max="2" postag="RB"/>
+                    <token>been</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
@@ -13218,6 +13230,9 @@ USA
                 <example>They always are.</example>
                 <example>Never be afraid of monsters!</example>
                 <example>Only rarely is the reader drawn directly into the ...</example>
+                <example>He'd never been responsible for this mess.</example><!--  #1810 -->
+                <example>Although I'd often been responsible for our office parties, I decided not to arrange one this year.</example><!-- #1810 -->
+                <example>Since she'd not often been to Paris, she didn't know it very well.</example><!-- #1810 -->
             </rule>
             <rule>
                 <antipattern>
@@ -30014,7 +30029,11 @@ The accident victim died from her injuries.
                 <example>These are their best clothes.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AD_ADD" name="'ad' vs 'add'" default="temp_off">
+        <rulegroup id="AD_ADD" name="'ad' vs 'add'">
+            <antipattern>
+                <token>ad</token>
+                <token regexp="yes">hoc|hominem|lib|valorem</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
@@ -30036,6 +30055,37 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean the verb <suggestion>add</suggestion> instead of the noun '\2' (advertisement)?</message>
                 <example correction="add">They usually <marker>ad</marker> ketchup to their fries.</example>
+                <example>Early Christian period (ca. AD 325 to AD 800)</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">to|may</token>
+                    <token>AD</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">can(not)?|should|could|would|might|may|will|did|must|ll|d|to</token>
+                    <token min="0">not</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">ad</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>add</suggestion> instead of the noun '\2' (advertisement)?</message>
+                <example correction="add">I would <marker>ad</marker> a new one.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">can|shouldn|couldn|wouldn|won|didn|mustn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">ad</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>add</suggestion> instead of the noun '\2' (advertisement)?</message>
+                <example correction="add">I wouldn't <marker>ad</marker> a new one.</example>
             </rule>
         </rulegroup>
         <!-- they're|there own::word=their \1::pivots=\0,their::options=they're,there,their -->
@@ -34094,7 +34144,7 @@ The accident victim died from her injuries.
             <url>https://www.dictionary.com/browse/bar-b-que</url>
             <example correction="bar-b-que">A casual summer <marker>bar-b-queue</marker>.</example>
         </rule>
-        <rule id="VBN_BUY" name="buy (by)" default="temp_off"><!-- https://forum.languagetool.org/t/en-possible-new-rule/3004 -->
+        <rule id="VBN_BUY" name="buy (by)"><!-- https://forum.languagetool.org/t/en-possible-new-rule/3004 -->
             <pattern>
                 <token regexp="yes">is|was|are|were</token>
                 <token min="0" max="3" postag="RB"/>
@@ -34111,6 +34161,21 @@ The accident victim died from her injuries.
             <example correction="by|to buy">Torque converter engagement is commanded <marker>buy</marker> the PCM or TCM.</example>
             <example>I was asked <marker>by</marker> one of my friends…</example>
             <example>The reports were downloaded <marker>Buy_Sell_HPL_May_13_2000</marker>.</example>
+        </rule>
+        <rule id="AN_A_PRIORY" name="a priory (a priori)" default="temp_off"><!-- https://github.com/languagetool-org/languagetool/issues/1412 -->
+            <pattern>
+                <token regexp="yes">an?|the</token>
+                <marker>
+                    <token>a</token>
+                    <token>priory</token>
+                </marker>
+            </pattern>
+            <message>Did you mean the Latin term <suggestion>a priori</suggestion>?</message>
+            <url>https://www.lexico.com/en/definition/a_priori</url>
+            <short>Possible typo</short>
+            <example correction="a priori">This is an <marker>a priory</marker> assumption.</example>
+            <example correction="a priori">Particle volume should not be treated as an a <marker>a priory</marker> given value.</example>
+            <example>This is an <marker>a priori</marker> assumption.</example>
         </rule>
     </category>
 

@@ -21,8 +21,9 @@ package org.languagetool.rules.de;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class VerbAgreementRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(new GermanyGerman());
-    rule = new VerbAgreementRule(TestTools.getMessages("de"), new GermanyGerman());
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    rule = new VerbAgreementRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
   }
 
   @Test

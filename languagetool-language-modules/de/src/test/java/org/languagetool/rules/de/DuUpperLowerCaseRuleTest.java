@@ -28,14 +28,14 @@ import java.util.Collections;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 public class DuUpperLowerCaseRuleTest {
 
   private final DuUpperLowerCaseRule rule = new DuUpperLowerCaseRule(TestTools.getEnglishMessages());
-  private final JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
   @Test
   public void testRule() throws IOException {

@@ -1699,7 +1699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Spaße|Spasse</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion>Spaß</suggestion>?</message>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="e$" regexp_replace=""/></suggestion>?</message>
             <example correction="Spaß">Das Spiel macht mir viel <marker>Spaße</marker>.</example>
         </rule>
         <rulegroup id="GEGEN_GEGEBEN" name="'gegen (gegeben)'">
@@ -1971,7 +1971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">Umstände|Erscheinung(en)?|Bedingung(en)?</token>
             </pattern>
-            <message>Möglicher Tippfehler: Meinten Sie vielleicht <suggestion>äußeren</suggestion> oder <suggestion>äußere</suggestion>?</message>
+            <message>Möglicher Tippfehler: Meinten Sie vielleicht <suggestion><match no="1" regexp_match="ern" regexp_replace="eren"/></suggestion> oder <suggestion><match no="1" regexp_match="ern" regexp_replace="ere"/></suggestion>?</message>
             <short>Möglicher Tippfehler</short>
             <example correction="äußeren|äußere">... <marker>äußern</marker> Erscheinung ...</example>
             <example>Die <marker>äußeren</marker> Umstände waren geradezu katastrophal.</example>
@@ -15042,7 +15042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GEHIESSEN" name="'gehießen (geheißen)'">
             <regexp>(gehießen|gehiessen)</regexp>
-            <message>\1 ist umgangssprachlich.</message>
+            <message>'\1' ist umgangssprachlich.</message>
             <suggestion>geheißen</suggestion>
             <example correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
         </rule>
@@ -15051,7 +15051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">orangene[nrsm]</token>
                 </pattern>
-                <message>\1 ist umgangssprachlich. Standardsprachlich heißt es <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange$1" /></suggestion> oder <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange" /></suggestion>.</message>
+                <message>'\1' ist umgangssprachlich. Standardsprachlich heißt es <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange$1" /></suggestion> oder <suggestion><match no="1" regexp_match="orangene([nrs])" regexp_replace="orange" /></suggestion>.</message>
                 <url>https://www.duden.de/rechtschreibung/orange</url>
                 <short>Umgangssprache</short>
                 <example correction="oranges|orange">Ein <marker>orangenes</marker> Shirt</example>
@@ -15060,7 +15060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>orangene</token>
                 </pattern>
-                <message>\1 ist umgangssprachlich. Standardsprachlich heißt es <suggestion>orange</suggestion>.</message>
+                <message>'\1' ist umgangssprachlich. Standardsprachlich heißt es <suggestion>orange</suggestion>.</message>
                 <url>https://www.duden.de/rechtschreibung/orange</url>
                 <short>Umgangssprache</short>
                 <example correction="orange">Eine <marker>orangene</marker> Tischdecke</example>

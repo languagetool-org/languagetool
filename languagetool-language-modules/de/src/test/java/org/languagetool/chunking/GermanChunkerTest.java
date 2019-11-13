@@ -28,11 +28,11 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 
 public class GermanChunkerTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   private final GermanChunker chunker = new GermanChunker();
 
   @Test

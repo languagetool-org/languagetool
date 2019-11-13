@@ -27,8 +27,8 @@ import java.util.Collections;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 public class SimilarNameRuleTest {
@@ -36,7 +36,7 @@ public class SimilarNameRuleTest {
   @Test
   public void testRule() throws IOException {
     SimilarNameRule rule = new SimilarNameRule(TestTools.getEnglishMessages());
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Miller.", 1, rule, lt);
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Müllers Ehemann.", 0, rule, lt);
     assertErrors("Hier steht Angela Müller. Dann Mulla, nicht ähnlich genug.", 0, rule, lt);

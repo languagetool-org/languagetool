@@ -38,7 +38,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+import org.languagetool.tagging.en.EnglishHybridDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -148,7 +148,7 @@ public class English extends Language implements AutoCloseable {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new English());
+      disambiguator = new EnglishHybridDisambiguator();
     }
     return disambiguator;
   }
@@ -211,6 +211,7 @@ public class English extends Language implements AutoCloseable {
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         // specific to English:
+        new SpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),

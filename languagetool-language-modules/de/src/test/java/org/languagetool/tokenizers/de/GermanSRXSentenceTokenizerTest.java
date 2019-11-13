@@ -19,8 +19,8 @@
 package org.languagetool.tokenizers.de;
 
 import org.junit.Test;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 /**
@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class GermanSRXSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new GermanyGerman());
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Languages.getLanguageForShortCode("de-DE"));
 
   @Test
   public void testTokenize() {
