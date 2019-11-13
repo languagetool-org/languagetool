@@ -1160,6 +1160,22 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    <rulegroup id="INTRODUCE_ERRORS" name="add wrong readings for rules">
+        <rule>
+            <pattern>
+                <token postag=".*Noun:(Masc|Fem):Com:Pl.*" postag_regexp="yes" regexp="yes">[^ ]*[eéií][^aeiouáéíóú]+</token>
+                <marker><token postag="Adj:Com:NotSlen:Pl"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Com:Slender:Pl:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
+                <marker><token postag="Adj:Masc:Com:Sg"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Fem:Com:Sg:MorphErr"/></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="NOUN_ADJ" name="noun adj">
         <rule>
             <pattern>

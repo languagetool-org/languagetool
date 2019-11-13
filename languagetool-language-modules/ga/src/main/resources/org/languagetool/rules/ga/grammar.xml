@@ -8592,6 +8592,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='mhóra'>cúig pháirtí déag <marker>móra</marker></example>
             <example>cúig pháirtí déag mhóra</example>
         </rule>
+        <rule id="GAN_FIOS" name="gan fios">
+            <pattern>
+                <token>gan</token>
+                <marker>
+                    <token>fios</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion>fhios</suggestion></message>
+            <example correction='fhios'>gan <marker>fios</marker></example>
+        </rule>
         <rule id="AB_UNLENITEDF" name="ab Unlenited-F">
             <pattern>
                 <token postag="Cop.*" postag_regexp="yes">ab</token>
@@ -8742,6 +8752,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([f])(.*)" regexp_replace="$1h$2"/></suggestion></message>
             <example correction='fhada'>níorbh <marker>fada</marker></example>
         </rule>
+        <rule id="SAN_UNLENITEDF" name="san Unlenited-F">
+            <pattern>
+                <token>san</token>
+                <marker>
+                    <token regexp="yes">f[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([f])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='fhada'>san <marker>fada</marker></example>
+        </rule>
+        <rule id="SA_UNLENITEDBCFGMP" name="sa UNLENITEDBCFGMP">
+            <pattern>
+                <token>sa</token>
+                <marker>
+                    <token regexp="yes">&unlenitedbcfgmp;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([bcdfgmp])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='bhaile'>sa <marker>baile</marker></example>
+        </rule>
+        <rule id="UM_UNLENITEDCDFGST" name="um UNLENITEDCDFGST">
+            <pattern>
+                <token>um</token>
+                <marker>
+                    <token regexp="yes">&unlenitedcdfgst;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([cdfgst])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='charraig'>um <marker>carraig</marker></example>
+        </rule>
         <rule id="COS_BATA" name="cos bata">
             <pattern>
                 <token regexp="yes">g?ch?os</token>
@@ -8751,6 +8791,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([bcmp])(.*)" regexp_replace="$1h$2"/></suggestion></message>
             <example correction='phlaistigh'>cos <marker>plaistigh</marker></example>
+        </rule>
+        <rule id="MHIC_CAPITALUNLENITEDNOTCG" name="Mhic CAPITALUNLENITEDNOTCG">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">M[Hh][Ii][CcGg]</token>
+                <marker>
+                    <token regexp="yes">[BDFMPT][^Hh].*|S[lnraeiouáéíóúLNRAEIOUÁÉÍÓÚ].*|bhF.*</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="(?:bh)?([BDFMPTS])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='Mhíle'>Mhic <marker>Míle</marker></example>
+            <example correction='Fhéile'>Mhig <marker>bhFéile</marker></example>
         </rule>
         <rule id="GO_DTI_AN_ECLTAG" name="go dtí an ECL">
             <pattern>
@@ -8886,7 +8937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CHUIG_AN_NMCS_ADJ" name="chuig an NOUN ADJ">
             <pattern>
-                <token>chuig</token>
+                <token regexp="yes">chuig|ag|ar|as|dar|ionsar|leis|roimh|thar|tríd|um</token>
                 <token>an</token>
                 <token postag=".*Noun:Masc:Com:Sg.*" postag_regexp="yes"></token>
                 <marker>
@@ -8895,6 +8946,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Séimhiú ar iarraidh: <suggestion><match no="4" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='mhór'>chuig an fear <marker>mór</marker></example>
+        </rule>
+        <rule id="ON_NMCS_ADJ" name="ón NOUN ADJ">
+            <pattern>
+                <token>ón</token>
+                <token postag=".*Noun:Masc:Com:Sg.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <example correction='mhór'>ón fear <marker>mór</marker></example>
         </rule>
         <!--
         <rule id="NMGS_ADJunlen" name="fhir móir">
@@ -8924,10 +8986,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag=".*Noun.*Pl.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;</token>
                 <marker>
-                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                    <token postag="Adj:Com:Slender:Pl:MorphErr"><exception postag=".*:Len" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="(.*):(.*):MorphErr" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='bhochta'>béil <marker>bochta</marker>.</example>
             <example>caoirigh bochta.</example>
             <example>Mhair cuid mhór dár sinsir céad caoga bliain ó shin.</example>
@@ -9526,10 +9588,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
                 <marker>
-                    <token postag=".*Adj.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                    <token postag=".*Adj:Fem:Com:Sg:MorphErr" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*):MorphErr" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
             <example correction='cheannasach'>Tá sé riachtanach ar mhaithe le feidhmiú an phlean a bheidh ceaptha ag an eagraíocht
  <marker>ceannasach</marker>.</example>
             <example correction="mhór">bó <marker>mór</marker></example>
