@@ -250,7 +250,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
-        lines.add(line);
+        lines.add(line.replaceFirst("#.*", "").trim());
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
