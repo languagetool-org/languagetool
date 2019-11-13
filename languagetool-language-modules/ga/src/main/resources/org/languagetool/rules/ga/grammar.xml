@@ -3043,11 +3043,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag='Prep:Simp'>i</token>
                     <marker>
-                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes">[bcdfgmpst].*
+                          <exception regexp='yes'>.*:Ecl$</exception></token>
                     </marker>
                 </pattern>
                 <message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
                 <example correction="bpáirc">i <marker>páirc</marker></example>
+                <example>I measc na mbailte eile a...</example>
             </rule>
             <rule>
                 <pattern>
@@ -5149,11 +5151,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(dh?)athannaí" regexp_replace="$1athanna"/></suggestion></message>
             <example correction="dathanna"><marker>dathannaí</marker></example>
         </rule>
-        <rule id="SNA" name="sna">
+        <rule id="SNA" name="sna" default='off'>
+        <!-- XXX default='off' because it produces ubiquituous matches in RTÉ and it is validated in teanglann.ie
+                 reactivate with an URL that explains why it is an outdated form -->
             <pattern>
                     <token>sna</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>de na</suggestion></message>
+            <url>https://www.teanglann.ie/en/fgb/i</url>
             <example correction="de na"><marker>sna</marker></example>
         </rule>
         <rule id="NDEAG" name="ndéag">
@@ -5775,7 +5780,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAIDIR" name="maidir">
             <antipattern>
                 <token>maidir</token>
-                <token>le</token>
+                <token regexp='yes'>le(?:is)?</token> <!-- https://en.wiktionary.org/wiki/leis -->
             </antipattern>
             <pattern>
                     <token>maidir</token>
@@ -11342,11 +11347,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='dteach'>sula <marker>teach</marker></example>
             </rule>
         </rulegroup>
-        <rule id="A_VERB" name="a VERB">
+        <rule id="A_VERB" name="a VERB" default='off'><!-- TODO Re-activate after fix-->
             <pattern>
                 <token>a</token>
                 <marker>
-                    <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    <token postag=".*Verb.*" postag_regexp="yes">
+                        <!--exception postag="Noun:.*" postag_regexp="yes"/>
+                        < XXX without this it causes ubiquituous falses positives in a + VERB (consonant + h + rest of it) -->
+                        <exception postag=".*:Ecl" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
