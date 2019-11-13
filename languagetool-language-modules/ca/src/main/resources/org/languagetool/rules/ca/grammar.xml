@@ -9234,7 +9234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                 </pattern>
-                <message>Val més canviar la preposició o bé canviar l’infinitiu per un gerundi.</message>
+                <message>Val més canviar la preposició o bé canviar l'infinitiu per un gerundi.</message>
                 <suggestion>a</suggestion>
                 <suggestion>de</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
@@ -9255,7 +9255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                 </pattern>
-                <message>Val més canviar la preposició o bé canviar l’infinitiu per un gerundi.</message>
+                <message>Val més canviar la preposició o bé canviar l'infinitiu per un gerundi.</message>
                 <suggestion>de</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
                 <short>Canvi de preposició</short>
@@ -9734,7 +9734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>fins</token>
                     <token postag="DA.*" postag_regexp="yes" regexp="yes">els?</token>
                 </pattern>
-                <message>Correcte si vol dir "fins i tot"; si no, comproveu si s’hi ha de posar <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>.</message>
+                <message>Correcte si vol dir "fins i tot"; si no, comproveu si s'hi ha de posar <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>.</message>
                 <example correction="Fins al"><marker>Fins el</marker> mes que ve.</example>
                 <example correction="Fins als"><marker>Fins els</marker> últims dies.</example>
                 <example>No arribarà fins l'endemà.</example>
@@ -9748,7 +9748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="DA.*" postag_regexp="yes" regexp="yes">la|les|l'</token>
                     <token><exception>endemà</exception></token>
                 </pattern>
-                <message>Correcte si vol dir "fins i tot"; si no, comproveu si s’hi ha de posar <suggestion>fins a</suggestion>.</message>
+                <message>Correcte si vol dir "fins i tot"; si no, comproveu si s'hi ha de posar <suggestion>fins a</suggestion>.</message>
                 <example correction="Fins a"><marker>Fins</marker> l'últim dia.</example>
                 <example>No arribarà fins l'endemà.</example>
                 <example>No arribarà fins a l'endemà.</example>
@@ -17232,10 +17232,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>alhora</token>
                 </marker>
                 <token inflected="yes">de</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
+                <or>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">classe|tutoria|matemàtic|llengua|català|castellà|espanyol|anglès|francès|alemany|ciència|biologia|química|física|religió|educació</token>
+                </or>
             </pattern>
-            <message>¿Volíeu dir <suggestion>a l'hora</suggestion> en comptes de "alhora" (=al mateix temps)?</message>
+            <message>¿Volíeu dir <suggestion>a l'hora</suggestion> (=en el moment) en comptes de "alhora" (=al mateix temps)?</message>
             <example correction="A l'hora"><marker>Alhora</marker> de donar els resultats.</example>
+            <example correction="A l'hora"><marker>Alhora</marker> de tutoria el tutor no hi era.</example>
+            <example correction="A l'hora"><marker>Alhora</marker> de matemàtiques ja no hi havia ningú.</example>
         </rule>
         <rulegroup id="PRESA_PRESSA" name="presa/pressa">
             <rule>
@@ -26833,7 +26838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
             <rule>  <!-- Caldria separar l'ús d'hores (h) -->
                 <regexp>\b([\d., ]*\d)[&espais;]*[º°][&espais;]*([\d., ]*\d)[&espais;]*["'′`][&espais;]*([\d., ]*\d)[&espais;]*["'′`][&espais;]*</regexp>
-                <message>Símbols de graus, minuts i segons d’angle pla.</message>
+                <message>Símbols de graus, minuts i segons d'angle pla.</message>
                 <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
                 <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
                 <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
@@ -26843,7 +26848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>\b([\d., ]*\d)[&espais;]*[º°][&espais;]*([\d., ]*\d)[&espais;]*["'`]</regexp>
-                <message>Símbols de graus i minuts d’angle pla.</message>
+                <message>Símbols de graus i minuts d'angle pla.</message>
                 <suggestion>\1°&#8239;\2′</suggestion>
                 <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
                 <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
@@ -26853,7 +26858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>\b([\d., ]*\d)[&espais;]*["'′`][&espais;]*([\d., ]*\d)[&espais;]*["'′`]</regexp>
-                <message>Símbols de minuts i segons d’angle pla.</message>
+                <message>Símbols de minuts i segons d'angle pla.</message>
                 <suggestion>\1′&#8239;\2″</suggestion>
                 <example correction="29,1′&#8239;49″"><marker>29,1' 49"</marker>.</example>
                 <example correction="29′&#8239;49″"><marker>29' 49 '</marker>.</example>
@@ -33484,7 +33489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>grosso</token>
                 <token>modo</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>grosso modo</suggestion>? Recordeu que les expressions llatines s’han d’escriure preferiblement amb lletra cursiva.</message>
+            <message>¿Volíeu dir <suggestion>grosso modo</suggestion>? Recordeu que les expressions llatines s'han d'escriure preferiblement amb lletra cursiva.</message>
             <example correction="grosso modo"><marker>a grosso modo</marker></example>
             <example>grosso modo</example>
         </rule>
@@ -34423,7 +34428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">status|estatu|estatus|statu</token>
                 <token regexp="yes">quo|cuo</token>
             </pattern>
-            <message>Ortografia incorrecta. Recordeu que les expressions llatines s’han d’escriure preferiblement amb lletra cursiva.</message>
+            <message>Ortografia incorrecta. Recordeu que les expressions llatines s'han d'escriure preferiblement amb lletra cursiva.</message>
             <suggestion>statu quo</suggestion>
             <example correction="statu quo">Volien canviar l'<marker>status quo</marker>.</example>
             <example>Canviem l'statu quo.</example>
