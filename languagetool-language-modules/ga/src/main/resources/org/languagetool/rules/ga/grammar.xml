@@ -8792,6 +8792,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="([bcmp])(.*)" regexp_replace="$1h$2"/></suggestion></message>
             <example correction='phlaistigh'>cos <marker>plaistigh</marker></example>
         </rule>
+        <rule id="MHIC_CAPITALUNLENITEDNOTCG" name="Mhic CAPITALUNLENITEDNOTCG">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">M[Hh][Ii][CcGg]</token>
+                <marker>
+                    <token regexp="yes">[BDFMPT][^Hh].*|S[lnraeiouáéíóúLNRAEIOUÁÉÍÓÚ].*|bhF.*</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú ar iarraidh: <suggestion><match no="2" regexp_match="(?:bh)?([BDFMPTS])(.*)" regexp_replace="$1h$2"/></suggestion></message>
+            <example correction='Mhíle'>Mhic <marker>Míle</marker></example>
+            <example correction='Fhéile'>Mhig <marker>bhFéile</marker></example>
+        </rule>
         <rule id="GO_DTI_AN_ECLTAG" name="go dtí an ECL">
             <pattern>
                 <token>go</token>
