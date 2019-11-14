@@ -11845,6 +11845,42 @@ USA
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="APPLE_PRODUCTS" name="Apple product names" default="temp_off">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[A-Z].+</token>
+                    <token regexp="yes">[A-Z].+</token>
+                </antipattern>
+                <pattern>
+                    <token>apple</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps</token>
+                </pattern>
+                <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Apple</token>
+                    <token regexp="yes">TV|ID</token>
+                </antipattern>
+                <pattern>
+                    <token>apple</token>
+                    <token regexp="yes">tv|id</token>
+                </pattern>
+                <message>Did you mean the proper noun <suggestion>Apple TV</suggestion>?</message>
+                <example correction="Apple TV">He's using his <marker>apple tv</marker> for streaming Netflix.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">apple</token>
+                    </marker>
+                    <token regexp="yes">headquarters?|employees?|founders?|software|hardware|germany|devices?|stores|smartphone|cell|technology|retail|app|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividend|events?|emails?|education</token>
+                </pattern>
+                <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
+                <example correction="Apple">He's an <marker>apple</marker> employee.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
             <rule>
                 <pattern>
