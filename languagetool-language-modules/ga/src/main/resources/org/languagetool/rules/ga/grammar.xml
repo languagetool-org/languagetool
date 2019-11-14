@@ -9858,8 +9858,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='mhóra'>ceithre bhád déag <marker>móra</marker></example>
         </rule>
         <rule id="CUIG_NOUN" name="cúig NOUN">
+            <antipattern>
+                <token regexp="yes">(?:gc|ch|c)úig</token>
+                <token regexp="yes">bliana|cinn|cloigne|cuarta|fichid|pingine|seachtaine|troithe</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">g?ch?úig</token>
+                <token regexp="yes">(?:gc|ch|c)úig</token>
                 <marker>
                     <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
                 </marker>
@@ -9891,6 +9895,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='mhóra'>cúig bhád déag <marker>móra</marker></example>
         </rule>
         <rule id="SE_NOUN" name="sé NOUN">
+            <antipattern>
+                <token regexp="yes">sh?é</token>
+                <token regexp="yes">bliana|cinn|cloigne|cuarta|fichid|pingine|seachtaine|troithe</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">sh?é</token>
                 <marker>
