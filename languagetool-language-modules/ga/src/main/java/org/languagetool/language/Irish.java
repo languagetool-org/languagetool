@@ -39,7 +39,7 @@ import org.languagetool.tagging.disambiguation.ga.IrishHybridDisambiguator;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.ga.IrishWordTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 public class Irish extends Language implements AutoCloseable {
 
@@ -147,7 +147,7 @@ public class Irish extends Language implements AutoCloseable {
   @Override
   public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
-      wordTokenizer = new IrishWordTokenizer();
+      wordTokenizer = new WordTokenizer();
     }
     return wordTokenizer;
   }
