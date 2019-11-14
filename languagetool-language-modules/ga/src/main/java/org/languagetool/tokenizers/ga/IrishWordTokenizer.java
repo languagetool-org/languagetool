@@ -27,6 +27,7 @@ package org.languagetool.tokenizers.ga;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.tagging.ga.Utils;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
@@ -85,6 +86,8 @@ public class IrishWordTokenizer extends WordTokenizer {
           // words containing hyphen (-) are looked up in the dictionary
           if (!speller.isMisspelled(s)) {
             l.add(s);
+          } else if(hyphenBeginning(s)) {
+            l.add(s);
           } else {
             // if not found, the word is split
             final StringTokenizer st2 = new StringTokenizer(s, "-", true);
@@ -95,6 +98,24 @@ public class IrishWordTokenizer extends WordTokenizer {
         }
       }
       return l;
+    }
+  }
+
+  private boolean hyphenBeginning(String s) {
+    String lc = s.toLowerCase();
+    if(s.length() < 3) {
+      return false;
+    }
+    if(lc.startsWith("t-s")) {
+      return true;
+    } else if(lc.startsWith("n-") && Utils.isLowerVowel(lc.charAt(2))) {
+      return true;
+    } else if(lc.startsWith("t-") && Utils.isLowerVowel(lc.charAt(2))) {
+      return true;
+    } else if(lc.startsWith("h-") && Utils.isLowerVowel(lc.charAt(2))) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
