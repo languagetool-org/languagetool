@@ -1180,18 +1180,42 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    <rule id="T_HYPHEN" name="t-">  <!-- suppress in word spell checker -->
+        <pattern>
+            <marker><token>t</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóúsl].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="H_HYPHEN" name="h-">  <!-- suppress in word spell checker -->
+        <pattern>
+            <marker><token>h</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóú].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="N_HYPHEN" name="n-">  <!-- suppress in word spell checker -->
+        <pattern>
+            <marker><token>n</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóú].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule id="ARGOS_LTD" name="Argos Ltd">
-	<pattern>
-	    <marker><token>Argos</token></marker>
+        <pattern>
+            <marker><token>Argos</token></marker>
             <token>Ltd</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
     <rule id="PICTIURLANN_SAVOY" name="pictiúrlann an Savoy">
-	<pattern>
+    	<pattern>
             <token>pictúirlann</token>
             <token min="0">an</token>
-	    <marker><token>Savoy</token></marker>
+	        <marker><token>Savoy</token></marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>
