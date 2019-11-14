@@ -115,13 +115,13 @@ public class CaseRule extends Rule {
     ),
     // company names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade"),
+      regex("Digital|Global|Smart|International|Trade|Private"),
       pos("UNKNOWN")
     ),
     // company names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade")
+      regex("Digital|Global|Smart|International|Trade|Private")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
