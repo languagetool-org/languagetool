@@ -6555,6 +6555,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wie kann Maria es wagen, das gleiche Kleid wie ich zu besitzen!</example>
                 <example>Können Sie es einrichten, das Manuskript bis Freitag fertigzustellen?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="KON:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token skip="-1" min="0"/>
+                    <token>,</token>
+                    <marker>
+                        <token skip="-1">das
+                            <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                    </marker>
+                    <token postag="SUB:NOM.*|EIG:NOM.*|PRO:PER.*|UNKNOWN" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)?</message>
+                <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example correction="dass">Am Zeichnen war interessant, <marker>das</marker> ich immer Katastrophen gezeichnet habe.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="dass/das">
             <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
