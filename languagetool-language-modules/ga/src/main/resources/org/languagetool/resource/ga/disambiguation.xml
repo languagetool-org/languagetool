@@ -1081,14 +1081,24 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="RTE_PONC_IE" name="rte.ie">  <!-- suppress in spell checker/capital -->
-        <pattern>
-            <marker><token>rte</token></marker>
-            <token spacebefore="no">.</token>
-            <token spacebefore="no">ie</token>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
+    <rulegroup id="RTE_PONC_IE" name="rte.ie">  <!-- suppress in spell checker/capital -->
+        <rule>
+            <pattern>
+                <marker><token>rte</token></marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">ie</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>rte</token>
+                <token spacebefore="no">.</token>
+                <marker><token spacebefore="no">ie</token></marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
     <rule id="AR_AR" name="ar ar">  <!-- suppress in word repeat rule -->
         <pattern>
             <marker><token>ar</token></marker>
@@ -1180,7 +1190,7 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
-    <rule id="T_HYPHEN" name="t-">  <!-- suppress in word spell checker -->
+    <rule id="T_HYPHEN" name="t-">  <!-- suppress in spell checker -->
         <pattern>
             <marker><token>t</token></marker>
             <token spacebefore="yes">-</token>
@@ -1188,7 +1198,7 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
-    <rule id="H_HYPHEN" name="h-">  <!-- suppress in word spell checker -->
+    <rule id="H_HYPHEN" name="h-">  <!-- suppress in spell checker -->
         <pattern>
             <marker><token>h</token></marker>
             <token spacebefore="yes">-</token>
@@ -1196,7 +1206,7 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
-    <rule id="N_HYPHEN" name="n-">  <!-- suppress in word spell checker -->
+    <rule id="N_HYPHEN" name="n-">  <!-- suppress in spell checker -->
         <pattern>
             <marker><token>n</token></marker>
             <token spacebefore="yes">-</token>
