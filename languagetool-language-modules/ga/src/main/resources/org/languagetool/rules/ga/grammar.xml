@@ -3043,11 +3043,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag='Prep:Simp'>i</token>
                     <marker>
-                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes"><exception postag=".*:Ecl.*" postag_regexp="yes"/>[bcdfgmpst].*</token>
                     </marker>
                 </pattern>
                 <message>Ba chóir duit <suggestion><match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion> a scríobh.</message>
                 <example correction="bpáirc">i <marker>páirc</marker></example>
+                <example>I measc na mbailte eile a...</example>
             </rule>
             <rule>
                 <pattern>
@@ -5149,12 +5150,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion><match no="1" regexp_match="(dh?)athannaí" regexp_replace="$1athanna"/></suggestion></message>
             <example correction="dathanna"><marker>dathannaí</marker></example>
         </rule>
-        <rule id="SNA" name="sna">
+        <rule id="DE_SNA" name="sna">
             <pattern>
-                    <token>sna</token>
+                <token>de</token>
+                <token>sna</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>de na</suggestion></message>
-            <example correction="de na"><marker>sna</marker></example>
+            <example correction="de na"><marker>de sna</marker></example>
         </rule>
         <rule id="NDEAG" name="ndéag">
             <pattern>
@@ -5775,13 +5777,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAIDIR" name="maidir">
             <antipattern>
                 <token>maidir</token>
-                <token>le</token>
+                <token inflected="yes">le</token>
             </antipattern>
             <pattern>
                     <token>maidir</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>maidir le</suggestion> de ghnáth</message>
             <example correction="maidir le"><marker>maidir</marker></example>
+            <example>maidir liom féin</example>
+            <example>Galair in-tarchurtha ainmhithe -- rialacha maidir lena gcosc agus lena rialú</example>
         </rule>
         <rule id="THAR_MAOIL" name="thar maoil">
             <antipattern>
@@ -11342,15 +11346,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='dteach'>sula <marker>teach</marker></example>
             </rule>
         </rulegroup>
-        <rule id="A_VERB" name="a VERB">
+        <rule id="A_VERB" name="a VERB" default='off'>
+            <antipattern>
+                <token>a</token>
+                <token postag=".*Verb.*:Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag=".*Verb.*:Len.*" postag_regexp="yes"></token>
+            </antipattern>
+            <!-- TODO: needs proper disambiguation of 'a' to really be effective -->
             <pattern>
                 <token>a</token>
                 <marker>
-                    <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:(Ecl|Len).*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='gcantar'>a <marker>cantar</marker></example>
+            <example>an áit a fuarthas</example>
+            <example>a chanann</example>
         </rule>
         <rule id="AN_VERB" name="an VERB">
             <antipattern>
