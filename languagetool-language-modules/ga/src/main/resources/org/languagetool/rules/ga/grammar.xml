@@ -11347,6 +11347,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="A_VERB" name="a VERB" default='off'><!-- TODO Re-activate after fix-->
+            <antipattern>
+                <token>a</token>
+                <token postag=".*Verb.*:Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <marker>
@@ -11358,6 +11362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <example correction='gcantar'>a <marker>cantar</marker></example>
+            <example>an áit a fuarthas</example>
         </rule>
         <rule id="AN_VERB" name="an VERB">
             <antipattern>
