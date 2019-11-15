@@ -471,6 +471,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[pP]upatät", "Pubertät");
     put("überwendet", "überwindet");
     put("[bB]esichtung", "Besichtigung");
+    put("[hH]ell?owi[eh]?n", "Halloween");
+    put("geschmelt?zt", "geschmolzen");
+    put("gewunschen", "gewünscht");
+    put("bittete", "bat");
+    putRepl("[uU]nfär(e[mnrs]?)?", "fär", "fair");
+    putRepl("[mM]edikatös(e[mnrs]?)?", "ka", "kamen");
     putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
     putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
     putRepl("[äÄ]rtlich(e[mnrs]?)?", "rt", "rzt");
