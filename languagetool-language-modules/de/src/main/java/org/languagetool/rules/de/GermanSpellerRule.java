@@ -414,7 +414,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Gallop", "Galopp");
     put("Stop", "Stopp");
     put("Schertz", "Scherz");
-    put("dreiundhalb", "dreieinhalb");
     put("geschied", "geschieht");
     put("Aku", "Akku");
     put("Migrationspackt", "Migrationspakt");
@@ -471,6 +470,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[pP]upatät", "Pubertät");
     put("überwendet", "überwindet");
     put("[bB]esichtung", "Besichtigung");
+    putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
     putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
     putRepl("[äÄ]rtlich(e[mnrs]?)?", "rt", "rzt");
     putRepl("[sS]chnelligkeitsfehler[ns]?", "[sS]chnell", "Flücht");
