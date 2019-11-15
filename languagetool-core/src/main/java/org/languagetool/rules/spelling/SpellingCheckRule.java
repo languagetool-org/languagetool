@@ -78,7 +78,6 @@ public abstract class SpellingCheckRule extends Rule {
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final UserConfig userConfig;
-  private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
   private final List<RuleWithLanguage> altRules;
 
@@ -88,6 +87,7 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
+  protected final Set<String> wordsToBeIgnored = new HashSet<>();
   protected int ignoreWordsWithLength = 0;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
