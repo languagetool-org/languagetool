@@ -54,6 +54,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </unification>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
         <rule id="MIN_MESES" name="Meses en minúscula">
+            <antipattern>
+                <token>Julio</token>
+                <token regexp="yes">Iglesias|C[eé]sar|Cort[aá]zar|Jones|Arce</token>
+            </antipattern>
+            <antipattern>
+                <token>Dos</token>
+                <token>de</token>
+                <token>Mayo</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
