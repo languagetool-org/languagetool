@@ -404,6 +404,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
     assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
     assertFirstSuggestion("zweiundhalb", "zweieinhalb", rule, lt);
+    assertFirstSuggestion("unfäre", "unfaire", rule, lt);
+    assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
   }
 
   @Test
