@@ -12,11 +12,17 @@
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
+#### Danish
+  * corrections are now offered for spell check errors 
+
 #### Dutch
   * added and improved rules
 
 #### English
   * added and improved rules
+
+#### Esperanto
+  * corrections are now offered for spell check errors 
 
 #### French
   * improved rules
