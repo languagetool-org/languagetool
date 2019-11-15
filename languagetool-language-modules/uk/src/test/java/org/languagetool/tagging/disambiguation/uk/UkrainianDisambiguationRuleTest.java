@@ -35,17 +35,15 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.uk.SimpleDisambiguator.TokenMatcher;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
-public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
+public class UkrainianDisambiguationRuleTest {
   
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;

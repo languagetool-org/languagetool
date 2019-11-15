@@ -24,13 +24,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.pl.PolishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class PolishDisambiguationRuleTest extends DisambiguationRuleTest {
+public class PolishDisambiguationRuleTest {
       
     private PolishTagger tagger;
     private WordTokenizer tokenizer;

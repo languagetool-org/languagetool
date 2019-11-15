@@ -21,6 +21,7 @@ package org.languagetool;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +42,11 @@ public class LanguageSpecificTest {
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
     countTempOffRules(lang);
+    try {
+      new DisambiguationRuleTest().testDisambiguationRulesFromXML();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();

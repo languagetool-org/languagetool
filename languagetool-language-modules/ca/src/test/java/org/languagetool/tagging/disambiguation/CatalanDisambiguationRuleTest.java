@@ -24,13 +24,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
-public class CatalanDisambiguationRuleTest extends DisambiguationRuleTest {
+public class CatalanDisambiguationRuleTest {
       
   private CatalanTagger tagger;
   private CatalanWordTokenizer tokenizer;
