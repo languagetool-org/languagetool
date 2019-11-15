@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.CharacterCodingException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,10 +38,11 @@ final class RareWordsFinder {
 
   private static final String dictInClassPath = "/en/hunspell/en_US.dict";
   
-  private final Hunspell hunspell;
+  private final Hunspell.Dictionary hunspellDict;
   
   private RareWordsFinder(String hunspellBase) throws IOException {
-    hunspell = new Hunspell(Paths.get(hunspellBase + ".dic"), Paths.get(hunspellBase + ".aff"));
+    Hunspell hunspell = Hunspell.getInstance();
+    hunspellDict = hunspell.getDictionary(hunspellBase);
   }
   
   private void run(File input, int minimum) throws FileNotFoundException, CharacterCodingException {
@@ -60,7 +60,7 @@ final class RareWordsFinder {
             boolean isMisspelled = speller.isMisspelled(word);
             if (!isMisspelled) {
               //List<String> suggestions = speller.getSuggestions(word);  // seems to work only for words that are actually misspellings
-              List<String> suggestions = hunspell.suggest(word);
+              List<String> suggestions = hunspellDict.suggest(word);
               suggestions.remove(word);
               if (suggestionsMightBeUseful(word, suggestions)) {
                 System.out.println(word + "\t" + count + " -> " + String.join(", ", suggestions));
