@@ -403,6 +403,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("einbandfreier", "einwandfreier", rule, lt);
     assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
     assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
+    assertFirstSuggestion("zweiundhalb", "zweieinhalb", rule, lt);
   }
 
   @Test
