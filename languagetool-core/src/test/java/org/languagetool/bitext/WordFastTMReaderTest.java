@@ -33,12 +33,6 @@ import static org.junit.Assert.assertTrue;
 public class WordFastTMReaderTest {
 
   @Test
-  public void testInfo() {
-    // help debug hunspell issue on Travis
-    System.getProperties().list(System.out);
-  }
-  
-  @Test
   public void testReader() throws Exception {
     // Create a simple WordFast text memory.
     File input = File.createTempFile("input", ".txt");  
