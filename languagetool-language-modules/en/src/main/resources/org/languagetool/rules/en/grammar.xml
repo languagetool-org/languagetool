@@ -4199,6 +4199,25 @@ USA
             <example>They could predict which islands would become vulnerable with warming, and which ones might become better habitats.</example>
             <example>... nameless citizens who are separated from loved ones in other towns.</example>
         </rule>
+        <rule id="PRESIDENTS_DAY_APOSTROPHE" name="missing apostrophe in 'Presidents Day'" default="temp_off">
+            <pattern>
+                <token>presidents</token>
+                <token>day</token>
+            </pattern>
+            <message>It appears that a possesive apostrophe is missing, if you mean the legal holiday <suggestion>Presidents' Day</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/Presidents%27%20Day</url>
+            <example correction="Presidents' Day">Schools are closed during <marker>Presidents Day</marker>.</example>
+        </rule>
+        <rule id="INTERNATIONAL_WORKERS_DAY_APOSTROPHE" name="missing apostrophe in 'International Workers Day'" default="temp_off">
+            <pattern>
+                <token>international</token>
+                <token>workers</token>
+                <token>day</token>
+            </pattern>
+            <message>It appears that a possesive apostrophe is missing, if you mean the legal holiday <suggestion>International Workers' Day</suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/International_Workers%27_Day</url>
+            <example correction="International Workers' Day">Schools are closed during <marker>International Workers Day</marker>.</example>
+        </rule>
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <antipattern><!-- Applicable to rules 1 and 2. I did not find a dictionary reference, but the terms are on many tennis websites. -->
                 <token regexp="yes">singles|doubles</token>
@@ -18077,7 +18096,7 @@ USA
                         <exception regexp="yes" scope="next">ago|now</exception>
                     </token>
                 </pattern>
-                <message>It seems that a possesive apostrophe is missing.</message>
+                <message>It seems that a possessive apostrophe is missing.</message>
                 <suggestion>\1 <match no="2" regexp_match="(?i)s" regexp_replace="'s" /></suggestion>
                 <suggestion>these \2</suggestion>
                 <example correction="This year's|These years"><marker>This years</marker> election will change everything.</example>
@@ -21626,6 +21645,34 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="2-door">He drives a <marker>2 door</marker> coupé.</example>
         </rule>
+        <rulegroup id="STORY_HYPHEN" name="missing hyphen in '10 story window'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token regexp="yes">story|floor</token>
+                    </marker>
+                    <token min="0" />
+                    <token regexp="yes">window|plan|rentals?|unit|(tree|town|ware)?houses?|duplex|garages?|houses?|advertisement|ad|buildings?|bldgs?|porch|skyscrapers?|slide|mansions?|apartments?|airplanes?|towers?|sheds?|office|homes?|bookstores?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="10-story">Violent Affair guitarist falls out of <marker>10 story</marker> building.</example>
+            </rule>
+        </rulegroup>
+        <rule id="FOUR_SEASON_HYPHEN" name="missing hyphen in '4 season tent'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">4|four|all</token>
+                    <token>season</token>
+                </marker>
+                <token min="0" />
+                <token regexp="yes">porch(es)?|rooms?|tents?|gloves?|tires?|storage|tickets?</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
+        </rule>
         <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'">
             <antipattern>
                 <token postag="CD" />
@@ -21801,8 +21848,8 @@ USA
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|semester</token>
-                <token regexp="yes">\d+</token>
-                <token>student</token>
+                <token regexp="yes">\d{1,2}</token>
+                <token regexp="yes">student|curriculum</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
                 <token regexp="yes">level|tier|unit</token>
@@ -21813,6 +21860,15 @@ USA
                 <token postag="CD"/>
                 <token>page</token>
                 <token>survey</token>
+            </antipattern>
+            <antipattern><!-- 404 error -->
+                <token regexp="yes">\d{3}</token>
+                <token>error</token>
+            </antipattern>
+            <antipattern>
+                <token>door</token>
+                <token>2</token>
+                <token>door</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Root_canal_treatment -->
                 <token>canal</token>
@@ -21930,7 +21986,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -21940,7 +21996,7 @@ USA
                         <exception regexp="yes">will|year|so|pst</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -22035,6 +22091,9 @@ USA
             <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
             <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
             <example>You two hurry up.</example><!--  #2005 -->
+            <example>Our new 404 error page</example>
+            <example>We meet on the usual 9 pm slot.</example>
+            <example>I'm transferring 150 pax to your account.</example><!-- pax is a crypto currency -->
             <example>A level 7 diploma is a vocational certification focused on professional skills.</example>
             <example>Of those 1,839 buses 416 run on compressed natural gas.</example><!-- Better to put a comma before 'run', but that is a different problem. -->
             <example>Of your 9 questions 8 show a complete lack of understanding.</example>
