@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -50,26 +50,26 @@ public class PatternTokenTest {
   public void testUnknownTag() {
     PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
-    
+
     PatternToken patternToken2 = new PatternToken("", false, false, false);
     patternToken2.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, true));
 
     PatternToken patternToken3 = new PatternToken("", false, false, false);
     patternToken3.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, false));
-    
+
     PatternToken patternToken4 = new PatternToken("", false, false, false);
     patternToken4.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, true));
-    
+
     PatternToken patternToken5 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken5.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
-    
+
     AnalyzedToken an = new AnalyzedToken("schword", null, null);
     assertTrue(patternToken.isMatched(an));
     assertFalse(patternToken2.isMatched(an));
     assertTrue(patternToken3.isMatched(an));
     assertFalse(patternToken4.isMatched(an));
     assertTrue(patternToken5.isMatched(an));
-    
+
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     an.setNoPOSTag(false);
@@ -78,22 +78,22 @@ public class PatternTokenTest {
     assertFalse(patternToken3.isMatched(an));
     assertTrue(patternToken4.isMatched(an));
     assertFalse(patternToken5.isMatched(an));
-    
+
     AnalyzedToken anSentEnd = new AnalyzedToken("schword", SENTENCE_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anSentEnd));
     assertFalse(patternToken2.isMatched(anSentEnd));
     assertTrue(patternToken3.isMatched(anSentEnd));
     assertFalse(patternToken4.isMatched(anSentEnd));
     assertTrue(patternToken5.isMatched(anSentEnd));
-    
+
     PatternToken patternToken6 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken6.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME, false, false));
     assertTrue(patternToken6.isMatched(anSentEnd));
-    
+
     PatternToken patternToken7 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken7.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME + "|BLABLA", true, false));
     assertTrue(patternToken7.isMatched(anSentEnd));
-    
+
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     anSentEnd.setNoPOSTag(false);
@@ -102,14 +102,14 @@ public class PatternTokenTest {
     assertFalse(patternToken3.isMatched(anSentEnd));
     assertTrue(patternToken4.isMatched(anSentEnd));
     assertFalse(patternToken5.isMatched(anSentEnd));
-    
+
     AnalyzedToken anParaEnd = new AnalyzedToken("schword", PARAGRAPH_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anParaEnd));
     assertFalse(patternToken2.isMatched(anParaEnd));
     assertTrue(patternToken3.isMatched(anParaEnd));
     assertFalse(patternToken4.isMatched(anParaEnd));
     assertTrue(patternToken5.isMatched(anParaEnd));
-    
+
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     anParaEnd.setNoPOSTag(false);
@@ -118,7 +118,7 @@ public class PatternTokenTest {
     assertFalse(patternToken3.isMatched(anParaEnd));
     assertTrue(patternToken4.isMatched(anParaEnd));
     assertFalse(patternToken5.isMatched(anParaEnd));
-    
+
     AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
     assertFalse(patternToken.isMatched(anWithPOS));
     assertTrue(patternToken2.isMatched(anWithPOS));
@@ -126,5 +126,28 @@ public class PatternTokenTest {
     assertTrue(patternToken4.isMatched(anWithPOS));
     assertFalse(patternToken5.isMatched(anWithPOS));
   }
-  
+
+  @Test
+  public void testNegation() {
+
+    PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the").negate().build();
+    assertTrue(token.getNegation());
+
+    token = new PatternTokenBuilder().tokenRegex("an?|the").build();
+    assertFalse(token.getNegation());
+
+    token = new PatternTokenBuilder().pos("NNS").negate().build();
+    assertTrue(token.getNegation());
+
+    token = new PatternTokenBuilder().pos("NNS").build();
+    assertFalse(token.getNegation());
+
+    token = new PatternTokenBuilder().token("text").negate().build();
+    assertTrue(token.getNegation());
+
+    token = new PatternTokenBuilder().token("text").build();
+    assertFalse(token.getNegation());
+
+  }
+
 }
