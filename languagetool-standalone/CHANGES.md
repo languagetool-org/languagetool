@@ -13,7 +13,9 @@
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
 #### Danish
-  * corrections are now offered for spell check errors 
+  * corrections are now offered for spell check errors
+  * updated spell checker to version 2.4 (2018-04-15)
+    (source: https://extensions.libreoffice.org/extensions/stavekontrolden-danish-dictionary) 
 
 #### Dutch
   * added and improved rules
