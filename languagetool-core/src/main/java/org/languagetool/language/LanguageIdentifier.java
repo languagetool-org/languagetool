@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
+import com.optimaize.langdetect.cybozu.util.Messages;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
@@ -102,6 +103,7 @@ public class LanguageIdentifier {
         .build();
       textObjectFactory = new TextObjectFactoryBuilder()
         .maxTextLength(10000)
+        // note: keep these in sync with if(fasttextEnabled) in detectLanguage:
         .withTextFilter(UrlTextFilter.getInstance())
         .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
         .withTextFilter(new RemoveEMailSignatureFilter())
@@ -199,11 +201,15 @@ public class LanguageIdentifier {
         preferredLangs + ". Use 'preferredVariants' to specify variants");
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    shortText = textObjectFactory.forText(shortText).toString();
     shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
+        // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
+        // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
+        shortText = UrlTextFilter.getInstance().filter(shortText);
+        shortText = new RemoveEMailSignatureFilter().filter(shortText);
+        shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores = runFasttext(shortText, noopLangs);
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
@@ -244,6 +250,7 @@ public class LanguageIdentifier {
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
+      shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
       if (noopLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);

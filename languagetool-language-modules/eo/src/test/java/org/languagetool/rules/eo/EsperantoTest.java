@@ -33,7 +33,7 @@ public class EsperantoTest extends LanguageSpecificTest {
     String s = "Algluu vian kontrolendan tekston ĉi tie... Aŭ nur kontrolu ĉi tiun ekzemplon. Ĉu vi vi rimarkis, ke estas gramatikaj eraro en tiu frazo? Rimarku, ke Lingvoilo ankaux atentigas pri literumaj erraroj kiel ĉi-tiu.";
     Esperanto lang = new Esperanto();
     testDemoText(lang, s,
-      Arrays.asList("WORD_REPEAT_RULE", "NEKONG_NOMBR", "X_SISTEMO", "HUNSPELL_NO_SUGGEST_RULE", "CXI_TIU")
+      Arrays.asList("WORD_REPEAT_RULE", "NEKONG_NOMBR", "X_SISTEMO", "HUNSPELL_RULE", "CXI_TIU")
     );
     runTests(lang);
   }

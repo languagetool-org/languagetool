@@ -12,11 +12,17 @@
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
+#### Danish
+  * corrections are now offered for spell check errors 
+
 #### Dutch
   * added and improved rules
 
 #### English
   * added and improved rules
+
+#### Esperanto
+  * corrections are now offered for spell check errors 
 
 #### French
   * improved rules
@@ -42,6 +48,10 @@
     `isCaseSensitive()` and have it return `true`. (Issue #2051)
     
 #### Internal
+  * The internal hunspell has been updated from 1.3 to 1.7, now using
+    https://gitlab.com/dumonts/hunspell-java as the project providing the bindings.
+    For Portuguese, this speeds up generating suggestions for misspellings by
+    a factor of about 3 (but it's still slow compared to Morfologik).
   * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
     turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
   * Many external dependencies have been updated to new versions

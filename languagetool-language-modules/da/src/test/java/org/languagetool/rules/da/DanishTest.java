@@ -33,7 +33,7 @@ public class DanishTest extends LanguageSpecificTest {
     String s = "Indsæt din egen tekst her , eller brug denne tekst for at se nogle af de fejl LanguageTool fanger. vær opmærksom på at den langtfra er er perfect, men skal være en hjælp til at få standartfejl frem i lyset.";
     Danish lang = new Danish();
     testDemoText(lang, s,
-      Arrays.asList("COMMA_PARENTHESIS_WHITESPACE", "UPPERCASE_SENTENCE_START", "Ordgentagelse", "HUNSPELL_NO_SUGGEST_RULE", "standart_standard")
+      Arrays.asList("COMMA_PARENTHESIS_WHITESPACE", "UPPERCASE_SENTENCE_START", "Ordgentagelse", "HUNSPELL_RULE", "standart_standard")
     );
     runTests(lang);
   }

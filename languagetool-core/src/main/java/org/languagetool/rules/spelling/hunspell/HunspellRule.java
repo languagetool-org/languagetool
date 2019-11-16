@@ -27,12 +27,9 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.ResourceBundle;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -73,7 +70,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected final SuggestionsOrderer suggestionsOrderer;
   protected boolean needsInit = true;
-  protected Hunspell.Dictionary hunspellDict = null;
+  protected Hunspell hunspell = null;
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
@@ -144,7 +141,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (needsInit) {
       init();
     }
-    if (hunspellDict == null) {
+    if (hunspell == null) {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
@@ -299,7 +296,7 @@ public class HunspellRule extends SpellingCheckRule {
       }
       return (
               isAlphabetic && !"--".equals(word)
-              && (hunspellDict != null && hunspellDict.misspelled(word))
+              && (hunspell != null && !hunspell.spell(word))
               && !ignoreWord(word)
              )
              || isProhibited(cutOffDot(word));
@@ -312,7 +309,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (needsInit) {
       init();
     }
-    return hunspellDict.suggest(word);
+    return hunspell.suggest(word);
   }
 
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
@@ -370,20 +367,33 @@ public class HunspellRule extends SpellingCheckRule {
     String shortDicPath = getDictFilenameInResources(langCountry);
     String wordChars = "";
     // set dictionary only if there are dictionary files:
+    Path affPath = null;
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
       String path = getDictionaryPath(langCountry, shortDicPath);
       if ("".equals(path)) {
-        hunspellDict = null;
+        hunspell = null;
       } else {
-        hunspellDict = Hunspell.getInstance().getDictionary(path);
+        affPath = Paths.get(path + ".aff");
+        hunspell = Hunspell.getInstance(Paths.get(path + ".dic"), affPath);
         addIgnoreWords();
       }
     } else if (new File(shortDicPath + ".dic").exists()) {
       // for dynamic languages
-      hunspellDict = Hunspell.getInstance().getDictionary(shortDicPath);
+      affPath = Paths.get(shortDicPath + ".aff");
+      hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
-    if (hunspellDict != null && !hunspellDict.getWordChars().isEmpty()) {
-      wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
+    if (affPath != null) {
+      Scanner sc = new Scanner(affPath);
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
+        if (line.startsWith("WORDCHARS ")) {
+          String wordCharsFromAff = line.substring("WORDCHARS ".length());
+          //System.out.println("#" + wordCharsFromAff+ "#");
+          wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
+          break;
+        }
+      }
+      
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;
@@ -395,13 +405,13 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void addIgnoreWords() throws IOException {
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOLER);
+    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOL);
+    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOLER);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
     List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
       if (!ignoreLine.startsWith("#")) {
-        hunspellDict.addWord(ignoreLine);
+        wordsToBeIgnored.add(ignoreLine);
       }
     }
   }
