@@ -29,6 +29,10 @@
 #### French
   * improved rules
 
+#### Khmer
+  * updated spell checker to version 1.82 (2015-10-23)
+    (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
+
 #### Greek
   * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
 
