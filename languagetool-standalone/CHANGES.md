@@ -28,6 +28,8 @@
 
 #### French
   * improved rules
+  * updated spell checker (Grammalecte·dic/Dicollecte) to version 6.4.1 (2019-04-05)
+    (source: https://grammalecte.net/download.php?prj=fr)
 
 #### Khmer
   * updated spell checker to version 1.82 (2015-10-23)
