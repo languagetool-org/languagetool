@@ -102,7 +102,7 @@ public class SubjectVerbAgreementRule extends Rule {
     ),
     Arrays.asList(
       pos("KON:UNT"),
-      new PatternTokenBuilder().csToken("sie").setSkip(3).build(),
+      new PatternTokenBuilder().token("sie").setSkip(3).build(),
       tokenRegex("sind|waren")
     ),
     Arrays.asList( //Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.
