@@ -30,6 +30,10 @@
 #### Greek
   * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
 
+#### Swedish
+  * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
+    (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
+
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
     has been removed. It hadn't been maintained for years and didn't work properly
