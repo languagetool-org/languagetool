@@ -225,6 +225,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
     put("weibt", "weißt");
+    put("Mamma", "Mama");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
@@ -266,7 +267,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Letze[mnrs]?", "Letz", "Letzt");
     putRepl("[nN]i[vw]os?", "[nN]i[vw]o", "Niveau");
     putRepl("[dD]illetant(en)?", "[dD]ille", "Dilet");
-    putRepl("Makeups?", "up", "-up");
     putRepl("Frauenhofer-(Institut|Gesellschaft)", "Frauen", "Fraun");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Addons?", "on", "-on");
