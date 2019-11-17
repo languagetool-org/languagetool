@@ -32076,6 +32076,53 @@ Andere Projekte</example>
                 <example correction="Check-outs">Während des <marker>Check-Outs</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="START_UP" name="'Start-up'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Start</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Start-<match no="2" case_conversion="alllower" /></suggestion> (= junges Unternehmen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Start_up</url>
+                <example correction="Start-up">Sein <marker>Start Up</marker> machte bereits mehrere Millionen Umsatz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Startups?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="Startup" regexp_replace="Start-up" /></suggestion> (= junges Unternehmen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Start_up</url>
+                <example correction="Start-up">Sie heuerte bei einem <marker>Startup</marker> an.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Start-?Ups?</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="1" regexp_match="(?i)start-?up" regexp_replace="Start-up" /></suggestion> (= junges Unternehmen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Start_up</url>
+                <example correction="Start-ups">Er gründete mehrere <marker>Start-Ups</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="E_AUTO" name="E-Auto/E-Mobilität" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>e</token>
+                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">E-[A-Z].+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
+            </rule>
+        </rulegroup>
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="'seit/nach/... des (dem)'">
           <rule>
