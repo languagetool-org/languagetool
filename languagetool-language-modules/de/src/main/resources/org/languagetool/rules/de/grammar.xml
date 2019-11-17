@@ -6568,6 +6568,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>dass</token>
                     <token>.</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>,</token>
+                    <token>dass</token>
+                    <token regexp="yes">[a-z]</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
                 <antipattern>
                     <token>,</token>
                         <token skip="-1">dass
@@ -6582,7 +6588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token>dass</token>
                 </antipattern>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token skip="-1" postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|PRO:.*SIN.*NEU.*" postag_regexp="yes"/>
                     <token>,</token>
                     <marker>
@@ -6597,6 +6603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="das">Er hat kein Stück geschrieben, <marker>dass</marker> nicht erfolgreich wurde.</example>
                 <example>Er sagt, <marker>dass</marker> er sie liebt.</example>
                 <example>Das Mädchen sagte, dass nur reden hilft und nicht betrügen.</example>
+                <example>Es ging viel mehr darum, dass u. a. „ansässige“ 2mal vorkommt.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
