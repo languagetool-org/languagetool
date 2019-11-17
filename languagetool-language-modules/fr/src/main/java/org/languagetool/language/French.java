@@ -107,7 +107,7 @@ public class French extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, false),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{" /*"«", "‘"*/),
