@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -45,6 +44,8 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.JLanguageTool.*;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -126,7 +127,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     //lazy init
     if (speller1 == null) {
       String binaryDict = null;
-      if (JLanguageTool.getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
+      if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
         binaryDict = getFileName();
       }
       if (binaryDict != null) {
@@ -185,17 +186,22 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   private void initSpeller(String binaryDict) throws IOException {
-    String plainTextDict = null;
+    List<String> plainTextDicts = new ArrayList<>();
     String languageVariantPlainTextDict = null;
-    if (getSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
-      plainTextDict = getSpellingFileName();
+    if (getSpellingFileName() != null && getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
     }
-    if (getLanguageVariantSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 1);
-    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 2);
-    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 3);
+    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1);
+    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2);
+    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3);
     setConvertsCase(speller1.convertsCase());
   }
 
