@@ -2,13 +2,6 @@
 
 ## 4.8-SNAPSHOT (release planned for 2019-12-27)
 
-#### French
-  * updated part-of-speech dictionaries to dicollecte-6.4.1
-    (https://github.com/languagetool-org/languagetool/pull/1963)
-
-#### German
-  * added and improved rules
-
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
@@ -30,13 +23,18 @@
   * improved rules
   * updated spell checker (Grammalecte·dic/Dicollecte) to version 6.4.1 (2019-04-05)
     (source: https://grammalecte.net/download.php?prj=fr)
+  * updated part-of-speech dictionaries to dicollecte-6.4.1
+    (https://github.com/languagetool-org/languagetool/pull/1963)
+
+#### German
+  * added and improved rules
+
+#### Greek
+  * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
 
 #### Khmer
   * updated spell checker to version 1.82 (2015-10-23)
     (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
-
-#### Greek
-  * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
 
 #### Swedish
   * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
@@ -73,7 +71,7 @@
     a factor of about 3 (but it's still slow compared to Morfologik).
   * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
     turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
-  * Many external dependencies have been updated to new versions
+  * Many external dependencies have been updated to new versions.
 
 
 
