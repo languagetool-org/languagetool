@@ -4199,7 +4199,7 @@ USA
             <example>They could predict which islands would become vulnerable with warming, and which ones might become better habitats.</example>
             <example>... nameless citizens who are separated from loved ones in other towns.</example>
         </rule>
-        <rule id="PRESIDENTS_DAY_APOSTROPHE" name="missing apostrophe in 'Presidents Day'" default="temp_off">
+        <rule id="PRESIDENTS_DAY_APOSTROPHE" name="missing apostrophe in 'Presidents Day'">
             <pattern>
                 <token>presidents</token>
                 <token>day</token>
@@ -4208,7 +4208,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/Presidents%27%20Day</url>
             <example correction="Presidents' Day">Schools are closed during <marker>Presidents Day</marker>.</example>
         </rule>
-        <rule id="INTERNATIONAL_WORKERS_DAY_APOSTROPHE" name="missing apostrophe in 'International Workers Day'" default="temp_off">
+        <rule id="INTERNATIONAL_WORKERS_DAY_APOSTROPHE" name="missing apostrophe in 'International Workers Day'">
             <pattern>
                 <token>international</token>
                 <token>workers</token>
@@ -11904,10 +11904,13 @@ USA
                     <marker>
                         <token case_sensitive="yes">apple</token>
                     </marker>
-                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividend|events?|emails?|education</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token min="0">s</token>
+                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividend|events?|emails?|education</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
+                <example correction="Apple">And <marker>apple</marker>'s revenue is still increasing.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
@@ -11989,11 +11992,11 @@ USA
         <rule id="ROYAL_MAIL" name="royal mail (Royal Mail)">
             <antipattern>
                 <token case_sensitive="yes">Royal</token>
-                <token case_sensitive="yes" regexp="yes">Mail|Canin|Bank</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z].+</token>
             </antipattern>
             <pattern>
                 <token>royal</token>
-                <token regexp="yes">mail|canin|bank</token>
+                <token regexp="yes">mail|canin|bank|navy|ballet|army</token>
             </pattern>
             <message>The proper noun <suggestion>Royal <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
             <example correction="Royal Mail">The <marker>royal mail</marker> is a postal service and courier company in the United Kingdom.</example>
@@ -12091,7 +12094,7 @@ USA
         </rule>
         <rule id="AFRO_AMERICAN_HYPHEN" name="missing hyphen in 'Afro American'">
             <pattern>
-                <token>afro</token>
+                <token regexp="yes">afro|african</token>
                 <token regexp="yes">americans?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
@@ -21654,7 +21657,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="2-door">He drives a <marker>2 door</marker> coupé.</example>
         </rule>
-        <rulegroup id="STORY_HYPHEN" name="missing hyphen in '10 story window'" default="temp_off">
+        <rulegroup id="STORY_HYPHEN" name="missing hyphen in '10 story window'">
             <rule>
                 <pattern>
                     <marker>
@@ -21669,7 +21672,7 @@ USA
                 <example correction="10-story">Violent Affair guitarist falls out of <marker>10 story</marker> building.</example>
             </rule>
         </rulegroup>
-        <rule id="FOUR_SEASON_HYPHEN" name="missing hyphen in '4 season tent'" default="temp_off">
+        <rule id="FOUR_SEASON_HYPHEN" name="missing hyphen in '4 season tent'">
             <pattern>
                 <marker>
                     <token regexp="yes">4|four|all</token>
