@@ -36,6 +36,8 @@ import static org.languagetool.tools.StringTools.isEmpty;
  */
 public class CommaWhitespaceRule extends Rule {
 
+	private boolean quotesWhitespaceCheck;
+
   /** @since 3.3 */
   public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages);
@@ -44,6 +46,12 @@ public class CommaWhitespaceRule extends Rule {
     if (incorrectExample != null && correctExample != null) {
       addExamplePair(incorrectExample, correctExample);
     }
+    this.quotesWhitespaceCheck = true;
+  }
+
+  public CommaWhitespaceRule(ResourceBundle messages, boolean quotesWhitespace) {
+	  this(messages, null, null);
+	  this.quotesWhitespaceCheck = quotesWhitespace;
   }
 
   /**
@@ -51,7 +59,9 @@ public class CommaWhitespaceRule extends Rule {
    */
   public CommaWhitespaceRule(ResourceBundle messages) {
     this(messages, null, null);
+    this.quotesWhitespaceCheck = true;
   }
+
 
   @Override
   public String getId() {
@@ -76,8 +86,7 @@ public class CommaWhitespaceRule extends Rule {
     boolean prevWhite = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      boolean isWhitespace = (tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-          || tokens[i].isFieldCode()) && !token.equals("\u200B");
+      boolean isWhitespace = isWhitespaceToken(tokens[i]);
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
@@ -86,8 +95,12 @@ public class CommaWhitespaceRule extends Rule {
           msg = messages.getString("no_space_after");
           suggestionText = prevToken;
         }
+      } else if (isWhitespace && isQuote(prevToken) && this.quotesWhitespaceCheck && prevPrevToken.equals(" ")) {
+      	  msg = messages.getString("no_space_around_quotes");
+          suggestionText = "";
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
-          && !isQuoteOrHyphenOrComma(token)
+          && !isQuote(token)
+          && !isHyphenOrComma(token)
           && !containsDigit(prevPrevToken)
           && !containsDigit(token)
           && !",".equals(prevPrevToken)) {
@@ -133,12 +146,28 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static boolean isQuoteOrHyphenOrComma(String str) {
+  private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {
+	  return (   token.isWhitespace()
+			  || StringTools.isNonBreakingWhitespace(token.getToken())
+			  || token.isFieldCode()) && !token.equals("\u200B");
+  }
+
+  private static boolean isQuote(String str) {
+	    if (str.length() == 1) {
+	      char c = str.charAt(0);
+	      if (c =='\'' || c == '"' || c =='’'
+	          || c == '”' || c == '“'
+	          || c == '«'|| c == '»') {
+	        return true;
+	      }
+	    }
+	    return false;
+  }
+
+  private static boolean isHyphenOrComma(String str) {
     if (str.length() == 1) {
       char c = str.charAt(0);
-      if (c =='\'' || c == '-' || c == '”'
-          || c =='’' || c == '"' || c == '“'
-          || c == ','|| c == '»') {
+      if ( c == '-' || c == ',') {
         return true;
       }
     }
