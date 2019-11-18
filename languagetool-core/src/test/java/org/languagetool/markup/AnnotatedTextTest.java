@@ -43,17 +43,17 @@ public class AnnotatedTextTest {
     assertThat(text.getGlobalMetaData(AnnotatedText.MetaDataKey.EmailToAddress, "xxx"), is("Foo Bar <foo@foobar.org>"));
     assertThat(text.getGlobalMetaData(AnnotatedText.MetaDataKey.DocumentTitle, "default-title"), is("default-title"));
     assertThat(text.getPlainText(), is("hello user!"));
-    assertThat(text.getOriginalTextPositionFor(0), is(0));
-    assertThat(text.getOriginalTextPositionFor(5), is(5));
-    assertThat(text.getOriginalTextPositionFor(6), is(9));
-    assertThat(text.getOriginalTextPositionFor(7), is(10));
+    assertThat(text.getOriginalTextPositionFor(0, false), is(0));
+    assertThat(text.getOriginalTextPositionFor(5, false), is(5));
+    assertThat(text.getOriginalTextPositionFor(6, false), is(9));
+    assertThat(text.getOriginalTextPositionFor(7, false), is(10));
 
     // Example:
     // hello user!
     //        ^ = position 8
     // hello <b>user!</b>
     //           ^ = position 11
-    assertThat(text.getOriginalTextPositionFor(8), is(11));
+    assertThat(text.getOriginalTextPositionFor(8, false), is(11));
   }
 
   @Test
