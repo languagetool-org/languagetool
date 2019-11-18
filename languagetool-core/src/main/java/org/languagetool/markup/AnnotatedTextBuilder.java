@@ -113,10 +113,7 @@ public class AnnotatedTextBuilder {
   public AnnotatedText build() {
     int plainTextPosition = 0;
     int totalPosition = 0;
-    Map<Integer, Integer> mapping = new HashMap<>();
-    mapping.put(0, 0);
-
-
+    Map<Integer, MappingValue> mapping = new HashMap<>();
     for (int i = 0; i < parts.size(); i++) {
 
       TextPart part = parts.get(i);
@@ -126,17 +123,29 @@ public class AnnotatedTextBuilder {
         plainTextPosition += part.getPart().length();
         totalPosition += part.getPart().length();
 
+        MappingValue mappingValue = new MappingValue();
+        mappingValue.setTotalPosition(totalPosition);
+
+        mapping.put(plainTextPosition, mappingValue);
+
       } else if (part.getType() == TextPart.Type.MARKUP) {
+
+        totalPosition += part.getPart().length();
 
         if (hasFakeContent(i, parts)) {
 
           plainTextPosition += parts.get(i + 1).getPart().length();
           i++;
+
+          MappingValue mappingValue = new MappingValue();
+          mappingValue.setTotalPosition(totalPosition);
+          mappingValue.setFakeMarkupLength(part.getPart().length());
+
+          mapping.put(plainTextPosition, mappingValue);
         }
 
-        totalPosition += part.getPart().length();
       }
-      mapping.put(plainTextPosition, totalPosition);
+
     }
     return new AnnotatedText(parts, mapping, metaData, customMetaData);
   }

@@ -33,7 +33,6 @@ public class AnnotatedTextTest {
 
   private final JLanguageTool lt = new JLanguageTool(new French());
 
-  /*@Ignore("activate when #2118 is fixed")*/
   @Test
   public void testInterpretAsBefore() throws IOException {
     //"échapatoire" should be "échappatoire" with two 'p'
@@ -50,7 +49,6 @@ public class AnnotatedTextTest {
     assertThat(markedWord, is(wordThanShouldBeHighlighted));
   }
 
-  /*@Ignore("activate when #2118 is fixed")*/
   @Test
   public void testInterpretAsAfter() throws IOException {
     //"trouuvé" should be "trouvé"
@@ -68,7 +66,6 @@ public class AnnotatedTextTest {
   }
 
 
-  /*@Ignore("activate when #2118 is fixed")*/
   @Test
   public void testWithSimpleMarkup() throws IOException {
     //"louper" should be "loupé"
@@ -87,8 +84,47 @@ public class AnnotatedTextTest {
     assertThat(markedWord, is(wordThanShouldBeHighlighted));
   }
 
+  @Test
+  public void testWithMultipleSimpleMarkup() throws IOException {
+    //"louper" should be "loupé"
+    String textToCheck = "J'ai louper le train.<span> Ce n'était pas dans mes habitudes.</span>";
 
-  /*@Ignore("activate when #2118 is fixed")*/
+    AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
+
+      .addText("J'ai louper le train.")
+      .addMarkup("<span>")
+      .addText(" Ce n'était pas dans mes habitudes.")
+      .addMarkup("</span>")
+      .addMarkup("<span>")
+      .addMarkup("</span>");
+    RuleMatch match = lt.check(builder.build()).get(0);
+
+    String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
+    String wordThanShouldBeHighlighted = "louper";
+    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+  }
+
+  @Test
+  public void testWithFakeMarkupInSimpleMarkupeMarkup() throws IOException {
+    //"échapatoire" should be "échappatoire" with two 'p'
+    String textToCheck = "Une <span class='red'>&eacute;chapatoire</span> est possible.";
+
+    AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
+      .addText("Une ")
+      .addMarkup("<span class='red'>")
+      .addMarkup("&eacute;", "é")
+      .addText("chapatoire")
+      .addMarkup("</span>")
+      .addText(" est possible.");
+
+    RuleMatch match = lt.check(builder.build()).get(0);
+
+    String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
+    String wordThanShouldBeHighlighted = "&eacute;chapatoire";
+    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+  }
+
+
   @Test
   public void testWithBr() throws IOException {
     //"louper" should be "loupé"
