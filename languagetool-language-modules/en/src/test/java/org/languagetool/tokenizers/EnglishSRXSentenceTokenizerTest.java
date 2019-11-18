@@ -102,6 +102,8 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("It works [really!]. ", "No doubt.");
     testSplit("It really(!) works well.");
     testSplit("It really[!] works well.");
+    testSplit("A test.\u00A0\n", "Another test.");  // try to deal with at least some nbsp that appear in strange places (e.g. Google Docs, web editors)
+    testSplit("A test.\u00A0Another test.");  // not clear whether this is the best behavior...
 
     testSplit("This is a sentence.\u0002 ", "And this is another one.");  // footnotes in LibOO/OOo look like this
   }
