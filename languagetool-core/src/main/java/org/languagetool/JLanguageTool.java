@@ -884,8 +884,8 @@ public class JLanguageTool {
     int fromPos = match.getFromPos() + charCount;
     int toPos = match.getToPos() + charCount;
     if (annotatedText != null) {
-      fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
-      toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
+      fromPos = annotatedText.getOriginalTextPositionFor(fromPos, false);
+      toPos = annotatedText.getOriginalTextPositionFor(toPos -1, true) + 1;
     }
     RuleMatch thisMatch = new RuleMatch(match);
     thisMatch.setOffsetPosition(fromPos, toPos);
@@ -1268,8 +1268,8 @@ public class JLanguageTool {
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
-            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
-            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
+            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
+            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);
             newMatch.setLine(range.from.line);
