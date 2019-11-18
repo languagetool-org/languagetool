@@ -37,6 +37,13 @@ class ResultCache {
     entries = new ArrayList<>();
   }
 
+  ResultCache(ResultCache cache) {
+    entries = new ArrayList<>();
+    for(CacheEntry entry : cache.entries) {
+      entries.add(entry);
+    }
+  }
+
   /**
    * Remove a cache entry for a sentence
    */

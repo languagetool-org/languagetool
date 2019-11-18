@@ -504,7 +504,7 @@ public class ConfigurationDialog implements ActionListener {
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
     int numParaCheck = config.getNumParasToCheck();
-    JRadioButton[] radioButtons = new JRadioButton[3];
+    JRadioButton[] radioButtons = new JRadioButton[4];
     ButtonGroup numParaGroup = new ButtonGroup();
     radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckOnlyParagraph")));
     radioButtons[0].setActionCommand("ParagraphCheck");
@@ -512,26 +512,31 @@ public class ConfigurationDialog implements ActionListener {
     radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
     radioButtons[1].setActionCommand("FullTextCheck");
     
-    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
-    radioButtons[2].setActionCommand("NParagraphCheck");
-    radioButtons[2].setSelected(true);
+    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckChapter")));
+    radioButtons[2].setActionCommand("ChapterCheck");
+    
+    radioButtons[3] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
+    radioButtons[3].setActionCommand("NParagraphCheck");
 
     JTextField numParaField = new JTextField(Integer.toString(5), 2);
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
     
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       numParaGroup.add(radioButtons[i]);
     }
     
     if (numParaCheck == 0) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
-    } else if (numParaCheck < 0) {
+    } else if (numParaCheck < -1) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);    
-    } else {
+    } else if (numParaCheck < 0) {
       radioButtons[2].setSelected(true);
+      numParaField.setEnabled(false);    
+    } else {
+      radioButtons[3].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
       numParaField.setEnabled(true);
     }
@@ -543,10 +548,15 @@ public class ConfigurationDialog implements ActionListener {
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
-      config.setNumParasToCheck(-1);
+      config.setNumParasToCheck(-2);
     });
     
     radioButtons[2].addActionListener(e -> {
+      numParaField.setEnabled(false);
+      config.setNumParasToCheck(-1);
+    });
+    
+    radioButtons[3].addActionListener(e -> {
       int numParaCheck1 = Integer.parseInt(numParaField.getText());
       if (numParaCheck1 < 1) numParaCheck1 = 1;
       else if (numParaCheck1 > 99) numParaCheck1 = 99;
@@ -587,9 +597,9 @@ public class ConfigurationDialog implements ActionListener {
     
     cons.gridy++;
     cons.insets = new Insets(0, 30, 0, 0);
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       portPanel.add(radioButtons[i], cons);
-      if (i < 2) cons.gridy++;
+      if (i < 3) cons.gridy++;
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);

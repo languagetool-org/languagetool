@@ -128,6 +128,7 @@ class SingleDocument {
   List<List<String>> textLevelRules;              //  List of text level rules sorted by different classes
   Map<Integer, List<Integer>> ignoredMatches;     //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private boolean isRemote;
+  private List<Integer> headings;
 
   @SuppressWarnings("unused") 
   private ContextMenuInterceptor contextMenuInterceptor;
@@ -348,6 +349,7 @@ class SingleDocument {
 
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xContext);
+//      docCursor.printProperties();
       contextMenuInterceptor = new ContextMenuInterceptor(xContext);
     }
     FlatParagraphTools flatPara = null;
@@ -369,6 +371,15 @@ class SingleDocument {
                 + ", docID: " + docID + logLineBreak);
       }
       isReset = true;
+    }
+    
+    int maxParasToCheck = numParasToCheck;
+    if(maxParasToCheck < 0) {
+      for(int minPara : minToCheckPara) {
+        if(minPara > maxParasToCheck) {
+          maxParasToCheck = minPara;
+        }
+      }
     }
 
     // Test if Size of allParas is correct; Reset if not
@@ -395,22 +406,14 @@ class SingleDocument {
           && allParas.get(from).equals(oldParas.get(from))) {
         from++;
       }
-      if(numParasToCheck > 0) {
-        resetFrom = from - numParasToCheck - 1;
-      } else {
-        resetFrom = from - 1;
-      }
+      resetFrom = from - maxParasToCheck - 1;
       int to = 1;
       while (to <= allParas.size() && to <= oldParas.size()
           && allParas.get(allParas.size() - to).equals(
               oldParas.get(oldParas.size() - to))) {
         to++;
       }
-      if(numParasToCheck > 0) {
-        resetTo = allParas.size() + numParasToCheck - to;
-      } else {
-        resetTo = allParas.size() - to;
-      }
+      resetTo = allParas.size() + maxParasToCheck - to;
       if(!ignoredMatches.isEmpty()) {
         Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
         for (int i = 0; i < from; i++) {
@@ -502,13 +505,8 @@ class SingleDocument {
           resetCheck = true;
           resetParaNum = nParas;
         }
-        if(numParasToCheck > 0) {
-          resetFrom = nParas - numParasToCheck;
-          resetTo = nParas + numParasToCheck + 1;
-        } else {
-          resetFrom = nParas;
-          resetTo = nParas + 1;
-        }
+        resetFrom = nParas - maxParasToCheck;
+        resetTo = nParas + maxParasToCheck + 1;
         ignoredMatches.remove(nParas);
         textIsChanged = true;
         return nParas;
@@ -553,6 +551,7 @@ class SingleDocument {
     if (allParas == null || allParas.size() < 1) {
       return false;
     }
+    headings = docCursor.getParagraphHeadings();
     //  change all footnotes to \u200B (like in paraText)
     //  List of footnotes
     List<int[]> footnotes = flatPara.getFootnotePositions();
@@ -610,18 +609,40 @@ class SingleDocument {
     if (numCurPara < 0 || allParas == null || allParas.size() < numCurPara - 1) {
       return "";
     }
+    int headingBefore = -1;
+    int headingAfter = -1;
+    if(numParasToCheck < -1) {
+      headingBefore = 0;
+      headingAfter = allParas.size();
+    } else {
+      for(int heading : headings) {
+        headingAfter = heading;
+        if(heading >= numCurPara) {
+          break;
+        } else {
+          headingBefore = headingAfter;
+        }
+      }
+      if(headingAfter == headingBefore) {
+        headingAfter = allParas.size();
+      }
+      headingBefore++;
+    }
     int startPos;
     int endPos;
-    if (numParasToCheck < 1) {
-      startPos = 0;
-      endPos = allParas.size();
+    if(headingAfter == numCurPara) {
+      startPos = numCurPara;
+      endPos = numCurPara + 1;
+    } else if (numParasToCheck < 1) {
+      startPos = headingBefore;
+      endPos = headingAfter;
     } else {
       startPos = numCurPara - numParasToCheck;
       if(textIsChanged && doResetCheck) {
         startPos -= numParasToCheck;
       }
-      if (startPos < 0) {
-        startPos = 0;
+      if (startPos < headingBefore) {
+        startPos = headingBefore;
       }
       endPos = numCurPara + 1 + numParasToCheck;
       if(!textIsChanged) {
@@ -629,8 +650,8 @@ class SingleDocument {
       } else if(doResetCheck) {
         endPos += numParasToCheck;
       }
-      if (endPos > allParas.size()) {
-        endPos = allParas.size();
+      if (endPos > headingAfter) {
+        endPos = headingAfter;
       }
     }
     StringBuilder docText = new StringBuilder(fixLinebreak(allParas.get(startPos)));
@@ -645,15 +666,30 @@ class SingleDocument {
    */
   private int getStartOfParagraph(int nPara, int checkedPara) {
     if (allParas != null && nPara >= 0 && nPara < allParas.size()) {
+      int headingBefore = -1;
+      if(numParasToCheck < -1) {
+        headingBefore = 0;
+      } else {
+        for(int heading : headings) {
+          if(heading > checkedPara) {
+            break;
+          } else {
+            headingBefore = heading;
+          }
+        }
+        headingBefore++;
+      }
       int startPos;
-      if (numParasToCheck < 1) {
-        startPos = 0;
+      if (headingBefore - 1 == checkedPara) {
+        startPos = checkedPara;
+      } else if (numParasToCheck < 1) {
+        startPos = headingBefore;
       } else {
         startPos = checkedPara - numParasToCheck;
         if(textIsChanged && doResetCheck) {
           startPos -= numParasToCheck;
         }
-        if (startPos < 0) startPos = 0;
+        if (startPos < headingBefore) startPos = headingBefore;
       }
       int pos = 0;
       for (int i = startPos; i < nPara; i++) {
@@ -758,7 +794,7 @@ class SingleDocument {
       }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         numParasToCheck = minToCheckPara.get(i);
-        if(firstCheckIsDone && maxParasToCheck >= 0 && (numParasToCheck == -1 || numParasToCheck > maxParasToCheck)) {
+        if(firstCheckIsDone && maxParasToCheck >= 0 && (numParasToCheck < 0 || numParasToCheck > maxParasToCheck)) {
           numParasToCheck = maxParasToCheck;
         }
         defaultParaCheck = PARA_CHECK_DEFAULT;
@@ -769,7 +805,11 @@ class SingleDocument {
         }
         if(doResetCheck && resetCheck && numParasToCheck < 0) {
           oldCache = paragraphsCache.get(i);
-          paragraphsCache.set(i, new ResultCache());
+          if(numParasToCheck < -1) {
+            paragraphsCache.set(i, new ResultCache());
+          } else {
+            paragraphsCache.set(i, new ResultCache(oldCache));
+          }
         }
         pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, i));
         if(doResetCheck && resetCheck) {
@@ -894,18 +934,40 @@ class SingleDocument {
       }
 
       //  check of numParasToCheck or full text 
+      int headingBefore = -1;
+      int headingAfter = -1;
+      if(numParasToCheck < -1) {
+        headingBefore = 0;
+        headingAfter = allParas.size();
+      } else {
+        for(int heading : headings) {
+          headingAfter = heading;
+          if(heading >= paraNum) {
+            break;
+          } else {
+            headingBefore = headingAfter;
+          }
+        }
+        if(headingAfter == headingBefore) {
+          headingAfter = allParas.size();
+        }
+        headingBefore++;
+      }
       int startPara;
       int endPara;
-      if(numParasToCheck < 0) {
-        startPara = 0;
-        endPara = allParas.size();
+      if(headingAfter == paraNum) {
+        startPara = paraNum;
+        endPara = paraNum + 1;
+      } else if(numParasToCheck < 0) {
+        startPara = headingBefore;
+        endPara = headingAfter;
       } else {
         startPara = paraNum;
         if(textIsChanged && doResetCheck) {
           startPara -= numParasToCheck;
         }
-        if(startPara < 0) {
-          startPara = 0;
+        if(startPara < headingBefore) {
+          startPara = headingBefore;
         }
         endPara= paraNum + 1;
         if(textIsChanged && doResetCheck) {
@@ -913,8 +975,8 @@ class SingleDocument {
         } else if(!textIsChanged){
           endPara += defaultParaCheck;
         }
-        if(endPara > allParas.size()) {
-          endPara = allParas.size();
+        if(endPara > headingAfter) {
+          endPara = headingAfter;
         }
       }
       int startPos = getStartOfParagraph(startPara, paraNum);
