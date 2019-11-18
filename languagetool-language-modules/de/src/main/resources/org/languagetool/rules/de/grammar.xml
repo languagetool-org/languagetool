@@ -32979,6 +32979,13 @@ Andere Projekte</example>
                 <token regexp="yes">(west|süd|öst|nörd)lich</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>dem</token>
+                    <token skip="3"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"/>
+                    <token postag="ART:.+:AKK:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
@@ -32999,6 +33006,7 @@ Andere Projekte</example>
                 <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
                 <example>Bis einschließlich diesen Freitag hat er Urlaub.</example>
                 <example>Wenn sich ihr Angriff erfolgreich gestaltete, sollte weiter westlich ein Angriff der Armee ihn unterstützen.</example>
+                <example>Dem neogotischen Belvedere wurde seitlich ein Burghaus angegliedert.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -33910,6 +33918,7 @@ Andere Projekte</example>
                     <token postag="SUB:DAT:SIN:FEM">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
+                        <exception postag="SUB:.+:MAS" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>.</message>
