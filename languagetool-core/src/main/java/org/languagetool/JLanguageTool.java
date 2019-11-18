@@ -885,7 +885,7 @@ public class JLanguageTool {
     int toPos = match.getToPos() + charCount;
     if (annotatedText != null) {
       fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
-      toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
+      toPos = annotatedText.getOriginalTextPositionFor(toPos);
     }
     RuleMatch thisMatch = new RuleMatch(match);
     thisMatch.setOffsetPosition(fromPos, toPos);
