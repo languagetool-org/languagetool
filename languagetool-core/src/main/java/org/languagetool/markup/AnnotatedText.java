@@ -105,6 +105,11 @@ public class AnnotatedText {
       throw new IllegalArgumentException("plainTextPosition must be >= 0: " + plainTextPosition);
     }
 
+    if(mapping.isEmpty()){
+
+      return 0;
+    }
+
     int minDiff = Integer.MAX_VALUE;
     MappingValue bestMatch = null;
     // algorithm: find the closest lower position
