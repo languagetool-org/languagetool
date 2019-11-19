@@ -11928,7 +11928,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -11953,7 +11953,7 @@ USA
                     </marker>
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividend|events?|emails?|education</token>
+                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
@@ -12004,7 +12004,7 @@ USA
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">word|excel|office|outlook</token>
-                    <token regexp="yes">2007|2010|2013|2016|2019|365</token>
+                    <token regexp="yes">2007|2010|2013|2016|2019|2022|365</token>
                 </pattern>
                 <message>The proper noun <suggestion><match no="1" case_conversion="startupper" /> \2</suggestion> needs to be capitalized.</message>
                 <example correction="Office 365">My <marker>office 365</marker> license expired.</example>
@@ -12014,6 +12014,7 @@ USA
                     <token>office365</token>
                 </pattern>
                 <message>Did you mean <suggestion>Office 365</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/Office_365</url>
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
@@ -12035,6 +12036,28 @@ USA
             </pattern>
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
+        </rule>
+        <rule id="TURKEY" name="proper noun 'Turkey' (country)" default="temp_off">
+            <antipattern>
+                <token skip="-1">turkey</token>
+                <token regexp="yes">thanksgivings?|breasts?|stuffings?|wings?|eats?|ate|eaten|eating|meat|animals?|bones?|fill|cooks?|cooked|cooking|dinner|christmas|recipes?|menus?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">thanksgivings?|breasts?|stuffings?|wings?|eats?|ate|eaten|eating|meat|animals?|bones?|fill|cooks?|cooked|cooking|dinner|christmas|recipes?|menus?</token>
+                <token>turkey</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">in|from|of</token>
+                <marker>
+                    <token case_sensitive="yes">
+                        turkey
+                    </token>
+                </marker>
+            </pattern>
+            <message>Did you mean the country <suggestion>Turkey</suggestion> (which needs to be capitalized).</message>
+            <example correction="Turkey">I'm from <marker>turkey</marker>.</example>
+            <example>Remove skin and excess fat from turkey breast.</example>
+            <example>She's vegetarian, so she ate tofu instead of turkey.</example>
         </rule>
         <rule id="ROYAL_MAIL" name="royal mail (Royal Mail)">
             <antipattern>
