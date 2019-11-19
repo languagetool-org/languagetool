@@ -8435,7 +8435,7 @@ USA
                     <token>march</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to</token>
+                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to|from|since</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
@@ -8451,10 +8451,34 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?</token>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?|until|till</token>
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
+                <example correction="May">I'm on vacation <marker>may</marker> until June.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+                    <token regexp="yes">-|–</token>
+                    <token regexp="yes">&months;</token>
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
+                <example correction="August"><marker>august</marker> - September</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&months;</token>
+                    <token regexp="yes">-|–</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="3" /></suggestion> needs to be capitalized.</message>
+                <example correction="August">From April – <marker>august</marker></example>
             </rule>
         </rulegroup>
         <rule id="GETTED" name="getted (got)">
@@ -11815,7 +11839,7 @@ USA
                         Google
                         <exception scope="previous" regexp="yes">to|can(not)?|[cw]ould|should|must|please</exception>
                     </token>
-                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar</token>
+                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbooks?|stadia</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Google Analytics">We use <marker>Google analytics</marker>.</example>
@@ -11858,10 +11882,33 @@ USA
                     <marker>
                         <token case_sensitive="yes">chrome</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">install?|update</token>
+                    <token min="0" />
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">He installed <marker>opera</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">The <marker>opera</marker> browser is better than Internet Explorer.</example>
             </rule>
         </rulegroup>
         <rule id="SPACEX" name="SpaceX">
@@ -11950,7 +11997,7 @@ USA
                     <token>microsoft</token>
                     <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing</token>
                 </pattern>
-                <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft program)?</message>
+                <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
                 <example><marker>Microsoft Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
             </rule>

@@ -23,8 +23,12 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.sun.star.beans.Property;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
@@ -45,6 +49,7 @@ class DocumentCursorTools {
   
   private final XParagraphCursor xPCursor;
   private final XTextViewCursor xVCursor;
+  private final List<Integer> headerNumbers = new ArrayList<Integer>();
   
   DocumentCursorTools(XComponentContext xContext) {
     xPCursor = getParagraphCursor(xContext);
@@ -94,6 +99,7 @@ class DocumentCursorTools {
   /** 
    * Returns ParagraphCursor from TextCursor 
    * Returns null if it fails
+   * @return 
    */
   @Nullable
   public XParagraphCursor getParagraphCursor() {
@@ -182,17 +188,26 @@ class DocumentCursorTools {
   List<String> getAllTextParagraphs() {
     try {
       List<String> allParas = new ArrayList<>();
+      headerNumbers.clear();
       if (xPCursor == null) {
         return null;
       }
+      int paraNum = 0;
       xPCursor.gotoStart(false);
       xPCursor.gotoStartOfParagraph(false);
       xPCursor.gotoEndOfParagraph(true);
       allParas.add(xPCursor.getString());
+      if(isHeadingOrTitle()) {
+        headerNumbers.add(paraNum);
+      }
       while (xPCursor.gotoNextParagraph(false)) {
         xPCursor.gotoStartOfParagraph(false);
         xPCursor.gotoEndOfParagraph(true);
         allParas.add(xPCursor.getString());
+        paraNum++;
+        if(isHeadingOrTitle()) {
+          headerNumbers.add(paraNum);
+        }
       }
       return allParas;
     } catch (Throwable t) {
@@ -235,6 +250,45 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -2;             // Return negative value as method failed
+    }
+  }
+  
+  /**
+   * Paragraph is Header or Title
+   */
+  private boolean isHeadingOrTitle() {
+    String paraStyleName;
+    try {
+      XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
+      paraStyleName = (String) xParagraphPropertySet.getPropertyValue("ParaStyleName");
+    } catch (Throwable e) {
+      MessageHandler.printException(e);
+      return false;
+    }
+    return (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
+  }
+  
+  /**
+   * Returns List of Paragraph numbers which are Headers or Title
+   */
+  List<Integer> getParagraphHeadings() {
+    return headerNumbers;
+  }
+  
+  void printProperties() {
+    if (xPCursor == null) {
+      MessageHandler.printToLogFile("Properties: ParagraphCursor == null");
+      return;
+    }
+    XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
+    Property[] properties = xParagraphPropertySet.getPropertySetInfo().getProperties();
+    for(Property property : properties) {
+      MessageHandler.printToLogFile("Properties: Name: " + property.Name + ", Type: " + property.Type);
+    }
+    try {
+      MessageHandler.printToLogFile("!!! Properties: ParaStyleName: " + xParagraphPropertySet.getPropertyValue("ParaStyleName"));
+    } catch (Throwable e) {
+      MessageHandler.printException(e);
     }
   }
   

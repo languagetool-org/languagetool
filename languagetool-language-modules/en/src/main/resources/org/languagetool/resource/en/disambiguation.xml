@@ -4783,7 +4783,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched">You are right.</example>
-          <example type="ambiguous" inputform="right[right/JJ,right/NN:UN,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
+          <example type="ambiguous" inputform="right[right/JJ,right/NN:UN,right/RB,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
         </rule>
 
         <rule id="SENT_START_IS_JJ" name="Is/was + it + verb/JJ =>JJ">
@@ -4804,6 +4804,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="VERB_IT_JJ" name="make/get/do + it + verb/JJ => JJ">
+          <antipattern>
+              <token regexp="yes">do(es)?|did</token>
+              <token skip="-1">it</token>
+              <token>?</token>
+          </antipattern>
           <pattern>
             <token regexp="yes" inflected="yes">do|find|make|get|think|like|see|consider|deem|play|believe|keep|paint|give|leave|pound</token>
             <token>it</token>
@@ -4818,9 +4823,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Make yourself at home.</example>
           <example type="untouched">Join in, try it out, do it <marker>better</marker>!</example>
           <example type="untouched">You can do it <marker>better</marker> if you prioritize your work.</example>
+          <example type="untouched">Does it <marker>work</marker> correctly?</example>
+          <example type="untouched">And did it <marker>open</marker> when you tried yesterday?</example>
+          <example type="untouched">But do it <marker>work</marker> correctly? [Incorrect grammar.]</example>
           <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">We thought it <marker>wrong</marker> to leave her alone.</example>
           <example type="untouched">Let's keep it simple.</example>
-          <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>          
+          <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
+          <example type="ambiguous" inputform="free[free/JJ,free/NN,free/VB,free/VBP]" outputform="free[free/JJ]">Can you help me by doing it <marker>free</marker>? (I have no money whatsoever.)</example>
         </rule>
 
         <rule id="VERB_XX_BETTER_RBR" name='know/stand + xx + better => RBR'>

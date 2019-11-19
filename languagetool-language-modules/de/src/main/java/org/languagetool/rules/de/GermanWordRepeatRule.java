@@ -55,6 +55,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Na"),
       token("na")
     ),
+    Arrays.asList(
+      token("ha"),
+      token("ha")
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
