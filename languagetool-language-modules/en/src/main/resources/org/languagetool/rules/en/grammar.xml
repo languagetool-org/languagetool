@@ -8457,7 +8457,7 @@ USA
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
                 <example correction="May">I'm on vacation <marker>may</marker> until June.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
@@ -8468,7 +8468,7 @@ USA
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August"><marker>august</marker> - September</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">&months;</token>
                     <token regexp="yes">-|–</token>
@@ -11839,7 +11839,7 @@ USA
                         Google
                         <exception scope="previous" regexp="yes">to|can(not)?|[cw]ould|should|must|please</exception>
                     </token>
-                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbook</token>
+                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbooks?|stadia</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Google Analytics">We use <marker>Google analytics</marker>.</example>
@@ -11882,10 +11882,33 @@ USA
                     <marker>
                         <token case_sensitive="yes">chrome</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">install?|update</token>
+                    <token min="0" />
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">He installed <marker>opera</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">The <marker>opera</marker> browser is better than Internet Explorer.</example>
             </rule>
         </rulegroup>
         <rule id="SPACEX" name="SpaceX">
