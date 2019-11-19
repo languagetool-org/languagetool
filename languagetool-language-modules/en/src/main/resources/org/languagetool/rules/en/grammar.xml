@@ -28306,6 +28306,21 @@ The accident victim died from her injuries.
       <example correction='make an exception for'>I'll <marker>make an exception to</marker> you.</example>
     </rule>
   </rulegroup>
+    <rule id="EAT_ANTIBIOTICS" name="eat (take) antibiotics" default="temp_off"><!-- https://forum.languagetool.org/t/en-possible-rule-eat-s-antibiotics/3602 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">eat</token>
+        </marker>
+        <token postag_regexp="yes" postag="NN.*" regexp="yes">antibiotics|medicines?|medication</token>
+      </pattern>
+      <message>In a medical context, people take or swallow \2. If they eat \2, it is a mistake. Did you mean <suggestion><match no="1" postag="VB.*">take</match></suggestion> or <suggestion><match no="1" postag="VB.*">swallow</match></suggestion>?</message>
+      <short>Possible collocation error</short>
+      <example correction="took|swallowed">I <marker>ate</marker> medicine for 2 weeks after my operation.</example>
+      <example correction="take|swallow">You must go to the doctor and <marker>eat</marker> antibiotics.</example>
+      <example correction="taking|swallowing">Are you <marker>eating</marker> medicines for that illness?</example>
+      <example>I <marker>took</marker> medicine for 2 weeks after my operation.</example>
+      <example type="triggers_error">The child <marker>ate</marker> medicine and was rushed to hospital.</example>
+    </rule>
     </category>
 
     <!-- ====================================================================== -->
