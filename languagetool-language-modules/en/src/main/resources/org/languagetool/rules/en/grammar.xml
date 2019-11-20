@@ -21704,6 +21704,58 @@ USA
             <example>I received 5 stars on GitHub.</example>
             <example type="triggers_error">Let Q be a set enclosed between two <marker>step regions</marker> S and T. A step region is formed from a ...</example><!-- 'step region' is a 2-word technical term www.cambridge.org/core/journals/robotica/article/increase-the-feasible-step-region-of-biped-robots-through-active-vertical-flexion-and-extension-motions/063AF130B5E3F0A1BA689FF18321C3A0 -->
         </rule>
+        <rule id="HAD_TOO" name="confusion of 'too' and 'to'" default="temp_off">
+            <antipattern>
+                <token skip="1">too</token>
+                <token regexp="yes">many|much</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">had|want(ed)?|need(ed)?|have|has</token>
+                <token min="0">not</token>
+                <marker>
+                    <token>too</token>
+                </marker>
+                <token postag="VB" />
+            </pattern>
+            <message>Did you mean <suggestion>to</suggestion>?</message>
+            <example correction="to">They wanted <marker>too</marker> have more.</example>
+            <example correction="to">They had <marker>too</marker> short it.</example>
+            <example correction="to">Democrats would have <marker>too</marker> narrow a majority and each senator's individual power in the legislative process is too great for that.</example>
+            <example>Sorry, between @CJK, @ccstone and @commanderclif, this thread has too darn many c-names!</example>
+        </rule>
+        <rulegroup id="HAD_TWO" name="confusion of 'two' and 'to'" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token skip="4">two</token>
+                    <token postag="UNKNOWN|NNP?S" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token skip="4">two</token>
+                    <token>ups</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">had|want(ed)?|need(ed)?|have</token>
+                    <token min="0">not</token>
+                    <marker>
+                        <token>two</token>
+                        <token postag="VB">
+                            <exception postag="VBD" />
+                            <exception postag="IN" />
+                            <exception regexp="yes">factor|setup</exception><!-- "two factor" (FACTOR_HYPHEN handles this) -->
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The expression '\3 \4' seems incorrect in this context.</message>
+                <suggestion>to \4</suggestion>
+                <suggestion suppress_misspelled="yes">two <match no="4" postag_regexp="yes" postag="NN(P?).*" postag_replace="NN$1S" suppress_misspelled="yes" /></suggestion>
+                <example correction="to reason|two reasons">Now I have <marker>two reason</marker> to do this</example>
+                <example correction="to question|two questions">I have <marker>two question</marker>.</example>
+                <example>I have two Garage doors</example>
+                <example>They may even have two out.</example>
+                <example>I would think that the central books should have two set up, one for P/B/I and one for GD.</example>
+                <example>I only had two screw ups this week.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TEN_FOLD" name="'ten fold' written as one word">
             <rule>
                 <antipattern>
@@ -21717,6 +21769,7 @@ USA
                 </pattern>
                 <message>The adjective, adverb or verb 'tenfold' needs to be written as one word.</message>
                 <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/tenfold</url>
                 <example>Ten Fold Technology is a company from the UK.</example>
                 <example correction="tenfold">After he returned to his normal self, the nausea had returned <marker>ten fold</marker>.</example>
             </rule>
@@ -21738,6 +21791,19 @@ USA
                 <example correction="twofold">It's a <marker>two fold</marker> increase in the risk.</example>
             </rule>
         </rulegroup>
+        <rule id="FACTOR_HYPHEN" name="missing hyphen in 'two factor auth'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">1|2|3|one|two|three|multi</token>
+                    <token>factor</token>
+                </marker>
+                <token regexp="yes">auth|authentications?|authorizations?|theory|graph|models?|app|pcc|logins?|accounts?|theorem</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
+            <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
+        </rule>
         <rule id="BIT_HYPHEN" name="missing hyphen in 'a 32 bit processor'">
             <pattern>
                 <marker>
@@ -21834,6 +21900,45 @@ USA
                 <example correction="four-course">Over the past 85 years, the Renaissance <marker>four course</marker> guitar has been researched and written about sporadically</example>
             </rule>
         </rulegroup>
+        <rule id="INCH_HYPHEN" name="missing hyphen in '22 inch monitor'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>inch</token>
+                </marker>
+                <token min="0" />
+                <token regexp="yes">monitors?|screens?|macbooks?|nails?|guns?|holes?|ipads?|drives?|tablets?|systems?|satellite|galaxy|laptops?|tvs?|projectors?|softballs?|tires?|bikes?|bicycles?|bmx|dishwashers?|rims?|wheels?|dell|samsung|hd|floppy|disks?|binders?|mac|heels|cakes?|subway|grinders?|cables?|records?|tft|led|howitzer|table</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="16-inch">He bought the all-new <marker>16 inch</marker> macbook.</example>
+        </rule>
+        <rule id="SEAT_HYPHEN" name="missing hyphen in '2 seat convertible'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>seat</token>
+                </marker>
+                <token min="0" />
+                <token regexp="yes">sofas?|sofa\-?beds?|cars?|(mini-?)?bus(es)?|suvs?|pick-?ups?|convertibles?|utvs?|tiguan|ford|vw|toyotas?|rovers?|teslas?|model|bmw|audi|nissan|jaguar|mercedes|vehicles?|tables?|(mini-?)?vans?|strollers?|quad|helicopters?|dodge|alhambra|mini|ferrari|golf|suburban|limos?|airplanes?|cessnas?|travellers?</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="2-seat">He drives a <marker>2 seat</marker> convertible.</example>
+        </rule>
+        <rule id="YARD_HYPHEN" name="missing hyphen in '100 yard house plan'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>yard</token>
+                </marker>
+                <token regexp="yes">houses?|lines?|challenges?|dumpsters?|shots?|field|fights?|sprints?|recycling|containers?|range|run|shooting|swim|scope|dash</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="200-yard">He ran the <marker>200 yard</marker> dash.</example>
+            <example correction="1-yard">For instance, a rushing attempt "touch" from the Opponent's <marker>1 yard</marker> line has more potential value that a rushing attempt "touch" from the RBs own 20.</example>
+        </rule>
         <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'">
             <antipattern>
                 <token postag="CD" />
@@ -24314,6 +24419,32 @@ USA
                 <example>This village is a <marker>haven</marker>.</example>
                 <example>She <marker>don</marker> like this. Found by HE_VERB_AGR.</example>
 <!-- TODO: not found --><example>They <marker>don</marker> work.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="THANKS_GIVING" name="'thanks giving' (Thanksgiving)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Thanksgiving</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>thanks</token>
+                        <token>giving</token>
+                    </marker>
+                    <token regexp="yes">days?|week|20\d\d|dinners?|date|tradition|turkey|celebrations?|holidays?</token>
+                </pattern>
+                <message><suggestion>Thanksgiving</suggestion> (= national holiday) is spelled as one word.</message>
+                <example correction="Thanksgiving"><marker>Thanks giving</marker> 2020.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">on|of|before|after|over|during|until|till?|at|for|in|the|an?|his|her|y?our|my|their|from|since|Canadian|American|harvest|happy|good</token><!-- "good" is in this context not tagged as JJ -->
+                    <token postag="JJ" min="0" />
+                    <marker>
+                        <token>thanks</token>
+                        <token>giving</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>Thanksgiving</suggestion> (= national holiday) is spelled as one word.</message>
+                <example correction="Thanksgiving">We see each other at <marker>Thanks giving</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="PRP_VB" name="Missing verb: PRONOUN + NOUN (VERB)">
