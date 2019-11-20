@@ -136,7 +136,7 @@ public class Configuration {
   private File oldConfigFile;
   private boolean enabledRulesOnly = false;
   private Language language;
-  private Language motherTongue;
+  private Language motherTongue = null;
   private File ngramDirectory;
   private File word2vecDirectory;
   private boolean runServer;
@@ -940,6 +940,18 @@ public class Configuration {
         prefix += PROFILE_DELIMITER;
       }
 
+      String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
+      if (useDocLangString != null) {
+        useDocLanguage = Boolean.parseBoolean(useDocLangString);
+      }
+      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
+      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
+        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+      }
+      if(!useDocLanguage && motherTongue != null) {
+        qualifier = getQualifier(motherTongue);
+      }
+
       disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, prefix + ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier));
@@ -949,10 +961,6 @@ public class Configuration {
       String languageStr = (String) props.get(prefix + LANGUAGE_KEY);
       if (languageStr != null) {
         language = Languages.getLanguageForShortCode(languageStr);
-      }
-      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
-      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
       }
       String ngramDir = (String) props.get(prefix + NGRAM_DIR_KEY);
       if (ngramDir != null) {
@@ -1012,11 +1020,6 @@ public class Configuration {
       String doFullCheckAtFirstString = (String) props.get(prefix + DO_FULL_CHECK_AT_FIRST_KEY);
       if (doFullCheckAtFirstString != null) {
         doFullCheckAtFirst = Boolean.parseBoolean(doFullCheckAtFirstString);
-      }
-
-      String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
-      if (useDocLangString != null) {
-        useDocLanguage = Boolean.parseBoolean(useDocLangString);
       }
 
       String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);
