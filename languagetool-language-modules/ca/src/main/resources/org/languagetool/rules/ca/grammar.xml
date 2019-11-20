@@ -2027,6 +2027,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bon amic|Bons amics"><marker>Bon amics</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="A..FS." postag_regexp="yes"/>
+                    <token postag="N.FS.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre" />
@@ -2056,6 +2060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quan afecte òrgans interiors.</example>
                 <example>per si mateix arxius històrics</example>
                 <example>Baixa paquets</example>
+                <example>Benvolguda Pilar</example>
             </rule>
             <rule>
                 <pattern>
@@ -2079,6 +2084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="millor ciutat|millors ciutats">del rànking de <marker>millor ciutats</marker> de negocis</example>
                 <example correction="primera vegada|primeres vegades">Va ser formulat per <marker>primer vegada</marker>.</example>
                 <example correction="profunda crisi|profundes crisis">Va caure en una <marker>profunda crisis</marker>.</example>
+                <example correction="Benvolguda Pilar|Benvolgudes Pilars"><marker>Benvolgut Pilar</marker>.</example>
                 <example>apareixen amb els homes prehistòrics arades noves</example>
                 <example>Els adobs químics Can Gros.</example>
                 <example>Tens raó.</example>
@@ -41749,10 +41755,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="on">
             <!-- Alguns accepten 'cap' davant de nom no comptable abstracte -->
             <antipattern>
-                <marker>
-                    <token inflected="yes">ser</token>
-                    <token>cap</token>
-                </marker>
+                <token inflected="yes">ser</token>
+                <token>cap</token>
+            </antipattern>
+            <antipattern>
+                <token postag="PX.*" postag_regexp="yes"/>
+                <token>cap</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -41764,6 +41772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://esadir.cat/entrades/fitxa/id/7104</url>
                 <example correction="gens d'importància">No té <marker>cap importància</marker>.</example>
                 <example>gens d'importància</example>
+                <example>Vessà sobre el seu cap gràcia infinita.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -42320,6 +42329,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el senyor</suggestion>
                 <suggestion>sr.</suggestion>
                 <example correction="En|Senyor|El senyor|Sr."><marker>Don</marker> Jaume</example>
+                <example>Don Quixot i Don Joan</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>don</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>don</token>
+                    </marker>
+                </pattern>
+                <message>Possible confusió. "Don" pot ser un antic tractament honorífic.</message>
+                <suggestion>d'on</suggestion>
+                <suggestion>do</suggestion>
+                <example correction="d'on|do">És davant <marker>don</marker> et vaig dir.</example>
                 <example>Don Quixot i Don Joan</example>
             </rule>
             <rule>
