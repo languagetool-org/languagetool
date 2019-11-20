@@ -21806,6 +21806,34 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
         </rule>
+        <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">2|two|3|three|4|four|5|five|6|six|7|seven|8|eight|9|nine|10|ten|11|eleven|12|twelve|full</token>
+                        <token>course</token>
+                    </marker>
+                    <token min="0" />
+                    <token regexp="yes">menus?|dinners?|meals?|feast|lunch(es)?|breakfasts?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="4-course">He enjoyed the <marker>4 course</marker> dinner.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|\d{1,2}</token>
+                        <token regexp="yes">course|string</token>
+                    </marker>
+                    <token min="0" />
+                    <token regexp="yes">guitars?|instruments?|bass|ukuleles?|lyres?|banjos?|violins?|mandolins?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="four-course">Over the past 85 years, the Renaissance <marker>four course</marker> guitar has been researched and written about sporadically</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'">
             <antipattern>
                 <token postag="CD" />
