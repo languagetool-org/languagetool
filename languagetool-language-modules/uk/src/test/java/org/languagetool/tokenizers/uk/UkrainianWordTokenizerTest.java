@@ -379,6 +379,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("схема 'гроші'");
     assertEquals(Arrays.asList("схема", " ", "'", "гроші", "'"), testList);
 
+    testList = w.tokenize("(‘дзеркало’)");
+    assertEquals(Arrays.asList("(", "'", "дзеркало", "'", ")"), testList);
+
     testList = w.tokenize("все 'дно піду");
     assertEquals(Arrays.asList("все", " ", "'дно", " ", "піду"), testList);
 
@@ -393,7 +396,20 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("ЗДОРОВ’Я.");
     assertEquals(Arrays.asList("ЗДОРОВ'Я", "."), testList);
-    
+
     // 'тсе, 'ддати  'го
+  }
+
+
+  @Test
+  public void testDash() {
+    List<String> testList = w.tokenize("Кан’-Ка Но Рей");
+    assertEquals(Arrays.asList("Кан'-Ка", " ", "Но", " ", "Рей"), testList);
+
+    testList = w.tokenize("«краб»-переросток");
+    assertEquals(Arrays.asList("«", "краб", "»", "-", "переросток"), testList);
+
+    testList = w.tokenize("вересні--жовтні");
+    assertEquals(Arrays.asList("вересні","--","жовтні"), testList);
   }
 }
