@@ -530,6 +530,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("don't you");
     } else if ("Dontcha".equals(word)) {
       return Arrays.asList("don't you");
+    } else if ("greatfruit".equals(word)) {
+      return Arrays.asList("grapefruit", "great fruit");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
