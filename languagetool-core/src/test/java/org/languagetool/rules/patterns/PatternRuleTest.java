@@ -287,6 +287,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     System.out.println("Checking example sentences of " + rules.size() + " rules for " + lang + "...");
     Map<String, AbstractPatternRule> complexRules = new HashMap<>();
     int skipCount = 0;
+    int i = 0;
     for (AbstractPatternRule rule : rules) {
       String sourceFile = rule.getSourceFile();
       if (lang.isVariant() && sourceFile != null &&
@@ -299,6 +300,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       testCorrectSentences(lt, allRulesLt, lang, rule);
       testBadSentences(lt, allRulesLt, lang, complexRules, rule);
       testErrorTriggeringSentences(lt, lang, rule);
+      if (++i % 100 == 0) {
+        System.out.println("Testing rule " +  i + "...");
+      }
     }
     System.out.println("Skipped " + skipCount + " rules for variant language to avoid checking rules more than once");
     

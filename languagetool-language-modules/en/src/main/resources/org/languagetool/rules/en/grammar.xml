@@ -4199,6 +4199,25 @@ USA
             <example>They could predict which islands would become vulnerable with warming, and which ones might become better habitats.</example>
             <example>... nameless citizens who are separated from loved ones in other towns.</example>
         </rule>
+        <rule id="PRESIDENTS_DAY_APOSTROPHE" name="missing apostrophe in 'Presidents Day'">
+            <pattern>
+                <token>presidents</token>
+                <token>day</token>
+            </pattern>
+            <message>It appears that a possessive apostrophe is missing, if you mean the legal holiday <suggestion>Presidents' Day</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/Presidents%27%20Day</url>
+            <example correction="Presidents' Day">Schools are closed during <marker>Presidents Day</marker>.</example>
+        </rule>
+        <rule id="INTERNATIONAL_WORKERS_DAY_APOSTROPHE" name="missing apostrophe in 'International Workers Day'">
+            <pattern>
+                <token>international</token>
+                <token>workers</token>
+                <token>day</token>
+            </pattern>
+            <message>It appears that a possessive apostrophe is missing, if you mean the legal holiday <suggestion>International Workers' Day</suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/International_Workers%27_Day</url>
+            <example correction="International Workers' Day">Schools are closed during <marker>International Workers Day</marker>.</example>
+        </rule>
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <antipattern><!-- Applicable to rules 1 and 2. I did not find a dictionary reference, but the terms are on many tennis websites. -->
                 <token regexp="yes">singles|doubles</token>
@@ -8416,7 +8435,7 @@ USA
                     <token>march</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to</token>
+                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to|from|since</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
@@ -8432,10 +8451,34 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?</token>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?|until|till</token>
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
+                <example correction="May">I'm on vacation <marker>may</marker> until June.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+                    <token regexp="yes">-|–</token>
+                    <token regexp="yes">&months;</token>
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
+                <example correction="August"><marker>august</marker> - September</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&months;</token>
+                    <token regexp="yes">-|–</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="3" /></suggestion> needs to be capitalized.</message>
+                <example correction="August">From April – <marker>august</marker></example>
             </rule>
         </rulegroup>
         <rule id="GETTED" name="getted (got)">
@@ -11796,7 +11839,7 @@ USA
                         Google
                         <exception scope="previous" regexp="yes">to|can(not)?|[cw]ould|should|must|please</exception>
                     </token>
-                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar</token>
+                    <token case_sensitive="yes" regexp="yes">analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbooks?|stadia</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Google Analytics">We use <marker>Google analytics</marker>.</example>
@@ -11839,13 +11882,45 @@ USA
                     <marker>
                         <token case_sensitive="yes">chrome</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="APPLE_PRODUCTS" name="Apple product names" default="temp_off">
+        <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">install?|update</token>
+                    <token min="0" />
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">He installed <marker>opera</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">opera</token>
+                    </marker>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
+                </pattern>
+                <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera">The <marker>opera</marker> browser is better than Internet Explorer.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SPACEX" name="SpaceX">
+            <pattern>
+                <token>Space</token>
+                <token>X</token>
+            </pattern>
+            <message>Did you mean <suggestion>SpaceX</suggestion> (= aerospace company)?</message>
+            <url>https://en.wikipedia.org/wiki/SpaceX</url>
+            <example correction="SpaceX"><marker>Space X</marker> is a private American aerospace manufacturer and space transportation services company.</example>
+        </rule>
+        <rulegroup id="APPLE_PRODUCTS" name="Apple product names">
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">[A-Z].+</token>
@@ -11853,7 +11928,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -11876,10 +11951,13 @@ USA
                     <marker>
                         <token case_sensitive="yes">apple</token>
                     </marker>
-                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividend|events?|emails?|education</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token min="0">s</token>
+                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
+                <example correction="Apple">And <marker>apple</marker>'s revenue is still increasing.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
@@ -11919,14 +11997,14 @@ USA
                     <token>microsoft</token>
                     <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing</token>
                 </pattern>
-                <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft program)?</message>
+                <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
                 <example><marker>Microsoft Office</marker> is popular software that not only runs on Windows machines but also on macOS.</example>
             </rule>
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">word|excel|office|outlook</token>
-                    <token regexp="yes">2007|2010|2013|2016|2019|365</token>
+                    <token regexp="yes">2007|2010|2013|2016|2019|2022|365</token>
                 </pattern>
                 <message>The proper noun <suggestion><match no="1" case_conversion="startupper" /> \2</suggestion> needs to be capitalized.</message>
                 <example correction="Office 365">My <marker>office 365</marker> license expired.</example>
@@ -11936,6 +12014,7 @@ USA
                     <token>office365</token>
                 </pattern>
                 <message>Did you mean <suggestion>Office 365</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/Office_365</url>
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
@@ -11958,14 +12037,36 @@ USA
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
         </rule>
+        <rule id="TURKEY" name="proper noun 'Turkey' (country)" default="temp_off">
+            <antipattern>
+                <token skip="-1">turkey</token>
+                <token regexp="yes">thanksgivings?|breasts?|stuffings?|wings?|eats?|ate|eaten|eating|meat|animals?|bones?|fill|cooks?|cooked|cooking|dinner|christmas|recipes?|menus?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">thanksgivings?|breasts?|stuffings?|wings?|eats?|ate|eaten|eating|meat|animals?|bones?|fill|cooks?|cooked|cooking|dinner|christmas|recipes?|menus?</token>
+                <token>turkey</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">in|from|of</token>
+                <marker>
+                    <token case_sensitive="yes">
+                        turkey
+                    </token>
+                </marker>
+            </pattern>
+            <message>Did you mean the country <suggestion>Turkey</suggestion> (which needs to be capitalized).</message>
+            <example correction="Turkey">I'm from <marker>turkey</marker>.</example>
+            <example>Remove skin and excess fat from turkey breast.</example>
+            <example>She's vegetarian, so she ate tofu instead of turkey.</example>
+        </rule>
         <rule id="ROYAL_MAIL" name="royal mail (Royal Mail)">
             <antipattern>
                 <token case_sensitive="yes">Royal</token>
-                <token case_sensitive="yes" regexp="yes">Mail|Canin|Bank</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z].+</token>
             </antipattern>
             <pattern>
                 <token>royal</token>
-                <token regexp="yes">mail|canin|bank</token>
+                <token regexp="yes">mail|canin|bank|navy|ballet|army</token>
             </pattern>
             <message>The proper noun <suggestion>Royal <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
             <example correction="Royal Mail">The <marker>royal mail</marker> is a postal service and courier company in the United Kingdom.</example>
@@ -13028,6 +13129,21 @@ USA
                 <token postag="IN"/>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
             </antipattern>
+            <antipattern><!-- #2154 let's -->
+                <token>let</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+            </antipattern>
+            <antipattern><!-- #2154 doing it slightly rough -->
+                <token postag="VBG"/>
+                <token>it</token>
+                <token postag="RB"/>
+                <token postag="JJ"/>
+            </antipattern>
+            <antipattern><!-- #2154 www.lexico.com/en/definition/in_(or_out_of)_sync -->
+                <token>in</token>
+                <token>sync</token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -13080,6 +13196,10 @@ USA
             <example>They say it cant happen.</example><!-- rule CANT will catch this -->
             <example>... to the cheerfully optimistic, and it need not imply anything specific about the writer's...</example>
             <example>Then please do it after school.</example><!-- #2124 -->
+            <example>If we don't need it now let's not complicate things.</example><!-- #2154 -->
+            <example>He's doing it slightly rough, then.</example><!-- #2154 -->
+            <example>He's finding it very rough on the sea.</example><!-- #2154 -->
+            <example>He keeps it in sync.</example><!-- #2154 -->
             <example type="triggers_error">Si le grain ne meurt – 1926 (translated as If It Die)</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
@@ -18077,7 +18197,7 @@ USA
                         <exception regexp="yes" scope="next">ago|now</exception>
                     </token>
                 </pattern>
-                <message>It seems that a possesive apostrophe is missing.</message>
+                <message>It seems that a possessive apostrophe is missing.</message>
                 <suggestion>\1 <match no="2" regexp_match="(?i)s" regexp_replace="'s" /></suggestion>
                 <suggestion>these \2</suggestion>
                 <example correction="This year's|These years"><marker>This years</marker> election will change everything.</example>
@@ -21626,6 +21746,34 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="2-door">He drives a <marker>2 door</marker> coupé.</example>
         </rule>
+        <rulegroup id="STORY_HYPHEN" name="missing hyphen in '10 story window'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token regexp="yes">story|floor</token>
+                    </marker>
+                    <token min="0" />
+                    <token regexp="yes">window|plan|rentals?|unit|(tree|town|ware)?houses?|duplex|garages?|houses?|advertisement|ad|buildings?|bldgs?|porch|skyscrapers?|slide|mansions?|apartments?|airplanes?|towers?|sheds?|office|homes?|bookstores?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="10-story">Violent Affair guitarist falls out of <marker>10 story</marker> building.</example>
+            </rule>
+        </rulegroup>
+        <rule id="FOUR_SEASON_HYPHEN" name="missing hyphen in '4 season tent'">
+            <pattern>
+                <marker>
+                    <token regexp="yes">4|four|all</token>
+                    <token>season</token>
+                </marker>
+                <token min="0" />
+                <token regexp="yes">porch(es)?|rooms?|tents?|gloves?|tires?|storage|tickets?</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
+        </rule>
         <rulegroup id="WORD_ESSAY_HYPHEN" name="missing hyphen in '1000 word essay'">
             <antipattern>
                 <token postag="CD" />
@@ -21801,8 +21949,8 @@ USA
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|semester</token>
-                <token regexp="yes">\d+</token>
-                <token>student</token>
+                <token regexp="yes">\d{1,2}</token>
+                <token regexp="yes">student|curriculum</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
                 <token regexp="yes">level|tier|unit</token>
@@ -21813,6 +21961,15 @@ USA
                 <token postag="CD"/>
                 <token>page</token>
                 <token>survey</token>
+            </antipattern>
+            <antipattern><!-- 404 error -->
+                <token regexp="yes">\d{3}</token>
+                <token>error</token>
+            </antipattern>
+            <antipattern>
+                <token>door</token>
+                <token>2</token>
+                <token>door</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Root_canal_treatment -->
                 <token>canal</token>
@@ -21930,7 +22087,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -21940,7 +22097,7 @@ USA
                         <exception regexp="yes">will|year|so|pst</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -22035,6 +22192,9 @@ USA
             <example>Go to slide 8 and click on the link.</example><!-- #1903 -->
             <example>1 turn = 360° = 2π rad = 400 grad = 4 right angles.</example>
             <example>You two hurry up.</example><!--  #2005 -->
+            <example>Our new 404 error page</example>
+            <example>We meet on the usual 9 pm slot.</example>
+            <example>I'm transferring 150 pax to your account.</example><!-- pax is a crypto currency -->
             <example>A level 7 diploma is a vocational certification focused on professional skills.</example>
             <example>Of those 1,839 buses 416 run on compressed natural gas.</example><!-- Better to put a comma before 'run', but that is a different problem. -->
             <example>Of your 9 questions 8 show a complete lack of understanding.</example>
@@ -28169,6 +28329,21 @@ The accident victim died from her injuries.
       <example correction='make an exception for'>I'll <marker>make an exception to</marker> you.</example>
     </rule>
   </rulegroup>
+    <rule id="EAT_ANTIBIOTICS" name="eat (take) antibiotics" default="temp_off"><!-- https://forum.languagetool.org/t/en-possible-rule-eat-s-antibiotics/3602 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">eat</token>
+        </marker>
+        <token postag_regexp="yes" postag="NN.*" regexp="yes">antibiotics|medicines?|medication</token>
+      </pattern>
+      <message>In a medical context, people take or swallow \2. If they eat \2, it is a mistake. Did you mean <suggestion><match no="1" postag="VB.*">take</match></suggestion> or <suggestion><match no="1" postag="VB.*">swallow</match></suggestion>?</message>
+      <short>Possible collocation error</short>
+      <example correction="took|swallowed">I <marker>ate</marker> medicine for 2 weeks after my operation.</example>
+      <example correction="take|swallow">You must go to the doctor and <marker>eat</marker> antibiotics.</example>
+      <example correction="taking|swallowing">Are you <marker>eating</marker> medicines for that illness?</example>
+      <example>I <marker>took</marker> medicine for 2 weeks after my operation.</example>
+      <example type="triggers_error">The child <marker>ate</marker> medicine and was rushed to hospital.</example>
+    </rule>
     </category>
 
     <!-- ====================================================================== -->

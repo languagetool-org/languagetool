@@ -225,6 +225,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
     put("weibt", "weißt");
+    put("Mamma", "Mama");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
@@ -266,7 +267,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Letze[mnrs]?", "Letz", "Letzt");
     putRepl("[nN]i[vw]os?", "[nN]i[vw]o", "Niveau");
     putRepl("[dD]illetant(en)?", "[dD]ille", "Dilet");
-    putRepl("Makeups?", "up", "-up");
     putRepl("Frauenhofer-(Institut|Gesellschaft)", "Frauen", "Fraun");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Addons?", "on", "-on");
@@ -933,10 +933,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
         List<String> paths = Arrays.asList("/de/hunspell/spelling.txt");
-        StringBuilder concatPaths = new StringBuilder();
         List<InputStream> streams = new ArrayList<>();
         for (String path : paths) {
-          concatPaths.append(path).append(";");
           // add separation between streams so that missing newlines at the end don't join the last & first line from two files
           String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
           ByteArrayInputStream separationStream = new ByteArrayInputStream(
@@ -951,7 +949,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             InputStream variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
             variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, UTF_8)));
           }
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), concatPaths.toString(),
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), paths,
             variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {

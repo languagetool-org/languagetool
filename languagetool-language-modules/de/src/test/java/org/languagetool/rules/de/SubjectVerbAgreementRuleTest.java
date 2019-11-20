@@ -150,6 +150,9 @@ public class SubjectVerbAgreementRuleTest {
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
+        "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",
+        "Denken Sie daran, dass Sie hier zu Gast sind und sich entsprechend verhalten sollten.",
+        "Ist es wahr, dass Sie ein guter Mensch sind?",
         "Die Katze ist schön.",
         "Die eine Katze ist schön.",
         "Eine Katze ist schön.",

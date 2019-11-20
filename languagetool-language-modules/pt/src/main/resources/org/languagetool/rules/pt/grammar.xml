@@ -3744,6 +3744,10 @@ title="Easy editing stylesheet" ?>
       <short>Erro de crase</short>
       <antipattern>
           <token>a</token>
+          <token postag='NCFP000'/>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
           <token regexp='yes'>&toponimos_sem_artigo;</token>
       </antipattern>
       <antipattern>
@@ -26600,7 +26604,7 @@ TODO Write better examples
       <antipattern>
           <token regexp="yes">“|«|"|\(</token>
           <token regexp="yes">:|;</token>
-          <token spacebefore="no" regexp="yes">”|»|"|\)</token>
+          <token spacebefore="yes" regexp="yes">”|»|"|\)</token>
       </antipattern>
       <antipattern><!-- XXX Wikipedia lists and time formats -->
           <token>:</token>
@@ -26612,7 +26616,7 @@ TODO Write better examples
           <token spacebefore="no">:</token>
       </antipattern>
       <antipattern>
-          <token>;</token>
+          <token regexp="yes">:|;</token>
           <token regexp="yes">“|»|«|"|”</token>
           <token spacebefore="yes"/>
       </antipattern>

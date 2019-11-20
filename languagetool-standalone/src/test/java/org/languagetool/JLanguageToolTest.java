@@ -167,6 +167,8 @@ public class JLanguageToolTest {
   @Test
   public void testAnnotateTextCheckMultipleSentences2() throws IOException {
     JLanguageTool lt = new JLanguageTool(english);
+
+    String textToCheck = "here is an error. And <i attr='foo'/>here is also <i>a</i> error.";
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("here")
             .addText(" is an error. And ")
@@ -177,6 +179,8 @@ public class JLanguageToolTest {
             .addMarkup("</i>")
             .addText(" error.")
             .build();
+
+    assertThat(annotatedText.getTextWithMarkup(), is(textToCheck));
     List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(2));
     assertThat(matches.get(0).getFromPos(), is(0));

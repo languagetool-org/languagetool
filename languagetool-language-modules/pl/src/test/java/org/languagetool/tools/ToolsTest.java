@@ -22,9 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 public class ToolsTest {
 
   @Test
-  public void testCheck() throws IOException, ParserConfigurationException, SAXException {
+  public void testCheck() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Polish());
 
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
@@ -45,7 +43,7 @@ public class ToolsTest {
   }
 
   @Test
-  public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
+  public void testCorrect() throws IOException {
     JLanguageTool tool = new JLanguageTool(new Polish());
     tool.setCleanOverlappingMatches(false);
 

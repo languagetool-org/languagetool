@@ -2,18 +2,13 @@
 
 ## 4.8-SNAPSHOT (release planned for 2019-12-27)
 
-#### French
-  * updated part-of-speech dictionaries to dicollecte-6.4.1
-    (https://github.com/languagetool-org/languagetool/pull/1963)
-
-#### German
-  * added and improved rules
-
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
 #### Danish
-  * corrections are now offered for spell check errors 
+  * corrections are now offered for spell check errors
+  * updated spell checker to version 2.4 (2018-04-15)
+    (source: https://extensions.libreoffice.org/extensions/stavekontrolden-danish-dictionary) 
 
 #### Dutch
   * added and improved rules
@@ -26,21 +21,43 @@
 
 #### French
   * improved rules
+  * updated spell checker (Grammalecte·dic/Dicollecte) to version 6.4.1 (2019-04-05)
+    (source: https://grammalecte.net/download.php?prj=fr)
+  * updated part-of-speech dictionaries to dicollecte-6.4.1
+    (https://github.com/languagetool-org/languagetool/pull/1963)
+
+#### German
+  * added and improved rules
 
 #### Greek
   * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
+
+#### Khmer
+  * updated spell checker to version 1.82 (2015-10-23)
+    (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
+
+#### Swedish
+  * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
+    (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
 
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
     has been removed. It hadn't been maintained for years and didn't work properly
     anymore.
+  * `prohibit_custom.txt` and `spelling_custom.txt` can be used to make your
+    own additions to `spelling.txt` and `prohibit.txt` without having to edit those
+    files after a LanguageTool update (you will still need to manually copy those
+    files).  
+    Paths to these files (`xx` = language code):  
+    `./org/languagetool/resource/xx/hunspell/prohibit_custom.txt`
+    `./org/languagetool/resource/xx/hunspell/spelling_custom.txt`  
+    Note that you can simply create these files if they don't exist for your language yet.
 
 #### HTTP API / LT server
   * The dynamic languages feature (`lang-xx=...` and `lang-xx-dictPath=...`) now
     also supports hunspell dictionaries. Just let `lang-xx-dictPath` point to the
     absolute path of the `.dic` file. Note that hunspell is quite slow when it
     comes to offering suggestions for misspelled words. 
-
 
 #### Java API
   * `AbstractSimpleReplaceRule2` has been fixed so that it's now case-insensitive.
@@ -54,7 +71,7 @@
     a factor of about 3 (but it's still slow compared to Morfologik).
   * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
     turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
-  * Many external dependencies have been updated to new versions
+  * Many external dependencies have been updated to new versions.
 
 
 

@@ -443,7 +443,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     if( i < tokens.length-1 
         && LemmaHelper.hasLemma(tokens[i], Arrays.asList("пара", "низка", "ряд", "купа", "більшість", "десятка", "сотня", "тисяча", "мільйон"))
         && (PosTagHelper.hasPosTag(tokens[i+1], "noun.*?:p:v_rod.*")
-          || (i < tokens.length-1
+          || (i < tokens.length-2
             && PosTagHelper.hasPosTag(tokens[i+1], "adj:p:v_rod.*")
             && PosTagHelper.hasPosTag(tokens[i+2], "noun.*?:p:v_rod.*")) ) ) {
       logException();
