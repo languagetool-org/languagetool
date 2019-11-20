@@ -121,6 +121,7 @@ class SingleDocument {
   private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
+  private int numParasReset = 1;                  //  Number of paragraphs to reset
   private List<Boolean> isChecked;                //  List of status of all flat paragraphs of document
   private List<Integer> changedParas = null;      //  List of changed paragraphs after editing the document
   private int paraNum;                            //  Number of current checked paragraph
@@ -142,18 +143,10 @@ class SingleDocument {
     this.mDocHandler = mDH;
     this.sentencesCache = new ResultCache();
     this.singleParaCache = new ResultCache();
-    this.paragraphsCache = new ArrayList<>();
     if (config != null) {
       setConfigValues(config);
     }
-    if((doFullCheckAtFirst || numParasToCheck < 0) && mDocHandler != null) {
-      minToCheckPara = mDocHandler.getNumMinToCheckParas();
-      for(int i = 0; i < minToCheckPara.size(); i++) {
-        paragraphsCache.add(new ResultCache());
-      }
-    } else {
-      paragraphsCache.add(new ResultCache());
-    }
+    resetCache();
     ignoredMatches = new HashMap<>();
   }
   
@@ -257,10 +250,18 @@ class SingleDocument {
     sentencesCache.removeAll();
     singleParaCache.removeAll();
     paragraphsCache = new ArrayList<>();
-    if(doFullCheckAtFirst || numParasToCheck < 0) {
+    numParasReset = numParasToCheck;
+    if((doFullCheckAtFirst || numParasToCheck < 0) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       for(int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.add(new ResultCache());
+      }
+      if(numParasReset < 0) {
+        for(int minPara : minToCheckPara) {
+          if(minPara > numParasReset) {
+            numParasReset = minPara;
+          }
+        }
       }
     } else {
       paragraphsCache.add(new ResultCache());
@@ -277,14 +278,12 @@ class SingleDocument {
     if(resetCheck) {
       if(doFullCheckAtFirst || numParasToCheck != 0) {
         loadIsChecked();
-//        paragraphsCache.removeRange(resetFrom, resetTo);
       }
     } else if(resetParaNum >= 0 && resetParaNum != paraNum) {
       resetCheck = true;
       resetParaNum = -1;
       if(doFullCheckAtFirst || numParasToCheck != 0) {
         loadIsChecked();
-//        paragraphsCache.removeRange(resetFrom, resetTo);
       }
     }
     return resetCheck;
@@ -349,7 +348,6 @@ class SingleDocument {
 
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xContext);
-//      docCursor.printProperties();
       contextMenuInterceptor = new ContextMenuInterceptor(xContext);
     }
     FlatParagraphTools flatPara = null;
@@ -373,14 +371,6 @@ class SingleDocument {
       isReset = true;
     }
     
-    int maxParasToCheck = numParasToCheck;
-    if(maxParasToCheck < 0) {
-      for(int minPara : minToCheckPara) {
-        if(minPara > maxParasToCheck) {
-          maxParasToCheck = minPara;
-        }
-      }
-    }
 
     // Test if Size of allParas is correct; Reset if not
     nParas = docCursor.getNumberOfAllTextParagraphs();
@@ -406,27 +396,25 @@ class SingleDocument {
           && allParas.get(from).equals(oldParas.get(from))) {
         from++;
       }
-      resetFrom = from - maxParasToCheck - 1;
+      resetFrom = from - numParasReset - 1;
       int to = 1;
       while (to <= allParas.size() && to <= oldParas.size()
           && allParas.get(allParas.size() - to).equals(
               oldParas.get(oldParas.size() - to))) {
         to++;
       }
-      resetTo = allParas.size() + maxParasToCheck - to;
+      resetTo = allParas.size() + numParasReset - to;
       if(!ignoredMatches.isEmpty()) {
         Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
         for (int i = 0; i < from; i++) {
           if(ignoredMatches.containsKey(i)) {
             tmpIgnoredMatches.put(i, ignoredMatches.get(i));
-//            MessageHandler.printToLogFile("Add to ignoredMatches: Paragraph: " + i + ", Maches: " + ignoredMatches.get(i).size());
           }
         }
         for (int i = to + 1; i < oldParas.size(); i++) {
           int n = i + allParas.size() - oldParas.size();
           if(ignoredMatches.containsKey(i)) {
             tmpIgnoredMatches.put(n, ignoredMatches.get(i));
-//            MessageHandler.printToLogFile("Add to ignoredMatches: Paragraph: " + n + ", Maches: " + ignoredMatches.get(i).size());
           }
         }
         ignoredMatches = tmpIgnoredMatches;
@@ -505,8 +493,8 @@ class SingleDocument {
           resetCheck = true;
           resetParaNum = nParas;
         }
-        resetFrom = nParas - maxParasToCheck;
-        resetTo = nParas + maxParasToCheck + 1;
+        resetFrom = nParas - numParasReset;
+        resetTo = nParas + numParasReset + 1;
         ignoredMatches.remove(nParas);
         textIsChanged = true;
         return nParas;
@@ -756,10 +744,8 @@ class SingleDocument {
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
-//    MessageHandler.printToLogFile("Merge Matches: paragraph: " + paraNum);
     if(ignoredMatches.containsKey(paraNum)) {
       List<Integer> xIgnoredMatches = ignoredMatches.get(paraNum);
-//      MessageHandler.printToLogFile("Ignored Matches: paragraph: " + paraNum + ", number matches: "+ xIgnoredMatches.size());
       List<SingleProofreadingError> filteredErrors = new ArrayList<>();
       for (SingleProofreadingError error : errorArray) {
         boolean noFilter = true;
@@ -784,6 +770,9 @@ class SingleDocument {
 
     if(paraNum < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst)) {
       pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, 0));
+      if(doResetCheck && resetCheck) {
+        addChangedParas();
+      }
     } else {
       //  Real full text check / numParas < 0
       ResultCache oldCache = null;
@@ -794,6 +783,9 @@ class SingleDocument {
       }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         numParasToCheck = minToCheckPara.get(i);
+        if(!firstCheckIsDone && maxParasToCheck >= 0 && numParasToCheck < 0) {
+          numParasToCheck = -2;
+        }
         if(firstCheckIsDone && maxParasToCheck >= 0 && (numParasToCheck < 0 || numParasToCheck > maxParasToCheck)) {
           numParasToCheck = maxParasToCheck;
         }
@@ -824,22 +816,7 @@ class SingleDocument {
               }
             }
           } else {
-            int firstPara = resetFrom;
-            if (firstPara < 0) {
-              firstPara = 0;
-            }
-            int lastPara = resetTo;
-            if (lastPara > allParas.size()) {
-              lastPara = allParas.size();
-            }
-            if(changedParas == null) {
-              changedParas = new ArrayList<>();
-            }
-            for (int n = firstPara; n < lastPara; n++) {
-              if(!changedParas.contains(n)) {
-                changedParas.add(n);
-              }
-            }
+            addChangedParas();
           }
         }
       }
@@ -853,6 +830,24 @@ class SingleDocument {
     return pErrors;
   }
   
+  private void addChangedParas() {
+    int firstPara = resetFrom;
+    if (firstPara < 0) {
+      firstPara = 0;
+    }
+    int lastPara = resetTo;
+    if (lastPara > allParas.size()) {
+      lastPara = allParas.size();
+    }
+    if(changedParas == null) {
+      changedParas = new ArrayList<>();
+    }
+    for (int n = firstPara; n < lastPara; n++) {
+      if(!changedParas.contains(n)) {
+        changedParas.add(n);
+      }
+    }
+  }
 
   @Nullable
   private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
@@ -1284,8 +1279,7 @@ class SingleDocument {
         XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
         int count = xContextMenu.getCount();
         
-        //  Version to add LT Options Item only if a Grammar or Spell error was detected
-        //  TODO: delete or activate after practice test
+        //  Add LT Options Item if a Grammar or Spell error was detected
         for (int i = 0; i < count; i++) {
           Any a = (Any) xContextMenu.getByIndex(i);
           XPropertySet props = (XPropertySet) a.getObject();
