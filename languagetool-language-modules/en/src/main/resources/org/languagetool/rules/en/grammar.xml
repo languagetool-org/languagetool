@@ -11880,16 +11880,31 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes">chrome</token>
+                        <token case_sensitive="yes" regexp="yes">chrome|chromium</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility|dev(elopment)?</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">chrome|chromium</token>
+                        <token regexp="yes">\d{2,3}</token>
+                    </marker>
+                </pattern>
+                <message>The proper noun <suggestion>Chrome \2</suggestion> (= software from Google) needs to be capitalized.</message>
+                <example correction="Chrome 70">I'm using <marker>chromium 70</marker>.</example>
+            </rule>
         </rulegroup>
-        <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)" default="temp_off">
+        <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)">
+            <url>https://en.wikipedia.org/wiki/Opera_(web_browser)</url>
             <rule>
+                <antipattern>
+                    <token regexp="yes">soap|chamber</token>
+                    <token>opera</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">install?|update</token>
                     <token min="0" />
@@ -11901,14 +11916,31 @@ USA
                 <example correction="Opera">He installed <marker>opera</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">soap|chamber</token>
+                    <token>opera</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">opera</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility</token>
+                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility|software|touch|dev(elopment)?</token>
                 </pattern>
                 <message>The proper noun <suggestion>Opera</suggestion> (= web browser) needs to be capitalized.</message>
                 <example correction="Opera">The <marker>opera</marker> browser is better than Internet Explorer.</example>
+                <example>The Bay (web series), a soap opera web series that premiered in 2010.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>Opera</token>
+                    <token regexp="yes">[A-Z0-9].*</token>
+                </antipattern>
+                <pattern>
+                    <token>opera</token>
+                    <token regexp="yes">mini|gx|mobile|\d{2,3}</token>
+                </pattern>
+                <message>The proper noun <suggestion>Opera <match no="2" case_conversion="startupper" /></suggestion> (= web browser) needs to be capitalized.</message>
+                <example correction="Opera 61">I'm using <marker>opera 61</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SPACEX" name="SpaceX">
@@ -12037,7 +12069,7 @@ USA
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
         </rule>
-        <rule id="TURKEY" name="proper noun 'Turkey' (country)" default="temp_off">
+        <rule id="TURKEY" name="proper noun 'Turkey' (country)">
             <antipattern>
                 <token skip="-1">turkey</token>
                 <token regexp="yes">thanksgivings?|breasts?|stuffings?|wings?|eats?|ate|eaten|eating|meat|animals?|bones?|fill|cooks?|cooked|cooking|dinner|christmas|recipes?|menus?</token>
