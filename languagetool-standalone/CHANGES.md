@@ -45,8 +45,7 @@
     has been removed. It hadn't been maintained for years and didn't work properly
     anymore.
   * `spelling_global.txt` has been added. Words or phrases added here will
-    be accepted for all languages (note: behavior is still inconsistent between
-    languages when it comes to using these words for suggestions).
+    be accepted for all languages.
   * `prohibit_custom.txt` and `spelling_custom.txt` can be used to make your
     own additions to `spelling.txt` and `prohibit.txt` without having to edit those
     files after a LanguageTool update (you will still need to manually copy those

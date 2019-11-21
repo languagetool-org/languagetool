@@ -392,6 +392,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.8
    */
   public List<String> getAdditionalSpellingFileNames() {
+    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
     return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE);
   }
 
