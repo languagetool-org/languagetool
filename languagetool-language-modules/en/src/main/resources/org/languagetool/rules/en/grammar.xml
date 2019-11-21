@@ -11053,6 +11053,11 @@ USA
                 <token postag="VB.*" postag_regexp="yes" />
                 <token>her</token>
             </antipattern>
+            <antipattern><!-- "...people who work with her grow ..." -->
+                <token postag="NN.*|VB.*" postag_regexp="yes" />
+                <token>with</token>
+                <token>her</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">team|person|participant|patient|probant</token>
                 <token>A</token>
@@ -11097,6 +11102,69 @@ USA
                 <example>Please let her rebrand our company logo.</example>
                 <example>It helped her understand herself.</example>
                 <example>It is impossible to make her understand the theory.</example>
+            </rule>
+            <rule default="temp_off"><!-- the breathe -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>breathe</token>
+                    </marker>
+                </pattern>
+                <message>The word 'breathe' is a verb. Did you mean the noun <suggestion>breath</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/breath</url>
+                <example correction="breath">They were out of their <marker>breathe</marker>.</example>
+                <example>Let's breathe the fresh air.</example>
+            </rule>
+            <rule default="temp_off"><!-- the advertise -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>
+                            advertise
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The word 'adverise' is a verb. Did you mean the noun <suggestion>advertisement</suggestion>?</message>
+                <example correction="advertisement">He watched the new <marker>advertise</marker> on YouTube and skipped it.</example>
+            </rule>
+            <rule default="temp_off"><!-- the analyze -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">
+                            analy[sz]e
+                            <exception scope="next">des</exception><!-- french "Analyse des infiniment petits" -->
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion>analysis</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/analysis</url>
+                <example correction="analysis">The <marker>analyze</marker> of animal deseases was performed by his colleague.</example>
+                <example>Guillaume de l'Hôpital used the chain rule implicitly in his Analyse des infiniment petits.</example>
+                <example>Let's analyze this picture.</example>
+            </rule>
+            <rule default="temp_off"><!-- the analyzes -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s|those|these|many</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>analyzes</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the plural noun <suggestion>analyses</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/analysis</url>
+                <example correction="analyses">Many <marker>analyzes</marker> of animal deseases were performed by the institute.</example>
             </rule>
             <rule><!-- the require -->
                 <antipattern>
@@ -11240,7 +11308,10 @@ USA
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">reminds?</token>
+                        <token regexp="yes">
+                            reminds?
+                            <exception scope="next">code</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)remind" regexp_replace="reminder" /></suggestion>?</message>
@@ -11427,6 +11498,11 @@ USA
                     <token skip="2">create</token>
                     <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
                 </antipattern>
+                <antipattern>
+                    <token>create</token>
+                    <token regexp="yes">and|or</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11445,6 +11521,7 @@ USA
                 <example>Person A creates something special.</example>
                 <example>After I did that I reopened the app and was directed to the create account screen.</example>
                 <example>Assuming both the CREATE and INSERT failed.</example>
+                <example>The create and update.</example>
             </rule>
             <rule><!-- the replace -->
                 <antipattern>
@@ -11582,7 +11659,9 @@ USA
                 <example correction="growth">The unexpected <marker>grow</marker> in revenue was caused by their new ad campaign.</example>
                 <example>The grow room.</example><!-- https://en.wikipedia.org/wiki/Growroom -->
                 <example>Help me to make her grow.</example>
+                <example>Executives who work with her grow as leaders.</example>
                 <example>The rich grow richer and the poor grow poorer.</example>
+                <example>In the past year, I have seen my relationship with her grow so much.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THE_ADD_ON" name="the + add on">
@@ -20195,6 +20274,49 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
+        <rulegroup id="PRP_DON" name="they don (don't)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">don|doesn|ha[ds]n|haven|[cw]ouldn|shouldn|wasn|weren|mustn|aren|isn</token>
+                    <token regexp="yes">not?</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="n$" regexp_replace="" /> \2</suggestion>?</message>
+                <example correction="do not">I <marker>don not</marker> know.</example>
+            </rule>
+            <rule>
+                <antipattern><!-- "don" is also a rarely used verb -->
+                    <token regexp="yes">I|you|we|they</token>
+                    <token postag="RB" min="0" />
+                    <token>don</token>
+                    <token regexp="yes">an?|that|this|my|y?our|his|her|their</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token postag="RB" min="0" />
+                    <token case_sensitive="yes" regexp="yes">D.+</token><!-- "Don" (name) -->
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|we|they|s?he|you</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">
+                            don|doesn|hasn|haven|[cw]ouldn|shouldn|wasn|weren|ain|mustn|aren|isn
+                            <exception case_sensitive="yes" regexp="yes">D.+</exception><!-- Name ("Don") -->
+                        </token>
+                    </marker>
+                    <token spacebefore="yes">
+                        <exception regexp="yes">&apostrophe;</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>\3't</suggestion>?</message>
+                <example correction="don't">I <marker>don</marker> go there.</example>
+                <example>I like Don for his attitude.</example>
+                <example>I like ain for his attitude.</example>
+                <example>Thank you Don.</example>
+                <example>Thank you Don for your help.</example>
+                <example>In the dressing room you don your football shirts.</example>
+            </rule>
+        </rulegroup>
         <rule id="PRP_DOCENT" name="he docent (doesn't)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
@@ -21872,6 +21994,27 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
         </rule>
+        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>hour</token>
+                </marker>
+                <token min="0">
+                    <exception postag="DT|IN|CD" postag_regexp="yes" />
+                    <exception>per</exception>
+                </token>
+                <token regexp="yes">walmarts?|pharmac(y|ies)|motels?|hotels?|convenience|walgreens|fitness|gyms?|laundromats?|autozones?|mcdonalds?|forecasts?|myster(y|ies)|weather|lag|jobs?|shifts?|workouts?|clock|desks?|drive|events?|lessons?|call|days?|timestamps?|timer|sessions?|services?|journeys?|hikes?|trainings?|sleep|meeting|deal|period|patrols|panic|operation|level|update|rule|standoffs?|response|timeframe|format|cycles?|surger(y|ies)|walk|delays?|notice|difference|countdown|battery|conversations?|naps?|projects?|ride|rescue|block|trips?|rest|visit|breaks?|delivery|queue|marathons?|window|contractors?|controllers?</token>
+            </pattern>
+            <message>It appears that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="24-hour">The <marker>24 hour</marker> walmart never closes down.</example>
+            <example correction="12-hour">He was working six <marker>12 hour</marker> days.</example>
+            <example>I bet you play one hour a day.</example>
+            <example>I exercise for 1 hour every day.</example>
+            <example>5 hour per day gambling trip.</example>
+            <example>One hour of sleep before midnight is worth two hours after.</example>
+        </rule>
         <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'" default="temp_off">
             <rule>
                 <pattern>
@@ -22101,7 +22244,7 @@ USA
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">season|chapter</token>
+                <token regexp="yes">season|chapter|unit</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern>
@@ -22113,7 +22256,7 @@ USA
                 <token>51</token>
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
-                <token regexp="yes">year|grade|semester</token>
+                <token regexp="yes">year|grade|gr|semester</token>
                 <token regexp="yes">\d{1,2}</token>
                 <token regexp="yes">student|curriculum</token>
             </antipattern>
@@ -28541,6 +28684,17 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'" default="temp_off">
+            <pattern>
+                <token regexp="yes">act|season|page|unit|lesson|module|grade|chapter|row</token>
+                <token postag="CD" />
+                <token regexp="yes">scene|episode|paragraph|task|seat</token>
+                <token postag="CD" />
+            </pattern>
+            <message>It seems that a comma is missing.</message>
+            <suggestion>\1 \2, \3 \4</suggestion>
+            <example correction="Act 2, Scene 5"><marker>Act 2 Scene 5</marker>.</example>
+        </rule>
         <rulegroup id="PRP_COMMA" name="Missing comma after pronoun">
             <rule>
                 <antipattern><!-- confusion of it/if (found by CC_IT_PRP) -->
@@ -30144,7 +30298,7 @@ The accident victim died from her injuries.
                         </token>
                         <token>day</token>
                     </marker>
-                    <token regexp="yes">weeks?|shipping|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip</token>
+                    <token regexp="yes">weeks?|shipping|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary</token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
@@ -41103,7 +41257,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">a(i|re)n|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|m(ay|ight|ust)n|needn|oughtn|sh(a|ould)n|w(as|ere|o)n|wouldn</token>
-                    <token regexp="yes" min="0">[;:"]</token>
+                    <token regexp="yes" min="0">[^'’`´‘]</token>
                     <token>t</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
