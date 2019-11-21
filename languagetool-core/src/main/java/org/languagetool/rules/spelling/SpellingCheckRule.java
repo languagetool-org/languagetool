@@ -74,6 +74,7 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
+  private static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
@@ -391,7 +392,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.8
    */
   public List<String> getAdditionalSpellingFileNames() {
-    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE);
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE);
   }
 
   /**
