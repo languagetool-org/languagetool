@@ -22226,9 +22226,9 @@ USA
                 <token regexp="yes">\d{4,}</token>
                 <token postag="NNP"/>
             </antipattern>
-            <antipattern>
+            <antipattern><!-- two by two / 1 in 12 -->
                 <token postag="CD"/>
-                <token>by</token>
+                <token regexp="yes">by|in</token>
                 <token postag="CD"/>
             </antipattern>
             <antipattern case_sensitive="yes">
@@ -22383,6 +22383,14 @@ USA
                 <token>)</token>
                 <token postag="NNS"/>
             </antipattern>
+            <antipattern><!-- #2167 He had 6 wrong pattern attempts. -->
+                <token postag_regexp="yes" postag="VB.*"/>
+                <token postag="CD"/>
+                <token postag_regexp="yes" postag="JJR?"/>
+                <token chunk="E-NP-singular"/>
+                <token postag="NNS"/><!-- Chunker identifies some plural nouns as a verb. Example: attempt/B-VP -->
+                <token postag_regexp="yes" postag="SENT_END|IN"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -22511,6 +22519,10 @@ USA
             <example>... included production of a small but sturdy 125 cc motorcycle and a DKW delivery van.</example><!-- regression 2019-11-08 -->
             <example>A single drop of water contains about 2 sextillion (2×1021) atoms of oxygen, and twice the number of...</example><!-- regression 2019-11-08 -->
             <example>= 90° = π/2 rad = 1/4 turn = 100 grad.</example><!-- regression 2019-11-08 -->
+            <example>He had 6 wrong <marker>pattern attempts</marker>.</example><!--  #2167 -->
+            <example>There were 6 wrong <marker>pattern attempts</marker> during the test.</example><!--  #2167 -->
+            <example>They discussed 3 newer <marker>pattern runs</marker> in the meeting.</example><!--  #2167 -->
+            <example>Only 1 in 12 stay and are happy with our service.</example><!--  #2167 -->
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
