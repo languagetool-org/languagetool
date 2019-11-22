@@ -27,18 +27,42 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * List rules that offer no suggestion.
  */
 public class NoSuggestionRuleList {
+  
+  // format: rule_id,match_propability_as_float (and optionally more columns)
+  // e.g.:
+  // MORFOLOGIK_RULE_NL_NL,0.596809797834639
+  // EINDE_ZIN_ONVERWACHT,0.2137227907162415
+  private final static String POPULARITY_FILE = "/home/dnaber/Downloads/rule_matches_nl_1w_detailed.csv";  // set to null to skip
 
   public static void main(String[] args) throws IOException {
     if (args.length < 1) {
       System.out.println("Usage: " + NoSuggestionRuleList.class.getSimpleName() + " <langCodes>");
       System.exit(1);
     }
+    Map<String,Float> popularity = new HashMap<>();
+    if (POPULARITY_FILE != null) {
+      List<String> lines = Files.readAllLines(Paths.get(POPULARITY_FILE));
+      for (String line : lines) {
+        String[] parts = line.split(",");
+        try {
+          popularity.put(parts[0], Float.parseFloat(parts[1]));
+        } catch (NumberFormatException e) {
+          System.err.println("Ignoring line: " + line + ", " + e.getMessage());
+        }
+      }
+    }
+    System.out.println("Loaded " + popularity.size() + " popularity mappings");
     for (String langCode : args) {
       Language lang = Languages.getLanguageForShortCode(langCode);
       JLanguageTool lt = new JLanguageTool(lang);
@@ -61,13 +85,12 @@ public class NoSuggestionRuleList {
         List<RuleMatch> matches = lt.check(incorrectExample);
         for (RuleMatch match : matches) {
           if (match.getSuggestedReplacements().size() == 0) {
-            if (rule instanceof AbstractPatternRule) {
-              //System.out.println("No suggestion for: " + ((AbstractPatternRule) rule).getFullId());
-              //System.out.println("--> "+incorrectExample);
-            } else {
-              //System.out.println("No suggestion for: " + rule.getId());
-              //System.out.println("--> "+incorrectExample);
-            }
+            //if (rule instanceof AbstractPatternRule) {
+            //  printRule(((AbstractPatternRule)rule).getFullId(), rule, incorrectExample, popularity);
+            //} else {
+            //  printRule(rule.getId(), rule, incorrectExample, popularity);
+            //}
+            printRule(rule.getId(), rule, incorrectExample, popularity);
             noSuggestion++;
           } else {
             suggestion++;
@@ -81,5 +104,15 @@ public class NoSuggestionRuleList {
       System.out.printf("Without suggestion: %d (%.2f%%)\n", noSuggestion, ((float)noSuggestion / (suggestion + noSuggestion))*100.0);
       System.out.println();
     }
+  }
+
+  private static void printRule(String id, Rule rule, String incorrectExample, Map<String, Float> popularity) {
+    Float pop = popularity.get(rule.getId());
+    if (pop != null) {
+      System.out.printf(Locale.ENGLISH, "%.4f " + id + "\n", pop);
+    } else {
+      System.out.println("0 " + id);
+    }
+    //System.out.println("--> "+incorrectExample);
   }
 }
