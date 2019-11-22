@@ -11103,7 +11103,7 @@ USA
                 <example>It helped her understand herself.</example>
                 <example>It is impossible to make her understand the theory.</example>
             </rule>
-            <rule default="temp_off"><!-- the breathe -->
+            <rule><!-- the breathe -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11118,7 +11118,7 @@ USA
                 <example correction="breath">They were out of their <marker>breathe</marker>.</example>
                 <example>Let's breathe the fresh air.</example>
             </rule>
-            <rule default="temp_off"><!-- the advertise -->
+            <rule><!-- the advertise -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11133,7 +11133,7 @@ USA
                 <message>The word '\3' is a verb. Did you mean the noun <suggestion>advertisement</suggestion>?</message>
                 <example correction="advertisement">He watched the new <marker>advertise</marker> on YouTube and skipped it.</example>
             </rule>
-            <rule default="temp_off"><!-- the analyze -->
+            <rule><!-- the analyze -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11152,7 +11152,7 @@ USA
                 <example>Guillaume de l'Hôpital used the chain rule implicitly in his Analyse des infiniment petits.</example>
                 <example>Let's analyze this picture.</example>
             </rule>
-            <rule default="temp_off"><!-- the analyzes -->
+            <rule><!-- the analyzes -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s|those|these|many</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11966,7 +11966,7 @@ USA
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">chrome|chromium</token>
@@ -12009,7 +12009,7 @@ USA
                 <example correction="Opera">The <marker>opera</marker> browser is better than Internet Explorer.</example>
                 <example>The Bay (web series), a soap opera web series that premiered in 2010.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>Opera</token>
                     <token regexp="yes">[A-Z0-9].*</token>
@@ -20274,7 +20274,7 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
-        <rulegroup id="PRP_DON" name="they don (don't)" default="temp_off">
+        <rulegroup id="PRP_DON" name="they don (don't)">
             <rule>
                 <pattern>
                     <token regexp="yes">don|doesn|ha[ds]n|haven|[cw]ouldn|shouldn|wasn|weren|mustn|aren|isn</token>
@@ -21826,7 +21826,7 @@ USA
             <example>I received 5 stars on GitHub.</example>
             <example type="triggers_error">Let Q be a set enclosed between two <marker>step regions</marker> S and T. A step region is formed from a ...</example><!-- 'step region' is a 2-word technical term www.cambridge.org/core/journals/robotica/article/increase-the-feasible-step-region-of-biped-robots-through-active-vertical-flexion-and-extension-motions/063AF130B5E3F0A1BA689FF18321C3A0 -->
         </rule>
-        <rule id="HAD_TOO" name="confusion of 'too' and 'to'" default="temp_off">
+        <rule id="HAD_TOO" name="confusion of 'too' and 'to'">
             <antipattern>
                 <token skip="1">too</token>
                 <token regexp="yes">many|much</token>
@@ -21845,7 +21845,7 @@ USA
             <example correction="to">Democrats would have <marker>too</marker> narrow a majority and each senator's individual power in the legislative process is too great for that.</example>
             <example>Sorry, between @CJK, @ccstone and @commanderclif, this thread has too darn many c-names!</example>
         </rule>
-        <rulegroup id="HAD_TWO" name="confusion of 'two' and 'to'" default="temp_off">
+        <rulegroup id="HAD_TWO" name="confusion of 'two' and 'to'">
             <rule>
                 <antipattern>
                     <token skip="4">two</token>
@@ -21913,7 +21913,7 @@ USA
                 <example correction="twofold">It's a <marker>two fold</marker> increase in the risk.</example>
             </rule>
         </rulegroup>
-        <rule id="FACTOR_HYPHEN" name="missing hyphen in 'two factor auth'" default="temp_off">
+        <rule id="FACTOR_HYPHEN" name="missing hyphen in 'two factor auth'">
             <pattern>
                 <marker>
                     <token regexp="yes">1|2|3|one|two|three|multi</token>
@@ -21994,7 +21994,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
         </rule>
-        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'" default="temp_off">
+        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -22015,7 +22015,7 @@ USA
             <example>5 hour per day gambling trip.</example>
             <example>One hour of sleep before midnight is worth two hours after.</example>
         </rule>
-        <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'" default="temp_off">
+        <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'">
             <rule>
                 <pattern>
                     <marker>
@@ -22044,7 +22044,7 @@ USA
                 <example>Among national musical instruments there are 14 string instruments, eight percussion instruments and six...</example>
             </rule>
         </rulegroup>
-        <rule id="INCH_HYPHEN" name="missing hyphen in '22 inch monitor'" default="temp_off">
+        <rule id="INCH_HYPHEN" name="missing hyphen in '22 inch monitor'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -22057,7 +22057,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="16-inch">He bought the all-new <marker>16 inch</marker> macbook.</example>
         </rule>
-        <rule id="SEAT_HYPHEN" name="missing hyphen in '2 seat convertible'" default="temp_off">
+        <rule id="SEAT_HYPHEN" name="missing hyphen in '2 seat convertible'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -22070,7 +22070,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="2-seat">He drives a <marker>2 seat</marker> convertible.</example>
         </rule>
-        <rule id="YARD_HYPHEN" name="missing hyphen in '100 yard house plan'" default="temp_off">
+        <rule id="YARD_HYPHEN" name="missing hyphen in '100 yard house plan'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -24565,7 +24565,7 @@ USA
 <!-- TODO: not found --><example>They <marker>don</marker> work.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THANKS_GIVING" name="'thanks giving' (Thanksgiving)" default="temp_off">
+        <rulegroup id="THANKS_GIVING" name="'thanks giving' (Thanksgiving)">
             <url>https://en.wikipedia.org/wiki/Thanksgiving</url>
             <rule>
                 <pattern>
@@ -28685,7 +28685,7 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
-        <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'" default="temp_off">
+        <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
             <pattern>
                 <token regexp="yes">act|season|page|unit|lesson|module|grade|chapter|row</token>
                 <token postag="CD" />
