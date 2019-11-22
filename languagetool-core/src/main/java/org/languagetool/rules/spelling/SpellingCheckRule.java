@@ -393,7 +393,7 @@ public abstract class SpellingCheckRule extends Rule {
    */
   public List<String> getAdditionalSpellingFileNames() {
     // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
-    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE/*, GLOBAL_SPELLING_FILE -- TODO: causes crash with dynamic languages */);
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE);
   }
 
   /**
