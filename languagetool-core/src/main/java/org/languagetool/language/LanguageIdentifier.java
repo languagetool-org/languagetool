@@ -243,7 +243,7 @@ public class LanguageIdentifier {
       } catch (Exception e) {
         fasttextEnabled = false;
         RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
-          String.format("Fasttext disabled, failed on '%s': %s", text, ExceptionUtils.getStackTrace(e)));
+          String.format("Fasttext disabled, failed on '%s' (shortText='%s'): %s", text, shortText, ExceptionUtils.getStackTrace(e)));
         RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
       }
