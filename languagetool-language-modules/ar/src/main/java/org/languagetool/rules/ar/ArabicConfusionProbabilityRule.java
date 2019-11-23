@@ -20,8 +20,8 @@ package org.languagetool.rules.ar;
 
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
 import java.util.ResourceBundle;
 

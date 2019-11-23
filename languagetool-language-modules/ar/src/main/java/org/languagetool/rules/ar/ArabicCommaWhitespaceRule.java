@@ -18,12 +18,10 @@
  */
 package org.languagetool.rules.ar;
 
-import java.util.ResourceBundle;
-
 import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.Example;
-import org.languagetool.rules.IncorrectExample;
+
+import java.util.ResourceBundle;
 
 
 public class ArabicCommaWhitespaceRule extends CommaWhitespaceRule {

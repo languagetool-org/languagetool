@@ -19,12 +19,6 @@
 package org.languagetool.tokenizers;
 
 import org.languagetool.Language;
-import org.languagetool.language.Contributor;
-import org.languagetool.rules.Rule;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * A sentence tokenizer that splits on {@code [.!؟…]} followed by whitespace

@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.ar;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 public class ArabicTagger extends BaseTagger {
 

@@ -17,9 +17,9 @@
  */
 package org.languagetool.rules.ar;
 
-import java.util.ResourceBundle;
-
 import org.languagetool.rules.DoublePunctuationRule;
+
+import java.util.ResourceBundle;
 
 public class ArabicDoublePunctuationRule extends DoublePunctuationRule {
 

@@ -19,23 +19,22 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.ar.ArabicCommaWhitespaceRule;
-import org.languagetool.rules.ar.ArabicConfusionProbabilityRule;
-import org.languagetool.rules.ar.ArabicContractionSpellingRule;
-import org.languagetool.rules.ar.ArabicDoublePunctuationRule;
-import org.languagetool.rules.ar.ArabicLongSentenceRule;
-import org.languagetool.rules.ar.ArabicWordRepeatRule;
-import org.languagetool.rules.ar.MorfologikArabicSpellerRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.ar.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicTagger;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.ArabicSentenceTokenizer;
 import org.languagetool.tokenizers.ArabicWordTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -44,11 +43,14 @@ import java.util.ResourceBundle;
 /**
  * Support for Arabic.
  */
-public class Arabic extends Language {
+public class Arabic extends Language implements AutoCloseable {
 
+  private static final Language DEFAULT_ARABIC = new Arabic();
   private SentenceTokenizer sentenceTokenizer;
   private WordTokenizer wordTokenizer;
   private Tagger tagger;
+  private Synthesizer synthesizer;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -62,11 +64,14 @@ public class Arabic extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"", "AE", "BH", "EG", "IN", "IQ", "JQ", "JO", 
-    						"KW", "LB", "LY", "MA", "OM", "QA", "SA", "SD", 
-    						"SY", "TN", "YE"};
+    return new String[]{"", "DZ", "TN"};
   }
-  
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return DEFAULT_ARABIC;
+  }
+
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
@@ -90,6 +95,14 @@ public class Arabic extends Language {
     }
     return tagger;
   }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new ArabicSynthesizer(this);
+    }
+    return synthesizer;
+  }
   
   @Override
   public Contributor[] getMaintainers() {
@@ -101,8 +114,9 @@ public class Arabic extends Language {
     };
   }
 
+
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new MultipleWhitespaceRule(messages, this),
         new SentenceWhitespaceRule(messages),
@@ -110,11 +124,10 @@ public class Arabic extends Language {
                 Arrays.asList("[", "(", "{" , "«", "﴾"), 
                 Arrays.asList("]", ")", "}" , "»", "﴿")),
         // specific to Arabic :
-        new MorfologikArabicSpellerRule(messages, this),
-        //new HunspellNoSuggestionRule(messages, this),
+        new HunspellRule(messages, this, userConfig, altLanguages),
         new ArabicCommaWhitespaceRule(messages),
         new ArabicDoublePunctuationRule(messages),
-        new ArabicLongSentenceRule(messages, 40),
+        new LongSentenceRule(messages, userConfig, -1, false),
         new ArabicWordRepeatRule(messages, this),
         new ArabicContractionSpellingRule(messages)
     );
@@ -124,5 +137,23 @@ public class Arabic extends Language {
     return Arrays.<Rule>asList(
             new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    languageModel = initLanguageModel(indexDir, languageModel);
+    return languageModel;
+  }
+
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
   }
 }

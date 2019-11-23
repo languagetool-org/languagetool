@@ -18,12 +18,12 @@
  */
 package org.languagetool.rules.ar;
 
-import java.util.ResourceBundle;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
+
+import java.util.ResourceBundle;
 
 /**
  * Word repeat rule for َArabic, to avoid false alarms in the generic word repetition rule.

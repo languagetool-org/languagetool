@@ -18,13 +18,15 @@
  */
 package org.languagetool.rules.ar;
 
+import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import org.languagetool.rules.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -36,7 +38,7 @@ public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   public static final String CONTRACTION_SPELLING_RULE = "AR_CONTRACTION_SPELLING";
 
-  private static final Map<String, List<String>> wrongWords = load("/ar/contractions.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ar/contractions.txt");
   private static final Locale AR_LOCALE = new Locale("ar");
 
   @Override
