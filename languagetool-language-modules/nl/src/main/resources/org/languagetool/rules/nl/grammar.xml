@@ -11516,19 +11516,6 @@ onwaarschijnlijk
                 <example correction="inzake|in zaken">Het beeld van de vrijheid van de mens <marker>in zake</marker> creativiteit.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
-            <!-- 2014-08-19 TaalTik       Regel aangepast omdat de melding er vaak naast zat en het om een vergeten spatie ging. -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">€[a-z]{4}.*</token>
-                </pattern>
-                <message>Gebruik een koppelteken na een symbool in een samengesteld woord. <suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion> Of voeg een spatie toe <suggestion><match no="1" regexp_match="(€)" regexp_replace="€ "/></suggestion></message>
-                <short>spatie na EUR (EUR_004)</short>
-                <example correction="€-teken|€ teken">Hij gaf mij een <marker>€teken</marker>.</example>
-                <example>Hij gaf mij een <marker>€-teken</marker>.</example>
-                <example correction="€-centjes|€ centjes">Het was slechts een paar <marker>€centjes</marker> goedkoper geweest.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="GETAL_SAMENST" name="20-dollarbiljet → 20 dollarbiljet">
             <!-- 2013-08-23 TaalTik -->
             <rule>
@@ -18361,6 +18348,20 @@ steenwijk;Steenwijk
 		-->
     </category>
     <category id="NOTATIES" name="Notaties" type="style">
+
+        <rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
+            <!-- 2014-08-19 TaalTik       Regel aangepast omdat de melding er vaak naast zat en het om een vergeten spatie ging. -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">€[a-z]{4}.*</token>
+                </pattern>
+                <message>Gebruik een koppelteken na een symbool in een samengesteld woord. <suggestion><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion> Of voeg een spatie toe <suggestion><match no="1" regexp_match="(€)" regexp_replace="€ "/></suggestion></message>
+                <short>spatie na EUR (EUR_004)</short>
+                <example correction="€-teken|€ teken">Hij gaf mij een <marker>€teken</marker>.</example>
+                <example>Hij gaf mij een <marker>€-teken</marker>.</example>
+                <example correction="€-centjes|€ centjes">Het was slechts een paar <marker>€centjes</marker> goedkoper geweest.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EURO" name="Correcties rond euro">
             <!-- 2014-08-21 TaalTik -->
             <rule>
@@ -18407,14 +18408,9 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">[0-9]{1,10}EUR</token>
                 </pattern>
-                <message>Gebruik € voor het bedrag</message>
+                <message>Gebruik € voor het bedrag <suggestion><match no="1" regexp_match="([0-9]{1,10})EUR" regexp_replace="€ $1"/></suggestion></message>
                 <url>http://taaladvies.net/taal/advies/vraag/1179/euro_eur_euroteken/</url>
-                <example type="incorrect">Hij gaf mij <marker>10EUR</marker>.</example>
-                <example>Hij gaf mij <marker>€ 5</marker>.</example>
-                <example type="incorrect">Prijs nu <marker>25eur</marker>.</example>
-                <example type="incorrect"><marker>2eur</marker> voor broek.</example>
-                <example type="incorrect">Dan eindig je dus ook op 8.<marker>000eur</marker>.</example>
-                <example type="incorrect">Een studio kost al makkelijk <marker>400EUR</marker>/m :/.</example>
+                <example correction="€ 10">Hij gaf mij <marker>10EUR</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OR_EENH_GETAL" name="Tussen eenheid en getal een spatie">
@@ -30310,9 +30306,9 @@ steenwijk;Steenwijk
 					<token spacebefore="no" min="1" max="-1">_</token>
 					<token regexp="yes" spacebefore="no">[a-z-]+</token>
 				</pattern>
-				<message>Een liggende streep onderaan (unbderscore) is ongebruikelijk in gewone tekst.</message>
+                <message>Een liggende streep onderaan (underscore) is ongebruikelijk in gewone tekst. Het kan zijn dat je <suggestion>\1 \3</suggestion> of <suggestion>\1\3</suggestion>bedoelt.</message>
 				<short>Underscore</short>
-				<example type="incorrect">Dit <marker>test_geval</marker> is onvoldoende.</example>
+				<example correction="test geval|testgeval">Dit <marker>test_geval</marker> is onvoldoende.</example>
 			</rule>
 		</rulegroup>
 		
@@ -30596,35 +30592,36 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>dingen</token>
                 </pattern>
-                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <message>'<match no="1"/>' is wel erg vaag. Waar heb je het over?</message>
                 <example type="incorrect">Deze <marker>dingen</marker> doen het niet!</example>
             </rule>
             <rule>
                 <pattern>
                     <token>alles</token>
                 </pattern>
-                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <message>Wat bedoel je precies met '<match no="1"/>'?</message>
                 <example type="incorrect">Hier <marker>alles</marker> ok.</example>
             </rule>
             <rule>
+                <antipattern><token>dan</token><token>ooit</token></antipattern>
                 <pattern>
                     <token>ooit</token>
                 </pattern>
                 <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
-                <example type="incorrect">Heviger dan <marker>ooit</marker>.</example>
+                <example type="incorrect">Ik ga <marker>ooit</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>wellicht</token>
                 </pattern>
-                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
-                <example type="incorrect">Deze zin is <marker>wellicht</marker> wel vaag hoor!</example>
+                <message>'<match no="1"/>' maakt de tekst vaag. Wees precies of laat het weg.</message>
+                <example correction="">Deze zin is <marker>wellicht</marker> wel vaag hoor!</example>
             </rule>
             <rule>
                 <pattern>
                     <token>men</token>
                 </pattern>
-                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <message>In plaats van '<match no="1"/>' kun je beter aangeven wie precies.</message>
                 <example type="incorrect"><marker>Men</marker> is niemand.</example>
             </rule>
         </rulegroup>
