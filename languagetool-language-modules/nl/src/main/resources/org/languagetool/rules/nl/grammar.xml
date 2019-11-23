@@ -16394,7 +16394,6 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         <rulegroup id="LANG_HL" name="Lang woord in hoofdletters">
-            <!-- 2014-08-20 TaalTik -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception postag="SENT_START"/><exception>#</exception></token>
@@ -16403,18 +16402,21 @@ steenwijk;Steenwijk
                         <!-- uitzondering voor hex kleuren tbv Wikipedia check -->
                     </marker>
                 </pattern>
-                <message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden.</message>
+                <message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
                 <short>Lelijk</short>
-                <example type="incorrect">Hij werkt bij <marker>UNICEF</marker>.</example>
-                <example>Hij werkt bij <marker>Unicef</marker>.</example>
-                <example><marker>AMSTERDAM</marker> - is een uitzondering van kranten.</example>
-                <example type="incorrect">Das echt <marker>ALTIJD</marker>.</example>
-                <example type="incorrect">Rolmaat 2 <marker>METER</marker>.</example>
-                <example type="incorrect">Ik <marker>DACHT</marker> van wel.</example>
-                <example type="incorrect">14 <marker>FEBRUARI</marker> 1990.</example>
-                <example type="incorrect">Druk op <marker>VERSTUREN</marker>.</example>
-                <example type="incorrect">Meedoen is <marker>GRATIS</marker>.</example>
-                <example type="incorrect">De adder is <marker>GIFTIG</marker>.</example>
+                <example correction="altijd">Das echt <marker>ALTIJD</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{5,79}<exception regexp="yes">[0-9a-f]{6}</exception></token>
+                        <!-- uitzondering voor hex kleuren tbv Wikipedia check -->
+                    </marker>
+                </pattern>
+                <message>Het helemaal in hoofdletters schrijven van woorden met meer dan 4 letters wordt afgeraden; schrijf liever <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+                <short>Lelijk</short>
+                <example correction="altijd"><marker>ALTIJD</marker> is vreemd.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AMERIKAAN" name="amerikaan of Amerikaan">
@@ -30592,14 +30594,38 @@ steenwijk;Steenwijk
         <rulegroup id="VAAG" name="vage taal">
             <rule>
                 <pattern>
-                    <token regexp="yes">dingen|alles|ergens|ooit|wellicht|men</token>
+                    <token>dingen</token>
                 </pattern>
                 <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
-                <example type="incorrect">Deze zin is <marker>ergens</marker> wel vaag hoor!</example>
-                <example type="incorrect">Hoe kom ik hier <marker>ooit</marker> doorheen?</example>
-                <example type="incorrect">Heviger dan <marker>ooit</marker>.</example>
+                <example type="incorrect">Deze <marker>dingen</marker> doen het niet!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>alles</token>
+                </pattern>
+                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
                 <example type="incorrect">Hier <marker>alles</marker> ok.</example>
-                <example type="incorrect">Wat van <marker>alles</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ooit</token>
+                </pattern>
+                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <example type="incorrect">Heviger dan <marker>ooit</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wellicht</token>
+                </pattern>
+                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <example type="incorrect">Deze zin is <marker>wellicht</marker> wel vaag hoor!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>men</token>
+                </pattern>
+                <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
+                <example type="incorrect"><marker>Men</marker> is niemand.</example>
             </rule>
         </rulegroup>
         <rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid">
@@ -30609,7 +30635,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">doorgaans|meestal|waarschijnlijk|vaak|vermoedelijk|mogelijk|misschien|onzeker|twijfelachtig|soms|onwaarschijnlijk</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>doorgaans</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30617,7 +30643,7 @@ steenwijk;Steenwijk
                     <token>bijna</token>
                     <token regexp="yes">zeker|altijd</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30625,7 +30651,7 @@ steenwijk;Steenwijk
                     <token>zeer</token>
                     <token>waarschijnlijk</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30633,7 +30659,7 @@ steenwijk;Steenwijk
                     <token>heel</token>
                     <token>vaak</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>heel vaak</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30641,7 +30667,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">grote|kleine</token>
                     <token>kans</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>grote kans</marker> onduidelijk.</example>
             </rule>
             <rule>
@@ -30649,7 +30675,7 @@ steenwijk;Steenwijk
                     <token>te</token>
                     <token>verwachten</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit is <marker>te verwachten</marker>.</example>
             </rule>
             <rule>
@@ -30657,10 +30683,9 @@ steenwijk;Steenwijk
                     <token inflected="yes">kunnen</token>
                     <token>gebeuren</token>
                 </pattern>
-                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
                 <example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
             </rule>
-			
         </rulegroup>
         <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
             <rule>
