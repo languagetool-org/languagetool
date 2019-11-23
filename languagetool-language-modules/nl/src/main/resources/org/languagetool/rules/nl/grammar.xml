@@ -18089,7 +18089,6 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="MATCH" name="match → wedstrijd, overeenkomst">
             <rule>
-                <!-- 2014-08-21 TaalTik -->
                 <pattern>
                     <token regexp="yes">match.*</token>
                 </pattern>
@@ -18521,8 +18520,9 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         <rulegroup id="_4_CIJFERS" name="geen punt in getal met 4 cijfers">
-            <!-- TaalTik 2014-08-21 -->
             <rule>
+                <antipattern><token regexp="yes">[+-/*]</token><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token></antipattern>
+                <antipattern><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token><token regexp="yes">[+-/*]</token></antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">[1-9]</token>
@@ -18531,17 +18531,10 @@ steenwijk;Steenwijk
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>Geen punt bij getallen met 4 cijfers, tenzij in een berekening.</message>
+                <message>Gebruik geen punt bij getallen met 4 cijfers (<suggestion>\1\3</suggestion>), behalve in een berekening.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/1/10000000_10_000_000/</url>
                 <short>Geen punt</short>
-                <example type="incorrect">Getallen als <marker>1.234</marker> schrijf je zonder punt.</example>
-                <example>Getallen als <marker>1234</marker> schrijf je zonder punt.</example>
-                <example type="incorrect">Kost <marker>1.076</marker> euro.</example>
-                <example type="incorrect">Huur <marker>3.600</marker> €/maand.</example>
-                <example type="incorrect">Factuur: <marker>3.252</marker> euro.</example>
-                <example type="incorrect">Heeft <marker>1.543</marker> km gereden.</example>
-                <example type="incorrect">Er werken <marker>3.500</marker> mensen.</example>
-                <example type="incorrect">Zo’n lamp kost <marker>7.350</marker> €.</example>
+                <example correction="1234">Getallen als <marker>1.234</marker> schrijf je zonder punt.</example>
             </rule>
         </rulegroup>
     </category>
