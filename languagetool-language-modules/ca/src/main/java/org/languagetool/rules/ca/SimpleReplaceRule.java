@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
@@ -52,6 +52,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
+    this.setCheckLemmas(false);
   }  
 
   @Override

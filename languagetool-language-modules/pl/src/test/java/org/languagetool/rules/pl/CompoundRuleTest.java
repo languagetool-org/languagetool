@@ -20,6 +20,7 @@ package org.languagetool.rules.pl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Scanner;
 
 import org.junit.Before;
@@ -46,14 +47,14 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Nie róbmy nic na łapu-capu.");
     check(0, "Jedzmy kogel-mogel.");
     // incorrect sentences:
-    check(1, "bim bom", new String[]{"bim-bom"});
+    check(1, "bim bom", "bim-bom");
   }
 
   @Test
   public void testCompoundFile() throws IOException {
-    final MorfologikPolishSpellerRule spellRule =
-        new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish());
-    final InputStream   file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
+    MorfologikPolishSpellerRule spellRule =
+        new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish(), null, Collections.emptyList());
+    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
     try (Scanner scanner = new Scanner(file, "UTF-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
@@ -63,13 +64,13 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
         if (line.endsWith("+")) {
           line = removeLastCharacter(line);
           line = line.replace('-', ' ');
-          final RuleMatch[] ruleMatches =
+          RuleMatch[] ruleMatches =
               spellRule.match(lt.getAnalyzedSentence(line));
           assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
               0, ruleMatches.length);
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
-          final RuleMatch[] ruleMatches =
+          RuleMatch[] ruleMatches =
               spellRule.match(lt.getAnalyzedSentence(line));
           assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
               0, ruleMatches.length);
@@ -86,6 +87,5 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   private String removeLastCharacter(String str) {
     return str.substring(0, str.length() - 1);
   }
-
-
+  
 }

@@ -18,12 +18,14 @@
  */
 package org.languagetool.synthesis;
 
+import org.languagetool.Language;
+
 /**
  * French word form synthesizer.
  */
 public class FrenchSynthesizer extends BaseSynthesizer {
 
-  public FrenchSynthesizer() {
-    super("/fr/french_synth.dict", "/fr/french_tags.txt");
+  public FrenchSynthesizer(Language lang) {
+    super("/fr/french_synth.dict", "/fr/french_tags.txt", lang);
   }
 }

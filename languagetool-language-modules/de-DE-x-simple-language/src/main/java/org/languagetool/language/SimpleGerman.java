@@ -18,11 +18,16 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.de.LongSentenceRule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -51,18 +56,36 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
-    return Collections.emptyList();
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
+    rules.add(lengthRule);
+    return rules;
   }
-
+  
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
   }
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Collections.emptyList();
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    if (id.equals(LongSentenceRule.RULE_ID)) {
+      return 10;
+    } else if (id.equals("LANGES_WORT")) {
+      return -1;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

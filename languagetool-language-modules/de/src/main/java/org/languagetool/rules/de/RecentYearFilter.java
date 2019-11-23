@@ -33,7 +33,7 @@ import java.util.Map;
 public class RecentYearFilter extends RuleFilter {
   
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     int thisYear = Calendar.getInstance().get(Calendar.YEAR);
     int maxYear = thisYear - Integer.parseInt(arguments.get("maxYearsBack"));
     int year = Integer.parseInt(arguments.get("year"));

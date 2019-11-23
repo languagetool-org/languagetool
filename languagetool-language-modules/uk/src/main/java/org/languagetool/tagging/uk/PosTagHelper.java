@@ -1,5 +1,7 @@
 package org.languagetool.tagging.uk;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -7,10 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.TaggedWord;
 
 /**
  * @since 2.9
@@ -20,10 +25,13 @@ public final class PosTagHelper {
   private static final Pattern CONJ_REGEX = Pattern.compile("(noun:(?:in)?anim|numr|adj|adjp.*):[mfnp]:(v_...).*");
   private static final Pattern GENDER_REGEX = NUM_REGEX;
   private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun:(?:in)?anim|adj|numr|adjp.*):(.:v_...).*");
+  public static final Pattern ADJ_COMP_REGEX = Pattern.compile(":comp[bcs]");
 
   public static final Map<String, String> VIDMINKY_MAP;
   public static final Map<String, String> GENDER_MAP;
+  public static final List<String> BASE_GENDERS = Arrays.asList("m", "f", "n", "p");
   public static final Map<String, String> PERSON_MAP;
+  public static final String NO_VIDMINOK_SUBSTR = ":nv";
 
   static {
     Map<String, String> map = new LinkedHashMap<>();
@@ -45,7 +53,7 @@ public final class PosTagHelper {
     map2.put("i", "інф.");
     map2.put("o", "безос. форма");
     GENDER_MAP = Collections.unmodifiableMap(map2);
-    
+
     Map<String, String> map3 = new LinkedHashMap<>();
     map3.put("1", "1-а особа");
     map3.put("2", "2-а особа");
@@ -133,8 +141,18 @@ public final class PosTagHelper {
     return posTag != null && posTag.matches(posTagRegex);
   }
 
+  public static boolean hasPosTagPart(AnalyzedToken analyzedToken, String posTagPart) {
+    String posTag = analyzedToken.getPOSTag();
+    return posTag != null && posTag.contains(posTagPart);
+  }
+
   public static boolean hasPosTag(AnalyzedToken analyzedToken, Pattern posTagRegex) {
     String posTag = analyzedToken.getPOSTag();
+    return posTag != null && posTagRegex.matcher(posTag).matches();
+  }
+
+  public static boolean hasPosTag(TaggedWord analyzedToken, Pattern posTagRegex) {
+    String posTag = analyzedToken.getPosTag();
     return posTag != null && posTagRegex.matcher(posTag).matches();
   }
 
@@ -145,6 +163,38 @@ public final class PosTagHelper {
   public static boolean hasPosTagPart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
       if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().contains(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().contains(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean hasPosTag2(List<TaggedWord> taggedWords, Pattern pattern) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && pattern.matcher(analyzedToken.getPosTag()).matches() )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean startsWithPosTag2(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean startsWithPosTag(List<TaggedWord> taggedWords, String posTagPart) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().startsWith(posTagPart) )
         return true;
     }
     return false;
@@ -165,6 +215,64 @@ public final class PosTagHelper {
     }
 
     return sb.toString();
+  }
+
+  @NotNull
+  public static List<AnalyzedToken> generateTokensForNv(String word, String gender, String extraTags) {
+    String posTagBase = "noun:inanim:" + gender + ":";
+  
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+    for(String vidm: VIDMINKY_MAP.keySet()) {
+      if( vidm.equals("v_kly") )
+        continue;
+  
+      String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;
+      if( extraTags != null ) {
+        posTag += extraTags;
+      }
+      newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
+    }
+    
+    return newAnalyzedTokens;
+  }
+
+  @NotNull
+  public static String addIfNotContains(@NotNull String tag, @NotNull String addTag) {
+    if( ! tag.contains(addTag) )
+      return tag + addTag;
+    return tag;
+  }
+
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag) {
+    return addIfNotContains(taggedWords, addTag, null);
+  }
+  
+  @NotNull
+  public static List<TaggedWord> addIfNotContains(@NotNull List<TaggedWord> taggedWords, @NotNull String addTag, @Nullable String lemma) {
+    return taggedWords.stream()
+        .map(w -> new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))
+        .collect(Collectors.toList());
+  }
+
+  public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
+
+  public static List<TaggedWord> filter2(List<TaggedWord> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
+
+  private static Pattern WORD_PATTERN = Pattern.compile("[а-яіїєґa-z'-]+", Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);
+  public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
+    return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()
+        && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
   }
 
 //private static String getNumAndConj(String posTag) {

@@ -19,9 +19,11 @@
 package org.languagetool.rules.es;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -29,8 +31,9 @@ import java.util.ResourceBundle;
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
-  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
+    this.setIgnoreTaggedWords();
   }
 
   @Override

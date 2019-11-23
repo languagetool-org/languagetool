@@ -24,9 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
 import org.languagetool.rules.en.NewZealandReplaceRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class NewZealandEnglish extends English {
 
@@ -41,11 +44,12 @@ public class NewZealandEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
-    rules.add(new MorfologikNewZealandSpellerRule(messages, this));
+    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+    rules.add(new MorfologikNewZealandSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new NewZealandReplaceRule(messages));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 

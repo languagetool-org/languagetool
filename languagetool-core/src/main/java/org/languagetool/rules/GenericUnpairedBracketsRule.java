@@ -61,8 +61,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (startSymbols.size() != endSymbols.size()) {
       throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
     }
-    this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
-    this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
+    this.startSymbols = startSymbols.toArray(new String[0]);
+    this.endSymbols = endSymbols.toArray(new String[0]);
     this.numerals = Objects.requireNonNull(numerals);
     this.uniqueMap = uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
@@ -115,12 +115,31 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                                   AnalyzedTokenReadings[] tokens, int i, int j,
                                   boolean precSpace,
                                   boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
-    // Smiley ":-)"
-    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
-      return false;
+    String tokenStr = tokens[i].getToken();
+    if (i >= 2) {
+      String prevPrevToken = tokens[i - 2].getToken();
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":-)" and ":-("
+      if (prevPrevToken.equals(":") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";-)" and ";-("
+      if (prevPrevToken.equals(";") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
     }
-    // Smiley ";-)"
-    return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
+    if (i >= 1) {
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":)" and  ":("
+      if (prevToken.equals(":") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";)" and  ";("
+      if (prevToken.equals(";") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
@@ -133,7 +152,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int i = 1; i < tokens.length; i++) {
         for (int j = 0; j < startSymbols.length; j++) {
-          if (fillSymbolStack(startPosBase, tokens, i, j, symbolStack)) {
+          if (fillSymbolStack(startPosBase, tokens, i, j, symbolStack, sentence)) {
             break;
           }
         }
@@ -143,7 +162,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
     }
     for (SymbolLocator sLoc : symbolStack) {
-      RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol());
+      RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol(), sLoc.getSentence(), sentences);
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -165,7 +184,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return Collections.unmodifiableMap(uniqueMap);
   }
 
-  private boolean fillSymbolStack(int startPosBase, AnalyzedTokenReadings[] tokens, int i, int j, UnsyncStack<SymbolLocator> symbolStack) {
+  private boolean fillSymbolStack(int startPosBase, AnalyzedTokenReadings[] tokens, int i, int j, UnsyncStack<SymbolLocator> symbolStack, AnalyzedSentence sentence) {
     String token = tokens[i].getToken();
     int startPos = startPosBase + tokens[i].getStartPos();
     if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
@@ -175,7 +194,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
               precededByWhitespace, followedByWhitespace, symbolStack);
 
       if (noException && precededByWhitespace && token.equals(startSymbols[j])) {
-        symbolStack.push(new SymbolLocator(startSymbols[j], i, startPos));
+        symbolStack.push(new SymbolLocator(startSymbols[j], i, startPos, sentence));
         return true;
       } else if (noException && (followedByWhitespace || tokens[i].isSentenceEnd())
               && token.equals(endSymbols[j])) {
@@ -185,7 +204,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                 && "(".equals(symbolStack.peek().getSymbol())))) {
         } else {
           if (symbolStack.empty()) {
-            symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos));
+            symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos, sentence));
             return true;
           } else {
             if (symbolStack.peek().getSymbol().equals(startSymbols[j])) {
@@ -193,11 +212,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
               return true;
             } else {
               if (isEndSymbolUnique(endSymbols[j])) {
-                symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos));
+                symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos, sentence));
                 return true;
               } else {
                 if (j == endSymbols.length - 1) {
-                  symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos));
+                  symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos, sentence));
                   return true;
                 }
               }
@@ -235,7 +254,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   }
 
   @Nullable
-  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol) {
+  private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol, AnalyzedSentence sentence, List<AnalyzedSentence> sentences) {
     if (!ruleMatchStack.empty()) {
       int index = findSymbolNum(symbol, endSymbols);
       if (index >= 0) {
@@ -249,10 +268,27 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         }
       }
     }
-    ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos));
+    ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos, sentence));
     String otherSymbol = findCorrespondingSymbol(symbol);
     String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
-    return new RuleMatch(this, startPos, startPos + symbol.length(), message);
+    StringBuilder fullText =new StringBuilder();
+    for (AnalyzedSentence aSentence : sentences) {
+      fullText.append(aSentence.getText());
+    }
+    if (startPos + symbol.length() < fullText.length()) {
+      if (startPos >= 2 && startPos + symbol.length() < fullText.length()) {
+        String context = fullText.substring(startPos - 2, startPos + symbol.length());
+        if (context.matches("\n[a-zA-Z]\\)")) {  // prevent error for "b) foo item"
+          return null;
+        }
+      } else if (startPos >= 1) {
+        String context = fullText.substring(startPos - 1, startPos + symbol.length());
+        if (context.matches("[a-zA-Z]\\)")) {   // prevent error for "a) foo item" at text start
+          return null;
+        }
+      }
+    }
+    return new RuleMatch(this, sentence, startPos, startPos + symbol.length(), message);
   }
 
   private int findSymbolNum(String ch, String[] symbols) {
@@ -272,6 +308,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       int idx2 = findSymbolNum(symbol, endSymbols);
       return startSymbols[idx2];
     }
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return -1;
   }
 
 }

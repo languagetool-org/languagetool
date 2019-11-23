@@ -69,14 +69,12 @@ public class HTTPSServer extends Server {
       HttpsConfigurator configurator = getConfigurator(sslContext);
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
+      ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
-      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, workQueue);
+      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
-      if (config.getWarmUp()) {
-        warmUp();
-      }
     } catch (BindException e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
       String message = Tools.i18n(messages, "https_server_start_failed", host, Integer.toString(port));
@@ -152,7 +150,7 @@ public class HTTPSServer extends Server {
       }
     } catch (IllegalConfigurationException e) {
       System.out.println(e.getMessage());
-      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see http://languagetool.org/http-server/");
+      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see http://wiki.languagetool.org/http-server");
       System.exit(1);
     }
   }

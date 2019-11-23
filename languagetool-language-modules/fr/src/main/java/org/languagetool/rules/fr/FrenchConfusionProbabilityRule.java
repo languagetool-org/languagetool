@@ -23,6 +23,8 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -30,8 +32,13 @@ import java.util.ResourceBundle;
  */
 public class FrenchConfusionProbabilityRule extends ConfusionProbabilityRule {
 
+  private static final List<String> EXCEPTIONS = Arrays.asList(
+    // Use all-lowercase, matches will be case-insensitive.
+    "ce jour"
+  );
+  
   public FrenchConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    super(messages, languageModel, language);
+    super(messages, languageModel, language, 3, EXCEPTIONS);
     addExamplePair(Example.wrong("Friedman résume cela en écrivant que le système de <marker>pris</marker> libres remplit trois fonctions.<marker>"),
                    Example.fixed("Friedman résume cela en écrivant que le système de <marker>prix</marker> libres remplit trois fonctions.<marker>"));
   }

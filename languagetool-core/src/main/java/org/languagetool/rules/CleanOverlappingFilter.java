@@ -42,14 +42,12 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
     List<RuleMatch> cleanList = new ArrayList<>();
     RuleMatch prevRuleMatch = null;
     for(RuleMatch ruleMatch: ruleMatches) {
-      // first item
-      if (prevRuleMatch == null) {
+      if (prevRuleMatch == null) {  // first item
         prevRuleMatch = ruleMatch;
         continue;
       }
-      // check sorting
       if (ruleMatch.getFromPos() < prevRuleMatch.getFromPos()) {
-        throw new RuntimeException(
+        throw new IllegalArgumentException(
             "The list of rule matches is not ordered. Make sure it is sorted by start position.");
       }
       // no overlapping (juxtaposed errors are not removed)
@@ -58,24 +56,20 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         prevRuleMatch = ruleMatch;
         continue;
       }
-      //overlapping
-      // get priorities
+      // overlapping
       int currentPriority = getMatchPriority(ruleMatch);
       int prevPriority = getMatchPriority(prevRuleMatch);
-      // break the tie
       if (currentPriority == prevPriority) {
-        // take the longest error
+        // take the longest error:
         currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
         prevPriority = prevRuleMatch.getToPos() - prevRuleMatch.getFromPos();
       }
       if (currentPriority == prevPriority) {
         currentPriority++; // take the last one (to keep the current results in the web UI) 
       }
-      // compare
-      if (currentPriority > prevPriority ) {
-        //skip prevRuleMatch
+      if (currentPriority > prevPriority) {
         prevRuleMatch = ruleMatch;
-      } //else skip current RuleMatch;
+      }
     }
     //last match
     if (prevRuleMatch != null) {
@@ -85,8 +79,10 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
   }
   
   private int getMatchPriority(RuleMatch r) {
-    int categoryPriority = language.getPriorityForId(r.getRule().getCategory()
-        .getId().toString());
+    if (r.getRule().getCategory().getId() == null) {
+      return 0;
+    }
+    int categoryPriority = language.getPriorityForId(r.getRule().getCategory().getId().toString());
     int rulePriority = language.getPriorityForId(r.getRule().getId());
     // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {

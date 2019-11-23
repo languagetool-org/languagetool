@@ -18,15 +18,20 @@
  */
 package org.languagetool.rules.en;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Collections;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -34,16 +39,30 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
 
   @Test
   public void testSuggestions() throws IOException {
-    Language language = new BritishEnglish();
-    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
+    Language language = Languages.getLanguageForShortCode("en-GB");
+    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
+
+    JLanguageTool langTool = new JLanguageTool(language);
+    // suggestions from language specific spelling_en-XX.txt
+    assertSuggestion(rule, langTool, "GBTestWordToBeIgnore", "GBTestWordToBeIgnored");
   }
-  
+
+  @Test
+  public void testVariantMessages() throws IOException {
+    Language language = Languages.getLanguageForShortCode("en-GB");
+    JLanguageTool lt = new JLanguageTool(language);
+    Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("This is a nice color."));
+    assertEquals(1, matches.length);
+    assertTrue(matches[0].getMessage().contains("is American English"));
+  }
+
   @Test
   public void testMorfologikSpeller() throws IOException {
-    BritishEnglish language = new BritishEnglish();
+    Language language = Languages.getLanguageForShortCode("en-GB");
     MorfologikBritishSpellerRule rule =
-            new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
+            new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(language);
 
@@ -58,6 +77,8 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    // Greek letters
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //incorrect sentences:
 
@@ -79,6 +100,24 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(3, matches2[0].getFromPos());
     assertEquals(10, matches2[0].getToPos());
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
+    
+    RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("I'm g oing"));
+    Assert.assertThat(matches3.length, is(1));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
+    Assert.assertThat(matches3[0].getFromPos(), is(4));
+    Assert.assertThat(matches3[0].getToPos(), is(10));
+    
+    
   }
 
+  private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat(matches.length, is(1));
+    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
+            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
+    for (String expectedSuggestion : expectedSuggestions) {
+      assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
+    }
+  }
 }

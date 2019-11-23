@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis.el;
 
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -29,7 +30,7 @@ public class GreekSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/el/greek_synth.dict";
   private static final String TAGS_FILE_NAME = "/el/greek_tags.txt";
 
-  public GreekSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public GreekSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 }

@@ -22,6 +22,7 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -42,7 +42,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String PORTUGUESE_SIMPLE_REPLACE_RULE = "PT_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/pt/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/pt/replace.txt");
   private static final Locale PT_LOCALE = new Locale("pt");
 
   @Override
@@ -81,11 +81,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public URL getUrl() {
-    try {
-      return new URL("https://pt.wikipedia.org/wiki/Estrangeirismo");
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
+    return Tools.getUrl("https://pt.wikipedia.org/wiki/Estrangeirismo");
   }
 
   @Override

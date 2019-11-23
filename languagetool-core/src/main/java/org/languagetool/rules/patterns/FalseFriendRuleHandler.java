@@ -37,6 +37,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   // Definitions of values in XML files:
   private static final String TRANSLATION = "translation";
 
+  private final ResourceBundle englishMessages;
   private final ResourceBundle messages;
   private final MessageFormat formatter;
   private final Language textLanguage;
@@ -51,14 +52,16 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private Language currentTranslationLanguage;
   private StringBuilder translation = new StringBuilder();
   private boolean inTranslation;
+  private String falseFriendHint;
 
-  FalseFriendRuleHandler(Language textLanguage, Language motherTongue) {
-    messages = ResourceBundle.getBundle(
-        JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+  FalseFriendRuleHandler(Language textLanguage, Language motherTongue, String falseFriendHint) {
+    englishMessages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, Languages.getLanguageForShortCode("en").getLocale());
+    messages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     formatter = new MessageFormat("");
     formatter.setLocale(motherTongue.getLocale());
     this.textLanguage = textLanguage;
     this.motherTongue = motherTongue;
+    this.falseFriendHint = falseFriendHint;
   }
 
   public Map<String, List<String>> getSuggestionMap() {
@@ -129,12 +132,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
                 && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
                 && !translations.isEmpty()) {
-          formatter.applyPattern(messages.getString("false_friend_hint"));
+          formatter.applyPattern(falseFriendHint);
           String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
           Object[] messageArguments = {tokensAsString,
-                  messages.getString(textLanguage.getShortCode()),
+                  englishMessages.getString(textLanguage.getShortCode()),
                   formatTranslations(translations),
-                  messages.getString(motherTongue.getShortCode())};
+                  englishMessages.getString(motherTongue.getShortCode())};
           String description = formatter.format(messageArguments);
           PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "

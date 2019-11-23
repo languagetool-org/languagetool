@@ -30,6 +30,11 @@ public class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
 
   static Map<String,Integer> map = new HashMap<>();
 
+  public FakeLanguageModel(Map<String,Integer> map) {
+    super(3);
+    FakeLanguageModel.map = map;
+  }
+  
   public FakeLanguageModel() {
     super(3);
     // for "Their are new ideas to explore":

@@ -149,7 +149,8 @@ public class EnglishChunker implements Chunker {
     int pos = 0;
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       String token = tokenReading.getToken();
-      if (token.trim().isEmpty()) {
+      if (token.trim().isEmpty() ||
+          (token.length() == 1 && Character.isSpaceChar(token.charAt(0)))) {  // needed for non-breaking space
         continue;  // the OpenNLP result has no whitespace, so we need to skip it
       }
       int tokenStart = pos;

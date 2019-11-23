@@ -80,6 +80,30 @@ public class OpenNMTRuleTest {
     testLast(r, "This were a example.", "This were an example.", 11);
   }
 
+  @Test
+  public void testGetLeftWordBoundary() throws IOException {
+    OpenNMTRule r = new OpenNMTRule();
+    assertThat(r.getLeftWordBoundary("foo", 0), is(0));
+    assertThat(r.getLeftWordBoundary("foo", 2), is(0));
+    assertThat(r.getLeftWordBoundary("foo bar", 0), is(0));
+    assertThat(r.getLeftWordBoundary("foo. bar", 2), is(0));
+    assertThat(r.getLeftWordBoundary("foo. bar", 5), is(5));
+    assertThat(r.getLeftWordBoundary("foo bar", 4), is(4));
+    assertThat(r.getLeftWordBoundary("foo bar", 6), is(4));
+    assertThat(r.getLeftWordBoundary(".föö.", 3), is(1));
+  }
+
+  @Test
+  public void testGetRightWordBoundary() throws IOException {
+    OpenNMTRule r = new OpenNMTRule();
+    assertThat(r.getRightWordBoundary("foo", 0), is(3));
+    assertThat(r.getRightWordBoundary("foo", 3), is(3));
+    assertThat(r.getRightWordBoundary("foo bar", 0), is(3));
+    assertThat(r.getRightWordBoundary("foo.", 0), is(3));
+    assertThat(r.getRightWordBoundary("föö.", 0), is(3));
+    assertThat(r.getRightWordBoundary("foo bar", 4), is(7));
+  }
+  
   private void testFirst(OpenNMTRule rule, String text1, String text2, int expectedResult) {
     assertThat(rule.getFirstDiffPosition(text1, text2), is(expectedResult));
     assertThat(rule.getFirstDiffPosition(text2, text1), is(expectedResult));  // needs to be symmetrical

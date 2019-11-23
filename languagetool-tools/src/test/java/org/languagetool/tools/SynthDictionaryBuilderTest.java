@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -48,7 +49,7 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
         System.out.println("Ignoring " + language + ", no synth file found");
         continue;
       }
-      File oldBinaryFile = new File(dir, language.getName().toLowerCase() + ".dict");
+      File oldBinaryFile = new File(dir, language.getName().toLowerCase() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION);
       File infoFile = new File(dir, language.getName().toLowerCase() + "_synth.info");
       File exportFile = exportDictionaryContents(oldBinaryFile);
       if (exportFile.length() == 0) {

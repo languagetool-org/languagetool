@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.markup.AnnotatedText;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +32,16 @@ import java.util.ResourceBundle;
  */
 public abstract class TextLevelRule extends Rule {
 
+  /**
+   * @since 3.9
+   */
+  public RuleMatch[] match(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) throws IOException {
+    return match(sentences);
+  }
+
+  /**
+   * @deprecated use {@link #match(List, AnnotatedText)} instead
+   */
   public abstract RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException;
 
   /**
@@ -48,8 +59,27 @@ public abstract class TextLevelRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return -1;
+  }
+  
+  @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("Not implemented for a text-level rule");
   }
+  
+  /**
+   * Gives back the minimum number of paragraphs to check to give back a correct result.
+   * Only used by LO office extension.
+   * <ul>
+   * <li>n == -1  --&gt; need to check full text (use only if really needed / bad performance)
+   *              examples: AbstractWordCoherencyRule, GenericUnpairedBracketsRule, ...
+   * <li>n == 0   --&gt; need only to check the current paragraph
+   *              examples: MultipleWhitespaceRule, LongParagraphRule, ...
+   * <li>n &gt;= 1   --&gt; need only to check n paragraphs around the current paragraph
+   *              examples: ParagraphRepeatBeginningRule (n == 1), WordRepeatBeginningRule (n == 2), ...
+   * </ul>
+   */
+  public abstract int minToCheckParagraph();
 
 }

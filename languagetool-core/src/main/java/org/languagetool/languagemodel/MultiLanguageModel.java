@@ -31,7 +31,7 @@ public class MultiLanguageModel implements LanguageModel {
   private final List<LanguageModel> lms;
 
   public MultiLanguageModel(List<LanguageModel> lms) {
-    if (lms.size() == 0) {
+    if (lms.isEmpty()) {
       throw new IllegalArgumentException("List of language models is empty");
     }
     this.lms = lms;

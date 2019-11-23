@@ -23,7 +23,9 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -35,10 +37,7 @@ import org.languagetool.tokenizers.SimpleSentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -66,6 +65,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
+  private boolean noLmWarningPrinted;
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -99,12 +99,20 @@ public abstract class Language {
 
   /**
    * Get the rules classes that should run for texts in this language.
-   * @since 1.4 (signature modified in 2.7)
+   * @since 4.3
    */
-  public abstract List<Rule> getRelevantRules(ResourceBundle messages) throws IOException;
+  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException;
 
   // -------------------------------------------------------------------------
 
+  /**
+   * A file with commons words, either in the classpath or as a filename in the file system.
+   * @since 4.5
+   */
+  public String getCommonWordsPath() {
+    return getShortCode() + "/common_words.txt";     
+  }
+  
   /**
    * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
    * or <code>null</code>.
@@ -147,12 +155,73 @@ public abstract class Language {
     return null;
   }
 
+  protected LanguageModel initLanguageModel(File indexDir, LanguageModel languageModel) {
+    if (languageModel == null) {
+      File topIndexDir = new File(indexDir, getShortCode());
+      if (topIndexDir.exists()) {
+        languageModel = new LuceneLanguageModel(topIndexDir);
+      } else if (!noLmWarningPrinted) {
+        System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
+        noLmWarningPrinted = true;
+      }
+    }
+    return languageModel;
+  }
+
   /**
    * Get a list of rules that require a {@link LanguageModel}. Returns an empty list for
    * languages that don't have such rules.
    * @since 2.7
    */
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Collections.emptyList();
+  }
+
+
+  /**
+   * Get a list of rules that can optionally use a {@link LanguageModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.5
+   * @param languageModel null if no language model is available
+   */
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
+                                                         UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+  /**
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
+   * @since 4.0
+   */
+  @Nullable
+  public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  /**
+   * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.0
+   */
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return Collections.emptyList();
+  }
+
+  /**
+   * Get a list of rules that load trained neural networks. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.4
+   */
+  public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
+    return Collections.emptyList();
+  }
+
+  /**
+   * Get the rules classes that should run for texts in this language.
+   * @since 4.6
+   */
+  public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
   }
 
@@ -181,7 +250,8 @@ public abstract class Language {
 
   /**
    * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml},
-   * i.e. a path in the classpath.
+   * i.e. a path in the classpath. The files must exist or an exception will be thrown, unless the filename
+   * contains the string {@code -test-}.
    */
   public List<String> getRuleFileNames() {
     List<String> ruleFiles = new ArrayList<>();
@@ -334,7 +404,7 @@ public abstract class Language {
    */
   @SuppressWarnings("resource")
   protected synchronized List<AbstractPatternRule> getPatternRules() throws IOException {
-    // use lazy loading to speed up start of stand-alone LT, where all the languages get initialized:
+    // use lazy loading to speed up server use case and start of stand-alone LT, where all the languages get initialized:
     if (patternRules == null) {
       List<AbstractPatternRule> rules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
@@ -342,11 +412,23 @@ public abstract class Language {
         InputStream is = null;
         try {
           is = this.getClass().getResourceAsStream(fileName);
+          boolean ignore = false;
           if (is == null) {                     // files loaded via the dialog
-            is = new FileInputStream(fileName);
+            try {
+              is = new FileInputStream(fileName);
+            } catch (FileNotFoundException e) {
+              if (fileName.contains("-test-")) {
+                // ignore, used for testing
+                ignore = true;
+              } else {
+                throw e;
+              }
+            }
           }
-          rules.addAll(ruleLoader.getRules(is, fileName));
-          patternRules = Collections.unmodifiableList(rules);
+          if (!ignore) {
+            rules.addAll(ruleLoader.getRules(is, fileName));
+            patternRules = Collections.unmodifiableList(rules);
+          }
         } finally {
           if (is != null) {
             is.close();
@@ -461,6 +543,23 @@ public abstract class Language {
    */
   public int getPriorityForId(String id) {
     return 0;
+  }
+
+  /**
+   * Whether this language supports spell checking only and
+   * no advanced grammar and style checking.
+   * @since 4.5
+   */
+  public boolean isSpellcheckOnlyLanguage() {
+    return false;
+  }
+
+  /**
+   * Return true if language has ngram-based false friend rule returned by {@link #getRelevantLanguageModelCapableRules}.
+   * @since 4.6
+   */
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+    return false;
   }
 
   /**

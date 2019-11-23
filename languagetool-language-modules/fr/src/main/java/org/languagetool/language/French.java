@@ -19,18 +19,19 @@
 package org.languagetool.language;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.io.IOException;
 
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -46,7 +47,7 @@ public class French extends Language implements AutoCloseable {
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
   
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
@@ -83,7 +84,7 @@ public class French extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new FrenchSynthesizer();
+      synthesizer = new FrenchSynthesizer(this);
     }
     return synthesizer;
   }
@@ -104,7 +105,7 @@ public class French extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -113,31 +114,42 @@ public class French extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-            new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
+            // very fast, but no suggestions:
+            //new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
+            // slower than HunspellNoSuggestionRule but with suggestions:
+            new FrenchCompoundAwareHunspellRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             // specific to French:
             new CompoundRule(messages),
-            new QuestionWhitespaceRule(messages)
+            new QuestionWhitespaceStrictRule(messages, this),
+            new QuestionWhitespaceRule(messages, this)
+    );
+  }
+
+  @Override
+  public List<Rule> getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    if (globalConfig != null && globalConfig.getGrammalecteServer() != null) {
+      rules.add(new GrammalecteRule(messages, globalConfig));
+    }
+    return rules;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.asList(
+            new FrenchConfusionProbabilityRule(messages, languageModel, this)
     );
   }
 
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
-  }
-
-  /** @since 3.1 */
-  @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
-            new FrenchConfusionProbabilityRule(messages, languageModel, this)
-    );
   }
 
   /**
@@ -154,6 +166,18 @@ public class French extends Language implements AutoCloseable {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "FRENCH_WHITESPACE_STRICT": return 1;  // default off, but if on, it should overwrite FRENCH_WHITESPACE 
+      case "FRENCH_WHITESPACE": return 0;
+    }
+    if (id.startsWith("grammalecte_")) {
+      return -1;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

@@ -57,7 +57,7 @@ class TatoebaSentenceSource extends SentenceSource {
   @Override
   public Sentence next() {
     fillSentences();
-    if (sentences.size() == 0) {
+    if (sentences.isEmpty()) {
       throw new NoSuchElementException();
     }
     return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org", ++articleCount);
@@ -69,14 +69,15 @@ class TatoebaSentenceSource extends SentenceSource {
   }
 
   private void fillSentences() {
-    while (sentences.size() == 0 && scanner.hasNextLine()) {
+    while (sentences.isEmpty() && scanner.hasNextLine()) {
       String line = scanner.nextLine();
       if (line.isEmpty()) {
         continue;
       }
       String[] parts = line.split("\t");
       if (parts.length != 3) {
-        throw new RuntimeException("Unexpected line format: expected three tab-separated columns: '" + line  + "'");
+        System.err.println("Unexpected line format: expected three tab-separated columns: '" + line  + "', skipping");
+        continue;
       }
       String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
       if (acceptSentence(sentence)) {

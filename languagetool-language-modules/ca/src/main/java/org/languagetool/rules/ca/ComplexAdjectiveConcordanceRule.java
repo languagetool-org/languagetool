@@ -488,7 +488,7 @@ public class ComplexAdjectiveConcordanceRule extends Rule {
         // The rule matches
         final String msg = "Reviseu la concordança de la paraula \u00AB"
             + token + "\u00BB.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Reviseu la concordança.");
         ruleMatches.add(ruleMatch);

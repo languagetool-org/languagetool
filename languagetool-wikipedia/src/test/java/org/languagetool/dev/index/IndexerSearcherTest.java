@@ -40,11 +40,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
 
 public class IndexerSearcherTest extends LuceneTestCase {
 
@@ -183,7 +184,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     //createIndex("I thin so");
     useRealIndex();
-    German language = new German();
+    German language = new GermanyGerman();
     PatternRule rule = getFirstRule("I_THIN", language);
     SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, language);
     System.out.println("Matches: " + searcherResult.getMatchingSentences());
@@ -195,17 +196,17 @@ public class IndexerSearcherTest extends LuceneTestCase {
     English language = new English();
     SearcherResult searcherResult =
         errorSearcher.findRuleMatchesOnIndex(getFirstRule("BACK_AND_FOURTH", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_BROW", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("ALL_OVER_THE_WORD", language), language);
-    assertEquals(2, searcherResult.getCheckedSentences());
+    assertEquals(0, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(0, searcherResult.getMatchingSentences().size());
 

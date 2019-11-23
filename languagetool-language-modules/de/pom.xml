@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>3.8-SNAPSHOT</version>
+        <version>4.8-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     
@@ -62,7 +62,7 @@
             </plugin>
         </plugins>
     </build>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.languagetool</groupId>
@@ -70,14 +70,19 @@
             <version>${languagetool.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>hunspell-native-libs</artifactId>
-            <version>2.9</version>
-        </dependency>
-        <dependency>
             <groupId>de.danielnaber</groupId>
             <artifactId>german-pos-dict</artifactId>
             <version>1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-fsa</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-stemming</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -89,13 +94,23 @@
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>de.danielnaber</groupId>
             <artifactId>jwordsplitter</artifactId>
-            <version>4.1</version>
+            <version>4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>aho-corasick-double-array-trie</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
         <dependency>

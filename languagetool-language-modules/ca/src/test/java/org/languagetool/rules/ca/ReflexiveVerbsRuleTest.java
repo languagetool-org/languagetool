@@ -48,12 +48,18 @@ public class ReflexiveVerbsRuleTest {
 
     //TODO: se'n vola / s'envola
     // correct sentences:
-    
+    assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
     //assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
-    //assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
+    assertCorrect("les circumstàncies m'obliguen a gloriar-me"); 
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
+    assertCorrect("Els animem a queixar-se.");
+    assertCorrect("Lorella va a venir"); // used to cause NPE - see #1787
+    assertCorrect("Ens animava a queixar-nos.");
+    assertCorrect("L'animem a queixar-se.");
+    assertCorrect("Us animem a endur-vos a casa.");
+    assertCorrect("T'animem a queixar-te.");
     assertCorrect("T'enduràs això.");
     assertCorrect("Alguns ens adonàrem que era veritat");
     assertCorrect("M'he baixat moltes imatges");

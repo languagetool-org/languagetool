@@ -22,8 +22,8 @@ package org.languagetool.rules.en;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class BritishReplaceRuleTest {
   @Before
   public void setUp() throws Exception {
     rule = new BritishReplaceRule(TestTools.getMessages("en"));
-    langTool = new JLanguageTool(new BritishEnglish());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
   }
 
   @Test

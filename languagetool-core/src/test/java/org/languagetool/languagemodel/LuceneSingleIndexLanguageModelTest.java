@@ -34,7 +34,7 @@ public class LuceneSingleIndexLanguageModelTest extends LanguageModelTest {
   @Test
   public void testLanguageModel() throws Exception {
     URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
-    try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
+    try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramUrl.toURI()))) {
       assertThat(model.getCount("the"), is(55L));
       assertThat(model.getCount(Arrays.asList("the", "nice")), is(3L));
       assertThat(model.getCount(Arrays.asList("the", "nice", "building")), is(1L));

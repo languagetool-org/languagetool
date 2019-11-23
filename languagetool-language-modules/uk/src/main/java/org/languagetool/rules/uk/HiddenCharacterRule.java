@@ -72,19 +72,19 @@ public class HiddenCharacterRule extends Rule {
       String tokenString = tokenReadings.getToken();
 
       if( tokenString.indexOf(HIDDEN_CHAR) != -1 ) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings);
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, sentence);
           ruleMatches.add(potentialRuleMatch);
       }
     }
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, AnalyzedSentence sentence) {
     String tokenString = readings.getToken();
     String replacement = tokenString.replace(HIDDEN_CHAR.toString(), "");
     String msg = tokenString + getSuggestion(tokenString) + replacement;
 
-    RuleMatch potentialRuleMatch = new RuleMatch(this, readings.getStartPos(), readings.getEndPos(), msg, getShort());
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, getShort());
     potentialRuleMatch.setSuggestedReplacements(Arrays.asList(replacement));
 
     return potentialRuleMatch;

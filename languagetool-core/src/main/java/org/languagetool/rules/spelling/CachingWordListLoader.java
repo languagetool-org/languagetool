@@ -22,6 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 
@@ -46,31 +47,27 @@ public class CachingWordListLoader {
         public List<String> load(@NotNull String fileInClassPath) throws IOException {
           return loadWordsFromPath(fileInClassPath);
         }
+
+        private List<String> loadWordsFromPath(String filePath) throws IOException {
+          List<String> result = new ArrayList<>();
+          if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
+            return result;
+          }
+          try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
+               Scanner scanner = new Scanner(inputStream, "utf-8")) {
+            while (scanner.hasNextLine()) {
+              String line = scanner.nextLine();
+              if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+              }
+              result.add(StringUtils.substringBefore(line.trim(), "#"));
+            }
+          }
+          return result;
+        }
       });
 
-  private static List<String> loadWordsFromPath(String filePath) throws IOException {
-    List<String> result = new ArrayList<>();
-    if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
-      return result;
-    }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
-         Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.startsWith("#")) {
-          continue;
-        }
-        if (line.trim().length() < line.length()) {
-          throw new RuntimeException("No leading or trailing space expected in " + filePath + ": '" + line + "'");
-        }
-        result.add(line);
-      }
-    }
-    return result;
-  }
-
-  public List<String> loadWords(String filePath) throws IOException {
+  public List<String> loadWords(String filePath) {
     return cache.getUnchecked(filePath);
   }
-  
 }

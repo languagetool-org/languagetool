@@ -18,6 +18,7 @@
  */
 package org.languagetool.synthesis.ru;
 
+import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -29,8 +30,8 @@ public class RussianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/ru/russian_synth.dict";
   private static final String TAGS_FILE_NAME = "/ru/tags_russian.txt";
 
-  public RussianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public RussianSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
   
 }

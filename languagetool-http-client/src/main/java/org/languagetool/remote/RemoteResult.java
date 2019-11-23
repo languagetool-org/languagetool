@@ -18,6 +18,7 @@
  */
 package org.languagetool.remote;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -30,12 +31,16 @@ public class RemoteResult {
 
   private final String language;
   private final String languageCode;
+  private final String languageDetectedCode;
+  private final String languageDetectedName;
   private final List<RemoteRuleMatch> matches;
   private final RemoteServer remoteServer;
-  
-  RemoteResult(String language, String languageCode, List<RemoteRuleMatch> matches, RemoteServer remoteServer) {
+
+  RemoteResult(String language, String languageCode, @Nullable String languageDetectedCode, @Nullable String languageDetectedName, List<RemoteRuleMatch> matches, RemoteServer remoteServer) {
     this.language = Objects.requireNonNull(language);
     this.languageCode = Objects.requireNonNull(languageCode);
+    this.languageDetectedCode = languageDetectedCode;
+    this.languageDetectedName = languageDetectedName;
     this.matches = Collections.unmodifiableList(Objects.requireNonNull(matches));
     this.remoteServer = Objects.requireNonNull(remoteServer);
   }
@@ -56,8 +61,25 @@ public class RemoteResult {
     return remoteServer;
   }
 
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public String getLanguageDetectedCode() {
+    return languageDetectedCode;
+  }
+
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public String getLanguageDetectedName() {
+    return languageDetectedName;
+  }
+
   @Override
   public String toString() {
     return matches.toString();
   }
+
 }

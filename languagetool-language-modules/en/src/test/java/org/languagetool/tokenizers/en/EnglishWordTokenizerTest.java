@@ -48,5 +48,7 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens5 = wordTokenizer.tokenize("Now this is—really!—a test.");
     assertEquals(tokens5.size(), 13);
     assertEquals("[Now,  , this,  , is, —, really, !, —, a,  , test, .]", tokens5.toString());
+    final List <String> tokens6 = wordTokenizer.tokenize("fo'c'sle");
+    assertEquals(tokens6.size(), 1);
   }
 }

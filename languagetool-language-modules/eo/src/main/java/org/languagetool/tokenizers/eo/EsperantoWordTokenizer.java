@@ -30,9 +30,6 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EsperantoWordTokenizer extends WordTokenizer {
 
-  public EsperantoWordTokenizer() {
-  }
-
   /**
    * Tokenizes just like WordTokenizer with the exception that words
    * such as "dank'" contain an apostrophe within it.
@@ -41,7 +38,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string \u0001\u0001EO_APOS\u0001\u0001 is used to replace apostrophe
+   *         Note: a special string \u0001\u0001EO@APOS\u0001\u0001 is used to replace apostrophe
    *         during tokenizing.
    */
   @Override
@@ -50,9 +47,9 @@ public class EsperantoWordTokenizer extends WordTokenizer {
 
     String replaced = text.replaceAll(
         "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?![a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-        "$1\u0001\u0001EO_APOS1\u0001\u0001").replaceAll(
+        "$1\u0001\u0001EO@APOS1\u0001\u0001").replaceAll(
             "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-            "$1\u0001\u0001EO_APOS2\u0001\u0001 ");
+            "$1\u0001\u0001EO@APOS2\u0001\u0001 ");
     List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
 
@@ -60,11 +57,11 @@ public class EsperantoWordTokenizer extends WordTokenizer {
     Iterator<String> itr = tokenList.iterator();
     while (itr.hasNext()) {
       String word = itr.next();
-      if (word.endsWith("\u0001\u0001EO_APOS2\u0001\u0001")) {
+      if (word.endsWith("\u0001\u0001EO@APOS2\u0001\u0001")) {
         itr.next(); // Skip the next spurious white space.
       }
-      word = word.replace("\u0001\u0001EO_APOS1\u0001\u0001", "'")
-                 .replace("\u0001\u0001EO_APOS2\u0001\u0001", "'");
+      word = word.replace("\u0001\u0001EO@APOS1\u0001\u0001", "'")
+                 .replace("\u0001\u0001EO@APOS2\u0001\u0001", "'");
       tokens.add(word);
     }
     return tokens;

@@ -19,6 +19,7 @@
 package org.languagetool.dev.bigdata;
 
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.ngrams.Probability;
 
 import java.io.File;
 import java.util.Arrays;
@@ -32,16 +33,22 @@ final class NGramLookup {
   }
 
   public static void main(String[] args) {
-    if (args.length != 2) {
-      System.out.println("Usage: " + NGramLookup.class.getName() + " <ngram> <ngramDataIndex>");
+    if (args.length < 2) {
+      System.out.println("Usage: " + NGramLookup.class.getName() + " <ngram...> <ngramDataIndex>");
       System.out.println("  Example: " + NGramLookup.class.getName() + " \"my house\" /data/ngram-index");
       System.exit(1);
     }
-    String indexTopDir = args[1];
+    String indexTopDir = args[args.length-1];
     try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(indexTopDir))) {
-      String[] lookup = args[0].split(" ");
-      long count = lm.getCount(Arrays.asList(lookup));
-      System.out.println(Arrays.toString(lookup) + " -> " + count);
+      double totalP = 1;
+      for (int i = 0; i < args.length -1; i++) {
+        String[] lookup = args[i].split(" ");
+        long count = lm.getCount(Arrays.asList(lookup));
+        Probability p = lm.getPseudoProbability(Arrays.asList(lookup));
+        System.out.println(Arrays.toString(lookup) + " -> count:" + count + ", " + p + ", log:" + Math.log(p.getProb()));
+        totalP *= p.getProb();
+      }
+      System.out.printf("totalP=" + totalP);
     }
   }
 }

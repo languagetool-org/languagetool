@@ -20,11 +20,10 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.es.MorfologikSpanishSpellerRule;
-import org.languagetool.rules.es.SpanishConfusionProbabilityRule;
+import org.languagetool.rules.es.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -49,7 +48,7 @@ public class Spanish extends Language implements AutoCloseable{
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -97,7 +96,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SpanishSynthesizer();
+      synthesizer = new SpanishSynthesizer(this);
     }
     return synthesizer;
   }
@@ -118,33 +117,34 @@ public class Spanish extends Language implements AutoCloseable{
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "«", "»", "¿", "¡"),
-                    Arrays.asList("]", ")", "}", "”", "»", "«", "?", "!")),
-            new MorfologikSpanishSpellerRule(messages, this),
+                    Arrays.asList("[", "(", "{", "“", "«", "»"),
+                    Arrays.asList("]", ")", "}", "”", "»", "«")),
+            new QuestionMarkRule(messages),
+            new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
-            new MultipleWhitespaceRule(messages, this)
+            new MultipleWhitespaceRule(messages, this),
+            new SpanishWikipediaRule(messages),
+            new SpanishDiacriticsCheckRule(messages)
     );
   }
 
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new SpanishConfusionProbabilityRule(messages, languageModel, this)
     );
   }
@@ -163,6 +163,14 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+  
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "ACCENTUATION_CHECK_ES": return 10;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

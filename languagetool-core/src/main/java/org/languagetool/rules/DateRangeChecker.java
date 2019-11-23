@@ -38,12 +38,12 @@ import java.util.Map;
 public class DateRangeChecker extends RuleFilter {
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     try {
       int x = Integer.parseInt(arguments.get("x"));
       int y = Integer.parseInt(arguments.get("y"));
       if (x >= y) {
-        return new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
+        return match;
       }
     } catch (IllegalArgumentException ignore) {
       // if something's fishy with the number – ignore it silently,

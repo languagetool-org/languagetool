@@ -49,7 +49,7 @@ public abstract class AbstractCompoundRuleTest {
    * @param text the text to check
    * @param expSuggestions the expected suggestions
    */
-  public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
+  public void check(int expectedErrors, String text, String... expSuggestions) throws IOException {
     assertNotNull("Please initialize langTool!", lt);
     assertNotNull("Please initialize 'rule'!", rule);
     RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));

@@ -42,7 +42,7 @@ public class FalseFriendsAsBitextLoaderTest {
   public void testHintsForPolishTranslators() throws IOException, ParserConfigurationException, SAXException {
     Polish polish = new Polish();
     English english = new English();
-    JLanguageTool langTool = new JLanguageTool(english, polish);
+    JLanguageTool lt = new JLanguageTool(english, polish);
     JLanguageTool trgTool = new JLanguageTool(polish);
     
     FalseFriendsAsBitextLoader ruleLoader = new FalseFriendsAsBitextLoader();
@@ -50,10 +50,10 @@ public class FalseFriendsAsBitextLoaderTest {
     List<BitextPatternRule> rules = ruleLoader.
     getFalseFriendsAsBitext(name, english, polish);
     
-    assertErrors(1, rules, "This is an absurd.", "To absurd.", langTool, trgTool);       
-    assertErrors(1, rules, "I have to speak to my advocate.", "Muszę porozmawiać z adwokatem.", langTool, trgTool);    
-    assertErrors(1, rules, "This is not actual.", "To nie jest aktualne.", langTool, trgTool);
-    assertErrors(0, rules, "This is not actual.", "To nie jest rzeczywiste.", langTool, trgTool);
+    assertErrors(1, rules, "This is an absurd.", "To absurd.", lt, trgTool);       
+    assertErrors(1, rules, "I have to speak to my advocate.", "Muszę porozmawiać z adwokatem.", lt, trgTool);    
+    assertErrors(1, rules, "This is not actual.", "To nie jest aktualne.", lt, trgTool);
+    assertErrors(0, rules, "This is not actual.", "To nie jest rzeczywiste.", lt, trgTool);
   }
   
   private List<RuleMatch> check(List<BitextPatternRule> bRules, 

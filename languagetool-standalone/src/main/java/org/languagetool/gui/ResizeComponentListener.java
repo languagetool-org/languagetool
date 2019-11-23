@@ -25,7 +25,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 
 /**
- * A class that listens a window for resize events and saves its bounds.
+ * A class that listens for window resize/move events and saves its bounds.
  *
  * @author Panagiotis Minos
  * @since 3.4
@@ -54,9 +54,18 @@ class ResizeComponentListener extends ComponentAdapter {
 
   @Override
   public void componentResized(ComponentEvent e) {
+    saveBounds();
+  }
+
+  @Override
+  public void componentMoved(ComponentEvent e) {
+    saveBounds();
+  }
+
+  private void saveBounds() {
     if ((frame.getExtendedState() & Frame.MAXIMIZED_BOTH) == 0) {
-      frame.getRootPane().putClientProperty(BOUNDS_PROPERTY_NAME,
-              frame.getBounds());
+      Rectangle bounds = frame.getBounds();
+      frame.getRootPane().putClientProperty(BOUNDS_PROPERTY_NAME, bounds);
     }
   }
 

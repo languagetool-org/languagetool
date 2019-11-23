@@ -21,6 +21,7 @@ package org.languagetool.synthesis.pl;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Polish;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class PolishSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    PolishSynthesizer synth = new PolishSynthesizer();
+    PolishSynthesizer synth = new PolishSynthesizer(new Polish());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[Aarona]", Arrays.toString(synth.synthesize(dummyToken("Aaron"), "subst:sg:gen:m1")));

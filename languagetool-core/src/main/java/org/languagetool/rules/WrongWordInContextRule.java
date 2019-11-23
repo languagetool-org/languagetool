@@ -20,9 +20,14 @@ package org.languagetool.rules;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -47,12 +52,22 @@ import org.languagetool.JLanguageTool;
  */
 public abstract class WrongWordInContextRule extends Rule {
 
+  private static final LoadingCache<String, List<ContextWords>> cache = CacheBuilder.newBuilder()
+          .expireAfterWrite(30, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, List<ContextWords>>() {
+            @Override
+            public List<ContextWords> load(@NotNull String path) {
+              return loadContextWords(path);
+            }
+          });
+
   private final List<ContextWords> contextWordsSet;
+  
   private boolean matchLemmas = false;
 
   public WrongWordInContextRule(ResourceBundle messages) {
     super.setCategory(new Category(CategoryIds.CONFUSED_WORDS, getCategoryString()));
-    contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFilename()));
+    contextWordsSet = cache.getUnchecked(getFilename());
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
@@ -79,7 +94,6 @@ public abstract class WrongWordInContextRule extends Rule {
     matchLemmas = true;
   }
   
-
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -162,7 +176,7 @@ public abstract class WrongWordInContextRule extends Rule {
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
           String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
                   contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, getShortMessageString());
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShortMessageString());
           ruleMatches.add(ruleMatch);
         }
       } // if foundWord != -1
@@ -187,19 +201,29 @@ public abstract class WrongWordInContextRule extends Rule {
   protected abstract String getLongMessageString();
   
   private String getMessage(String wrongWord, String suggestion, String explanationSuggestion, String explanationWrongWord) {
+    String quotedSuggestion = Matcher.quoteReplacement(suggestion);
+    String quotedWrongWord = Matcher.quoteReplacement(wrongWord);
+    String quotedExplanationSuggestion = Matcher.quoteReplacement(explanationSuggestion);
+    String quotedExplanationWrongWord = Matcher.quoteReplacement(explanationWrongWord);
     if (explanationSuggestion.isEmpty() || explanationWrongWord.isEmpty()) {
-      return getMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord);
+      return getMessageString()
+        .replaceFirst("\\$SUGGESTION", quotedSuggestion)
+        .replaceFirst("\\$WRONGWORD", quotedWrongWord);
     } else {
-      return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord)
-              .replaceFirst("\\$EXPLANATION_SUGGESTION", explanationSuggestion).replaceFirst("\\$EXPLANATION_WRONGWORD", explanationWrongWord);
+      return getLongMessageString()
+        .replaceFirst("\\$SUGGESTION", quotedSuggestion)
+        .replaceFirst("\\$WRONGWORD", quotedWrongWord)
+        .replaceFirst("\\$EXPLANATION_SUGGESTION", quotedExplanationSuggestion)
+        .replaceFirst("\\$EXPLANATION_WRONGWORD", quotedExplanationWrongWord);
     }
   }
   
   /**
    * Load words, contexts, and explanations.
    */
-  private List<ContextWords> loadContextWords(InputStream stream) {
+  private static List<ContextWords> loadContextWords(String path) {
     List<ContextWords> set = new ArrayList<>();
+    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -230,10 +254,10 @@ public abstract class WrongWordInContextRule extends Rule {
   
   static class ContextWords {
     
-    String[] matches = {"", ""};
-    String[] explanations = {"", ""};
-    Pattern[] words;
-    Pattern[] contexts;
+    final String[] matches = {"", ""};
+    final String[] explanations = {"", ""};
+    final Pattern[] words;
+    final Pattern[] contexts;
     
     ContextWords() {
       words = new Pattern[2];

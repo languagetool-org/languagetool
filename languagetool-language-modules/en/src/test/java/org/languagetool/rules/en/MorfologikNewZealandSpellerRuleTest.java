@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -35,7 +36,7 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
   @Test
   public void testSuggestions() throws IOException {
     Language language = new NewZealandEnglish();
-    Rule rule = new MorfologikNewZealandSpellerRule(TestTools.getMessages("en"), language);
+    Rule rule = new MorfologikNewZealandSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
   }
 
@@ -43,7 +44,7 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
   public void testMorfologikSpeller() throws IOException {
     NewZealandEnglish language = new NewZealandEnglish();
     MorfologikNewZealandSpellerRule rule =
-            new MorfologikNewZealandSpellerRule(TestTools.getMessages("en"), language);
+            new MorfologikNewZealandSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(language);
 
@@ -54,6 +55,7 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //special New Zealand content:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abercrombie")).length);

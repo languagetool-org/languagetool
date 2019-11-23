@@ -50,7 +50,7 @@ public abstract class PartialPosTagFilter extends RuleFilter {
   protected abstract List<AnalyzedTokenReadings> tag(String token);
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     if (!(args.containsKey("no") && args.containsKey("regexp") && args.containsKey("postag_regexp"))) {
       throw new RuntimeException("Set 'no', 'regexp' and 'postag_regexp' for filter " + PartialPosTagFilter.class.getSimpleName());
     }
@@ -70,7 +70,7 @@ public abstract class PartialPosTagFilter extends RuleFilter {
     if (matcher.matches()) {
       String partialToken = matcher.group(1);
       if (matcher.groupCount() == 2) {
-      partialToken = partialToken + matcher.group(2);
+        partialToken += matcher.group(2);
       } 
       List<AnalyzedTokenReadings> tags = tag(partialToken);
       if (tags != null && partialTagHasRequiredTag(tags, requiredTagRegexp, negatePos)) {

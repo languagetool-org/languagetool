@@ -18,22 +18,30 @@
  */
 package org.languagetool.language;
 
+import com.optimaize.langdetect.text.TextObjectFactory;
+import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.DetectedLanguage;
 
-import java.util.Objects;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
   private final LanguageIdentifier identifier = new LanguageIdentifier();
+  private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
+  private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
+  private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
+          "ale zahrnuje do něj též veškeré programové vybavení";
 
   @Test
   public void testDetection() {
-    langAssert(null, "");
-    langAssert(null, "X");
     langAssert("de", "Das ist ein deutscher Text");
     langAssert("en", "This is an English text");
     langAssert("fr", "Le mont Revard est un sommet du département français ...");
@@ -68,21 +76,196 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  @Ignore("disabled minimum length, instead now providing confidence score")
+  public void testShortAndLongText() {
+    LanguageIdentifier id10 = new LanguageIdentifier(10);
+    langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
+    langAssert(null, "012345678", id10);
+    langAssert(null, "0123456789", id10);
+    langAssert(null, "0123456789A", id10);
+    langAssert(null, "0123456789AB", id10);
+    langAssert(null, "0123456789ABC", id10);
+
+    LanguageIdentifier id20 = new LanguageIdentifier(20);
+    langAssert("de", "Das ist so ein Text, mit dem man testen kann", id20);
+  }
+  
+  @Test
   public void testKnownLimitations() {
+    // wrong, but low probabilities
+    //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    // fasttext just assumes english, ignore / comment out
+    langAssert(null, "");
+    langAssert("ca", "X");
+
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
     langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
-    langAssert(null, "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
+    langAssert("es", "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
     // Somali, known by language-detector, but not by LT, so we get back something else:
     langAssert("tl", "Dhammaan garoomada caalamka ayaa loo isticmaalaa. Ururku waxa uu qabtaa ama uu ku shaqaleeyahay " +
             "isusocodka diyaaradaha aduunka ee iskaga gooshaya xuduudaha iyo ka hortagga wixii qalad ah iyo baaritaanka " +
             "marka ay dhacdo dhibaato la xiriirta dulimaad.");
   }
 
+  @Test
+  public void testIgnoreSignature() {
+    langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.");
+    langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.");
+  }
+
+  @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testAdditionalLanguagesFasttext() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
+
+    LanguageIdentifier csIdent = new LanguageIdentifier();
+    csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    langAssert("zz", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // the no-op language
+  }
+
+  @Test
+  @Ignore("Only works with locally installed fastText, no test - for interactive use")
+  public void testInteractively() {
+    LanguageIdentifier ident = new LanguageIdentifier();
+    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    List<String> inputs = Arrays.asList(
+            "was meinst du?",          // en, should be de - fasttext confidence used (>0.9) 
+            "was meinst?",             // es, should be de - fasttext confidence used (>0.9)
+            "Am 31. September",        // en, should be de - fasttext confidence used (>0.9)
+            "Anbei.",                  // sv, should be de - not in German common words
+            "what do you think",       // ok
+            "If the",                  // ok
+            "Lettertypes",             // en, should be nl
+            "Зараз десь когось нема",  // ok
+            "if the man",              // ok
+            "Die in peace",            // de, should be en - "die" not in English common words list
+            "Paste text",              // ok
+            "Sehr leckere Sourcreme",  // ok
+            "Bewerk lettertypen",      // de, should be nl - both words not in common words
+            "Colores",                 // en, should be es - not in Spanish common words
+            "Cerrar",                  // sv, should be es - not in Spanish common words
+            "Brand in arrivo"          // en, should be it
+    );
+    //List<String> inputs = Arrays.asList("Brand in arrivo!");
+    for (String input : inputs) {
+      DetectedLanguage lang = ident.detectLanguageWithDetails(input);
+      System.out.println("Input     : " + input);
+      System.out.println("Language  : " + lang.getDetectedLanguage());
+      System.out.println("confidence: " + lang.getDetectionConfidence());
+      System.out.println();
+    }
+  }
+
+  @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testShortTexts() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    defaultIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    langAssert("en", "If the", defaultIdent);
+    langAssert("en", "if the man", defaultIdent);
+    langAssert("en", "Paste text", defaultIdent);
+    langAssert("de", "Sehr leckere Sourcreme", defaultIdent);
+    langAssert("de", "Die Menschen in den öst", defaultIdent);
+    langAssert("de", "Den Vogel ", defaultIdent);
+    langAssert("de", "Den Eisenbahner-Esperanto-Kongress im", defaultIdent);
+    langAssert("uk", "Зараз десь когось нема", defaultIdent);
+    langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", defaultIdent);
+    langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", defaultIdent);
+    //langAssert("de", "Am 31. September", defaultIdent);
+    //langAssert("es", "Colores", defaultIdent);
+    //langAssert("fr", "Fermer", defaultIdent);
+    //langAssert("es", "Cerrar", defaultIdent);
+    //langAssert("nl", "Lettertypes", defaultIdent);
+    //langAssert("it", "Brand in arrivo!", defaultIdent);
+    //langAssert("de", "Alles was Tom woll", defaultIdent);
+    //langAssert("nl", "Bewerk lettertypen", defaultIdent);
+    //langAssert("en", "Die in peace", defaultIdent);
+    //langAssert("ja", "一体日本人は生きるということを知っているだろうか。小学校の門を潜ってから", defaultIdent);   // see https://github.com/languagetool-org/languagetool/issues/1278
+  }
+
+  @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testShortTextsWithPreferredLanguage() {
+    LanguageIdentifier ident = new LanguageIdentifier();
+    List<String> enDePreferred = Arrays.asList("de", "en");
+    List<String> noop = Arrays.asList();
+    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+
+    // neither en nor de, so we get null:
+    langAssert(null, "Зараз десь когось нема", ident, noop, enDePreferred);
+    // long enough to ignore the preferred languages:
+    langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", ident, noop, enDePreferred);
+    langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", ident, noop, enDePreferred);
+    
+    // English:
+    //langAssert("en", "Die in peace", ident, noop, enDePreferred);
+    langAssert("en", "Paste text", ident, noop, enDePreferred);
+    langAssert("en", "If the man", ident, noop, enDePreferred);
+    langAssert("en", "If the", ident, noop, enDePreferred);
+    
+    // German:
+    //langAssert("de", "Am 31. September", ident, noop, enDePreferred);
+    //langAssert("de", "Anbei.", ident, noop, enDePreferred);
+    //langAssert("de", "was meinst", ident, noop, enDePreferred);
+    //langAssert("de", "was meinst du?", ident, noop, enDePreferred);
+    //langAssert("de", "Hi Traumfrau", ident, noop, enDePreferred);
+    langAssert("de", "Sehr leckere Sourcreme", ident, noop, enDePreferred);
+    langAssert("de", "Die Menschen in den öst", ident, noop, enDePreferred);
+    langAssert("de", "Den Vogel ", ident, noop, enDePreferred);
+    langAssert("de", "Den Eisenbahner-Esperanto-Kongress im", ident, noop, enDePreferred);
+    
+    try {
+      ident.detectLanguage("fake", noop, Arrays.asList("de", "en-US"));
+      fail("Expected exception");
+    } catch (IllegalArgumentException ignore) { }
+  }
+
+  @Test
+  @Ignore("Known to fail due to bug")
+  public void textObjectBugForJapanese() {
+    // see https://github.com/languagetool-org/languagetool/issues/1278
+    TextObjectFactory textObjectFactory  = new TextObjectFactoryBuilder().maxTextLength(1000).build();
+    String inp = "一体日本人は生きるということを知っているだろうか。";
+    String shortText = textObjectFactory.forText(inp).toString();
+    System.out.println(shortText);
+    assertEquals(inp, shortText);
+  }
+
+  @Test
+  public void testAdditionalLanguagesBuiltIn() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
+    LanguageIdentifier csIdent = new LanguageIdentifier();
+    langAssert("sk", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // no-op language only supported by fastText 
+  }
+
   private void langAssert(String expectedLangCode, String text) {
-    Language expectedLang = expectedLangCode != null ? Languages.getLanguageForShortCode(expectedLangCode) : null;
-    Language detectedLang = identifier.detectLanguage(text);
-    if (!Objects.equals(expectedLang, detectedLang)) {
-      fail("Got '" + detectedLang + "', expected '" + expectedLangCode + "' for '" + text + "'");
+    langAssert(expectedLangCode, text, identifier, Collections.emptyList(), Collections.emptyList());
+  }
+  
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
+    langAssert(expectedLangCode, text, id, Collections.emptyList(), Collections.emptyList());
+  }
+  
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes,
+                          List<String> preferredLangCodes) {
+    DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes, preferredLangCodes);
+    String detectedLangCode = detectedLang != null ?
+      detectedLang.getDetectedLanguage() != null ? detectedLang.getDetectedLanguage().getShortCode() : null
+      : null;
+    if (expectedLangCode == null) {
+      if (detectedLangCode != null) {
+        fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
+      }
+    } else {
+      if (!expectedLangCode.equals(detectedLangCode)) {
+        if (detectedLang != null) {
+          fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
+        } else {
+          fail("Got null, expected '" + expectedLangCode + "' for '" + text + "'");
+        }
+      }
     }
   }
 

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.tl.MorfologikTagalogSpellerRule;
 import org.languagetool.language.tokenizers.TagalogWordTokenizer;
 import org.languagetool.rules.*;
@@ -87,13 +88,13 @@ public class Tagalog extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Nathaniel Oco", "http://www.dlsu.edu.ph/research/centers/adric/nlp/"),
-            new Contributor("Allan Borra", "http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp")
+            new Contributor("Nathaniel Oco"),
+            new Contributor("Allan Borra")
     };
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -101,7 +102,7 @@ public class Tagalog extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to Tagalog:
-            new MorfologikTagalogSpellerRule(messages, this)
+            new MorfologikTagalogSpellerRule(messages, this, userConfig, altLanguages)
     );
   }
 

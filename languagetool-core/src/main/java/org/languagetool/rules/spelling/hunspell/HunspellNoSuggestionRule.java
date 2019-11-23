@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 
@@ -35,15 +36,15 @@ public class HunspellNoSuggestionRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_NO_SUGGEST_RULE";
 
-  public HunspellNoSuggestionRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, userConfig, altLanguages);
   }
 
   /**
    * @since 3.3
    */
-  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctedExample) {
-    super(messages, language);
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, IncorrectExample incorrectExample, CorrectExample correctedExample) {
+    super(messages, language, userConfig, altLanguages);
     addExamplePair(incorrectExample, correctedExample);
   }
 

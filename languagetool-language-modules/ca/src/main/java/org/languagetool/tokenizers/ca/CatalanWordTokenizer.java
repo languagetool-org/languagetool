@@ -41,10 +41,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
 
-  private final int maxPatterns = 11;
+  private static final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
   
-  private static final String DICT_FILENAME = "/ca/catalan.dict";
+  private static final String DICT_FILENAME = "/ca/ca-ES-valencia.dict";
   protected MorfologikSpeller speller;
 
   //Patterns to avoid splitting words in certain special cases

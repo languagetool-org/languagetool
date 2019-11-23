@@ -20,6 +20,7 @@ package org.languagetool.remote;
 
 import org.junit.Test;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -80,12 +81,7 @@ public class RemoteLanguageToolTest {
 
     @Override
     HttpURLConnection getConnection(byte[] postData, URL url) {
-      URL fakeUrl;
-      try {
-        fakeUrl = new URL("https://fake");
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
+      URL fakeUrl = Tools.getUrl("https://fake");
       return new HttpURLConnection(fakeUrl) {
         @Override public void disconnect() {}
         @Override public boolean usingProxy() { return false; }

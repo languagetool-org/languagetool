@@ -18,7 +18,6 @@
  */
 package org.languagetool.tagging.ca;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,14 +30,14 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
 /**
  * Catalan Tagger
- *
- * Based on FreeLing tagger dictionary
  *
  * @author Jaume Ortolà 
  */
@@ -47,6 +46,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");
+  private String variant;
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -55,8 +55,9 @@ public class CatalanTagger extends BaseTagger {
     return "/ca/manual-tagger.txt";
   }
 
-  public CatalanTagger() {
-    super("/ca/catalan.dict",  new Locale("ca"), false);
+  public CatalanTagger(Language language) {
+    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
+    variant = language.getVariant();
   }
   
   @Override
@@ -70,8 +71,7 @@ public class CatalanTagger extends BaseTagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-      throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
 
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
@@ -81,16 +81,21 @@ public class CatalanTagger extends BaseTagger {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
+      boolean containsTypographicApostrophe = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        if (word.contains("’")) {
+          containsTypographicApostrophe = true;
+          word = word.replace("’", "'");
+        }
       }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
+      final boolean isAllUpper = StringTools.isAllUppercase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       
       // normal case:
@@ -100,6 +105,13 @@ public class CatalanTagger extends BaseTagger {
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
+      }
+      
+      //tag all-uppercase proper nouns (ex. FRANÇA)
+      if (l.isEmpty() && isAllUpper) {
+        final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(firstUpper));
+        addTokens(firstupperTaggerTokens, l);
       }
 
       // additional tagging with prefixes
@@ -115,6 +127,11 @@ public class CatalanTagger extends BaseTagger {
       if (containsTypewriterApostrophe) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
+        atr.setChunkTags(listChunkTags);
+      }
+      if (containsTypographicApostrophe) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
 
@@ -148,11 +165,10 @@ public class CatalanTagger extends BaseTagger {
       }
     }
     //Any well-formed verb with prefixes is tagged as a verb copying the original tags
-    Matcher matcher=PREFIXES_FOR_VERBS.matcher(word);
+    Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
       final String possibleVerb = matcher.group(2).toLowerCase();
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
       for (AnalyzedToken taggerToken : taggerTokens ) {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
@@ -189,17 +205,37 @@ public class CatalanTagger extends BaseTagger {
     if (word.contains("\u0140") || word.contains("\u013f")) {
       final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
-      return taggerTokens;
+      return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
     }
+    
+    // adjectives -iste in Valencian variant
+    if (variant != null && word.endsWith("iste")) {
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          if (posTag.equals("NCCS000")) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, "NCMS000", possibleAdjNoun));
+          }
+          if (posTag.equals("AQ0CS0")) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, "AQ0MS0", possibleAdjNoun));
+          }
+          if (!additionalTaggedTokens.isEmpty()) {
+            return additionalTaggedTokens;
+          }
+        }
+      }
+    }
+    
     return null;
   }
 
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      for (AnalyzedToken at : taggedTokens) {
-        l.add(at);
-      }
+      l.addAll(taggedTokens);
     }
   }
 

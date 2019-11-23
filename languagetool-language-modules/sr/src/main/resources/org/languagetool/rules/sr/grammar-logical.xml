@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+
+<!-- Serbian Grammar and Typo Rules for LanguageTool See tagset.txt for the
+	meaning of the POS tags Copyright (C) 2001-2015 Daniel Naber (http://www.danielnaber.de),
+	Marcin Miłkowski and the LanguageTool contributors Portions of rules are
+	converted from After The Deadline grammar checker, available at http://open.afterthedeadline.com/,
+	licensed under GNU GPL. This library is free software; you can redistribute
+	it and/or modify it under the terms of the GNU Lesser General Public License
+	as published by the Free Software Foundation; either version 2.1 of the License,
+	or (at your option) any later version. This library is distributed in the
+	hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU Lesser General Public License for more details. You should have received
+	a copy of the GNU Lesser General Public License along with this library;
+	if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth
+	Floor, Boston, MA 02110-1301 USA -->
+
+<!DOCTYPE rules [
+        <!ENTITY weekdays "понедељак|уторак|среда|четвртак|петак|субота|недеља">
+        <!ENTITY abbrevWeekdays "пон?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
+        <!ENTITY months "јануар|фебруар|март|април|мај|јун|јул|август|септембар|октобар|новембар|децембар|јануара|фебруара|марта|априла|маја|јуна|јула|августа|септембра|октобра|новембра|децембра">
+        <!ENTITY abbrevMonths "јан|феб|мар|апр|мај|јун|јул|авг|сеп|окт|нов|дец">
+        <!ENTITY double_num "два|три|четири|2|3|4">
+        ]>
+
+<rules lang="sr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <category id="SR_LOGIC" name="Логичке грешке">
+
+        <rulegroup id="INVALID_DATE" name="Непостојећи датум, на пример „31. фебруар 2014“">
+            <rule>
+                <pattern>
+                    <!-- "31. јуна 2014 г." -->
+                    <token>31</token>
+                    <token>.</token>
+                    <token regexp="yes">апр(ил(а)?)?|јун(а)?|сеп(темб(ар|ра))?|нов(емб(ар|ра))?</token>
+                </pattern>
+                <message>У овом месецу има само 30 дана.</message>
+                <example correction="">То се догодило <marker>31. новембра</marker> 2014.</example>
+                <example>То се догодило <marker>30. новембра</marker>2014. г.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>31</token>
+                    <token>.</token>
+                    <token regexp="yes">0?4|0?6|0?9|11</token>
+                    <token>.</token>
+                </pattern>
+                <message>Овај месец има само 30 дана.</message>
+                <example correction="">То је било <marker>31.4.</marker>2014.</example>
+                <example correction="">То је било <marker>31.04.</marker>.</example>
+                <example correction="">То је било <marker>31.11.</marker>.</example>
+                <example>То је било <marker>30.11.</marker>.</example>
+                <example>То је било <marker>30.10.</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>3[01]\. феб(руар(а)?)?</regexp>
+                <message>Фебруар има само 28 дана (односно 29 ако је година преступна).</message>
+                <example correction="">То је било <marker>31. фебруара</marker>.</example>
+                <example correction="">То је било <marker>30. фебруара</marker>.</example>
+                <example>То је било <marker>28. фебруара</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>3[01]\. ?0?2\.</regexp>
+                <message>Фебруар има само 28 дана (односно 29 ако је година преступна).</message>
+                <example correction="">То је било <marker>31.02.</marker>.</example>
+                <example correction="">То је било <marker>31.2.</marker>.</example>
+                <example>То је било <marker>28.2.</marker>.</example>
+                <example>То је било <marker>28.02.</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>(3[2-9]|[4-9]\d)\. ?(\d\d?|&abbrevMonths;)\. ?\d\d\d\d</regexp>
+                <message>У овом датуму дан је погрешан.</message>
+                <example correction="">То је било <marker>32.8.2014</marker>.</example>
+                <example correction="">То је било <marker>55.8.2014</marker>.</example>
+                <example correction="">То је било <marker>32. авг. 2014</marker>.</example>
+                <example>То је било <marker>30.8.2014</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>(3[2-9]|[4-9]\d)\. (&months;) \d\d\d\d</regexp>
+                <message>У овом датуму дан је погрешан.</message>
+                <example correction="">То је било <marker>32. августа 2014</marker>.</example>
+                <example>То је било <marker>30. августа 2014</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>\d\d?\.(1[3-9]|[2-9]\d)\.\d\d\d\d</regexp>
+                <message>У овом датуму месец је погрешан.</message>
+                <example correction="">То је било <marker>11.13.2014</marker>.</example>
+                <example correction="">То је било <marker>11.20.2014</marker>.</example>
+                <example>То је било <marker>11.12.2014</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>29</token>
+                    <token>.</token>
+                    <token regexp="yes">2|02|фебр?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Фебруар \5 нема 29 дана зато што то није преступна година.</message>
+                <url>https://sr.wikipedia.org/wiki/Преступна_година</url>
+                <!-- 1900 is not a leap year (divisible by 100) -->
+                <example correction="">Дана <marker>29. феб. 1900</marker>.</example>
+                <example correction="">Дана <marker>29.02.1900</marker>.</example>
+                <example correction="">Дана <marker>29.2.1900</marker>.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>Дана <marker>29.2.2000</marker>.</example>
+                <example correction="">Дана <marker>29.2.2001</marker>.</example>
+                <example correction="">Дана <marker>29.2.2002</marker>.</example>
+                <example correction="">Дана <marker>29.2.2003</marker>.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>Дана <marker>29.2.2004</marker>.</example>
+                <example correction="">Дана <marker>29.2.2005</marker>.</example>
+                <example correction="">Дана <marker>29.2.2006</marker>.</example>
+                <example correction="">Дана <marker>29.2.2007</marker>.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>Дана <marker>29.2.2008</marker>.</example>
+                <example correction="">Дана <marker>29.2.2009</marker>.</example>
+                <example correction="">Дана <marker>29.2.2010</marker>.</example>
+                <example correction="">Дана <marker>29.2.2011</marker>.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>Дана <marker>29.2.2012</marker>.</example>
+                <example correction="">Дана <marker>29.2.2014</marker>.</example>
+                <example>Дана <marker>29.2.2016</marker>.</example>
+                <example correction="">Дана <marker>29.2.2018</marker>.</example>
+                <example>Дана <marker>29.2.2020</marker>.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="">Дана <marker>29.2.2100</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>29</token>
+                    <token>.</token>
+                    <token regexp="yes">фебруар(а)?</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Фебруар \4 нема 29 дана зато што то није преступна година.</message>
+                <url>https://sr.wikipedia.org/wiki/Преступна_година</url>
+                <example>Дана <marker>29. фебруара 2012</marker>.</example>
+                <example correction="">Дана <marker>29. фебруара 2014</marker>.</example>
+            </rule>
+        </rulegroup> <!-- id="INVALID_DATE" -->
+
+        <rule id="YEAR_20001" name="„Maj 20001 (Маj 2001)“">
+            <pattern>
+                <token regexp="yes">&months;|годин(а|е)</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Заиста \2? Или је <suggestion><match no="1" /> <match no="2" regexp_match="200" regexp_replace="20" /></suggestion>?</message>
+            <short>Грешка писања?</short>
+            <example correction="маја 2014">Планирао сам распуст <marker>маја 20014</marker>.</example>
+        </rule>
+    </category> <!-- id="LOGIC" name="Логичке грешке" -->
+</rules>

@@ -1,18 +1,29 @@
-Dicionario en Galego para Hunspell
-www.mancomun.org coas normas da RAE do 22-05-06
-Creado para thunderbird por Frco. Javier Rial Rodr�guez para Mancom�n
+Hunspell spellchecker for galician (strict Volga)
+and the coordination of Antón Méixome for Proxecto Trasno
 
-1. Copyright
-2. Contido
+Corrector ortográfico hunspell-gl para galego (Volga estrito)
+e coordinado por Antón Méixome para Proxecto Trasno (www.trasno.net)
 
-1. Copyright
+Version 12.10 "Xoán Manuel Pintos"
+(http://gl.wikipedia.org/wiki/Xoán_Manuel_Pintos_Villar)
 
-Liberado faixo os termos da licenza GNU GPL (version 2).
+Nota.
 
-2. Contido
+Ao longo do tempo teñen parte ou colaboraron na creación e mantemento deste recurso lingüístico e dos seus produtos derivados moitas persoas entre as que se deben salientar:
 
-O paquete cont�n o seguinte:
+- Imaxin Software para Mancomún (primeira compilación de regras e lista de dicionario). 2006
+- Mancomún (Mar Castro, ficheiro de regras). 2006-2007
+- Proxecto Trasno. (Miguel Solla, ficheiro de regras). 2009
 
-	gl_ES.dic,  diccionario galego.
-	gl_ES.aff,  regras para derivar palabras do diccionario galego.
-	README-gl-ES.txt, este ficheiro.
+Nas vindeiras versións completarse o rexistro de cambios.
+
+
+Para a creación das regras e o dicionario tívose estritamente en conta
+
+- Vocabulario ortográfico da lingua galega (VOLGa) 
+
+ Real Academia Galega / Instituto da Lingua Galega, 2004.
+ http://www.realacademiagalega.org/volga/
+
+License GPL - (see License-gl.txt inside)
+

@@ -30,13 +30,15 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
+  private String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
   
   private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -50,17 +52,18 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
-  private static final CatalanTagger tagger = new CatalanTagger();
+  private CatalanTagger tagger;
 
-  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language)
-      throws IOException {
-    super(messages, language);
+  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
+    tagger = new CatalanTagger(language);
+    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override
   public String getFileName() {
-    return RESOURCE_FILENAME;
+    return dictFilename;
   }
   
   @Override

@@ -18,15 +18,20 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-import java.io.*;
-import java.lang.Character;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import com.google.common.xml.XmlEscapers;
 
 /**
  * Tools for working with strings.
@@ -61,6 +66,8 @@ public final class StringTools {
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
+  public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
+  public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
 
   private StringTools() {
     // only static stuff
@@ -337,6 +344,18 @@ public final class StringTools {
   }
 
   /**
+   * eliminate special (unicode) characters, e.g. soft hyphens
+   * @since 4.3
+   * @param s String to filter
+   * @return s, with non-(alphanumeric, punctuation, space) characters deleted
+   */
+  public static String trimSpecialCharacters(String s) {
+    // need unicode character classes -> (?U)
+    // lists all allowed character classes, replace everything else
+    return s.replaceAll("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]", "");
+  }
+
+  /**
    * Adds spaces before words that are not punctuation.
    * 
    * @param word Word to add the preceding space.
@@ -379,6 +398,10 @@ public final class StringTools {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
         || "\u0001".equals(str)) { // breakable field in OOo
       return false;
+    }
+
+    if ("\uFEFF".equals(str)) {
+      return true;
     }
     String trimStr = str.trim();
     if (isEmpty(trimStr)) {
@@ -442,6 +465,46 @@ public final class StringTools {
       return null;
     }
     return s.toString();
+  }
+
+  /**
+   * @since 4.3
+   */
+  public static boolean isParagraphEnd(String sentence, boolean singleLineBreaksMarksPara) {
+    boolean isParaEnd = false;
+    if (singleLineBreaksMarksPara) {
+      if (sentence.endsWith("\n") || sentence.endsWith("\n\r")) {
+        isParaEnd = true;
+      }
+    } else if (sentence.endsWith("\n\n") || sentence.endsWith("\n\r\n\r") || sentence.endsWith("\r\n\r\n")) {
+      isParaEnd = true;
+    }
+    return isParaEnd;
+  }
+
+  /**
+   * Loads file, ignoring comments (lines starting with {@code #}).
+   * @param path path in resource dir
+   * @since 4.6
+   */
+  public static List<String> loadLines(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+    List<String> l = new ArrayList<>();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.isEmpty() || line.charAt(0) == '#') {   // ignore comments
+          continue;
+        }
+        l.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load coherency data from " + path, e);
+    }
+    return Collections.unmodifiableList(l);
   }
 
 }

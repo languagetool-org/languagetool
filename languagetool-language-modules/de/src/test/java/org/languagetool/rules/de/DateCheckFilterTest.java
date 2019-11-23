@@ -33,25 +33,25 @@ import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
-  private final RuleMatch match = new RuleMatch(new FakeRule(), 0, 10, "message");
+  private final RuleMatch match = new RuleMatch(new FakeRule(), null, 0, 10, "message");
   private final DateCheckFilter filter = new DateCheckFilter();
 
   @Test
   public void testAccept() throws Exception {
-    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), null));  // correct date
-    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), null));  // incorrect date
+    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), -1, null));  // correct date
+    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), -1, null));  // incorrect date
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testAcceptIncompleteArgs() throws Exception {
     Map<String,String> map = makeMap("2014", "8" ,"23", "Samstag");
     map.remove("weekDay");
-    filter.acceptRuleMatch(match, map, null);
+    filter.acceptRuleMatch(match, map, -1, null);
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidDay() throws Exception {
-    filter.acceptRuleMatch(match, makeMap("2014", "8", "23", "invalid"), null);
+    filter.acceptRuleMatch(match, makeMap("2014", "8", "23", "invalid"), -1, null);
   }
 
   @Test

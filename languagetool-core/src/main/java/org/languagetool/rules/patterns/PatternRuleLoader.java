@@ -64,7 +64,7 @@ public class PatternRuleLoader extends DefaultHandler {
    */
   public final List<AbstractPatternRule> getRules(InputStream is, String filename) throws IOException {
     try {
-      PatternRuleHandler handler = new PatternRuleHandler();
+      PatternRuleHandler handler = new PatternRuleHandler(filename);
       handler.setRelaxedMode(relaxedMode);
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser saxParser = factory.newSAXParser();

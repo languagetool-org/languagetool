@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/fa/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/fa/replace.txt");
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);

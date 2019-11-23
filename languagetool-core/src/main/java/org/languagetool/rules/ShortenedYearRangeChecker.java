@@ -37,13 +37,13 @@ public class ShortenedYearRangeChecker extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     try {
       int x = Integer.parseInt(arguments.get("x"));
       String centuryPrefix = arguments.get("x").substring(0, 2);
       int y = Integer.parseInt(centuryPrefix + arguments.get("y"));
       if (x >= y) {
-        return new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
+        return match;
       }
     } catch (IllegalArgumentException ignore) {
       // if something's fishy with the number – ignore it silently,

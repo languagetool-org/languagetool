@@ -63,7 +63,7 @@ public class PatternRuleLoaderTest {
     assertEquals("tag inheritance from rulegroup failed", ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType());
 
     Set<String> categories = getCategoryNames(rules);
-    assertEquals(4, categories.size());
+    assertEquals(5, categories.size());
     assertTrue(categories.contains("misc"));
     assertTrue(categories.contains("otherCategory"));
     assertTrue(categories.contains("Test tokens with min and max attributes"));

@@ -38,7 +38,8 @@ public final class Category {
   private final CategoryId id;
   private final Location location;
   private final boolean defaultOff;
-
+  private final String tabname;
+  
   /**
    * @since 3.3
    */
@@ -53,10 +54,16 @@ public final class Category {
 
   /** @since 3.3 */
   public Category(CategoryId id, String name, Location location, boolean onByDefault) {
+    this(id, name, location, onByDefault, null);
+  }
+
+  /** @since 4.3 */
+  public Category(CategoryId id, String name, Location location, boolean onByDefault, String tabname) {
     this.id = id;
     this.name = name;
     this.location = location;
     this.defaultOff = !onByDefault;
+    this.tabname = tabname;
   }
 
   /** @since 3.3 */
@@ -72,6 +79,12 @@ public final class Category {
   @Override
   public String toString() {
     return name;
+  }
+
+  /** @since 4.3 */
+  @Nullable
+  public String getTabName() {
+    return tabname;
   }
 
   /**

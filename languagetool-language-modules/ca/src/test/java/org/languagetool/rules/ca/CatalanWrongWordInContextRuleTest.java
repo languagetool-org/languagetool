@@ -61,6 +61,8 @@ public class CatalanWrongWordInContextRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("El pali i el sànscrit.")).length);
     
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Vam comprar xocolate de mànec.")).length);
+    
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("El pic de l'ocell.")).length);
   }
   
 }

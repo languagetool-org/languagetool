@@ -23,9 +23,6 @@ import java.util.Locale;
 import org.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger.
- * Based on FreeLing tagger dictionary
- * and Spanish Wikipedia corpus tagged with FreeLing.
- * 
  * @author Marcin Milkowski
  */
 public class SpanishTagger extends BaseTagger {

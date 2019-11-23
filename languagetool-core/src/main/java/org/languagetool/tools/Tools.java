@@ -36,7 +36,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.Authenticator;
+import java.net.MalformedURLException;
 import java.net.NetPermission;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -386,6 +388,19 @@ public final class Tools {
       }
     } else {
       Authenticator.setDefault(new PasswordAuthenticator());
+    }
+  }
+
+  /**
+   * Create a URL object from a string. Helper method that turns
+   * the {@code MalformedURLException} into a {@code RuntimeException}.
+   * @since 4.0
+   */
+  public static URL getUrl(String url) {
+    try {
+      return new URL(url);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
     }
   }
 

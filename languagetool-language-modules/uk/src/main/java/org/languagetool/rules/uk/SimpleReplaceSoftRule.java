@@ -44,7 +44,7 @@ import org.languagetool.rules.ITSIssueType;
 public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   private static final String CONTEXT_PREFIX = "ctx:";
-  private static final Map<String, List<String>> WRONG_WORDS = load("/uk/replace_soft.txt");
+  private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_soft.txt");
 
   @Override
   protected Map<String, List<String>> getWrongWords() {
@@ -82,7 +82,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     if( repl.contexts.size() > 0 ) {
       return "«" + tokenStr + "» вживається лише в таких контекстах: " 
           + StringUtils.join(repl.contexts, ", ")
-          + ", можливо ви мали на увазі: " + replaceText + "?";
+          + ", можливо, ви мали на увазі: " + replaceText + "?";
     }
 
     return tokenStr + " — нерекомендоване слово, кращий варіант: "

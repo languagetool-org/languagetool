@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -34,7 +35,8 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian());
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
+            null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
@@ -52,17 +54,28 @@ public class MorfologikUkrainianSpellerRuleTest {
     // non-breaking hyphen
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("ось\u2011ось")).length);
 
-    
+    // frequent infix notation
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("-ськ-")).length);
+
+    // accent
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Іва́н Петро́вич Котляре́вський"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("1998 ро́ку"));
+    assertEquals(0, matches.length);
+
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
+    matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
     // check match positions:
     assertEquals(1, matches.length);
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals("атакуючий".length(), matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("шкляний"));
-
-    assertEquals(1, matches.length);
-    assertEquals("скляний", matches[0].getSuggestedReplacements().get(0));
+//    matches = rule.match(langTool.getAnalyzedSentence("шклянка"));
+//
+//    assertEquals(1, matches.length);
+//    assertEquals("склянка", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("а")).length);
 
@@ -130,11 +143,26 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("півтора раза"));
     assertEquals(0, match.length);
 
+    match = rule.match(langTool.getAnalyzedSentence("УКРА"));
+    assertEquals(1, Arrays.asList(match).size());
+
+    String sent = "Іва\u0301н Петро\u0301ввич";
+    match = rule.match(langTool.getAnalyzedSentence(sent));
+    assertEquals(1, Arrays.asList(match).size());
+    assertEquals(sent.indexOf("Петро"), match[0].getFromPos());
+    assertEquals(sent.length(), match[0].getToPos());
+
+    sent = "ґалаґа́нівська";
+    match = rule.match(langTool.getAnalyzedSentence(sent));
+    assertEquals(1, Arrays.asList(match).size());
+    assertEquals(0, match[0].getFromPos());
+    assertEquals(sent.length(), match[0].getToPos());
   }
 
   @Test
   public void testProhibitedSuggestions() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian());
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
+            null, Collections.emptyList());
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
     
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("онлайннавчання"));
@@ -161,6 +189,13 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(1, match.length);
 
     assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+
+    match = rule.match(langTool.getAnalyzedSentence("радіо- та відеоспостереження"));
+    assertEquals(0, match.length);
+
+    match = rule.match(langTool.getAnalyzedSentence("радіо- засоби"));
+    assertEquals(1, match.length);
+
   }  
   
 }

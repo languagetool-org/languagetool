@@ -50,6 +50,9 @@ class StdoutHandler extends ResultHandler {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
         }
+        if (match.getRule().isDefaultTempOff()) {
+          output += " [temp_off]";
+        }
         System.out.println(output);
         String msg = match.getMessage();
         msg = msg.replaceAll("<suggestion>", "'");
@@ -58,6 +61,12 @@ class StdoutHandler extends ResultHandler {
         List<String> replacements = match.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
           System.out.println("Suggestion: " + String.join("; ", replacements));
+        }
+        if (match.getRule() instanceof AbstractPatternRule) {
+          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
+          if (pRule.getSourceFile() != null) {
+            System.out.println("Rule source: " + pRule.getSourceFile());
+          }
         }
         System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), sentence.getText()));
         i++;

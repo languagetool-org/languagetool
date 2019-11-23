@@ -95,7 +95,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
             String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
             int startPos = analyzedToken.getStartPos();
             int endPos = startPos + token.length();
-            RuleMatch ruleMatch = new RuleMatch(this, pos+startPos, pos+endPos, msg, shortMsg);
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, msg, shortMsg);
             ruleMatches.add(ruleMatch);
           }
         }
@@ -105,6 +105,11 @@ public class WordRepeatBeginningRule extends TextLevelRule {
       pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public int minToCheckParagraph() {
+    return 2;
   }
 
 }

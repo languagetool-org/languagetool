@@ -36,6 +36,7 @@ public class PortugueseWordRepeatRuleTest {
     assertFalse(ignore("no repetition", lt, rule));
     assertTrue(ignore("blá blá", lt, rule));
     assertTrue(ignore("Aaptos aaptos", lt, rule));
+    // assertTrue(ignore("Coloquem-na na sala.", lt, rule)); XXX passes tests. TODO improve ignore function
   }
 
   private boolean ignore(String input, JLanguageTool lt, PortugueseWordRepeatRule rule) throws IOException {

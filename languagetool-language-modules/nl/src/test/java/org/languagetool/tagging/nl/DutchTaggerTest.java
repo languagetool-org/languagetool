@@ -18,23 +18,24 @@
  */
 package org.languagetool.tagging.nl;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
-
-import java.io.IOException;
+import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
 public class DutchTaggerTest {
-    
+
   private DutchTagger tagger;
   private WordTokenizer tokenizer;
-      
+
   @Before
   public void setUp() {
     tagger = new DutchTagger();
-    tokenizer = new WordTokenizer();
+    tokenizer = new DutchWordTokenizer();
   }
 
   @Test
@@ -44,9 +45,15 @@ public class DutchTaggerTest {
 
   @Test
   public void testTagger() throws IOException {
-    TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.",
-        "Dit/[dit]DTh -- is/[zijn]VB3 -- een/[een]DTe|een/[een]NM|een/[een]NM1|een/[een]NN1d -- Nederlandse/[Nederlandse]NN1 -- zin/[zin]NN1d|zin/[zinnen]VB1 -- om/[om]PRom -- het/[het]DTh -- programma/[programma]NN1h -- tje/[null]null -- te/[te]PRte -- testen/[test]NN2|testen/[testen]VBi", tokenizer, tagger);        
-    TestTools.myAssert("zwijnden","zwijnden/[zwijnen]VBh", tokenizer, tagger);        
-  }
 
+    TestTools.myAssert("Aardappels koken.", "Aardappels/[aardappel]ZNW:MRV:DE_ -- koken/[koken]WKW:TGW:INF", tokenizer,
+        tagger);
+    TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);
+    TestTools.myAssert("déúr", "déúr/[deur]ZNW:EKV:DE_", tokenizer, tagger);
+    TestTools.myAssert("kómen", "kómen/[komen]WKW:TGW:INF", tokenizer, tagger);
+    TestTools.myAssert("kán", "kán/[kan]ZNW:EKV:DE_|kán/[kunnen]WKW:TGW:1EP|kán/[kunnen]WKW:TGW:3EP", tokenizer,
+        tagger);
+    TestTools.myAssert("ín", "ín/[in]FOREIGN|ín/[in]VRZ|ín/[innen]WKW:TGW:1EP", tokenizer, tagger);
+    TestTools.myAssert("deur-knop", "deur-knop/[deurknop]ZNW:EKV:DE_", tokenizer, tagger);
+  }
 }

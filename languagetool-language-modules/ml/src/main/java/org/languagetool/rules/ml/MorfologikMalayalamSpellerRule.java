@@ -20,9 +20,11 @@
 package org.languagetool.rules.ml;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikMalayalamSpellerRule extends MorfologikSpellerRule {
@@ -30,8 +32,8 @@ public final class MorfologikMalayalamSpellerRule extends MorfologikSpellerRule 
   private static final String RESOURCE_FILENAME = "/ml/hunspell/ml_IN.dict";
 
   public MorfologikMalayalamSpellerRule(ResourceBundle messages,
-                                        Language language) throws IOException {
-    super(messages, language);
+                                        Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
   }
 
   @Override

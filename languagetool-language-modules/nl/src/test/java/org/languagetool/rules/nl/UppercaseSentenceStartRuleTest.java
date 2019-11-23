@@ -46,6 +46,7 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(2, lt.check("a sentence.").size());
     assertEquals(1, lt.check("'s morgens...").size());
     assertEquals(2, lt.check("s sentence.").size());
+    assertEquals(1, lt.check("'t").size());
   }
   
 }

@@ -18,19 +18,20 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.WordRepeatRule;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
+import org.languagetool.rules.WordRepeatRule;
 
 public class WordRepeatRuleTest {
 
-  private final German german = new German();
+  private final Language german = Languages.getLanguageForShortCode("de-DE");
   private final WordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), german);
 
   @Test
@@ -41,6 +42,7 @@ public class WordRepeatRuleTest {
     assertGood("Sätze, die die testen.", lt);
     assertGood("Das Haus, auf das das Mädchen zeigt.", lt);
     assertGood("Warum fragen Sie sie nicht selbst?", lt);
+    assertGood("Er tut das, damit sie sie nicht sieht.", lt);
 
     assertBad("Die die Sätze zum testen.", lt);
     assertBad("Und die die Sätze zum testen.", lt);

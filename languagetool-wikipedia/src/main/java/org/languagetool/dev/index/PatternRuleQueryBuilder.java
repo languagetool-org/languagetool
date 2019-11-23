@@ -56,10 +56,16 @@ public class PatternRuleQueryBuilder {
   
   private final Language language;
   private final IndexSearcher indexSearcher;
+  private final String searchFieldName;
 
   public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher) {
+    this(language, indexSearcher, FIELD_NAME_LOWERCASE);
+  }
+  
+  public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher, String searchFieldName) {
     this.language = language;
     this.indexSearcher = indexSearcher;
+    this.searchFieldName = searchFieldName;
   }
 
   /**
@@ -80,7 +86,7 @@ public class PatternRuleQueryBuilder {
       }
     }
     BooleanQuery query = builder.build();
-    if (query.clauses().size() == 0) {
+    if (query.clauses().isEmpty()) {
       throw new UnsupportedPatternRuleException("No items found in rule that can be used to build a search query: " + rule);
     }
     return query;
@@ -143,12 +149,12 @@ public class PatternRuleQueryBuilder {
       return null;
     }
     Query termQuery;
-    Term termQueryTerm = getTermQueryTerm(patternToken, termStr);
+    Term termQueryTerm = getTermQueryTerm(termStr);
     if (patternToken.getNegation() || patternToken.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (patternToken.isInflected() && patternToken.isRegularExpression()) {
-      Term lemmaQueryTerm = getQueryTerm(patternToken, LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
+      Term lemmaQueryTerm = getQueryTerm(LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
       Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (patternToken.isInflected() && !patternToken.isRegularExpression()) {
@@ -166,7 +172,7 @@ public class PatternRuleQueryBuilder {
           if (synthesized.length == 0) {
             query = new TermQuery(termQueryTerm);
           } else {
-            query = new RegexpQuery(getTermQueryTerm(patternToken, StringUtils.join(synthesized, "|")));
+            query = new RegexpQuery(getTermQueryTerm(StringUtils.join(synthesized, "|")));
           }
           return new BooleanClause(query, BooleanClause.Occur.MUST);
         } catch (IOException e) {
@@ -203,29 +209,21 @@ public class PatternRuleQueryBuilder {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (patternToken.isPOStagRegularExpression()) {
-      posQueryTerm = getQueryTerm(patternToken, POS_PREFIX + "(", pos, ")");
+      posQueryTerm = getQueryTerm(POS_PREFIX + "(", pos, ")");
       posQuery = getRegexQuery(posQueryTerm, pos, patternToken);
     } else {
-      posQueryTerm = getQueryTerm(patternToken, POS_PREFIX, pos, "");
+      posQueryTerm = getQueryTerm(POS_PREFIX, pos, "");
       posQuery = new TermQuery(posQueryTerm);
     }
     return new BooleanClause(posQuery, BooleanClause.Occur.MUST);
   }
 
-  private Term getTermQueryTerm(PatternToken patternToken, String str) {
-    if (patternToken.isCaseSensitive()) {
-      return new Term(FIELD_NAME, str);
-    } else {
-      return new Term(FIELD_NAME_LOWERCASE, str.toLowerCase());
-    }
+  private Term getTermQueryTerm(String str) {
+    return new Term(searchFieldName, str.toLowerCase());
   }
 
-  private Term getQueryTerm(PatternToken patternToken, String prefix, String str, String suffix) {
-    if (patternToken.isCaseSensitive()) {
-      return new Term(FIELD_NAME, prefix + str + suffix);
-    } else {
-      return new Term(FIELD_NAME_LOWERCASE, prefix.toLowerCase() + str.toLowerCase() + suffix.toLowerCase());
-    }
+  private Term getQueryTerm(String prefix, String str, String suffix) {
+    return new Term(searchFieldName, prefix.toLowerCase() + str.toLowerCase() + suffix.toLowerCase());
   }
 
   private Query getRegexQuery(Term term, String str, PatternToken patternToken) throws UnsupportedPatternRuleException {
@@ -254,7 +252,7 @@ public class PatternRuleQueryBuilder {
     if (patternPatternToken.isUnified()) {
       throw new UnsupportedPatternRuleException("Elements with unified tokens are not supported.");
     }
-    if (patternPatternToken.getString().matches("\\\\\\d+")) { // e.g. "\1"
+    if (patternPatternToken.getString() != null && patternPatternToken.getString().matches("\\\\\\d+")) { // e.g. "\1"
       throw new UnsupportedPatternRuleException("Elements with only match references (e.g. \\1) are not supported.");
     }
   }

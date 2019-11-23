@@ -19,6 +19,8 @@
 
 package org.languagetool.rules;
 
+import org.languagetool.AnalyzedSentence;
+
 /**
  * Helper class for {@link GenericUnpairedBracketsRule} to identify
  * symbols indexed with integers.
@@ -30,11 +32,13 @@ public class SymbolLocator {
   private final String symbol;
   private final int index;
   private final int startPos;
+  private final AnalyzedSentence sentence;
 
-  SymbolLocator(String symbol, int index, int startPos) {
+  SymbolLocator(String symbol, int index, int startPos, AnalyzedSentence sentence) {
     this.symbol = symbol;
     this.index = index;
     this.startPos = startPos;
+    this.sentence = sentence;
   }
 
   /**
@@ -53,6 +57,11 @@ public class SymbolLocator {
   /** @since 2.9 */
   int getStartPos() {
     return startPos;
+  }
+
+  /** @since 4.0 */
+  AnalyzedSentence getSentence() {
+    return sentence;
   }
 
   @Override

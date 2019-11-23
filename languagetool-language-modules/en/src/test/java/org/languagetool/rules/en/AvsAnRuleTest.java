@@ -20,11 +20,7 @@ package org.languagetool.rules.en;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -41,7 +37,7 @@ public class AvsAnRuleTest {
   @Before
   public void setUp() throws IOException {
     rule = new AvsAnRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(new English());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test
@@ -158,7 +154,7 @@ public class AvsAnRuleTest {
   @Test
   public void testPositions() throws IOException {
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new English());
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     // no quotes etc.:
     matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
     assertEquals(0, matches[0].getFromPos());

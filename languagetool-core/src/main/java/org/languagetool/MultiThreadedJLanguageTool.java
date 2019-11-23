@@ -18,19 +18,15 @@
  */
 package org.languagetool;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
-
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
@@ -57,47 +53,36 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @since 2.9
    */
   public MultiThreadedJLanguageTool(Language language, int threadPoolSize) {
-    this(language, null, threadPoolSize);
+    this(language, null, threadPoolSize, null);
   }
 
   /**
    * @see #shutdown()
    */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
-    this(language, motherTongue, getDefaultThreadCount());
+    this(language, motherTongue, getDefaultThreadCount(), null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, UserConfig userConfig) {
+    this(language, motherTongue, getDefaultThreadCount(), userConfig);
   }
 
   /**
    * @see #shutdown()
    * @param threadPoolSize the number of concurrent threads
    * @since 2.9
+   * UserConfig added
+   * @since 4.2
    */
-  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize) {
-    this(language, motherTongue, threadPoolSize, null);
-  }
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
+      UserConfig userConfig) {
+    super(language, motherTongue, null, userConfig);
 
-  /**
-   * @see #shutdown()
-   * @since 3.7
-   */
-  @Experimental
-  public MultiThreadedJLanguageTool(Language language, Language motherTongue, ResultCache cache) {
-    this(language, motherTongue, getDefaultThreadCount(), cache);
-  }
-
-  /**
-   * @see #shutdown()
-   * @param threadPoolSize the number of concurrent threads
-   * @since 3.7
-   */
-  @Experimental
-  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize, ResultCache cache) {
-    super(language, motherTongue, cache);
-    if (threadPoolSize < 1) {
-      throw new IllegalArgumentException("threadPoolSize must be >= 1: " + threadPoolSize);
-    }
     this.threadPoolSize = threadPoolSize;
-    threadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
+    threadPool = new ForkJoinPool(threadPoolSize, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
   }
 
   /**
@@ -117,12 +102,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   private static int getDefaultThreadCount() {
-    String threadCountStr = System.getProperty("org.languagetool.thread_count_internal", "-1");
-    int threadPoolSize = Integer.parseInt(threadCountStr);
-    if (threadPoolSize == -1) {
-      threadPoolSize = Runtime.getRuntime().availableProcessors();
-    }
-    return threadPoolSize;
+    return Runtime.getRuntime().availableProcessors();
   }
 
   /**
@@ -176,7 +156,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   @Override
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
        List<Rule> allRules, ParagraphHandling paraMode, 
-       AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
+       AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
@@ -186,7 +166,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     ExecutorService executorService = getExecutorService();
     try {
       List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener);
+              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener, mode);
       List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
@@ -195,32 +175,20 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       throw new RuntimeException(e);
     }
     
-    return ruleMatches;
+    return applyCustomFilters(ruleMatches, annotatedText);
   }
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
        AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
-       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener) {
-    int threads = getThreadPoolSize();
-    int totalRules = allRules.size();
-    int chunkSize = totalRules / threads;
-    int firstItem = 0;
+       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener, Mode mode) {
+
     List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
-    
-    // split the rules - all rules are independent, so it makes more sense to split
-    // the rules than to split the text:
-    for (int i = 0; i < threads; i++) {
-      List<Rule> subRules;
-      //TODO: make sure we don't split rules with same id so RuleGroupFilter still works
-      if (i == threads - 1) {
-        // make sure the last rules are not lost due to rounding issues:
-        subRules = allRules.subList(firstItem, totalRules);
-      } else {
-        subRules = allRules.subList(firstItem, firstItem + chunkSize);
-      }
-      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount, listener));
-      firstItem = firstItem + chunkSize;
+ 
+    for (Rule rule: allRules) {
+      callables.add(new TextCheckCallable(Arrays.asList(rule), sentences, analyzedSentences, paraMode, 
+          annotatedText, charCount, lineCount, columnCount, listener, mode));
     }
+
     return callables;
   }
 
@@ -247,17 +215,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
       anTokens[anTokens.length - 1].setParagraphEnd();
-      analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
+      AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
+      preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
+      analyzedSentence = new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
       return analyzedSentence;
-    }
-  }
-
-  private static class DaemonThreadFactory implements ThreadFactory {
-    @Override
-    public Thread newThread(Runnable r) {
-      Thread thread = new Thread(r);
-      thread.setDaemon(true); // so we don't have to shut down executor explicitly
-      return thread;
     }
   }
 }

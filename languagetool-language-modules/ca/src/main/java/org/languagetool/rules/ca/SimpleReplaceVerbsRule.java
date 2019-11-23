@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
@@ -45,7 +46,7 @@ import org.languagetool.tagging.ca.CatalanTagger;
  */
 public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace_verbs.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_verbs.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
@@ -59,14 +60,16 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
       + "essin|essis|éssiu|eu|i|í|in|is|o|ïs";
   private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
   private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)("  + endings + ")");
-  private static final CatalanTagger tagger = new CatalanTagger();
-  private static final CatalanSynthesizer synth = new CatalanSynthesizer();
+  private CatalanTagger tagger;
+  private CatalanSynthesizer synth;
   
-  public SimpleReplaceVerbsRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setIgnoreTaggedWords();
+    tagger = (CatalanTagger) language.getTagger();
+    synth = (CatalanSynthesizer) language.getSynthesizer();
   }
 
   @Override
@@ -138,12 +141,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           infinitive = lexeme.concat("ar");
           if (wrongWords.containsKey(infinitive)) {
             List<String> wordAsArray = Arrays.asList("cant".concat(desinence));
-            List<AnalyzedTokenReadings> analyzedTokenReadingsList = null;
-            try {
-              analyzedTokenReadingsList = tagger.tag(wordAsArray);
-            } catch (IOException e) {
-              throw new RuntimeException("Could not tag sentence: " + wordAsArray, e);
-            }
+            List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
             if (analyzedTokenReadingsList != null) {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
             }
@@ -187,7 +185,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
         }
         if (possibleReplacements.size() > 0) {
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,
-              possibleReplacements);
+              possibleReplacements, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
       }

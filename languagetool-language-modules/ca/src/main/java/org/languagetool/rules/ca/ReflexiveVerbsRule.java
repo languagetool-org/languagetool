@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -52,7 +53,7 @@ public class ReflexiveVerbsRule extends Rule {
   private static final Pattern VERB_AUTO = Pattern.compile("auto.+");
   private static final List<String> excepVerbsPronominals = Arrays.asList("amoixar", "delirar", "atendre", "escollir", "assolir","autografiar","automatitzar","autoritzar");  
   
-  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure", "saltar", "créixer"); 
+  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure", "saltar", "créixer", "postular"); 
   private static final List<String> verbsNoPronominalsImpersonals = Arrays.asList("caure", "callar", "marxar", "olorar", "créixer");
   private static final List<String> verbsNoPronominalsImpersonals2 = Arrays.asList("témer","albergar","baixar");
   private static final List<String> excepVerbsNoPronominals = Arrays.asList("segar");
@@ -126,6 +127,7 @@ public class ReflexiveVerbsRule extends Rule {
   private static final Pattern POSTAG_DE = Pattern.compile("SPS00");
   private static final Pattern POSTAG_PREPOSICIO = Pattern.compile("SPS00");
   private static final Pattern LEMMA_PREP_A_PER = Pattern.compile("a|per");
+  private static final Pattern POSTAG_PRONOM_CD_3P = Pattern.compile("PP3CP000|PP3..A00");
   
   private static final Pattern POSTAG_ADVERBI = Pattern.compile("RG.*|.*LOC_ADV.*");
   private static final Pattern ANYMESDIA = Pattern.compile("any|mes|dia");
@@ -219,7 +221,7 @@ public class ReflexiveVerbsRule extends Rule {
         
         // the rule matches
         final String msg = "Expressió incorrecta si equival a 'adonar-se', correcta si vol dir 'retre compte'.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);
       }
@@ -251,7 +253,7 @@ public class ReflexiveVerbsRule extends Rule {
           else if (token.equalsIgnoreCase("du")) {suggestion ="endú"; }
           else {suggestion= "en"+token; }
         final String msg="¿Volíeu dir <suggestion>"+suggestion+"</suggestion>?";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);    
         continue loop;
@@ -267,7 +269,7 @@ public class ReflexiveVerbsRule extends Rule {
           && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
           // the rule matches
           final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.";
-          final RuleMatch ruleMatch = new RuleMatch(this,
+          final RuleMatch ruleMatch = new RuleMatch(this, sentence,
               tokens[i+1].getStartPos(), tokens[i+1].getStartPos()
                   + tokens[i+1].getToken().length(), msg, "Pronom redundant");
           ruleMatches.add(ruleMatch);
@@ -289,7 +291,7 @@ public class ReflexiveVerbsRule extends Rule {
           continue loop;
         // the rule matches
         final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg,
             "Verb pronominal: falta un pronom");
         ruleMatches.add(ruleMatch);
@@ -328,7 +330,7 @@ public class ReflexiveVerbsRule extends Rule {
         
         // the rule matches
         final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Verb no pronominal");
         if (tokens[i].hasLemma("créixer")) {
@@ -409,7 +411,7 @@ public class ReflexiveVerbsRule extends Rule {
         if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
           // the rule matches
           final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
-          final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), 
+          final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i].getStartPos(), 
               tokens[i].getEndPos(), msg, "Falta el pronom 'en'");
           ruleMatches.add(ruleMatch);
         }
@@ -468,6 +470,27 @@ public class ReflexiveVerbsRule extends Rule {
       }
     }
     return matches;
+  }
+  
+  /**
+   * Match POS tag 
+   */
+  private boolean matchPostag(AnalyzedTokenReadings aToken, String postag) {
+    for (AnalyzedToken analyzedToken : aToken) {
+      String p = analyzedToken.getPOSTag();
+      if (p != null && p.equals(postag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private boolean haveSamePostag(AnalyzedTokenReadings aToken, AnalyzedTokenReadings aToken2) {
+    if (!aToken.getReadings().get(0).hasNoTag() 
+        && !aToken2.getReadings().get(0).hasNoTag()) {
+      return StringUtils.equals(aToken.getReadings().get(0).getPOSTag(), aToken2.getReadings().get(0).getPOSTag());
+    }
+    return false;
   }
   
   /**
@@ -615,6 +638,18 @@ public class ReflexiveVerbsRule extends Rule {
       }
       if (foundVerb) {
         k--;
+        // us animem a queixar-vos
+        if (i - 1 > 0 && tokens[i - 1].getToken().equals("a") && i + 1 < tokens.length && i - k - 1 > 0) {
+          if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
+            return true;
+          }
+          //l'animem a queixar-se
+          if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
+              && matchPostag(tokens[i + 1], "P0300000")
+              && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
+            return true;
+          }
+        }
         pPronomBuscat = pronomPattern(tokens[i - k]);
         if (pPronomBuscat != null) {
           if (i+1< tokens.length
@@ -759,8 +794,8 @@ public class ReflexiveVerbsRule extends Rule {
         return true;
       keepCounting = matchPostagRegexp(tokens[i - j],
           PREP_VERB_PRONOM);
-      if (tokens[i-j].getToken().equalsIgnoreCase("per")
-          && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+      if ("per".equalsIgnoreCase(tokens[i-j].getToken())
+          && "a".equalsIgnoreCase(tokens[i-j+1].getToken()))
         keepCounting=false;
       if (matchPostagRegexp(tokens[i-j],VERB_INDSUBJ)
           && matchPostagRegexp(tokens[i-j+1],VERB_INFGER))

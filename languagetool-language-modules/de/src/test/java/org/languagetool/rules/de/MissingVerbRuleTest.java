@@ -18,22 +18,23 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
 
 public class MissingVerbRuleTest {
 
-  private final MissingVerbRule rule = new MissingVerbRule(TestTools.getEnglishMessages(), new German());
+  private final MissingVerbRule rule = new MissingVerbRule(TestTools.getEnglishMessages(), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
 
   @Test
   public void test() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     
     assertGood("Da ist ein Verb, mal so zum testen.", lt);
     assertGood("Überschrift ohne Verb aber doch nicht zu kurz", lt);

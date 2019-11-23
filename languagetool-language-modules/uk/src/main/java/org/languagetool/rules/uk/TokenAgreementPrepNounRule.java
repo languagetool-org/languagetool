@@ -23,7 +23,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,34 +34,29 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.uk.TokenAgreementPrepNounExceptionHelper.RuleException;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
- * A rule that checks if tokens in the sentence agree on inflection etc
+ * A rule that checks if preposition and a noun agree on inflection etc
  * 
  * @author Andriy Rysin
  */
 public class TokenAgreementPrepNounRule extends Rule {
-  private static final String NO_VIDMINOK_SUBSTR = ":nv";
-  private static final String REQUIRE_VIDMINOK_SUBSTR = ":rv_";
+  
+  private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim:.:v_naz.*");
   private static final String VIDMINOK_SUBSTR = ":v_";
-  static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
   private static final String reqAnimInanimRegex = ":r(?:in)?anim";
   private static final Pattern REQ_ANIM_INANIM_PATTERN = Pattern.compile(reqAnimInanimRegex);
 
   private final Ukrainian ukrainian = new Ukrainian();
-
-  private static final Set<String> NAMES = new HashSet<>(Arrays.asList(
-      "ім'я", "прізвище"
-      ));
 
   public TokenAgreementPrepNounRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -83,304 +77,182 @@ public class TokenAgreementPrepNounRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
-    boolean insideMultiword = false;
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
-    AnalyzedTokenReadings reqTokenReadings = null;
-    for (int i = 0; i < tokens.length; i++) {
+    AnalyzedTokenReadings prepTokenReadings = null;
+    for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
       String posTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
 
-      //TODO: skip conj напр. «бодай»
-
       if (posTag == null
-          || posTag.contains(IPOSTag.unknown.getText())
-          || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
-        reqTokenReadings = null;
+          || posTag.contains(IPOSTag.unknown.getText()) ){
+        prepTokenReadings = null;
         continue;
       }
 
-      // first token is always SENT_START
       String thisToken = tokenReadings.getToken();
-      if( i > 1 && thisToken.length() == 1 && Character.isUpperCase(thisToken.charAt(0)) 
-          && tokenReadings.isWhitespaceBefore() && ! tokens[i-1].getToken().matches("[:—–-]")) {  // часто вживають укр. В замість лат.: гепатит В
-        reqTokenReadings = null;
+
+      // часто вживають укр. В замість лат.: гепатит В
+      // first token is always SENT_START
+      if( i > 1
+          && thisToken.length() == 1 
+          && Character.isUpperCase(thisToken.charAt(0)) 
+          && tokenReadings.isWhitespaceBefore() 
+          && tokens[i-1].getToken().matches(".*[а-яіїєґ0-9]")) {
+        prepTokenReadings = null;
         continue;
       }
 
       AnalyzedToken multiwordReqToken = getMultiwordToken(tokenReadings);
       if( multiwordReqToken != null ) {
-        String mwPosTag = multiwordReqToken.getPOSTag();
-        if( mwPosTag.startsWith("</") ) {
-          insideMultiword = false;
-        }
-        else {
-          insideMultiword = true;
-        }
-        
-        if (mwPosTag.startsWith("</") && mwPosTag.contains(REQUIRE_VIDMINOK_SUBSTR)) { // напр. "згідно з"
-          posTag = multiwordReqToken.getPOSTag();
-          reqTokenReadings = tokenReadings;
+
+        if (tokenReadings.getToken().equals("з") && multiwordReqToken.getLemma().equals("згідно з") ) { // напр. "згідно з"
+          posTag = multiwordReqToken.getPOSTag(); // "rv_oru";
+          prepTokenReadings = tokenReadings;
           continue;
         }
         else {
-          if( ! mwPosTag.contains("adv") && ! mwPosTag.contains("insert") ) {
-            reqTokenReadings = null;
+          if( posTag.startsWith(IPOSTag.prep.name()) ) {
+            prepTokenReadings = null;
+            continue;
           }
-          continue;
+
+          String mwPosTag = multiwordReqToken.getPOSTag();
+          if( ! mwPosTag.contains("adv") && ! mwPosTag.contains("insert") ) {
+            prepTokenReadings = null;
+          }
         }
-      }
-      
-      if( insideMultiword ) {
+
         continue;
       }
+
 
       String token = tokenReadings.getAnalyzedToken(0).getToken();
-      if( posTag.contains(REQUIRE_VIDMINOK_SUBSTR) && tokenReadings.getReadingsLength() == 1 ) {
-        String prep = token;
+      if( posTag.startsWith(IPOSTag.prep.name()) ) {
+        String prep = token.toLowerCase();
 
-        if( prep.equals("за") && reverseSearch(tokens, i, "що") ) // TODO: move to disambiguator
-          continue;
-
-        if( prep.equalsIgnoreCase("понад") )
-          continue;
-
-        if( (prep.equalsIgnoreCase("окрім") || prep.equalsIgnoreCase("крім"))
-            && tokens.length > i+1 && tokens[i+1].getAnalyzedToken(0).getToken().equalsIgnoreCase("як") ) {
-          reqTokenReadings = null;
+        // що то була за людина
+        if( prep.equals("за") && LemmaHelper.reverseSearch(tokens, i, 4, Pattern.compile("що"), null) ) {
+          prepTokenReadings = null;
           continue;
         }
 
-        reqTokenReadings = tokenReadings;
+        if( prep.equals("понад") )
+          continue;
+
+        if( prep.equals("шляхом") || prep.equals("од") ) {
+          prepTokenReadings = null;
+          continue;
+        }
+
+        if( (prep.equals("окрім") || prep.equals("крім"))
+            && tokens.length > i+1 
+            && tokens[i+1].getToken().equalsIgnoreCase("як") ) {
+          prepTokenReadings = null;
+          continue;
+        }
+
+        prepTokenReadings = tokenReadings;
         continue;
       }
 
-      if( reqTokenReadings == null )
+      if( prepTokenReadings == null )
         continue;
 
 
       // Do actual check
 
-      List<String> posTagsToFind = new ArrayList<>();
-      String reqPosTag = reqTokenReadings.getAnalyzedToken(0).getPOSTag();
-      String prep = reqTokenReadings.getAnalyzedToken(0).getLemma();
-      
-//      AnalyzedToken multiwordToken = getMultiwordToken(tokenReadings);
-//      if( multiwordToken != null ) {
-//        reqTokenReadings = null;
-//        continue;
-//      }
 
-      //TODO: for numerics only v_naz
-//      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
-//        posTagsToFind.add("v_naz");
-//      }
-//      else 
+      Set<String> posTagsToFind = new LinkedHashSet<>();
+      String prep = prepTokenReadings.getAnalyzedToken(0).getLemma();
+
+      // замість Андрій вибрали Федір
       if( prep.equalsIgnoreCase("замість") ) {
         posTagsToFind.add("v_naz");
       }
 
-      Matcher matcher = REQUIRE_VIDMINOK_REGEX.matcher(reqPosTag);
-      while( matcher.find() ) {
-        posTagsToFind.add(matcher.group(1));
+      Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
+      
+      // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
+//      if( expectedCases.isEmpty() ) {
+//        prepTokenReadings = null;
+//        continue;
+//      }
+
+      expectedCases.remove("v_inf"); // we don't care about rv_inf here
+      posTagsToFind.addAll(expectedCases);
+
+      RuleException exception = TokenAgreementPrepNounExceptionHelper.getExceptionStrong(tokens, i, prepTokenReadings, posTagsToFind);
+      switch( exception.type ) {
+      case exception:
+        prepTokenReadings = null;
+        continue;
+      case skip:
+        i += exception.skip;
+        continue;
+      case none:
+        break;
       }
 
-      for(AnalyzedToken readingToken: tokenReadings) {
-        if( IPOSTag.numr.match(readingToken.getPOSTag()) ) {
-          posTagsToFind.add("v_naz");  // TODO: only if noun is following?
+      
+      if( PosTagHelper.hasPosTagPart(tokenReadings, ":v_") ) {
+
+        if( hasVidmPosTag(posTagsToFind, tokenReadings) ) {
+          prepTokenReadings = null;
+          continue;
+        }
+
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        switch( exception.type ) {
+        case exception:
+          prepTokenReadings = null;
+          continue;
+        case skip:
+          i += exception.skip;
+          continue;
+        case none:
           break;
         }
-      }
 
-      //      System.out.println("For " + tokenReadings + " to match " + posTagsToFind + " of " + reqTokenReadings.getToken());
-      if( ! hasVidmPosTag(posTagsToFind, tokenReadings) ) {
-        if( isTokenToSkip(tokenReadings) )
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        switch( exception.type ) {
+        case exception:
+          prepTokenReadings = null;
           continue;
-
-//        if( isTokenToIgnore(tokenReadings) ) {
-//          reqTokenReadings = null;
-//          continue;
-//        }
-
-
-        //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
-        if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") || prep.equals("на") ) {
-          if( PosTagHelper.hasPosTag(tokenReadings, "noun:anim.*:p:v_naz[^&]*") ) { // but not &pron:
-            reqTokenReadings = null;
-            continue;
-          }
+        case skip:
+          i += exception.skip;
+          continue;
+        case none:
+          break;
         }
 
-        if (prep.equalsIgnoreCase("на")) {
-          // 1) на (свято) Купала, на (вулиці) Мазепи, на (вулиці) Тюльпанів
-          if ((Character.isUpperCase(token.charAt(0)) && posTag.matches("noun.*?:.:v_rod.*"))
-                // 2) поміняти ім'я на Захар; поміняв Іван на Петро
-                || (posTag.matches(".*[fl]name.*")
-                    && ((i > 1 && NAMES.contains(tokens[i-2].getAnalyzedToken(0).getToken()))
-                        || (i > 2 && NAMES.contains(tokens[i-3].getAnalyzedToken(0).getLemma()))))) {
-            reqTokenReadings = null;
-            continue;
-          }
-          // handled by xml rule
-          if( token.equals("манер") ) {
-            reqTokenReadings = null;
-            continue;
-          }
-          // на біс (можливо краще tag=intj?)
-          if( token.equalsIgnoreCase("біс") ) {
-            reqTokenReadings = null;
-            continue;
-          }
-        }
-
-        if( prep.equalsIgnoreCase("з") ) {
-          if( token.equals("рана") ) {
-            reqTokenReadings = null;
-            continue;
-          }
-        }
-        
-        if( prep.equalsIgnoreCase("від") ) {
-          if( token.equalsIgnoreCase("а") || token.equals("рана") || token.equals("корки") || token.equals("мала") ) {  // корки/мала ловиться іншим правилом
-            reqTokenReadings = null;
-            continue;
-          }
-        }
-        else if( prep.equalsIgnoreCase("до") ) {
-          if( token.equalsIgnoreCase("я") || token.equals("корки") || token.equals("велика") ) {  // корки/велика ловиться іншим правилом
-            reqTokenReadings = null;
-            continue;
-          }
-        }
-
-        // exceptions
-        if( tokens.length > i+1 ) {
-          //      if( tokens.length > i+1 && Character.isUpperCase(tokenReadings.getAnalyzedToken(0).getToken().charAt(0))
-          //        && hasRequiredPosTag(Arrays.asList("v_naz"), tokenReadings)
-          //        && Character.isUpperCase(tokens[i+1].getAnalyzedToken(0).getToken().charAt(0)) )
-          //          continue; // "у Конан Дойла", "у Робін Гуда"
-
-          if( isCapitalized( token ) 
-              && LemmaHelper.CITY_AVENU.contains( tokens[i+1].getAnalyzedToken(0).getToken().toLowerCase() ) ) {
-            reqTokenReadings = null;
-            continue;
-          }
-
-          if( PosTagHelper.hasPosTag(tokens[i+1], "num.*")
-              && (token.equals("мінус") || token.equals("плюс")
-                  || token.equals("мінімум") || token.equals("максимум") ) ) {
-            reqTokenReadings = null;
-            continue;
-          }
-
-          // на мохом стеленому дні - пропускаємо «мохом»
-          if( PosTagHelper.hasPosTag(tokenReadings, "noun.*?:.:v_oru.*")
-              && tokens[i+1].hasPartialPosTag("adjp") ) {
-            continue;
-          }
-          
-          if( (prep.equalsIgnoreCase("через") || prep.equalsIgnoreCase("на"))  // років 10, відсотки 3-4
-              && (posTag.startsWith("noun:inanim:p:v_naz") || posTag.startsWith("noun:inanim:p:v_rod")) // token.equals("років") 
-              && IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
-            reqTokenReadings = null;
-            continue;
-          }
-
-          if( (token.equals("вами") || token.equals("тобою") || token.equals("їми"))
-              && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("ж") ) {
-            continue;
-          }
-          if( (token.equals("собі") || token.equals("йому") || token.equals("їм"))
-              && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("подібн") ) {
-            continue;
-          }
-          if( (token.equals("усім") || token.equals("всім"))
-              && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("відом") ) {
-            continue;
-          }
-
-          if( prep.equalsIgnoreCase("до") && token.equals("схід") 
-                && tokens[i+1].getAnalyzedToken(0).getToken().equals("сонця") ) {
-            reqTokenReadings = null;
-            continue;
-          }
-          
-          if( tokens[i+1].getAnalyzedToken(0).getToken().equals("«") 
-              && tokens[i].getAnalyzedToken(0).getPOSTag().contains(":abbr") ) {
-            reqTokenReadings = null;
-            continue;
-          }
-
-          if( tokens.length > i+2 ) {
-            // спиралося на місячної давнини рішення
-            if (/*prep.equalsIgnoreCase("на") &&*/ PosTagHelper.hasPosTag(tokenReadings, "adj.*:[mfn]:v_rod.*")) {
-              String genders = PosTagHelper.getGenders(tokenReadings, "adj.*:[mfn]:v_rod.*");
-              
-              if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:["+genders+"]:v_rod.*")) {
-                i += 1;
-                continue;
-              }
-            }
-
-            if ((token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому")) 
-                && tokens[i+1].getAnalyzedToken(0).getToken().equals("не")) {
-              //          reqTokenReadings = null;
-              continue;
-            }
-          }
-        }
-
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, reqTokenReadings, posTagsToFind);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
+      else { // no _v found
 
-      reqTokenReadings = null;
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        switch( exception.type ) {
+        case exception:
+          prepTokenReadings = null;
+          continue;
+        case skip:
+          i += exception.skip;
+          continue;
+        case none:
+          break;
+        }
+
+      }
+      prepTokenReadings = null;
     }
 
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static boolean isCapitalized(String token) {
-    return token.length() > 1 && Character.isUpperCase(token.charAt(0)) && Character.isLowerCase(token.charAt(1));
-  }
-
-  private boolean reverseSearch(AnalyzedTokenReadings[] tokens, int pos, String string) {
-    for(int i=pos-1; i >= 0 && i > pos-4; i--) {
-      if( tokens[i].getAnalyzedToken(0).getToken().equalsIgnoreCase(string) )
-        return true;
-    }
-    return false;
-  }
-
-//  private boolean forwardSearch(AnalyzedTokenReadings[] tokens, int pos, String string, int maxSkip) {
-//    for(int i=pos+1; i < tokens.length && i <= pos + maxSkip; i++) {
-//      if( tokens[i].getAnalyzedToken(0).getToken().equalsIgnoreCase(string) )
-//        return true;
-//    }
-//    return false;
-//  }
-
-  private boolean isTokenToSkip(AnalyzedTokenReadings tokenReadings) {
-    for(AnalyzedToken token: tokenReadings) {
-//      System.out.println("    tag: " + token.getPOSTag() + " for " + token.getToken());
-      if( IPOSTag.adv.match(token.getPOSTag())
-          || IPOSTag.contains(token.getPOSTag(), "adv>")
-          ||  IPOSTag.insert.match(token.getPOSTag()) )
-        return true;
-    }
-    return false;
-  }
-
-//  private boolean isTokenToIgnore(AnalyzedTokenReadings tokenReadings) {
-//    for(AnalyzedToken token: tokenReadings) {
-//      if( token.getPOSTag().contains("abbr") )
-//        return true;
-//    }
-//    return false;
-//  }
 
   static boolean hasVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
@@ -395,15 +267,13 @@ public class TokenAgreementPrepNounRule extends Rule {
         continue;
       }
       
-      if( posTag.contains(NO_VIDMINOK_SUBSTR) )
+      if( posTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) )
         return true;
 
       if( posTag.contains(VIDMINOK_SUBSTR) ) {
         vidminokFound = true;
 
         for(String posTagToFind: posTagsToFind) {
-          //          System.out.println("  verifying: " + token + " -> " + posTag + " ~ " + posTagToFind);
-
           if ( posTag.contains(posTagToFind) )
             return true;
         }
@@ -413,7 +283,7 @@ public class TokenAgreementPrepNounRule extends Rule {
     return ! vidminokFound; //false;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, List<String> posTagsToFind) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence) {
     String tokenString = tokenReadings.getToken();
     
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
@@ -478,9 +348,9 @@ public class TokenAgreementPrepNounRule extends Rule {
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
         reqTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
-        
+
     if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
-      msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
+      msg += ". Можливо, тут потрібно присвійний займенник «їхній»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
         String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
@@ -491,11 +361,10 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
     else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
-        String posTag2 = token.getPOSTag();
-        if( posTag2.matches("noun:anim.*:v_naz.*") ) {
-          msg += ". Можливо тут «о» — це вигук і потрібно кличний відмінок?";
+        if( PosTagHelper.hasPosTag(token, NOUN_ANIM_V_NAZ_PATTERN) ) {
+          msg += ". Можливо, тут «о» — це вигук і потрібно кличний відмінок?";
           try {
-            String newPostag = posTag2.replace("v_naz", "v_kly");
+            String newPostag = token.getPOSTag().replace("v_naz", "v_kly");
             String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
             for (String string : synthesized) {
               if( ! string.equals(token.getToken()) && ! suggestions.contains(string) ) {
@@ -508,10 +377,10 @@ public class TokenAgreementPrepNounRule extends Rule {
           }
         }
       }
-      
+
     }
-        
-    RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 
     potentialRuleMatch.setSuggestedReplacements(suggestions);
 

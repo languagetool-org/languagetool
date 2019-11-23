@@ -25,8 +25,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.rules.en.EnglishWrongWordInContextRule;
+import org.languagetool.Languages;
 
 public class EnglishWrongWordInContextRuleTest {
 
@@ -35,7 +34,7 @@ public class EnglishWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new AmericanEnglish());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new EnglishWrongWordInContextRule(null);
   }
 
@@ -62,6 +61,15 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("Forgo the champagne treatment a bridal boutique often provides.");
     assertGood("He sat there holding his horse by the bridle.");
     assertBad("Each rider used his own bridal.");
+    // desert/dessert
+    assertBad("They have some great deserts on this menu.");
+    assertGood("They have some great desserts on this menu.");
+    // statute/statue
+    assertBad("They have some great marble statutes.");
+    assertGood("They have a great marble statue.");
+    // neutron/neuron
+    assertGood("Protons and neutrons");
+    assertBad("Protons and neurons");
   }
 
   private void assertGood(String sentence) throws IOException {

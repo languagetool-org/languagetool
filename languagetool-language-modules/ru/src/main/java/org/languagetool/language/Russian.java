@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -46,7 +47,7 @@ public class Russian extends Language implements AutoCloseable {
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
@@ -87,7 +88,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new RussianSynthesizer();
+      synthesizer = new RussianSynthesizer(this);
     }
     return synthesizer;
   }
@@ -108,7 +109,7 @@ public class Russian extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                     Example.wrong("Не род<marker> ,</marker> а ум поставлю в воеводы."),
@@ -117,25 +118,25 @@ public class Russian extends Language implements AutoCloseable {
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Закончилось лето. <marker>дети</marker> снова сели за школьные парты."),
                     Example.fixed("Закончилось лето. <marker>Дети</marker> снова сели за школьные парты.")),
-            new MorfologikRussianSpellerRule(messages, this),
+            new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
+	    new SentenceWhitespaceRule(messages),
             // specific to Russian :
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages),
             new RussianSimpleReplaceRule(messages),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
-            new RussianVerbConjugationRule(messages)
+            new RussianVerbConjugationRule(messages),
+            new RussianDashRule()
     );
   }
 
   /** @since 3.1 */
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
-    }
+    languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 

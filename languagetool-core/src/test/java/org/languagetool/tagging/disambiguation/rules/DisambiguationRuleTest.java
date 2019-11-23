@@ -137,7 +137,7 @@ public class DisambiguationRuleTest {
 
           String outputForms = example.getDisambiguated();
           assertTrue("No output form found for: " + id, outputForms != null);
-          assertTrue(outputForms.trim().length() > 0);
+          assertTrue("Output form must not be empty", outputForms.trim().length() > 0);
           int expectedMatchStart = example.getExample().indexOf("<marker>");
           int expectedMatchEnd = example.getExample().indexOf("</marker>") - "<marker>".length();
           if (expectedMatchStart == -1 || expectedMatchEnd == -1) {

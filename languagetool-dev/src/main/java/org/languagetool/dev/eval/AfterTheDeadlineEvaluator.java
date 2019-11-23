@@ -71,7 +71,7 @@ class AfterTheDeadlineEvaluator {
       }
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       System.out.println("\n" + rule.getId() + ":");
-      if (incorrectExamples.size() == 0) {
+      if (incorrectExamples.isEmpty()) {
         System.out.println(" (no examples)");
         continue;
       }

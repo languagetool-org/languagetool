@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+
+<!-- Serbian Grammar and Typo Rules for LanguageTool See tagset.txt for the
+	meaning of the POS tags Copyright (C) 2001-2015 Daniel Naber (http://www.danielnaber.de),
+	Marcin Miłkowski and the LanguageTool contributors Portions of rules are
+	converted from After The Deadline grammar checker, available at http://open.afterthedeadline.com/,
+	licensed under GNU GPL. This library is free software; you can redistribute
+	it and/or modify it under the terms of the GNU Lesser General Public License
+	as published by the Free Software Foundation; either version 2.1 of the License,
+	or (at your option) any later version. This library is distributed in the
+	hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU Lesser General Public License for more details. You should have received
+	a copy of the GNU Lesser General Public License along with this library;
+	if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth
+	Floor, Boston, MA 02110-1301 USA -->
+
+<rules lang="sr"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <!-- ====================================================================== -->
+    <!-- Правописне грешке -->
+    <!-- ====================================================================== -->
+    <category id="SR_TYPOS" name="Могуће грешке приликом писања">
+        <rulegroup id="ZAPETA_TLD" name="'example,com (example.com)'">
+            <rule>
+                <regexp case_sensitive='yes'>([a-z0-9\-]+),(com|de|net|uk|org|info|ru|eu|cn|biz|rs)\b</regexp>
+                <message>Могућа грешка писања: Хтедосте ли написати <suggestion>\1.\2</suggestion>?</message>
+                <short>Могућа грешка писања</short>
+                <example correction="example.com">Провери то на <marker>example,com</marker> .</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

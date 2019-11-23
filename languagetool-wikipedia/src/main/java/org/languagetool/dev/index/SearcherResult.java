@@ -33,8 +33,11 @@ public class SearcherResult {
 
   private boolean resultIsTimeLimited;
   private int docCount;
+  private int maxDocChecked;
   private boolean hasTooManyLuceneMatches;
   private int luceneMatchCount;
+  private int skipHits;
+  private int numDocs;
 
   public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Query relaxedQuery) {
     this.matchingSentences = matchingSentences;
@@ -86,4 +89,27 @@ public class SearcherResult {
     return luceneMatchCount;
   }
 
+  public void setMaxDocChecked(int maxDocChecked) {
+    this.maxDocChecked = maxDocChecked;
+  }
+
+  public int getMaxDocChecked() {
+    return maxDocChecked;
+  }
+
+  public void setSkipHits(int skipHits) {
+    this.skipHits = skipHits;
+  }
+
+  public int getSkipHits() {
+    return this.skipHits;
+  }
+
+  public void setNumDocs(int numDocs) {
+    this.numDocs = numDocs;
+  }
+
+  public int getNumDocs() {
+    return this.numDocs;
+  }
 }

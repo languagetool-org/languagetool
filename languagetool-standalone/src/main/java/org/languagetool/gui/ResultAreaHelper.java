@@ -249,10 +249,15 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
       }
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>").append(messages.getString("errorContext")).append("</b> ").append(context);
-      if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
+      if ((match.getRule().getUrl() != null || match.getUrl() != null) && Desktop.isDesktopSupported()) {
         sb.append("<br>\n");
         sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
-        String url = match.getRule().getUrl().toString();
+        String url;
+        if(match.getUrl() != null) {
+          url = match.getUrl().toString();
+        } else {
+          url = match.getRule().getUrl().toString();
+        }
         sb.append(url);
         String shortUrl = StringUtils.abbreviate(url, 60);
         sb.append("\">").append(shortUrl).append("</a>\n");
@@ -332,7 +337,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
         if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {
           handleRuleLinkClick(uri);
         } else {
-          handleHttpClick(url);
+          Tools.openURL(url);
         }
       } catch (Exception ex) {
         throw new RuntimeException("Could not handle URL click: " + url, ex);
@@ -352,14 +357,4 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     ltSupport.checkImmediately(this);
   }
 
-  private void handleHttpClick(URL url) {
-    if (Desktop.isDesktopSupported()) {
-      try {
-        Desktop desktop = Desktop.getDesktop();
-        desktop.browse(url.toURI());
-      } catch (Exception ex) {
-        throw new RuntimeException("Could not open URL: " + url, ex);
-      }
-    }
-  }
 }

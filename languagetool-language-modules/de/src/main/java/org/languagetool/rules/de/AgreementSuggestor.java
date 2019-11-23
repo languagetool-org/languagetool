@@ -112,8 +112,20 @@ class AgreementSuggestor {
   private List<String> getNounSuggestionsForPosTag(AnalyzedTokenReadings token1, AnalyzedToken token2Reading, String correctPosTag) throws IOException {
     List<String> suggestions = new ArrayList<>();
     String[] correctedNouns = synthesizer.synthesize(token2Reading, correctPosTag);
+    String firstPart = null;
+    if (correctedNouns.length == 0 && token2Reading.getToken().contains("-")) {
+      // e.g. "LAN-Kabel", which is not in dictionary, but "Kabel" is:
+      firstPart = token2Reading.getToken().substring(0, token2Reading.getToken().lastIndexOf('-') + 1);
+      String lastTokenPart = token2Reading.getToken().replaceFirst(".*-", "");
+      String lastLemmaPart = token2Reading.getLemma() != null ? token2Reading.getLemma().replaceFirst(".*-", "") : null;
+      correctedNouns = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, token2Reading.getPOSTag(), lastLemmaPart), correctPosTag);
+    }
     for (String correctedNoun : correctedNouns) {
-      suggestions.add(token1.getToken() + " " + correctedNoun);
+      if (firstPart != null) {
+        suggestions.add(token1.getToken() + " " + firstPart  + correctedNoun);
+      } else {
+        suggestions.add(token1.getToken() + " " + correctedNoun);
+      }
     }
     return suggestions;
   }

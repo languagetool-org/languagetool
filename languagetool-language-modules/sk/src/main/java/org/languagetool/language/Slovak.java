@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
@@ -72,7 +73,7 @@ public class Slovak extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SlovakSynthesizer();
+      synthesizer = new SlovakSynthesizer(this);
     }
     return synthesizer;
   }
@@ -93,7 +94,7 @@ public class Slovak extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -105,7 +106,7 @@ public class Slovak extends Language {
             new MultipleWhitespaceRule(messages, this),
             // specific to Slovak:
             new CompoundRule(messages),
-            new MorfologikSlovakSpellerRule(messages, this)
+            new MorfologikSlovakSpellerRule(messages, this, userConfig, altLanguages)
             //new SlovakVesRule(messages)
     );
   }

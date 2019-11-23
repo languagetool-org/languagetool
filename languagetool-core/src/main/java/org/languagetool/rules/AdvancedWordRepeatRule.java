@@ -138,7 +138,7 @@ public abstract class AdvancedWordRepeatRule extends Rule {
 
       if (repetition) {
         int pos = tokens[i].getStartPos();
-        RuleMatch ruleMatch = new RuleMatch(this, pos, pos
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos, pos
             + token.length(), getMessage(), getShortMessage());
         ruleMatches.add(ruleMatch);
         repetition = false;

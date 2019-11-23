@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ro.CompoundRule;
 import org.languagetool.rules.ro.MorfologikRomanianSpellerRule;
@@ -84,7 +85,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -95,7 +96,7 @@ public class Romanian extends Language {
                     Arrays.asList("]", ")", "}", "”", "»", "«")),
             new WordRepeatRule(messages, this),
             // specific to Romanian:
-            new MorfologikRomanianSpellerRule(messages, this),
+            new MorfologikRomanianSpellerRule(messages, this, userConfig, altLanguages),
             new RomanianWordRepeatBeginningRule(messages, this),
             new SimpleReplaceRule(messages),
             new CompoundRule(messages)
@@ -105,7 +106,7 @@ public class Romanian extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new RomanianSynthesizer();
+      synthesizer = new RomanianSynthesizer(this);
     }
     return synthesizer;
   }

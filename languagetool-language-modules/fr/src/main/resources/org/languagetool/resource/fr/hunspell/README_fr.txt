@@ -1,10 +1,10 @@
 _______________________________________________________________________________
 
    DICTIONNAIRES ORTHOGRAPHIQUES FRANÇAIS
-   version 6.0.2
+   version 6.4.1
 
-   Olivier R. - dicollecte<at>free<dot>fr
-   Dicollecte : http://www.dicollecte.org/
+   Olivier R. - olivier<at>grammalecte<dot>net
+   https://grammalecte.net/
 
    Licence :
      MPL : Mozilla Public License
@@ -30,10 +30,10 @@ _______________________________________________________________________________
    - Philipp Burgess, pour la normalisation Unicode avec Hunspell.
 
    Merci aussi à tous ceux qui ont apporté leur pierre à l’édifice.
-   http://www.dicollecte.org/members.php?prj=fr
+   https://grammalecte.net/members.php?prj=fr
 
    Pour participer à l’amélioration du dictionnaire, allez sur :
-   http://www.dicollecte.org/home.php?prj=fr
+   https://grammalecte.net/home.php?prj=fr
 
 _______________________________________________________________________________
 

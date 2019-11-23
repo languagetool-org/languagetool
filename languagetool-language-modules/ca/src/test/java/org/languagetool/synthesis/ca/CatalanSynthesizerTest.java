@@ -21,6 +21,7 @@ package org.languagetool.synthesis.ca;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Catalan;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,17 +30,23 @@ import static org.junit.Assert.assertEquals;
 
 public class CatalanSynthesizerTest {
 
-  private final CatalanSynthesizer synth = new CatalanSynthesizer();
+  private final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
     assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
 
+    assertEquals("[sento]", synth("sentir", "VMIP1S0C"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0Z"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0V"));
+    assertEquals("[sent]", synth("sentir", "VMIP1S0B"));
+    assertEquals("[senta]", synth("sentir", "VMSP3S0V"));
     assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
     assertEquals("[presidents]", synth("president", "NCMP000"));
     assertEquals("[comprovat]", synth("comprovar", "VMP00SM.?"));
     assertEquals("[arribe, arribi]", synth("arribar", "VMSP3S00"));
     assertEquals("[arribe, arribi]", synthRegex("arribar", "VMSP3S.0"));
+    assertEquals("[albèrxics]", synthRegex("albèrxic", "NCMP000"));
 
     //with regular expressions:
     assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));

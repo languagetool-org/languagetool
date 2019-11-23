@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -59,11 +60,11 @@ abstract class Server {
    */
   public void run() {
     String hostName = host != null ? host : "localhost";
-    System.out.println("Starting LanguageTool " + JLanguageTool.VERSION +
-            " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
+    ServerTools.print("Starting LanguageTool " + JLanguageTool.VERSION +
+            " (build date: " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
     isRunning = true;
-    System.out.println("Server started");
+    ServerTools.print("Server started");
   }
 
   /**
@@ -74,10 +75,10 @@ abstract class Server {
       httpHandler.shutdown();
     }
     if (server != null) {
-      System.out.println("Stopping server");
-      server.stop(0);
+      ServerTools.print("Stopping server...");
+      server.stop(5);
       isRunning = false;
-      System.out.println("Server stopped");
+      ServerTools.print("Server stopped");
     }
   }
 
@@ -92,9 +93,21 @@ abstract class Server {
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     int requestLimit = config.getRequestLimit();
+    int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    int ipFingerprintFactor = config.getIpFingerprintFactor();
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0 && ipFingerprintFactor >= 1) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor);
+    }
+    return null;
+  }
+
+  @Nullable
+  protected ErrorRequestLimiter getErrorRequestLimiterOrNull(HTTPServerConfig config) {
+    int requestLimit = config.getTimeoutRequestLimit();
+    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    if (requestLimit > 0 && requestLimitPeriodInSeconds > 0) {
+      return new ErrorRequestLimiter(requestLimit, requestLimitPeriodInSeconds);
     }
     return null;
   }
@@ -107,16 +120,31 @@ abstract class Server {
     System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' (DEPRECATED) for emulation of After the Deadline output (optional)");
     System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline') - DEPRECATED");
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+    System.out.println("                 'maxTextHardLength' - maximum text length, applies even to users with a special secret 'token' parameter (optional)");
+    System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+    System.out.println("                 'maxErrorsPerWordRate' - checking will stop with error if there are more rules matches per word (optional)");
+    System.out.println("                 'maxSpellingSuggestions' - only this many spelling errors will have suggestions for performance reasons (optional,\n" +
+                       "                                            affects Hunspell-based languages only)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
-    System.out.println("                 'requestLimit' - maximum number of requests (optional)");
-    System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
+    System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
+    System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
+    System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
+    System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/language-identification.html");
+    System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
+    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
+    System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
   }
 
   protected static void printCommonOptions() {
@@ -130,52 +158,29 @@ abstract class Server {
     System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
     System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
     System.out.println("                         parameter in properties files)");
+    System.out.println("  --word2vecModel  a directory with word2vec data (optional), see");
+    System.out.println("                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
   }
 
   protected static void checkForNonRootUser() {
     if ("root".equals(System.getProperty("user.name"))) {
-      System.out.println("****************************************************************************************************");
-      System.out.println("*** WARNING: this process is running as root - please do not run it as root for security reasons ***");
-      System.out.println("****************************************************************************************************");
+      ServerTools.print("****************************************************************************************************");
+      ServerTools.print("*** WARNING: this process is running as root - please do not run it as root for security reasons ***");
+      ServerTools.print("****************************************************************************************************");
     }
   }
   
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
-    System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
+    ServerTools.print("Setting up thread pool with " + threadPoolSize + " threads");
     return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
-  }
-
-  /**
-   * Check a tiny text with all languages and all variants, so that e.g. static caches
-   * get initialized. This helps getting a slightly better performance when real
-   * texts get checked.
-   */
-  protected void warmUp() {
-    List<Language> languages = Languages.get();
-    System.out.println("Running warm up with all " + languages.size() + " languages/variants:");
-    for (int i = 1; i <= 2; i++) {
-      long startTime = System.currentTimeMillis();
-      for (Language language : languages) {
-        System.out.print(language.getLocaleWithCountryAndVariant() + " ");
-        JLanguageTool lt = new JLanguageTool(language);
-        try {
-          lt.check("test");
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      long endTime = System.currentTimeMillis();
-      float runTime = (endTime-startTime)/1000.0f;
-      System.out.printf(Locale.ENGLISH, "\nRun #" + i + " took %.2fs\n", runTime);
-    }
-    System.out.println("Warm up finished");
   }
 
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
   
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
-      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
+      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue,
+            new ThreadFactoryBuilder().setNameFormat("lt-server-thread-%d").build());
     }
 
     @Override

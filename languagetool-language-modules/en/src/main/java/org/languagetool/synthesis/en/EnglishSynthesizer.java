@@ -24,11 +24,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.synthesis.BaseSynthesizer;
@@ -60,8 +58,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
-  public EnglishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  public EnglishSynthesizer(Language lang) {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   /**
@@ -81,13 +79,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
-    IStemmer synthesizer = createStemmer();
-    List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-    List<String> wordForms = new ArrayList<>();
-    for (WordData wd : wordData) {
-      wordForms.add(wd.getStem().toString());
-    }
-    return wordForms.toArray(new String[wordForms.size()]);
+    return super.synthesize(token, posTag);
   }
 
   /**
@@ -122,18 +114,17 @@ public class EnglishSynthesizer extends BaseSynthesizer {
           lookup(token.getLemma(), tag, results, det);
         }
       }
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
 
     return synthesize(token, posTag);
   }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
-    synchronized (this) { // the stemmer is not thread-safe
-      List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
-      for (WordData wd : wordForms) {
-        results.add(determiner + wd.getStem());
-      }
+    List<String> lookup = new ArrayList<>();
+    super.lookup(lemma, posTag, lookup);
+    for (String result : lookup) {
+      results.add(determiner + result);
     }
   }
 

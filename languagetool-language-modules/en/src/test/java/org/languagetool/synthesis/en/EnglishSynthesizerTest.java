@@ -21,6 +21,7 @@ package org.languagetool.synthesis.en;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.English;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,9 +40,8 @@ public class EnglishSynthesizerTest {
 
   @Test
   public void testSynthesizeStringString() throws IOException {
-    EnglishSynthesizer synth = new EnglishSynthesizer();
-    assertEquals(synth.synthesize(dummyToken("blablabla"),
-        "blablabla").length, 0);
+    EnglishSynthesizer synth = new EnglishSynthesizer(new English());
+    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
     assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
@@ -56,8 +56,14 @@ public class EnglishSynthesizerTest {
     assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+INDT", false)));
     //indefinite article and other changes...
     assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+INDT", true)));
+    assertEquals("[a hexagon]", Arrays.toString(synth.synthesize(dummyToken("hexagon"), "NN|NN:.*\\+INDT", true)));
     //indefinite article and other changes...
     assertEquals("[the hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+DT", true)));
+    // from added.txt:
+    assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VBD", false)));
+    assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VB[XD]", true)));
+    // from removed.txt:
+    assertEquals("[]", Arrays.toString(synth.synthesize(dummyToken("Christmas"), "VBZ", false)));
   }
 
 }

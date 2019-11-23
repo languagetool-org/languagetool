@@ -18,6 +18,8 @@
  */
 package org.languagetool.remote;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.xml.stream.XMLStreamException;
@@ -39,6 +41,8 @@ import java.util.Objects;
 public class RemoteLanguageTool {
 
   private static final String V2_CHECK = "/v2/check";
+  private static final String V2_MAXTEXTLENGTH = "/v2/maxtextlength";
+  private static final String V2_CONFIGINFO = "/v2/configinfo";
   
   private final ObjectMapper mapper = new ObjectMapper();
   private final URL serverBaseUrl;
@@ -89,6 +93,12 @@ public class RemoteLanguageTool {
     if (config.getDisabledRuleIds().size() > 0) {
       append(params, "disabledRules", String.join(",", config.getDisabledRuleIds()));
     }
+    if (config.getMode() != null) {
+      append(params, "mode", config.getMode());
+    }
+    if (config.getRuleValues().size() > 0) {
+      append(params, "ruleValues", String.join(",", config.getRuleValues()));
+    }
     append(params, "useragent", "java-http-client");
     return params.toString();
   }
@@ -121,6 +131,73 @@ public class RemoteLanguageTool {
       if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (InputStream inputStream = conn.getInputStream()) {
           return parseJson(inputStream);
+        }
+      } else {
+        try (InputStream inputStream = conn.getErrorStream()) {
+          String error = readStream(inputStream, "utf-8");
+          throw new RuntimeException("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
+        }
+      }
+    } catch (ConnectException e) {
+      throw new RuntimeException("Could not connect to server at " + serverBaseUrl, e);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      conn.disconnect();
+    }
+  }
+
+  public RemoteConfigurationInfo getConfigurationInfo(String urlParameters) {
+    if (!urlParameters.startsWith("language=")) {
+      throw new IllegalArgumentException("'language' parameter missing");
+    }
+    byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+    URL checkUrl;
+    try {
+      checkUrl = new URL(serverBaseUrl + V2_CONFIGINFO);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+    HttpURLConnection conn = getConnection(postData, checkUrl);
+    try {
+      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+        try (InputStream inputStream = conn.getInputStream()) {
+          RemoteConfigurationInfo configInfo = new RemoteConfigurationInfo(mapper, inputStream);
+          return configInfo;
+        }
+      } else {
+        try (InputStream inputStream = conn.getErrorStream()) {
+          String error = readStream(inputStream, "utf-8");
+          throw new RuntimeException("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
+        }
+      }
+    } catch (ConnectException e) {
+      throw new RuntimeException("Could not connect to server at " + serverBaseUrl, e);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      conn.disconnect();
+    }
+  }
+
+  public int getMaxTextLength() {
+    byte[] postData = { 0 };
+    URL checkUrl;
+    try {
+      checkUrl = new URL(serverBaseUrl + V2_MAXTEXTLENGTH);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+    HttpURLConnection conn = getConnection(postData, checkUrl);
+    try {
+      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+        try (InputStream inputStream = conn.getInputStream()) {
+          StringBuilder sb = new StringBuilder();
+          try (InputStreamReader isr = new InputStreamReader(inputStream, "utf-8");
+               BufferedReader br = new BufferedReader(isr)) {
+            String line = br.readLine();
+            return Integer.parseInt(line);
+          }
         }
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
@@ -172,6 +249,12 @@ public class RemoteLanguageTool {
     Map<String, String> languageObj = (Map<String, String>) map.get("language");
     String language = languageObj.get("name");
     String languageCode = languageObj.get("code");
+    Map<String, String> detectedLanguageObj = (Map<String, String>) ((Map)languageObj).get("detectedLanguage");
+    String languageDetectedCode = null, languageDetectedName = null;
+    if (detectedLanguageObj != null) {
+      languageDetectedCode = detectedLanguageObj.get("code");
+      languageDetectedName = detectedLanguageObj.get("name");
+    }
     Map<String, String> software = (Map<String, String>) map.get("software");
     RemoteServer remoteServer = new RemoteServer(software.get("name"), software.get("version"), software.get("buildDate"));
     List matches = (ArrayList) map.get("matches");
@@ -180,7 +263,7 @@ public class RemoteLanguageTool {
       RemoteRuleMatch remoteMatch = getMatch((Map<String, Object>)match);
       result.add(remoteMatch);
     }
-    return new RemoteResult(language, languageCode, result, remoteServer);
+    return new RemoteResult(language, languageCode, languageDetectedCode, languageDetectedName, result, remoteServer);
   }
 
   private RemoteRuleMatch getMatch(Map<String, Object> match) {
@@ -190,7 +273,7 @@ public class RemoteLanguageTool {
     
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
-    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
+    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(rule, "description"), getRequiredString(match, "message"),
             getRequiredString(context, "text"), contextOffset, offset, errorLength);
     remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
     remoteMatch.setRuleSubId(getOrNull(rule, "subId"));
@@ -238,5 +321,5 @@ public class RemoteLanguageTool {
     }
     return l;
   }
-  
+
 }
