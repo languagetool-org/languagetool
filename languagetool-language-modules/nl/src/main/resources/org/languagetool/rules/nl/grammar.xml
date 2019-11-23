@@ -13411,7 +13411,7 @@ onwaarschijnlijk
                 <pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">á|^één.{3,}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
-				<message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk.</message>
+                <message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk</message>
                 <example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
             </rule>
             <rule>
@@ -36964,8 +36964,8 @@ steenwijk;Steenwijk
                         <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz|bling|lepeltje|ja|ha|nou</exception></token>
                     </marker>
                 </pattern>
-                <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing.</message>
-                <example type="incorrect">Ik zie <marker>de de</marker> man.</example>
+                <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\2</suggestion>.</message>
+                <example correction="de">Ik zie <marker>de de</marker> man.</example>
             </rule>
             <rule>
                 <antipattern><token>id</token><token>het</token><token>het</token></antipattern>
@@ -36974,20 +36974,58 @@ steenwijk;Steenwijk
                         <token>het</token>
                         <token>het</token>
                 </pattern>
-                <message>Een dubbel woord kan juist zijn, maar kan eventueel ook een fout zijn.</message>
-                <example type="incorrect">Ik zie <marker>het het</marker> juist.</example>
+                <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\1</suggestion>.</message>
+                <example correction="het">Ik zie <marker>het het</marker> juist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_HET" name="De het">
             <!-- 2014-08-22 TaalTik regel werkt prima -->
             <rule>
                 <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token>het</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW:.*DE_"><exception postag_regexp="yes" postag="ZNW:.*HET"/></token>
+                </pattern>
+                <message>Dubbel lidwoord, u bedoelt vast : <suggestion>de</suggestion></message>
+                <example correction="de">Op dit punt is <marker>de het</marker> man niet correct.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                     <token>de</token>
                     <token>het</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW:.*HET"><exception postag_regexp="yes" postag="ZNW:.*DE_"/></token>
                 </pattern>
-                <message>Dubbel lidwoord</message>
-                <example type="incorrect">Op dit punt is <marker>de het</marker> artikel niet correct.</example>
-                <example type="incorrect">Ik hing een hele tijd aan de telefoon en liet haar onder <marker>de het</marker> spots staan zweten.</example>
+                <message>Dubbel lidwoord, u bedoelt vast : <suggestion>het</suggestion></message>
+                <example correction="het">Op dit punt is <marker>de het</marker> artikel niet correct.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token>de</token>
+                    <token>het</token>
+                    </marker>
+                    <token postag="ZNW:EKV"/>
+                </pattern>
+                <message>Dubbel lidwoord, u bedoelt vast: <suggestion>de</suggestion> of <suggestion>het</suggestion></message>
+                <example correction="de|het">Op dit punt is <marker>de het</marker> filter niet correct.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token>de</token>
+                    <token>het</token>
+                    </marker>
+                    <and>
+                        <token postag_regexp="yes" postag="ZNW.*DE_"/>
+                        <token postag_regexp="yes" postag="ZNW.*HET"/>
+                    </and>
+                </pattern>
+                <message>Dubbel lidwoord, u bedoelt vast: <suggestion>de</suggestion> of <suggestion>het</suggestion></message>
+                <example correction="de|het">Op dit punt is <marker>de het</marker> bouwvak niet correct.</example>
             </rule>
         </rulegroup>
         <rulegroup id="JOU_JOUW" name="jou of jouw">
