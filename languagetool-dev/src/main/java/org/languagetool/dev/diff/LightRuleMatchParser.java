@@ -66,12 +66,18 @@ class LightRuleMatchParser {
         String cover = coverMatcher.group(1);
         int startMarkerPos = cover.indexOf("^");
         int endMarkerPos = cover.lastIndexOf("^") + 1;
-        String coveredText = context.substring(startMarkerPos, endMarkerPos);
-        context = context.substring(0, startMarkerPos) +
-          "<span class='marker'> " +
-          context.substring(startMarkerPos, endMarkerPos) +
-          "</span>" +
-          context.substring(endMarkerPos);
+        String coveredText  ;
+        try {
+          coveredText = context.substring(startMarkerPos, endMarkerPos);
+          context = context.substring(0, startMarkerPos) +
+            "<span class='marker'> " +
+            context.substring(startMarkerPos, endMarkerPos) +
+            "</span>" +
+            context.substring(endMarkerPos);
+        } catch (StringIndexOutOfBoundsException e) {
+          e.printStackTrace();
+          coveredText = "???";
+        }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", ""); 
         result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, source));
         lineNum = -1;
