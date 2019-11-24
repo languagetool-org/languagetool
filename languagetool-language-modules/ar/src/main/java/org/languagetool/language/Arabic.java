@@ -44,7 +44,7 @@ import java.util.ResourceBundle;
  */
 public class Arabic extends Language implements AutoCloseable {
 
-  private static final Language DEFAULT_ARABIC = new Arabic();
+  private static final Language DEFAULT_ARABIC = new AlgerianArabic();
   private SentenceTokenizer sentenceTokenizer;
   private WordTokenizer wordTokenizer;
   private Tagger tagger;
@@ -63,7 +63,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"", "DZ", "TN"};
+    return new String[]{"", "DZ"};
   }
 
   @Override
