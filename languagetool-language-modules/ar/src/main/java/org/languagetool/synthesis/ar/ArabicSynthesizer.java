@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -35,13 +35,13 @@ import java.util.regex.Pattern;
  * Arabic word form synthesizer.
  * Based on part-of-speech lists in Public Domain. See readme.txt for details,
  * the POS tagset is described in tagset.txt.
- * 
+ * <p>
  * There are two special additions:
  * <ol>
  * <li>+GF - tag that adds  feminine gender to word</li>
  * <li>+GM - a tag that adds masculine gender to word</li>
  * </ol>
- * 
+ *
  * @author Taha Zerrouki
  */
 public class ArabicSynthesizer extends BaseSynthesizer {
@@ -56,14 +56,14 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   /**
    * Get a form of a given AnalyzedToken, where the form is defined by a
    * part-of-speech tag.
-   * 
-   * @param token AnalyzedToken to be inflected.
+   *
+   * @param token  AnalyzedToken to be inflected.
    * @param posTag A desired part-of-speech tag.
    * @return String value - inflected word.
    */
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag)
-      throws IOException {
+    throws IOException {
     IStemmer synthesizer = createStemmer();
     List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     List<String> wordForms = new ArrayList<>();
@@ -76,12 +76,12 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   /**
    * Special Arabic regexp based synthesizer that allows adding articles
    * when the regexp-based tag ends with a special signature {@code \\+GM} or {@code \\+GF}.
-   * 
+   *
    * @since 2.5
    */
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag,
-      boolean posTagRegExp) throws IOException {
+                             boolean posTagRegExp) throws IOException {
 
     if (posTag != null && posTagRegExp) {
       String myPosTag = posTag;

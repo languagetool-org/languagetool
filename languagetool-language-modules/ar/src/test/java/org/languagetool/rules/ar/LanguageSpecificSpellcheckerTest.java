@@ -24,7 +24,7 @@ import org.languagetool.rules.spelling.SpellcheckerTest;
 import java.io.IOException;
 
 public class LanguageSpecificSpellcheckerTest extends SpellcheckerTest {
-  
+
   @Test
   public void testRules() throws IOException {
     runLanguageSpecificTest();

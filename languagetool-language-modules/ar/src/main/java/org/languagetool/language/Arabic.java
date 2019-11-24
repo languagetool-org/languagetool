@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -75,7 +75,7 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer =  new ArabicSentenceTokenizer(this);
+      sentenceTokenizer = new ArabicSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
@@ -103,14 +103,14 @@ public class Arabic extends Language implements AutoCloseable {
     }
     return synthesizer;
   }
-  
+
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {
-            new Contributor("Taha Zerrouki"),
-            new Contributor("Sohaib Afifi"),
-            new Contributor("Imen Kali"),
-            new Contributor("Karima Tchoketch"),
+    return new Contributor[]{
+      new Contributor("Taha Zerrouki"),
+      new Contributor("Sohaib Afifi"),
+      new Contributor("Imen Kali"),
+      new Contributor("Karima Tchoketch"),
     };
   }
 
@@ -118,24 +118,25 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-        new MultipleWhitespaceRule(messages, this),
-        new SentenceWhitespaceRule(messages),
-        new GenericUnpairedBracketsRule(messages,
-                Arrays.asList("[", "(", "{" , "«", "﴾"), 
-                Arrays.asList("]", ")", "}" , "»", "﴿")),
-        // specific to Arabic :
-        new HunspellRule(messages, this, userConfig, altLanguages),
-        new ArabicCommaWhitespaceRule(messages),
-        new ArabicDoublePunctuationRule(messages),
-        new LongSentenceRule(messages, userConfig, -1, false),
-        new ArabicWordRepeatRule(messages, this),
-        new ArabicContractionSpellingRule(messages)
+      new MultipleWhitespaceRule(messages, this),
+      new SentenceWhitespaceRule(messages),
+      new GenericUnpairedBracketsRule(messages,
+        Arrays.asList("[", "(", "{", "«", "﴾"),
+        Arrays.asList("]", ")", "}", "»", "﴿")),
+      // specific to Arabic :
+      new HunspellRule(messages, this, userConfig, altLanguages),
+      new ArabicCommaWhitespaceRule(messages),
+      new ArabicDoublePunctuationRule(messages),
+      new LongSentenceRule(messages, userConfig, -1, false),
+      new ArabicWordRepeatRule(messages, this),
+      new ArabicContractionSpellingRule(messages)
     );
   }
+
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
-            new ArabicConfusionProbabilityRule(messages, languageModel, this)
+      new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
   }
 

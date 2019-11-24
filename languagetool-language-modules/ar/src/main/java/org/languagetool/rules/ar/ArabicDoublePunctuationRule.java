@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -26,7 +26,7 @@ public class ArabicDoublePunctuationRule extends DoublePunctuationRule {
   public ArabicDoublePunctuationRule(ResourceBundle messages) {
     super(messages);
   }
-  
+
   @Override
   public final String getId() {
     return "ARABIC_DOUBLE_PUNCTUATION";
