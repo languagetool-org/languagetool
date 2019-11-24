@@ -67,54 +67,79 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void printAddedOrRemoved(RuleMatchDiff.Status status, List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
-    fw.write("<h1>" + status + "</h1>\n\n");
-    fw.write("Diffs found: " + getDiffCount(status, diffs) + "<br>\n");
+  private void print(List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
+    fw.write("Diffs found: " + diffs.size() + "<br>\n");
     printTableBegin(fw);
     for (RuleMatchDiff diff : diffs) {
-      if (diff.getStatus() == status) {
-        LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
+      if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {
+        fw.write("<tr style='background-color: #c7ffd0'>\n");
+      } else if (diff.getStatus() == RuleMatchDiff.Status.REMOVED) {
+        fw.write("<tr style='background-color: #ffd2d8'>\n");
+      } else {
         fw.write("<tr>\n");
-        fw.write("  <td>" + match.getRuleId() + " </td>\n");
-        fw.write("  <td>" + match.getMessage() + " </td>\n");
-        fw.write("  <td>" + match.getCoveredText() + " </td>\n");
+      }
+      fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + " </td>\n");
+      LightRuleMatch oldMatch = diff.getOldMatch();
+      LightRuleMatch newMatch = diff.getNewMatch();
+      if (oldMatch != null && newMatch != null) {
+        printRuleIdCol(fw, oldMatch);
+        printMessage(fw, oldMatch, newMatch);
+        if (oldMatch.getCoveredText().equals(newMatch.getCoveredText())) {
+          fw.write("  <td>" + oldMatch.getCoveredText() + "</td>\n");
+        } else {
+          fw.write("  <td>" +
+            "<tt>old:</tt> " + oldMatch.getCoveredText() + "<br>\n" +
+            "<tt>new:</tt> " + newMatch.getCoveredText() +
+            "</td>\n");
+        }
+        fw.write("</tr>\n");
+      } else {
+        LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
+        printRuleIdCol(fw, match);
+        printMessage(fw, match, null);
+        fw.write("  <td>" + match.getCoveredText() + "</td>\n");
         fw.write("</tr>\n");
       }
     }
     printTableEnd(fw);
   }
 
-  private void printModified(RuleMatchDiff.Status status, List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
-    fw.write("<h1>" + status + "</h1>\n\n");
-    fw.write("Diffs found: " + getDiffCount(status, diffs) + "<br>\n");
-    printTableBegin(fw);
-    for (RuleMatchDiff diff : diffs) {
-      if (diff.getStatus() == status) {
-        LightRuleMatch oldMatch = diff.getOldMatch();
-        LightRuleMatch newMatch = diff.getNewMatch();
-        fw.write("<tr>\n");
-        fw.write("  <td>" + oldMatch.getRuleId() + " </td>\n");
-        fw.write("  <td>" +
-          "old: " + oldMatch.getMessage() + "<br>" + 
-          "new: " + newMatch.getMessage() + 
-          "</td>\n");
-        fw.write("  <td>" +
-          "old: " + oldMatch.getCoveredText() + "<br>" +
-          "new: " + newMatch.getCoveredText() +
-          "</td>\n");
-        fw.write("</tr>\n");
-      }
+  private void printRuleIdCol(FileWriter fw, LightRuleMatch match) throws IOException {
+    fw.write("  <td>");
+    fw.write(match.getRuleId());
+    if (match.getStatus() != LightRuleMatch.Status.on) {
+      fw.write("  <br><span class='status'>[" + match.getStatus() + "]</span>");
     }
-    printTableEnd(fw);
+    if (match.getSource() != null) {
+      String source = match.getSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
+      fw.write("  <br><span class='source'>" + source + "</span>");
+    }
+    fw.write(" </td>\n");
+  }
+
+  private void printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
+    fw.write("  <td>");
+    if (newMatch == null) {
+      fw.write(oldMatch.getMessage());
+    } else if (oldMatch.getMessage().equals(newMatch.getMessage())) {
+      fw.write(oldMatch.getMessage());
+    } else {
+      fw.write(
+        "<tt>old:</tt> " + oldMatch.getMessage() + "<br>\n" +
+        "<tt>new:</tt> " + newMatch.getMessage());
+    }
+    fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
+    fw.write("  </td>\n");
   }
 
   private void printTableBegin(FileWriter fw) throws IOException {
     fw.write("<table class='sortable_table'>\n");
     fw.write("<thead>\n");
     fw.write("<tr>\n");
+    fw.write("  <th>Change</th>\n");
     fw.write("  <th>Rule ID</th>\n");
-    fw.write("  <th>Message</th>\n");
-    fw.write("  <th>Context</th>\n");
+    fw.write("  <th>Message and Text</th>\n");
+    fw.write("  <th>Suggestion</th>\n");
     fw.write("</tr>\n");
     fw.write("</thead>\n");
     fw.write("<tbody>\n");
@@ -125,20 +150,10 @@ public class RuleMatchDiffFinder {
     fw.write("</table>\n\n");
   }
 
-  private int getDiffCount(RuleMatchDiff.Status status, List<RuleMatchDiff> diffs) {
-    int count = 0;
-    for (RuleMatchDiff diff : diffs) {
-      if (diff.getStatus() == status) {
-        count++;
-      }
-    }
-    return count;
-  }
-
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
       System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <result>");
-      System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.commandline.Main run on the same input");
+      System.out.println(" <matches1> and <matches2> are text outputs of different versions of e.g. org.languagetool.commandline.Main run on the same input");
       System.exit(1);
     }
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
@@ -158,17 +173,21 @@ public class RuleMatchDiffFinder {
       fw.write("<head>\n");
       fw.write("  <title>" + title + "</title>\n");
       fw.write("  <meta charset='utf-8'>\n");
-      fw.write("  <script src='tablefilter/tablefilter.js'></script>");  // https://github.com/koalyptus/TableFilter/
+      fw.write("  <script src='tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
+      fw.write("  <style>\n");
+      fw.write("    .sentence { color: #666; }\n");
+      fw.write("    .marker { text-decoration: underline; }\n");
+      fw.write("    .source { color: #999; }\n");
+      fw.write("    .status { color: #999; }\n");
+      fw.write("  </style>\n");
       fw.write("</head>\n");
       fw.write("<body>\n\n");
-      diffFinder.printAddedOrRemoved(RuleMatchDiff.Status.ADDED, diffs, fw);
-      diffFinder.printAddedOrRemoved(RuleMatchDiff.Status.REMOVED, diffs, fw);
-      diffFinder.printModified(RuleMatchDiff.Status.MODIFIED, diffs, fw);
+      diffFinder.print(diffs, fw);
       fw.write("<script>\n" +
                "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
                "    base_path: './tablefilter/',\n" +
                "    col_0: 'select',\n" +
-               "    alternate_rows: true,\n" +
+               "    col_1: 'select',\n" +
                "    auto_filter: { delay: 100 },\n" +
                "    grid_layout: false,\n" +
                "    col_types: ['string', 'string', 'string'],\n" +

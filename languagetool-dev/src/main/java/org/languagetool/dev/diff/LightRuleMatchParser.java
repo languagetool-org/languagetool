@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  */
 class LightRuleMatchParser {
 
-  private final Pattern startPattern = Pattern.compile("^\\d+\\.\\) Line (\\d+), column (\\d+), Rule ID: (.*)");
+  private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*)");
   private final Pattern coverPattern = Pattern.compile("^([ ^]+)$");
 
   List<LightRuleMatch> parse(Reader reader) {
@@ -42,6 +42,7 @@ class LightRuleMatchParser {
     String message = null;
     String context = null;
     String suggestion = null;
+    String source = null;
     Scanner sc = new Scanner(reader);
     while (sc.hasNextLine()) {
       String line = sc.nextLine();
@@ -52,6 +53,8 @@ class LightRuleMatchParser {
         message = line.substring("Message: ".length());
       } else if (line.startsWith("Suggestion: ")) {
         suggestion = line.substring("Suggestion: ".length());
+      } else if (line.startsWith("Rule source: ")) {
+        source = line.substring("Rule source: ".length());
       } else if (startMatcher.matches()) {
         lineNum = Integer.parseInt(startMatcher.group(1));
         columnNum = Integer.parseInt(startMatcher.group(2));
@@ -64,20 +67,29 @@ class LightRuleMatchParser {
         int startMarkerPos = cover.indexOf("^");
         int endMarkerPos = cover.lastIndexOf("^") + 1;
         String coveredText = context.substring(startMarkerPos, endMarkerPos);
-        result.add(makeMatch(lineNum, columnNum, ruleId, message, suggestion, coveredText));
+        context = context.substring(0, startMarkerPos) +
+          "<span class='marker'> " +
+          context.substring(startMarkerPos, endMarkerPos) +
+          "</span>" +
+          context.substring(endMarkerPos);
+        String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", ""); 
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, source));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
         message = null;
         context = null;
         suggestion = null;
+        source = null;
       }
     }
     return result;
   }
   
-  private LightRuleMatch makeMatch(int line, int column, String ruleId, String message, String suggestions, String coveredText) {
-    return new LightRuleMatch(line, column, ruleId, message, coveredText, suggestions);
+  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
+                                   String context, String coveredText, String source) {
+    LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
+    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, s);
   }
   
 }

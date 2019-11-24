@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.diff;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ public class RuleMatchDiffFinderTest {
   @Test
   public void testNoDiff() {
     List<LightRuleMatch> l1 = new ArrayList<>();
-    l1.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l1.add(make("my message", "context", "covered text", "suggestion"));
     List<LightRuleMatch> l2 = new ArrayList<>();
-    l2.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l2.add(make("my message", "context", "covered text", "suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(), is("[]"));
   }
 
@@ -43,7 +44,7 @@ public class RuleMatchDiffFinderTest {
   public void testAddedMatch() {
     List<LightRuleMatch> l1 = new ArrayList<>();
     List<LightRuleMatch> l2 = new ArrayList<>();
-    l2.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l2.add(make("my message", "context", "covered text", "suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(),
       is("[ADDED: oldMatch=null, newMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion]"));
   }
@@ -51,7 +52,7 @@ public class RuleMatchDiffFinderTest {
   @Test
   public void testRemovedMatch() {
     List<LightRuleMatch> l1 = new ArrayList<>();
-    l1.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l1.add(make("my message", "context", "covered text", "suggestion"));
     List<LightRuleMatch> l2 = new ArrayList<>();
     assertThat(diffFinder.getDiffs(l1, l2).toString(),
       is("[REMOVED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, newMatch=null]"));
@@ -60,9 +61,9 @@ public class RuleMatchDiffFinderTest {
   @Test
   public void testModifiedMessage() {
     List<LightRuleMatch> l1 = new ArrayList<>();
-    l1.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l1.add(make("my message", "context", "covered text", "suggestion"));
     List<LightRuleMatch> l2 = new ArrayList<>();
-    l2.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my modified message", "covered text", "suggestion"));
+    l2.add(make("my modified message", "context", "covered text", "suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(),
       is("[MODIFIED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, " +
                     "newMatch=1/10 FAKE_ID1, msg=my modified message, covered=covered text, suggestions=suggestion]"));
@@ -71,9 +72,9 @@ public class RuleMatchDiffFinderTest {
   @Test
   public void testModifiedSuggestions() {
     List<LightRuleMatch> l1 = new ArrayList<>();
-    l1.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l1.add(make("my message", "context", "covered text", "suggestion"));
     List<LightRuleMatch> l2 = new ArrayList<>();
-    l2.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "modified suggestion"));
+    l2.add(make("my message", "context", "covered text", "modified suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(), 
       is("[MODIFIED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, " +
                     "newMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=modified suggestion]"));
@@ -82,12 +83,17 @@ public class RuleMatchDiffFinderTest {
   @Test
   public void testModifiedCoveredText() {
     List<LightRuleMatch> l1 = new ArrayList<>();
-    l1.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "covered text", "suggestion"));
+    l1.add(make("my message", "context", "covered text", "suggestion"));
     List<LightRuleMatch> l2 = new ArrayList<>();
-    l2.add(new LightRuleMatch(1, 10, "FAKE_ID1", "my message", "modified covered text", "suggestion"));
+    l2.add(make("my message", "context", "modified covered text", "suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(),
       is("[MODIFIED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, " +
                     "newMatch=1/10 FAKE_ID1, msg=my message, covered=modified covered text, suggestions=suggestion]"));
+  }
+
+  @NotNull
+  private LightRuleMatch make(String msg, String context, String coveredText, String suggestion) {
+    return new LightRuleMatch(1, 10, "FAKE_ID1", msg, context, coveredText, suggestion, "grammar.xml", LightRuleMatch.Status.on);
   }
 
 }
