@@ -22,8 +22,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Find diffs between runs of command-line LT. Matches with the same rule id, line, column
- * and covered test are considered the "same" match. If there's a difference in message or
+ * Find diffs between runs of command-line LT. Matches with the same rule id, doc title, line, column
+ * and covered text are considered the "same" match. If there's a difference in message or
  * suggestion of these same matches, then we consider this match to be "modified".
  */
 public class RuleMatchDiffFinder {
@@ -32,7 +32,7 @@ public class RuleMatchDiffFinder {
     List<RuleMatchDiff> result = new ArrayList<>();
     Map<MatchKey, LightRuleMatch> oldMatches = getMatchMap(l1);
     for (LightRuleMatch match : l2) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       LightRuleMatch oldMatch = oldMatches.get(key);
       if (oldMatch != null) {
         // no change or modified
@@ -48,7 +48,7 @@ public class RuleMatchDiffFinder {
     }
     Map<MatchKey, LightRuleMatch> newMatches = getMatchMap(l2);
     for (LightRuleMatch match : l1) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       LightRuleMatch newMatch = newMatches.get(key);
       if (newMatch == null) {
         // removed
@@ -61,7 +61,7 @@ public class RuleMatchDiffFinder {
   private Map<MatchKey, LightRuleMatch> getMatchMap(List<LightRuleMatch> list) {
     Map<MatchKey, LightRuleMatch> map = new HashMap<>();
     for (LightRuleMatch match : list) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       map.put(key, match);
     }
     return map;
@@ -110,8 +110,8 @@ public class RuleMatchDiffFinder {
     if (match.getStatus() != LightRuleMatch.Status.on) {
       fw.write("  <br><span class='status'>[" + match.getStatus() + "]</span>");
     }
-    if (match.getSource() != null) {
-      String source = match.getSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
+    if (match.getRuleSource() != null) {
+      String source = match.getRuleSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
       fw.write("  <br><span class='source'>" + source + "</span>");
     }
     fw.write(" </td>\n");
@@ -163,9 +163,9 @@ public class RuleMatchDiffFinder {
     File file3 = new File(args[2]);
     List<LightRuleMatch> l1 = parser.parse(new FileReader(file1));
     List<LightRuleMatch> l2 = parser.parse(new FileReader(file2));
-    List<RuleMatchDiff> diffs = diffFinder.getDiffs(l1, l2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
+    List<RuleMatchDiff> diffs = diffFinder.getDiffs(l1, l2);
     System.out.println("Total diffs found: " + diffs.size());
     try (FileWriter fw = new FileWriter(file3)) {
       fw.write("<!doctype html>\n");

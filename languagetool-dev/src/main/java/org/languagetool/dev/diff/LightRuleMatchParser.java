@@ -43,6 +43,7 @@ class LightRuleMatchParser {
     String context = null;
     String suggestion = null;
     String source = null;
+    String title = null;
     Scanner sc = new Scanner(reader);
     while (sc.hasNextLine()) {
       String line = sc.nextLine();
@@ -55,6 +56,8 @@ class LightRuleMatchParser {
         suggestion = line.substring("Suggestion: ".length());
       } else if (line.startsWith("Rule source: ")) {
         source = line.substring("Rule source: ".length());
+      } else if (line.startsWith("Title: ")) {
+        title = line.substring("Title: ".length());
       } else if (startMatcher.matches()) {
         lineNum = Integer.parseInt(startMatcher.group(1));
         columnNum = Integer.parseInt(startMatcher.group(2));
@@ -79,7 +82,7 @@ class LightRuleMatchParser {
           coveredText = "???";
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", ""); 
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, source));
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -87,15 +90,16 @@ class LightRuleMatchParser {
         context = null;
         suggestion = null;
         source = null;
+        // don't reset title, can appear more than once per sentence
       }
     }
     return result;
   }
   
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
-                                   String context, String coveredText, String source) {
+                                   String context, String coveredText, String title, String source) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, s);
+    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s);
   }
   
 }

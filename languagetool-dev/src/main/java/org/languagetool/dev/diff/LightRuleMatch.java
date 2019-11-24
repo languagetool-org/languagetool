@@ -23,7 +23,7 @@ import java.util.Objects;
 class LightRuleMatch {
   
   enum Status {
-    temp_off, off, on
+    temp_off, on
   }
   
   private final int line;
@@ -33,11 +33,12 @@ class LightRuleMatch {
   private final String context;
   private final String coveredText;
   private final String suggestions;
-  private final String source;
+  private final String ruleSource;  // e.g. grammar.xml
+  private final String title;
   private final Status status;
 
   LightRuleMatch(int line, int column, String ruleId, String message, String context, String coveredText,
-                 String suggestions, String source, Status status) {
+                 String suggestions, String ruleSource, String title, Status status) {
     this.line =  line;
     this.column = column;
     this.ruleId = Objects.requireNonNull(ruleId);
@@ -45,7 +46,8 @@ class LightRuleMatch {
     this.context = Objects.requireNonNull(context);
     this.coveredText = Objects.requireNonNull(coveredText);
     this.suggestions = suggestions == null ? "" : suggestions;
-    this.source = source;
+    this.ruleSource = ruleSource;
+    this.title = title;
     this.status = status;
   }
 
@@ -77,8 +79,12 @@ class LightRuleMatch {
     return suggestions;
   }
 
-  String getSource() {
-    return source;
+  String getRuleSource() {
+    return ruleSource;
+  }
+  
+  String getTitle() {
+    return title;
   }
 
   Status getStatus() {
@@ -91,6 +97,8 @@ class LightRuleMatch {
       " " + ruleId +
       ", msg=" + message +
       ", covered=" + coveredText +
-      ", suggestions=" + suggestions;
+      ", suggestions=" + suggestions +
+      ", title=" + title +
+      ", ctx=" + context;
   }
 }
