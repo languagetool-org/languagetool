@@ -40,14 +40,16 @@ public class LightRuleMatchParserTest {
       "Time: 10ms for 1 sentences (0.7 sentences/sec)\n";
     List<LightRuleMatch> matches = parser.parse(new StringReader(s));
     assertThat(matches.size(), is(1));
-    assertThat(matches.get(0).getLine(), is(1));
-    assertThat(matches.get(0).getColumn(), is(9));
-    assertThat(matches.get(0).getRuleId(), is("EN_A_VS_AN"));
-    assertThat(matches.get(0).getSuggestions(), is("a"));
-    assertThat(matches.get(0).getMessage(), is("Use 'a' instead of 'an'"));
-    assertThat(matches.get(0).getCoveredText(), is("an"));
-    assertNull(matches.get(0).getSource());
-    assertThat(matches.get(0).getContext(), is("This is <span class='marker'> an</span> test. "));
+    LightRuleMatch match = matches.get(0);
+    assertThat(match.getLine(), is(1));
+    assertThat(match.getColumn(), is(9));
+    assertThat(match.getRuleId(), is("EN_A_VS_AN"));
+    assertThat(match.getSuggestions(), is("a"));
+    assertThat(match.getMessage(), is("Use 'a' instead of 'an'"));
+    assertThat(match.getCoveredText(), is("an"));
+    assertNull(match.getRuleSource());
+    assertThat(match.getContext(), is("This is <span class='marker'> an</span> test. "));
+    assertNull(match.getTitle());
   }
 
   @Test
@@ -82,8 +84,9 @@ public class LightRuleMatchParserTest {
     assertThat(match2.getSuggestions(), is("something"));
     assertThat(match2.getMessage(), is("message2"));
     assertThat(match2.getCoveredText(), is("somethink"));
-    assertNull(match2.getSource());
+    assertNull(match2.getRuleSource());
     assertThat(match2.getContext(), is("This is <span class='marker'> somethink</span> test. "));
+    assertNull(match2.getTitle());
   }
 
   @Test
@@ -99,18 +102,20 @@ public class LightRuleMatchParserTest {
       "                                  ^                                                  \n";
     List<LightRuleMatch> matches = parser.parse(new StringReader(s));
     assertThat(matches.size(), is(1));
-    assertThat(matches.get(0).getLine(), is(1));
-    assertThat(matches.get(0).getColumn(), is(35));
-    assertThat(matches.get(0).getRuleId(), is("EN_QUOTES[1]"));
-    assertThat(matches.get(0).getSuggestions(), is("“"));
-    assertThat(matches.get(0).getMessage(), is("Use a smart opening quote here: '“'."));
-    assertThat(matches.get(0).getCoveredText(), is("\""));
-    assertThat(matches.get(0).getSource(), is("/org/languagetool/rules/en/grammar.xml"));
-    assertThat(matches.get(0).getContext(), is("Proponents of anarchism, known as <span class='marker'> \"</span>anarchists\", advocate stateless societies based on..."));
+    LightRuleMatch match = matches.get(0);
+    assertThat(match.getLine(), is(1));
+    assertThat(match.getColumn(), is(35));
+    assertThat(match.getRuleId(), is("EN_QUOTES[1]"));
+    assertThat(match.getSuggestions(), is("“"));
+    assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
+    assertThat(match.getCoveredText(), is("\""));
+    assertThat(match.getRuleSource(), is("/org/languagetool/rules/en/grammar.xml"));
+    assertThat(match.getContext(), is("Proponents of anarchism, known as <span class='marker'> \"</span>anarchists\", advocate stateless societies based on..."));
+    assertThat(match.getTitle(), is("Anarchism"));
   }
 
   @Test
-  public void testParseNightlyFormatnoSuggestion() {
+  public void testParseNightlyFormatNoSuggestion() {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "Title: Anarchism\n" +
@@ -121,14 +126,16 @@ public class LightRuleMatchParserTest {
       "                                  ^                                                  \n";
     List<LightRuleMatch> matches = parser.parse(new StringReader(s));
     assertThat(matches.size(), is(1));
-    assertThat(matches.get(0).getLine(), is(1));
-    assertThat(matches.get(0).getColumn(), is(35));
-    assertThat(matches.get(0).getRuleId(), is("EN_QUOTES[1]"));
-    assertThat(matches.get(0).getSuggestions(), is(""));
-    assertThat(matches.get(0).getMessage(), is("Use a smart opening quote here: '“'."));
-    assertThat(matches.get(0).getCoveredText(), is("\""));
-    assertThat(matches.get(0).getSource(), is("/org/languagetool/rules/en/grammar-testme.xml"));
-    assertThat(matches.get(0).getContext(), is("Proponents of anarchism, known as <span class='marker'> \"</span>anarchists\", advocate stateless societies based on..."));
+    LightRuleMatch match = matches.get(0);
+    assertThat(match.getLine(), is(1));
+    assertThat(match.getColumn(), is(35));
+    assertThat(match.getRuleId(), is("EN_QUOTES[1]"));
+    assertThat(match.getSuggestions(), is(""));
+    assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
+    assertThat(match.getCoveredText(), is("\""));
+    assertThat(match.getRuleSource(), is("/org/languagetool/rules/en/grammar-testme.xml"));
+    assertThat(match.getContext(), is("Proponents of anarchism, known as <span class='marker'> \"</span>anarchists\", advocate stateless societies based on..."));
+    assertThat(match.getTitle(), is("Anarchism"));
   }
 
 }
