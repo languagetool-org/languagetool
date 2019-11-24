@@ -41,15 +41,15 @@ public class ArabicContractionSpellingRule extends AbstractSimpleReplaceRule {
   private static final Map<String, List<String>> wrongWords = loadFromPath("/ar/contractions.txt");
   private static final Locale AR_LOCALE = new Locale("ar");
 
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
-  }
-
   public ArabicContractionSpellingRule(ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
+
+  @Override
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   @Override

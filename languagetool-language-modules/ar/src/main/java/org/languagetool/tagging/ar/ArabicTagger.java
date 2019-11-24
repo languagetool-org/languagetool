@@ -24,12 +24,12 @@ import java.util.Locale;
 
 public class ArabicTagger extends BaseTagger {
 
+  public ArabicTagger() {
+    super("/ar/arabic.dict", new Locale("ar"));
+  }
+
   @Override
   public String getManualAdditionsFileName() {
     return "/ar/added.txt";
-  }
-
-  public ArabicTagger() {
-    super("/ar/arabic.dict", new Locale("ar"));
   }
 }
