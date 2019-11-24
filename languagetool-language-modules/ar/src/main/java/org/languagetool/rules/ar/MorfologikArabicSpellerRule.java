@@ -34,6 +34,7 @@ public final class MorfologikArabicSpellerRule extends MorfologikSpellerRule {
 
   public MorfologikArabicSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
+    setCheckCompound(true);
     addExamplePair(Example.wrong("هذه <marker>العباره</marker> فيها أغلاط."),
       Example.fixed("هذه <marker>العبارة</marker> فيها أغلاط."));
 
