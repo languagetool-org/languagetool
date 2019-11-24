@@ -22,9 +22,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Find diffs between runs of command-line LT. Matches with the same rule id, line, and column
- * are considered the "same" match. If there's a difference in message or suggestion of these
- * same matches, then we consider this match to be "modified".
+ * Find diffs between runs of command-line LT. Matches with the same rule id, line, column
+ * and covered test are considered the "same" match. If there's a difference in message or
+ * suggestion of these same matches, then we consider this match to be "modified".
  */
 public class RuleMatchDiffFinder {
   
@@ -32,7 +32,7 @@ public class RuleMatchDiffFinder {
     List<RuleMatchDiff> result = new ArrayList<>();
     Map<MatchKey, LightRuleMatch> oldMatches = getMatchMap(l1);
     for (LightRuleMatch match : l2) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
       LightRuleMatch oldMatch = oldMatches.get(key);
       if (oldMatch != null) {
         // no change or modified
@@ -48,7 +48,7 @@ public class RuleMatchDiffFinder {
     }
     Map<MatchKey, LightRuleMatch> newMatches = getMatchMap(l2);
     for (LightRuleMatch match : l1) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
       LightRuleMatch newMatch = newMatches.get(key);
       if (newMatch == null) {
         // removed
@@ -61,7 +61,7 @@ public class RuleMatchDiffFinder {
   private Map<MatchKey, LightRuleMatch> getMatchMap(List<LightRuleMatch> list) {
     Map<MatchKey, LightRuleMatch> map = new HashMap<>();
     for (LightRuleMatch match : list) {
-      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId());
+      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getCoveredText());
       map.put(key, match);
     }
     return map;

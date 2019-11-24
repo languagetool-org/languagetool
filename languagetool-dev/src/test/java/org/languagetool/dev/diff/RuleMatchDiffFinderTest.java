@@ -87,8 +87,8 @@ public class RuleMatchDiffFinderTest {
     List<LightRuleMatch> l2 = new ArrayList<>();
     l2.add(make("my message", "context", "modified covered text", "suggestion"));
     assertThat(diffFinder.getDiffs(l1, l2).toString(),
-      is("[MODIFIED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, " +
-                    "newMatch=1/10 FAKE_ID1, msg=my message, covered=modified covered text, suggestions=suggestion]"));
+      is("[ADDED: oldMatch=null, newMatch=1/10 FAKE_ID1, msg=my message, covered=modified covered text, suggestions=suggestion, " +
+         "REMOVED: oldMatch=1/10 FAKE_ID1, msg=my message, covered=covered text, suggestions=suggestion, newMatch=null]"));
   }
 
   @NotNull

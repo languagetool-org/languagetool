@@ -25,11 +25,13 @@ class MatchKey {
   private int line;
   private int column;
   private String ruleId;
+  private String coveredText;
 
-  MatchKey(int line, int column, String ruleId) {
+  MatchKey(int line, int column, String ruleId, String coveredText) {
     this.line = line;
     this.column = column;
-    this.ruleId = ruleId;
+    this.ruleId = Objects.requireNonNull(ruleId);
+    this.coveredText = Objects.requireNonNull(coveredText);
   }
 
   @Override
@@ -39,12 +41,12 @@ class MatchKey {
     MatchKey matchKey = (MatchKey) o;
     return line == matchKey.line &&
       column == matchKey.column &&
-      ruleId.equals(matchKey.ruleId);
+      ruleId.equals(matchKey.ruleId) &&
+      coveredText.equals(matchKey.coveredText);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(line, column, ruleId);
+    return Objects.hash(line, column, ruleId, coveredText);
   }
-
 }
