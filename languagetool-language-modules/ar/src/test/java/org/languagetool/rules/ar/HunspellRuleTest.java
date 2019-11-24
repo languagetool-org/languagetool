@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -39,5 +39,5 @@ public class HunspellRuleTest {
 
   }
 
-  
+
 }
