@@ -37232,66 +37232,93 @@ steenwijk;Steenwijk
 	</category>
 	<category id="UNEXPECTED" name="Ongebruikelijke constructies">
 		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'">
+            <!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+            <antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
+            <antipattern><token>de</token><token postag="ZNW:EKV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="ZNW:MRV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="ZNW:MRV:VRK:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:STL:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:VGR:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:OVR:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="GET:RNG"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:VTD:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:ODW:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
+            <antipattern><token>de</token><token postag="GET:MRV"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:STL:ONV"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:VGR:ONV"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:OVR:ONV"/></antipattern>
+            <antipattern><token>de</token><token postag="VRZ"/></antipattern>
+            <antipattern><token>de</token><token postag="BYW"/></antipattern>
+            <antipattern><token>de</token><token postag="VNW:OBP"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:VTD:MRV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
+            <antipattern><token>de</token><token postag="DVS"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:ODW:MRV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:STL:MRV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="GET:EKV"/></antipattern>
+            <antipattern><token>de</token><token postag="BNW:ALR:VRB"/></antipattern>
+            <antipattern><token>de</token><token postag="GET:NMR:MRV:DE_"/></antipattern>
+            <antipattern><token>de</token><token postag="VNW:PER:1EP:MRV:BEZ"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:ODW:ONV"/></antipattern>
+            <antipattern><token>de</token><token postag="VNW:RFX"/></antipattern>
+            <antipattern><token>de</token><token postag="VGW"/></antipattern>
+            <antipattern><token>de</token><token postag="VNW:PER:3EP:EKV:PSF"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
+            <antipattern><token>de</token><token postag="WKW:VTD:ZNW:MRV:DE_"/></antipattern>
+
+            <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
+            <antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
+
+
+            <antipattern><token>de</token><token>facto</token></antipattern>
+            <antipattern><token>op</token><token>de</token><token>been</token></antipattern>
+            <antipattern><token>in</token><token>de</token><token>war</token></antipattern>
+            <antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
+            <antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
+
+            <antipattern><token>KU</token><token>Leuven</token></antipattern>
+            <antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+            <antipattern><token>de</token><token>personal</token><token>computer</token></antipattern>
+            <antipattern><token>de</token><token>public</token><token>relations</token></antipattern>
+            <antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
+            <antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
+            <antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
+            <antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten</token></antipattern>
+
+            <!-- eigennamen -->
+            <antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
+            
+            
+            <antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
 			<rule>
-				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
-				<antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
-				<antipattern><token>de</token><token postag="ZNW:EKV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="ZNW:MRV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="ZNW:MRV:VRK:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:STL:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:VGR:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:OVR:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="GET:RNG"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:VTD:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:ODW:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
-				<antipattern><token>de</token><token postag="GET:MRV"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:STL:ONV"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:VGR:ONV"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:OVR:ONV"/></antipattern>
-				<antipattern><token>de</token><token postag="VRZ"/></antipattern>
-				<antipattern><token>de</token><token postag="BYW"/></antipattern>
-				<antipattern><token>de</token><token postag="VNW:OBP"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:VTD:MRV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
-				<antipattern><token>de</token><token postag="DVS"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:ODW:MRV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:STL:MRV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="GET:EKV"/></antipattern>
-				<antipattern><token>de</token><token postag="BNW:ALR:VRB"/></antipattern>
-				<antipattern><token>de</token><token postag="GET:NMR:MRV:DE_"/></antipattern>
-				<antipattern><token>de</token><token postag="VNW:PER:1EP:MRV:BEZ"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:ODW:ONV"/></antipattern>
-				<antipattern><token>de</token><token postag="VNW:RFX"/></antipattern>
-				<antipattern><token>de</token><token postag="VGW"/></antipattern>
-				<antipattern><token>de</token><token postag="VNW:PER:3EP:EKV:PSF"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
-				<antipattern><token>de</token><token postag="WKW:VTD:ZNW:MRV:DE_"/></antipattern>
-
-				<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
-				<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
-
-
-				<antipattern><token>de</token><token>facto</token></antipattern>
-				<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
-				<antipattern><token>in</token><token>de</token><token>war</token></antipattern>
-				<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
-				<antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
-
-				<antipattern><token>KU</token><token>Leuven</token></antipattern>
-				<antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
-				<antipattern><token>de</token><token>personal</token><token>computer</token></antipattern>
-				<antipattern><token>de</token><token>public</token><token>relations</token></antipattern>
-				<antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
-				<antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
-				<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
-				<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten</token></antipattern>
-
-				<!-- eigennamen -->
-				<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
-				
-				
-				<antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
+                <!-- De keyboard leermethode -->
+				<pattern>
+					<token>de</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:DE_|WKW:TGW:1EP"/>
+                        <token postag_regexp="yes" postag="ZNW:(EKV|MRV):DE_"><exception postag_regexp="yes" postag="WKW:.*"/></token>
+                    </marker>
+				</pattern>
+                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>                
+                <message>Je bedoelt vast: <suggestion>\2\3</suggestion>.</message>
+				<example correction="keyboardleermethode">De <marker>keyboard leermethode</marker> faalt.</example>
+			</rule>
+            
+			<rule>
+                <!-- de surplus die -->
+				<pattern>
+                    <marker>
+                        <token>de</token>
+                        <token postag="ZNW:EKV:HET"/>
+                    </marker>
+                    <token postag_regexp="yes" negate_pos="yes" postag="(ZNW|BNW).*|UNKNOWN"/>
+				</pattern>
+                <message>Je bedoelt vast: <suggestion>het \2</suggestion>.</message>
+				<example correction="Het surplus"><marker>De surplus</marker> die ik zag.</example>
+			</rule>
+            
+			<rule>
 				<pattern>
 					<token>de</token>
 					<token/>
