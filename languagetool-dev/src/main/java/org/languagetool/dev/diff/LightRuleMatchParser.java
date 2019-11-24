@@ -57,9 +57,9 @@ class LightRuleMatchParser {
         columnNum = Integer.parseInt(startMatcher.group(2));
         ruleId = startMatcher.group(3);
       } else if ((suggestion != null || message != null) && context == null) {
-        // context comes directly after suggestion
+        // context comes directly after suggestion (if any)
         context = line;
-      } else if (coverMatcher.matches()) {
+      } else if (coverMatcher.matches() && line.contains("^")) {
         String cover = coverMatcher.group(1);
         int startMarkerPos = cover.indexOf("^");
         int endMarkerPos = cover.lastIndexOf("^") + 1;
