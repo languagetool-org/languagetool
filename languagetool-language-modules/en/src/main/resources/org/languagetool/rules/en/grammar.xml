@@ -22100,26 +22100,33 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
         </rule>
-        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'">
+        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'" default="temp_off">
+            <antipattern>
+                <token>response</token>
+                <token>time</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="CD" />
-                    <token>hour</token>
+                    <token regexp="yes">hour|minute|(milli)?second</token>
                 </marker>
                 <token min="0">
                     <exception postag="DT|IN|CD" postag_regexp="yes" />
-                    <exception>per</exception>
+                    <exception regexp="yes">per|\p{P}</exception>
                 </token>
-                <token regexp="yes">walmarts?|pharmac(y|ies)|motels?|hotels?|convenience|walgreens|fitness|gyms?|laundromats?|autozones?|mcdonalds?|forecasts?|myster(y|ies)|weather|lag|jobs?|shifts?|workouts?|clock|desks?|drive|events?|lessons?|call|days?|timestamps?|timer|sessions?|services?|journeys?|hikes?|trainings?|sleep|meeting|deal|period|patrols|panic|operation|level|update|rule|standoffs?|response|timeframe|format|cycles?|surger(y|ies)|walk|delays?|notice|difference|countdown|battery|conversations?|naps?|projects?|ride|rescue|block|trips?|rest|visit|breaks?|delivery|queue|marathons?|window|contractors?|controllers?</token>
+                <token regexp="yes">ad|advertisements?|pitch(es)?|commercials?|civics|showdown|strategy|quiz|videos?|riddles?|scrubs?|walmarts?|runoffs?|pharmac(y|ies)|motels?|hotels?|convenience|walgreens|fitness|gyms?|laundromats?|autozones?|mcdonalds?|forecasts?|myster(y|ies)|weather|lag|jobs?|shifts?|workouts?|clock|desks?|drive|events?|lessons?|call|days?|timestamps?|timer|sessions?|services?|journeys?|hikes?|trainings?|sleep|meeting|deal|period|patrols|panic|operation|level|update|rule|standoffs?|response|timeframe|format|cycles?|surger(y|ies)|walk|delays?|notice|difference|countdown|battery|conversations?|naps?|projects?|ride|rescue|block|trips?|rest|visit|breaks?|delivery|queue|marathons?|window|contractors?|controllers?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
             <example correction="24-hour">The <marker>24 hour</marker> walmart never closes down.</example>
             <example correction="12-hour">He was working six <marker>12 hour</marker> days.</example>
+            <example correction="15-minute"><marker>15 minute</marker> workout, starting at 6:30pm.</example>
             <example>I bet you play one hour a day.</example>
             <example>I exercise for 1 hour every day.</example>
             <example>5 hour per day gambling trip.</example>
             <example>One hour of sleep before midnight is worth two hours after.</example>
+            <example>Conditioning: treadmill 10 minutes @ 3% incline - sprint @ 7 mph for 1 minute, walk @ 3 mph for 1 minute</example>
+            <example>If one assumes 24 hour/day operation for 360 days/year.</example>
         </rule>
         <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'">
             <rule>
@@ -22276,7 +22283,7 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
         <antipattern case_sensitive="yes">
             <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent</token>
+            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley</token>
         </antipattern>
         <antipattern>
             <token>magnitude</token>
@@ -22323,6 +22330,11 @@ USA
                 <token>number</token>
                 <token postag="CD"/>
             </antipattern>
+            <antipattern><!-- http://www.822tutor.ca/ -->
+                <token postag="CD" />
+                <token>tutor</token>
+                <token>squadron</token>
+            </antipattern>
             <antipattern>
                 <token postag="CD"/>
                 <token postag="RB|JJ" postag_regexp="yes" />
@@ -22351,7 +22363,7 @@ USA
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">season|chapter|unit</token>
+                <token regexp="yes">season|chapter|unit|module</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern>
@@ -22472,6 +22484,11 @@ USA
                 <token>pro</token>
                 <token>max</token>
             </antipattern>
+            <antipattern>
+                <token>half</token>
+                <token>an</token>
+                <token>hour</token>
+            </antipattern>
             <antipattern><!--  Of your 9 questions 8 show a -->
                 <token>of</token>
                 <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -22510,14 +22527,14 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|ft</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
-                        <exception regexp="yes">will|year|so|pst</exception>
+                        <exception regexp="yes">will|year|so|pst|said</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
                         <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
@@ -22541,6 +22558,7 @@ USA
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
             <example>It was 30 cm long.</example>
+            <example>But mesage two said he is not available anymore.</example>
             <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
             <example>The iphone 11 pro max.</example>
@@ -22551,6 +22569,7 @@ USA
             <example>One or two mentioned earlier.</example>
             <example>By 700 BC war between the two Empires became inevitable.</example>
             <example>I have two book readers in my palmtop.</example>
+            <example>They had two and half an hour to leave.</example><!-- weird sentence -->
             <example>US$10,000 for a single 25 minute episode.</example>
             <example>Thomas Watson at 333 Grant Avenue in San Francisco.</example>
             <example>The 16 year old Ahmad Shah Durrani.</example>
