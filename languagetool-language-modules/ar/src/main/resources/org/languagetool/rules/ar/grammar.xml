@@ -35,6 +35,93 @@ USA
     <!-- Common errors-->
     <!-- ====================================================================== -->
     <category id="COMMON_ERRORS" name="أخطاء لغوية شائعة" type="grammar">
+        <rulegroup id="ReplaceDeterminerF" name="هذه) هذا)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>هذا</token>
+                    </marker>
+                    <token regexp="yes">الكتف|الفخذ|الساق|الريح|البئر|المراجع</token>
+                </pattern>
+                <message>الإسم مؤنث..أتقصد<suggestion>هذه</suggestion>؟
+                </message>
+                <example correction="هذه">
+                    <marker>هذا</marker>
+                    الكتف
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>هذا</token>
+                    </marker>
+                    <token>اليمين</token>
+                </pattern>
+                <message>أتقصد باليمين القسم<suggestion>هذه</suggestion>?
+                </message>
+                <example correction="هذه">
+                    <marker>هذا</marker>
+                    اليمين
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>هذا</token>
+                    </marker>
+                    <token>السن</token>
+                </pattern>
+                <message>أتقصد بالسن:العمر و الجارحة<suggestion>هذه</suggestion>؟
+                </message>
+                <example correction="هذه">
+                    <marker>هذا</marker>
+                    السن تعبر عن مدى كبر هذا الشيخ
+                </example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AdjectifFeminin" name="الصفة تتبع الموصوف">
+            <rule>
+                <pattern>
+                    <!--                    <token inflected="yes">أدى</token>-->
+                    <token>اليمين</token>
+                    <marker>
+                        <token>القانوني</token>
+                    </marker>
+                </pattern>
+                <message>أتقصد<suggestion>القانونية</suggestion>؟
+                </message>
+                <example correction="القانونية">جميع الرؤساء يؤدون اليمين
+                    <marker>القانوني</marker>
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>حلفت</token>
+                    <token>يمينا</token>
+                    <marker>
+                        <token>صادقا</token>
+                    </marker>
+                </pattern>
+                <message>أتقصد<suggestion>صادقة</suggestion>؟
+                </message>
+                <example correction="صادقة">حلفت يمينا
+                    <marker>صادقا</marker>
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>خنصري</token>
+                    <marker>
+                        <token>مجروح</token>
+                    </marker>
+                </pattern>
+                <message>أتقصد <suggestion>مجروحة</suggestion>؟
+                </message>
+                <example correction="مجروحة">خنصري
+                    <marker>مجروح</marker>
+                </example>
+            </rule>
+        </rulegroup>
         <rulegroup id="semantic_erros" name="دلالية">
             <rule>
                 <pattern>
@@ -51,10 +138,10 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token>لم</token>
-                    <token>يثبت</token>
-                    <token>لهذا</token>
-                    <token>الدواء</token>
+                    <!--                    <token>لم</token>-->
+                    <!--                    <token>يثبت</token>-->
+                    <!--                    <token>لهذا</token>-->
+                    <!--                    <token>الدواء</token>-->
                     <marker>
                         <token>نجاعة</token>
                     </marker>
@@ -63,6 +150,74 @@ USA
                 </message>
                 <example correction="نجوع">لم يثبت لهذا الدواء
                     <marker>نجاعة</marker>
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>نجاعة</token>
+                    </marker>
+                </pattern>
+                <message>أتقصد<suggestion>نجوع</suggestion>؟
+                </message>
+                <example correction="نجوع">لم يثبت لهذا الدواء
+                    <marker>نجاعة</marker>
+                </example>
+            </rule>
+            <rule id="inshalla" name="إن شاء الله">
+                <pattern>
+                    <marker>
+                        <token>إنشاء</token>
+                    </marker>
+                    <token>الله</token>
+                </pattern>
+                <message>قل <suggestion>إن شاء</suggestion>؟الله
+                </message>
+                <example correction="إن شاء">
+                    <marker>إنشاء</marker>
+                    الله
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>جمادى</token>
+                    <marker>
+                        <token>الأول</token>
+                    </marker>
+
+                </pattern>
+                <message>قل جمادى<suggestion>الأولى</suggestion>لأن جمادى مؤنث
+                </message>
+                <example correction="الأولى">‎شهر جمادى
+                    <marker>الأول</marker>
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>جمادى</token>
+                    <marker>
+                        <token>الآخر</token>
+                    </marker>
+
+                </pattern>
+                <message>قل جمادى<suggestion>الآخرة</suggestion>لأن جمادى مؤنث
+                </message>
+                <example correction="الآخرة">‎شهر جمادى
+                    <marker>الآخر</marker>
+                </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>سوف</token>
+                        <token>لن</token>
+                    </marker>
+                </pattern>
+                <message>لا تقل سوف لن بل قل
+                    <suggestion>لن</suggestion>
+                    لأن "سوف" تدل على المستقبل و"لن" أيضا تدل على المستقبل ,والمعنى تام بدون هذا الحشو
+                </message>
+                <example correction="لن">‎<marker>سوف لن</marker> أفعل هذا الأمر
                 </example>
             </rule>
         </rulegroup>
