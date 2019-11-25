@@ -30,7 +30,7 @@ public final class MorfologikArabicSpellerRule extends MorfologikSpellerRule {
 
   public static final String RULE_ID = "MORFOLOGIK_RULE_AR";
 
-  private static final String RESOURCE_FILENAME = "ar/arabic.dict";
+  private static final String RESOURCE_FILENAME = "ar/spell/arabic.dict";
 
   public MorfologikArabicSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
