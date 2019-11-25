@@ -12231,6 +12231,28 @@ USA
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
         </rule>
+        <rulegroup id="DUNKIN_DONUTS" name="Dunkin' Donuts" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Dunkin[sg]?</token>
+                    <token>Donut</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </pattern>
+                <message>Did you mean <suggestion>Dunkin' Donuts</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/Dunkin%27_Donuts</url>
+                <example correction="Dunkin' Donuts"><marker>Dunkin Donut's</marker> is an American multinational coffee/donut company.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Dunkin[sg]?</token>
+                    <token regexp="yes">Donuts?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Dunkin' Donuts</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/Dunkin%27_Donuts</url>
+                <example correction="Dunkin' Donuts"><marker>Dunkin Donuts</marker> is an American multinational coffee/donut company.</example>
+            </rule>
+        </rulegroup>
         <rule id="TURKEY" name="proper noun 'Turkey' (country)">
             <antipattern>
                 <token skip="-1">turkey</token>
@@ -29534,7 +29556,7 @@ The accident victim died from her injuries.
         </rule>
         <rulegroup id="UNIT_SPACE" name="Missing space between numeric value and unit (e.g., 25 km)">
             <rule>
-                <regexp case_sensitive='yes'>(?&lt;![A-Z])(\-?[0-9]+[0-9,.]*(€|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|f|z|y)?[ΩΩm]|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)(?!\w))</regexp>
+                <regexp case_sensitive='yes'>(?&lt;![A-Z\$€£]\d{0,5})(\-?[0-9]+[0-9,.]*(€|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|f|z|y)?[ΩΩm]|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)(?!\w))</regexp>
                 <message>Insert a space between the numerical value and the unit symbol <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>https://www.bipm.org/en/publications/si-brochure/section5-3.html#section3</url>
                 <example correction="25 °C">The temperature is <marker>25°C</marker>.</example>
@@ -29542,13 +29564,14 @@ The accident victim died from her injuries.
                 <example correction="25,5 °F">The temperature is <marker>25,5°F</marker> warm.</example>
                 <example correction="5 km">Distance <marker>5km</marker>.</example>
                 <example correction="5 kg">It weighs <marker>5kg</marker>.</example>
-                <example correction="350 m">...rest in the estate to the Disney Corporation for $<marker>350m</marker>.</example><!-- MFU 2019-09-03: I think $350m is a common way of writing monetary values. -->
+                <example>...rest in the estate to the Disney Corporation for $<marker>350m</marker>.</example>
                 <example>The German news magazine <marker>T3N</marker> is popular.</example>
                 <example>(AsCH3)2n</example>
                 <example>https://docs.google.com/document/d/1hEO7G3hm6bTkYnNlmT3uV</example>
                 <example type="triggers_error">..., one of which included irradiation of 243Am with 15N ions.</example>
                 <example type="triggers_error">... astatine-214, astatine-215, and astatine-216m.</example>
                 <example type="triggers_error">...their sample variance, and σ2N their population variance.</example>
+                <example>Meanwhile, the BBC understands the government has “stood down” its Operation Yellowhammer contingency planning for a no-deal exit, while it has also paused its £100m Get Ready for Brexit on 31 October campaign.</example>
             </rule>
             <rule>
                 <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
