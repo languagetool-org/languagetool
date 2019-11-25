@@ -26,6 +26,7 @@ import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +40,6 @@ public class MorfologikSpellerTest {
     // assertFalse(speller.isMisspelled("السلام عليكم"));
 
     assertTrue(speller.isMisspelled("علييكم"));
-    assertTrue(speller.getSuggestions("علييكم").contains("عليكم"));
 
     assertTrue(speller.isMisspelled("العباره"));
   }
