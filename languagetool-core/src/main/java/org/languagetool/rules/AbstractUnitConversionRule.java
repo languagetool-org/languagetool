@@ -76,6 +76,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected static final Unit<Temperature> FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);
   // limit size of matched number to (possibly) avoid hangups
   protected static final String NUMBER_REGEX = "(-?[0-9]{1,32}[0-9,.]{0,32})";
+
+  protected final Pattern numberRangePart = Pattern.compile("\\b" + NUMBER_REGEX + "$");
   
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
@@ -394,6 +396,19 @@ public abstract class AbstractUnitConversionRule extends Rule {
     }
   }
 
+
+  protected boolean detectNumberRange(AnalyzedSentence sentence, Matcher matcher) {
+    boolean hyphenInNumber = matcher.group(1).startsWith("-");
+    if (!hyphenInNumber) {
+      return false;
+    }
+
+    String textBefore = sentence.getText().substring(0, matcher.start());
+    boolean endsWithNumberRangePart = numberRangePart.matcher(textBefore).find();
+
+    return endsWithNumberRangePart;
+  }
+
   private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {
     Map.Entry<Integer, Integer> range = new AbstractMap.SimpleImmutableEntry<>(
       unitMatcher.start(), unitMatcher.end());
@@ -414,7 +429,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
     double value;
     if (customValue == null) {
       try {
-        value = getNumberFormat().parse(unitMatcher.group(1)).doubleValue();
+        String valueAsString = unitMatcher.group(1);
+        // remove hyphen at start if it belongs to a range (e.g 1-5 miles)
+        // see https://github.com/languagetool-org/languagetool/issues/2170
+        // TODO convert whole range, not only end
+        if (detectNumberRange(sentence, unitMatcher)) {
+          valueAsString = valueAsString.substring(1);
+        }
+        value = getNumberFormat().parse(valueAsString).doubleValue();
       } catch (ParseException e) {
         return;
       }
