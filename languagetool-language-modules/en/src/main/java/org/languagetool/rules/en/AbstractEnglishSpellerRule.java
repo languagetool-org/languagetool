@@ -340,6 +340,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("What are you", "What do you");
     } else if ("sinc".equals(word)) {
       return Arrays.asList("sync");
+    } else if ("Hongkong".equals(word)) {
+      return Arrays.asList("Hong Kong");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");
