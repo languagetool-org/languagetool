@@ -1430,8 +1430,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8-oz. <marker>can</marker> pineapple</example>
     </rule>
     <rule>
+      <antipattern><!-- another can discover -->
+        <token regexp="yes">another|each|some|these</token>
+        <token>can</token>
+        <token min="0" max="2" postag="RB"/>
+        <token postag_regexp="yes" postag="VBP?"/>
+      </antipattern>
       <pattern>
-        <token postag="DT"><exception postag="PDT" /><exception regexp="yes">each|some|these</exception></token>
+        <token postag="DT"><exception postag="PDT" /></token>
         <marker>
           <token>can<exception regexp="yes" scope="next">be|do|not</exception></token>
         </marker>
@@ -1445,7 +1451,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">... near the eye that <marker>can be</marker> extended and which have...</example>
       <example type="untouched">... to create art that <marker>can</marker> not be bought by the wealthy as a status object.</example>
       <example type="untouched">There is one device that can do most of the ...</example>
+      <example type="untouched">What one man can invent, another <marker>can</marker> discover.</example>
+      <example type="untouched">What one man can invent, another <marker>can</marker> usually discover.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">A <marker>can</marker> usually contains sufficient fluid to clean 10 units.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">... if another <marker>can</marker> contains flammable liquid.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">Each <marker>can</marker> usually contains 5 litres of water.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">... and shows that each <marker>can</marker> that is on the table holds approximately 3 liters of water.</example>
+<!-- Not touched because of exception: this/PDT      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> contains cold water.</example> -->
     </rule>
     <rule>
       <pattern>
