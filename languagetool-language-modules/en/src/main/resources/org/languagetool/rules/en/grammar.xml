@@ -10289,6 +10289,59 @@ USA
             <example>The remain campaign.</example>
             <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
         </rule>
+        <rulegroup id="THE_FRENCH" name="the french (French)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/French</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">french</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token regexp="yes">presidents?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|oragni[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revlution|\.|\!|\?</token>
+                </pattern>
+                <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
+                <example correction="French">The <marker>french</marker> government.</example>
+                <example correction="French">Are you <marker>french</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">speak|learn|teach|read|write|translate</token>
+                    <token min="0" />
+                    <marker>
+                        <token case_sensitive="yes">french</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
+                <example correction="French">He's learning <marker>french</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern><!-- https://www.merriam-webster.com/dictionary/french%20fries (both lower- and uppercase allowed) -->
+                    <token>french</token>
+                    <token regexp="yes">fr(y|ies)</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token>her</token>
+                </antipattern>
+                <antipattern>
+                    <token>let</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s|in</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">french</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
+                <example correction="French">The <marker>french</marker> won the Soccer World Cup in 2018.</example>
+                <example>Don't eat my french fries.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_A_HARRY" name="In a harry (hurry)">
             <antipattern>
                 <token>harry</token>
@@ -11206,6 +11259,27 @@ USA
                 <example correction="double click">I believe so, since I also tried to open it with a <marker>double-click</marker>.</example>
                 <example correction="double clicks">My <marker>doubleclicks</marker> didn't open the folder.</example>
             </rule>
+            <rule default="temp_off"><!-- the deploy -->
+                <antipattern>
+                    <token>deploy</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no">\w{1,4}</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">(re-?)?deploys?</token>
+                    </marker>
+                </pattern>
+                <message>The word '\3' is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)deploy" regexp_replace="deployment" /></suggestion> (= release, placement)?</message>
+                <url>https://www.merriam-webster.com/dictionary/deployment</url>
+                <example correction="deployment">The <marker>deploy</marker>.</example>
+                <example correction="deployment">Yesterday’s <marker>deploy</marker> introduced a new format for fingerprinting Z-Wave devices.</example>
+                <example>Is this your your deploy.rb?</example>
+            </rule>
             <rule><!-- the bodypaint -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -11826,6 +11900,15 @@ USA
                 <example>Those three <marker>install</marker> great effects.</example>
             </rule>
         </rulegroup>
+        <rule id="GAMEBOY" name="gameboy (game boy)" default="temp_off">
+            <pattern>
+                <token regexp="yes">gameboys?</token>
+            </pattern>
+            <message>The handheld game console is spelled as two words.</message>
+            <suggestion><match no="1" regexp_match="(?i)gameboy" regexp_replace="Game Boy" /></suggestion>
+            <url>https://en.wikipedia.org/wiki/Game_Boy</url>
+            <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
+        </rule>
         <rulegroup id="A_GOOGLE" name="a/the + proper noun">
             <antipattern>
                 <token>let</token>
@@ -22423,7 +22506,8 @@ USA
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
+            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using the plural form.</message>
+            <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNP?S" postag_regexp="yes"/></suggestion>
             <short>Grammatical problem</short>
             <example correction="books">I have five <marker>book</marker>.</example>
             <example>I have five <marker>books</marker>.</example>
@@ -41305,7 +41389,149 @@ The accident victim died from her injuries.
                 <example correction="book’s|book's">The <marker>book´s</marker> easy to read.</example>
                 <example correction="agent’s|agent's">Go to the travel <marker>agent`s</marker> office.</example>
             </rule>
-        </rulegroup>   
+        </rulegroup>
+
+        <rulegroup id="CD_NN_APOSTROPHE_S" name="two tank's (tanks)" default="temp_off">
+            <antipattern>
+                <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
+                <token postag="CD" />
+            </antipattern>
+            <antipattern><!-- name of musician (https://en.wikipedia.org/wiki/50_Cent) -->
+                <token>50</token>
+                <token>Cent</token>
+            </antipattern>
+            <antipattern><!-- name of tech product -->
+                <token>let</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>encrypt</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="2">[\$€£#]</token>
+                <token postag="CD" />
+            </antipattern>
+            <antipattern>
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token regexp="yes">[\$€£#]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token postag="NN.*|UNKNOWN|CD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token postag="DT" skip="1" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="CD">
+                        <exception regexp="yes">one|1|[12]\d{3}</exception>
+                    </token>
+                    <token postag="JJ.*" min="0" postag_regexp="yes">
+                        <exception regexp="yes">in|on|out|off|of</exception>
+                    </token>
+                    <marker>
+                        <token postag="NNP?" postag_regexp="yes">
+                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception postag="NNP?S" postag_regexp="yes" />
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>The possesive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\3'.</message>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <example correction="tanks">He has two <marker>tank's</marker></example>
+                <example correction="glasses">He drank four <marker>glass's</marker> of wine.</example>
+                <example correction="macros">It consist of two <marker>macro’s</marker> actually.</example>
+                <example correction="APIs">This daemon utilizes two <marker>API’s</marker>.</example>
+                <example correction="CDs">Sami got two <marker>CD's</marker> for six dollars.</example>
+                <example correction="IDs|Ids">Currently I have about 600 unique <marker>ID’s</marker>, and between them about 3,000 aliases.</example>
+                <example correction="exes|ices">There’s a big difference between someone with 1 ex who hates them, compared to 50 <marker>ex’s</marker> who hate them.</example>
+                <example correction="outlets">If you can add 2 smart <marker>outlet’s</marker> and normal USBs would be better.</example>
+                <example correction="URLs">If you have 100 stores, would they not have 100 different <marker>URL’s</marker> that you would be checking with Synthetics?</example>
+                <example correction="CEOs">More than 50 business organizations and 120 <marker>CEO's</marker> signed on to help make this campaign a success.</example>
+                <example correction="techs">I’ve also had seven <marker>tech’s</marker> and mechanics look at it and not find the battery drain.</example>
+                <example correction="hours">Disagree on walmart not being far away where my daughter lived in Nevada it was 3 <marker>hour’s</marker> to a walmart.</example>
+                <example correction="manufacturers">... rather than splitting the purchases between all three <marker>manufacturer's</marker>.</example>
+                <example correction="SMEs">The 3 <marker>SME's</marker> that have already committed to being on film need to be keep in the lope regarding the timeline.</example>
+                <example>With regards to Section 9.9 Seller's Representative.</example>
+                <example>Dragon 32 programmer's reference guide.</example>
+                <example>Intel 80286 and 80287 Programmer's Reference Manual at bitsavers.org.</example>
+                <example>The 2015 movie's final scene flashed in Jacob O'Connor's mind.</example>
+                <example>It’s got a 3.2 out of 5 on Amazon, a 6 out of 10 from Digital Trends, and a 2.8 out of 5 on Samsung’s own website.</example>
+                <example>Jones noted that Exelon's market capitalization of $21.3 billion tops Dynegy's $15.9 billion.</example>
+                <example>Closes above last Friday's high crossing at 168 would renew this spring's rally making the 62% retracement level of this winter's decline crossing at 169.40 July's next target.</example>
+                <example>Bill has coached five U.S. National Team members, nine U.S. National Champions, and two Master's World champions.</example>
+                <example>Called the "HY-KERS Concept", Ferrari's hybrid system adds more than 100 horsepower on top of the 599 Fiorano's 612 HP.</example>
+                <example>Dre produced three songs and provided vocals for two on Eminem's successful and controversial debut album The Slim Shady LP, released in 1999.</example>
+                <example>Iowa State University is organized into eight colleges and two schools that offer 100 Bachelor's degree programs, 112 Masters programs, and 83 Ph.</example>
+                <example>It was also a crossover smash, reaching No. 1 on Billboard's Easy Listening chart and No. 2 on Billboard's Country survey.</example>
+                <example>During the two months that the Piece of Me Tour was performed, it ranked at 86 and 30 on Pollstar's 2018 Year-End Top 100 Tours chart both in North America and worldwide, respectively.</example>
+                <example>The media marvelled at a man named Bo #16 ranked Auburn's Heisman bro.</example>
+                <example>After another delay based on producing other artists' work, Detox was then scheduled for a 2010 release, coming after 50 Cent's Before I Self Destruct and Eminem's Relapse.</example>
+                <example>I believe there’s an issue with this specific subnet, it’d be lovely if any let’s encrypt engineer could look into it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        plenty|lots?|couple|majority
+                    </token>
+                    <token>of</token>
+                    <token postag="JJ.*" min="0" postag_regexp="yes">
+                        <exception regexp="yes">in|on|out|off|of</exception>
+                    </token>
+                    <marker>
+                        <token postag="NNP?" postag_regexp="yes">
+                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception postag="NNP?S" postag_regexp="yes" />
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>The possesive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\4'.</message>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <example correction="APIs">A lot of modern <marker>API's</marker> are based on JSON.</example>
+                <example correction="CDs">I burned you a couple of <marker>CD's</marker>, some old stuff, some new stuff.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        many|plenty|other|few|several|some|any
+                    </token>
+                    <token postag="JJ.*" min="0" postag_regexp="yes">
+                        <exception regexp="yes">in|on|out|off|of</exception>
+                    </token>
+                    <marker>
+                        <token postag="NNP?" postag_regexp="yes">
+                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception postag="NNP?S" postag_regexp="yes" />
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>The possesive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\3'.</message>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <example correction="APIs">Many modern <marker>API's</marker> are based on JSON.</example>
+                <example correction="KPIs">The idea is for our dashboard to show some key <marker>KPI’s</marker>.</example>
+                <example correction="customers">But we have many <marker>customer’s</marker> in Dallas region.</example>
+                <example correction="months">I had the engine replaced a few <marker>month’s</marker> ago.</example>
+                <example correction="others">I know several <marker>other’s</marker> that have also had problems.</example>
+                <example>That's all Jamal's fault.</example>
+                <example>It's all Tom's.</example>
+                <example>I've got two kids. One of them is a boy, and the other one's a boy, too.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
             <pattern>
                 <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
