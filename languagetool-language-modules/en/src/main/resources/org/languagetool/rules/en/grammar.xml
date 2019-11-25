@@ -10176,6 +10176,10 @@ USA
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
             </antipattern>
+            <antipattern><!-- https://en.equipauto.com/ -->
+                <token>equip</token>
+                <token>auto</token>
+            </antipattern>
             <antipattern><!-- https://www.rotary.org/en/get-involved/interact-clubs -->
                 <token>interact</token>
                 <token regexp="yes">clubs?</token>
@@ -11219,6 +11223,20 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/analysis</url>
                 <example correction="analyses">Many <marker>analyzes</marker> of animal deseases were performed by the institute.</example>
             </rule>
+            <rule default="temp_off"><!-- the shelve -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>shelve</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>shelf</suggestion> or <suggestion>shelves</suggestion> (= plural of shelf)?</message>
+                <url>https://www.merriam-webster.com/dictionary/shelf</url>
+                <example correction="shelf|shelves">The book was in the <marker>shelve</marker>.</example>
+            </rule>
             <rule><!-- the require -->
                 <antipattern>
                     <!-- dev speech -->
@@ -12251,6 +12269,29 @@ USA
                 <message>Did you mean <suggestion>Dunkin' Donuts</suggestion>?</message>
                 <url>https://en.wikipedia.org/wiki/Dunkin%27_Donuts</url>
                 <example correction="Dunkin' Donuts"><marker>Dunkin Donuts</marker> is an American multinational coffee/donut company.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MAR_A_LAGO" name="proper noun 'mar-a-lago'" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Mar-a-Lago</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>mar</token>
+                    <token>a</token>
+                    <token>lago</token>
+                </pattern>
+                <message>Did you mean <suggestion>Mar-a-Lago</suggestion> (= resort and landmark in Palm Beach)?</message>
+                <url>https://en.wikipedia.org/wiki/Mar-a-Lago</url>
+                <example correction="Mar-a-Lago"><marker>Mar a Lago</marker> is a resort and national historic landmark in Palm Beach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mar-?a-?lago</token>
+                </pattern>
+                <message>Did you mean <suggestion>Mar-a-Lago</suggestion> (= resort and landmark in Palm Beach)?</message>
+                <url>https://en.wikipedia.org/wiki/Mar-a-Lago</url>
+                <example correction="Mar-a-Lago"><marker>Mar-A-Lago</marker> is a resort and national historic landmark in Palm Beach.</example>
             </rule>
         </rulegroup>
         <rule id="TURKEY" name="proper noun 'Turkey' (country)">
