@@ -35,6 +35,9 @@ public class MorfologikSpellerTest {
   public void testIsMisspelledFromDict() throws IOException {
     MorfologikSpeller speller = new MorfologikSpeller("/ar/hunspell/ar.dict");
 
+    // The dict is not considering the ta3reef
+    // assertFalse(speller.isMisspelled("السلام عليكم"));
+
     assertTrue(speller.isMisspelled("علييكم"));
     assertTrue(speller.getSuggestions("علييكم").contains("عليكم"));
 
@@ -47,9 +50,12 @@ public class MorfologikSpellerTest {
     MorfologikArabicSpellerRule rule = new MorfologikArabicSpellerRule(TestTools.getMessages("ar"), Languages.getLanguageForShortCode("ar"));
     JLanguageTool langTool = new JLanguageTool(new Arabic());
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+
     //wrong sentences
-    //FIXME : consider ta3reef
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("سلام عليييكم")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("السلام عليييكم")).length);
 
   }
 
