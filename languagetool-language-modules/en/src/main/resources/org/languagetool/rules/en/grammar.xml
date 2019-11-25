@@ -20472,6 +20472,14 @@ USA
             <message>Did you mean <suggestion>\1 doesn't</suggestion> instead of docent (= university teacher)?</message>
             <example correction="He doesn't"><marker>He docent</marker> know anything.</example>
         </rule>
+        <rule id="PRP_MIGHT" name="I mite (might)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|they|we|it</token>
+                <token>mite</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 might</suggestion>?</message>
+            <example correction="I might"><marker>I mite</marker> be happy if you forgive me.</example>
+        </rule>
         <rule id="DOSNT" name="he dosn't (doesn't)">
             <pattern>
                 <token regexp="yes">do[se]n|does</token>
@@ -20535,7 +20543,7 @@ USA
                 <pattern>
                     <token>
                         to
-                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|respond</exception>
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard</exception>
                     </token>
                     <token>apologies</token>
                 </pattern>
@@ -20547,19 +20555,54 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">I|you|we|they</token>
+                    <token regexp="yes">I|you|we|they|s?he</token>
                     <token regexp="yes">apolog(ies|y)</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 apologize</suggestion> (American English) or <suggestion>\1 apologise</suggestion> (British English)?</message>
                 <example correction="I apologize|I apologise"><marker>I apologies</marker> for the confusion.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PRIORITIES" name="I priorities (prioritize)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>when</token>
+                    <token>it</token>
+                    <token>comes</token>
+                    <token>to</token>
+                    <token>priorities</token>
+                </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token>addition</token>
+                    <token>to</token>
+                    <token>priorities</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">from</token>
+                    <token>to</token>
+                    <token>priorities</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        to
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard</exception>
+                    </token>
+                    <token>priorities</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 prioritize</suggestion> (American English) or <suggestion>\1 prioritise</suggestion> (British English)?</message>
+                <example correction="to prioritize|to prioritise">I wanted <marker>to priorities</marker> the task.</example>
+                <example>When it comes to priorities, I now know that sooner is usually better than later.</example>
+                <example>I tried everything from forgiveness to apologies.</example>
+                <example>The task was not restricted to priorities.</example>
+                <example>Let us know your feedback and what other APIs you would find useful with regard to Priorities and Priority Schemes.</example>
+            </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">s?he|it</token>
-                    <token>apologies</token>
+                    <token regexp="yes">I|you|we|they|s?he</token>
+                    <token regexp="yes">priorit(ies|y)</token>
                 </pattern>
-                <message>Did you mean <suggestion>\1 apologizes</suggestion> (American English) or <suggestion>\1 apologises</suggestion> (British English)?</message>
-                <example correction="He apologizes|He apologises"><marker>He apologies</marker> for his bad english.</example>
+                <message>Did you mean <suggestion>\1 prioritize</suggestion> (American English) or <suggestion>\1 prioritise</suggestion> (British English)?</message>
+                <example correction="I prioritize|I prioritise"><marker>I priorities</marker> this task.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BELIVE_BELIEVE" name="I belive (believe)">
@@ -24791,7 +24834,7 @@ USA
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy)s?</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron)s?</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -24849,6 +24892,10 @@ USA
                 <token postag="IN"/>
                 <token>it</token>
                 <token>thou</token>
+            </antipattern>
+            <antipattern><!-- "I Love You Oh So Much", "LOVE YOU UNCLE BILLY" -->
+                <token>love</token>
+                <token>you</token>
             </antipattern>
             <antipattern><!-- we Argentinians -->
                 <token regexp="yes">we|you</token>
@@ -28874,6 +28921,24 @@ The accident victim died from her injuries.
             <message>It seems that a comma is missing.</message>
             <suggestion>\1 \2, \3 \4</suggestion>
             <example correction="Act 2, Scene 5"><marker>Act 2 Scene 5</marker>.</example>
+        </rule>
+        <rule id="GO_FOR_IT_GIRLS_COMMA" name="Comma after 'go for it'" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>for</token>
+                <token>IT</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">go|ready</token>
+                <token>for</token>
+                <marker>
+                    <token>it</token>
+                    <token regexp="yes">(girl|gal|boy|guy|dude|friend|folk)s?</token>
+                </marker>
+            </pattern>
+            <message>It seems that a comma is missing.</message>
+            <suggestion>\3, \4</suggestion>
+            <example correction="it, girls">Go for <marker>it girls</marker>!</example>
+            <example correction="it, guys">Get ready for <marker>it guys</marker>!</example>
         </rule>
         <rulegroup id="PRP_COMMA" name="Missing comma after pronoun">
             <rule>
@@ -37389,6 +37454,15 @@ The accident victim died from her injuries.
                 <example correction="about to">It is <marker>bout to</marker> go down.</example>
             </rule>
         </rulegroup>
+        <rule id="LUV" name="luv (love)" default="temp_off">
+            <pattern>
+                <token regexp="yes">luvs?</token>
+            </pattern>
+            <message>The word '\1' is informal and non-standard. Consider using an alternative.</message>
+            <suggestion><match no="1" regexp_match="(?i)luv" regexp_replace="love" /></suggestion>
+            <url>https://www.lexico.com/en/definition/luv</url>
+            <example correction="loves">He <marker>luvs</marker> you</example>
+        </rule>
         <rulegroup id="WANNA" name="wanna (want to)">
             <rule>
                 <pattern>
