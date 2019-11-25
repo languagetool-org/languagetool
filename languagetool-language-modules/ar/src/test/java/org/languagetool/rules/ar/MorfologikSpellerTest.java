@@ -33,7 +33,7 @@ public class MorfologikSpellerTest {
 
   @Test
   public void testIsMisspelledFromDict() throws IOException {
-    MorfologikSpeller speller = new MorfologikSpeller("/ar/hunspell/ar.dict");
+    MorfologikSpeller speller = new MorfologikSpeller("/ar/arabic.dict");
 
     // The dict is not considering the ta3reef
     // assertFalse(speller.isMisspelled("السلام عليكم"));
