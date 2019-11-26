@@ -22,6 +22,7 @@ package org.languagetool.rules.ar;
 
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 
 import java.util.Locale;
@@ -33,6 +34,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public ArabicSimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>إنشاء</marker>"),
                     Example.fixed("<marker>إن شاء</marker>"));
   }
