@@ -4430,6 +4430,17 @@ USA
                 <example>Not correct, but out of scope. Make sure that the window <marker>open's</marker> fully.</example>
                 <example>Not correct, but out of scope. The <marker>let's</marker> are not expensive in this part of town.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[dg]oe</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>Do not use 's with a verb. Did you mean <suggestion>\1\3</suggestion>?</message>
+                <example correction="does">He <marker>doe's</marker> not know what he is talking about.</example>
+                <example>The Commission's concurrence on DOE's general repository siting rule is separate and distinct from any comments.</example>
+                <example>John Doe's and Jane Doe's fake personality.</example>
+            </rule>
             <rule><!-- Special rule for 'get': https://github.com/languagetool-org/languagetool/issues/1395 -->
                 <antipattern><!-- ... and his stunning get's surprised everyone. -->
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -10293,7 +10304,7 @@ USA
             <example>The remain campaign.</example>
             <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
         </rule>
-        <rulegroup id="THE_FRENCH" name="the french (French)" default="temp_off">
+        <rulegroup id="THE_FRENCH" name="the french (French)">
             <url>https://www.merriam-webster.com/dictionary/French</url>
             <rule>
                 <pattern>
@@ -11223,7 +11234,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/analysis</url>
                 <example correction="analyses">Many <marker>analyzes</marker> of animal deseases were performed by the institute.</example>
             </rule>
-            <rule default="temp_off"><!-- the shelve -->
+            <rule><!-- the shelve -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -11277,7 +11288,7 @@ USA
                 <example correction="double click">I believe so, since I also tried to open it with a <marker>double-click</marker>.</example>
                 <example correction="double clicks">My <marker>doubleclicks</marker> didn't open the folder.</example>
             </rule>
-            <rule default="temp_off"><!-- the deploy -->
+            <rule><!-- the deploy -->
                 <antipattern>
                     <token>deploy</token>
                     <token>.</token>
@@ -11918,7 +11929,7 @@ USA
                 <example>Those three <marker>install</marker> great effects.</example>
             </rule>
         </rulegroup>
-        <rule id="GAMEBOY" name="gameboy (game boy)" default="temp_off">
+        <rule id="GAMEBOY" name="gameboy (game boy)">
             <pattern>
                 <token regexp="yes">gameboys?</token>
             </pattern>
@@ -12249,7 +12260,7 @@ USA
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
         </rule>
-        <rulegroup id="DUNKIN_DONUTS" name="Dunkin' Donuts" default="temp_off">
+        <rulegroup id="DUNKIN_DONUTS" name="Dunkin' Donuts">
             <rule>
                 <pattern>
                     <token regexp="yes">Dunkin[sg]?</token>
@@ -12271,7 +12282,7 @@ USA
                 <example correction="Dunkin' Donuts"><marker>Dunkin Donuts</marker> is an American multinational coffee/donut company.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAR_A_LAGO" name="proper noun 'mar-a-lago'" default="temp_off">
+        <rulegroup id="MAR_A_LAGO" name="proper noun 'mar-a-lago'">
             <antipattern case_sensitive="yes">
                 <token>Mar-a-Lago</token>
             </antipattern>
@@ -20472,7 +20483,7 @@ USA
             <message>Did you mean <suggestion>\1 doesn't</suggestion> instead of docent (= university teacher)?</message>
             <example correction="He doesn't"><marker>He docent</marker> know anything.</example>
         </rule>
-        <rule id="PRP_MIGHT" name="I mite (might)" default="temp_off">
+        <rule id="PRP_MIGHT" name="I mite (might)">
             <pattern>
                 <token regexp="yes">I|you|s?he|they|we|it</token>
                 <token>mite</token>
@@ -20562,7 +20573,7 @@ USA
                 <example correction="I apologize|I apologise"><marker>I apologies</marker> for the confusion.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRIORITIES" name="I priorities (prioritize)" default="temp_off">
+        <rulegroup id="PRIORITIES" name="I priorities (prioritize)">
             <rule>
                 <antipattern>
                     <token>when</token>
@@ -22184,7 +22195,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-season">He has <marker>4 season</marker> tires on his car.</example>
         </rule>
-        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'" default="temp_off">
+        <rule id="HOUR_HYPHEN" name="missing hyphen in '24 hour motel'">
             <antipattern>
                 <token>response</token>
                 <token>time</token>
@@ -28922,7 +28933,7 @@ The accident victim died from her injuries.
             <suggestion>\1 \2, \3 \4</suggestion>
             <example correction="Act 2, Scene 5"><marker>Act 2 Scene 5</marker>.</example>
         </rule>
-        <rule id="GO_FOR_IT_GIRLS_COMMA" name="Comma after 'go for it'" default="temp_off">
+        <rule id="GO_FOR_IT_GIRLS_COMMA" name="Comma after 'go for it'">
             <antipattern case_sensitive="yes">
                 <token>for</token>
                 <token>IT</token>
@@ -37454,7 +37465,7 @@ The accident victim died from her injuries.
                 <example correction="about to">It is <marker>bout to</marker> go down.</example>
             </rule>
         </rulegroup>
-        <rule id="LUV" name="luv (love)" default="temp_off">
+        <rule id="LUV" name="luv (love)">
             <pattern>
                 <token regexp="yes">luvs?</token>
             </pattern>
@@ -41548,7 +41559,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
 
-        <rulegroup id="CD_NN_APOSTROPHE_S" name="two tank's (tanks)" default="temp_off">
+        <rulegroup id="CD_NN_APOSTROPHE_S" name="two tank's (tanks)">
             <antipattern>
                 <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
                 <token postag="CD" />
@@ -41585,6 +41596,19 @@ The accident victim died from her injuries.
                 <token spacebefore="no">s</token>
                 <token postag="DT" skip="1" />
                 <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">any|some</token>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no" postag="SENT_END">s</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">any|some</token>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token regexp="yes">\p{P}</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -41686,6 +41710,7 @@ The accident victim died from her injuries.
                 <example>That's all Jamal's fault.</example>
                 <example>It's all Tom's.</example>
                 <example>I've got two kids. One of them is a boy, and the other one's a boy, too.</example>
+                <example>You can't get this at any bookseller's.</example>
             </rule>
         </rulegroup>
 
