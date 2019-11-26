@@ -54,5 +54,8 @@ public class ArabicSimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals("إن شاء", matches[0].getSuggestedReplacements().get(0));
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("يدردشون")).length);
+
+
   }
 }
