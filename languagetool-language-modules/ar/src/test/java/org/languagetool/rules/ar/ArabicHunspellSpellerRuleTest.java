@@ -19,15 +19,24 @@
 package org.languagetool.rules.ar;
 
 import org.junit.Test;
-import org.languagetool.rules.spelling.SpellcheckerTest;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
 
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
-public class LanguageSpecificSpellcheckerTest extends SpellcheckerTest {
+public class ArabicHunspellSpellerRuleTest {
 
   @Test
-  public void testRules() throws IOException {
-    runLanguageSpecificTest();
+  public void testRuleWithArabic() throws Exception {
+    ArabicHunspellSpellerRule rule = new ArabicHunspellSpellerRule(TestTools.getMessages("ar"));
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("السلام عليييكم.")).length);
+    // ignore URLs:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("تصفح http://foo.org/bar.")).length);
+
   }
+
 
 }
