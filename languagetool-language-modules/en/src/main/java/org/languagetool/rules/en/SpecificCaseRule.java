@@ -92,6 +92,10 @@ public class SpecificCaseRule extends Rule {
         String lcPhrase = phrase.toLowerCase();
         String properSpelling = lcToProperSpelling.get(lcPhrase);
         if (properSpelling != null && !StringTools.isAllUppercase(phrase) && !phrase.equals(properSpelling)) {
+          if (i > 0 && tokens[i-1].isSentenceStart() && !StringTools.startsWithUppercase(properSpelling)) {
+            // avoid suggesting e.g. "vitamin C" at sentence start:
+            continue;
+          }
           String msg = "If the term is a proper noun, use initial capitals.";
           RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i].getStartPos() + phrase.length(), msg);
           match.setSuggestedReplacement(properSpelling);
