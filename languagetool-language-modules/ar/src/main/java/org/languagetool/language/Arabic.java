@@ -130,7 +130,7 @@ public class Arabic extends Language implements AutoCloseable {
       new ArabicDoublePunctuationRule(messages),
       new LongSentenceRule(messages, userConfig, -1, false),
       new ArabicWordRepeatRule(messages, this),
-      new ArabicContractionSpellingRule(messages)
+      new ArabicSimpleReplaceRule(messages, this)
     );
   }
 
