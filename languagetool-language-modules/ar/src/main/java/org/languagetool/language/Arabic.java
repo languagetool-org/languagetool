@@ -120,8 +120,8 @@ public class Arabic extends Language implements AutoCloseable {
       new MultipleWhitespaceRule(messages, this),
       new SentenceWhitespaceRule(messages),
       new GenericUnpairedBracketsRule(messages,
-        Arrays.asList("[", "(", "{", "«", "﴾"),
-        Arrays.asList("]", ")", "}", "»", "﴿")),
+        Arrays.asList("[", "(", "{", "«", "﴾", "\"", "'"),
+        Arrays.asList("]", ")", "}", "»", "﴿", "\"", "'")),
 
       // specific to Arabic :
       new ArabicHunspellSpellerRule(messages, this, userConfig, altLanguages),
