@@ -24432,6 +24432,20 @@ USA
                 <example correction="weekend">We went golfing on the <marker>week end</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="AFTER_NOON" name="after noon (afternoon)" default="temp_off">
+            <pattern>
+                <token regexp="yes">the|an?|before</token>
+                <token postag="JJ" min="0">
+                    <exception postag="CC|NN.*" postag_regexp="yes" />
+                </token>
+                <marker>
+                    <token>after</token>
+                    <token>noon</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>afternoon</suggestion>?</message>
+            <example correction="afternoon">I will have lunch in the <marker>after noon</marker>.</example>
+        </rule>
         <rulegroup id="COMPOUND_ADJECTIVE_NOUN" name="Missing hyphen in a compound adjective before a noun"><!-- Refer to https://github.com/languagetool-org/languagetool/issues/1318. Reference dictionary: www.ldoceonline.com/dictionary/ otherwise stated -->
             <url>https://www.grammarbook.com/punctuation/hyphens.asp</url>
             <short>Compound adjective + noun: missing hyphen</short>
