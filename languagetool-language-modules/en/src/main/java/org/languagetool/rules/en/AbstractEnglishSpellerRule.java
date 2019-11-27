@@ -326,6 +326,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("sorry");
     } else if ("im".equals(word)) {
       return Arrays.asList("I'm");
+    } else if ("spoilt".equals(word)) {
+      return Arrays.asList("spoiled");
     } else if ("Lil".equals(word)) {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
