@@ -23,36 +23,47 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
+  private final French french = new French();
+  private final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french, null);
+  private final JLanguageTool lt = new JLanguageTool(french);
+
   @Test
   public void testRuleWithFrench() throws Exception {
-    final French french = new French();
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("fr"), french, null);
-    final JLanguageTool langTool = new JLanguageTool(french);
+    test("Un test simple.", 0);
+    test("Un test simpple.", 1);
+    test("Le cœur, la sœur.", 0);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Un test simple.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Un test simpple.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Le cœur, la sœur.")).length);
-
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool")).length);
+    test("LanguageTool", 0);
 
     // Tests with dash and apostrophes.
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Il arrive après-demain.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'Haÿ-les-Roses")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("L'Haÿ les Roses")).length);
+    test("Il arrive après-demain.", 0);
+    test("L'Haÿ-les-Roses", 0);
+    test("L'Haÿ les Roses", 1);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Aujourd'hui et jusqu'à demain.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Aujourd’hui et jusqu’à demain.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'Allemagne et l'Italie.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("L’Allemagne et l’Italie.")).length);
-    assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
+    test("Aujourd'hui et jusqu'à demain.", 0);
+    test("Aujourd’hui et jusqu’à demain.", 0);
+    test("L'Allemagne et l'Italie.", 0);
+    test("L’Allemagne et l’Italie.", 0);
+    test("L’allemagne et l’italie.", 2);
   }
 
+  private void test(String input, int expectedErrors) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    if (matches.length != expectedErrors) {
+      fail("Got != " + expectedErrors + " matches for: " +  input + ": " + Arrays.toString(matches));
+    }
+  }
+  
   @Test
   public void testImmunizedFrenchWord() throws Exception {
     final French french = new French();

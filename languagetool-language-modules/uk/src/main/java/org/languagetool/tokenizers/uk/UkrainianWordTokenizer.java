@@ -132,7 +132,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301])(тис|[А-ЯІЇЄҐ])\\.\\s*$");
 
-  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|\\s)'(?!дно)(\\p{L})");
+  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|[\\s(„«\"])'(?!дно)(\\p{L})");
   private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile("(\\p{L})(?<!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))'([^\\p{L}-]|$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
@@ -261,6 +261,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
     // ВКПБ(о)
     if( text.contains("(") ) {
       text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll("$1" + LEFT_BRACE_SUBST + "$2" + RIGHT_BRACE_SUBST);
+    }
+
+    if( text.contains("-") ) {
+      text = text.replaceAll("([а-яіїєґА-ЯІЇЄҐ])([»\"-]+-)", "$1" + BREAKING_PLACEHOLDER + "$2");
+      text = text.replaceAll("([»\"-]+-)([а-яіїєґА-ЯІЇЄҐ])", "$1" + BREAKING_PLACEHOLDER + "$2");
     }
 
     if( text.contains(SOFT_HYPHEN_WRAP) ) {

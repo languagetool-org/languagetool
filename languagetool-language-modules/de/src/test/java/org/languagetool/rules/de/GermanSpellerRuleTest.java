@@ -726,6 +726,19 @@ public class GermanSpellerRuleTest {
   }
   
   @Test
+  public void testIsMisspelled() {
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.isMisspelled("dshfsdhsdf"));
+    assertTrue(rule.isMisspelled("Haussarbeit"));
+    assertTrue(rule.isMisspelled("Überschus"));
+    assertTrue(rule.isMisspelled("Überschussen"));
+
+    assertFalse(rule.isMisspelled("Hausarbeit"));
+    assertFalse(rule.isMisspelled("Überschuss"));
+    assertFalse(rule.isMisspelled("Überschüsse"));
+  }
+  
+  @Test
   @Ignore("testing a potential bug in Morfologik")
   public void testMorfologikSpeller() throws Exception {
     List<byte[]> lines = new ArrayList<>();

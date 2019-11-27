@@ -318,12 +318,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
       return Arrays.asList("thanks");
+    } else if ("ty".equals(word)) {
+      return Arrays.asList("thank you", "thanks");
     } else if ("Sry".equals(word)) {
       return Arrays.asList("Sorry");
     } else if ("sry".equals(word)) {
       return Arrays.asList("sorry");
     } else if ("im".equals(word)) {
       return Arrays.asList("I'm");
+    } else if ("spoilt".equals(word)) {
+      return Arrays.asList("spoiled");
     } else if ("Lil".equals(word)) {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
@@ -338,6 +342,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("What are you", "What do you");
     } else if ("sinc".equals(word)) {
       return Arrays.asList("sync");
+    } else if ("Hongkong".equals(word)) {
+      return Arrays.asList("Hong Kong");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");
@@ -530,6 +536,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("don't you");
     } else if ("Dontcha".equals(word)) {
       return Arrays.asList("don't you");
+    } else if ("greatfruit".equals(word)) {
+      return Arrays.asList("grapefruit", "great fruit");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {

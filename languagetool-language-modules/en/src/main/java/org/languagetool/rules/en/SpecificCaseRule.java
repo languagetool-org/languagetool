@@ -92,7 +92,16 @@ public class SpecificCaseRule extends Rule {
         String lcPhrase = phrase.toLowerCase();
         String properSpelling = lcToProperSpelling.get(lcPhrase);
         if (properSpelling != null && !StringTools.isAllUppercase(phrase) && !phrase.equals(properSpelling)) {
-          String msg = "This phrase is usually written with a different upper/lowercase spelling.";
+          if (i > 0 && tokens[i-1].isSentenceStart() && !StringTools.startsWithUppercase(properSpelling)) {
+            // avoid suggesting e.g. "vitamin C" at sentence start:
+            continue;
+          }
+          String msg;
+          if (allWordsUppercase(properSpelling)) {
+            msg = "If the term is a proper noun, use initial capitals.";
+          } else {
+            msg = "If the term is a proper noun, use the suggested capitalization.";
+          }
           RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i].getStartPos() + phrase.length(), msg);
           match.setSuggestedReplacement(properSpelling);
           matches.add(match);
@@ -100,6 +109,10 @@ public class SpecificCaseRule extends Rule {
       }
     }
     return toRuleMatchArray(matches);
+  }
+
+  private boolean allWordsUppercase(String s) {
+    return Arrays.stream(s.split(" ")).allMatch(StringTools::startsWithUppercase);
   }
 
 }

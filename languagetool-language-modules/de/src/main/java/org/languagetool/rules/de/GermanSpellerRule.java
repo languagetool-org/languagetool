@@ -930,9 +930,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     try {
       String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
-        // spell data will not exist in LibreOffice/OpenOffice context
-        List<String> paths = Arrays.asList("/de/hunspell/spelling.txt");
+      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {  // spell data will not exist in LibreOffice/OpenOffice context
+        List<String> paths = Arrays.asList(
+          "/de/hunspell/spelling.txt",
+          "/de/hunspell/spelling_custom.txt",
+          "spelling_global.txt"
+        );
         List<InputStream> streams = new ArrayList<>();
         for (String path : paths) {
           // add separation between streams so that missing newlines at the end don't join the last & first line from two files

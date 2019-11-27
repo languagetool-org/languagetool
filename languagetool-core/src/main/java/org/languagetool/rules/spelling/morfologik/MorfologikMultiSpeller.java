@@ -211,7 +211,13 @@ public class MorfologikMultiSpeller {
       FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-      Dictionary dict = Dictionary.read(fsaInStream, getDataBroker().getFromResourceDirAsStream(infoPath));
+      Dictionary dict;
+      if (new File(infoPath).exists()) {
+        // e.g. when loading dynamic languages from outside the class path
+        dict = Dictionary.read(fsaInStream, new FileInputStream(infoPath));
+      } else {
+        dict = Dictionary.read(fsaInStream, getDataBroker().getFromResourceDirAsStream(infoPath));
+      }
       dicPathToDict.put(cacheKey, dict);
       return dict;
     }

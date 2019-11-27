@@ -1622,6 +1622,92 @@
     </rule>
   </rulegroup>
 
+  <rulegroup id="fname_vkly" name="кличний для імен">
+    <rule>
+      <antipattern>
+        <token postag_regexp="yes" postag="verb.*?:impr:.:2.*"/>
+        <token>,</token>
+        <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
+      </antipattern>
+      <antipattern>
+        <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
+        <token>,</token>
+        <token postag_regexp="yes" postag="verb.*?:impr:.:2.*"/>
+      </antipattern>
+      <antipattern>
+        <token postag_regexp="yes" postag="adj:.:v_kly.*" regexp="yes" inflected="yes">.*шановний|.*поважний|дорог(еньк)?ий</token>
+        <token min="0" max="5">
+          <exception postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
+          <exception postag_regexp="yes" postag="verb.*|(adj|noun)(?!.*v_kly).*"/>
+        </token>
+        <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token postag_regexp="yes" postag="adj:.:v_kly.*" regexp="yes"/>
+        <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
+        <token>,</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <and>
+            <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*">
+            <!--
+              <exception scope="previous" postag_regexp="yes" postag="verb.*?:impr:.:2.*"/>
+            -->
+              <exception scope="next" regexp="yes">!{1,3}</exception>
+            </token>
+            <token postag_regexp="yes" postag="noun:anim:.:v_(?!kly).*?:fname.*"/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="noun:anim:.:v_kly.*?:fname.*"/>
+      <example type="ambiguous"
+          inputform="Олегу[Олег/noun:anim:m:v_dav:prop:fname,Олег/noun:anim:m:v_kly:prop:fname,Олег/noun:anim:m:v_mis:prop:fname]"
+          outputform="Олегу[Олег/noun:anim:m:v_dav:prop:fname,Олег/noun:anim:m:v_mis:prop:fname]"
+              ><marker>Олегу</marker> Ляшко це не сподобалося</example>
+      <example type="untouched">Дивись, Олегу, ...</example>
+      <example type="untouched">Марусю, зрозумій</example>
+      <example type="untouched">Слухай, Маріє Поліщук!</example>
+      <example type="untouched">Олегу!</example>
+      <example type="untouched">Олеже</example>
+      <example type="untouched">Ти для нас, зухвалий Лесю,</example>
+      <example type="untouched">Шановний Арсенію Петровичу!</example>
+      <example type="untouched">Шановний пане Андрію Садовий</example>
+      <!-- TODO:
+      <example type="untouched">Шановні Арсенію Кравчук, Ігорю Марков!</example>
+      <example type="untouched">Сергію Нігоян, спасибі за все</example>
+      -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="lname_vkly" name="кличний для прізвищ">
+    <rule>
+      <pattern>
+        <marker>
+          <and>
+            <token postag_regexp="yes" postag="noun:anim:.:v_kly.*?:lname.*">
+              <exception scope="next" regexp="yes">!{1,3}</exception>
+            </token>
+            <token postag_regexp="yes" postag="noun:anim:.:v_(?!kly).*?:lname.*"/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="noun:anim:.:v_kly.*?:lname.*"/>
+      <example type="ambiguous"
+          inputform="Петровський[Петровський/noun:anim:m:v_kly:prop:lname,Петровський/noun:anim:m:v_naz:prop:lname,петровський/adj:m:v_kly,петровський/adj:m:v_naz,петровський/adj:m:v_zna:rinanim]"
+          outputform="Петровський[Петровський/noun:anim:m:v_naz:prop:lname,петровський/adj:m:v_kly,петровський/adj:m:v_naz,петровський/adj:m:v_zna:rinanim]"
+              ><marker>Петровський</marker> пішов</example>
+      <example type="ambiguous"
+          inputform="Максименку[Максименко/noun:anim:m:v_dav:prop:lname,Максименко/noun:anim:m:v_kly:prop:lname,Максименко/noun:anim:m:v_mis:prop:lname]"
+          outputform="Максименку[Максименко/noun:anim:m:v_dav:prop:lname,Максименко/noun:anim:m:v_mis:prop:lname]"
+              ><marker>Максименку</marker> пощастило</example>
+      <example type="untouched">Петровський!</example>
+      <example type="untouched">Максименку!</example>
+      <example type="untouched">Романишине</example>
+    </rule>
+  </rulegroup>
+
 
   <!--
   <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="DIS_PREP_ADV_BEFORE_VERB">

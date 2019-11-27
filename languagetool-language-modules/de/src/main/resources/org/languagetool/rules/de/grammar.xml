@@ -13608,7 +13608,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token>
             </pattern>
             <message>Hier steht möglicherweise ein Verb zu viel.</message>
-            <example correction="">Serena <marker>legte umarmte</marker> Sandra und Lisa.</example>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="legte|umarmte">Serena <marker>legte umarmte</marker> Sandra und Lisa.</example>
             <example>Bitte benachrichtige mich per E-Mail.</example>
             <example>In der ersten Gruppe zeigte sich eine reduzierte Prävalenz von Depressionen</example>
         </rule> 
@@ -32460,6 +32462,29 @@ Andere Projekte</example>
                 <example correction="z.&nbsp;B.">Die meisten sind unzufrieden, außer ein paar wenigen, wie <marker>zB</marker> Karl.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BHF_ABK" name="Schreibweise der Abkürzung 'Bhf.'" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Bhf</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>bhf</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die korrekte Schreibweise für die Abkürzung von 'Bahnhof' ist <suggestion>Bhf.</suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/Bhf_</url>
+                <example correction="Bhf.">Er musste am <marker>BHF.</marker> Altona aussteigen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bhf</token>
+                </pattern>
+                <message>Die korrekte Schreibweise für die Abkürzung von 'Bahnhof' ist <suggestion>Bhf.</suggestion>.</message>
+                <url>https://www.duden.de/rechtschreibung/Bhf_</url>
+                <example correction="Bhf.">Er musste am <marker>BHF</marker> Altona aussteigen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TELEFON_NR" name="Zusammenschreibung 'Telefon-Nr.'">
             <rule>
                 <pattern>
@@ -32694,7 +32719,8 @@ Andere Projekte</example>
                 </marker>
             </pattern>
             <message>Hier sollte vermutlich der Genitiv benutzt werden.</message>
-            <example correction=''>…zur Erstellung eines <marker>Kriterium</marker>.</example>
+            <suggestion><match no="3" postag_regexp="yes" postag="SUB:.*?:(.*?):(.*?)" postag_replace="SUB:GEN:$1:$2"/></suggestion>
+            <example correction='Kriteriums'>…zur Erstellung eines <marker>Kriterium</marker>.</example>
         </rule>
         <rule id="ZU_KOMMA_ALS" name="zu, als dass">
             <pattern>

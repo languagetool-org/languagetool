@@ -1224,13 +1224,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
       <antipattern>
-        <token postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
+        <token postag_regexp="yes" postag="noun:anim:f.*?:fname.*"/>
         <token regexp="yes">і|й|та</token>
-        <token postag_regexp="yes" postag="noun.*:m.*:fname.*"/>
-        <token postag_regexp="yes" postag="noun.*:lname.*"/>
+        <token postag_regexp="yes" postag="noun:anim:m.*?:fname.*"/>
+        <token postag_regexp="yes" postag="noun:anim:.*?:lname.*"/>
       </antipattern>
       <pattern>
-        <token postag_regexp="yes" postag="noun.*:m.*:fname.*">
+        <token postag_regexp="yes" postag="noun:anim:m.*:fname.*">
           <exception postag_regexp="yes" postag="noun.*:m:v_(naz|kly).*:fname.*"/>
           <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
           <exception regexp="yes">Тому|Ніколи</exception>
@@ -1255,6 +1255,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Бульвар Тараса <marker>Шевченко</marker></example>
       <example correction="">прийшов до Андрія <marker>Громико</marker> секретар.</example>
       <example correction="">прийшов до Петра <marker>Порошенко</marker> секретар.</example>
+      <!-- TODO:
+      <example correction="">Дякую Олегу <marker>Ляшко</marker> за те</example>
+      -->
       <example>Прийшов Тарас Шевченко</example>
       <example>Картина Жені Шевченко</example>
       <example>Тому Путін цілком здатен...</example>

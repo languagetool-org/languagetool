@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.Experimental;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
@@ -124,6 +125,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     while (matcher.find(pos)) {
       pos = matcher.end();
       String replacement = matcher.group(1);
+      if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
+        continue;
+      }
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }

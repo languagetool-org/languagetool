@@ -49,7 +49,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "on point",
       "chapter one",
       "usb port",
+      // The quote in this case in management means: "Know the competition and your software, and you will win.":
+      "know the competition and",
+      "know the competition or",
+      "know your competition and",
+      "know your competition or",
       "G Suite",
+      "paste event",
+      "need to know",
       "your look is" // Really, your look is
     );
     

@@ -115,13 +115,13 @@ public class CaseRule extends Rule {
     ),
     // company names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man"),
       pos("UNKNOWN")
     ),
     // company names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -170,7 +170,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe")
     ),
     Arrays.asList(
       token(","),
@@ -402,6 +402,7 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
@@ -432,6 +433,7 @@ public class CaseRule extends Rule {
     "Beschäftigten",
     "Bekannter",
     "Bekannte",
+    "Brecht",
     "Tel",  // Tel. = Telefon
     "Unschuldiger",
     "Vorgesetzter",

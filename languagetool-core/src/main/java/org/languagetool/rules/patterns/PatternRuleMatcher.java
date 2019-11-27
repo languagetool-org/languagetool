@@ -41,12 +41,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Matches a pattern rule against text.
  */
 final public class PatternRuleMatcher extends AbstractPatternRulePerformer implements RuleMatcher {
+
+  public static final String MISTAKE = "<mistake/>";
+
   private static final Map<String,Integer> currentlyActiveRules = new ConcurrentHashMap<>();
 
   //private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
-  private static final String MISTAKE = "<mistake/>";
 
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
