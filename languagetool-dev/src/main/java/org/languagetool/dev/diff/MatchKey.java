@@ -31,8 +31,8 @@ class MatchKey {
   MatchKey(int line, int column, String ruleId, String title, String coveredText) {
     this.line = line;
     this.column = column;
-    this.ruleId = Objects.requireNonNull(ruleId);
-    this.title = title;
+    this.ruleId = Objects.requireNonNull(ruleId).trim();
+    this.title = title.trim();
     this.coveredText = Objects.requireNonNull(coveredText);
   }
 
@@ -51,5 +51,16 @@ class MatchKey {
   @Override
   public int hashCode() {
     return Objects.hash(line, column, ruleId, title, coveredText);
+  }
+
+  @Override
+  public String toString() {
+    return "MatchKey{" +
+      "line=" + line +
+      ", column=" + column +
+      ", ruleId='" + ruleId + '\'' +
+      ", title='" + title + '\'' +
+      ", coveredText='" + coveredText + '\'' +
+      '}';
   }
 }

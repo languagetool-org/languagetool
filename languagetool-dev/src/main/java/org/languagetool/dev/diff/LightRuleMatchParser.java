@@ -69,16 +69,21 @@ class LightRuleMatchParser {
         String cover = coverMatcher.group(1);
         int startMarkerPos = cover.indexOf("^");
         int endMarkerPos = cover.lastIndexOf("^") + 1;
-        String coveredText  ;
+        String coveredText;
+        String origContext = context;
         try {
-          coveredText = context.substring(startMarkerPos, endMarkerPos);
+          int maxEnd = Math.min(endMarkerPos, context.length());
+          coveredText = context.substring(startMarkerPos, maxEnd);
           context = context.substring(0, startMarkerPos) +
             "<span class='marker'> " +
-            context.substring(startMarkerPos, endMarkerPos) +
+            context.substring(startMarkerPos, maxEnd) +
             "</span>" +
-            context.substring(endMarkerPos);
+            context.substring(maxEnd);
         } catch (StringIndexOutOfBoundsException e) {
-          e.printStackTrace();
+          System.err.println("Cannot get context, setting to '???':");
+          System.err.println(origContext);
+          System.err.println(cover);
+          //e.printStackTrace();
           coveredText = "???";
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", ""); 

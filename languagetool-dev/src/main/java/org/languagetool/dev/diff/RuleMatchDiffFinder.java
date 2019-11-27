@@ -35,14 +35,12 @@ public class RuleMatchDiffFinder {
       MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       LightRuleMatch oldMatch = oldMatches.get(key);
       if (oldMatch != null) {
-        // no change or modified
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
             !oldMatch.getMessage().equals(match.getMessage()) ||
             !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
         }
       } else {
-        // added
         result.add(RuleMatchDiff.added(match));
       }
     }
@@ -63,6 +61,7 @@ public class RuleMatchDiffFinder {
     for (LightRuleMatch match : list) {
       MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());
       map.put(key, match);
+      //System.out.println("-> " + key);
     }
     return map;
   }
@@ -150,22 +149,12 @@ public class RuleMatchDiffFinder {
     fw.write("</table>\n\n");
   }
 
-  public static void main(String[] args) throws IOException {
-    if (args.length != 3) {
-      System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <result>");
-      System.out.println(" <matches1> and <matches2> are text outputs of different versions of e.g. org.languagetool.commandline.Main run on the same input");
-      System.exit(1);
-    }
-    RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
-    LightRuleMatchParser parser = new LightRuleMatchParser();
-    File file1 = new File(args[0]);
-    File file2 = new File(args[1]);
-    File file3 = new File(args[2]);
+  private void run(LightRuleMatchParser parser, File file1, File file2, File file3) throws IOException {
     List<LightRuleMatch> l1 = parser.parse(new FileReader(file1));
     List<LightRuleMatch> l2 = parser.parse(new FileReader(file2));
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
-    List<RuleMatchDiff> diffs = diffFinder.getDiffs(l1, l2);
+    List<RuleMatchDiff> diffs = getDiffs(l1, l2);
     System.out.println("Total diffs found: " + diffs.size());
     try (FileWriter fw = new FileWriter(file3)) {
       fw.write("<!doctype html>\n");
@@ -182,7 +171,7 @@ public class RuleMatchDiffFinder {
       fw.write("  </style>\n");
       fw.write("</head>\n");
       fw.write("<body>\n\n");
-      diffFinder.print(diffs, fw);
+      print(diffs, fw);
       fw.write("<script>\n" +
                "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
                "    base_path: '../tablefilter/',\n" +
@@ -197,6 +186,46 @@ public class RuleMatchDiffFinder {
                "</script>");
       fw.write("</body>\n");
       fw.write("</html>\n");
+    }
+  }
+
+  public static void main(String[] args) throws IOException {
+    if (args.length != 3) {
+      System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <result>");
+      System.out.println(" <matches1> and <matches2> are text outputs of different versions of e.g. org.languagetool.commandline.Main run on the same input");
+      System.exit(1);
+    }
+    RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
+    LightRuleMatchParser parser = new LightRuleMatchParser();
+    if (args[0].contains("XX") && args[1].contains("XX") && args[2].contains("XX")) {
+      System.out.println("Running in multi-file mode, replacing 'XX' in filenames with lang codes...");
+      String file1 = args[0];
+      String file3 = args[2];
+      File dir = new File(file1).getParentFile();
+      String templateName = new File(file1).getName();
+      int varPos = templateName.indexOf("XX");
+      for (String file : dir.list()) {
+        if (file.length() >= varPos + 1) {
+          StringBuilder tempName = new StringBuilder(file).replace(varPos, varPos + 2, "XX");
+          if (tempName.toString().equals(templateName)) {
+            String langCode = file.substring(varPos, varPos+2);
+            String tempNameNew = file.replace(".old", ".new");
+            File newFile = new File(dir, tempNameNew);
+            if (!newFile.exists()) {
+              throw new RuntimeException(tempNameNew + " not found - make sure files are names *.old and *.new in multi-file mode");
+            }
+            System.out.println("==== " + file + " =================================");
+            File oldFile = new File(dir, file);
+            String outputFile = file3.replace("XX", langCode);
+            diffFinder.run(parser, oldFile, newFile, new File(outputFile));
+          }
+        }
+      }
+    } else {
+      File file1 = new File(args[0]);
+      File file2 = new File(args[1]);
+      File file3 = new File(args[2]);
+      diffFinder.run(parser, file1, file2, file3);
     }
   }
 
