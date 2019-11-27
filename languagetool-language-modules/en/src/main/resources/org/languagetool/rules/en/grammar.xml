@@ -8435,6 +8435,23 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="CONDITIONAL_CLAUSE" name="conditional clause">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes"></token>
+                    <token skip="3">if<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>will
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                    <token postag="VB"></token>
+                </pattern>
+                <message>Consider removing 'will'</message>
+                <suggestion></suggestion>
+                <example correction="">If we <marker>will</marker> go there, we might meet him.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
             <rule>
                 <antipattern>
