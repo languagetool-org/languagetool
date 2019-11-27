@@ -71,6 +71,8 @@ public class CommaWhitespaceRuleTest {
     assertMatches("This is a sentence with an orphaned full stop .", 1);
     assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
     assertMatches("A sentence ' with ' ten \" incorrect \" examples of ’ using ’ quotation “ marks ” at « once » in it.", 10);
+    assertMatches("A sentence ' with' one examples of wrong quotations marks in it.", 1);
+    assertMatches("A sentence 'with ' one examples of wrong quotations marks in it.", 1);
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     assertEquals(2, matches.length);

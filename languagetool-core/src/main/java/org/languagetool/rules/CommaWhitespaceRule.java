@@ -36,7 +36,7 @@ import static org.languagetool.tools.StringTools.isEmpty;
  */
 public class CommaWhitespaceRule extends Rule {
 
-	private boolean quotesWhitespaceCheck;
+  private boolean quotesWhitespaceCheck;
 
   /** @since 3.3 */
   public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
@@ -49,9 +49,9 @@ public class CommaWhitespaceRule extends Rule {
     this.quotesWhitespaceCheck = true;
   }
 
-  public CommaWhitespaceRule(ResourceBundle messages, boolean quotesWhitespace) {
-	  this(messages, null, null);
-	  this.quotesWhitespaceCheck = quotesWhitespace;
+  public CommaWhitespaceRule(ResourceBundle messages, boolean quotesWhitespace) { 
+    this(messages, null, null);
+    this.quotesWhitespaceCheck = quotesWhitespace;
   }
 
   /**
@@ -96,7 +96,7 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = prevToken;
         }
       } else if (isWhitespace && isQuote(prevToken) && this.quotesWhitespaceCheck && prevPrevToken.equals(" ")) {
-      	  msg = messages.getString("no_space_around_quotes");
+          msg = messages.getString("no_space_around_quotes");
           suggestionText = "";
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuote(token)
@@ -147,27 +147,27 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {
-	  return (   token.isWhitespace()
-			  || StringTools.isNonBreakingWhitespace(token.getToken())
-			  || token.isFieldCode()) && !token.equals("\u200B");
+    return (   token.isWhitespace()
+        || StringTools.isNonBreakingWhitespace(token.getToken())
+        || token.isFieldCode()) && !token.getToken().equals("\u200B");
   }
 
   private static boolean isQuote(String str) {
-	    if (str.length() == 1) {
-	      char c = str.charAt(0);
-	      if (c =='\'' || c == '"' || c =='’'
-	          || c == '”' || c == '“'
-	          || c == '«'|| c == '»') {
-	        return true;
-	      }
-	    }
-	    return false;
+    if (str.length() == 1) {
+      char c = str.charAt(0);
+      if (c =='\'' || c == '"' || c =='’'
+          || c == '”' || c == '“'
+          || c == '«'|| c == '»') {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean isHyphenOrComma(String str) {
     if (str.length() == 1) {
       char c = str.charAt(0);
-      if ( c == '-' || c == ',') {
+      if (c == '-' || c == ',') {
         return true;
       }
     }
