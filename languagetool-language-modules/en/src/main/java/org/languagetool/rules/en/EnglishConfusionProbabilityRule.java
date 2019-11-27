@@ -56,6 +56,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "know your competition or",
       "G Suite",
       "paste event",
+      "need to know",
       "your look is" // Really, your look is
     );
     
