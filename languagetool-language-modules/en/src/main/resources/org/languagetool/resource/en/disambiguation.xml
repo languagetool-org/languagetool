@@ -2252,19 +2252,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">We can say that <marker>all</marker> in some way belong to a kind of ethnic category...</example><!-- 'That' comes before a relative clause in which 'all' is a pronoun (https://www.lexico.com/en/definition/all) -->
     </rule>
 
+    <rule name="determiner + JJR" id="DT_JJR_SENTEND">
+        <pattern>
+            <token>the</token>
+            <token postag="JJR"/>
+            <token min="0">,</token>
+            <token>the</token>
+            <marker>
+                <and>
+                    <token postag="VB"></token>
+                    <token postag="JJR"/>
+                </and>
+            </marker>
+        <token postag="SENT_END" regexp="yes">[\.\?!]</token>
+        </pattern>
+        <disambig action="filter" postag="JJR"/>
+      <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[good/JJR]">The sooner, the <marker>better</marker>.</example>
+    </rule>
+
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|much</exception></token>
             <marker>
                 <and>
-                    <token postag="VB"/>
+                    <token postag="VB"></token>
                     <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 </and>
             </marker>
         <token postag="SENT_END" regexp="yes">[\.\?!]</token>
         </pattern>
         <disambig action="filter" postag="NN.*"/>
-      <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[better/NN]">... at the casino yesterday. But, who was the  <marker>better</marker>?</example>
+      <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[better/NN]">... at the casino yesterday. But, who was the <marker>better</marker>?</example>
       <example type="untouched">[No full stop at the end of the sentence] … to gain a much better understanding</example>
       <example type="untouched">... compared with last year, this year's crops are much better.</example>
     </rule>
