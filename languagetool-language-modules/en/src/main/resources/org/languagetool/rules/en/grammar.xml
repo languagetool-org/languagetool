@@ -15678,6 +15678,11 @@ USA
                 <example>I have always liked her.</example>
             </rule>
             <rule>
+                <antipattern><!-- If we have company -->
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
+                    <token chunk="E-NP-singular" postag="NN:UN?" postag_regexp="yes"/>
+                    <token postag="PRP"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
@@ -15687,7 +15692,10 @@ USA
                 </pattern>
                 <message>Possible agreement error – use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
-                <example correction="liked">I have <marker>like</marker> her.</example>
+                <example correction="liked">I have <marker>like</marker> her since I first met her.</example>
+                <example>I have <marker>liked</marker> her since I first met her.</example>
+                <example>Noun: If we have <marker>company</marker> we will break out the beer.</example>
+                <example>Noun: If the members of this club have <marker>company</marker> they must be on their best behaviour.</example>
             </rule>
             <rule>
                 <pattern>
