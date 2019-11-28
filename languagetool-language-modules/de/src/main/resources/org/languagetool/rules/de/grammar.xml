@@ -32462,10 +32462,18 @@ Andere Projekte</example>
                 <example correction="z.&nbsp;B.">Die meisten sind unzufrieden, außer ein paar wenigen, wie <marker>zB</marker> Karl.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BHF_ABK" name="Schreibweise der Abkürzung 'Bhf.'" default="temp_off">
+        <rulegroup id="BHF_ABK" name="Schreibweise der Abkürzung 'Bhf.'">
             <antipattern case_sensitive="yes">
                 <token>Bhf</token>
                 <token>.</token>
+            </antipattern>
+            <antipattern><!-- https://de.wikipedia.org/wiki/Oddo_BHF -->
+                <token regexp="yes">oddo|ing</token>
+                <token>bhf</token>
+            </antipattern>
+            <antipattern>
+                <token>bhf</token>
+                <token regexp="yes">bank|band|song|gruppe|stiftung|kleinwort|ag|aktiengesellschaft</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -32483,6 +32491,7 @@ Andere Projekte</example>
                 <message>Die korrekte Schreibweise für die Abkürzung von 'Bahnhof' ist <suggestion>Bhf.</suggestion>.</message>
                 <url>https://www.duden.de/rechtschreibung/Bhf_</url>
                 <example correction="Bhf.">Er musste am <marker>BHF</marker> Altona aussteigen.</example>
+                <example>Die Oddo BHF Aktiengesellschaft (Eigenschreibweise: ODDO BHF; vormals: BHF-BANK Aktiengesellschaft) ist eine in Frankfurt am Main ansässige Privatbank.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TELEFON_NR" name="Zusammenschreibung 'Telefon-Nr.'">
