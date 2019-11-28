@@ -6353,12 +6353,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="informe" name="informe (nom)">
+        <pattern>
+            <marker>
+                <token>informe</token>
+            </marker>
+            <token>anual</token>
+        </pattern>
+        <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+    </rule>
     <rulegroup id="estima" name="l'informe estima, estima provat">
         <rule>
             <pattern>
                 <token>informe</token>
                 <marker>
-                    <token>estima</token>
+                    <token regexp="yes">estima|anual</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.*"></disambig>
