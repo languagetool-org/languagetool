@@ -8436,9 +8436,11 @@ USA
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
         <rulegroup id="CONDITIONAL_CLAUSE" name="conditional clause">
+            <url>https://grammar.collinsdictionary.com/easy-learning/conditional-clauses</url>
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
                     <token skip="2" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
                     <token regexp="yes">th[ai]s|s?he|it</token>
                     <marker>
@@ -8448,14 +8450,15 @@ USA
                         <token postag="VB"><exception>be</exception></token>
                     </marker>
                 </pattern>
-                <message>Consider removing 'will'.</message>
-                <suggestion><match no="5" postag="VBZ" /></suggestion>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion><match no="6" postag="VBZ" /></suggestion>
                 <example correction="goes">If this <marker>will go</marker> wrong, we will have to do it again.</example>
                 <example correction="helps">If it <marker>will help</marker> please feel free to attend or have one of your people attend.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
                     <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>will
@@ -8464,10 +8467,37 @@ USA
                         <token postag="VB"><exception>be</exception></token>
                     </marker>
                 </pattern>
-                <message>Consider removing 'will'.</message>
-                <suggestion>\4</suggestion>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>\5</suggestion>
                 <example correction="go">If we <marker>will go</marker> there, we might meet him.</example>
                 <example>If this will be a problem, please reply and we will find a workaround.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>would</token>
+                    <token postag="VB" skip="5"></token>
+                    <token>please</token>
+                </antipattern>
+               <antipattern>
+                    <token>would</token>
+                    <token>like</token>
+                    <token>to</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>would
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token postag="VB"></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion><match no="5" postag="VBD" /></suggestion>
+                <example correction="had">If she <marker>would have</marker> known about it, she would have been really mad.</example>
+                <example>If you would do this for me, please, I would be extremely happy.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
@@ -8497,7 +8527,7 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?|until|till</token>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[0-3]\d(st|nd|th)?|until|till</token>
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
