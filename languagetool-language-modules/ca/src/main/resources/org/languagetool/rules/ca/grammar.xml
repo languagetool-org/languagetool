@@ -6439,6 +6439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PODIEN_CONCORRE" name="podien *concorre/concórrer">
+            <antipattern>
+                <token>si</token>
+                <token inflected="yes" regexp="yes" postag="VM..2..." postag_regexp="yes">poder|voler</token>
+            </antipattern>
             <pattern>
                 <token postag="V.[^N].*" postag_regexp="yes" regexp="yes" inflected="yes">poder|voler|permetre|deixar</token>
                 <token postag="V.M.*"  postag_regexp="yes"><exception negate_pos="yes" postag="V.M.*"  postag_regexp="yes"/></token>
@@ -6448,6 +6452,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>podien corre</marker>-hi.</example>
             <example>Abans d'eixir posa't la gorra.</example>
             <example>Quan estiguis desesperat vés al carrer.</example>
+            <example>Si vols vés-te'n.</example>
+            <example>Si voleu veniu.</example>
         </rule>
         <rule id="ESPERANT_US_AGRADI" name="esperem (que) us agradi)">
             <antipattern>
@@ -47601,6 +47607,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/><token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/><token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception><exception scope="previous" regexp="yes">com|sols|només|solament</exception></token>
                 <marker>
@@ -47617,6 +47660,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si no vingué fa tres dies, ara tampoc no vindrà.</example>
             <example>Si fa tres dies no vingué, ara tampoc no vindrà.</example>
             <example>Les vocals que es llegeixen com si fossin una paraula es poden neutralitzar.</example>
+            <!-- frases molt curtes -->
+            <example>Si vols pujar vine</example>
+            <example>Si ve vés-te'n.</example>
+            <example>Si no ve vés-te'n.</example>
+            <example>Si no ve me'n vaig.</example>
         </rule>
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició + verb conjugat">
             <antipattern>
