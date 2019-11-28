@@ -8490,7 +8490,7 @@ USA
                 <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
                 <suggestion>doesn\5t \7</suggestion>
                 <suggestion>don\5t \7</suggestion>
-                <example correction="doesn't|don't go">If this <marker>won't go</marker> right, we will have to do it again.</example>
+                <example correction="doesn't go|don't go">If this <marker>won't go</marker> right, we will have to do it again.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8535,6 +8535,43 @@ USA
                 <suggestion><match no="5" postag="VBD" /></suggestion>
                 <example correction="had">If she <marker>would have</marker> known about it, she would have been really mad.</example>
                 <example>If you would do this for me, please, I would be extremely happy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>wouldn
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token regexp="yes">['`´]</token>
+                        <token>t</token>
+                        <token>have</token>
+                    </marker>
+                    <token postag="VBN"></token>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion>hadn\5t</suggestion>
+                <example correction="hadn't">If she <marker>wouldn't have</marker> known about it, she would have been really mad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>would
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token>not</token>
+                        <token>have</token>
+                    </marker>
+                    <token postag="VBN"></token>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion>had not</suggestion>
+                <example correction="had not">If she <marker>would not have</marker> known about it, she would have been really mad.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
