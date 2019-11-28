@@ -22144,25 +22144,67 @@ USA
             <example type="triggers_error">A lack of vowel marking (often with ambiguity between no vowel an...</example>
             <example>...e of the state banks, a weak financial market and a lack of bank transparency.</example>
         </rule>
-        <rule id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a  + collective noun + of' + singular countable noun"><!-- #2141 -->
-        <!-- Created by Tiago F. Santos, 2019-11-10. Small changes by MFU 2019-11-27 -->
-            <pattern>
-                <marker>
-                    <token regexp="yes">&collective_nouns;</token>
-                    <token>of</token>
-                    <token postag="NN">
-                        <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
-                </marker>
-                    <token>
-                        <exception postag="NNP?S" postag_regexp="yes"/>
-                        <exception regexp="yes">&apostrophe;</exception></token>
-            </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+        <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun" default="temp_off"><!-- #2141 -->
             <short>Grammatical problem</short>
-            <example correction="collection of books">The library has a <marker>collection of book</marker>.</example>
-            <example correction="Glossary of terms"><marker>Glossary of term</marker> and acronyms</example>
-            <example correction="multitude of birds">A <marker>multitude of bird</marker> exist.</example>
-        </rule>
+            <rule>
+            <!-- Created by Tiago F. Santos, 2019-11-10. Changes by MFU 2019-11-27 and later -->
+                <antipattern><!-- Usually hyphenated, but www.lexico.com/en/definition/polka_dot shows many unhyphenated examples -->
+                    <token>of</token>
+                    <token>polka</token>
+                    <token>dot</token>
+                    <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&collective_nouns;</token>
+                        <token>of</token>
+                        <token chunk="E-NP-singular" postag="NN">
+                            <exception postag="NN:U|NNP?S|JJ.*|PRP\$" postag_regexp="yes"/></token>
+                    </marker>
+                        <token>
+                            <exception postag="NNP?S" postag_regexp="yes"/>
+                            <exception regexp="yes">&apostrophe;</exception></token>
+                </pattern>
+                <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+                <example correction="collection of books">The library has a <marker>collection of book</marker>.</example>
+                <example correction="multitude of birds">A <marker>multitude of bird</marker> exist.</example>
+                <example correction="glossary of terms">This <marker>glossary of term</marker> is not correct.</example>
+                <example>The library has a <marker>collection of books</marker>.</example>
+                <example>The library has a range of <marker>book and gift tokens</marker>.</example>
+                <example>... pottery (including the stunning terracotta army of Emperor Qin), poetry, calligraphy, music,...</example>
+                <example>This range of engine capacity allowed for both fuel economy and power...</example>
+                <example>Their range of server software includes the operating system OS X Serve...</example>
+                <example>A large collection of archive material, including scanned screenplays, photos a...</example>
+                <example>... was a stop-gap collection of Sketch magazine stories, for money when her husband left...</example>
+                <example>Here are a bunch of mine:</example><!-- Ambiguous. Can parse 'mine' as PRPS or NN. Found by A_LOT_OF_NN -->
+                <example>She bought two pairs of polka dot stockings.</example>
+                <example type="triggers_error">The William Burges collection of armoury was bequeathed to the museum in 1881.</example><!-- I did not find 'armoury' as NN:U -->
+            </rule>
+            <rule><!-- Glossary of term and acronyms -->
+                <antipattern><!-- range of [book and gift] tokens -->
+                     <token>of</token>
+                     <token chunk="B-NP-plural" postag="NN"/>
+                     <token regexp="yes">and|or</token>
+                     <token/>
+                     <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&collective_nouns;</token>
+                        <token>of</token>
+                        <token chunk="B-NP-plural" postag="NN">
+                            <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
+                     </marker>
+                     <token regexp="yes">and|or</token>
+                     <token/>
+                </pattern>
+                <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+                <example correction="Glossary of terms"><marker>Glossary of term</marker> and acronyms</example><!-- term/B-NP-plural -->
+                <example correction="range of books">The library has a <marker>range of book</marker> and gifts</example>
+                <example><marker>Glossary of terms</marker> and acronyms</example>
+                <example>The library has a range of book and gift tokens.</example>
+            </rule>
+        </rulegroup>
         <rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
             <pattern>
                 <marker>
