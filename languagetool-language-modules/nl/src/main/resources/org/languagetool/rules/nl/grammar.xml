@@ -7017,6 +7017,14 @@ onwaarschijnlijk
         <rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
             <rule>
                 <pattern>
+					<token>terug</token>
+                    <token postag="BNW:STL:ONV"><exception regexp="yes">naar|na|net|waar</exception></token>
+				</pattern>
+				<message>In Nederland is <suggestion>weer \2</suggestion> of <suggestion>opnieuw \2</suggestion> gebruikelijk.</message>
+                <example correction="weer vrij|opnieuw vrij">Hij is <marker>terug vrij</marker>.</example>
+            </rule>			
+            <rule>
+                <pattern>
 					<token>ei</token>
 					<token>zo</token>
 					<token>na</token>
@@ -7059,7 +7067,7 @@ onwaarschijnlijk
 					<marker>
 					<token>zo'n</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW:.*MRV.*"/>
+                    <token postag_regexp="yes" postag="ZNW:.*MRV.*"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
 				</pattern>
 				<message>Beter is <suggestion>zulke</suggestion>.</message>
                 <example correction="zulke">Hij wist niets van <marker>zo'n</marker> auto's.</example>
@@ -7770,7 +7778,7 @@ onwaarschijnlijk
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">bekomen</token>
+                    <token inflected="yes">bekomen<exception>bekwamen</exception></token>
                 </pattern>
                 <!-- TODO: bekomen kan ook 'bijkomen' betekenen; antipatterns toevoegen daarvoor! -->
                 <message>Standaardtaal in hele taalgebied is het 'verkrijgen'.</message>
@@ -7779,7 +7787,6 @@ onwaarschijnlijk
                 <example type="incorrect"><marker>Bekom</marker> voor hem het geduld.</example>
                 <example type="incorrect"><marker>Bekomt</marker> u geen genoegdoening, dan kunt u contact opnemen met de Stafhouder.</example>
                 <example type="incorrect"><marker>Bekomen</marker> korting bij contante betaling : 2 % of 50 EUR.</example>
-                <example type="incorrect"><marker>Bekwamen</marker> in de gemeentescholen een diploma van 35 jaren dienst : MM.</example>
                 <example type="incorrect">Als voldoende reden wordt beschouwd het ontslag dat gegeven is om het conventioneel brugpensioen te <marker>bekomen</marker>.</example>
                 <example type="incorrect">Daarna schakelden we een versnelling hoger waardoor we al snel een geruststellende ruststand konden <marker>bekomen</marker>.</example>
             </rule>
