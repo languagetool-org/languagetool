@@ -8439,17 +8439,35 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
+                    <token skip="2" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <token regexp="yes">th[ai]s|s?he|it</token>
+                    <marker>
+                        <token>will
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'.</message>
+                <suggestion><match no="5" postag="VBZ" /></suggestion>
+                <example correction="goes">If this <marker>will go</marker> wrong, we will have to do it again.</example>
+                <example correction="helps">If it <marker>will help</marker> please feel free to attend or have one of your people attend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
                     <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>will
                             <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
                         </token>
+                        <token postag="VB"><exception>be</exception></token>
                     </marker>
-                    <token postag="VB"><exception>be</exception></token>
                 </pattern>
-                <message>Consider removing 'will'</message>
-                <suggestion></suggestion>
-                <example correction="">If we <marker>will</marker> go there, we might meet him.</example>
+                <message>Consider removing 'will'.</message>
+                <suggestion>\4</suggestion>
+                <example correction="go">If we <marker>will go</marker> there, we might meet him.</example>
+                <example>If this will be a problem, please reply and we will find a workaround.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
