@@ -8464,6 +8464,43 @@ USA
                         <token>will
                             <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
                         </token>
+                        <token regexp="yes">not|never</token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>does not \6</suggestion>
+                <suggestion>do not \6</suggestion>
+                <example correction="does not go|do not go">If this <marker>will not go</marker> right, we will have to do it again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>won
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token regexp="yes">['`´]</token>
+                        <token>t</token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>doesn\5t \7</suggestion>
+                <suggestion>don\5t \7</suggestion>
+                <example correction="doesn't|don't go">If this <marker>won't go</marker> right, we will have to do it again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>will
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
                         <token postag="VB"><exception>be</exception></token>
                     </marker>
                 </pattern>
