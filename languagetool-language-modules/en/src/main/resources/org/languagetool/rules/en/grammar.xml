@@ -31080,6 +31080,60 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="WHAT_WOULD" name="He what (would) do it again" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                    <token>what</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">to|at|for|on</token>
+                    <token regexp="yes">you|it</token>
+                    <token>what</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|it|we|they</token>
+                    <marker>
+                        <token>what</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="VB">
+                        <exception regexp="yes">time|can</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>would</suggestion>?</message>
+                <example correction="would">I <marker>what</marker> have done it differently.</example>
+                <example correction="would">He <marker>what</marker> do it again.</example>
+                <example>Does it matter to you what time we arrive?</example>
+                <example>I will give you what help I can.</example>
+                <example>If this continues to happen after they’ve looked at it what can I do to convince them I need a replacement?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HAS_AS" name="Has (as) far as I can tell" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>has</token>
+                    </marker>
+                    <token regexp="yes">&short_adjectives;|&optional_short_adjectives;</token>
+                    <token>as</token>
+                </pattern>
+                <message>Did you mean <suggestion>as</suggestion>?</message>
+                <example correction="As"><marker>Has</marker> far as I can tell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>as</token>
+                    <token regexp="yes">&short_adjectives;|&optional_short_adjectives;</token>
+                    <marker>
+                        <token>has</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>as</suggestion>?</message>
+                <example correction="as">As far <marker>has</marker> I can tell.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BLU_RAY" name="Blue-ray (Blu-ray)">
             <rule>
                 <pattern case_sensitive="yes">
