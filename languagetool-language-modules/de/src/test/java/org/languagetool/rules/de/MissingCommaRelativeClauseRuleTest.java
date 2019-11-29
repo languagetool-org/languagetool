@@ -48,6 +48,7 @@ public class MissingCommaRelativeClauseRuleTest {
     assertNoMatch("Computer machen die Leute dumm.", rule, lt);
     assertNoMatch("Die Unstimmigkeit zwischen den Geschichten der zwei Unfallbeteiligten war groß.", rule, lt);
     assertNoMatch("Ebenso darf keine schwerere Strafe als die zum Zeitpunkt der Begehung der strafbaren Handlung angedrohte Strafe verhängt werden.", rule, lt);
+    assertNoMatch("Es ist die Wiederkehr der Panikmache, die der neue Nationalismus mit dem der Sprachreiniger verbindet und die Geschichte der Sprachreinigung zu einem Lehrstück macht.", rule, lt);
     
     rule = new MissingCommaRelativeClauseRule(TestTools.getMessages("de"), true);
     
