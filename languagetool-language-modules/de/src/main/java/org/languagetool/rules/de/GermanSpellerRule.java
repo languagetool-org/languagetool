@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -944,6 +945,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             Charset.defaultCharset().encode(separation).array());
           streams.add(separationStream);
           streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
+          streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
         }
         try (BufferedReader br = new BufferedReader(
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
