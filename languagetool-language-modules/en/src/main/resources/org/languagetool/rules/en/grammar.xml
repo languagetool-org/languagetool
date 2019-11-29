@@ -8502,7 +8502,7 @@ USA
                     <token postag="SENT_START"></token>
                     <token min="0">Even</token>
                     <token skip="2" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
-                    <token regexp="yes">th[ai]s|s?he|it</token>
+                    <token regexp="yes">th[ai]s|s?he|it|(some|any)(thing|one)</token>
                     <marker>
                         <token>will
                             <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
@@ -8513,6 +8513,7 @@ USA
                 <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
                 <suggestion><match no="6" postag="VBZ" /></suggestion>
                 <example correction="goes">If this <marker>will go</marker> wrong, we will have to do it again.</example>
+                <example correction="happens">If something <marker>will happen</marker> ...</example>
                 <example correction="helps">If it <marker>will help</marker> please feel free to attend or have one of your people attend.</example>
             </rule>
             <rule>
