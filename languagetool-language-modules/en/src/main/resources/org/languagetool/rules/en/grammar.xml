@@ -3009,6 +3009,66 @@ USA
                 <example>Above all it's important to note they're disgusting.</example>
                 <example correction="its">Amid <marker>it's</marker> wonderful moments of humor...</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token postag="CC" />
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token />
+                    <token>time</token>
+                </antipattern>
+                <pattern>
+                    <token>but</token><!-- add other conjunctions (if, and, or, ...) -->
+                    <marker>
+                        <token>it</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="RB" />
+                        <exception regexp="yes">now|possible|unlikely|okay|ok</exception>
+                    </token>
+                    <token postag="NN.*" postag_regexp="yes" min="1" max="2">
+                        <exception postag="JJ.*|IN" postag_regexp="yes"/>
+                        <exception>backwards</exception><!-- not tagged as JJ (not sure if it should) -->
+                        <exception regexp="yes">water|nothing|known|reality|if|okay|ok|doing</exception>
+                    </token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                        <exception regexp="yes">related|based|powered|oriented|connected|driven|protected|boring</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (the possessive pronoun)?</message>
+                <short>Possible word confusion</short>
+                <example correction="its">That's great but <marker>it's</marker> privacy policy sure is a lot easier to stomach.</example>
+                <example correction="its">Yes, but <marker>it’s</marker> energy content is much less.</example>
+                <example correction="its">It is a keypad but <marker>it’s</marker> primary function seems to be to switch between home and away modes.</example>
+                <example>I enjoy the heck out of this game, but it’s okay if others don’t.</example>
+                <example>I was trying to access your expert report from your web site, but it's password protected.</example>
+                <example>I know there are some community solutions, but it’s high time there was a native SmartThings-supported option.</example>
+                <example type="triggers_error">Fortunately we don’t load all the documents into memory, but it’s dog slow due to the sorting.</example>
+                <example>I’ve tried indoor walking to do the active 10(1000 steps in 10 minutes) x 3 but it’s mind numbingly boring.</example>
+                <example>A little smaller and darker, but it’s in much better fundamental shape than the top floor apartment.</example>
+                <example>But it's tea time.</example>
+                <example>But it's literal brain damage</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>all<exception scope="previous">after</exception></token>
@@ -22522,7 +22582,7 @@ USA
                         <token spacebefore="no" regexp="yes">\d+</token>
                         <token regexp="yes">word|character|paragraph</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1\2\3-\4</suggestion>
@@ -22534,7 +22594,7 @@ USA
                         <token postag="CD" />
                         <token regexp="yes">word|character|paragraph</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1-\2</suggestion>
@@ -24657,7 +24717,7 @@ USA
                 <example correction="weekend">We went golfing on the <marker>week end</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="AFTER_NOON" name="after noon (afternoon)" default="temp_off">
+        <rule id="AFTER_NOON" name="after noon (afternoon)">
             <pattern>
                 <token regexp="yes">the|an?|before</token>
                 <token postag="JJ" min="0">
@@ -41809,6 +41869,7 @@ The accident victim died from her injuries.
             <antipattern><!-- name of tech product -->
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
                 <token>encrypt</token>
             </antipattern>
             <antipattern>
@@ -41827,6 +41888,13 @@ The accident victim died from her injuries.
                 <token spacebefore="no">s</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <token postag="NN.*|UNKNOWN|CD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token regexp="yes">and|or|&amp;|,</token>
+                <token postag="NNP?|UNKNOWN" postag_regexp="yes" />
             </antipattern>
             <antipattern>
                 <token postag="NNP?" postag_regexp="yes" />
@@ -41901,7 +41969,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        plenty|lots?|couple|majority
+                        plenty|lots?|couple|majority|pair
                     </token>
                     <token>of</token>
                     <token postag="JJ.*" min="0" postag_regexp="yes">
@@ -41924,7 +41992,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        many|plenty|other|few|several|some|any
+                        many|plenty|other|few|several|some|any|various|numerous
                     </token>
                     <token postag="JJ.*" min="0" postag_regexp="yes">
                         <exception regexp="yes">in|on|out|off|of</exception>
@@ -41949,6 +42017,49 @@ The accident victim died from her injuries.
                 <example>It's all Tom's.</example>
                 <example>I've got two kids. One of them is a boy, and the other one's a boy, too.</example>
                 <example>You can't get this at any bookseller's.</example>
+                <example>Are these Tom's and Mary's bags?</example>
+                <example>Are these Tom's?</example>
+                <example>Are these all Tom's?</example>
+                <example>Salvador, All Saint's Bay, Brazil.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="VB.*|MD|UNKNOWN" postag_regexp="yes" skip="1" />
+                    <token regexp="yes" skip="1">
+                        these|those|all
+                    </token>
+                    <token postag="NNP?" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">
+                        these|those|all
+                    </token>
+                    <token postag="JJ.*" min="0" postag_regexp="yes">
+                        <exception regexp="yes">in|on|out|off|of|all</exception>
+                    </token>
+                    <marker>
+                        <token postag="NNP?" postag_regexp="yes">
+                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception postag="NNP?S" postag_regexp="yes" />
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>The possesive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\3'.</message>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <example correction="APIs">Many of those <marker>API's</marker> are based on JSON.</example>
+                <example correction="offers">All <marker>offer's</marker> out of November.</example>
+                <example correction="CEOs">Jeff Bezos is indicative of All <marker>CEO’s</marker> in America.</example>
+                <example correction="Q&amp;As">These <marker>Q&amp;A's</marker> are targeted primarily to terminated employees.</example>
+                <example correction="PCs">All <marker>PC's</marker> will be moved next week unless they have been notified of specific problems.</example>
+                <example>That's all Jamal's fault.</example>
+                <example>It's all Tom's.</example>
+                <example>Are these Tom's and Mary's bags?</example>
+                <example>Are those Tom's?</example>
+                <example>Are all these really Tom's?</example>
+                <example>Are these all Tom's?</example>
+                <example>All Let’s Encrypt certificates are X.509.</example>
             </rule>
         </rulegroup>
 
