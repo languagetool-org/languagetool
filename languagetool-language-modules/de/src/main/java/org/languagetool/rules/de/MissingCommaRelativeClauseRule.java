@@ -74,8 +74,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
     super.setCategory(new Category(new CategoryId("HILFESTELLUNG_KOMMASETZUNG"),
         "Hilfestellung für Kommasetzung", Location.INTERNAL, true));
     super.makeAntiPatterns(ANTI_PATTERNS, GERMAN);
-    addExamplePair(Example.wrong("Das <marker>Auto das</marker> am Straßenrand steht, parkt im Halteverbot."),
-        Example.fixed("Das <marker>Auto, das</marker> am Straßenrand steht, parkt im Halteverbot."));
     this.behind = behind;
   }
 
