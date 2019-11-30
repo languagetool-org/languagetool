@@ -7352,7 +7352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tant<exception postag=".*LOC.*|allow_tant" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="&lt;LOC_ADV&gt;|&lt;LOC_ADJ&gt;" postag_regexp="yes"/>
+                    <token postag="LOC_ADV|LOC_ADJ" postag_regexp="yes"/>
                 </pattern>
                 <message>Davant de locució adverbial o adjectival cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió</short>
@@ -13903,7 +13903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>venta<exception postag="_possible_nompropi|&lt;NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
+                <token>venta<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>venda</suggestion>? Una "venta" pot ser un hostal al País Valencià. Correcte si és del v. 'ventar'.</message>
             <example correction="Venda"><marker>Venta</marker> de cotxes.</example>
@@ -18824,8 +18824,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
                     <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>i</exception><exception postag=".*LOC.*" postag_regexp="yes">en</exception></token>
-                    <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|pas|bat|tant</exception><exception postag=".*/LOC.*" postag_regexp="yes"/></token>
-                    <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|bo</exception></token>
+                    <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|pas|bat|tant</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
+                    <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|bo</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Frase duplicada.</message>
                 <suggestion><match no="1"/> <match no="2"/></suggestion>

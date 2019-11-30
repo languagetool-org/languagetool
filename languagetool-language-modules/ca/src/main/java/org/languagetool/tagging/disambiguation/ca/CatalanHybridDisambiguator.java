@@ -20,8 +20,11 @@
 package org.languagetool.tagging.disambiguation.ca;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Catalan;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -45,7 +48,60 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input));
+    AnalyzedSentence analyzedSentence = chunker.disambiguate(input);
+    
+    /* Put the results of the MultiWordChunker in a more appropriate and useful way
+      <NP..></NP..> becomes NP.. NP..
+      <NCMS000></NCMS000> becomes NCMS000 AQ0MS0
+      The individual original tags are removed */
+        
+    AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
+    AnalyzedTokenReadings[] output = anTokens;
+    int i=0;
+    String POSTag = "";
+    String lemma = "";
+    String nextPOSTag = "";
+    AnalyzedToken analyzedToken = null;
+    while (i < anTokens.length) {
+      if (output[i].isWhitespace()) {
+        output[i] = anTokens[i];
+      } else if (!nextPOSTag.isEmpty()) {
+        AnalyzedToken newAnalyzedToken = new AnalyzedToken(output[i].getToken(), nextPOSTag, lemma);
+        if (output[i].hasPosTag("</"+POSTag+">")) {
+          nextPOSTag = "";
+          lemma = "";
+        }
+        output[i] = new AnalyzedTokenReadings(output[i], Arrays.asList(newAnalyzedToken), "CatalanHybridDisambiguator");
+      } else if ((analyzedToken = getMultiWordAnalyzedToken(output[i])) != null) {
+          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
+          lemma = analyzedToken.getLemma();
+        AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
+        output[i] = new AnalyzedTokenReadings(output[i], Arrays.asList(newAnalyzedToken), "CATHybridDisamb");
+        if (POSTag.startsWith("NC")) {
+          nextPOSTag = "AQ0" + POSTag.substring(2, 4) + "0";
+        } else {
+          nextPOSTag = POSTag;
+        }
+      } else {
+        output[i] = anTokens[i];
+      }      
+      i++;
+    }
+
+    return disambiguator.disambiguate(new AnalyzedSentence(output));
+  }
+  
+  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings anTokReadings) {
+    for (AnalyzedToken reading : anTokReadings) {
+      String POSTag = reading.getPOSTag();
+      if (POSTag != null) {
+        if (POSTag.startsWith("<") && POSTag.endsWith(">")) {
+          return reading;
+        }
+      }
+    }
+    return null;
+    
   }
 
 }

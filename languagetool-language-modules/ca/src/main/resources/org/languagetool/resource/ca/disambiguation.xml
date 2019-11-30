@@ -58,6 +58,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd lemma="legibilitat"/></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>Venta<exception inflected="yes">Venta del Moro</exception></token>
+            </pattern>
+            <disambig action="remove" postag="NP.*" />
+        </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
@@ -84,7 +90,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
-                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;•\-]</token>
+                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;•\-]<exception postag="LOC_.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
         </rule>
@@ -715,7 +721,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">a|de|pe</token>
                 <marker>
-                    <token spacebefore="no">l</token>
+                    <token spacebefore="no">l<exception postag=".*LOC_.*|NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="replace"><wd lemma="el" pos="DA0MS0"></wd></disambig>
@@ -898,7 +904,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token>,</token>
             </pattern>
-            <disambig action="add"><wd lemma="daltra_banda" pos="&lt;LOC_CONJ&gt;"/><wd lemma="daltra_banda" pos="&lt;LOC_CONJ&gt;"/><wd lemma="daltra_banda" pos="&lt;/LOC_CONJ&gt;"/></disambig>
+            <disambig action="replace"><wd lemma="daltra_banda" pos="LOC_CONJ"/><wd lemma="daltra_banda" pos="LOC_CONJ"/><wd lemma="daltra_banda" pos="LOC_CONJ"/></disambig>
         </rule>
         <rule id="temps_ha" name="temps ha (locució adverbial)">
             <pattern>
@@ -908,7 +914,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception postag="V.P.*" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="add"><wd lemma="temps ha" pos="&lt;LOC_ADV&gt;"/><wd lemma="temps ha" pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="replace"><wd lemma="temps ha" pos="LOC_ADV"/><wd lemma="temps ha" pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="en_va1" name="en va (locució adverbial)">
             <pattern>
@@ -919,7 +925,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception postag="V.[NG].*|A.*|V.P.*SM.?" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="add"><wd lemma="en va" pos="&lt;LOC_ADV&gt;"/><wd lemma="en va" pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="add"><wd lemma="en va" pos="LOC_ADV"/><wd lemma="en va" pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="en_realitat" name="en realitat (locució adverbial)">
             <pattern>
@@ -929,7 +935,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception regexp="yes">augmentada|virtual</exception></token>
             </pattern>
-            <disambig action="add"><wd lemma="en va" pos="&lt;LOC_ADV&gt;"/><wd lemma="en va" pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="add"><wd lemma="en va" pos="LOC_ADV"/><wd lemma="en va" pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="llevat_de" name="llevat de (locució preposicional)">
             <pattern>
@@ -951,7 +957,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
-            <disambig action="add"><wd lemma="a fi de" pos="&lt;LOC_CONJ&gt;"/><wd lemma="a fi de" pos="&lt;LOC_ADV&gt;"/><wd lemma="a fi de" pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="add"><wd lemma="a fi de" pos="LOC_CONJ"/><wd lemma="a fi de" pos="LOC_CONJ"/><wd lemma="a fi de" pos="LOC_CONJ"/></disambig>
         </rule>
         <rule id="entorn_de" name="a entorn de (locució prepositiva)">
             <pattern>
@@ -961,7 +967,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">de|d'</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="entorn de" pos="&lt;LOC_PREP&gt;"/><wd lemma="entorn de" pos="&lt;/LOC_PREP&gt;"/></disambig>
+            <disambig action="add"><wd lemma="entorn de" pos="LOC_PREP"/><wd lemma="entorn de" pos="LOC_PREP"/></disambig>
+        </rule>
+        <rule id="en_contra_de" name="en contra de (locució prepositiva)">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>contra</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="en contra de" pos="LOC_PREP"/><wd lemma="en contra de" pos="LOC_PREP"/><wd lemma="en contra de" pos="LOC_PREP"/></disambig>
+        </rule>
+        <rule id="en_contra" name="en contra (locució adverbial)">
+            <pattern>
+                <marker>
+                    <token>en<exception postag="LOC_PREP"/></token>
+                    <token>contra</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="en contra" pos="LOC_ADV"/><wd lemma="en contra" pos="LOC_ADV"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -973,9 +998,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add">
-                <wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
-                <wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
-                <wd lemma="primer de tot" pos="&lt;/LOC_ADV&gt;" />
+                <wd lemma="primer de tot" pos="LOC_ADV" />
+                <wd lemma="primer de tot" pos="LOC_ADV" />
+                <wd lemma="primer de tot" pos="LOC_ADV" />
             </disambig>
         </rule>
         <rule>
@@ -987,9 +1012,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception postag="NC[FC][SN].*" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="add"><wd lemma="a la lleugera" pos="&lt;LOC_ADV&gt;" />
-                <wd lemma="a la lleugera" pos="&lt;LOC_ADV&gt;" />
-                <wd lemma="a la lleugera" pos="&lt;/LOC_ADV&gt;" /></disambig>
+            <disambig action="add">
+                <wd lemma="a la lleugera" pos="LOC_ADV" />
+                <wd lemma="a la lleugera" pos="LOC_ADV" />
+                <wd lemma="a la lleugera" pos="LOC_ADV" />
+            </disambig>
             <example type="untouched">Es deu <marker>a la lleugera</marker> millora del mercat.</example>
         </rule>
         <rule>
@@ -1018,6 +1045,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="de_nou" name="de nou">
+            <antipattern>
+                <token>més</token>
+                <token>de</token>
+                <token>nou</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>de</token>
@@ -1025,9 +1057,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception postag="NC[MC][SN].*|NC.[PN].*" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+            <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
             <example type="untouched">Amb la proposta <marker>de nou</marker> servidor</example>
             <example type="untouched">Amb un termini d'execució <marker>de nou</marker> mesos.</example>
+            <example type="untouched">N'hi havia més <marker>de nou</marker>.</example>
         </rule>
         <rule id="de_veritat" name="de veritat">
             <pattern>
@@ -1070,7 +1103,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token><exception regexp="yes">de|d'</exception><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
             </pattern>
-            <disambig action="add"><wd lemma="per tant" pos="LOC_CONJ"/><wd lemma="per tant" pos="LOC_CONJ"/></disambig>
+            <disambig action="replace"><wd lemma="per tant" pos="LOC_CONJ"/><wd lemma="per tant" pos="LOC_CONJ"/></disambig>
             <example type="untouched">I <marker>per tant</marker> honor.</example>
         </rule>
         <rule id="de_fiar" name="de fiar">
@@ -1161,43 +1194,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
-        <!--  Locucions adverbials-->
-        <rule id="loc_adv3paraules" name="locució adverbial 3 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADV&gt;"></token>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADV&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
-        </rule>
-        <rule id="loc_adv4paraules" name="locució adverbial 4 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADV&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADV&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
-        </rule>
-        <rule id="loc_adv5paraules" name="locució adverbial 5 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADV&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADV&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
-        </rule>
 
         <!--locucions adverbials de temps-->
-        <rule id="de_dos_en_dos" name="de dos en dos">
+        <rule id="de_tant_en_tant" name="de tant en tant">
             <pattern>
                 <marker>
                     <token>de</token>
@@ -1209,6 +1208,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="any_a_any" name="any a any">
+            <antipattern>
+                <token inflected="yes" regexp="yes">de|a</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="N.*" postag_regexp="yes"><exception>de</exception></token>
@@ -1216,7 +1220,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token><match no="0"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="en_pocs_anys" name="en pocs anys/dies/hores/minuts...">
             <pattern>
@@ -1230,7 +1234,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </unify>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+            <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="havent_dinat" name="havent dinat">
             <pattern>
@@ -1272,7 +1276,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token><match no="1"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="esdiguicomesdigui" name="es digui com es digui">
             <pattern>
@@ -1282,106 +1286,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><match no="0"/></token>
                 <token><match no="1"/></token>
             </pattern>
-            <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
-        </rule>
-        <!-- Filtra Locucions adverbials-->
-        <rule id="loc_adv_filtra" name="locució adverbial filtra">
-            <pattern>
-                <marker>
-                    <token postag=".*LOC_ADV.*" postag_regexp="yes"><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag=".*LOC_ADV.*"></disambig>
-        </rule>
-        <!-- locucions conjuntives-->
-        <rule id="loc_conj3paraules" name="locució conjuntiva 3 paraules">
-            <pattern>
-                <token postag="&lt;LOC_CONJ&gt;"></token>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_CONJ&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_conj" pos="LOC_CONJ"/></disambig>
-        </rule>
-        <rule id="loc_conj4paraules" name="locució conjuntiva 4 paraules">
-            <pattern>
-                <token postag="&lt;LOC_CONJ&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_CONJ&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_conj" pos="LOC_CONJ"/><wd lemma="loc_conj" pos="LOC_CONJ"/></disambig>
-        </rule>
-        <rule id="loc_conj_filtra" name="locució conjuntiva filtra">
-            <pattern>
-                <marker>
-                    <token postag=".*LOC_CONJ.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag=".*LOC_CONJ.*"></disambig>
-        </rule>
-        <!--locucions preposicionals-->
-        <rule id="loc_prep3paraules" name="locució preposicional 3 paraules">
-            <pattern>
-                <token postag="&lt;LOC_PREP&gt;"></token>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_PREP&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_prep" pos="LOC_PREP"/></disambig>
-        </rule>
-        <rule id="loc_prep4paraules" name="locució preposicional 4 paraules">
-            <pattern>
-                <token postag="&lt;LOC_PREP&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_PREP&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_prep" pos="LOC_PREP"/><wd lemma="loc_prep" pos="LOC_PREP"/></disambig>
-        </rule>
-        <rule id="loc_prep_filtra" name="locució preposicional filtra">
-            <pattern>
-                <marker>
-                    <token postag=".*LOC_PREP.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag=".*LOC_PREP.*"></disambig>
-        </rule>
-        <!--locucions adjectivals -->
-        <rule id="loc_adj3paraules" name="locució adjectival 3 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADJ&gt;"></token>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADJ&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_adj" pos="LOC_ADJ"/></disambig>
-        </rule>
-        <rule id="loc_adj4paraules" name="locució adjectival 4 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADJ&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADJ&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_prep" pos="LOC_ADJ"/><wd lemma="loc_prep" pos="LOC_ADJ"/></disambig>
-        </rule>
-        <rule id="loc_adj_filtra" name="locució adjectival filtra">
-            <pattern>
-                <marker>
-                    <token postag=".*LOC_ADJ.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag=".*LOC_ADJ.*"></disambig>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="cada_vegada" name="cada vegada">
             <pattern>
@@ -1406,16 +1311,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
-        </rule>
-        <rule id="mes_de_nou" name="més de nou (excepció)">
-            <pattern>
-                <token>més</token>
-                <token>de</token>
-                <marker>
-                    <token>nou</token>
-                </marker>
-            </pattern>
-            <disambig action="remove"><wd lemma="de nou" pos="&lt;/LOC_ADV&gt;"></wd></disambig>
         </rule>
         <rule id="fruit_de" name="fruit de">
             <pattern>
@@ -1554,7 +1449,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">què|qui|quins|quina|quines</token>
                 <token><match no="0"/></token>
             </pattern>
-            <disambig action="add"><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;/LOC_CONJ&gt;"/></disambig>
+            <disambig action="replace"><wd pos="LOC_CONJ"/><wd pos="LOC_CONJ"/><wd pos="LOC_CONJ"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -1563,7 +1458,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>que</token>
                 <token><match no="0"/></token>
             </pattern>
-            <disambig action="add"><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;/LOC_CONJ&gt;"/></disambig>
+            <disambig action="replace"><wd pos="LOC_CONJ"/><wd pos="LOC_CONJ"/><wd pos="LOC_CONJ"/><wd pos="LOC_CONJ"/></disambig>
         </rule>
     </rulegroup>
     <rule id="pujar_i_baixar" name="pujar i baixar (verbs)">
@@ -1576,121 +1471,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rulegroup id="nompropi_multiword" name="noms propis en multiwords">
-        <rule id="nompropi2paraules_filtra" name="nom propi 3 paraules">
-            <pattern>
-                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
-                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="nompropi3paraules" name="nom propi 3 paraules">
-            <pattern>
-                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="NP" pos="NP00000"/></disambig>
-        </rule>
-        <rule id="nompropi4paraules" name="nom propi 4 paraules">
-            <pattern>
-                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="NP" pos="NP00000"/><wd lemma="NP" pos="NP00000"/></disambig>
-        </rule>
-        <rule id="nompropi3paraules_filtra" name="nom propi 3 paraules">
-            <pattern>
-                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
-                <token postag="NP00000"/>
-                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule id="nompropi4paraules-filtra" name="nom propi 4 paraules">
-            <pattern>
-                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
-                <token postag="NP00000"/>
-                <token postag="NP00000"/>
-                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="nomcomu_multiword" name="noms comuns en multiwords">
-        <rule id="nomcomu2paraules" name="nom comú 2 paraules">
-            <pattern>
-                <marker>
-                    <token postag="&lt;NCFS000&gt;"/>
-                    <token postag="&lt;/NCFS000&gt;"/>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="NCFS000"/><wd pos="AQ0FS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="&lt;NCMS000&gt;"/>
-                    <token postag="&lt;/NCMS000&gt;"/>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="NCMS000"/><wd pos="AQ0MS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="&lt;NCMN000&gt;"/>
-                    <token postag="&lt;/NCMN000&gt;"/>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="&lt;NCMN000&gt;"/>
-                    <token/>
-                    <token postag="&lt;/NCMN000&gt;"/>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/><wd pos="AQ0MN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="&lt;_GN_.*" postag_regexp="yes"/>
-                    <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filterall"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="&lt;_GN_.*" postag_regexp="yes"/>
-                    <token/>
-                    <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filterall"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="&lt;_GN_.*" postag_regexp="yes"/>
-                <marker>
-                    <token/>
-                </marker>
-                <token postag="&lt;/_GN_.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="replace"><wd pos="_GN_"/></disambig>
-        </rule>
-    </rulegroup>
     <rulegroup id="VAN_GOGH" name="van Gogh">
         <rule>
             <pattern>
@@ -2068,61 +1848,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="NP.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token postag=".+NPMSG00.+" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPMSG00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token postag=".+NPFSG00.+" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPFSG00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token postag=".+NPMPG00.+" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPMPG00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token postag=".+NPFPG00.+" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPFPG00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token postag=".+NPCNG00.+" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPCNG00"/>
-        </rule>
-        <rule> <!-- No serveix. Cal generalitzar-ho. Potser cal escriure un CatalanMultiwords diferent -->
-            <pattern>
-                <marker>
-                    <token postag="&lt;NPMSO00&gt;"/>
-                    <token/>
-                    <token postag="&lt;/NPMSO00&gt;"/>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="NPMSO00"/><wd pos="NPMSO00"/><wd pos="NPMSO00"/></disambig>
         </rule>
         <rule id="lletres_majuscules" name="lletres soltes majúscules">
             <pattern>

@@ -91,6 +91,24 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
+  
+  // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
+  public AnalyzedTokenReadings(AnalyzedTokenReadings oldAtr, List<AnalyzedToken> newReadings, String ruleApplied) {
+    this(newReadings, oldAtr.getStartPos());
+    if (oldAtr.isSentenceEnd()) {
+      this.setSentEnd();
+    }
+    if (oldAtr.isParagraphEnd()) {
+      this.setParagraphEnd();
+    }
+    this.setWhitespaceBefore(oldAtr.isWhitespaceBefore());
+    this.setChunkTags(oldAtr.getChunkTags());
+    if (oldAtr.isImmunized()) {
+      this.immunize();
+    }
+    this.setHistoricalAnnotations(
+        oldAtr.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldAtr.toString() + " -> " + this.toString()); 
+  }
 
   AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
