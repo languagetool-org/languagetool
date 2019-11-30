@@ -55,40 +55,38 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       <NCMS000></NCMS000> becomes NCMS000 AQ0MS0
       The individual original tags are removed */
         
-    AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-    AnalyzedTokenReadings[] output = anTokens;
+    AnalyzedTokenReadings[] aTokens = analyzedSentence.getTokens();
     int i=0;
     String POSTag = "";
     String lemma = "";
     String nextPOSTag = "";
     AnalyzedToken analyzedToken = null;
-    while (i < anTokens.length) {
-      if (output[i].isWhitespace()) {
-        output[i] = anTokens[i];
-      } else if (!nextPOSTag.isEmpty()) {
-        AnalyzedToken newAnalyzedToken = new AnalyzedToken(output[i].getToken(), nextPOSTag, lemma);
-        if (output[i].hasPosTag("</"+POSTag+">")) {
-          nextPOSTag = "";
-          lemma = "";
-        }
-        output[i] = new AnalyzedTokenReadings(output[i], Arrays.asList(newAnalyzedToken), "CatalanHybridDisambiguator");
-      } else if ((analyzedToken = getMultiWordAnalyzedToken(output[i])) != null) {
+    while (i < aTokens.length) {
+      if (!aTokens[i].isWhitespace()) {  
+        if (!nextPOSTag.isEmpty()) {
+          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
+          if (aTokens[i].hasPosTag("</" + POSTag + ">")) {
+            nextPOSTag = "";
+            lemma = "";
+          }
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
+              "CatalanHybridDisambiguator");
+        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens[i])) != null) {
           POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
           lemma = analyzedToken.getLemma();
-        AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-        output[i] = new AnalyzedTokenReadings(output[i], Arrays.asList(newAnalyzedToken), "CATHybridDisamb");
-        if (POSTag.startsWith("NC")) {
-          nextPOSTag = "AQ0" + POSTag.substring(2, 4) + "0";
-        } else {
-          nextPOSTag = POSTag;
+          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "CATHybridDisamb");
+          if (POSTag.startsWith("NC")) {
+            nextPOSTag = "AQ0" + POSTag.substring(2, 4) + "0";
+          } else {
+            nextPOSTag = POSTag;
+          }
         }
-      } else {
-        output[i] = anTokens[i];
-      }      
+      }
       i++;
     }
 
-    return disambiguator.disambiguate(new AnalyzedSentence(output));
+    return disambiguator.disambiguate(new AnalyzedSentence(aTokens));
   }
   
   private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings anTokReadings) {
