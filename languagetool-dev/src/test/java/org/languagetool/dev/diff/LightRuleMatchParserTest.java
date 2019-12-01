@@ -105,7 +105,8 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
     assertThat(match.getColumn(), is(35));
-    assertThat(match.getRuleId(), is("EN_QUOTES[1]"));
+    assertThat(match.getRuleId(), is("EN_QUOTES"));
+    assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions(), is("“"));
     assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
     assertThat(match.getCoveredText(), is("\""));
@@ -129,7 +130,8 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
     assertThat(match.getColumn(), is(35));
-    assertThat(match.getRuleId(), is("EN_QUOTES[1]"));
+    assertThat(match.getRuleId(), is("EN_QUOTES"));
+    assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions(), is(""));
     assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
     assertThat(match.getCoveredText(), is("\""));

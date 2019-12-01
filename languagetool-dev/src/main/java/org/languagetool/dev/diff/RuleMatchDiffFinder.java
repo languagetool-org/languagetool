@@ -37,6 +37,7 @@ public class RuleMatchDiffFinder {
       if (oldMatch != null) {
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
             !oldMatch.getMessage().equals(match.getMessage()) ||
+            !Objects.equals(oldMatch.getSubId(), match.getSubId()) ||
             !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
         }
@@ -81,36 +82,41 @@ public class RuleMatchDiffFinder {
       LightRuleMatch oldMatch = diff.getOldMatch();
       LightRuleMatch newMatch = diff.getNewMatch();
       if (oldMatch != null && newMatch != null) {
-        printRuleIdCol(fw, oldMatch);
+        printRuleIdCol(fw, oldMatch, newMatch);
         printMessage(fw, oldMatch, newMatch);
-        if (oldMatch.getCoveredText().equals(newMatch.getCoveredText())) {
-          fw.write("  <td>" + oldMatch.getCoveredText() + "</td>\n");
+        if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
+          fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
         } else {
           fw.write("  <td>" +
-            "<tt>old:</tt> " + oldMatch.getCoveredText() + "<br>\n" +
-            "<tt>new:</tt> " + newMatch.getCoveredText() +
+            "  <tt>old:</tt> " + oldMatch.getSuggestions() + "<br>\n" +
+            "  <tt>new:</tt> " + newMatch.getSuggestions() +
             "</td>\n");
         }
         fw.write("</tr>\n");
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
-        printRuleIdCol(fw, match);
+        printRuleIdCol(fw, null, match);
         printMessage(fw, match, null);
-        fw.write("  <td>" + match.getCoveredText() + "</td>\n");
+        fw.write("  <td>" + match.getSuggestions() + "</td>\n");
         fw.write("</tr>\n");
       }
     }
     printTableEnd(fw);
   }
 
-  private void printRuleIdCol(FileWriter fw, LightRuleMatch match) throws IOException {
+  private void printRuleIdCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
     fw.write("  <td>");
-    fw.write(match.getRuleId());
-    if (match.getStatus() != LightRuleMatch.Status.on) {
-      fw.write("  <br><span class='status'>[" + match.getStatus() + "]</span>");
+    if (oldMatch != null && !Objects.equals(oldMatch.getSubId(), newMatch.getSubId())) {
+      fw.write(oldMatch.getRuleId());
+      fw.write("[" + oldMatch.getSubId() + " => " + newMatch.getSubId() + "]");
+    } else {
+      fw.write(newMatch.getRuleId() + "[" + (newMatch.getSubId() != null ? newMatch.getSubId() : "") + "]");
     }
-    if (match.getRuleSource() != null) {
-      String source = match.getRuleSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
+    if (newMatch.getStatus() != LightRuleMatch.Status.on) {
+      fw.write("  <br><span class='status'>[" + newMatch.getStatus() + "]</span>");
+    }
+    if (newMatch.getRuleSource() != null) {
+      String source = newMatch.getRuleSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
       fw.write("  <br><span class='source'>" + source + "</span>");
     }
     fw.write(" </td>\n");

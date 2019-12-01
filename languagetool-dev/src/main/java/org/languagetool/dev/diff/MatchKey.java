@@ -22,16 +22,18 @@ import java.util.Objects;
 
 class MatchKey {
 
-  private int line;
-  private int column;
-  private String ruleId;
-  private String title;
-  private String coveredText;
+  private final int line;
+  private final int column;
+  private final String ruleId;
+  private final String subId;   // not considered in equals
+  private final String title;
+  private final String coveredText;
 
   MatchKey(int line, int column, String ruleId, String title, String coveredText) {
     this.line = line;
     this.column = column;
-    this.ruleId = Objects.requireNonNull(ruleId).trim();
+    this.ruleId = DiffTools.getMasterId(ruleId);
+    this.subId = DiffTools.getSubId(ruleId);
     this.title = title.trim();
     this.coveredText = Objects.requireNonNull(coveredText);
   }
@@ -59,6 +61,7 @@ class MatchKey {
       "line=" + line +
       ", column=" + column +
       ", ruleId='" + ruleId + '\'' +
+      //", (subId='" + subId + '\'' +
       ", title='" + title + '\'' +
       ", coveredText='" + coveredText + '\'' +
       '}';
