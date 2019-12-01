@@ -6439,6 +6439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PODIEN_CONCORRE" name="podien *concorre/concórrer">
+            <antipattern>
+                <token>si</token>
+                <token inflected="yes" regexp="yes" postag="VM..2..." postag_regexp="yes">poder|voler</token>
+            </antipattern>
             <pattern>
                 <token postag="V.[^N].*" postag_regexp="yes" regexp="yes" inflected="yes">poder|voler|permetre|deixar</token>
                 <token postag="V.M.*"  postag_regexp="yes"><exception negate_pos="yes" postag="V.M.*"  postag_regexp="yes"/></token>
@@ -6448,6 +6452,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>podien corre</marker>-hi.</example>
             <example>Abans d'eixir posa't la gorra.</example>
             <example>Quan estiguis desesperat vés al carrer.</example>
+            <example>Si vols vés-te'n.</example>
+            <example>Si voleu veniu.</example>
         </rule>
         <rule id="ESPERANT_US_AGRADI" name="esperem (que) us agradi)">
             <antipattern>
@@ -7346,7 +7352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tant<exception postag=".*LOC.*|allow_tant" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="&lt;LOC_ADV&gt;|&lt;LOC_ADJ&gt;" postag_regexp="yes"/>
+                    <token postag="LOC_ADV|LOC_ADJ" postag_regexp="yes"/>
                 </pattern>
                 <message>Davant de locució adverbial o adjectival cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió</short>
@@ -7740,7 +7746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="RG" regexp="yes">.+ment<exception>malament</exception></token>
                     <token><exception postag="A..[CF]S.|V.P..SF.?" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Quan hi ha més d'un adverbi no es pot suprimir el sufix "-ment" en el primer.</message>
+                <message>Quan hi ha diversos adverbis acabats en '-ment' coordinats, no es pot suprimir aquest sufix en el primer adverbi.</message>
                 <suggestion><match no="2"></match>ment</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/advermanera</url>
                 <short>Possible error</short>
@@ -7763,7 +7769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>com</token>
                     <token postag="RG" regexp="yes">.+ment<exception>malament</exception></token>
                 </pattern>
-                <message>Quan hi ha més d'un adverbi no es pot suprimir el sufix "-ment" en el primer.</message>
+                <message>Quan hi ha diversos adverbis acabats en '-ment' coordinats, no es pot suprimir aquest sufix en el primer adverbi.</message>
                 <suggestion><match no="2"></match>ment</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/advermanera</url>
                 <short>Possible error</short>
@@ -13897,7 +13903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>venta<exception postag="_possible_nompropi|&lt;NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
+                <token>venta<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>venda</suggestion>? Una "venta" pot ser un hostal al País Valencià. Correcte si és del v. 'ventar'.</message>
             <example correction="Venda"><marker>Venta</marker> de cotxes.</example>
@@ -18818,8 +18824,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
                     <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>i</exception><exception postag=".*LOC.*" postag_regexp="yes">en</exception></token>
-                    <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|pas|bat|tant</exception><exception postag=".*/LOC.*" postag_regexp="yes"/></token>
-                    <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|bo</exception></token>
+                    <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|pas|bat|tant</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
+                    <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|bo</exception><exception postag="LOC_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Frase duplicada.</message>
                 <suggestion><match no="1"/> <match no="2"/></suggestion>
@@ -19716,6 +19722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'intel·ligent procura aprendre</example>
                 <example>l'intel·ligent conserva la calma.</example>
                 <example> I acabava dient que l'important era treballar.</example>
+                <example>l'informe anual corresponent</example>
             </rule>
             <rule>
                 <pattern>
@@ -27948,6 +27955,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="VAL_DARAN" name="Val d'Aran/Vall d'Aran">
+            <pattern>
+                <token>Val</token>
+                <token>d'</token>
+                <token>Aran</token>
+            </pattern>
+            <message>En català, escrivim <suggestion>Vall d'Aran</suggestion>. Val d'Aran és la forma en aranès.</message>
+            <url>http://esadir.cat/Toponims/Paisos_Catalans/Catalunya/Vall_d'Aran</url>
+            <example correction="Vall d'Aran">Me'n vaig a la <marker>Val d'Aran</marker>.</example>
+        </rule>
         <rulegroup id="PARAULES_EN_ALTRES_IDIOMES" name="paraules en altres idiomes">
             <rule>
                 <pattern>
@@ -47590,6 +47607,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/><token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                <token/><token/>
+                <token postag="V.[^NGP].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception><exception scope="previous" regexp="yes">com|sols|només|solament</exception></token>
                 <marker>
@@ -47606,6 +47660,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Si no vingué fa tres dies, ara tampoc no vindrà.</example>
             <example>Si fa tres dies no vingué, ara tampoc no vindrà.</example>
             <example>Les vocals que es llegeixen com si fossin una paraula es poden neutralitzar.</example>
+            <!-- frases molt curtes -->
+            <example>Si vols pujar vine</example>
+            <example>Si ve vés-te'n.</example>
+            <example>Si no ve vés-te'n.</example>
+            <example>Si no ve me'n vaig.</example>
         </rule>
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició + verb conjugat">
             <antipattern>

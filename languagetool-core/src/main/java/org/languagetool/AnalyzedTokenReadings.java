@@ -91,6 +91,24 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
+  
+  // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
+  public AnalyzedTokenReadings(AnalyzedTokenReadings oldAtr, List<AnalyzedToken> newReadings, String ruleApplied) {
+    this(newReadings, oldAtr.getStartPos());
+    if (oldAtr.isSentenceEnd()) {
+      this.setSentEnd();
+    }
+    if (oldAtr.isParagraphEnd()) {
+      this.setParagraphEnd();
+    }
+    this.setWhitespaceBefore(oldAtr.isWhitespaceBefore());
+    this.setChunkTags(oldAtr.getChunkTags());
+    if (oldAtr.isImmunized()) {
+      this.immunize();
+    }
+    this.setHistoricalAnnotations(
+        oldAtr.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldAtr.toString() + " -> " + this.toString()); 
+  }
 
   AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
@@ -116,11 +134,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public boolean hasPosTag(String posTag) {
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = posTag.equals(reading.getPOSTag());
-        if (found) {
-          break;
-        }
+      found = posTag.equals(reading.getPOSTag());
+      if (found) {
+        break;
       }
     }
     return found;
@@ -160,11 +176,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     boolean found = false;
     for(String lemma : lemmas) {
       for (AnalyzedToken reading : anTokReadings) {
-        if (reading.getLemma() != null) {
-          found = lemma.equals(reading.getLemma());
-          if (found) {
-            return found;
-          }
+        found = lemma.equals(reading.getLemma());
+        if (found) {
+          return found;
         }
       }
     }

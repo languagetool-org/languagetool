@@ -6555,6 +6555,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wie kann Maria es wagen, das gleiche Kleid wie ich zu besitzen!</example>
                 <example>Können Sie es einrichten, das Manuskript bis Freitag fertigzustellen?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="KON:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token skip="-1" min="0"/>
+                    <token>,</token>
+                    <marker>
+                        <token skip="-1">das
+                            <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                    </marker>
+                    <token postag="SUB:NOM.*|EIG:NOM.*|PRO:PER.*|UNKNOWN" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)?</message>
+                <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example correction="dass">Am Zeichnen war interessant, <marker>das</marker> ich immer Katastrophen gezeichnet habe.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="dass/das">
             <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
@@ -11390,7 +11413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|nieder|los|unter|vor|weg|fehl|wider|vorbei|her(an)?|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
-                            <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben</exception>
+                            <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben|maximieren|minimieren</exception>
                             <exception postag="AD[JV]:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend</exception>
                         </token>
@@ -11425,6 +11448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir treffen uns auf skype.</example>
                 <example>Es warten vielfältige Tätigkeiten auf engagierte Mitstreiter.</example>
                 <example>Klinge unter fließend heißem Wasser einfach abspülen.</example>
+                <example>Klick mal auf maximieren.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -31644,6 +31668,44 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="DATIV_PRP_PA1_SUB" name="mit wachsenden (wachsendem) Garten" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">außer|aus|bei|mit|nach|seit|von
+                        <exception scope="previous" postag="KON:.+" postag_regexp="yes"/>
+                    </token>
+                    <token min="0">nicht</token>
+                    <marker>
+                        <token postag="PA1:AKK:SIN:MAS:GRU:IND:VER"/>
+                    </marker>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception postag="SUB:.+:FEM" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Präposition '\1' verlangt in der Regel einen Dativ.</message>
+                <suggestion><match no="3" postag="PA1:AKK:SIN:MAS:GRU:IND:VER" postag_replace="PA1:DAT:SIN:MAS:GRU:SOL:VER" postag_regexp="yes"/></suggestion>
+                <example correction="wachsendem">Mit <marker>wachsenden</marker> Garten vergrößerte sich ihr Anwesen.</example>
+                <example>Mit <marker>wachsenden</marker> Gärten vergrößerte sich ihr Anwesen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ab|außer|aus|bei|mit|nach|seit|von
+                        <exception scope="previous" postag="KON:.+" postag_regexp="yes"/>
+                    </token>
+                    <token min="0">nicht</token>
+                    <marker>
+                        <token postag="PA1:AKK:SIN:MAS:GRU:IND:VER"/>
+                    </marker>
+                    <token postag="SUB:.+:SIN:FEM" postag_regexp="yes">
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Präposition '\1' verlangt in der Regel einen Dativ.</message>
+                <suggestion><match no="3" postag="PA1:AKK:SIN:MAS:GRU:IND:VER" postag_replace="PA1:DAT:SIN:FEM:GRU:SOL:VER" postag_regexp="yes"/></suggestion>
+                <example correction="wachsender">Mit <marker>wachsenden</marker> Anlage vergrößerte sich auch sein Garten.</example>
+            </rule>
+        </rulegroup>
         <rule id="IST_UNTERSCHIED" name="ist (der) Unterschied">
             <antipattern>
                 <token>genug</token>
@@ -32462,10 +32524,18 @@ Andere Projekte</example>
                 <example correction="z.&nbsp;B.">Die meisten sind unzufrieden, außer ein paar wenigen, wie <marker>zB</marker> Karl.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BHF_ABK" name="Schreibweise der Abkürzung 'Bhf.'" default="temp_off">
+        <rulegroup id="BHF_ABK" name="Schreibweise der Abkürzung 'Bhf.'">
             <antipattern case_sensitive="yes">
                 <token>Bhf</token>
                 <token>.</token>
+            </antipattern>
+            <antipattern><!-- https://de.wikipedia.org/wiki/Oddo_BHF -->
+                <token regexp="yes">oddo|ing</token>
+                <token>bhf</token>
+            </antipattern>
+            <antipattern>
+                <token>bhf</token>
+                <token regexp="yes">bank|band|song|gruppe|stiftung|kleinwort|ag|aktiengesellschaft</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -32483,6 +32553,7 @@ Andere Projekte</example>
                 <message>Die korrekte Schreibweise für die Abkürzung von 'Bahnhof' ist <suggestion>Bhf.</suggestion>.</message>
                 <url>https://www.duden.de/rechtschreibung/Bhf_</url>
                 <example correction="Bhf.">Er musste am <marker>BHF</marker> Altona aussteigen.</example>
+                <example>Die Oddo BHF Aktiengesellschaft (Eigenschreibweise: ODDO BHF; vormals: BHF-BANK Aktiengesellschaft) ist eine in Frankfurt am Main ansässige Privatbank.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TELEFON_NR" name="Zusammenschreibung 'Telefon-Nr.'">
@@ -32944,6 +33015,13 @@ Andere Projekte</example>
                 <token regexp="yes">(west|süd|öst|nörd)lich</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token>dem</token>
+                    <token skip="3"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"/>
+                    <token postag="ART:.+:AKK:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
@@ -32964,6 +33042,7 @@ Andere Projekte</example>
                 <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
                 <example>Bis einschließlich diesen Freitag hat er Urlaub.</example>
                 <example>Wenn sich ihr Angriff erfolgreich gestaltete, sollte weiter westlich ein Angriff der Armee ihn unterstützen.</example>
+                <example>Dem neogotischen Belvedere wurde seitlich ein Burghaus angegliedert.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -33875,6 +33954,7 @@ Andere Projekte</example>
                     <token postag="SUB:DAT:SIN:FEM">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
+                        <exception postag="SUB:.+:MAS" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>.</message>
@@ -40320,13 +40400,19 @@ Andere Projekte</example>
                     <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
                 </antipattern>
                <antipattern>
-                   <token postag="VER:.+" postag_regexp="yes"></token>
+                   <token postag="VER:.+" postag_regexp="yes"/>
                    <token skip="-1"/>
                    <token>,</token>
                    <token postag="KON:.+" postag_regexp="yes"/>
                    <token skip="-1"/>
                    <token postag="VER:.+" postag_regexp="yes"/>
                </antipattern>
+               <antipattern>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
                         <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -40341,7 +40427,6 @@ Andere Projekte</example>
                         <exception regexp="yes">bitte|halt|mindere|lichte|sog</exception>
                         <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception scope="next">,</exception>
-                    
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.InsertCommaFilter" args="fake:1"/>
@@ -40386,6 +40471,7 @@ Andere Projekte</example>
                 <example>Dies gelingt nur, wenn die einzelnen Einheiten anschlussfähig sind, was durch einen systemspezifischen Code geleistet wird.</example>
                 <example>Wir waren so aufgeregt, dass wir nicht still sitzen konnten.</example>
                 <example>Das Vorstellungsgespräch ist so gut verlaufen, dass er die Stelle bekommen hat.</example>
+                <example>Das Stadtviertel wird von einer Straße durchschnitten, durch die ein Fluß verläuft.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">

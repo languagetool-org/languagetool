@@ -3009,6 +3009,66 @@ USA
                 <example>Above all it's important to note they're disgusting.</example>
                 <example correction="its">Amid <marker>it's</marker> wonderful moments of humor...</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token postag="CC" />
+                </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token />
+                    <token>time</token>
+                </antipattern>
+                <pattern>
+                    <token>but</token><!-- add other conjunctions (if, and, or, ...) -->
+                    <marker>
+                        <token>it</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="RB" />
+                        <exception regexp="yes">now|possible|unlikely|okay|ok</exception>
+                    </token>
+                    <token postag="NN.*" postag_regexp="yes" min="1" max="2">
+                        <exception postag="JJ.*|IN" postag_regexp="yes"/>
+                        <exception>backwards</exception><!-- not tagged as JJ (not sure if it should) -->
+                        <exception regexp="yes">water|nothing|known|reality|if|okay|ok|doing</exception>
+                    </token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                        <exception regexp="yes">related|based|powered|oriented|connected|driven|protected|boring</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (the possessive pronoun)?</message>
+                <short>Possible word confusion</short>
+                <example correction="its">That's great but <marker>it's</marker> privacy policy sure is a lot easier to stomach.</example>
+                <example correction="its">Yes, but <marker>it’s</marker> energy content is much less.</example>
+                <example correction="its">It is a keypad but <marker>it’s</marker> primary function seems to be to switch between home and away modes.</example>
+                <example>I enjoy the heck out of this game, but it’s okay if others don’t.</example>
+                <example>I was trying to access your expert report from your web site, but it's password protected.</example>
+                <example>I know there are some community solutions, but it’s high time there was a native SmartThings-supported option.</example>
+                <example type="triggers_error">Fortunately we don’t load all the documents into memory, but it’s dog slow due to the sorting.</example>
+                <example>I’ve tried indoor walking to do the active 10(1000 steps in 10 minutes) x 3 but it’s mind numbingly boring.</example>
+                <example>A little smaller and darker, but it’s in much better fundamental shape than the top floor apartment.</example>
+                <example>But it's tea time.</example>
+                <example>But it's literal brain damage</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>all<exception scope="previous">after</exception></token>
@@ -8436,20 +8496,143 @@ USA
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
         <rulegroup id="CONDITIONAL_CLAUSE" name="conditional clause">
+            <url>https://grammar.collinsdictionary.com/easy-learning/conditional-clauses</url>
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="2" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <token regexp="yes">th[ai]s|s?he|it|(some|any)(thing|one)</token>
+                    <marker>
+                        <token>will
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion><match no="6" postag="VBZ" /></suggestion>
+                <example correction="goes">If this <marker>will go</marker> wrong, we will have to do it again.</example>
+                <example correction="happens">If something <marker>will happen</marker> ...</example>
+                <example correction="helps">If it <marker>will help</marker> please feel free to attend or have one of your people attend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
                     <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>will
                             <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
                         </token>
+                        <token regexp="yes">not|never</token>
+                        <token postag="VB"><exception>be</exception></token>
                     </marker>
-                    <token postag="VB"><exception>be</exception></token>
                 </pattern>
-                <message>Consider removing 'will'</message>
-                <suggestion></suggestion>
-                <example correction="">If we <marker>will</marker> go there, we might meet him.</example>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>does not \6</suggestion>
+                <suggestion>do not \6</suggestion>
+                <example correction="does not go|do not go">If this <marker>will not go</marker> right, we will have to do it again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>won
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token regexp="yes">['`´]</token>
+                        <token>t</token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>doesn\5t \7</suggestion>
+                <suggestion>don\5t \7</suggestion>
+                <example correction="doesn't go|don't go">If this <marker>won't go</marker> right, we will have to do it again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>will
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token postag="VB"><exception>be</exception></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'will'. (Usually, 'will' does not occur in a conditional clause, unless in the sense 'want to' or 'be willing to'.)</message>
+                <suggestion>\5</suggestion>
+                <example correction="go">If we <marker>will go</marker> there, we might meet him.</example>
+                <example>If this will be a problem, please reply and we will find a workaround.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>would</token>
+                    <token postag="VB" skip="5"></token>
+                    <token>please</token>
+                </antipattern>
+               <antipattern>
+                    <token>would</token>
+                    <token>like</token>
+                    <token>to</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>would
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token postag="VB"></token>
+                    </marker>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion><match no="5" postag="VBD" /></suggestion>
+                <example correction="had">If she <marker>would have</marker> known about it, she would have been really mad.</example>
+                <example>If you would do this for me, please, I would be extremely happy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>wouldn
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token regexp="yes">['`´]</token>
+                        <token>t</token>
+                        <token>have</token>
+                    </marker>
+                    <token postag="VBN"></token>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion>hadn\5t</suggestion>
+                <example correction="hadn't">If she <marker>wouldn't have</marker> known about it, she would have been really mad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token min="0">Even</token>
+                    <token skip="3" case_sensitive="yes">If<exception scope="next" postag="PCT|VB.*|JJ|RB" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>would
+                            <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
+                        </token>
+                        <token>not</token>
+                        <token>have</token>
+                    </marker>
+                    <token postag="VBN"></token>
+                </pattern>
+                <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
+                <suggestion>had not</suggestion>
+                <example correction="had not">If she <marker>would not have</marker> known about it, she would have been really mad.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOWERCASE_MONTHS" name="august (August)">
@@ -8479,7 +8662,7 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[1-3]\d(st|nd|th)?|until|till</token>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[0-3]\d(st|nd|th)?|until|till</token>
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
@@ -22022,25 +22205,67 @@ USA
             <example type="triggers_error">A lack of vowel marking (often with ambiguity between no vowel an...</example>
             <example>...e of the state banks, a weak financial market and a lack of bank transparency.</example>
         </rule>
-        <rule id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a  + collective noun + of' + singular countable noun"><!-- #2141 -->
-        <!-- Created by Tiago F. Santos, 2019-11-10. Small changes by MFU 2019-11-27 -->
-            <pattern>
-                <marker>
-                    <token regexp="yes">&collective_nouns;</token>
-                    <token>of</token>
-                    <token postag="NN">
-                        <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
-                </marker>
-                    <token>
-                        <exception postag="NNP?S" postag_regexp="yes"/>
-                        <exception regexp="yes">&apostrophe;</exception></token>
-            </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+        <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun" default="temp_off"><!-- #2141 -->
             <short>Grammatical problem</short>
-            <example correction="collection of books">The library has a <marker>collection of book</marker>.</example>
-            <example correction="Glossary of terms"><marker>Glossary of term</marker> and acronyms</example>
-            <example correction="multitude of birds">A <marker>multitude of bird</marker> exist.</example>
-        </rule>
+            <rule>
+            <!-- Created by Tiago F. Santos, 2019-11-10. Changes by MFU 2019-11-27 and later -->
+                <antipattern><!-- Usually hyphenated, but www.lexico.com/en/definition/polka_dot shows many unhyphenated examples -->
+                    <token>of</token>
+                    <token>polka</token>
+                    <token>dot</token>
+                    <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&collective_nouns;</token>
+                        <token>of</token>
+                        <token chunk="E-NP-singular" postag="NN">
+                            <exception postag="NN:U|NNP?S|JJ.*|PRP\$" postag_regexp="yes"/></token>
+                    </marker>
+                        <token>
+                            <exception postag="NNP?S" postag_regexp="yes"/>
+                            <exception regexp="yes">&apostrophe;</exception></token>
+                </pattern>
+                <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+                <example correction="collection of books">The library has a <marker>collection of book</marker>.</example>
+                <example correction="multitude of birds">A <marker>multitude of bird</marker> exist.</example>
+                <example correction="glossary of terms">This <marker>glossary of term</marker> is not correct.</example>
+                <example>The library has a <marker>collection of books</marker>.</example>
+                <example>The library has a range of <marker>book and gift tokens</marker>.</example>
+                <example>... pottery (including the stunning terracotta army of Emperor Qin), poetry, calligraphy, music,...</example>
+                <example>This range of engine capacity allowed for both fuel economy and power...</example>
+                <example>Their range of server software includes the operating system OS X Serve...</example>
+                <example>A large collection of archive material, including scanned screenplays, photos a...</example>
+                <example>... was a stop-gap collection of Sketch magazine stories, for money when her husband left...</example>
+                <example>Here are a bunch of mine:</example><!-- Ambiguous. Can parse 'mine' as PRPS or NN. Found by A_LOT_OF_NN -->
+                <example>She bought two pairs of polka dot stockings.</example>
+                <example type="triggers_error">The William Burges collection of armoury was bequeathed to the museum in 1881.</example><!-- I did not find 'armoury' as NN:U -->
+            </rule>
+            <rule><!-- Glossary of term and acronyms -->
+                <antipattern><!-- range of [book and gift] tokens -->
+                     <token>of</token>
+                     <token chunk="B-NP-plural" postag="NN"/>
+                     <token regexp="yes">and|or</token>
+                     <token/>
+                     <token postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&collective_nouns;</token>
+                        <token>of</token>
+                        <token chunk="B-NP-plural" postag="NN">
+                            <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
+                     </marker>
+                     <token regexp="yes">and|or</token>
+                     <token/>
+                </pattern>
+                <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
+                <example correction="Glossary of terms"><marker>Glossary of term</marker> and acronyms</example><!-- term/B-NP-plural -->
+                <example correction="range of books">The library has a <marker>range of book</marker> and gifts</example>
+                <example><marker>Glossary of terms</marker> and acronyms</example>
+                <example>The library has a range of book and gift tokens.</example>
+            </rule>
+        </rulegroup>
         <rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
             <pattern>
                 <marker>
@@ -22358,7 +22583,7 @@ USA
                         <token spacebefore="no" regexp="yes">\d+</token>
                         <token regexp="yes">word|character|paragraph</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|tweets|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1\2\3-\4</suggestion>
@@ -22370,7 +22595,7 @@ USA
                         <token postag="CD" />
                         <token regexp="yes">word|character|paragraph</token>
                     </marker>
-                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary</token>
+                    <token regexp="yes">limit|google|articles?|letters?|blog|thesis|doc(umentation)?|text|document|essays?|story|paragraphs?|poems?|abstract|papers?|sentences?|cv|message|description|memoir|biography|summary|vocabulary|manuscripts?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1-\2</suggestion>
@@ -24493,7 +24718,7 @@ USA
                 <example correction="weekend">We went golfing on the <marker>week end</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="AFTER_NOON" name="after noon (afternoon)" default="temp_off">
+        <rule id="AFTER_NOON" name="after noon (afternoon)">
             <pattern>
                 <token regexp="yes">the|an?|before</token>
                 <token postag="JJ" min="0">
@@ -30855,6 +31080,60 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="WHAT_WOULD" name="He what (would) do it again" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                    <token>what</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">to|at|for|on</token>
+                    <token regexp="yes">you|it</token>
+                    <token>what</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|it|we|they</token>
+                    <marker>
+                        <token>what</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="VB">
+                        <exception regexp="yes">time|can</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>would</suggestion>?</message>
+                <example correction="would">I <marker>what</marker> have done it differently.</example>
+                <example correction="would">He <marker>what</marker> do it again.</example>
+                <example>Does it matter to you what time we arrive?</example>
+                <example>I will give you what help I can.</example>
+                <example>If this continues to happen after they’ve looked at it what can I do to convince them I need a replacement?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HAS_AS" name="Has (as) far as I can tell" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>has</token>
+                    </marker>
+                    <token regexp="yes">&short_adjectives;|&optional_short_adjectives;</token>
+                    <token>as</token>
+                </pattern>
+                <message>Did you mean <suggestion>as</suggestion>?</message>
+                <example correction="As"><marker>Has</marker> far as I can tell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>as</token>
+                    <token regexp="yes">&short_adjectives;|&optional_short_adjectives;</token>
+                    <marker>
+                        <token>has</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>as</suggestion>?</message>
+                <example correction="as">As far <marker>has</marker> I can tell.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BLU_RAY" name="Blue-ray (Blu-ray)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -31915,16 +32194,20 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PRP"><exception>one</exception></token>
+                    <token postag="PRP">
+                        <exception regexp="yes">I|he|she|we|they|one</exception><!-- #2198 Subject pronouns except the object pronouns: you, it -->
+                        </token>
                     <marker><token>too</token></marker>
                     <token postag="VB">
                         <exception postag="RB"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>to</suggestion>?</message>
                 <example correction="to">I would like her <marker>too</marker> do it now.</example>
+                <example correction="to">... and decided himself <marker>too</marker> start the work.</example>
                 <example>Don't mourn over the loss of your loved one too long.</example>
                 <example>... state would become a new elite had proved <marker>all too true</marker>.</example>
                 <example>I'm afraid I didn't explain it too well.</example>
+                <example>I tried also with AWLUnicode and Lucida Sans Unicode, but they too do not render correctly.</example><!-- #2198 -->
             </rule>
         </rulegroup>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
@@ -41645,6 +41928,7 @@ The accident victim died from her injuries.
             <antipattern><!-- name of tech product -->
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
                 <token>encrypt</token>
             </antipattern>
             <antipattern>
@@ -41663,6 +41947,13 @@ The accident victim died from her injuries.
                 <token spacebefore="no">s</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <token postag="NN.*|UNKNOWN|CD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="NNP?" postag_regexp="yes" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token regexp="yes">and|or|&amp;|,</token>
+                <token postag="NNP?|UNKNOWN" postag_regexp="yes" />
             </antipattern>
             <antipattern>
                 <token postag="NNP?" postag_regexp="yes" />
@@ -41737,7 +42028,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        plenty|lots?|couple|majority
+                        plenty|lots?|couple|majority|pair
                     </token>
                     <token>of</token>
                     <token postag="JJ.*" min="0" postag_regexp="yes">
@@ -41760,7 +42051,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        many|plenty|other|few|several|some|any
+                        many|plenty|other|few|several|some|any|various|numerous
                     </token>
                     <token postag="JJ.*" min="0" postag_regexp="yes">
                         <exception regexp="yes">in|on|out|off|of</exception>
@@ -41785,6 +42076,49 @@ The accident victim died from her injuries.
                 <example>It's all Tom's.</example>
                 <example>I've got two kids. One of them is a boy, and the other one's a boy, too.</example>
                 <example>You can't get this at any bookseller's.</example>
+                <example>Are these Tom's and Mary's bags?</example>
+                <example>Are these Tom's?</example>
+                <example>Are these all Tom's?</example>
+                <example>Salvador, All Saint's Bay, Brazil.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="VB.*|MD|UNKNOWN" postag_regexp="yes" skip="1" />
+                    <token regexp="yes" skip="1">
+                        these|those|all
+                    </token>
+                    <token postag="NNP?" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">
+                        these|those|all
+                    </token>
+                    <token postag="JJ.*" min="0" postag_regexp="yes">
+                        <exception regexp="yes">in|on|out|off|of|all</exception>
+                    </token>
+                    <marker>
+                        <token postag="NNP?" postag_regexp="yes">
+                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception postag="NNP?S" postag_regexp="yes" />
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>The possesive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\3'.</message>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <example correction="APIs">Many of those <marker>API's</marker> are based on JSON.</example>
+                <example correction="offers">All <marker>offer's</marker> out of November.</example>
+                <example correction="CEOs">Jeff Bezos is indicative of All <marker>CEO’s</marker> in America.</example>
+                <example correction="Q&amp;As">These <marker>Q&amp;A's</marker> are targeted primarily to terminated employees.</example>
+                <example correction="PCs">All <marker>PC's</marker> will be moved next week unless they have been notified of specific problems.</example>
+                <example>That's all Jamal's fault.</example>
+                <example>It's all Tom's.</example>
+                <example>Are these Tom's and Mary's bags?</example>
+                <example>Are those Tom's?</example>
+                <example>Are all these really Tom's?</example>
+                <example>Are these all Tom's?</example>
+                <example>All Let’s Encrypt certificates are X.509.</example>
             </rule>
         </rulegroup>
 
