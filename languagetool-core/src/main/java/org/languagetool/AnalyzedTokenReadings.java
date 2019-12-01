@@ -134,11 +134,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public boolean hasPosTag(String posTag) {
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = posTag.equals(reading.getPOSTag());
-        if (found) {
-          break;
-        }
+      found = posTag.equals(reading.getPOSTag());
+      if (found) {
+        break;
       }
     }
     return found;
@@ -178,11 +176,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     boolean found = false;
     for(String lemma : lemmas) {
       for (AnalyzedToken reading : anTokReadings) {
-        if (reading.getLemma() != null) {
-          found = lemma.equals(reading.getLemma());
-          if (found) {
-            return found;
-          }
+        found = lemma.equals(reading.getLemma());
+        if (found) {
+          return found;
         }
       }
     }
