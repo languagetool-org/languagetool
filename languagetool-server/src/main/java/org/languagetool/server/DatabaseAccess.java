@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
@@ -28,7 +29,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.languagetool.Language;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +40,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +54,7 @@ class DatabaseAccess {
 
   private static DatabaseAccess instance;
   private static SqlSessionFactory sqlSessionFactory;
+  private static final Logger logger = LoggerFactory.getLogger(DatabaseAccess.class);
 
   private final Cache<Long, List<UserDictEntry>> userDictCache = CacheBuilder.newBuilder()
           .maximumSize(1000)
@@ -67,7 +69,7 @@ class DatabaseAccess {
   private DatabaseAccess(HTTPServerConfig config) {
     if (config.getDatabaseDriver() != null) {
       try {
-        print("Setting up database access, URL " + config.getDatabaseUrl() + ", driver: " + config.getDatabaseDriver() + ", user: " + config.getDatabaseUsername());
+        logger.info("Setting up database access, URL " + config.getDatabaseUrl() + ", driver: " + config.getDatabaseDriver() + ", user: " + config.getDatabaseUsername());
         InputStream inputStream = Resources.getResourceAsStream("org/languagetool/server/mybatis-config.xml");
         Properties properties = new Properties();
         properties.setProperty("driver", config.getDatabaseDriver());
@@ -83,14 +85,14 @@ class DatabaseAccess {
 
         DatabaseLogger.init(sqlSessionFactory);
         if (!config.getDatabaseLogging()) {
-          print("dbLogging not set to true, turning off logging");
+          logger.info("dbLogging not set to true, turning off logging");
           DatabaseLogger.getInstance().disableLogging();
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     } else {
-      print("Not setting up database access, dbDriver is not configured");
+      logger.info("Not setting up database access, dbDriver is not configured");
     }
   }
   
@@ -121,20 +123,19 @@ class DatabaseAccess {
         if (dict.size() <= 1000) {  // make sure users with huge dict don't blow up the cache
           userDictCache.put(userId, dict);
         } else {
-          print("WARN: Large dict size " + dict.size() + " for user " + userId + " - will not put user's dict in cache");
+          logger.info("WARN: Large dict size " + dict.size() + " for user " + userId + " - will not put user's dict in cache");
         }
       } catch (Exception e) {
         // try to be more robust when database is down, i.e. don't just crash but try to use cache:
         List<UserDictEntry> cachedDictOrNull = userDictCache.getIfPresent(userId);
         if (cachedDictOrNull != null) {
-          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + ", will use cached version (" + cachedDictOrNull.size() + " items). Full stack trace follows:", System.err);
+          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + ", will use cached version (" + cachedDictOrNull.size() + " items). Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
           for (UserDictEntry userDictEntry : cachedDictOrNull) {
             dictEntries.add(userDictEntry.getWord());
           }
         } else {
-          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:", System.err);
+          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
         }
-        e.printStackTrace();
       }
     }
     return dictEntries;
@@ -162,14 +163,14 @@ class DatabaseAccess {
       map.put("userId", userId);
       List<UserDictEntry> existingWords = session.selectList("org.languagetool.server.UserDictMapper.selectWord", map);
       if (existingWords.size() >= 1) {
-        print("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
+        logger.info("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
         return false;
       } else {
         Date now = new Date();
         map.put("created_at", now);
         map.put("updated_at", now);
         int affectedRows = session.insert("org.languagetool.server.UserDictMapper.addWord", map);
-        print("Added '" + word + "' for user " + userId + " to list of ignored words, affectedRows: " + affectedRows);
+        logger.info("Added '" + word + "' for user " + userId + " to list of ignored words, affectedRows: " + affectedRows);
         return affectedRows == 1;
       }
     }
@@ -218,11 +219,11 @@ class DatabaseAccess {
       map.put("userId", userId);
       int count = session.delete("org.languagetool.server.UserDictMapper.selectWord", map);
       if (count == 0) {
-        print("Did not delete '" + word + "' for user " + userId + " from list of ignored words, does not exist");
+        logger.info("Did not delete '" + word + "' for user " + userId + " from list of ignored words, does not exist");
         return false;
       } else {
         int affectedRows = session.delete("org.languagetool.server.UserDictMapper.deleteWord", map);
-        print("Deleted '" + word + "' for user " + userId + " from list of ignored words, affectedRows: " + affectedRows);
+        logger.info("Deleted '" + word + "' for user " + userId + " from list of ignored words, affectedRows: " + affectedRows);
         return affectedRows >= 1;
       }
     }
@@ -255,7 +256,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          print("Error: Could not fetch/register server id from database for server: " + hostname + " caused by " + e);
+          logger.warn("Error: Could not fetch/register server id from database for server: " + hostname, e);
           return -1L;
         }
       });
@@ -265,7 +266,7 @@ class DatabaseAccess {
         return id;
       }
     } catch (UnknownHostException | ExecutionException e) {
-      print("Error: Could not get hostname to fetch/register server id: " + e);
+      logger.warn("Error: Could not get hostname to fetch/register server id: ", e);
       return null;
     }
   }
@@ -296,7 +297,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          print("Error: Could not get/register id for this client: " + client + " caused by " + e);
+          logger.warn("Error: Could not get/register id for this client: " + client, e);
           return -1L;
         }
       });
@@ -306,7 +307,7 @@ class DatabaseAccess {
         return id;
       }
     } catch (ExecutionException e) {
-      print("Failure in getOrCreateClientId with client '" + client + "': " + e.getMessage());
+      logger.warn("Failure in getOrCreateClientId with client '" + client + "': ", e);
       return null;
     }
   }
