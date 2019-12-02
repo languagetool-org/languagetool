@@ -50,6 +50,11 @@ public class CatalanDisambiguationRuleTest {
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
+        "Al capdavant del Front del Partit.",
+        "/[null]SENT_START A/[al capdamunt de]LOC_PREP l/[al capdamunt de]LOC_PREP  /[null]null capdavant/[al capdamunt de]LOC_PREP  /[null]null de/[al capdamunt de]LOC_PREP l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Front/[Front]_GN_MS|Front/[Front]_possible_nompropi|Front/[Front]complement|Front/[front]NCMS000  /[null]null de/[de]SPS00 l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Partit/[Partit]_GN_MS|Partit/[Partit]_possible_nompropi|Partit/[Partit]complement|Partit/[partit]NCMS000 ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
         "Hem manta vegada participat.",
         "/[null]SENT_START Hem/[haver]VAIP1P00|Hem/[haver]_GV_|Hem/[haver]_perfet  /[null]null manta/[manta vegada]LOC_ADV  /[null]null vegada/[manta vegada]LOC_ADV  /[null]null participat/[participar]VMP00SM0|participat/[participat]_GV_ ./[.]_PUNCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
