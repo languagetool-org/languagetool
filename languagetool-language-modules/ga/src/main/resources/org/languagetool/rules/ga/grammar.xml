@@ -3240,29 +3240,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FA_N-A" name="fá n-a">
             <pattern>
-                <token>fá</token>
+                <token regexp='yes'>f[áé]|faoi</token>
                 <token>n-a</token>
             </pattern>
             <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
             <example correction="faoina"><marker>fá n-a</marker></example>
-        </rule>
-        <rule id="FE_N-A" name="fé n-a">
-            <pattern>
-                <token>fé</token>
-                <token>n-a</token>
-            </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
             <example correction="faoina"><marker>fé n-a</marker></example>
-        </rule>
-        <rule id="FAOI_N-A" name="faoi n-a">
-            <pattern>
-                <token>faoi</token>
-                <token>n-a</token>
-            </pattern>
-            <message>Foirm neamhchaighdeánach de <suggestion>faoina</suggestion></message>
             <example correction="faoina"><marker>faoi n-a</marker></example>
         </rule>
         <rule id="N-A" name="n-a">
+            <antipattern>
+                <token regexp='yes'>d[eo]||trí|ó|le|i|f[áé]|faoi</token>
+                <token>n-a</token>
+            </antipattern>
             <pattern>
                 <token>n-a</token>
             </pattern>
