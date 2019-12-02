@@ -19319,7 +19319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>de</token>
                     <token postag="_cometes_obertura" min="0"/>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>d'<match no="2"/><match no="3"></match></suggestion>
@@ -19331,6 +19331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de Iugoslàvia</example>
                 <example>el 23 de agosto de 1984</example>
                 <example>de oro</example> <!-- very common in Spanish-->
+                <example>Miguel de Unamuno</example>
                 <!-- gira al voltant de OH
                     de ARN-->
             </rule>
@@ -23611,7 +23612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token postag="V.[^NPG].3.*" postag_regexp="yes"><exception postag="V.[NPG].*|VS.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*|h?[aeiouàèéíòóú].*|cal|semi|da</exception></token>
+                    <token postag="V.[^NPG].3.*" postag_regexp="yes"><exception postag="V.[NPG].*|VS.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*|h?[aeiouàèéíòóú].*|cal|da</exception></token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
@@ -36528,7 +36529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes" skip="3">vegada|volta|cop</token>
+                    <token regexp="yes" inflected="yes" skip="3">vegada|volta|col?p</token>
                     <marker>
                         <token inflected="yes">escoltar</token>
                     </marker>
