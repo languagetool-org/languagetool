@@ -159,14 +159,17 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           if (replacementInfinitive.startsWith("(")) {
             possibleReplacements.add(replacementInfinitive);
           } else {
-            String[] parts = replacementInfinitive.split(" "); // the first part
+            String[] parts = replacementInfinitive.trim().split(" "); // the first part
                                                                // is the verb
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0],
                 "V.*", parts[0]);
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
               try {
-                synthesized = synth.synthesize(infinitiveAsAnTkn,
-                    analyzedToken.getPOSTag());
+                String POSTag = analyzedToken.getPOSTag();
+                if (infinitiveAsAnTkn.getLemma().equals("haver")) {
+                  POSTag = "VA" + POSTag.substring(2);
+                }
+                synthesized = synth.synthesize(infinitiveAsAnTkn, POSTag);
               } catch (IOException e) {
                 throw new RuntimeException("Could not synthesize: "
                     + infinitiveAsAnTkn + " with tag "
