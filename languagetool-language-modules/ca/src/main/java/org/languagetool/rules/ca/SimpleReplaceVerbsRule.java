@@ -159,7 +159,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           if (replacementInfinitive.startsWith("(")) {
             possibleReplacements.add(replacementInfinitive);
           } else {
-            String[] parts = replacementInfinitive.trim().split(" "); // the first part
+            String[] parts = replacementInfinitive.split(" "); // the first part
                                                                // is the verb
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0],
                 "V.*", parts[0]);
