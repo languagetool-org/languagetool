@@ -59,6 +59,9 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("photograph");
       words.add("oxyd");
       words.add("playback");
+      words.add("blog");
+      words.add("durchsuchung");
+      words.add("kritisch");
       return words;
     }
   }
