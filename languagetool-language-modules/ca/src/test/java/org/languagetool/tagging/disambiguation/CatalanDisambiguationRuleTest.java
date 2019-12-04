@@ -50,6 +50,16 @@ public class CatalanDisambiguationRuleTest {
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
+        "De tal manera que no vingué.",
+        "/[null]SENT_START De/[de tal manera que]LOC_CONJ  /[null]null tal/[de tal manera que]LOC_CONJ  /[null]null manera/[de tal manera que]LOC_CONJ  /[null]null que/[de tal manera que]LOC_CONJ  /[null]null no/[no]RN  /[null]null vingué/[venir]VMIS3S00 ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "De tal manera ho va fer.",
+        "/[null]SENT_START De/[de tal manera]LOC_ADV  /[null]null tal/[de tal manera]LOC_ADV  /[null]null manera/[de tal manera]LOC_ADV  /[null]null ho/[ho]PP3NN000  /[null]null va/[anar]VAIP3S00|va/[va]_GV_  /[null]null fer/[fer]VMN00000|fer/[fer]_GV_ ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
         "Al capdavant del Front del Partit.",
         "/[null]SENT_START A/[al capdamunt de]LOC_PREP l/[al capdamunt de]LOC_PREP  /[null]null capdavant/[al capdamunt de]LOC_PREP  /[null]null de/[al capdamunt de]LOC_PREP l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Front/[Front]_GN_MS|Front/[Front]_possible_nompropi|Front/[Front]complement|Front/[front]NCMS000  /[null]null de/[de]SPS00 l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Partit/[Partit]_GN_MS|Partit/[Partit]_possible_nompropi|Partit/[Partit]complement|Partit/[partit]NCMS000 ./[.]_PUNCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
