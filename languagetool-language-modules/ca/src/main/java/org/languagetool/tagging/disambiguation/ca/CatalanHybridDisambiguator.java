@@ -111,16 +111,13 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
         int distance = 1;
         while (i + distance < aTokens.length) {
           if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
+            if (distance > maxDistance) {
+              distance = maxDistance;
+              selectedAT = at;
+            }
             break;
           }
           distance++;
-        }
-        if (!aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
-          distance = -1; // closing tag not found
-        }
-        if (distance > maxDistance) {
-          distance = maxDistance;
-          selectedAT = at;
         }
       }
       return selectedAT;
