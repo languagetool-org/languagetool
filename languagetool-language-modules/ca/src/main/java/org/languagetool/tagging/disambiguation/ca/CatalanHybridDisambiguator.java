@@ -93,7 +93,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
     for (AnalyzedToken reading : anTokReadings) {
       String POSTag = reading.getPOSTag();
       if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">")) {
+        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
           return reading;
         }
       }
