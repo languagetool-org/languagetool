@@ -50,6 +50,11 @@ public class CatalanDisambiguationRuleTest {
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
+        "Las Palmas de Gran Canaria",
+        "/[null]SENT_START Las/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Palmas/[Las Palmas de Gran Canaria]NPCNG00|Palmas/[Palmas]_possible_nompropi  /[null]null de/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Gran/[Gran]_possible_nompropi|Gran/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Canaria/[Canaria]_possible_nompropi|Canaria/[Las Palmas de Gran Canaria]NPCNG00",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
         "De tal manera que no vingué.",
         "/[null]SENT_START De/[de tal manera que]LOC_CONJ  /[null]null tal/[de tal manera que]LOC_CONJ  /[null]null manera/[de tal manera que]LOC_CONJ  /[null]null que/[de tal manera que]LOC_CONJ  /[null]null no/[no]RN  /[null]null vingué/[venir]VMIS3S00 ./[.]_PUNCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);

@@ -67,7 +67,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       if (!aTokens[i].isWhitespace()) {  
         if (!nextPOSTag.isEmpty()) {
           AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
-          if (aTokens[i].hasPosTag("</" + POSTag + ">")) {
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
             nextPOSTag = "";
             lemma = "";
           }
@@ -107,14 +107,15 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       int maxDistance = 0;
       for (AnalyzedToken at : l) {
         String tag = "</" + at.getPOSTag().substring(1);
+        String lemma = at.getLemma();
         int distance = 1;
         while (i + distance < aTokens.length) {
-          if (aTokens[i + distance].hasPosTag(tag)) {
+          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
             break;
           }
           distance++;
         }
-        if (!aTokens[i + distance].hasPosTag(tag)) {
+        if (!aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
           distance = -1; // closing tag not found
         }
         if (distance > maxDistance) {

@@ -141,6 +141,22 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     return found;
   }
+  
+  /**
+   * Checks if the token has a particular POS tag and lemma.
+   * 
+   * @param posTag POS tag and lemma to look for
+   */
+  public boolean hasPosTagAndLemma(String posTag, String lemma) {
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      found = posTag.equals(reading.getPOSTag()) && lemma.equals(reading.getLemma());
+      if (found) {
+        break;
+      }
+    }
+    return found;
+  }
 
   /**
    * Checks if there is at least one POS tag
