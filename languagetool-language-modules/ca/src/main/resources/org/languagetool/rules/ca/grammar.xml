@@ -19073,8 +19073,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/></token>
             </pattern>
             <message>Repetició probablement incorrecta.</message>
-            <example correction=""><marker>També s'anomena també</marker> així.</example>
-            <example correction=""><marker>encara no és encara</marker> definitiu.</example>
+            <suggestion><match no="1" include_skipped="all"/></suggestion>
+            <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+            <example correction="També s'anomena|S'anomena també"><marker>També s'anomena també</marker> així.</example>
+            <example correction="encara no és|no és encara"><marker>encara no és encara</marker> definitiu.</example>
             <example>També és blanc, i també és negre.</example>
             <example>Ja per vergonya ja per timidesa</example>
         </rule>
