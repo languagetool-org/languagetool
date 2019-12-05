@@ -88,8 +88,8 @@ public class RuleMatchDiffFinder {
           fw.write("  <td>" + oldMatch.getSuggestions() + "</td>\n");
         } else {
           fw.write("  <td>" +
-            "  <tt>old:</tt> " + oldMatch.getSuggestions() + "<br>\n" +
-            "  <tt>new:</tt> " + newMatch.getSuggestions() +
+            "  <tt>old:</tt> " + showTrimSpace(oldMatch.getSuggestions()) + "<br>\n" +
+            "  <tt>new:</tt> " + showTrimSpace(newMatch.getSuggestions()) +
             "</td>\n");
         }
         fw.write("</tr>\n");
@@ -129,12 +129,20 @@ public class RuleMatchDiffFinder {
     } else if (oldMatch.getMessage().equals(newMatch.getMessage())) {
       fw.write(oldMatch.getMessage());
     } else {
+      //System.out.println("old: " + oldMatch.getMessage());
+      //System.out.println("new: " + newMatch.getMessage());
       fw.write(
-        "<tt>old:</tt> " + oldMatch.getMessage() + "<br>\n" +
-        "<tt>new:</tt> " + newMatch.getMessage());
+        "<tt>old:</tt> " + showTrimSpace(oldMatch.getMessage()) + "<br>\n" +
+        "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
     }
     fw.write("  <br><span class='sentence'>" + oldMatch.getContext() + "</span>");
     fw.write("  </td>\n");
+  }
+
+  private String showTrimSpace(String s) {
+    s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
+    s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
+    return s;
   }
 
   private void printTableBegin(FileWriter fw) throws IOException {
@@ -174,6 +182,7 @@ public class RuleMatchDiffFinder {
       fw.write("    .marker { text-decoration: underline; }\n");
       fw.write("    .source { color: #999; }\n");
       fw.write("    .status { color: #999; }\n");
+      fw.write("    .whitespace { background-color: #ccc; }\n");
       fw.write("  </style>\n");
       fw.write("</head>\n");
       fw.write("<body>\n\n");
