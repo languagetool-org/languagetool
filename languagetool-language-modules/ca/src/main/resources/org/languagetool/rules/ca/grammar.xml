@@ -35261,6 +35261,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DISTOPIA" name="distòpia/distopia">
+            <pattern>
+                <marker>
+                    <token inflected="yes">distòpia</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">distopia</match></suggestion> (antònim d'utopia)?. "Distòpia" és un terme mèdic.</message>
+            <example correction="distopia">Vivim en una <marker>distòpia</marker>.</example>
+        </rule>
         <rule id="SORTIJA" name="sortija/anell">
             <pattern>
                 <marker>
@@ -46298,6 +46307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Davant del so de 's' és recomanable usar la forma plena.</message>
             <suggestion>se</suggestion>
             <url>http://esadir.cat/gramatica/sintaxi/pronfebesse</url>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=se+es&amp;action=Principal&amp;method=detall_completa&amp;numPagina=1&amp;idHit=12395&amp;database=FITXES_PUB&amp;tipusFont=Fitxes%20de%20l%27Optimot&amp;idFont=12395&amp;titol=%27es%20celebra%27%20o%20%27se%20celebra%27?%20/%20Pronom%20%27es%27%20o%20%27se%27%20davant%20de%20verb%20comen%E7at%20amb%20%27s-%27,%20%27ce-%27%20o%20%27ci-%27&amp;numeroResultat=2&amp;clickLink=detall&amp;tipusCerca=cerca.fitxes</url>
             <short>Usem la forma plena</short>
             <example correction="se">Això <marker>es</marker> celebra.</example>
             <example>Ell es substituït per un altre.</example> <!-- another error: es/és -->
