@@ -256,7 +256,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[gG]ottseidank", "[gG]ottseidank", "Gott sei Dank");
     putRepl("[gG]rundauf", "[gG]rundauf", "Grund auf");
     putRepl("[aA]nsichtnach", "[aA]nsicht", "Ansicht ");
-    putRepl("[uU]nswar", "swar", "d zwar");
+    putRepl("[uU]n[sz]war", "[sz]war", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
     putRepl("Probiren?", "ir", "ier");
