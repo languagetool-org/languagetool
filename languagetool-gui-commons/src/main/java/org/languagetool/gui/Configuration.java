@@ -193,9 +193,11 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
-    if (baseDir == null || !baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
-    }
+    // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
+    // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
+    //if (baseDir == null || !baseDir.isDirectory()) {
+    //  throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
+    //}
     initOptions();
     this.lang = lang;
     configFile = new File(baseDir, filename);
