@@ -1116,6 +1116,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>per</token>
                     <token>cent</token>
                 </antipattern>
+                <antipattern>
+                    <token>zero</token>
+                    <token>absolut</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|NCF.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">[\d ,.]+</exception></token>
                     <marker>
@@ -1131,6 +1135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tenia una set terrible.</example>
                 <example>de les aigües de la deu propera</example>
                 <example>Un tant per cent anual.</example>
+                <example>De zero absolut.</example>
                 <!--La regla de tres directa-->
             </rule>
             <rule>
@@ -7875,11 +7880,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="E_U_CONJUNCIO" name="França *e/i Itàlia; dona *u/o home">
             <rule>
                 <antipattern case_sensitive="yes">
-                    <marker>
                         <token>Veles</token>
                         <token>e</token>
                         <token regexp="yes">[vV]ents</token>
-                    </marker>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="N.*" postag_regexp="yes"/>
@@ -7895,11 +7898,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
-                    <marker>
                         <token>Curial</token>
                         <token>e</token>
                         <token>Güelfa</token>
-                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>e</token>
+                    <token>oberta</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -7912,6 +7917,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Conjunció 'i'</short>
                 <example correction="i">inútil <marker>e</marker> ignorant.</example>
                 <example>inútil i ignorant</example>
+                <example>Ha esdevingut e oberta</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -23609,6 +23615,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">es</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token postag=".*LOC.*" postag_regexp="yes">es</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -23676,6 +23685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Associacions de consumidors/es i tota la resta.</example>
                 <example>Llavors es queda pensativa mirant al cel.</example>
                 <example>No m'agrada que es vista així.</example>
+                <example>Pel que es refereix a això.</example>
             </rule>
             <rule>
                 <pattern>
