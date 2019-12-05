@@ -20,7 +20,9 @@
 package org.languagetool.tagging.disambiguation.ca;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -65,13 +67,13 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       if (!aTokens[i].isWhitespace()) {  
         if (!nextPOSTag.isEmpty()) {
           AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
-          if (aTokens[i].hasPosTag("</" + POSTag + ">")) {
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
             nextPOSTag = "";
             lemma = "";
           }
           aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
               "CatalanHybridDisambiguator");
-        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens[i])) != null) {
+        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
           POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
           lemma = analyzedToken.getLemma();
           AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
@@ -89,14 +91,36 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
     return disambiguator.disambiguate(new AnalyzedSentence(aTokens));
   }
   
-  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings anTokReadings) {
-    for (AnalyzedToken reading : anTokReadings) {
+  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
+    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    for (AnalyzedToken reading : aTokens[i]) {
       String POSTag = reading.getPOSTag();
       if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">")) {
-          return reading;
+        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
+          l.add(reading);
         }
       }
+    }
+    // choose the longest one
+    if (l.size() > 0) { 
+      AnalyzedToken selectedAT = null;
+      int maxDistance = 0;
+      for (AnalyzedToken at : l) {
+        String tag = "</" + at.getPOSTag().substring(1);
+        String lemma = at.getLemma();
+        int distance = 1;
+        while (i + distance < aTokens.length) {
+          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
+            if (distance > maxDistance) {
+              distance = maxDistance;
+              selectedAT = at;
+            }
+            break;
+          }
+          distance++;
+        }
+      }
+      return selectedAT;
     }
     return null;
     

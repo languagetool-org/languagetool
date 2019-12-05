@@ -371,7 +371,15 @@ class SingleDocument {
       isReset = true;
     }
     
-
+    // try to get next position from last FlatParagraph position (for performance reasons)
+    nParas = findNextParaPos(numLastFlPara, chPara);
+    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
+      numLastFlPara = nParas;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nParas + logLineBreak);
+      }
+      return nParas;
+    }
     // Test if Size of allParas is correct; Reset if not
     nParas = docCursor.getNumberOfAllTextParagraphs();
     if (nParas < 2) {
@@ -430,15 +438,6 @@ class SingleDocument {
         resetCheck = true;
       }
       textIsChanged = true;
-    }
-    // try to get next position from last FlatParagraph position (for performance reasons)
-    nParas = findNextParaPos(numLastFlPara, chPara);
-    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
-      numLastFlPara = nParas;
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + logLineBreak);
-      }
-      return nParas;
     }
     //  try to get paragraph position from automatic iteration
     if (flatPara == null) {

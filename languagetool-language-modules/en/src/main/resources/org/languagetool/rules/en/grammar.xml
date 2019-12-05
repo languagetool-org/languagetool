@@ -2160,6 +2160,13 @@ USA
                 <example>if and only if</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>which</token>
+                    <token>if</token>
+                    <token>so</token>
+                    <token>,</token>
+                    <token>is</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">which|who(se)?</token>
                     <marker>
@@ -2169,6 +2176,7 @@ USA
                 <message>Did you mean <suggestion>is</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="is">The rules are tested, which <marker>if</marker> quite fast.</example>
+                <example>Development says the issues are going to be fixed in version 4.712, which if so, is great.</example>
             </rule>
         </rulegroup>
         <rule id="BED_ENGLISH" name="bed/bat (bad) English/...">
@@ -13069,25 +13077,43 @@ USA
                 <example correction="Do-It-Yourself">Let's get inspired by watching <marker>Do It Yourself</marker> videos.</example>
             </rule>
         </rulegroup>
-        <rule id="SIMPLE_TO_USE_HYPHEN" name="missing hyphen in 'simple to use'">
-            <pattern>
-                <token regexp="yes">an?|the|my|his|her|its|their|y?our</token>
-                <marker>
-                    <token regexp="yes">simple|easy|hard</token>
-                    <token>to</token>
-                    <token regexp="yes">use|read|follow|make|draw|understand|wear|reach|access</token>
-                </marker>
-                <token postag="NN.*" postag_regexp="yes" />
-            </pattern>
-            <message>It appears that two hyphens are missing.</message>
-            <suggestion>\2-\3-\4</suggestion>
-            <example>The computer is simple to use.</example>
-            <example>It's simple to use.</example>
-            <example>It's easy to make friends.</example>
-            <example correction="simple-to-use">The Mac is a <marker>simple to use</marker> computer.</example>
-            <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
-            <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
-        </rule>
+        <rulegroup id="SIMPLE_TO_USE_HYPHEN" name="missing hyphen in 'simple to use'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|its|their|y?our</token>
+                    <marker>
+                        <token regexp="yes">simple|easy|hard</token>
+                        <token>to</token>
+                        <token regexp="yes">use|read|follow|make|draw|understand|wear|reach|access</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>It appears that two hyphens are missing.</message>
+                <suggestion>\2-\3-\4</suggestion>
+                <example>The computer is simple to use.</example>
+                <example>It's simple to use.</example>
+                <example>It's easy to make friends.</example>
+                <example correction="simple-to-use">The Mac is a <marker>simple to use</marker> computer.</example>
+                <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
+                <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|its|their|y?our</token>
+                    <marker>
+                        <token regexp="yes">simple|easy|hard</token>
+                        <token>to</token>
+                        <token regexp="yes">use|read|follow|make|draw|understand|wear|reach|access</token>
+                    </marker>
+                    <token regexp="yes">and|,</token>
+                    <token postag="JJ"/>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>It appears that two hyphens are missing.</message>
+                <suggestion>\2-\3-\4</suggestion>
+                <example correction="easy-to-use">An <marker>easy to use</marker>, friendly interface makes proofreading a pleasure.</example>
+            </rule>
+        </rulegroup>
         <rule id="CALL_TO_ACTION_HYPHEN" name="missing hyphen in 'call to action'">
             <pattern>
                 <marker>
@@ -22205,7 +22231,7 @@ USA
             <example type="triggers_error">A lack of vowel marking (often with ambiguity between no vowel an...</example>
             <example>...e of the state banks, a weak financial market and a lack of bank transparency.</example>
         </rule>
-        <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun" default="temp_off"><!-- #2141 -->
+        <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun"><!-- #2141 -->
             <short>Grammatical problem</short>
             <rule>
             <!-- Created by Tiago F. Santos, 2019-11-10. Changes by MFU 2019-11-27 and later -->

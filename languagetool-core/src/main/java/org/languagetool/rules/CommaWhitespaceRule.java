@@ -117,16 +117,17 @@ public class CommaWhitespaceRule extends Rule {
           msg = messages.getString("space_after_comma");
           suggestionText = getCommaCharacter();
           // exception for duplicated comma (we already have another rule for that)
-          if (i + 1 < tokens.length
-              && getCommaCharacter().equals(tokens[i + 1].getToken())) {
+          if (i + 1 < tokens.length && getCommaCharacter().equals(tokens[i+1].getToken())) {
             msg = null;
           }
         } else if (token.equals(".")) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
           // exception case for figures such as ".5" and ellipsis
-          if (i + 1 < tokens.length
-              && isDigitOrDot(tokens[i + 1].getToken())) {
+          if (i + 1 < tokens.length && isDigitOrDot(tokens[i+1].getToken())) {
+            msg = null;
+          } else if (i + 2 < tokens.length && tokens[i+1].getToken().equals("/") && tokens[i+2].getToken().matches("[a-zA-Z]+")) {
+            // commands like "./validate.sh"
             msg = null;
           }
         }

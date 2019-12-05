@@ -50,6 +50,31 @@ public class CatalanDisambiguationRuleTest {
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
+        "Abans-d'ahir va ser",
+        "/[null]SENT_START Abans-d'ahir/[Abans-d'ahir]_marca_passat|Abans-d'ahir/[abans-d'ahir]RG  /[null]null va/[anar]VAIP3S00|va/[va]_GV_  /[null]null ser/[ser]VSN00000|ser/[ser]_GV_",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "Las Palmas de Gran Canaria",
+        "/[null]SENT_START Las/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Palmas/[Las Palmas de Gran Canaria]NPCNG00|Palmas/[Palmas]_possible_nompropi  /[null]null de/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Gran/[Gran]_possible_nompropi|Gran/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Canaria/[Canaria]_possible_nompropi|Canaria/[Las Palmas de Gran Canaria]NPCNG00",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "De tal manera que no vingué.",
+        "/[null]SENT_START De/[de tal manera que]LOC_CONJ  /[null]null tal/[de tal manera que]LOC_CONJ  /[null]null manera/[de tal manera que]LOC_CONJ  /[null]null que/[de tal manera que]LOC_CONJ  /[null]null no/[no]RN  /[null]null vingué/[venir]VMIS3S00 ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "De tal manera ho va fer.",
+        "/[null]SENT_START De/[de tal manera]LOC_ADV  /[null]null tal/[de tal manera]LOC_ADV  /[null]null manera/[de tal manera]LOC_ADV  /[null]null ho/[ho]PP3NN000  /[null]null va/[anar]VAIP3S00|va/[va]_GV_  /[null]null fer/[fer]VMN00000|fer/[fer]_GV_ ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "Al capdavant del Front del Partit.",
+        "/[null]SENT_START A/[al capdamunt de]LOC_PREP l/[al capdamunt de]LOC_PREP  /[null]null capdavant/[al capdamunt de]LOC_PREP  /[null]null de/[al capdamunt de]LOC_PREP l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Front/[Front]_GN_MS|Front/[Front]_possible_nompropi|Front/[Front]complement|Front/[front]NCMS000  /[null]null de/[de]SPS00 l/[el]DA0MS0|l/[l]_GN_MS  /[null]null Partit/[Partit]_GN_MS|Partit/[Partit]_possible_nompropi|Partit/[Partit]complement|Partit/[partit]NCMS000 ./[.]_PUNCT",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
         "Hem manta vegada participat.",
         "/[null]SENT_START Hem/[haver]VAIP1P00|Hem/[haver]_GV_|Hem/[haver]_perfet  /[null]null manta/[manta vegada]LOC_ADV  /[null]null vegada/[manta vegada]LOC_ADV  /[null]null participat/[participar]VMP00SM0|participat/[participat]_GV_ ./[.]_PUNCT",
         tokenizer, sentenceTokenizer, tagger, disambiguator);

@@ -120,6 +120,7 @@ public class LanguageIdentifier {
         fasttextEnabled = true;
       } catch (IOException e) {
         fasttextEnabled = false;
+        logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
@@ -246,6 +247,7 @@ public class LanguageIdentifier {
           String.format("Fasttext disabled, failed on '%s' (shortText='%s'): %s", text, shortText, ExceptionUtils.getStackTrace(e)));
         RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
+        logger.error(String.format("Fasttext disabled, failed on '%s' (shortText='%s')", text, shortText), e);
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
@@ -311,6 +313,7 @@ public class LanguageIdentifier {
     }
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
+      logger.error("Error while parsing fasttext output '{}'", buffer);
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
     }
     for (int i = 0; i < values.length; i += 2) {
