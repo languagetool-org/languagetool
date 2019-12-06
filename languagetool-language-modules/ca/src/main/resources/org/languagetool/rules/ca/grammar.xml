@@ -1914,6 +1914,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Era el base de l'equip</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>cada</token>
+                    <token regexp="yes">\d+°</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
@@ -1940,6 +1944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de passar tanta set</example>
                 <example>tant planetes com cometes</example>
                 <example>Però aquestes rai!</example>
+                <example>Anirà variant cada 5°.</example>
                 <!-- <example>tant pilars i motllures com l'acabament</example>
                     tota jo-->
             </rule>
@@ -3334,6 +3339,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Amb el sentit de "finalitat, propòsit" és masculí.</message>
                 <suggestion>el fi</suggestion>
                 <example correction="el fi">Amb <marker>la fi</marker> d'arribar a la meta el primer.</example>
+            </rule>
+            <rule id="FI2" name="*la/el fi (finalitat)">
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de "finalitat, propòsit" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> \5</suggestion>
+                <example correction="aqueix fi">Dedicat expressament a <marker>aqueixa fi</marker>.</example>
+                <example correction="aqueixos fins">Dedicat expressament a <marker>aqueixes fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
+            </rule>
+            <rule id="FI2" name="*la/el fi (finalitat)">
+                <pattern>
+                    <token inflected="yes" regexp="yes">dedicar|dirigir|adreçar|destinar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>a</token>
+                    <marker>
+                        <token postag="D..F.*" postag_regexp="yes"/>
+                        <token postag="A..[FC].*" postag_regexp="yes"/>
+                        <token regexp="yes">fi|fins<exception postag="SPS00"/></token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de "finalitat, propòsit" és masculí.</message>
+                <suggestion><match no="4" postag="(D..)F(.*)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="5" postag="(A..)[FC](.*)" postag_regexp="yes" postag_replace="$1[MC]$2"/> \6</suggestion>
+                <example correction="un bo fi|un bon fi">Dedicat expressament a <marker>una bona fi</marker>.</example>
+                <example correction="aquests nobles fins">Dedicat expressament a <marker>aquestes nobles fins</marker>.</example>
+                <example>Dedicat a aqueixes fins demà.</example>
             </rule>
             <rule id="UN_ARMA" name="*un/una arma">
                 <pattern>
@@ -8034,6 +8072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>ja que</suggestion>
             <suggestion>puix</suggestion>
             <suggestion>puix que</suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/conjdoncs</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=&amp;action=Principal&amp;method=detall_completa&amp;numPagina=1&amp;idHit=12637&amp;database=FITXES_PUB&amp;tipusFont=Fitxes%20de%20l%27Optimot&amp;idFont=12637&amp;titol=%27doncs%27%20o%20%27perqu%E8%27?&amp;numeroResultat=2&amp;clickLink=detall&amp;tipusCerca=cerca.fitxes</url>
             <short>'Doncs' no té valor causal.</short>
             <example correction="perquè|ja que|puix|puix que">Vingué, <marker>doncs</marker> això li agradava.</example>
@@ -17708,10 +17747,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <antipattern>
-                <marker>
                     <token regexp="yes">.*\d|/</token>
                     <token>mols</token>
-                </marker>
+            </antipattern>
+            <antipattern>
+                    <token>mols</token>
+                    <token>de</token>
+                    <token regexp="yes" inflected="yes">solut|ió|anió</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -35275,8 +35317,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">distòpia</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">distopia</match></suggestion> (antònim d'utopia)?. "Distòpia" és un terme mèdic.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">distopia</match></suggestion> (antònim d'utopia)? "Distòpia" és un terme mèdic.</message>
+
             <example correction="distopia">Vivim en una <marker>distòpia</marker>.</example>
+        </rule>
+        <rule id="CALENDAR" name="calendar/calendari">
+            <pattern>
+                <marker>
+                    <token inflected="yes">calendar</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">calendari</match></suggestion>? "Calendar" és un terme històric.</message>
+            <example correction="calendari">El <marker>calendar</marker> d'activitats del mes de març.</example>
+            <url>https://dlc.iec.cat/results.asp?txtEntrada=calendar</url>
+            <url>http://www.avl.gva.es/lexicval/?paraula=calendar</url> 
         </rule>
         <rule id="SORTIJA" name="sortija/anell">
             <pattern>

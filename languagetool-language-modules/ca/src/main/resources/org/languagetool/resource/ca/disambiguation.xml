@@ -2342,13 +2342,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <example type="untouched">de <marker>vols</marker> transoceànics</example>
         <example type="untouched">Encara hi ha <marker>vols</marker> avui?</example>
     </rule>
-    <rule id="carboni" name="carboni (nom)">
-        <pattern>
-            <token inflected="yes">carboni</token>
-            <token spacebefore="no">-</token>
-        </pattern>
-        <disambig action="remove" postag="V.*"/>
-    </rule>
+    <rulegroup id="carboni" name="carboni / mescla (no verb)">
+        <rule>
+            <pattern>
+                <token inflected="yes">carboni</token>
+                <token spacebefore="no">-</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>-</token>
+                <token inflected="yes" spacebefore="no">carboni</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">mescla|barreja</token>
+                </marker>
+                <token/>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rule id="es_la" name="prevenció en error: es/és la">
         <pattern>
             <token>es</token>
