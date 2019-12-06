@@ -225,7 +225,7 @@ public class SentenceSourceChecker {
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
         long runTimeMillis = System.currentTimeMillis() - startTime;
-        System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
+        //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
         try {
           resultHandler.close();
         } catch (Exception e) {
