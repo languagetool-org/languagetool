@@ -23604,6 +23604,14 @@ USA
             <!-- Note: 
                 I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
                 -->
+            <antipattern><!-- 2019-12-06 MFU. Incomplete sentences (three dots: ...) -->
+                 <token>.</token>
+                 <token>.</token>
+                <token postag="SENT_END">.</token>
+            </antipattern>
+            <antipattern><!-- Incomplete sentences (ellipsis character: … ) -->
+                <token postag="SENT_END">…</token>
+            </antipattern>
             <rule>
           <!-- 01-09-2019 All other rulegroup rules look good. Check false positives on this one, disable, improve, re-enable -->
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
@@ -23699,6 +23707,7 @@ USA
                 <example><!-- formula + line end -->where C is an arbitrary constant of integration.</example>
                 <!--example>If only we'd stop trying to be happy we could have a...</example> XXX This would be a valid correction -->
                 <example type="triggers_error">As if you could kill time without injuring eternity.</example>
+                <example>When the original stories were related (e.g. The War a...</example>
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
@@ -23781,6 +23790,7 @@ USA
                 <example>So if the dog likes to bark; it's still a nice dog.</example>
                 <example correction=""><marker>So that</marker> through him all man might believe.</example>
                 <example><marker>So that</marker> through him, all man might believe.</example>
+                <example>So though it may be seen plainly that what he has done has …</example>
             </rule>
             <!--rule R0.1D phrase 'So, [list]', likely to start a fragment -->
             <!-- Note:
