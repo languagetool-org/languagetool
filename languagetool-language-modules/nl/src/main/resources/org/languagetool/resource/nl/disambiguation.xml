@@ -839,6 +839,54 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall" />
 	</rule>
 
+	<rule id="DISAMBIG_ZIN_HIJ_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_PIET_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="ENM:.*"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_MAN_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">de|die|deze</token>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_IS_GOED" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+
 <!-- words that are common and could use disambiguation.
 ordered from most common to least
 
