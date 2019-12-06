@@ -886,7 +886,201 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
 		<disambig action="filterall" />
     </rule>
+	<rule id="DISAMBIG_ZIN_EEN_GOEDE_MAN" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Een</token>
+            <token postag="BNW:STL:VRB"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HIJ_EET_ZIJN_FRUIT" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="VNW:PER:3EP:BEZ:EKV"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_COCK_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>De</token>
+            <token postag="ENM:PER:LST:DE_" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_VROUW_IS_DOOD" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">de|die|deze</token>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_GAAT_GOED" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
 
+	<rule id="DISAMBIG_ZIN_DEEL_JE_MENING" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="WKW:TGW:1EP"/>
+            <token postag="VNW:PER:2EP:EKV"/>
+            <token postag_regexp="yes" postag="ZNW.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_EEN_GOED_MENS" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Een</token>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_WEET" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HIJ_NEEMT_ZIJN_MAPPEN_DOOR" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag="ZNW.*"/>
+            <token postag="VRZ"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_NEEM_MIJN_FRUIT" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_JAN_JANSSEN" name="-">
+        <pattern>
+            <token postag="ENM:PER:FST" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token postag="ENM:PER:LST:NIX" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+    <rule id="DISAMBIG_JAN_DE_BOER" name="-">
+        <pattern>
+            <token postag="ENM:PER:FST" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token>de</token>
+            <token postag="ENM:PER:LST:NIX" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_ZE_LOPEN" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="VNW:PER:?EP:MRV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_ER_LOOPT_EEN_HOND" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">er|hier|daar|n?ergens</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token>een</token>
+            <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+    
+<!--
+#   5571 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   4228 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token>even</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   4207 <token postag="SENT_START"/><token postag="BNW:STL:ONV"/><token postag="VGW"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   4089 <token postag="SENT_START"/><token>Dat</token><token>was</token><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   4084 <token postag="SENT_START"/><token postag="BNW:STL:ONV"/><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   4067 <token postag="SENT_START"/><token>De</token><token postag="ZNW:MRV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   4013 <token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="WKW:VLT:1EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3794 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token postag="VRZ"/><token>zijn</token><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3765 <token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="WKW:VLT:1EP"/><token>haar</token><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3721 <token postag="SENT_START"/><token postag="VNW:OBP"/><token>antwoord</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   3720 <token postag="SENT_START"/><token>Het</token><token>was</token><token>een</token><token postag="BNW:STL:VRB"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3678 <token postag="SENT_START"/><token>Het</token><token>was</token><token>een</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3601 <token postag="SENT_START"/><token postag="VNW:OBP"/><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3601 <token postag="SENT_START"/><token postag="VNW:OBP"/><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3505 <token postag="SENT_START"/><token postag="ZNW:MRV:DE_"/><token postag="VGW"/><token postag="ZNW:MRV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3505 <token postag="SENT_START"/><token>Ik</token><token>ben</token><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3504 <token postag="SENT_START"/><token>Ze</token><token postag="WKW:VLT:1EP"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3428 <token postag="SENT_START"/><token>Ze</token><token postag="WKW:VLT:1EP"/><token>haar</token><token postag="ZNW:MRV:DE_"/><token postag="VRZ"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3392 <token postag="SENT_START"/><token postag="BNW:STL:ONV"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3368 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token postag="VRZ"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3364 <token postag="SENT_START"/><token postag="VNW:OBP"/><token postag="ZNW:MRV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3332 <token postag="SENT_START"/><token>Het</token><token postag="ZNW:EKV:HET"/><token>is</token><token>gesloten</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   3307 <token postag="SENT_START"/><token>Ze</token><token>was</token><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3154 <token postag="SENT_START"/><token>De</token><token postag="ZNW:EKV:DE_"/><token postag="WKW:VLT:1EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3150 <token postag="SENT_START"/><token>Het</token><token>is</token><token>een</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3102 <token postag="SENT_START"/><token>De</token><token postag="ZNW:EKV:DE_"/><token postag="WKW:VLT:1EP"/><token>open</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   3070 <token postag="SENT_START"/><token>Ik</token><token postag="WKW:TGW:1EP"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3069 <token postag="SENT_START"/><token>Waarom</token><token>niet</token><token postag="SENT_END">?</token>
+   3060 <token postag="SENT_START"/><token>Vledder</token><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3020 <token postag="SENT_START"/><token>Mijn</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   3004 <token postag="SENT_START"/><token postag="ENM:PER:FST"/><token postag="WKW:TGW:3EP"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2995 <token postag="SENT_START"/><token postag="VGW"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2984 <token postag="SENT_START"/><token>Het</token><token>was</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2976 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token>stond</token><token postag="VRZ"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2969 <token postag="SENT_START"/><token>Ik</token><token postag="WKW:TGW:1EP"/><token>het</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   2952 <token postag="SENT_START"/><token>Een</token><token postag="ZNW:EKV:VRK:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2928 <token postag="SENT_START"/><token>Het</token><token postag="WKW:VLT:1EP"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2844 <token postag="SENT_START"/><token>De</token><token postag="ZNW:MRV:DE_"/><token>zijn</token><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2820 <token postag="SENT_START"/><token>De</token><token postag="BNW:STL:VRB"/><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2818 <token postag="SENT_START"/><token>Ik</token><token>was</token><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2801 <token postag="SENT_START"/><token>Ik</token><token>knik</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   2766 <token postag="SENT_START"/><token>Ik</token><token postag="WKW:VLT:1EP"/><token postag="BYW"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2740 <token postag="SENT_START"/><token>Het</token><token>is</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2701 <token postag="SENT_START"/><token postag="WKW:TGW:1EP"/><token>dan</token><token>contact</token><token>met</token><token>ons</token><token postag="VRZ"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2642 <token postag="SENT_START"/><token>Leven</token><token postag="VGW"/><token>werk</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   2620 <token postag="SENT_START"/><token>Wat</token><token>een</token><token postag="ZNW:EKV:HET"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2613 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token>naar</token><token>de</token><token postag="ZNW:EKV:DE_"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2613 <token postag="SENT_START"/><token>Ik</token><token postag="WKW:VLT:1EP"/><token>niets</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   2610 <token postag="SENT_START"/><token>Niet</token><token postag="WKW:TGW:INF"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2605 <token postag="SENT_START"/><token postag="VNW:PER:3EP:EKV:ACT"/><token postag="WKW:VLT:1EP"/><token postag="WKW:TGW:INF"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2594 <token postag="SENT_START"/><token>Dat</token><token>is</token><token postag="VNW:OBP:EKV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+   2561 <token postag="SENT_START"/><token>Het</token><token>spijt</token><token>me</token><token postag="SENT_END" regexp="yes">[!.]</token>
+   2555 <token postag="SENT_START"/><token>Ik</token><token postag="WKW:VLT:1EP"/><token postag="BNW:STL:ONV"/><token postag="SENT_END" regexp="yes">[!.]</token>
+-->    
 <!-- words that are common and could use disambiguation.
 ordered from most common to least
 
