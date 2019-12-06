@@ -7113,6 +7113,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">més|cas|període</exception></token>
                     <marker>
                         <token>recent</token>
+                        <token postag="V.P.*" postag_regexp="yes" regexp="yes">h?[aeiou].*<exception regexp="yes">&verbs_no_apostrofen;</exception></token>
+                    </marker>
+                </pattern>
+                <message>"Recent" no és un adverbi.</message>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1" >acabar</match> d'<match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="3"/> de poc</suggestion>
+                <suggestion><match no="3"/> de nou</suggestion>
+                <suggestion>recentment <match no="3"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
+                <example correction="acabats d'elegir|elegits de poc|elegits de nou|recentment elegits"><marker>recent elegits</marker></example>
+                <example correction="acabat d'elegir|elegit de poc|elegit de nou|recentment elegit"><marker>recent elegit</marker></example>
+                <example>l'altre més recent viscut pels nostres pares</example>
+                <example>un cas recent lligat a un estímul admiratiu</example>
+                <example>en un període recent units de manera contínua</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">més|cas|període</exception></token>
+                    <marker>
+                        <token>recent</token>
                         <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">néixer|casar</exception></token>
                     </marker>
                 </pattern>
