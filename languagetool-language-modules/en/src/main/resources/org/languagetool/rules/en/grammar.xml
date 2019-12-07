@@ -42466,6 +42466,34 @@ The accident victim died from her injuries.
     </rule>
   </rulegroup>
 
+   <rulegroup id="NON_STANDARD_COMMA" name="Non-standard comma"><!-- #2208 -->
+        <short>Non-standard comma</short>
+        <rule><!-- mid-word 'comma' -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.+，.+</token>
+            </pattern>
+            <message>The character '，' is not a standard comma, although it can look like a comma. Use <suggestion><match no="1" regexp_match="(.+)，(.+)" regexp_replace="$1, $2"/></suggestion>.</message>
+            <example correction="careful, this">Be <marker>careful，this</marker> is not a standard comma.</example>
+            <example correction="10, or">You can use <marker>10，or</marker> more if necessary.</example>
+            <example correction="ABC123, XYZ10">Use one of these Part Numbers: <marker>ABC123，XYZ10</marker>.</example>
+            <example><marker>But, this</marker> is a standard comma and a space.</example>
+            <example>China<marker>, </marker> therefore will...</example>
+            <example>You can use <marker>10， or</marker> more if necessary.</example>
+            <example>Do not find an isolated <marker>，</marker> like this.</example>
+            <example>Do not suggest a <marker>space，</marker> because there is a space after the character.</example>
+            <example>The character '，' is not a standard comma.</example>
+        </rule>
+        <rule><!-- space after the 'comma' -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.+，</token>
+            </pattern>
+            <message>The character '，' is not a standard comma, although it can look like a comma. Use <suggestion><match no="1" regexp_match="(.+)，" regexp_replace="$1,"/></suggestion>.</message>
+            <example correction="careful,">Be <marker>careful，</marker> because this is not a standard comma.</example>
+            <example correction="5,">You can use <marker>5，</marker> or more if necessary.</example>
+            <example><marker>But, this</marker> is a standard comma.</example>
+        </rule>
+    </rulegroup>
+
   </category>
 
     <!-- ====================================================================== -->
