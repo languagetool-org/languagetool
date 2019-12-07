@@ -5928,6 +5928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">menjar|beure|tastar|mamar</token>
             </pattern>
             <message>Expressió incorrecta.</message>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=donar+de+menjar&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11798&amp;idHit=11798&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27donar+de+menjar%27+o+%27donar+menjar%27%3F+%2F+%27donar+de+beure%27+o+%27donar+beure%27%3F+%2F+%27donar+de+mamar%27+o+%27donar+mamar%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <suggestion><match no="1" include_skipped="all"/> <match no="3"/></suggestion>
             <suggestion><match no="1" include_skipped="all"/> a <match no="3"/></suggestion>
             <example correction="donava menjar|donava a menjar">Li <marker>donava de menjar</marker>.</example>
@@ -30851,6 +30852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vegeu">Maquiavel (<marker>veure</marker> la cita).</example>
         </rule>
         <rule id="POR_A_LES_ALCADES" name="*por a les alçades/por a les altures">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=al%E7%E0ria+al%E7ada+altura&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=10765&amp;idHit=10765&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=al%E7%E0ria%2C+al%E7ada+o+altura%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <pattern>
                 <token regexp="yes" inflected="yes" skip="2">por|mal</token>
                 <marker>
@@ -31164,8 +31166,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>En sentit figurat, cal dir <suggestion>a l'altura</suggestion>.</message>
-            <short>Expressió incorrecta</short>
+            <url>https://dlc.iec.cat/results.asp?txtEntrada=altura</url>
             <example correction="a l'altura">no va saber estar <marker>a l'alçada</marker></example>
+            <example>estar a l'altura</example>
+        </rule>
+        <rule id="DONAR_LA_TALLA" name="donar la talla">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">donar</token>
+                    <token>la</token>
+                    <token>talla</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">estar</match> a l'altura</suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">tenir</match> la talla</suggestion>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=donar+la+talla&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=7682&amp;idHit=7682&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=donar+la+talla+%2F+estar+a+l%27altura%2C+tenir+la+talla&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <example correction="estava a l'altura|tenia la talla">No <marker>donava la talla</marker>.</example>
             <example>estar a l'altura</example>
         </rule>
         <rule id="FINS_AQUI_PODIEM_ARRIBAR" name="fins aquí podíem arribar">
@@ -37218,7 +37235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
-            <url>https://www.parlament.cat/document/intrade/6562</url>
+            <url>https://dlc.iec.cat/results.asp?txtEntrada=altitud</url>
             <rule>
                 <pattern>
                     <marker>
@@ -41326,7 +41343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Nord</token>
             </pattern>
             <message>La forma preferent, fixada per l'IEC és <suggestion>Catalunya del Nord</suggestion></message>
-            <url>https://publicacions.iec.cat/repository/pdf/00000044/00000018.pdf</url>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=Catalunya+del+Nord&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=7993&amp;idHit=7993&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcta+la+denominaci%F3+Catalunya+Nord+en+catal%E0%3F+%2F+Catalunya+del+Nord&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <example correction="Catalunya del Nord"><marker>Catalunya Nord</marker>.</example>
         </rule>
         <rule id="DONAR_COMPLIMENT" name="donar compliment/complir" default="off">
@@ -43812,7 +43829,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">indicador</match></suggestion>
                 <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">senyal</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/xivato</url>
-                <url>https://dlc.iec.cat/results.asp?txtEntrada=xivato</url>
                 <example correction="espietes|xerraires|delators|indicadors|senyals">Els <marker>xivatos</marker>!</example>
             </rule>
             <rule>
@@ -43824,7 +43840,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCC$1.*">xerraire</match></suggestion>
                 <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">delator</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/xivato</url>
-                <url>https://dlc.iec.cat/results.asp?txtEntrada=xivato</url>
                 <example correction="espietes|xerraires|delatores">Les <marker>xivates</marker>!</example>
             </rule>
             <rule>
