@@ -72,6 +72,7 @@ public class AgreementRule2 extends Rule {
 
   public AgreementRule2(ResourceBundle messages, Language language) {
     this.language = language;
+    setDefaultTempOff();
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
