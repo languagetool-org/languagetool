@@ -1429,7 +1429,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <antipattern>
           <token case_sensitive="yes">A</token>
-          <token>/</token>
+          <token regexp="yes">\/|\)|\.</token>
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
@@ -1449,6 +1449,14 @@ though, and has since been slightly modified)-->
         <example>A/B Testez.</example>
       </rule>
       <rule>
+          <antipattern>
+              <token regexp="yes">\.|\/</token>
+              <token spacebefore="no" case_sensitive="yes">A</token>
+          </antipattern>
+          <antipattern>
+              <token case_sensitive="yes">A</token>
+              <token regexp="yes">\/|\)|\.</token>
+          </antipattern>
         <pattern>
           <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
 			<exception regexp="yes" scope="next">qu[ie]?</exception>
@@ -6385,7 +6393,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">fausses?</token></marker>
-          <token regexp="yes">abyssales?|canines?|béantes?|communes?|océaniques?|sous[-‑‐]marines?|septiques?|immenses?|profondes?|nasales?|iliaques?|temporales?</token>
+          <token regexp="yes">abyssales?|canines?|béantes?|communes?|océaniques?|sous[-‑‐]as?|septiques?|immenses?|profondes?|nasales?|iliaques?|temporales?</token>
         </pattern>
         <message>Confusion probable entre l’adjectif « \1 » et le nom <suggestion><match no="1" regexp_match="au" regexp_replace="o"/></suggestion>.</message>
         <url>http://tempsreel.nouvelobs.com/abc-lettres/fausse-fosse/F/homophone.html</url>
@@ -8163,6 +8171,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
+    <antipattern>
+        <token>couleur</token>
+        <token min="0" max="2"/>
+        <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon</token>
+    </antipattern>
+        <antipattern>
+            <token>couleur</token>
+            <token min="0" max="2"/>
+            <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?</token>
+            <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?|Pastel|sang|acier|plastique</token>
+        </antipattern>
       <rule name="nombre singulier suivi du pluriel">
           <antipattern>
               <token>top</token>
@@ -8407,6 +8426,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
+        <antipattern>
+            <token>couleur</token>
+            <token min="0" max="2"/>
+            <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon</token>
+        </antipattern>
+        <antipattern>
+            <token>couleur</token>
+            <token min="0" max="2"/>
+            <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?</token>
+            <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?|Pastel|sang|acier|plastique</token>
+        </antipattern>
       <rule name="masculin suivi du féminin">
           <antipattern>
               <token>moteur</token>
@@ -11432,6 +11462,17 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="IMP_PRON" name="Impératif + pronom">
       <rule>
+          <antipattern>
+              <token>me</token>
+              <token inflected="yes">rappeler</token>
+              <token postag="R pers obj.*" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
+              <token>le</token>
+              <token inflected="yes">souhaiter</token>
+              <token postag="R pers obj.*" postag_regexp="yes"/>
+              <token>aussi</token>
+          </antipattern>
         <antipattern>
           <token>Force</token>
           <token>nous</token>
@@ -11459,14 +11500,29 @@ though, and has since been slightly modified)-->
         <example>Veuillez nous y conduire.</example>
         <example>Force nous est de constater…</example>
       </rule>
-      <rule>
-        <pattern>
-          <token postag="V.* imp .*" postag_regexp="yes"/>
-          <token regexp="yes">[mt]oi</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Laisse-moi"><marker>Laisse moi</marker> faire comme ça.</example>
-      </rule>
+        <rule>
+            <antipattern>
+                <token>moi</token>
+                <token>non</token>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>moi</token>
+                <token min="0">-</token>
+                <token>même</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token regexp="yes">[mt]oi</token>
+                <token regexp="yes">plus|moins|vaguement</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.* imp .*" postag_regexp="yes"/>
+                <token regexp="yes">[mt]oi</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="Laisse-moi"><marker>Laisse moi</marker> faire comme ça.</example>
+        </rule>
       <rule>
         <pattern>
           <marker>

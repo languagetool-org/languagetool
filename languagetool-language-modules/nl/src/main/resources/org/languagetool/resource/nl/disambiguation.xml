@@ -839,6 +839,271 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall" />
 	</rule>
 
+	<rule id="DISAMBIG_ZIN_HIJ_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_PIET_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="ENM:.*"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_MAN_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">de|die|deze</token>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_IS_GOED" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_EEN_GOEDE_MAN" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Een</token>
+            <token postag="BNW:STL:VRB"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HIJ_EET_ZIJN_FRUIT" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="VNW:PER:3EP:BEZ:EKV"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_COCK_LIEP" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>De</token>
+            <token postag="ENM:PER:LST:DE_" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_DE_VROUW_IS_DOOD" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">de|die|deze</token>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_GAAT_GOED" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+
+	<rule id="DISAMBIG_ZIN_DEEL_JE_MENING" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="WKW:TGW:1EP"/>
+            <token postag="VNW:PER:2EP:EKV"/>
+            <token postag_regexp="yes" postag="ZNW.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_EEN_GOED_MENS" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Een</token>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_WEET" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HIJ_NEEMT_ZIJN_MAPPEN_DOOR" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag_regexp="yes" postag="ZNW.*"/>
+            <token postag="VRZ"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_IK_NEEM_MIJN_FRUIT" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>Ik</token>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV|ZNW:EKV:VRK:HET"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_JAN_JANSSEN" name="-">
+        <pattern>
+            <token postag="ENM:PER:FST" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token postag="ENM:PER:LST:NIX" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+    <rule id="DISAMBIG_JAN_DE_BOER" name="-">
+        <pattern>
+            <token postag="ENM:PER:FST" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            <token>de</token>
+            <token postag="ENM:PER:LST:NIX" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_ZE_LOPEN" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="VNW:PER:?EP:MRV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_ER_LOOPT_EEN_HOND" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">er|hier|daar|n?ergens</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token>een</token>
+            <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_PIET_LIEP_GOED" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="ENM:.*"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="BNW:.*:ONV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HIJ_LOOPT_NAAR_HAAR_AUTO" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag="VNW:PER:3EP:EKV:ACT"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag="VRZ"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag_regexp="yes" postag="ZNW:.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_PIET_NEEMT_HAAR_AUTO" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token postag_regexp="yes" postag="ENM:PER:.*"/>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token postag_regexp="yes" postag="VNW:PER.*"/>
+            <token postag_regexp="yes" postag="ZNW:.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_IS_EEN_GOEDE_BUUR" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token regexp="yes">g?een</token>
+            <token postag_regexp="yes" postag="BNW:.*:VRB"/>
+            <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_ZIN_HET_IS_EEN_HOND" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">het|dit|dat</token>
+            <token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
+            <token regexp="yes">g?een</token>
+            <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+            <token postag="SENT_END" regexp="yes">[!.]</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_BEN_1" name="-">
+        <pattern>
+            <token>Ik</token>
+            <token postag="WKW:TGW:1EP" regexp="yes">ben|heb</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_BEN_2" name="-">
+        <pattern>
+            <token postag="WKW:TGW:1EP" regexp="yes">ben|heb</token>
+            <token regexp="yes">ik|je|jij</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+	<rule id="DISAMBIG_BENT" name="-">
+        <pattern>
+            <token regexp="yes">je|jij</token>
+            <token postag="WKW:TGW:2EP">bent</token>
+        </pattern>
+		<disambig action="filterall" />
+    </rule>
+
+    
 <!-- words that are common and could use disambiguation.
 ordered from most common to least
 
