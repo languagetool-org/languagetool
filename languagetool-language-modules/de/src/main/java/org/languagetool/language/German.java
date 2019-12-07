@@ -176,6 +176,7 @@ public class German extends Language implements AutoCloseable {
             new GermanWordRepeatBeginningRule(messages, this),
             new GermanWrongWordInContextRule(messages),
             new AgreementRule(messages, this),
+            new AgreementRule2(messages, this),
             new CaseRule(messages, this),
             new CompoundRule(messages),
             new DashRule(messages),

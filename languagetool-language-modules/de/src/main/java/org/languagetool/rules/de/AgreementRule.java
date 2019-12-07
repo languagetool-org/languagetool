@@ -73,7 +73,7 @@ public class AgreementRule extends Rule {
 
   private JLanguageTool lt;
 
-  private enum GrammarCategory {
+  enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
     GENUS("Genus (männlich, weiblich, sächlich - Beispiel: 'der Fahrrad' statt 'das Fahrrad')"),
     NUMERUS("Numerus (Einzahl, Mehrzahl - Beispiel: 'das Fahrräder' statt 'die Fahrräder')");
@@ -785,13 +785,7 @@ public class AgreementRule extends Rule {
     } else {
       set1 = getAgreementCategories(token1);
     }
-    if (set1 == null) {
-      return null;  // word not known, assume it's correct
-    }
     Set<String> set2 = getAgreementCategories(token2);
-    if (set2 == null) {
-      return null;
-    }
     set1.retainAll(set2);
     RuleMatch ruleMatch = null;
     if (set1.isEmpty() && !isException(token1, token2)) {
@@ -935,14 +929,8 @@ public class AgreementRule extends Rule {
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
-    if (set1 == null) {
-      return true;  // word not known, assume it's correct
-    }
-    Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, true);
-    if (set2 == null) {
-      return true;
-    }
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
+    Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, true);
     set1.retainAll(set2);
     return set1.size() > 0;
   }
@@ -951,94 +939,17 @@ public class AgreementRule extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
-    if (set1 == null) {
-      return Collections.emptySet();  // word not known, assume it's correct
-    }
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
-    Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
-    if (set2 == null) {
-      return Collections.emptySet();
-    }
-    Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
-    if (set3 == null) {
-      return Collections.emptySet();
-    }
+    Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
+    Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, true);
     set1.retainAll(set2);
     set1.retainAll(set3);
     return set1;
   }
 
   private Set<String> getAgreementCategories(AnalyzedTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<>(), false);
-  }
-
-  /** Return Kasus, Numerus, Genus of those forms with a determiner. */
-  private Set<String> getAgreementCategories(AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
-    Set<String> set = new HashSet<>();
-    List<AnalyzedToken> readings = aToken.getReadings();
-    for (AnalyzedToken tmpReading : readings) {
-      if (skipSol && tmpReading.getPOSTag() != null && tmpReading.getPOSTag().endsWith(":SOL")) {
-        // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
-        continue;
-      }
-      AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
-      if (reading.getCasus() == null && reading.getNumerus() == null &&
-          reading.getGenus() == null) {
-        continue;
-      }
-      if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN &&
-          tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":STV") &&  // STV: stellvertretend (!= begleitend)
-          !possessiveSpecialCase(aToken, tmpReading)) {
-        // genus=ALG in the original data. Not sure if this is allowed, but expand this so
-        // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
-        if (reading.getDetermination() == null) {
-          // Nouns don't have the determination property (definite/indefinite), and as we don't want to
-          // introduce a special case for that, we just pretend they always fulfill both properties:
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.INDEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.INDEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.INDEFINITE, omit));
-        } else {
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, reading.getDetermination(), omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, reading.getDetermination(), omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, reading.getDetermination(), omit));
-        }
-      } else {
-        if (reading.getDetermination() == null || "jed".equals(tmpReading.getLemma()) || "manch".equals(tmpReading.getLemma())) {  // "jeder" etc. needs a special case to avoid false alarm
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.INDEFINITE, omit));
-        } else {
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), reading.getDetermination(), omit));
-        }
-      }
-    }
-    return set;
-  }
-
-  private boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
-    // would cause error misses as it contains 'ALG', e.g. in "Der Zustand meiner Gehirns."
-    return aToken.hasPosTagStartingWith("PRO:POS") && StringUtils.equalsAny(tmpReading.getLemma(), "ich", "sich");
-  }
-
-  private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
-      GermanToken.Determination determination, Set<GrammarCategory> omit) {
-    List<String> l = new ArrayList<>();
-    if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
-      l.add(casus.toString());
-    }
-    if (num != null && !omit.contains(GrammarCategory.NUMERUS)) {
-      l.add(num.toString());
-    }
-    if (gen != null && !omit.contains(GrammarCategory.GENUS)) {
-      l.add(gen.toString());
-    }
-    if (determination != null) {
-      l.add(determination.toString());
-    }
-    return String.join("/", l);
+    return AgreementTools.getAgreementCategories(aToken, new HashSet<>(), false);
   }
 
 }
