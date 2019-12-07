@@ -323,7 +323,8 @@ public abstract class Rule {
   }
 
   /**
-   * Turns the rule off by default, expect for internal regression tests.
+   * Turns the pattern rule off by default, expect for internal regression tests.
+   * <b>WARNING:</b> currently only works for XML rules
    */
   public final void setDefaultTempOff() {
     defaultTempOff = true;
