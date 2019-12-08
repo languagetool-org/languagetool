@@ -36,6 +36,84 @@ USA
     <!-- ====================================================================== -->
  <category id="COMMON_ERRORS" name="أخطاء لغوية شائعة" type="grammar">
   <rulegroup id="ReplaceDeterminerF" name="هذه) هذا)">
+
+    <rule id="هذا2">
+      <pattern>
+        <marker>
+          <token>هذا</token>
+        </marker>
+
+          <token postag="N.*;F1.?;--.*" postag_regexp="yes"/>
+      </pattern>
+      <message>انتبه إلى اسم الإشارة للمذكر، ربما عليك أن تضع اسم إشارة مؤنثا <suggestion>هذه</suggestion>?
+      </message>
+
+      <example correction="هذه"><marker>هذا</marker> السلامة </example>
+    <!--                <example correction="هذه"><marker>هذا</marker> سلامته </example>-->
+      <example correction="هذه"><marker>هذا</marker> سلامة </example>
+    </rule>
+    <rule id="هذه2">
+      <pattern>
+        <marker>
+          <token>هذه</token>
+        </marker>
+
+          <token postag="N.*;M1.?;--.*" postag_regexp="yes"/>
+      </pattern>
+      <message>انتبه إلى اسم الإشارة للمؤنث، ربما عليك أن تضع اسم إشارة مذكرا <suggestion>هذا</suggestion>?
+      </message>
+
+      <example correction="هذا"><marker>هذه</marker> السلام </example>
+    <!--                <example correction="هذه"><marker>هذا</marker> سلامته </example>-->
+      <example correction="هذا"><marker>هذه</marker> سلام </example>
+    </rule>
+    <rule id="الذي2">
+      <pattern>
+          <token postag="N.*;M1.*" postag_regexp="yes"/>
+        <marker>
+          <token>التي</token>
+        </marker>
+      </pattern>
+      <message>هل تقصد <suggestion>الذي</suggestion>?
+      </message>
+
+      <example correction="الذي"> القول <marker>التي</marker> سمعته </example>
+      <example correction="الذي">    الطعام <marker>التي</marker> جلبناه </example>
+    </rule>
+
+    <rule id="التي2">
+      <pattern>
+          <token postag="N.*;F1.*" postag_regexp="yes"/>
+        <marker>
+          <token>الذي</token>
+        </marker>
+      </pattern>
+      <message>هل تقصد <suggestion>التي</suggestion>?
+      </message>
+
+      <example correction="التي"> الوشاية <marker>الذي</marker> سمعتها </example>
+      <example correction="التي">    الكتابة <marker>الذي</marker> جلبناها </example>
+    </rule>
+    <rule id="القيام_ب">
+      <pattern>
+        <marker>
+        <or>
+          <token inflected="yes">قَامَ</token>
+          <token>القيام</token>
+        </or>
+        </marker>
+
+          <token postag="N.masdar.;.*;-B.*" postag_regexp="yes"/>
+      </pattern>
+      <message>
+تعبير "القيام بـ" ركيك يستحسن تجن البه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
+
+        <suggestion/>?
+      </message>
+
+      <example correction=""><marker>القيام</marker> بالضرب </example>
+      <example correction=""><marker>قمت</marker> بشرب الماء </example>
+    </rule>
     <rule>
       <pattern>
         <marker>
@@ -345,6 +423,31 @@ USA
     <!-- Prépositions -->
     <!-- ====================================================================== -->
  <category id="PREP" name="Prépositions" type="grammar">
+  <rulegroup id="Jar_majrour" name="جار ومجرور1">
+    <rule>
+      <pattern>
+
+        <marker>
+        <or>
+          <token>في</token>
+          <token>من</token>
+          <token>عن</token>
+          <token>مع</token>
+          <token>إلى</token>
+        </or>
+        </marker>
+          <token postag="N.*;.?[23]U;--.*|N.*;M[3]U;--.*" postag_regexp="yes"/>
+      </pattern>
+      <message>انتبه لحرف الجر فالمثنى يجر بالياء <suggestion/>؟
+      </message>
+      <example correction=""> عجوزا <marker>في</marker> الغابران.</example>
+      <example correction=""> نظرت <marker>في</marker> الكتابان.</example>
+      <example correction=""> نظرت <marker>في</marker> صفحتان.</example>
+    <!--<example correction=""> هرولت <marker>إلى</marker> مسافرون.</example>
+      <example correction=""> عجوزا <marker>مع</marker> المسافرون.</example>
+	-->
+    </rule>
+  </rulegroup>
   <rulegroup id="RepPrep" name="المتعدي بحرف">
     <rule>
       <pattern>
@@ -1153,7 +1256,309 @@ USA
       </message>
       <example correction='سيّاح'> ‎هؤلاء  . <marker>سواح</marker> أجانب</example>
     </rule>
+
+    <rule id="ككل">
+      <pattern>
+        <marker><token>ككل</token></marker>
+      </pattern>
+      <message>
+        ويفضل أن يقال
+        <suggestion>كليًّا</suggestion>
+
+        لأن ككل لا أصل لها في اللغة، وهي ترجمة سيئة لعبارة as a whole.
+      </message>
+      <example correction='كليًّا'>‎  عند النظر إلى الموضوع    <marker>ككل</marker></example>
+    </rule>
   </rulegroup>
  </category>
 
+
+ <category id="NUMBERSERRORS" name="الأخطاء المتعلقة بالأعداد" type="grammar">
+  <rulegroup id="Number_gender" name="تطابق العدد مع النوع">
+    <rule id="number_under_10_feminin" name="الأعداد المفردة المؤنثة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
+        </marker>
+          <token postag='N.*;-[34]-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/></suggestion>؟
+الأعداد المفردة من ثلاثة إلى تسعة، تكون مذكرة قبل الأسماء المؤنثة. 		قل ثلاث طالبات ولا تقل ثلاثة طالبات.
+      </message>
+      <example correction="ثلاث"> <marker>ثلاثة</marker> طاولات</example>
+      <example correction="أربع"> <marker>أربعة</marker> طاولات</example>
+    </rule>
+
+
+    <rule id="number_under_10_masculine" name="الأعداد المفردة المذكرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
+        </marker>
+          <token postag='N.*;-[34]-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/>ة</suggestion>؟
+الأعداد المفردة من ثلاثة إلى تسعة، تكون مؤنثة قبل الأسماء المذكرة. 	قل ثلاثة رجال، ولا تقل ثلاث رجال.
+      </message>
+      <example correction="ثلاثة"> <marker>ثلاث</marker> رجال</example>
+      <example correction="أربعة"> <marker>أربع</marker> أسود</example>
+    </rule>
+
+
+    <rule id="number_13_19_masculine" name="13-19 الأعداد المركبة المذكرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;-1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/>ة عشر</suggestion>؟
+الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الأول قبل الأسماء المذكرة. 	قل ثلاثة عشر رجلا، ولا تقل ثلاث عشر رجلا.
+      </message>
+      <example correction="ثلاثة عشر"> <marker>ثلاث عشر</marker> رجلا</example>
+      <example correction="أربعة عشر"> <marker>أربع عشرة</marker> أسدا</example>
+    </rule>
+    <rule id="number_13_19_ten_masculine" name="13-19 الأعداد المركبة المذكرة  العشرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
+          <token>عشرة</token>
+        </marker>
+          <token postag='N.*;-1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/> عشر</suggestion>؟
+الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الثاني  قبل الأسماء المذكرة. 	قل ثلاثة عشر رجلا، ولا تقل ثلاثة عشرة رجلا.
+      </message>
+      <example correction="ثلاثة عشر"> <marker>ثلاثة عشرة</marker> رجلا</example>
+    </rule>
+    <rule id="number_11_masculine" name="11الأعداد المركبة المذكرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">إحدى|اثنتي</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;.?1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>أحد عشر</suggestion>؟
+
+الأعداد المركبة أحد عشر تطابق في النوع الأسماء المذكرة. 	قل أحد عشر رجلا.
+      </message>
+      <example correction="أحد عشر"> <marker>إحدى عشر</marker> رجلا</example>
+    </rule>
+    <rule id="number_11_feminin" name="11الأعداد المركبة المؤنثة">
+      <pattern>
+        <marker>
+          <token regexp="yes">أحد|اثني</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>إحدى عشرة</suggestion>؟
+
+الأعداد المركبة إحدى عشرة تطابق في النوع الأسماء المؤنثة. 	قل إحدى عشرة طالبة.
+      </message>
+      <example correction="إحدى عشرة"> <marker>أحد عشرة</marker> طالبة</example>
+
+    </rule>
+
+    <rule id="number_12_masculine" name="12الأعداد المركبة المذكرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">اثنتا|اثنتي</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;.?1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>اثنا عشر</suggestion><suggestion>اثني عشر</suggestion>؟
+
+الأعداد المركبة اثنا عشر تطابق في النوع الأسماء المذكرة. 	قل اثنا عشر رجلا.
+      </message>
+      <example correction="اثنا عشر|اثني عشر"> <marker>اثنتا عشر</marker> رجلا</example>
+      <example correction="اثنا عشر|اثني عشر"> <marker>اثنتا عشرة</marker> أسدا</example>
+    </rule>
+    <rule id="number_12_feminin" name="12الأعداد المركبة المؤنثة">
+      <pattern>
+        <marker>
+          <token regexp="yes">اثنا|اثني</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>اثنتا عشرة</suggestion><suggestion>اثنتي عشرة</suggestion>؟
+
+الأعداد المركبة اثنتا عشرة تطابق في النوع الأسماء المؤنثة. 	قل اثنتا عشرة طالبة.
+      </message>
+      <example correction="اثنتا عشرة|اثنتي عشرة"> <marker>اثنا عشرة</marker> طالبة</example>
+
+    </rule>
+
+    <rule id="number_13_19_feminin" name="13-19 الأعداد المركبة المؤنثة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
+          <token regexp="yes">عشرة|عشر</token>
+        </marker>
+          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/> عشرة</suggestion>؟
+الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الأول قبل الأسماء المؤنثة. 	قل ثلاث عشرة طالبة، ولا تقل ثلاثة عشر طالبة.
+      </message>
+      <example correction="ثلاث عشرة"><marker>ثلاثة عشر</marker> طالبة</example>
+      <example correction="أربع عشرة"><marker>أربعة عشرة</marker> مكتبة</example>
+    </rule>
+
+    <rule id="number_13_19_ten_feminin" name="13-19 الأعداد المركبة المؤنثة العشرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
+          <token>عشر</token>
+        </marker>
+          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/> عشرة</suggestion>؟
+الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الثاني  قبل الأسماء المؤنثة. 	قل ثلاث عشرة طالبة، ولا تقل ثلاث عشر طالبة.
+      </message>
+      <example correction="ثلاث عشرة"><marker>ثلاث عشر</marker> طالبة</example>
+    </rule>
+
+
+
+    <rule id="number_21to99_masculine" name="الأعداد المعطوفة المذكرة">
+      <pattern>
+        <marker>
+          <token regexp="yes">واحدة|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/> <match no="2"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
+      </message>
+      <example correction="ثلاث وعشرون"> <marker>ثلاثة وعشرون</marker> رجلا</example>
+      <example correction="تسع وأربعين"> <marker>تسعة وأربعين</marker> أسدا</example>
+    </rule>
+
+    <rule id="number_22to92_masculine" name="الأعداد المعطوفة المذكرة22-92">
+      <pattern>
+        <marker>
+          <token regexp="yes">اثنتان|اثنتين</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>اثنان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
+      </message>
+      <example correction="اثنان وعشرون|اثنين وعشرين"> <marker>اثنتان وعشرون</marker> رجلا</example>
+    </rule>
+
+    <rule id="number_21to99_feminin" name="الأعداد المعطوفة المؤنثة">
+      <pattern>
+        <marker>
+          <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|واحد</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/>ة <match no="2"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
+      </message>
+      <example correction="ثلاثة وعشرون"> <marker>ثلاث وعشرون</marker> طالبة</example>
+      <example correction="تسعة وأربعين"> <marker>تسع وأربعين</marker> طاولة</example>
+    </rule>
+
+    <rule id="number_22to92_feminin" name="الأعداد المعطوفة المؤنثة22-92">
+      <pattern>
+        <marker>
+          <token regexp="yes">اثنان|اثنين</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion>اثنتان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنتين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
+      </message>
+      <example correction="اثنتان وعشرون|اثنتين وعشرين"> <marker>اثنان وعشرون</marker> طالبة</example>
+    </rule>
+
+    <rule id="number_21to99_majrour" name="الأعداد المعطوفة المجرورة">
+      <pattern>
+        <marker>
+          <token regexp="yes">[بكل](ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة)</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="1"/> <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل بخمسة وعشرين ولا تقل بخمسة وعشرون.
+      </message>
+      <example correction="بثلاث وعشرين"> <marker>بثلاث وعشرون</marker> طالبة</example>
+      <example correction="لتسعة وأربعين"> <marker>لتسعة وأربعون</marker> طاولة</example>
+    </rule>
+
+  </rulegroup>
+  <rulegroup  id="Number_case" name="تطابق العدد مع الإعراب">
+    <rule id="number_21to99_majrour_separate_jar" name=" الأعداد المعطوفة المجرورة بحرف جر منفصل">
+      <pattern>
+          <token regexp="yes">في|من|على|عن|مع|إلى</token>
+        <marker>
+          <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
+        </marker>
+          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+      </pattern>
+      <message>أتقصد <suggestion><match no="2"/> <match no="3" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
+الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل  "في خمسة وعشرين" ولا تقل  "في خمسة وعشرون".
+      </message>
+      <example correction="ثلاث وعشرين"> من <marker>ثلاث وعشرون</marker> طالبة</example>
+      <example correction="تسعة وأربعين"> على <marker>تسعة وأربعون</marker> طاولة</example>
+    </rule>
+  </rulegroup>
+  <rulegroup  id="Number_numbered" name="تطابق العدد مع الجمع">
+    <rule id="number_number_accord" name="تطابق العدد مع المعدود في العدد">
+      <pattern>
+
+          <token regexp="yes">
+ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة|اثنان</token>
+
+          <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
+        <marker>
+          <token postag='N.*;.?[^1].?;----' postag_regexp="yes"/>
+        </marker></pattern>
+      <message>أتقصد <suggestion/>؟
+الأعداد المركبة والمعطوفة من 11 إلى 19 من 21 إلى 99، معدودها مفرد، قل  "خمسة وعشرون رجلا" ولا تقل  "خمسة وعشرون رجالا".
+      </message>
+      <example correction=""> من ثلاث وعشرين <marker>طالبات</marker></example>
+    </rule>
+
+  </rulegroup>
+ </category>
+
+
+    <!-- ====================================================================== -->
+    <!-- Common errors- on verbs -->
+    <!-- ====================================================================== -->
+ <category id="COMMON_VERBS_ERRORS" name="أخطاء الأفعال" type="grammar">
+  <rulegroup id="VerbalOperator" name="العوامل الداخلة على الأفعال">
+
+    <rule id="الجزم1" name="حروف الجزم">
+      <pattern>
+          <token regexp="yes">لم|لما|إن|إنما|من|ما|مهما|متى|أي|أين|أيان|أنى|حيثما</token>
+        <marker>
+          <token postag='V.W.*;F.?[^J].*;--' postag_regexp="yes"/>
+        </marker></pattern>
+      <message>أتقصد؟
+الفعل المضارع بعد "لم" يأتي مجزوما.
+      </message>
+      <example correction=""> لم <marker>يجري</marker></example>
+    </rule>
+  </rulegroup>
+ </category>
 </rules>
