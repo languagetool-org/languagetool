@@ -758,7 +758,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, this.enabledRules).filter(ruleMatches);
+    ruleMatches = new LanguageDependentFilter(language, this.enabledRules, this.disabledRuleCategories).filter(ruleMatches);
 
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 

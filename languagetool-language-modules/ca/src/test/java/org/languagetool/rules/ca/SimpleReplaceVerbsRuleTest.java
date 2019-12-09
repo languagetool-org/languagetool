@@ -110,13 +110,13 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("acuites", matches[0].getSuggestedReplacements().get(0));
     assertEquals("apresses", matches[0].getSuggestedReplacements().get(1));
-    //assertEquals("dones pressa", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("dónes pressa", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("atabuixes", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("aclapares", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(5));
-    assertEquals("mareges", matches[0].getSuggestedReplacements().get(6));
-    assertEquals("afanyes", matches[0].getSuggestedReplacements().get(7));
+    assertEquals("dones pressa", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("dónes pressa", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("atabuixes", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("aclapares", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("mareges", matches[0].getSuggestedReplacements().get(7));
+    assertEquals("afanyes", matches[0].getSuggestedReplacements().get(8));
     
     matches = rule.match(langTool.getAnalyzedSentence("agobiem"));
     assertEquals(1, matches.length);

@@ -4,6 +4,7 @@
 
 #### Catalan
   * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.6)
 
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
