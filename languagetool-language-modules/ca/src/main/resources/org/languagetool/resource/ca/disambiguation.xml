@@ -15,6 +15,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
+    <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
+    <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -2525,7 +2527,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="VMIP1S0B"><exception regexp="yes">estic|dic</exception></token>
-                        <token postag="VMIP1S0B" negate_pos="yes" />
+                        <token postag="VMIP1S0B|SENT_END" postag_regexp="yes" negate_pos="yes" />
                     </and>
                 </marker>
             </pattern>
@@ -13057,6 +13059,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="VM[^P].*"/>
     </rule>
+    <rulegroup id="data_concreta" name="data concreta">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DA..S." postag_regexp="yes"/>
+                </marker>
+                <token>endemà</token>
+            </pattern>
+            <disambig action="add"><wd pos="_data_concreta"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DA..S." postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">dia|setmana|mes|any|&mesos_any;|&dies_setmana;|primavera|estiu|tardor|hivern</token>
+                <token regexp="yes">de|d'|que|\d+|vinent|pròxima?|propera?</token>
+            </pattern>
+            <disambig action="add"><wd pos="_data_concreta"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DA..S." postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">\d+</token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">&mesos_any;</token>
+            </pattern>
+            <disambig action="add"><wd pos="_data_concreta"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
         <pattern>
            <token/>
