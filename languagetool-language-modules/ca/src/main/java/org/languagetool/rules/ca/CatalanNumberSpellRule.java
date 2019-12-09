@@ -57,7 +57,7 @@ public class CatalanNumberSpellRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Suggereix escriure alguns nombres en lletres";
+    return "Suggereix escriure alguns nombres amb lletres";
   }
 
   @Override
@@ -73,7 +73,7 @@ public class CatalanNumberSpellRule extends Rule {
           strToSpell = "feminine " + strToSpell;
         }
         String spelledNumber = synth.getSpelledNumber(strToSpell);
-        if (spelledNumber.replaceAll("-i-", " ").replaceAll("-", " ").split(" ").length < 4) {
+        if (!spelledNumber.isEmpty() && spelledNumber.replaceAll("-i-", " ").replaceAll("-", " ").split(" ").length < 4) {
           RuleMatch rm = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i].getEndPos(),
               "És preferible escriure aquest nombre amb lletres.", "Preferible amb lletres");
           rm.addSuggestedReplacement(spelledNumber);
