@@ -27,7 +27,9 @@ import org.languagetool.rules.ar.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.ar.ArabicHybridDisambiguator;
 import org.languagetool.tagging.ar.ArabicTagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.ArabicSentenceTokenizer;
 import org.languagetool.tokenizers.ArabicWordTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -50,6 +52,7 @@ public class Arabic extends Language implements AutoCloseable {
   private Tagger tagger;
   private Synthesizer synthesizer;
   private LanguageModel languageModel;
+  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -69,6 +72,14 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public Language getDefaultLanguageVariant() {
     return DEFAULT_ARABIC;
+  }
+
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new ArabicHybridDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
@@ -120,17 +131,17 @@ public class Arabic extends Language implements AutoCloseable {
       new MultipleWhitespaceRule(messages, this),
       new SentenceWhitespaceRule(messages),
       new GenericUnpairedBracketsRule(messages,
-        Arrays.asList("[", "(", "{", "«", "﴾"),
-        Arrays.asList("]", ")", "}", "»", "﴿")),
+        Arrays.asList("[", "(", "{", "«", "﴾", "\"", "'"),
+        Arrays.asList("]", ")", "}", "»", "﴿", "\"", "'")),
 
       // specific to Arabic :
-      new HunspellArabicSpellerRule(messages, this, userConfig, altLanguages),
+      new ArabicHunspellSpellerRule(messages, this, userConfig, altLanguages),
       //new MorfologikArabicSpellerRule(messages, this),
       new ArabicCommaWhitespaceRule(messages),
       new ArabicDoublePunctuationRule(messages),
       new LongSentenceRule(messages, userConfig, -1, false),
       new ArabicWordRepeatRule(messages, this),
-      new ArabicContractionSpellingRule(messages)
+      new ArabicSimpleReplaceRule(messages, this)
     );
   }
 

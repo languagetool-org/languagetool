@@ -16,18 +16,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ar;
 
-import org.junit.Test;
-import org.languagetool.rules.spelling.SpellcheckerTest;
+package org.languagetool.tagging.ar;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.MultiWordChunker;
 
 import java.io.IOException;
 
-public class LanguageSpecificSpellcheckerTest extends SpellcheckerTest {
+/**
+ * Hybrid chunker for Arabic.
+ *
+ * @since 4.8
+ */
+public class ArabicHybridDisambiguator extends AbstractDisambiguator {
 
-  @Test
-  public void testRules() throws IOException {
-    runLanguageSpecificTest();
+  private final Disambiguator chunker = new MultiWordChunker("/ar/multiwords.txt");
+
+  @Override
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input)
+    throws IOException {
+    return chunker.disambiguate(input);
   }
 
 }

@@ -1561,4 +1561,80 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
+
+
+    <!-- ====================================================================== -->
+    <!-- Common errors- on verbs -->
+    <!-- ====================================================================== -->
+    <category id="COMMON_ERRORS_CANDIDATES" name="أخطاء شائعة" type="grammar">
+        <rulegroup id="common_errors_unsorted" name="أخطاء شائعة">
+	<rule id ='unsorted001'>
+		<pattern>
+		<marker>
+		<token>يا</token>
+		<token>أبتي</token>
+		</marker>
+		</pattern>
+		<message>يفضل أن يقال:
+		<suggestion>يا أبَتِ</suggestion>
+التاء عِوَضٌ من الياء المحذوفة</message>
+		<example correction='يا أبَتِ'><marker>يا أبتي</marker></example>
+
+		<!--  Wrong: يا أبَتِي -->
+		<!--Correct: يا أبَتِ -->
+	</rule>
+	<rule id ='unsorted003'>
+		<pattern>
+		<token inflected="yes">بَكَى</token>
+		<token>من</token>
+		<token>شدة</token>
+		<marker>
+		<token>التأثير</token>
+		</marker>
+		</pattern>
+		<message>يفضل أن يقال:
+		<suggestion>التأثُّر</suggestion>
+(أثـّر فيه تأثيراً): ترك فيه أثراً</message>
+		<example correction='التأثُّر'>يبكي من شدة <marker>التأثير</marker></example>
+
+		<!--  Wrong: بكى من شدة التأثير -->
+		<!--Correct: بكى من شدة التأثـُّر -->
+	</rule>
+                
+		<rule id ='unsorted005'>
+		<pattern>
+		<marker>
+		<token>مؤخرا</token>
+		</marker>
+		</pattern>
+		<message>يفضل أن يقال:
+		<suggestion>حديثًا</suggestion>
+		<suggestion>قريبًا</suggestion>
+		<suggestion>منذ عهد قريب</suggestion>
+		<suggestion>قبل مدة قصيرة</suggestion>
+(المُؤَخـَّر): نهاية الشيء من الخلف</message>
+		<example correction='حديثًا|قريبًا|منذ عهد قريب|قبل مدة قصيرة'>وقع <marker>مؤخرا</marker></example>
+
+		<!--  Wrong: وَقَع مؤخَّراً -->
+		<!--Correct: وَقَع حديثاً / قريباً / منذ عهد قريب / قبل مدة قصيرة -->
+	</rule>
+	<!--<rule id ='unsorted006' default="off">
+		<pattern>
+		<marker>
+		<token inflected="yes">َاِسْتَأْذَن</token>
+		<token regexp="yes">منه|من|منها|منهما|منكم|منكما|منك|مني|منهم|منهن|منكن</token>
+		</marker>
+		</pattern>
+		<message>يفضل أن يقال:
+		<suggestion><match no="1"/><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
+</message>
+		<example correction='يستأذنه'><marker>يستأذن منه</marker></example>
+		<example correction='يستأذنك'><marker>يستأذن منك</marker></example>
+		<example correction='استأذنك'><marker>استأذنت منك</marker></example>
+		-->
+		<!--  Wrong: استأذن منه -->
+		<!--Correct: استأذنه -->
+	<!--</rule>-->
+	</rulegroup>
+	</category>
 </rules>

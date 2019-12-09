@@ -26,11 +26,10 @@ import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MorfologikSpellerTest {
+public class ArabicMorfologikSpellerRuleTest {
 
   @Test
   public void testIsMisspelledFromDict() throws IOException {
@@ -47,7 +46,7 @@ public class MorfologikSpellerTest {
   @Test
   public void testIsMisspelledFromRule() throws IOException {
 
-    MorfologikArabicSpellerRule rule = new MorfologikArabicSpellerRule(TestTools.getMessages("ar"), Languages.getLanguageForShortCode("ar"));
+    ArabicMorfologikSpellerRule rule = new ArabicMorfologikSpellerRule(TestTools.getMessages("ar"), Languages.getLanguageForShortCode("ar"));
     JLanguageTool langTool = new JLanguageTool(new Arabic());
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم")).length);
