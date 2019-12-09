@@ -440,7 +440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">(me|te|se)v(a|es)</token>
             </pattern>
-            <message>Esteu usant possessius amb u.</message>
+            <message>Esteu usant possessius amb 'u'.</message>
             <suggestion><match no="1" regexp_match="(?iu)(me|te|se)v(a|es)" regexp_replace="$1u$2"></match></suggestion>
             <example correction="meua">La <marker>meva</marker> amiga.</example>
             <example>La <marker>meua</marker> amiga.</example>
@@ -449,7 +449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">(me|te|se)u(a|es)</token>
             </pattern>
-            <message>Esteu usant possessius amb v.</message>
+            <message>Esteu usant possessius amb 'v'.</message>
             <suggestion><match no="1" regexp_match="(?iu)(me|te|se)u(a|es)" regexp_replace="$1v$2"></match></suggestion>
             <example correction="meva">La <marker>meua</marker> amiga.</example>
         </rule>
@@ -9814,8 +9814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tenen com a fins la promoció i la publicitat.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="FINS_EL_IEC" name="Revisa: «fins el/fins al» (norma GIEC)">
+        <rulegroup id="FINS_EL_GENERAL" name="Revisa: «fins el/fins al»" default="on">
             <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22fins+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13240&amp;idHit=13240&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27fins%27+o+%27fins+a%27%3F+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
@@ -9831,7 +9830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_data_concreta"/>
                     </and>
                 </pattern>
-                <message>Generalment s'escriu <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>, però davant d'una data concreta també es pot escriure "fins \2". "Fins \2" és correcte si equival a "fins i tot \2".</message>
+                <message>La majoria de llibres d'estil recomanen <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>. Davant d'una data concreta també es pot escriure "fins \2".</message>
                 <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>
                 <example correction="Fins al"><marker>Fins el</marker> mes que ve.</example>
                 <example correction="Fins al"><marker>Fins el</marker> 4 d'abril.</example>
@@ -9847,7 +9846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_data_concreta"/>
                     </and>
                 </pattern>
-                <message>Generalment s'escriu <suggestion>fins a</suggestion>, però davant d'una data concreta també es pot escriure "fins". "Fins" és correcte si equival a "fins i tot".</message>
+                <message>La majoria de llibres d'estil recomanen <suggestion>fins a</suggestion>. Davant d'una data concreta també es pot escriure "fins".</message>
                 <example correction="Fins a"><marker>Fins</marker> l'endemà.</example>
                 <example correction="Fins a"><marker>Fins</marker> l'any que ve.</example>
                 <example correction="Fins a"><marker>Fins</marker> l'1 de gener.</example>
@@ -9874,9 +9873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tenen com a fins la promoció i la publicitat.</example>
             </rule>
         </rulegroup>
-
-
-           <!--     <rulegroup id="FINS_EL" name="Revisa: «fins el/fins al»">
+        <rulegroup id="FINS_EL_IEC" name="Revisa: «fins el/fins al» (IEC)" default="off">
             <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22fins+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13240&amp;idHit=13240&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27fins%27+o+%27fins+a%27%3F+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
@@ -9886,53 +9883,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>fins</token>
-                        <token postag="DA.*" postag_regexp="yes" regexp="yes">l'|la</token>
-                    </marker>
-                    <token regexp="yes">endemà|primavera|estiu|tardor|hivern|any|setmana</token>
-                </pattern>
-                <message>Generalment s'escriu <suggestion>fins a \2</suggestion> segons la majoria de llibres d'estil. En dates concretes també és possible "fins".</message>
-                <short>Forma preferible</short>
-                <example correction="fins a la">No torna <marker>fins la</marker> tardor.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>fins</token>
-                        <token postag="DA.*" postag_regexp="yes" regexp="yes">l'|el</token>
-                    </marker>
-                    <token regexp="yes">\d+</token>
-                    <token inflected="yes">de</token>
-                    <token regexp="yes">&mesos_any;</token>
-                </pattern>
-                <message>Generalment s'escriu <suggestion>fins a \2</suggestion> segons la majoria de llibres d'estil. En dates concretes també és possible "fins".</message>
-                <short>Forma preferible</short>
-                <example correction="fins a l'">No torna <marker>fins l'</marker>1 de gener.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token>fins</token>
-                    <token postag="DA.*" postag_regexp="yes" regexp="yes">els?</token>
+                    <token postag="DA.*" postag_regexp="yes" regexp="yes">els?<exception postag="_data_concreta"/></token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>.</message>
-                <example correction="Fins al"><marker>Fins el</marker> mes que ve.</example>
                 <example correction="Fins als"><marker>Fins els</marker> últims dies.</example>
+                <exmaple>Fins el novembre que ve.</exmaple>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token postag="DA.*" postag_regexp="yes" regexp="yes">la|les|l'</token>
+                    <token postag="DA.*" postag_regexp="yes" regexp="yes">la|les|l'<exception postag="_data_concreta"/></token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>
                 <example correction="Fins a"><marker>Fins</marker> l'últim dia.</example>
                 <example>Tenen com a fins la promoció i la publicitat.</example>
+                <example>Fins l'1 de gener.</example>
             </rule>
-        </rulegroup>-->
-
-
+        </rulegroup>
         <rulegroup id="FINS_A" name="Revisa: «fins/fins a»">
             <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22fins+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13240&amp;idHit=13240&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27fins%27+o+%27fins+a%27%3F+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
@@ -48300,8 +48270,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
                 </pattern>
-                <message>Aquesta forma verbal no es correspon amb la varietat que esteu fent servir.</message>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (central).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]"/></suggestion>
+                <short>Forma verbal que no corresponen a la varietat seleccionada</short>
                 <example correction="pensi|penso">Jo ho <marker>pense</marker>.</example>
                 <example correction="Digui">"<marker>Diga</marker> el que digui".</example>
                 <example correction="sobri|sobro">Que no li <marker>sobre</marker> res.</example>
@@ -48437,8 +48408,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|N.*|AQ.*|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
                 </pattern>
-                <message>Aquesta forma verbal no es correspon amb la varietat que esteu fent servir (valencià).</message>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
+                <short>Forma verbal que no corresponen a la varietat seleccionada</short>
                 <example correction="tinguérem|tinguéssem">Si <marker>tinguéssim</marker> sort.</example>
                 <example correction="pense">Jo <marker>penso</marker>.</example>
                 <example correction="facen">Que ells <marker>facin</marker>.</example>
@@ -48507,8 +48479,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
                 </pattern>
-                <message>Aquesta forma verbal no es correspon amb la varietat que esteu fent servir (balear).</message>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (balear).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
+                <short>Forma verbal que no corresponen a la varietat seleccionada</short>
                 <!-- valencians -->
                 <example correction="pens|pensi">Jo ho <marker>pense</marker>.</example>
                 <example>No es va poder encendre mai.</example>

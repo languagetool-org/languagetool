@@ -13075,7 +13075,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="DA..S." postag_regexp="yes"/>
                 </marker>
                 <token regexp="yes">dia|setmana|mes|any|&mesos_any;|&dies_setmana;|primavera|estiu|tardor|hivern</token>
-                <token regexp="yes">de|d'|que|\d+|vinent|pròxima?|propera?</token>
+                <token regexp="yes">de|d'|que|\d+|vinent|pròxima?|propera?|següent|provinent</token>
             </pattern>
             <disambig action="add"><wd pos="_data_concreta"></wd></disambig>
         </rule>
@@ -13085,6 +13085,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="DA..S." postag_regexp="yes"/>
                 </marker>
                 <token regexp="yes">\d+</token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">&mesos_any;</token>
+            </pattern>
+            <disambig action="add"><wd pos="_data_concreta"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DA..S." postag_regexp="yes"/>
+                </marker>
+                <token postag="numeral|DN.*" postag_regexp="yes"/>
                 <token inflected="yes">de</token>
                 <token regexp="yes">&mesos_any;</token>
             </pattern>
