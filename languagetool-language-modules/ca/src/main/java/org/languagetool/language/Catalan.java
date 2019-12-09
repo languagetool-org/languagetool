@@ -28,6 +28,7 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.AccentuationCheckRule;
+import org.languagetool.rules.ca.CatalanNumberSpellRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
@@ -119,7 +120,8 @@ public class Catalan extends Language {
             new ReplaceOperationNamesRule(messages, this),
             new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
-            new SimpleReplaceDiacriticsTraditional(messages)
+            new SimpleReplaceDiacriticsTraditional(messages),
+            new CatalanNumberSpellRule(messages, this)
     );
   }
 
