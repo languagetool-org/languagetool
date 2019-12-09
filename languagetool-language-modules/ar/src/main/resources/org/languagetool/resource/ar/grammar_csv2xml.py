@@ -96,6 +96,7 @@ def main():
         line = line.strip('\n')
         if not line.startswith("#"):
             liste=line.split("\t");
+            liste = [x.strip() for x in liste]
             if len(liste) >= nb_field:
                 rule_table.append(liste);
         line=fl.readline().decode("utf8");
@@ -171,13 +172,9 @@ def treat_example(wrong_example, correct_example):
     wrong_tokens   = araby.tokenize(wrong_example)
     
     correct_word ,   wrong_tokens = diff(wrong_tokens, correct_tokens)
-    correct_word = u" ".join(correct_word )
-    wrong_output  = u" ".join(wrong_tokens  )
-
-            
-
-    
-    example = u"<example correct='%s'>%s </example>"%(correct_word, wrong_output)
+    correct_word = u" ".join(correct_word)
+    wrong_output  = u" ".join(wrong_tokens)
+    example = u"<example correction='%s'>%s</example>\n"%(correct_word, wrong_output)
     return example
     
 def diff(wrong, correct):

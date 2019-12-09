@@ -1,0 +1,223 @@
+unification,phrases,category,rulegroup,rulegroup.rule,rules,pattern,category>rule
+	{
+	display: block;
+	padding-bottom: 20;
+	collapsible: yes;
+}
+
+category:before {
+	content: "Category: " text-field(attribute, name, columns, 30)
+		collapser() " "
+		check-box(label, "Turn by default off", attribute, default,
+		checked-value, "off", remove-value, "yes");
+}
+
+unification:before {
+	content: "Feature: " text-field(attribute, feature, columns, 20);
+	font-size: smaller;
+	display: block;
+}
+
+equivalence:before {
+	content: "Type: " text-field(attribute, type, columns, 20);
+	font-size: smaller;
+	display: inline-block;
+}
+
+phrase:before {
+	content: "Id: " text-field(attribute, id, columns, 20);
+	font-size: smaller;
+	display: inline;
+}
+
+phraseref:before {
+	content: "Phrase ID: " text-field(attribute, idref);
+	font-size: smaller;
+	display: inline-block;
+}
+
+pattern:before {
+	content: " case sensitive: "
+		radio-buttons(attribute, case_sensitive, values, "yes\A no",
+		checked-value, "no", remove-value, "yes") insert-button() collapser()
+		" ";
+}
+
+pattern>marker {
+	display:block;
+	background:silver;
+}
+
+pattern>marker:before {
+	content:icon(down);	
+	color:navy;
+}
+
+pattern>marker:after {
+	content:icon(up);	
+	color:navy;
+}
+
+
+suggestion>marker, suggestion {
+	display: inline;
+	font-weight: bold;
+}
+
+phraseref,exception,token {
+	display: block;
+	font-size: smaller;
+	padding: 1px; /* Needed to display the red border of the selection */
+}
+
+exception:before {
+	display: inline-block;
+	content: "Exception: "
+		check-box(label, "negated" attribute, negate, checked-value, "yes",
+		remove-value, "yes")
+		check-box(label, "regexp", attribute, regexp, checked-value, "yes",
+		remove-value, "yes")
+		check-box(label, "inflected", attribute, inflected, checked-value, "yes"
+		, remove-value, "yes")
+		check-box(label, "postag_regexp", attribute, postag_regexp,
+		checked-value, "yes", remove-value, "yes")
+		text-field(attribute, postag, columns, 15)
+		remove-attribute-button(attribute, postag)
+		check-box(label, "negated POS", attribute, negate_pos, checked-value,
+		"yes", remove-value, "yes")
+		radio-buttons(attribute, scope, values, "current\A next\A previous",
+		checked-value, "current");
+	background-color: rgb(195, 217, 255);
+}
+
+token:before {
+	display: inline-block;
+	content: "Token: " insert-before-button()
+		check-box(label, "negated" attribute, negate, checked-value, "yes",
+		remove-value, "yes")
+		check-box(label, "regexp", attribute, regexp, checked-value, "yes",
+		remove-value, "yes")
+		check-box(label, "inflected", attribute, inflected, checked-value, "yes"
+		, remove-value, "yes")
+		check-box(label, "postag_regexp", attribute, postag_regexp,
+		checked-value, "yes", remove-value, "yes")
+		text-field(attribute, postag, columns, 15)
+		remove-attribute-button(attribute, postag)
+		text-field(attribute, chunk, columns, 15)
+		remove-attribute-button(attribute, chunk)
+		check-box(label, "negated POS", attribute, negate_pos, checked-value,
+		"yes", remove-value, "yes") "skip: "
+		number-field(attribute, skip, data-type, int, columns, 1, remove-value,
+		"yes") "space before: "
+		radio-buttons(attribute, spacebefore, values, "yes\A no\A ignore", checked-value,
+		"no", remove-value, "ignore") insert-after-button() insert-button();
+}
+
+example:before {
+	content: insert-before-button() "Example: ";
+	font-size: smaller;
+	display: block;
+}
+
+example {
+	border: 1 solid gray;
+	collapsible: yes;
+	padding: 2;
+	display: block;
+}
+
+example:after {
+	content: "Type: " radio-buttons(attribute, type, values,
+		"correct\A incorrect\A triggers error", checked-value, "incorrect"),
+		"Correction: "
+		text-field(attribute, correction, columns, 10 color, green),
+		insert-after-button();
+	font-size: small;
+	collapsible: yes;
+	display: block;
+}
+
+rulegroup:before,category>rule:before {
+	content: text-field(attribute, id columns, 10, missing-color, gray) " "
+		text-field(attribute, name, columns, 40)
+		check-box(label, "Turn by default off", attribute, default,
+		checked-value, "off", remove-value, "yes");
+	display: block;
+}
+
+rulegroup.rule:before {
+	display: block;
+}
+
+rulegroup:after {
+	padding: 10px;
+}
+
+match:before {
+	content: label(attribute, no);
+	font-weight: bold;
+	display: inline-block;
+}
+
+match:after {
+	content: attributes-editor(2, argument-list(#C0E0E0, color, navy) );
+}
+
+and:before {
+	content: "AND (";
+}
+
+and:after {
+	content: ")"
+}
+
+unify:before {
+	content: "unify("
+	 check-box(label, "negated" attribute, negate, checked-value, "yes",
+		remove-value, "yes")
+	"\A" "Feature: "
+		text-field(attribute, feature, columns, 20) "Type: "
+		text-field(attribute, type, columns, 20);
+	font-size: smaller;
+	display: inline;
+}
+
+unify:after {
+	content: ")"
+}
+
+short:before {
+	content: insert-before-button() "Short comment: ";
+	font-size: smaller;
+	display: block;
+}
+
+short {
+	margin-bottom: 10px;
+	white-space: pre;
+	collapsible: yes;
+}
+
+message {
+	margin-bottom: 10px;
+	white-space: pre;
+	collapsible: yes;
+}
+
+url:before {
+	content: insert-before-button() "Documentation URL: ";	
+	display: block;
+}
+
+* {
+	content: value-editor();
+}
+
+* {
+	display: block;
+	collapsible: yes;
+	not-collapsible-head: 1;
+	border: 1 solid gray;
+	padding: 1;
+	margin: 8 4;
+}
