@@ -32,6 +32,7 @@ public class ArabicHunspellSpellerRuleTest {
     ArabicHunspellSpellerRule rule = new ArabicHunspellSpellerRule(TestTools.getMessages("ar"));
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("والبلاد")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("السلام عليييكم.")).length);
     // ignore URLs:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("تصفح http://foo.org/bar.")).length);
