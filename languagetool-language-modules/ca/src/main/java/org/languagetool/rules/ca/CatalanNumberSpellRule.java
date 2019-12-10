@@ -20,6 +20,7 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -47,6 +48,7 @@ public class CatalanNumberSpellRule extends Rule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
+    super.setUrl(new URL("https://estil.llocs.iec.cat/wp-content/uploads/sites/24/2019/02/12_Pag_459-502_p.pdf#page=27"));
     synth = (CatalanSynthesizer) language.getSynthesizer();
   }
 
