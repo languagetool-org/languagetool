@@ -61,7 +61,15 @@ public class ArabicTaggerTest {
       "العباره/[null]null", tokenizer, tagger);
 
     TestTools.myAssert("والبلاد",
-      "والبلاد/[والبلاد]N.jamed.;-1-;--L-;WAW|والبلاد/[والبلاد]N.jamed.;-3-;--L-;WAW",
+      "والبلاد/[والبلاد]N.jamed.;-1-;--L-W|والبلاد/[والبلاد]N.jamed.;-3-;--L-W",
+      tokenizer, tagger);
+
+    TestTools.myAssert("بلادهما",
+      "بلادهما/[بلادهما]N.jamed.;-1-;---H|بلادهما/[بلادهما]N.jamed.;-3-;---H",
+      tokenizer, tagger);
+
+    TestTools.myAssert("وبلادهما",
+      "وبلادهما/[وبلادهما]N.jamed.;-1-;---HW|وبلادهما/[وبلادهما]N.jamed.;-3-;---HW",
       tokenizer, tagger);
 
   }

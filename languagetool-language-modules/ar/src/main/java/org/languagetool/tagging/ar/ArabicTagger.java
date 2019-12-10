@@ -68,14 +68,44 @@ public class ArabicTagger extends BaseTagger {
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    //Any well-formed word started by waw is the same word without waw +conjuction tag
-    if (word.startsWith("و")) {
-      final String possibleWord = word.replaceAll("^و", "");
+    //Any well-formed word started by conjuction letters like Waw and Feh is the same word without  the conjuction + a conjuction tag
+    if (word.startsWith("و") || word.startsWith("ف")) {
+      final String possibleWord = word.replaceAll("^[وف]", "");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
       for (AnalyzedToken taggerToken : taggerTokens) {
         final String posTag = taggerToken.getPOSTag();
-        additionalTaggedTokens.add(new AnalyzedToken(word, posTag + ";WAW", word));
+        additionalTaggedTokens.add(new AnalyzedToken(word, posTag + "W", word));
+      }
+    }
+    // to avoid redendecy all attached pronouns in dictionary are represented only by a generic pronoun
+    //  for words like بيتك بيتكما بيتهم بيتنا بيتكن there are one word which is بيتك
+    // we can simulate all word forms into the same tag which endec by H( H is tag for attached pronouns الضمائر المصتلة)
+    if (word.endsWith("ه") || word.endsWith("ها") ||   word.endsWith("هما") ||       word.endsWith("كما") ||    word.endsWith("هم") || word.endsWith("هن") ||
+    word.endsWith("كم") || word.endsWith("كن") ||     word.endsWith("نا")   ) {
+      final String possibleWord = word.replaceAll("(ه|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ك");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag.endsWith("H"))
+        {
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+        }
+      }
+      // if possible word has a conjuction at the begining like Waw or FEH
+      if (word.startsWith("و") || word.startsWith("ف")) {
+        final String possibleWord2 = possibleWord.replaceAll("^[وف]", "");
+        //List<AnalyzedToken> taggerTokens;
+        taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord2));
+        for (AnalyzedToken taggerToken : taggerTokens) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag.endsWith("H"))
+          {
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag+"W", word));
+          }
+        }
+
       }
     }
     return additionalTaggedTokens;
