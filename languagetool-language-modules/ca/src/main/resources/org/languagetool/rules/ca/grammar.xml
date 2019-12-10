@@ -8843,7 +8843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>per</token>
                         <token>tal</token>
@@ -28174,6 +28174,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PRINGAT" name="pringat">
+            <pattern>
+                <token inflected="yes" postag="A.*" postag_regexp="yes">pringat</token>
+            </pattern>
+            <message>Paraula incorrecta.</message>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">desgraciat</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">marginat</match></suggestion>
+            <suggestion><match no="1" postag="AQ..([SP])." postag_regexp="yes" postag_replace="NCM$1000">passerell</match></suggestion>
+            <suggestion>(fer el préssec)</suggestion>
+            <suggestion>(fer el paperina)</suggestion>
+            <example correction="desgraciat|marginat|passerell|(fer el préssec)|(fer el paperina)">Ets un <marker>pringat</marker>.</example>
+            <example correction="desgraciades|marginades|passerells|(fer el préssec)|(fer el paperina)">Sou unes <marker>pringades</marker>.</example>
+        </rule>
         <rule id="VAL_DARAN" name="Val d'Aran/Vall d'Aran">
             <pattern>
                 <token>Val</token>
@@ -35513,9 +35526,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">distòpia</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">distopia</match></suggestion> (antònim d'utopia)? "Distòpia" és un terme mèdic.</message>
-
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">distopia</match></suggestion> (antònim d'utopia)? "amitat" és un terme d'etnologia.</message>
             <example correction="distopia">Vivim en una <marker>distòpia</marker>.</example>
+        </rule>
+        <rule id="AMITAT" name="amitat/amistat">
+            <pattern>
+                <marker>
+                    <token inflected="yes">amitat</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">amistat</match></suggestion>? "Distòpia" és un terme mèdic.</message>
+            <url>https://dlc.iec.cat/results.asp?txtEntrada=amitat</url>
+            <example correction="amistat">Vivim una bonica <marker>amitat</marker>.</example>
         </rule>
         <rule id="CALENDAR" name="calendar/calendari">
             <pattern>

@@ -56,8 +56,8 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("empastifava", matches[0].getSuggestedReplacements().get(1));
     assertEquals("llepava", matches[0].getSuggestedReplacements().get(2));
     assertEquals("cagava", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("havia begut oli", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("tocava el rebre", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("(haver begut oli)", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("(tocar el rebre)", matches[0].getSuggestedReplacements().get(5));
     assertEquals("(fotre's)", matches[0].getSuggestedReplacements().get(6));
     assertEquals("(fer-se fotre)", matches[0].getSuggestedReplacements().get(7));
     
