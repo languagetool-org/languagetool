@@ -43,7 +43,7 @@ USA
           <token>هذا</token>
         </marker>
 
-          <token postag="N.*;F1.?;--.*" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--.*" postag_regexp="yes"/>
       </pattern>
       <message>انتبه إلى اسم الإشارة للمذكر، ربما عليك أن تضع اسم إشارة مؤنثا <suggestion>هذه</suggestion>?
       </message>
@@ -58,7 +58,7 @@ USA
           <token>هذه</token>
         </marker>
 
-          <token postag="N.*;M1.?;--.*" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
       </pattern>
       <message>انتبه إلى اسم الإشارة للمؤنث، ربما عليك أن تضع اسم إشارة مذكرا <suggestion>هذا</suggestion>?
       </message>
@@ -103,7 +103,7 @@ USA
         </or>
         </marker>
 
-          <token postag="N.masdar.;.*;-B.*" postag_regexp="yes"/>
+          <token postag="NM.*;.*;-B.*" postag_regexp="yes"/>
       </pattern>
       <message>
 تعبير "القيام بـ" ركيك يستحسن تجن البه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
@@ -436,7 +436,7 @@ USA
           <token>إلى</token>
         </or>
         </marker>
-          <token postag="N.*;.?[23]U;--.*|N.*;M[3]U;--.*" postag_regexp="yes"/>
+          <token postag="N.*;.?[23]U.?;--.*|N.*;M[3]U.?;--.*" postag_regexp="yes"/>
       </pattern>
       <message>انتبه لحرف الجر فالمثنى يجر بالياء <suggestion/>؟
       </message>
@@ -1280,7 +1280,7 @@ USA
         <marker>
           <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
         </marker>
-          <token postag='N.*;-[34]-;----' postag_regexp="yes"/>
+          <token postag='N.*;F[34]--;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/></suggestion>؟
 الأعداد المفردة من ثلاثة إلى تسعة، تكون مذكرة قبل الأسماء المؤنثة. 		قل ثلاث طالبات ولا تقل ثلاثة طالبات.
@@ -1295,13 +1295,13 @@ USA
         <marker>
           <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
         </marker>
-          <token postag='N.*;-[34]-;----' postag_regexp="yes"/>
+          <token postag='N.*;M[34]--;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/>ة</suggestion>؟
 الأعداد المفردة من ثلاثة إلى تسعة، تكون مؤنثة قبل الأسماء المذكرة. 	قل ثلاثة رجال، ولا تقل ثلاث رجال.
       </message>
-      <example correction="ثلاثة"> <marker>ثلاث</marker> رجال</example>
-      <example correction="أربعة"> <marker>أربع</marker> أسود</example>
+      <example correction="ثلاثة"> <marker>ثلاث</marker> عاملين</example>
+      <example correction="أربعة"> <marker>أربع</marker> سائلين</example>
     </rule>
 
 
@@ -1311,7 +1311,7 @@ USA
           <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;-1-;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/>ة عشر</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الأول قبل الأسماء المذكرة. 	قل ثلاثة عشر رجلا، ولا تقل ثلاث عشر رجلا.
@@ -1325,7 +1325,7 @@ USA
           <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
           <token>عشرة</token>
         </marker>
-          <token postag='N.*;-1-;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/> عشر</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الثاني  قبل الأسماء المذكرة. 	قل ثلاثة عشر رجلا، ولا تقل ثلاثة عشرة رجلا.
@@ -1338,7 +1338,7 @@ USA
           <token regexp="yes">إحدى|اثنتي</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;.?1-;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>أحد عشر</suggestion>؟
 
@@ -1352,7 +1352,7 @@ USA
           <token regexp="yes">أحد|اثني</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>إحدى عشرة</suggestion>؟
 
@@ -1368,7 +1368,7 @@ USA
           <token regexp="yes">اثنتا|اثنتي</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;.?1-;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>اثنا عشر</suggestion><suggestion>اثني عشر</suggestion>؟
 
@@ -1383,7 +1383,7 @@ USA
           <token regexp="yes">اثنا|اثني</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>اثنتا عشرة</suggestion><suggestion>اثنتي عشرة</suggestion>؟
 
@@ -1399,7 +1399,7 @@ USA
           <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
           <token regexp="yes">عشرة|عشر</token>
         </marker>
-          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/> عشرة</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الأول قبل الأسماء المؤنثة. 	قل ثلاث عشرة طالبة، ولا تقل ثلاثة عشر طالبة.
@@ -1414,7 +1414,7 @@ USA
           <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
           <token>عشر</token>
         </marker>
-          <token postag='N.*;F1-;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/> عشرة</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الثاني  قبل الأسماء المؤنثة. 	قل ثلاث عشرة طالبة، ولا تقل ثلاث عشر طالبة.
@@ -1431,7 +1431,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/> <match no="2"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
@@ -1447,7 +1447,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;M1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>اثنان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
@@ -1462,7 +1462,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/>ة <match no="2"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
@@ -1478,7 +1478,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;F1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion>اثنتان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنتين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.
@@ -1493,7 +1493,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;.?1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="1"/> <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل بخمسة وعشرين ولا تقل بخمسة وعشرون.
@@ -1512,7 +1512,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
         </marker>
-          <token postag='N.*;.?1.?;----' postag_regexp="yes"/>
+          <token postag='N.*;.?1.*;---' postag_regexp="yes"/>
       </pattern>
       <message>أتقصد <suggestion><match no="2"/> <match no="3" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل  "في خمسة وعشرين" ولا تقل  "في خمسة وعشرون".
@@ -1530,7 +1530,7 @@ USA
 
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
         <marker>
-          <token postag='N.*;.?[^1].?;----' postag_regexp="yes"/>
+          <token postag='N.*;.?[^1].*;---' postag_regexp="yes"/>
         </marker></pattern>
       <message>أتقصد <suggestion/>؟
 الأعداد المركبة والمعطوفة من 11 إلى 19 من 21 إلى 99، معدودها مفرد، قل  "خمسة وعشرون رجلا" ولا تقل  "خمسة وعشرون رجالا".
@@ -1552,7 +1552,7 @@ USA
       <pattern>
           <token regexp="yes">لم|لما|إن|إنما|من|ما|مهما|متى|أي|أين|أيان|أنى|حيثما</token>
         <marker>
-          <token postag='V.W.*;F.?[^J].*;--' postag_regexp="yes"/>
+          <token postag='VW.*;.?.?[^J].?f.*;---' postag_regexp="yes"/>
         </marker></pattern>
       <message>أتقصد؟
 الفعل المضارع بعد "لم" يأتي مجزوما.

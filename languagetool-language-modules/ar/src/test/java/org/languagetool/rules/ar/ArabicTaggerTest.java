@@ -51,18 +51,32 @@ public class ArabicTaggerTest {
       "هذه/[هذه]DFS", tokenizer, tagger);
 
     TestTools.myAssert("الخياريتان",
-      "الخياريتان/[خيار]N.jamed.;-2-;--L-", tokenizer, tagger);
+      "الخياريتان/[خيار]NJ-;F2--;--L", tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
-      "السماء/[سماء]N.jamed.;-1-;--L- -- زرقاء/[زرقاء]N.adj.;F1-;----", tokenizer, tagger);
+            "السماء/[سماء]NJ-;F1--;--L|السماء/[سماء]NJ-;F1A-;--L|السماء/[سماء]NJ-;F1I-;--L|السماء/[سماء]NJ-;F1U-;--L -- زرقاء/[زرقاء]NA-;F1--;---|زرقاء/[زرقاء]NA-;F1A-;---|زرقاء/[زرقاء]NA-;F1I-;---|زرقاء/[زرقاء]NA-;F1U-;---", tokenizer, tagger);
 
     // non-existing-word
     TestTools.myAssert("العباره",
       "العباره/[null]null", tokenizer, tagger);
 
     TestTools.myAssert("والبلاد",
-      "والبلاد/[والبلاد]N.jamed.;-1-;--L-;WAW|والبلاد/[والبلاد]N.jamed.;-3-;--L-;WAW",
-      tokenizer, tagger);
+"والبلاد/[والبلاد]NJ-;F3--;W-L|والبلاد/[والبلاد]NJ-;F3A-;W-L|والبلاد/[والبلاد]NJ-;F3I-;W-L|والبلاد/[والبلاد]NJ-;F3U-;W-L|والبلاد/[والبلاد]NJ-;M1--;W-L|والبلاد/[والبلاد]NJ-;M1A-;W-L|والبلاد/[والبلاد]NJ-;M1I-;W-L|والبلاد/[والبلاد]NJ-;M1U-;W-L",   tokenizer, tagger);
 
+
+    TestTools.myAssert("بلادهما",
+"بلادهما/[بلادهما]NJ-;F3--;--H|بلادهما/[بلادهما]NJ-;F3A-;--H|بلادهما/[بلادهما]NJ-;F3I-;--H|بلادهما/[بلادهما]NJ-;F3U-;--H|بلادهما/[بلادهما]NJ-;M1--;--H|بلادهما/[بلادهما]NJ-;M1A-;--H|بلادهما/[بلادهما]NJ-;M1I-;--H|بلادهما/[بلادهما]NJ-;M1U-;--H",
+      tokenizer, tagger);
+     /*
+    TestTools.myAssert("وبلادهما",
+      "وبلادهما/[وبلادهما]NJ-;-1--;W-H|وبلادهما/[وبلادهما]NJ-;-3--;W-H",
+      tokenizer, tagger);
+    TestTools.myAssert("كبلاد",
+            "كبلاد/[كبلاد]NJ-;-1--;-K-|كبلاد/[كبلاد]NJ-;-3--;-K-",
+            tokenizer, tagger);
+    TestTools.myAssert("وكالبلاد",
+            "وكالبلاد/[وكالبلاد]NJ-;-1--;WKL|وكالبلاد/[وكالبلاد]NJ;-3--;WKL",
+            tokenizer, tagger);
+     */
   }
 }
