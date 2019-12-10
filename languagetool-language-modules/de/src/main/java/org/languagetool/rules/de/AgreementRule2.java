@@ -61,8 +61,10 @@ public class AgreementRule2 extends Rule {
     asList(token("lieber")),     // "Lieber X als Y"
     asList(token("besser")),     // "Besser Brot ohne Butter..."
     asList(token("laut")),       // "Laut Fernsehen"
+    asList(token("research")),   // engl.
     asList(token("researchs")),  // engl.
     asList(token("security")),   // engl.
+    asList(token("business")),   // oft engl.
     asList(token("voll"), token("Sorge")),
     asList(token("Personal"), token("Computer")),
     asList(token("Ganz"), token("Gentleman")),
@@ -72,7 +74,6 @@ public class AgreementRule2 extends Rule {
 
   public AgreementRule2(ResourceBundle messages, Language language) {
     this.language = language;
-    setDefaultTempOff();
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Kleiner Haus</marker> am Waldrand"),
                    Example.fixed("<marker>Kleines Haus</marker> am Waldrand"));

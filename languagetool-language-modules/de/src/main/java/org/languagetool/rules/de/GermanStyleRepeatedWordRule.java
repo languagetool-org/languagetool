@@ -86,10 +86,10 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    * Only substantive, names, verbs and adjectives are checked
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
-    return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
+    return ((token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
         && !token.matchesPosTagRegex("(PRO|A(RT|DV)|VER:(AUX|MOD)):.*")
-        && !StringUtils.equalsAny(token.getToken(), "sicher", "weit", "Sie", "Ich"))
-        || isUnknownWord(token);
+        || isUnknownWord(token))
+        && !StringUtils.equalsAny(token.getToken(), "sicher", "weit", "Sie", "Ich", "Euch", "Eure"));
   }
 
   /*
