@@ -46,13 +46,13 @@ public class ArabicTagger extends BaseTagger {
   {
     StringBuilder tmp = new StringBuilder(postag);
     if(flag=="W") {
-      tmp.setCharAt(postag.length() - 4, 'W');
+      tmp.setCharAt(postag.length() - 3, 'W');
     }
     else if(flag =="K") {
-      tmp.setCharAt(postag.length() - 3, 'K');
+      tmp.setCharAt(postag.length() - 2, 'K');
     }
     else if(flag =="L") {
-      tmp.setCharAt(postag.length() - 3, 'L');
+      tmp.setCharAt(postag.length() - 2, 'L');
     }
     return tmp.toString();
 
