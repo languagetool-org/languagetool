@@ -6,7 +6,7 @@ Catalan Disambiguation Rules for LanguageTool
 Copyright (C) 2012 Jaume Ortolà i Font
 -->
 <!DOCTYPE rules [
-    <!ENTITY exceptions_QUE_COMPARATIU "finalitat|pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí">
+    <!ENTITY exceptions_QUE_COMPARATIU "finalitat|pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí|millor">
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
@@ -4206,7 +4206,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token inflected="yes">posar</token>
                 <token>en</token>
                 <marker>
-                    <token inflected="yes">camí</token>
+                    <token>camí</token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
@@ -9292,6 +9292,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <!-- main rule -->
         <rule>
+            <antipattern>
+                <token>fora</token>
+                <token postag="V.[ISM].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
                 <marker>
@@ -9305,6 +9309,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove"  postag="N.*"/>
             <example type="untouched">Aquesta impressió és reflex de la situació.</example>
             <example type="untouched">Són mones albines.</example>
+            <example type="untouched">Si fora bufa vent, ens quedem a casa.</example>
             <!--<example type="untouched">Són mitjans de comunicació.</example>-->
         </rule>
     </rulegroup>
@@ -10051,7 +10056,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">falta|terme|origen|camí|corrent</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">falta|terme|origen|camí|corrent|relleu|compte</exception></token>
             </pattern>
             <disambig action="remove"><wd pos="_GV_"></wd></disambig>
         </rule>
@@ -10070,6 +10075,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="verb_verbadj" name="verb + verb/adj">
+        <antipattern>
+            <token>fora</token>
+            <token postag="V.[ISM].*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="V.[MSI].*|_GV_" postag_regexp="yes"><exception postag="PP.*|P0.*|N.*" postag_regexp="yes"/></token>
             <marker>
