@@ -27,6 +27,7 @@ import org.languagetool.tagging.BaseTagger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.StringBuilder;
 import java.util.Locale;
 
 public class ArabicTagger extends BaseTagger {
@@ -40,7 +41,37 @@ public class ArabicTagger extends BaseTagger {
     return "/ar/added.txt";
   }
 
+  /* Add the flag to an encoded tag */
+  public String addTag(String postag, String flag)
+  {
+    StringBuilder tmp = new StringBuilder(postag);
+    if(flag=="W") {
+      tmp.setCharAt(postag.length() - 4, 'W');
+    }
+    else if(flag =="K") {
+      tmp.setCharAt(postag.length() - 3, 'K');
+    }
+    else if(flag =="L") {
+      tmp.setCharAt(postag.length() - 3, 'L');
+    }
+    return tmp.toString();
 
+  }
+
+  /* test if flag exists */
+  public boolean hasFlag(String postag, String flag)
+  {
+    StringBuilder tmp = new StringBuilder(postag);
+    if(flag=="has_pronoun") {
+      return postag.endsWith("H");
+    }
+    else if(flag =="has_jar") {
+      return postag.contains("B");
+    }
+
+    return false;
+
+  }
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
 
@@ -68,14 +99,80 @@ public class ArabicTagger extends BaseTagger {
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+
     //Any well-formed word started by conjuction letters like Waw and Feh is the same word without  the conjuction + a conjuction tag
-    if (word.startsWith("و") || word.startsWith("ف")) {
+    // case of Lam jar + Al ta3rif
+    // w + ll or f + ll
+    if (word.startsWith("ولل") || word.startsWith("فلل")) {
+      final String possibleWord = word.replaceAll("^[وف]لل", "بال");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        String posTag = taggerToken.getPOSTag();
+        if (hasFlag(posTag, "has_jar")) {
+          posTag = addTag(posTag,"L");
+          posTag = addTag(posTag,"W");
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+        }
+      }
+
+    }
+    else if (word.startsWith("وك") || word.startsWith("فك") || word.startsWith("ول") || word.startsWith("فل")) {
+      final String possibleWord = word.replaceAll("^[وف][كل]", "ب");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        String posTag = taggerToken.getPOSTag();
+        if (hasFlag(posTag, "has_jar")) {
+          if (word.startsWith("وك") || word.startsWith("فك") )
+            posTag = addTag(posTag,"K");
+          if (word.startsWith("ول") || word.startsWith("فل") )
+            posTag = addTag(posTag,"L");
+            posTag = addTag(posTag,"W");
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag , word));
+        }
+      }
+
+    }
+    else if (word.startsWith("و") || word.startsWith("ف")) {
       final String possibleWord = word.replaceAll("^[وف]", "");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
       for (AnalyzedToken taggerToken : taggerTokens) {
-        final String posTag = taggerToken.getPOSTag();
-        additionalTaggedTokens.add(new AnalyzedToken(word, posTag + "W", word));
+        String posTag = taggerToken.getPOSTag();
+        //posTag = posTag.replace("(.)...$","W");
+        posTag = addTag(posTag,"W");
+        additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+      }
+
+    }
+    else if (word.startsWith("لل") || word.startsWith("لل")) {
+      final String possibleWord = word.replaceAll("^لل", "بال");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        String posTag = taggerToken.getPOSTag();
+        if (hasFlag(posTag, "has_jar")) {
+          posTag = addTag(posTag,"L");
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+        }
+      }
+
+    }
+    else if (word.startsWith("ك") || word.startsWith("ل") ) {
+      final String possibleWord = word.replaceAll("^[كل]", "ب");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        String posTag = taggerToken.getPOSTag();
+        if (hasFlag(posTag, "has_jar")) {
+          if (word.startsWith("ك") )
+            posTag = addTag(posTag,"K");
+          if (word.startsWith("ل") )
+            posTag = addTag(posTag,"L");
+
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+        }
       }
     }
     // to avoid redendecy all attached pronouns in dictionary are represented only by a generic pronoun
@@ -88,7 +185,7 @@ public class ArabicTagger extends BaseTagger {
       taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
       for (AnalyzedToken taggerToken : taggerTokens) {
         final String posTag = taggerToken.getPOSTag();
-        if (posTag.endsWith("H"))
+        if (hasFlag(posTag, "has_pronoun"))
         {
           additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
         }
@@ -99,10 +196,11 @@ public class ArabicTagger extends BaseTagger {
         //List<AnalyzedToken> taggerTokens;
         taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord2));
         for (AnalyzedToken taggerToken : taggerTokens) {
-          final String posTag = taggerToken.getPOSTag();
-          if (posTag.endsWith("H"))
+          String posTag = taggerToken.getPOSTag();
+          if (hasFlag(posTag, "has_pronoun"))
           {
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag+"W", word));
+            posTag = addTag(posTag,"W");
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
           }
         }
 

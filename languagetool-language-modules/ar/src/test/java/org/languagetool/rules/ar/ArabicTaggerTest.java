@@ -60,8 +60,11 @@ public class ArabicTaggerTest {
     TestTools.myAssert("العباره",
       "العباره/[null]null", tokenizer, tagger);
 
+    //TestTools.myAssert("والبلاد",
+     // "والبلاد/[والبلاد]N.jamed.;-1-;--L-W|والبلاد/[والبلاد]N.jamed.;-3-;--L-W",
+     // tokenizer, tagger);
     TestTools.myAssert("والبلاد",
-      "والبلاد/[والبلاد]N.jamed.;-1-;--L-W|والبلاد/[والبلاد]N.jamed.;-3-;--L-W",
+      "والبلاد/[والبلاد]N.jamed.;-1-;W-L-|والبلاد/[والبلاد]N.jamed.;-3-;W-L-",
       tokenizer, tagger);
 
     TestTools.myAssert("بلادهما",
@@ -69,8 +72,14 @@ public class ArabicTaggerTest {
       tokenizer, tagger);
 
     TestTools.myAssert("وبلادهما",
-      "وبلادهما/[وبلادهما]N.jamed.;-1-;---HW|وبلادهما/[وبلادهما]N.jamed.;-3-;---HW",
+      "وبلادهما/[وبلادهما]N.jamed.;-1-;W--H|وبلادهما/[وبلادهما]N.jamed.;-3-;W--H",
       tokenizer, tagger);
 
+    TestTools.myAssert("كبلاد",
+            "كبلاد/[كبلاد]N.jamed.;-1-;-K--|كبلاد/[كبلاد]N.jamed.;-3-;-K--",
+            tokenizer, tagger);
+    TestTools.myAssert("وكالبلاد",
+            "وكالبلاد/[وكالبلاد]N.jamed.;-1-;WKL-|وكالبلاد/[وكالبلاد]N.jamed.;-3-;WKL-",
+            tokenizer, tagger);
   }
 }
