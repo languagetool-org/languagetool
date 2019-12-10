@@ -6609,18 +6609,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
             <antipattern>
-                <marker>
-                    <token>a</token>
-                    <token>l'</token>
-                    <token>una</token>
-                </marker>
+                <token>a</token>
+                <token>l'</token>
+                <token>una</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>ls</token>
+                <token>uns</token>
             </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
                         <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">quant|cap|poc|força|gens|tot|cert|molt|altre</exception></token>
-                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception><exception postag="_GV_"/></token>
                     </marker>
                     <token><exception postag="_C_TEMPS"/></token>
                 </pattern>
@@ -6635,6 +6638,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>l'un el 1538, en temps de Solimà</example>
                 <example>n'hi ha uns quants la llavor dels quals</example>
                 <example>I de l'altra la fascinació.</example>
+                <example>Als uns els féu esclaus.</example>
+                <example>Atribueixen als uns els errors dels altres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9148,11 +9153,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>al voltant de</suggestion>
                 <suggestion>cap a</suggestion>
                 <suggestion>vora</suggestion>
-                <short>Possible error</short>
+                <short>Incorrecte amb valor aproximatiu</short>
                 <example correction="al voltant de|cap a|vora"><marker>sobre</marker> les 10.30 hores.</example>
                 <example correction="al voltant de|cap a|vora"><marker>sobre</marker> les 10,30 hores.</example>
                 <example>sobre les tres cadires</example>
                 <example>Jo la porto a sobre les 24 hores del dia</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sobre</token>
+                        <token>els</token>
+                    </marker>
+                    <token postag="DN.*" postag_regexp="yes"></token>
+                    <token>anys</token>
+                </pattern>
+                <message>Incorrecte amb valor aproximatiu. Correcte en altres sentits.</message>
+                <suggestion>al voltant dels</suggestion>
+                <suggestion>cap als</suggestion>
+                <suggestion>vora els</suggestion>
+                <short>Incorrecte amb valor aproximatiu</short>
+                <example correction="al voltant dels|cap als|vora els"><marker>sobre els</marker> 12 anys.</example>
             </rule>
         </rulegroup>
         <rule id="A_LINREVES_DE_AL_REVES_DE" name="*a l'inrevés de/al revés de">
@@ -38058,7 +38079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">baixar<exception scope="previous" regexp="yes" inflected="yes">que|fer</exception><exception postag="_GN_FS"/></token>
+                        <token inflected="yes" skip="3">baixar<exception scope="previous" regexp="yes" inflected="yes">que|fer</exception><exception postag="_GN_FS"/><exception scope="next">a</exception></token>
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&noms_ABAIXAR_APUJAR;<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
                 </pattern>
@@ -38070,6 +38091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La vitalitat baixava de to.</example>
                 <example>Que feien baixar els preus</example>
                 <example>No li agrada que baixin els preus.</example>
+                <example>Baixava al cap de molt de temps.</example>
             </rule>
             <rule>
                 <pattern>
