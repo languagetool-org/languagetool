@@ -42,16 +42,13 @@ public class ArabicTagger extends BaseTagger {
   }
 
   /* Add the flag to an encoded tag */
-  public String addTag(String postag, String flag)
-  {
+  public String addTag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if(flag=="W") {
+    if (flag == "W") {
       tmp.setCharAt(postag.length() - 3, 'W');
-    }
-    else if(flag =="K") {
+    } else if (flag == "K") {
       tmp.setCharAt(postag.length() - 2, 'K');
-    }
-    else if(flag =="L") {
+    } else if (flag == "L") {
       tmp.setCharAt(postag.length() - 2, 'L');
     }
     return tmp.toString();
@@ -59,19 +56,18 @@ public class ArabicTagger extends BaseTagger {
   }
 
   /* test if flag exists */
-  public boolean hasFlag(String postag, String flag)
-  {
+  public boolean hasFlag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if(flag=="has_pronoun") {
+    if (flag == "has_pronoun") {
       return postag.endsWith("H");
-    }
-    else if(flag =="has_jar") {
+    } else if (flag == "has_jar") {
       return postag.contains("B");
     }
 
     return false;
 
   }
+
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
 
@@ -103,115 +99,100 @@ public class ArabicTagger extends BaseTagger {
     //Any well-formed word started by conjuction letters like Waw and Feh is the same word without  the conjuction + a conjuction tag
     // case of Lam jar + Al ta3rif
     // w + ll or f + ll
+    List<String> tags = new ArrayList();
+    List<String> tags_with_jar = new ArrayList();
+    String possibleWord = word;
     if (word.startsWith("ولل") || word.startsWith("فلل")) {
-      final String possibleWord = word.replaceAll("^[وف]لل", "بال");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
-      for (AnalyzedToken taggerToken : taggerTokens) {
-        String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_jar")) {
-          posTag = addTag(posTag,"L");
-          posTag = addTag(posTag,"W");
-          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
-        }
+      possibleWord = possibleWord.replaceAll("^[وف]لل", "بال");
+      tags_with_jar.add("L"); // only if has_jar
+      tags_with_jar.add("W"); // only if has_jar
+    } else if (word.startsWith("وك") || word.startsWith("فك") || word.startsWith("ول") || word.startsWith("فل")) {
+      possibleWord = possibleWord.replaceAll("^[وف][كل]", "ب");
+      if (word.startsWith("وك") || word.startsWith("فك")) {
+        tags_with_jar.add("K"); // only if has_jar
       }
-
-    }
-    else if (word.startsWith("وك") || word.startsWith("فك") || word.startsWith("ول") || word.startsWith("فل")) {
-      final String possibleWord = word.replaceAll("^[وف][كل]", "ب");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
-      for (AnalyzedToken taggerToken : taggerTokens) {
-        String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_jar")) {
-          if (word.startsWith("وك") || word.startsWith("فك") )
-            posTag = addTag(posTag,"K");
-          if (word.startsWith("ول") || word.startsWith("فل") )
-            posTag = addTag(posTag,"L");
-            posTag = addTag(posTag,"W");
-          additionalTaggedTokens.add(new AnalyzedToken(word, posTag , word));
-        }
+      if (word.startsWith("ول") || word.startsWith("فل")) {
+        tags_with_jar.add("L"); // only if has_jar
       }
+      tags_with_jar.add("W"); // only if has_jar
+    } else if (word.startsWith("و") || word.startsWith("ف")) {
+      possibleWord = possibleWord.replaceAll("^[وف]", "");
+      tags.add("W");
 
+    } else if (word.startsWith("لل") || word.startsWith("لل")) {
+      possibleWord = possibleWord.replaceAll("^لل", "بال");
+      tags_with_jar.add("L"); // only if has_jar
+    } else if (word.startsWith("ك")) {
+      possibleWord = possibleWord.replaceAll("^[ك]", "ب");
+      tags_with_jar.add("K"); // only if has_jar
+    } else if (word.startsWith("ل")) {
+      possibleWord = possibleWord.replaceAll("^[ل]", "ب");
+      tags_with_jar.add("L"); // only if has_jar
     }
-    else if (word.startsWith("و") || word.startsWith("ف")) {
-      final String possibleWord = word.replaceAll("^[وف]", "");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
-      for (AnalyzedToken taggerToken : taggerTokens) {
-        String posTag = taggerToken.getPOSTag();
-        //posTag = posTag.replace("(.)...$","W");
-        posTag = addTag(posTag,"W");
-        additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
-      }
 
-    }
-    else if (word.startsWith("لل") || word.startsWith("لل")) {
-      final String possibleWord = word.replaceAll("^لل", "بال");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
-      for (AnalyzedToken taggerToken : taggerTokens) {
-        String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_jar")) {
-          posTag = addTag(posTag,"L");
-          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
-        }
-      }
-
-    }
-    else if (word.startsWith("ك") || word.startsWith("ل") ) {
-      final String possibleWord = word.replaceAll("^[كل]", "ب");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
-      for (AnalyzedToken taggerToken : taggerTokens) {
-        String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_jar")) {
-          if (word.startsWith("ك") )
-            posTag = addTag(posTag,"K");
-          if (word.startsWith("ل") )
-            posTag = addTag(posTag,"L");
-
-          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
-        }
-      }
-    }
     // to avoid redendecy all attached pronouns in dictionary are represented only by a generic pronoun
     //  for words like بيتك بيتكما بيتهم بيتنا بيتكن there are one word which is بيتك
     // we can simulate all word forms into the same tag which endec by H( H is tag for attached pronouns الضمائر المصتلة)
-    if (     word.endsWith("ه")
-          || word.endsWith("ها")
-          || word.endsWith("هما")
-          || word.endsWith("كما")
-          || word.endsWith("هم")
-          || word.endsWith("هن")
-          || word.endsWith("كم")
-          || word.endsWith("كن")
-          || word.endsWith("نا")
+    if (word.endsWith("ه")
+      || word.endsWith("ها")
+      || word.endsWith("هما")
+      || word.endsWith("كما")
+      || word.endsWith("هم")
+      || word.endsWith("هن")
+      || word.endsWith("كم")
+      || word.endsWith("كن")
+      || word.endsWith("نا")
     ) {
-      final String possibleWord = word.replaceAll("(ه|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ك");
+      possibleWord = possibleWord.replaceAll("(ه|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ك");
       List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
       for (AnalyzedToken taggerToken : taggerTokens) {
-        final String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_pronoun"))
-        {
-          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+        String posTag = taggerToken.getPOSTag();
+        if (hasFlag(posTag, "has_pronoun")) {
         }
+
+        for (int i = 0; i < tags_with_jar.size(); i++) {
+          if (hasFlag(posTag, "has_jar"))
+            posTag = addTag(posTag, tags_with_jar.get(i));
+        }
+        for (int i = 0; i < tags.size(); i++) {
+          posTag = addTag(posTag, tags.get(i));
+        }
+        additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
       }
       // if possible word has a conjuction at the begining like Waw or FEH
       if (word.startsWith("و") || word.startsWith("ف")) {
-        final String possibleWord2 = possibleWord.replaceAll("^[وف]", "");
+        possibleWord = possibleWord.replaceAll("^[وف]", "");
         //List<AnalyzedToken> taggerTokens;
-        taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord2));
+        taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
         for (AnalyzedToken taggerToken : taggerTokens) {
           String posTag = taggerToken.getPOSTag();
-          if (hasFlag(posTag, "has_pronoun"))
-          {
-            posTag = addTag(posTag,"W");
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, word));
+          if (hasFlag(posTag, "has_pronoun")) {
+            posTag = addTag(posTag, "W");
           }
-        }
+          for (int i = 0; i < tags_with_jar.size(); i++) {
+            if (hasFlag(posTag, "has_jar"))
+              posTag = addTag(posTag, tags_with_jar.get(i));
+          }
+          for (int i = 0; i < tags.size(); i++) {
+            posTag = addTag(posTag, tags.get(i));
+          }
+          additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
 
+        }
+      }
+    } else {
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        String posTag = taggerToken.getPOSTag();
+        for (int i = 0; i < tags_with_jar.size(); i++) {
+          if (hasFlag(posTag, "has_jar"))
+            posTag = addTag(posTag, tags_with_jar.get(i));
+        }
+        for (int i = 0; i < tags.size(); i++) {
+          posTag = addTag(posTag, tags.get(i));
+        }
+        additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
       }
     }
     return additionalTaggedTokens;

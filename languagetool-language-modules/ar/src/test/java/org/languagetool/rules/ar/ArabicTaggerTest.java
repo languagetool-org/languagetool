@@ -47,6 +47,7 @@ public class ArabicTaggerTest {
   @Test
   public void testTagger() throws IOException {
 
+
     TestTools.myAssert("هذه",
       "هذه/[هذه]DFS", tokenizer, tagger);
 
@@ -54,18 +55,18 @@ public class ArabicTaggerTest {
       "الخياريتان/[خيار]NJ-;F2--;--L", tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
-            "السماء/[سماء]NJ-;F1--;--L|السماء/[سماء]NJ-;F1A-;--L|السماء/[سماء]NJ-;F1I-;--L|السماء/[سماء]NJ-;F1U-;--L -- زرقاء/[زرقاء]NA-;F1--;---|زرقاء/[زرقاء]NA-;F1A-;---|زرقاء/[زرقاء]NA-;F1I-;---|زرقاء/[زرقاء]NA-;F1U-;---", tokenizer, tagger);
+      "السماء/[سماء]NJ-;F1--;--L|السماء/[سماء]NJ-;F1A-;--L|السماء/[سماء]NJ-;F1I-;--L|السماء/[سماء]NJ-;F1U-;--L -- زرقاء/[زرقاء]NA-;F1--;---|زرقاء/[زرقاء]NA-;F1A-;---|زرقاء/[زرقاء]NA-;F1I-;---|زرقاء/[زرقاء]NA-;F1U-;---", tokenizer, tagger);
 
     // non-existing-word
     TestTools.myAssert("العباره",
       "العباره/[null]null", tokenizer, tagger);
 
     TestTools.myAssert("والبلاد",
-"والبلاد/[والبلاد]NJ-;F3--;W-L|والبلاد/[والبلاد]NJ-;F3A-;W-L|والبلاد/[والبلاد]NJ-;F3I-;W-L|والبلاد/[والبلاد]NJ-;F3U-;W-L|والبلاد/[والبلاد]NJ-;M1--;W-L|والبلاد/[والبلاد]NJ-;M1A-;W-L|والبلاد/[والبلاد]NJ-;M1I-;W-L|والبلاد/[والبلاد]NJ-;M1U-;W-L",   tokenizer, tagger);
+      "والبلاد/[بلاد]NJ-;F3--;W-L|والبلاد/[بلاد]NJ-;F3A-;W-L|والبلاد/[بلاد]NJ-;F3I-;W-L|والبلاد/[بلاد]NJ-;F3U-;W-L|والبلاد/[بلاد]NJ-;M1--;W-L|والبلاد/[بلاد]NJ-;M1A-;W-L|والبلاد/[بلاد]NJ-;M1I-;W-L|والبلاد/[بلاد]NJ-;M1U-;W-L", tokenizer, tagger);
 
 
     TestTools.myAssert("بلادهما",
-"بلادهما/[بلادهما]NJ-;F3--;--H|بلادهما/[بلادهما]NJ-;F3A-;--H|بلادهما/[بلادهما]NJ-;F3I-;--H|بلادهما/[بلادهما]NJ-;F3U-;--H|بلادهما/[بلادهما]NJ-;M1--;--H|بلادهما/[بلادهما]NJ-;M1A-;--H|بلادهما/[بلادهما]NJ-;M1I-;--H|بلادهما/[بلادهما]NJ-;M1U-;--H",
+      "بلادهما/[بلاد]NJ-;F3--;--H|بلادهما/[بلاد]NJ-;F3A-;--H|بلادهما/[بلاد]NJ-;F3I-;--H|بلادهما/[بلاد]NJ-;F3U-;--H|بلادهما/[بلاد]NJ-;M1--;--H|بلادهما/[بلاد]NJ-;M1A-;--H|بلادهما/[بلاد]NJ-;M1I-;--H|بلادهما/[بلاد]NJ-;M1U-;--H",
       tokenizer, tagger);
      /*
     TestTools.myAssert("وبلادهما",
