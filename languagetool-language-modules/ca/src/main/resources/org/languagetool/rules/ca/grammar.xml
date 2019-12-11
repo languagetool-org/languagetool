@@ -26391,7 +26391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
                 <token>.</token>
             </pattern>
-            <message>Cal substituir pel caràcter de punts suspensius.</message>
+            <message>Cal substituir els tres punts pel caràcter de punts suspensius.</message>
             <suggestion>…</suggestion>
             <short>Error tipogràfic</short>
             <example correction="…">Ara mateix<marker>...</marker></example>
@@ -46523,6 +46523,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="STYLE_OPTIONAL" name="C2) Qüestions estilístiques opcionals" type="style">
         <rulegroup id="SPELLOUT_NUMBERS" name="Escriu alguns nombres amb lletres">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=xifres+o+lletres&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11005&amp;idHit=11005&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=xifres+o+lletres%3F+cardinals+amb+lletres&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <antipattern>
+                <token regexp="yes">\d+(\.\d\d\d)*</token>
+                <token regexp="yes">a|i|o|ni|/|-</token>
+                <token regexp="yes">\d+(\.\d\d\d)*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -46537,6 +46542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Preferible amb lletres</short>
                 <example correction="vint-i-quatre"><marker>24</marker> anys</example>
                 <example correction="dos milions"><marker>2.000.000</marker> d'anys</example>
+                <example>ha de casar-se als 14 o 15 anys</example>
             </rule>
             <rule>
                 <pattern>
@@ -46551,6 +46557,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>(set in filter)</suggestion>
                 <short>Preferible amb lletres</short>
                 <example correction="vint-i-dues"><marker>22</marker> dècades</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>anys</token>
+                    <marker>
+                        <token min="0" regexp="yes">[’']</token>
+                        <token regexp="yes">[1-9]0</token>
+                    </marker>
+                </pattern>
+                <message>És preferible escriure aquest nombre amb lletres.</message>
+                <suggestion><match no="3" postag="_spell_number_"/></suggestion>
+                <short>Preferible amb lletres</short>
+                <example correction="seixanta">Va sorgir en els anys <marker>60</marker>.</example>
+                <example correction="seixanta">Va sorgir en els anys <marker>'60</marker>.</example>
+                <example>És dels anys 1960.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA.MP." postag_regexp="yes"/>
+                    <marker>
+                        <token min="0" regexp="yes">[’']</token>
+                        <token regexp="yes">[1-9]0</token>
+                    </marker>
+                </pattern>
+                <message>És preferible escriure aquest nombre amb lletres.</message>
+                <suggestion><match no="3" postag="_spell_number_"/></suggestion>
+                <short>Preferible amb lletres</short>
+                <example correction="seixanta">Va sorgir en els <marker>60</marker>.</example>
+                <example correction="seixanta">Va sorgir en la dècada dels <marker>'60</marker>.</example>
+                <example>És dels anys 1960.</example>
             </rule>
         </rulegroup>
         <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
