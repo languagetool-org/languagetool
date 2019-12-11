@@ -178,8 +178,16 @@ public class ArabicTagger extends BaseTagger {
     // to avoid redendecy all attached pronouns in dictionary are represented only by a generic pronoun
     //  for words like بيتك بيتكما بيتهم بيتنا بيتكن there are one word which is بيتك
     // we can simulate all word forms into the same tag which endec by H( H is tag for attached pronouns الضمائر المصتلة)
-    if (word.endsWith("ه") || word.endsWith("ها") ||   word.endsWith("هما") ||       word.endsWith("كما") ||    word.endsWith("هم") || word.endsWith("هن") ||
-    word.endsWith("كم") || word.endsWith("كن") ||     word.endsWith("نا")   ) {
+    if (     word.endsWith("ه")
+          || word.endsWith("ها")
+          || word.endsWith("هما")
+          || word.endsWith("كما")
+          || word.endsWith("هم")
+          || word.endsWith("هن")
+          || word.endsWith("كم")
+          || word.endsWith("كن")
+          || word.endsWith("نا")
+    ) {
       final String possibleWord = word.replaceAll("(ه|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ك");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(word, stemmer.lookup(possibleWord));
