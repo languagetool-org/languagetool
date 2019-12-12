@@ -24,7 +24,23 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
-
+<!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY horof_jar "في|من|إلى|على|عن|مع">
+    <!ENTITY unbreak_procletics "ال">
+    <!ENTITY procletics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
+    <!ENTITY undef_procletics "و|ف|ب|ك|">
+    <!ENTITY encletics "ه|ها|هم|هن|ك|كما|كم|كن|ي|نا">
+	<!ENTITY forms_3an "عن|عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
+	<!ENTITY forms_ila "إلى|إلي|إلينا|إليك|إليكما|إليكم|إليكن|إليه|إليها|إليهما|إليهم|إليهن">
+	<!ENTITY forms_3ala "على|علي|علينا|عليك|عليكما|عليكم|عليكن|عليه|عليها|عليهما|عليهم|عليهن">
+	<!ENTITY forms_fi "في|فينا|فيك|فيكما|فيكم|فيكن|فيه|فيها|فيهما|فيهم|فيهن">
+	<!ENTITY forms_min "مني|من|مننا|منك|منكما|منكم|منكن|منه|منها|منهما|منهم|منهن">
+	<!ENTITY forms_bi "بي|بنا|بك|بكما|بكم|بكن|به|بها|بهما|بهم|بهن">
+	<!ENTITY forms_li "لي|لنا|لك|لكما|لكم|لكن|له|لها|لهما|لهم|لهن">
+	<!ENTITY forms_anna "أني|أننا|أنك|أنكما|أنكم|أنكن|أنه|أنها|أنهما|أنهم|أنهن">
+	<!ENTITY forms_inna "إني|إننا|إنك|إنكما|إنكم|إنكن|إنه|إنها|إنهما|إنهم|إنهن">
+]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        lang="ar"
@@ -225,6 +241,43 @@ USA
                     <marker>نجاعة</marker>
                 </example>
             </rule>
+
+	<rule id ='unsorted497' name='rule_يقظى_497'>
+		<pattern>
+			<token inflected="yes">رجال</token>
+<marker>			<token regexp="yes">(&unbreak_procletics;)?يقظى</token>
+</marker>		</pattern>
+		<message>(يَقْظَى) مؤنث (يقظان)، وفي جمعها تقول:(هذه نسوة يِقاظ / يَقاظى) 
+			<suggestion>يِقاظٌ</suggestion>
+			<suggestion>أيْقاظٌ</suggestion>
+		</message>
+		<example correction='يِقاظٌ|أيْقاظٌ' type='incorrect'> هؤلاء رجال <marker>يقظى</marker> </example>
+<example type='correct'> هؤلاء رجال يِقاظٌ / أيْقاظٌ </example>
+	</rule>
+        
+	<rule id ='unsorted498' name='rule_سمحاء_498'>
+		<pattern>
+<token inflected="yes">شريعة</token>
+<marker>			<token regexp="yes">(ال)?سمحاء</token>
+</marker>		</pattern>
+		<message>(سمحاء) مؤنث (أَسْمَح)، لم تقلهما العرب 
+			<suggestion>سَمْحَةٌ</suggestion>
+		</message>
+		<example correction='سَمْحَةٌ' type='incorrect'> شريعة <marker>سمحاء</marker> </example>
+<example type='correct'> شريعةٌ سَمْحَةٌ </example>
+	</rule>
+        
+	<rule id ='unsorted499' name='rule_مفترس_499'>
+		<pattern>
+<token inflected="yes">ضبع</token>
+<marker>			<token regexp="yes">(&unbreak_procletics;)?مفترس</token>
+</marker>		</pattern>
+		<message>(الضبع) اسمٌ مؤنث 
+			<suggestion>مفترسة</suggestion>
+		</message>
+		<example correction='مفترسة' type='incorrect'> ضبع <marker>مفترس</marker></example>
+<example type='correct'> ضَبُعٌ مفترسة </example>
+	</rule>
         </rulegroup>
     </category>
 
@@ -328,6 +381,1062 @@ USA
         </message>
         <example correction="التنصّت|تنصّت">‎زرعت المخابرات جهاز <marker>تصنت</marker> على العدو.   </example>
     </rule>
+
+
+	<rule id ='unsorted2034' name='rule_أقسم بأن_2034'>
+		<pattern>
+<marker>			<token>أقسم</token>
+			<token>بأن</token>
+</marker>		</pattern>
+		<message>الباء تدخل على المُقْسَم به 
+			<suggestion>أَقْسَمَ باللّهِ أنْ</suggestion>
+			<suggestion>أَقْسَمَ أنْ</suggestion>
+		</message>
+		<example correction='أَقْسَمَ باللّهِ أنْ|أَقْسَمَ أنْ' type='incorrect'> <marker>أقسم بأن</marker> يفعل كذا </example>
+<example type='correct'> أَقْسَمَ (باللّهِ) أنْ يَفعلَ كذا </example>
+	</rule>
+        
+	<rule id ='unsorted2035' name='rule_إلا و_2035'>
+		<pattern>
+<marker>			<token>إلا</token>
+			<token postag=".*;W.?.?" postag_regexp="yes"/>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>إلاّ <match no="2" regexp_match="^و" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='إلاّ قال' type='incorrect'> ما تحدث <marker>إلا وقال</marker> خيرا </example>
+<example type='correct'> ما تَحدَّثَ إلاّ قال خيراً </example>
+	</rule>
+        
+	<rule id ='unsorted2036' name='rule_الأحسن من هذا_2036'>
+		<pattern>
+<marker>			<token>الأحسن</token>
+			<token>من</token>
+			<token>هذا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أَحْسَنُ من هذا</suggestion>
+		</message>
+		<example correction='أَحْسَنُ من هذا' type='incorrect'> <marker>الأحسن من هذا</marker> فعل كذا </example>
+<example type='correct'> أَحْسَنُ مِن هذا فِعْلُ كذا </example>
+	</rule>
+        
+	<rule id ='unsorted2037' name='rule_الأكبر من_2037'>
+		<pattern>
+<marker>			<token>الأكبر</token>
+			<token>من</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>التي هي أكبر من</suggestion>
+		</message>
+		<example correction='التي هي أكبر من' type='incorrect'> الأعداد <marker>الأكبر من</marker> 10 </example>
+<example type='correct'> الأعداد التي هي أكبر من 10 </example>
+	</rule>
+        
+	<rule id ='unsorted2038' name='rule_البارحة ظهرا_2038'>
+		<pattern>
+<marker>			<token>البارحة</token>
+			<token>ظهرا</token>
+</marker>		</pattern>
+		<message>(البارحة): أقرب ليلةٍ مَضَت 
+			<suggestion>أمس ظهرا</suggestion>
+		</message>
+		<example correction='أمس ظهرا' type='incorrect'> لقيته <marker>البارحة ظهرا</marker> </example>
+<example type='correct'> لقيتُه أمسِ ظُهراً </example>
+	</rule>
+        
+	<rule id ='unsorted2039' name='rule_الحالات الأكثر_2039'>
+		<pattern>
+<marker>			<token>الحالات</token>
+			<token>الأكثر</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أكثر الحالات</suggestion>
+		</message>
+		<example correction='أكثر الحالات' type='incorrect'> <marker>الحالات الأكثر</marker> شيوعا </example>
+<example type='correct'> أكثر الحالات شيوعاً </example>
+	</rule>
+
+	<rule id ='unsorted2040' name='rule_الغث والثمين_2040'>
+		<pattern>
+<marker>			<token regexp="yes">(&undef_procletics;)?الغث|للغث</token>
+			<token>والثمين</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>الغثُّ والسمين</suggestion>
+		</message>
+		<example correction='الغثُّ والسمين' type='incorrect'> <marker>الغث والثمين</marker> </example>
+<example type='correct'> الغثُّ والسمين </example>
+	</rule>
+        
+	<rule id ='unsorted2041' name='rule_المنـوه عنه|المنوه إليه_2041'>
+		<pattern>
+<marker>			<token inflected="yes">منوه</token>
+			<token regexp="yes">&forms_3an;|&forms_ila;</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>المنوّه <match no="2" regexp_match="^(عن|إلي)" regexp_replace="ب"/></suggestion>
+		</message>
+		<example correction='المنوّه به' type='incorrect'> هذا الرجل <marker>المنوه عنه</marker>  </example>
+<example type='correct'> هذا الرجلُ المُنَوَّهُ به </example>
+	</rule>
+        
+	<rule id ='unsorted2042' name='rule_أكبر حد_2042'>
+		<pattern>
+<marker>			<token>أكبر</token>
+			<token>حد</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أبعد حدّ</suggestion>
+		</message>
+		<example correction='أبعد حدّ' type='incorrect'> ذهب إلى <marker>أكبر حد</marker> </example>
+<example type='correct'> ذَهَبَ إلى أبعد حدّ </example>
+	</rule>
+        
+	<rule id ='unsorted2043' name='rule_حد كبير_2043'>
+		<pattern>
+<marker>			<token>حد</token>
+			<token>كبير</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حدّ بعيد</suggestion>
+		</message>
+		<example correction='حدّ بعيد' type='incorrect'> يختلف البحث إلى <marker>حد كبير</marker> عن... </example>
+<example type='correct'> يختلف البحث إلى حدّ بعيد عن... </example>
+	</rule>
+        
+	<rule id ='unsorted2044' name='rule_إلى عند_2044'>
+		<pattern>
+<marker>			<token>إلى</token>
+			<token>عند</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>عند</suggestion>
+		</message>
+		<example correction='عند' type='incorrect'> ذهبت <marker>إلى عند</marker> فلان </example>
+<example type='correct'> ذهبت عند فلان </example>
+	</rule>
+        
+	<rule id ='unsorted2045' name='rule_أما بالنسبة إلى_2045'>
+		<pattern>
+<marker>			<token>أما</token>
+			<token>بالنسبة</token>
+			<token>إلى</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أما</suggestion>
+		</message>
+		<example correction='أما' type='incorrect'> <marker>أما بالنسبة إلى</marker> بناء الكلية فيجب... </example>
+<example type='correct'> أما بناء الكلية فيجب... </example>
+	</rule>
+        
+	<rule id ='unsorted2046' name='rule_انعكاس ل_2046'>
+		<pattern>
+<marker>			<token>انعكاس</token>
+			<token postag="N.*;.?L.?" postag_regexp="yes"/>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>نتيجة <match no="2"/></suggestion>
+			<suggestion>تعبير عن <match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='نتيجة لشعور|تعبير عن شعور' type='incorrect'> هل هو <marker>انعكاس لشعور</marker> عام.. </example>
+<example type='correct'> هل هو نتيجة لشعور عام../هل هو تعبير عن شعور عام.. </example>
+	</rule>
+
+<rule id ='unsorted2047' name='rule_بالإضافة إلى ذلك_2047'>
+		<pattern>
+<marker>			<token>بالإضافة</token>
+			<token>إلى</token>
+			<token>ذلك</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>إضافة إلى ذلك</suggestion>
+			<suggestion>زيادة على ذلك</suggestion>
+			<suggestion>فضلاً على ذلك</suggestion>
+		</message>
+		<example correction='إضافة إلى ذلك|زيادة على ذلك|فضلاً على ذلك' type='incorrect'> <marker>بالإضافة إلى ذلك</marker>، يمكن أن نفعل... </example>
+<example type='correct'> إضافة إلى ذلك، يمكن أن نفعل... </example>
+	</rule>
+        
+	<rule id ='unsorted2048' name='rule_بالرفاه والبنين_2048'>
+		<pattern>
+<marker>			<token>بالرفاه</token>
+			<token>والبنين</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بالرِّفاء والبنين</suggestion>
+		</message>
+		<example correction='بالرِّفاء والبنين' type='incorrect'> <marker>بالرفاه والبنين</marker> </example>
+<example type='correct'> بالرِّفاء والبنين </example>
+	</rule>
+
+     
+	<rule id ='unsorted2049' name='rule_بالنسبة إلى 2049'>
+		<pattern>
+		<marker>		<token>أما</token>
+		<token>بالنسبة</token>
+			<token regexp="yes">&forms_ila;</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ما يتعلق</suggestion>
+			<suggestion>أما ما يخصّ</suggestion>
+		</message>
+
+	<example correction='ما يتعلق|أما ما يخصّ' type='incorrect'><marker>أما بالنسبة إلى</marker> المقررات العملية... </example>
+
+<example type='correct'> ...هذا ما يتعلق بالمقررات النظرية، أما ما يخصّ المقررات العملية... </example>
+	</rule>
+	<rule id ='unsorted2049b' name='rule_بالنسبة إلى 2049b'>
+		<pattern>
+<marker>			<token>بالنسبة</token>
+			<token regexp="yes">&forms_ila;</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ما يتعلق</suggestion>
+			<suggestion>أما ما يخصّ</suggestion>
+		</message>
+		<example correction='ما يتعلق|أما ما يخصّ' type='incorrect'> ...هذا <marker>بالنسبة إلى</marker> المقررات النظرية، ... </example>
+
+<example type='correct'> ...هذا ما يتعلق بالمقررات النظرية، أما ما يخصّ المقررات العملية... </example>
+	</rule>
+        
+	<rule id ='unsorted2050' name='rule_بالنسبة لنا|بالنسبة له|بالنسبة لي|بالنسبة لها_2050'>
+		<pattern>
+<marker>			<token>بالنسبة</token>
+			<token regexp="yes">&forms_li;</token></marker>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion><match no="2"/></suggestion>
+		</message>
+		<example correction='لنا' type='incorrect'> هذا لا يعني شيئا <marker>بالنسبة لنا</marker> </example>
+<example type='correct'> هذا لا يعني لنا شيئاً </example>
+	</rule>
+        
+
+	<rule id ='unsorted2051' name='rule_بشكل أو بآخر_2051'>
+		<pattern>
+<marker>			<token>بشكل</token>
+			<token>أو</token>
+			<token>بآخر</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بأي وسيلة</suggestion>
+		</message>
+		<example correction='بأي وسيلة' type='incorrect'> لا بد من إصلاح الأمر <marker>بشكل أو بآخر</marker> </example>
+<example type='correct'> لا بدّ من إصلاح الأمر بأي وسيلة </example>
+	</rule>
+
+
+	<rule id ='unsorted2052' name='rule_بكل معنى الكلمة_2052'>
+		<pattern>
+<marker>			<token>بكل</token>
+			<token>معنى</token>
+			<token>الكلمة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حقّاً</suggestion>
+		</message>
+		<example correction='حقّاً' type='incorrect'> خالد شجاع <marker>بكل معنى الكلمة</marker> </example>
+<example type='correct'> خالدٌ شجاعٌ حقّاً </example>
+	</rule>
+        
+	<rule id ='unsorted2053' name='rule_بكل معنى الكلمة_2053'>
+		<pattern>
+<marker>			<token>بكل</token>
+			<token>معنى</token>
+			<token>الكلمة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>جدُّ</suggestion>
+		</message>
+		<example correction='جدُّ' type='incorrect'> خالد شجاع <marker>بكل معنى الكلمة</marker> </example>
+<example type='correct'> خالدٌ شجاعٌ جدُّ شجاع </example>
+	</rule>
+        
+	<rule id ='unsorted2054' name='rule_بكل معنى الكلمة_2054'>
+		<pattern>
+<marker>			<token>بكل</token>
+			<token>معنى</token>
+			<token>الكلمة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>كلَّ</suggestion>
+		</message>
+		<example correction='كلَّ' type='incorrect'> خالد شجاع <marker>بكل معنى الكلمة</marker> </example>
+<example type='correct'> خالدٌ شجاعٌ كلَّ الشجاعة </example>
+	</rule>
+        
+	<rule id ='unsorted2055' name='rule_بما أن_2055'>
+		<pattern>
+<marker>			<token>بما</token>
+			<token>أن</token>
+</marker>		</pattern>
+		<message>بما أنّ ... تركيب دخيل على العربية 
+			<suggestion>لما كان</suggestion>
+		</message>
+		<example correction='لما كان' type='incorrect'> <marker>بما أن</marker>... فإن ... </example>
+<example type='correct'> لمّا كان ... فإنّ ... </example>
+	</rule>
+        
+	<rule id ='unsorted2056' name='rule_بما فيها_2056'>
+		<pattern>
+<marker>			<token>بما</token>
+			<token regexp="yes">&forms_fi;</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>و<match no="2"/></suggestion>
+		</message>
+		<example correction='وفيها' type='incorrect'> اشتريت الدار <marker>بما فيها</marker> السطح </example>
+<example type='correct'> اشتريت الدارَ وفيها السطح </example>
+<example correction='وفيهم' type='incorrect'> رأيت الأولاد <marker>بما فيهم</marker> خالد وصالح </example>
+<example type='correct'> رأيت الأولادَ وفيهم خالد وصالح </example>
+	</rule>
+        
+
+	<rule id ='unsorted2058' name='rule_بينما كان_2058'>
+		<pattern>
+<marker>			<token>بينما</token>
+			<token>كان</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حين كان</suggestion>
+		</message>
+		<example correction='حين كان' type='incorrect'> رأيته... <marker>بينما كان</marker> يهم بالخروج </example>
+<example type='correct'> رأيتُه... حين كان يهمّ بالخروج </example>
+	</rule>
+        
+	<rule id ='unsorted2059' name='rule_تبلغ الأمر_2059'>
+		<pattern>
+<marker>			<token skip="1">تبلغ</token>
+			<token>الأمر</token>
+</marker>		</pattern>
+		<message>(تبلّغَ بالقليل): اكتفى به وقَنِع 
+			<suggestion>أُبْلِغَ الأمرَ</suggestion>
+			<suggestion>بُلِّغَ الأمرَ</suggestion>
+		</message>
+		<example correction='أُبْلِغَ الأمرَ|بُلِّغَ الأمرَ' type='incorrect'><marker>تبلغ فلان الأمر</marker> </example>
+<example type='correct'> أُبْلِغَ فلانٌ الأمرَ / بُلِّغَ فلانٌ الأمرَ </example>
+	</rule>
+        
+	<rule id ='unsorted2060' name='rule_تحسبا من كل_2060'>
+		<pattern>
+<marker>			<token>تحسبا</token>
+			<token>من</token>
+			<token>كل</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>تَحَسُّباً لكل</suggestion>
+		</message>
+		<example correction='تَحَسُّباً لكل' type='incorrect'> <marker>تحسبا من كل</marker> طارئ </example>
+<example type='correct'> تَحَسُّباً لكل طارئ </example>
+	</rule>
+        
+	<rule id ='unsorted2061' name='rule_تشكل هذه_2061'>
+		<pattern>
+<marker>			<token>تشكل</token>
+			<token>هذه</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>تُعدُّ هذه</suggestion>
+		</message>
+		<example correction='تُعدُّ هذه' type='incorrect'> <marker>تشكل هذه</marker> الطريقة إنجازا ... </example>
+<example type='correct'> تُعدُّ هذه الطريقة إنجازاً ... </example>
+	</rule>
+        
+	<rule id ='unsorted2062' name='rule_حتى أنه لم_2062'>
+		<pattern>
+<marker>			<token>حتى</token>
+			<token>أنه</token>
+			<token>لم</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حتى إنه لم</suggestion>
+		</message>
+		<example correction='حتى إنه لم' type='incorrect'> <marker>حتى أنه لم</marker> يفهم كلامي </example>
+<example type='correct'> حتى إنه لم يفهمْ كلامِي </example>
+	</rule>
+        
+	<rule id ='unsorted2063' name='rule_حتى ولو كان_2063'>
+		<pattern>
+<marker>			<token>حتى</token>
+			<token>ولو</token>
+			<token>كان</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حتى لو كان</suggestion>
+		</message>
+		<example correction='حتى لو كان' type='incorrect'> <marker>حتى ولو كان</marker>... </example>
+<example type='correct'> حتى لو كان... </example>
+	</rule>
+        
+	<rule id ='unsorted2064' name='rule_ذكي للغاية_2064'>
+		<pattern>
+<marker>			<token>ذكي</token>
+			<token>للغاية</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بلغ من الذكاء الغاية</suggestion>
+			<suggestion>ذكيٌّ جداً</suggestion>
+		</message>
+		<example correction='بلغ من الذكاء الغاية|ذكيٌّ جداً' type='incorrect'> فلان <marker>ذكي للغاية</marker> </example>
+<example type='correct'> بلغ فلانٌ من الذكاء الغاية </example>
+<example correction='بلغ من الذكاء الغاية|ذكيٌّ جداً' type='incorrect'> فلان <marker>ذكي للغاية</marker> </example>
+<example type='correct'> فلانٌ ذكيٌّ جداً </example>
+	</rule>
+        
+	<rule id ='unsorted2065' name='rule_ذكي للغاية_2065'>
+		<pattern>
+<marker>			<token>ذكي</token>
+			<token>للغاية</token>
+</marker>		</pattern>
+		<message>(الغاية): النهاية والآخِر 
+			<suggestion>ذكيٌّ جداً</suggestion>
+		</message>
+		<example correction='ذكيٌّ جداً' type='incorrect'> فلان <marker>ذكي للغاية</marker> </example>
+<example type='correct'> فلانٌ ذكيٌّ جداً </example>
+	</rule>
+
+<rule id ='unsorted2066' name='rule_ردحا قصيرا_2066'>
+		<pattern>
+<marker>			<token>ردحا</token>
+			<token>قصيرا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>زَمَناً قصيراً</suggestion>
+		</message>
+		<example correction='زَمَناً قصيراً' type='incorrect'> أقام <marker>ردحا قصيرا</marker> من الزمن </example>
+<example type='correct'> أقام زَمَناً قصيراً </example>
+	</rule>
+        
+	<rule id ='unsorted2067' name='rule_زخة من المطر_2067'>
+		<pattern>
+<marker>			<token>زخة</token>
+			<token>من</token>
+			<token>المطر</token>
+</marker>		</pattern>
+		<message>ليس من معاني (الزخّة) الدُّفعة 
+			<suggestion>دُفْعَةٌ من المطر</suggestion>
+		</message>
+		<example correction='دُفْعَةٌ من المطر' type='incorrect'> <marker>زخة من المطر</marker> </example>
+<example type='correct'> دُفْعَةٌ من المطر </example>
+	</rule>
+        
+	<rule id ='unsorted2068' name='rule_سبق وذكرنا_2068'>
+		<pattern>
+<marker>			<token>سبق</token>
+			<token>وذكرنا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>سبق أن ذكرنا</suggestion>
+		</message>
+		<example correction='سبق أن ذكرنا' type='incorrect'> <marker>سبق وذكرنا</marker>... </example>
+<example type='correct'> سبق أن ذكرنا... </example>
+	</rule>
+        
+	<rule id ='unsorted2069' name='rule_سوف لن |سوف لا_2069'>
+		<pattern>
+<marker>			<token>سوف</token>
+			<token regexp="yes">لن|لا</token>
+</marker>		</pattern>
+		<message>(سوفَ) لا تدخل إلا على الفعل المُثْبَت 
+			<suggestion><match no="2"/></suggestion>
+		</message>
+		<example correction='لن' type='incorrect'><marker>سوف لن</marker> يذهب  </example>
+		<example correction='لا' type='incorrect'><marker>سوف لا</marker> يذهب </example>
+<example type='correct'> لن يذهب </example>
+	</rule>
+
+<rule id ='unsorted2070' name='rule_سوى أنا |سوى نحن_2070'>
+		<pattern>
+<marker>			<token>سوى</token>
+			<token regexp="yes">نحن|أنا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>سواي</suggestion>
+			<suggestion>سوانا</suggestion>
+		</message>
+		<example correction='سواي|سوانا' type='incorrect'> لم يحضر <marker>سوى نحن</marker></example>
+		<example correction='سواي|سوانا' type='incorrect'> لم يحضر <marker>سوى أنا</marker> </example>
+<example type='correct'> لم يحضر سواي / سوانا </example>
+	</rule>
+
+<rule id ='unsorted2071' name='rule_سوى على_2071'>
+		<pattern>
+<marker>			<token>سوى</token>
+			<token>على</token>
+</marker>		</pattern>
+		<message>(سوى) و(غير) تضافان إلى الاسم. ويعرب الاسم بعدهما مضافاً إليه دائماً، ويكون مفرداً؛ أي: ليس جملة ولا شبهها 
+			<suggestion>على سوى</suggestion>
+		</message>
+		<example correction='على سوى' type='incorrect'> لم أحصل <marker>سوى على</marker> كتاب واحد </example>
+<example type='correct'> لم أحصل على سوى كتاب واحد </example>
+	</rule>
+        
+	<rule id ='unsorted2072' name='rule_صباحا مساء_2072'>
+		<pattern>
+<marker>			<token>صباحا</token>
+			<token>مساء</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>صباحَ مساءَ</suggestion>
+			<suggestion>صباحاً ومساءً</suggestion>
+		</message>
+		<example correction='صباحَ مساءَ|صباحاً ومساءً' type='incorrect'> يزور صديقه <marker>صباحا مساء</marker> </example>
+<example type='correct'> يزور صديقه صباحَ مساءَ/ يزور صديقه صباحاً ومساءً </example>
+	</rule>
+        
+	<rule id ='unsorted2073' name='rule_ضرب أخماسا بأسداس_2073'>
+		<pattern>
+<marker>			<token>ضرب</token>
+			<token>أخماسا</token>
+			<token>بأسداس</token>
+</marker>		</pattern>
+		<message>مثلٌ يُضربُ لِمَن يسعى في المكرِ والخَديعة 
+			<suggestion>ضَرَبَ أخْماساً لأسداس</suggestion>
+		</message>
+		<example correction='ضَرَبَ أخْماساً لأسداس' type='incorrect'> <marker>ضرب أخماسا بأسداس</marker> </example>
+<example type='correct'> ضَرَبَ أخْماساً لأسداس </example>
+	</rule>
+        
+	<rule id ='unsorted2074' name='rule_طيلة عمره_2074'>
+		<pattern>
+<marker>			<token>طيلة</token>
+			<token>عمره</token>
+</marker>		</pattern>
+		<message>(الطِّيلَة): العُمْر 
+			<suggestion>طُولَ عُمُرِهِ</suggestion>
+		</message>
+		<example correction='طُولَ عُمُرِهِ' type='incorrect'> قضى <marker>طيلة عمره</marker> في التدريس </example>
+<example type='correct'> قَضَى طُولَ عُمْرِهِ في التدريس </example>
+	</rule>
+        
+	<rule id ='unsorted2075' name='rule_عدا عن_2075'>
+		<pattern>
+<marker>			<token>عدا</token>
+			<token>عن</token>
+</marker>		</pattern>
+		<message>(عدا): أداة يُستثنى بها، والاسمُ بعدها يجوز نصبه وجرّه، ففي حالة النصب تكون (عدا) فعلاً، وفي حالة الجر تكون حرف جرّ.. فإذا اقترنتْ (ما) ب (عدا) وَجَب نصب الاسم بعدها على المفعولية. 
+			<suggestion>عدا</suggestion>
+		</message>
+		<example correction='عدا' type='incorrect'> يوجد 50 رجلا <marker>عدا عن</marker> الأطفال </example>
+<example type='correct'> يوجد 50 رجلاً عدا الأطفالَ / الأطفالِ </example>
+	</rule>
+        
+	<rule id ='unsorted2076' name='rule_عدا عن_2076'>
+		<pattern>
+<marker>			<token>عدا</token>
+			<token>عن</token>
+</marker>		</pattern>
+		<message>(عدا): أداة يُستثنى بها، والاسمُ بعدها يجوز نصبه وجرّه، ففي حالة النصب تكون (عدا) فعلاً، وفي حالة الجر تكون حرف جرّ.. فإذا اقترنتْ (ما) ب (عدا) وَجَب نصب الاسم بعدها على المفعولية. 
+			<suggestion>ماعدا</suggestion>
+		</message>
+		<example correction='ماعدا' type='incorrect'> يوجد 50 رجلا <marker>عدا عن</marker> الأطفال </example>
+<example type='correct'> يوجد 50 رجلاً ماعدا الأطفالَ </example>
+	</rule>
+
+
+
+<rule id ='unsorted2077' name='rule_على حدا |على حدى|حده_2077'>
+		<pattern>
+<marker>			<token>على</token>
+			<token regexp="yes">حدا|حدى|حده</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>على حِدَةٍ</suggestion>
+		</message>
+		<example correction='على حِدَةٍ' type='incorrect'> جعله <marker>على حدى</marker> </example>
+<example type='correct'> جعله على حِدَةٍ </example>
+	</rule>
+        
+	<rule id ='unsorted2078' name='rule_على قيد الحياة_2078'>
+		<pattern>
+<marker>			<token>على</token>
+			<token>قيد</token>
+			<token>الحياة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حيٌّ يُرزَق</suggestion>
+		</message>
+		<example correction='حيٌّ يُرزَق' type='incorrect'> فلان <marker>على قيد الحياة</marker> .</example>
+<example type='correct'> فلانٌ حيٌّ يُرزَق </example>
+	</rule>
+        
+	<rule id ='unsorted2079' name='rule_غير أنا|غير نحن_2079'>
+		<pattern>
+<marker>			<token>غير</token>
+			<token regexp="yes">أنا|نحن</token></marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>غيري</suggestion>
+			<suggestion>غيرنا</suggestion>
+		</message>
+		<example correction='غيري|غيرنا' type='incorrect'> لم يحضر <marker>غير نحن</marker> ... </example>
+<example type='correct'> لم يحضرْ غيري / غيرنا ... </example>
+	</rule>
+        
+	<rule id ='unsorted2080' name='rule_غير بالله_2080'>
+		<pattern>
+<marker>			<token>غير</token>
+			<token>بالله</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بغير الله</suggestion>
+		</message>
+		<example correction='بغير الله' type='incorrect'> لا تستعن <marker>غير بالله</marker> </example>
+<example type='correct'> لا تستعِنْ بغير الله </example>
+	</rule>
+        
+	<rule id ='unsorted2081' name='rule_فترة قصيرة_2081'>
+		<pattern>
+<marker>			<token>فترة</token>
+			<token>قصيرة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مدّة قصيرة</suggestion>
+		</message>
+		<example correction='مدّة قصيرة' type='incorrect'> في <marker>فترة قصيرة</marker> </example>
+<example type='correct'> في مدّة قصيرة </example>
+	</rule>
+        
+	<rule id ='unsorted2082' name='rule_في ثناياه_2082'>
+		<pattern>
+<marker>			<token>في</token>
+			<token>ثناياه</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>في أثنائه</suggestion>
+			<suggestion>في تضاعيفه</suggestion>
+			<suggestion>في طياته</suggestion>
+			<suggestion>في أطوائه</suggestion>
+			<suggestion>في مطاويه</suggestion>
+		</message>
+		<example correction='في أثنائه|في تضاعيفه|في طياته|في أطوائه|في مطاويه' type='incorrect'> يحمل <marker>في ثناياه</marker> كل خير </example>
+<example type='correct'> يَحمل في أثنائه / تضاعيفه / طياته / أطوائه / مطاويه كلَّ خير </example>
+	</rule>
+        
+	<rule id ='unsorted2083' name='rule_في صدد_2083'>
+		<pattern>
+<marker>			<token>في</token>
+			<token>صدد</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بصَدَدِ</suggestion>
+		</message>
+		<example correction='بصَدَدِ' type='incorrect'> فلان <marker>في صدد</marker> كذا </example>
+<example type='correct'> فلانٌ بصَدَدِ كذا </example>
+	</rule>
+        
+
+	<rule id ='unsorted2085' name='rule_كالشمس في رابعة النهار_2085'>
+		<pattern>
+<marker>			<token>كالشمس</token>
+			<token>في</token>
+			<token>رابعة</token>
+			<token>النهار</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>كالشمس في رائِعَةِ النهار</suggestion>
+		</message>
+		<example correction='كالشمس في رائِعَةِ النهار' type='incorrect'> <marker>كالشمس في رابعة النهار</marker> </example>
+<example type='correct'> كالشمس في رائِعَةِ النهار </example>
+	</rule>
+
+      
+	<rule id ='unsorted2086' name='rule_كما أن_2086'>
+		<pattern>
+<marker>			<token>كما</token>
+			<token>أن</token>
+</marker>		</pattern>
+		<message>كما = (ك) التشبيه+ (ما) المصدرية. ولا تستعمل (كما) للعطف والاستئناف 
+			<suggestion>ثم أن</suggestion>
+		</message>
+		<example correction='ثم أن' type='incorrect'> كان للجهاز أثر كبير ...، <marker>كما أن</marker> استخدامه سيزداد ... </example>
+<example type='correct'> كان للجهاز أثر كبير ...، ثم إن استخدامه سيزداد ... </example>
+	</rule>
+        
+	<rule id ='unsorted2087' name='rule_كما أن_2087'>
+		<pattern>
+<marker>			<token>كما</token>
+			<token regexp="yes">&forms_anna;</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>وهو إلى ذلك</suggestion>
+			<suggestion>وهي إلى ذلك</suggestion>
+		</message>
+		<example correction='وهو إلى ذلك|وهي إلى ذلك' type='incorrect'> الخدمة مجانية..، <marker>كما أنها</marker> تعطي .. </example>
+<example type='correct'> الخدمة مجانية..، وهي إلى ذلك تعطي.. </example>
+	</rule>
+        
+	<rule id ='unsorted2088' name='rule_كما يمكن أن_2088'>
+		<pattern>
+<marker>			<token>كما</token>
+			<token>يمكن</token>
+			<token>أن</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ويمكن أن</suggestion>
+		</message>
+		<example correction='ويمكن أن' type='incorrect'> يعمل الحاسوب في ...، <marker>كما يمكن أن</marker> تحتاج تجهيزاته إلى... </example>
+<example type='correct'> يعمل الحاسوب في ...، ويمكن أن تحتاج تجهيزاته إلى... </example>
+	</rule>
+        
+	<rule id ='unsorted2089' name='rule_لا بد وأن_2089'>
+		<pattern>
+<marker>			<token>لابد</token>
+			<token>وأن</token>
+</marker>		</pattern>
+		<message>لا تدخل الواوُ بين اسم (لا) و(أن) المصدرية. الأصل: (لا بد من أن...) ويجوز إسقاط الجار قبل (أن) 
+			<suggestion>لابدَّ أن</suggestion>
+		</message>
+		<example correction='لابدَّ أن' type='incorrect'> <marker>لابد وأن</marker> تتغير الحال </example>
+<example type='correct'> لا بدَّ أن تتغير الحال </example>
+	</rule>
+        
+	<rule id ='unsorted2090' name='rule_لا دخل لك_2090'>
+		<pattern>
+<marker>			<token>لا</token>
+			<token>دخل</token>
+			<token>لك</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>لا علاقة لك</suggestion>
+		</message>
+		<example correction='لا علاقة لك' type='incorrect'> <marker>لا دخل لك</marker> في هذا </example>
+<example type='correct'> لا علاقة لك بهذا </example>
+	</rule>
+        
+	<rule id ='unsorted2091' name='rule_لا يجب أن_2091'>
+		<pattern>
+<marker>			<token>لا</token>
+			<token>يجب</token>
+			<token>أن</token>
+</marker>		</pattern>
+		<message>(لا يجب أن تذهب) تعني أن الذهاب ليس واجباً عليك، فيمكنك الذهاب وعدمه 
+			<suggestion>يَجِبُ ألاّ</suggestion>
+		</message>
+		<example correction='يَجِبُ ألاّ' type='incorrect'> <marker>لا يجب أن</marker> تذهب </example>
+<example type='correct'> يَجِبُ ألاّ تذهبَ </example>
+	</rule>
+        
+	<rule id ='unsorted2092' name='rule_لنفرض أن_2092'>
+		<pattern>
+<marker>			<token>لنفرض</token>
+			<token>أن</token>
+</marker>		</pattern>
+		<message>(فَرَض الأمرَ): أوجبه، و(افترض الباحثُ): اتّخذ فَرْضاً ليصل إلى حلّ مسألة. 
+			<suggestion>لنفترض أن</suggestion>
+		</message>
+		<example correction='لنفترض أن' type='incorrect'> <marker>لنفرض أن</marker> س أكبر من ع </example>
+<example type='correct'> لنفترض أن س أكبر من ع </example>
+	</rule>
+        
+	<rule id ='unsorted2093' name='rule_ما تمالك نفسه_2093'>
+		<pattern>
+<marker>			<token>ما</token>
+			<token>تمالك</token>
+			<token>نفسه</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ما تَمَالَكَ</suggestion>
+		</message>
+		<example correction='ما تَمَالَكَ' type='incorrect'> <marker>ما تمالك نفسه</marker> أن بكى </example>
+<example type='correct'> ما تَمَالَكَ أن بكى </example>
+	</rule>
+        
+	<rule id ='unsorted2094' name='rule_ما تمالك نفسه_2094'>
+		<pattern>
+<marker>			<token>ما</token>
+			<token>تمالك</token>
+			<token>نفسه</token>
+</marker>		</pattern>
+		<message>(تمالك) فعلٌ لازم 
+			<suggestion>لم يَمْلِكْ نفسَه</suggestion>
+		</message>
+		<example correction='لم يَمْلِكْ نفسَه' type='incorrect'> <marker>ما تمالك نفسه</marker> أن بكى </example>
+<example type='correct'> لم يَمْلِكْ نفسَه أن بكى </example>
+	</rule>
+        
+	<rule id ='unsorted2095' name='rule_ملفت للنظر_2095'>
+		<pattern>
+<marker>			<token>ملفت</token>
+			<token>للنظر</token>
+</marker>		</pattern>
+		<message>الفعل هو: (لَفَت)، لا: (ألْفَتَ) 
+			<suggestion>لافِتٌ للنظر</suggestion>
+		</message>
+		<example correction='لافِتٌ للنظر' type='incorrect'> مشهد <marker>ملفت للنظر</marker> </example>
+<example type='correct'> مشهدٌ لافِتٌ للنظر </example>
+	</rule>
+        
+<!--	<rule id ='unsorted2096' name='rule_مما دعا إلى_2096'>
+		<pattern>
+<marker>			<token>مما</token>
+			<token inflected="yes">دَعَا</token>
+			<token>إلى</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>وهذا دعا إلى</suggestion>
+		</message>
+		<example correction='وهذا دعا إلى' type='incorrect'> كلفني وألح علي، مما <marker>دعاني إلى </marker>... </example>
+<example type='correct'> كلّفني وألحّ عليّ، وهذا ما دعاني إلى.. </example>
+	</rule>
+    -->
+	<rule id ='unsorted2097' name='rule_ناهيك عن_2097'>
+		<pattern>
+<marker>			<token>ناهيك</token>
+			<token>عن</token>
+</marker>		</pattern>
+		<message>(ناهيك) كلمة تعجب واستعظام، نحو: ناهيك بخالدٍ كاتباً 
+			<suggestion>بَلْهَ</suggestion>
+		</message>
+		<example correction='بَلْهَ' type='incorrect'> يجيد لغتين، <marker>ناهيك عن</marker> لغته الأصلية </example>
+<example type='correct'> يجيد لغتين، بَلْهَ لغتَه الأصلية </example>
+	</rule>
+        
+	<rule id ='unsorted2098' name='rule_ناهيك عن_2098'>
+		<pattern>
+<marker>			<token>ناهيك</token>
+			<token>عن</token>
+</marker>		</pattern>
+		<message>(ناهيك) كلمة تعجب واستعظام، نحو: ناهيك بخالدٍ كاتباً 
+			<suggestion>فضلاً على</suggestion>
+		</message>
+		<example correction='فضلاً على' type='incorrect'> يجيد لغتين، <marker>ناهيك عن</marker> لغته الأصلية </example>
+<example type='correct'> يجيد لغتين، فضلاً على لغته الأصلية </example>
+	</rule>
+        
+	<rule id ='unsorted2099' name='rule_نـوه إلى_2099'>
+		<pattern>
+<marker>			<token>نوه</token>
+			<token regexp="yes">&forms_ila;</token>
+</marker>		</pattern>
+		<message>(نَوَّه بالشيء): أشاد به وأظهره 
+			<suggestion>أشار <match no="2"/></suggestion>
+		</message>
+		<example correction='أشار إلى' type='incorrect'> <marker>نوه إلى</marker> الشيء </example>
+<example type='correct'> أشار إلى الشيء </example>
+	</rule>
+        
+	<rule id ='unsorted2100' name='rule_نـيف ومئة_2100'>
+		<pattern>
+<marker>			<token>نيف</token>
+			<token>ومئة</token>
+</marker>		</pattern>
+		<message>(النَّيِّف): الأعداد من واحد إلى ثلاثة، ويأتي بعد العقود والمئات والآلاف 
+			<suggestion>مئةُ ونَيِّفٌ</suggestion>
+		</message>
+		<example correction='مئةُ ونَيِّفٌ' type='incorrect'> جاء <marker>نيف ومئة</marker> رجل </example>
+<example type='correct'> جاء مئةُ رجلٍ ونَيِّفٌ </example>
+	</rule>
+            
+
+
+	<rule id ='unsorted2101' name='rule_هؤلاء ذو_2101'>
+		<pattern>
+<marker>			<token>هؤلاء</token>
+			<token>ذو</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>هؤلاء ذوُو</suggestion>
+		</message>
+		<example correction='هؤلاء ذوُو' type='incorrect'> <marker>هؤلاء ذو</marker> أنفس أبية </example>
+<example type='correct'> هؤلاء ذوُو أنْفُسٍ أبِيَّة </example>
+	</rule>
+        
+
+        
+	<rule id ='unsorted2103' name='rule_هكذا أشياء_2103'>
+		<pattern>
+<marker>			<token>هكذا</token>
+			<token>أشياء</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مثل هذه الأشياء</suggestion>
+			<suggestion>أشياء كهذه</suggestion>
+		</message>
+		<example correction='مثل هذه الأشياء|أشياء كهذه' type='incorrect'> إن <marker>هكذا أشياء</marker> </example>
+<example type='correct'> إن مثل هذه الأشياء / إن أشياء كهذه </example>
+	</rule>
+        
+
+
+	<rule id ='unsorted2104' name='rule_هل إن_2104'>
+		<pattern>
+<marker>			<token>هل</token>
+			<token>إن</token>
+</marker>		</pattern>
+		<message>(هل) لا تدخل على الشرط 
+			<suggestion>أإن</suggestion>
+		</message>
+		<example correction='أإن' type='incorrect'> <marker>هل إن</marker> غبت عن العمل أعاقب؟ </example>
+<example type='correct'> أإن غبتُ عن العمل أعاقب؟ </example>
+	</rule>
+        
+	<rule id ='unsorted2105' name='rule_هل إنـه_2105'>
+		<pattern>
+<marker>			<token>هل</token>
+			<token regexp="yes">&forms_inna;</token>
+</marker>		</pattern>
+		<message>(هل) للاستفهام، و(إنّ) للتوكيد، وهما لا يجتمعان 
+			<suggestion>هل</suggestion>
+		</message>
+		<example correction='هل' type='incorrect'> <marker>هل إنه</marker> نجح فيما سعى إليه؟ </example>
+<example type='correct'> هل نجح فيما سعى إليه </example>
+	</rule>
+        
+	
+        
+	<rule id ='unsorted2107' name='rule_هل لم_2107'>
+		<pattern>
+<marker>			<token>هل</token>
+			<token>لم</token>
+</marker>		</pattern>
+		<message>(هل) لا تدخل على الكلام المنفي 
+			<suggestion>أمَا</suggestion>
+			<suggestion>ألم</suggestion>
+		</message>
+		<example correction='أمَا|ألم' type='incorrect'> <marker>هل لم</marker> يباشر فلان؟ </example>
+<example type='correct'> أما باشر فلان؟ / ألم يباشر فلان؟ </example>
+	</rule>
+        
+	<rule id ='unsorted2108' name='rule_هي الأكبر_2108'>
+		<pattern>
+<marker>			<token>هي</token>
+			<token>الأكبر</token>
+</marker>		</pattern>
+		<message>تجب المطابقة لدخول (أل) على أفعل التفضيل 
+			<suggestion>هي الكبرى</suggestion>
+		</message>
+		<example correction='هي الكبرى' type='incorrect'> آسيا <marker>هي الأكبر</marker> بين القارات </example>
+<example type='correct'> آسيا هي الكبرى بين القارات </example>
+	</rule>
+        
+	<rule id ='unsorted2109' name='rule_والأدهى من ذلك أن_2109'>
+		<pattern>
+<marker>			<token>والأدهى</token>
+			<token>من</token>
+			<token>ذلك</token>
+</marker>		</pattern>
+		<message>أفعل التفضيل إذا دخلت عليه [أل] لا تلحقه [من] 
+			<suggestion>والأدهى</suggestion>
+			<suggestion>وأدهى من ذلك</suggestion>
+		</message>
+		<example correction='والأدهى|وأدهى من ذلك' type='incorrect'> 
+<marker>والأدهى من ذلك</marker> أن ... </example>
+<example type='correct'> والأدهى أن .. / وأدهى من ذلك أن .. </example>
+	</rule>
+    
+	<rule id ='unsorted2110' name='rule_والأعجب من ذلك_2110'>
+		<pattern>
+<marker>			<token>والأعجب</token>
+			<token>من</token>
+			<token>ذلك</token>
+</marker>		</pattern>
+		<message>أفعل التفضيل المحلّى ب (أل) لا يجوز فيه ذكر (مِن) مع المفضَّل عليه 
+			<suggestion>والأعجب</suggestion>
+			<suggestion>وأعجب من ذلك</suggestion>
+		</message>
+		<example correction='والأعجب|وأعجب من ذلك' type='incorrect'> <marker>والأعجب من ذلك</marker> قوله... </example>
+<example type='correct'> والأعجب قولُه.../وأعجب من ذلك قولُه... </example>
+	</rule>
+        
+	<rule id ='unsorted2111' name='rule_وبالتالي فإن_2111'>
+		<pattern>
+<marker>			<token>وبالتالي</token>
+			<token>فإن</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>لذا فإن</suggestion>
+		</message>
+		<example correction='لذا فإن' type='incorrect'> <marker>وبالتالي فإن</marker> حساسية القياس ... </example>
+<example type='correct'> لذا فإن حساسية القياس ... </example>
+	</rule>
+
+
+        
+	<rule id ='unsorted2112' name='rule_وهو الأحسن من_2112'>
+		<pattern>
+<marker>			<token>وهو</token>
+			<token>الأحسن</token>
+			<token>من</token>
+</marker>		</pattern>
+		<message>أفعل التفضيل المحلّى ب (أل) لا يجوز فيه ذكر (مِن) مع المفضَّل عليه 
+			<suggestion>وهو أَحْسَنُ مِن</suggestion>
+		</message>
+		<example correction='وهو أَحْسَنُ مِن' type='incorrect'> <marker>وهو الأحسن من</marker> كل هذا </example>
+<example type='correct'> وهو أَحْسَنُ مِن كلِّ هذا </example>
+	</rule>
+        
+	<rule id ='unsorted2113' name='rule_يتمحور هذا الأمر حول_2113'>
+		<pattern>
+<marker>			<token>يتمحور</token>
+			<token>هذا</token>
+			<token>الأمر</token>
+			<token>حول</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>يدور هذا الأمرُ حول</suggestion>
+		</message>
+		<example correction='يدور هذا الأمرُ حول' type='incorrect'> <marker>يتمحور هذا الأمر حول</marker> كذا </example>
+<example type='correct'> يدور هذا الأمرُ حول كذا </example>
+	</rule>
+        
+	<rule id ='unsorted2114' name='rule_ينبغي عليك ألا_2114'>
+		<pattern>
+<marker>			<token>ينبغي</token>
+			<token regexp="yes">&forms_3ala;</token>
+			<token>ألا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>يجب <match no="2"/> ألاّ</suggestion>
+		</message>
+		<example correction='يجب عليك ألاّ' type='incorrect'> <marker>ينبغي عليك ألا</marker> تكذب </example>
+<example type='correct'> يجب عليك ألاّ تكذب </example>
+	</rule>
+        
+	<rule id ='unsorted2115' name='rule_النتائج الأفضل_2115'>
+		<pattern>
+<marker>			<token>النتائج</token>
+			<token>الأفضل</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>النتائج الفُضْلى</suggestion>
+			<suggestion>أفضل النتائج</suggestion>
+		</message>
+		<example correction='النتائج الفُضْلى|أفضل النتائج' type='incorrect'> حصل على <marker>النتائج الأفضل</marker> </example>
+<example type='correct'> حصل على النتائج الفُضْلى/حصل على أفضل النتائج </example>
+	</rule>
+        
+	<rule id ='unsorted2116' name='rule_سوى ب_2116'>
+		<pattern>
+<marker>			<token>سوى</token>
+			<token postag="N.*;-B.?" postag_regexp="yes"></token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>بسوى <match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='بسوى الله' type='incorrect'> لا تستعن <marker>سوى بالله</marker> </example>
+<example type='correct'> لا تستعن بسوى الله </example>
+	</rule>
+        
+	<rule id ='unsorted2406' name='rule_أيقن من_2406'>
+		<pattern>
+<marker>			<token inflected="yes">أَيْقَنَ</token>
+			<token regexp="yes">&forms_min;</token>
+</marker>		</pattern>
+		<message>(أيقن) يتعدى بنفسه أو بالباء 
+			<suggestion>كان من الأمر على يقين</suggestion>
+		</message>
+		<example correction='كان من الأمر على يقين' type='incorrect'><marker>أيقنت من</marker>  الأمر</example>
+<example type='correct'> كان من الأمر على يقين </example>
+	</rule>
+        
+
+
+
+
+
+
+
         </rulegroup>
     </category>
     <!-- ====================================================================== -->
@@ -1618,7 +2727,7 @@ USA
 		<!--  Wrong: وَقَع مؤخَّراً -->
 		<!--Correct: وَقَع حديثاً / قريباً / منذ عهد قريب / قبل مدة قصيرة -->
 	</rule>
-	<!--<rule id ='unsorted006' default="off">
+<!--	<rule id ='unsorted006'>
 		<pattern>
 		<marker>
 		<token inflected="yes">َاِسْتَأْذَن</token>
@@ -1626,15 +2735,16 @@ USA
 		</marker>
 		</pattern>
 		<message>يفضل أن يقال:
-		<suggestion><match no="1"/><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
+		<suggestion><match no="1"/>ه</suggestion>
 </message>
 		<example correction='يستأذنه'><marker>يستأذن منه</marker></example>
 		<example correction='يستأذنك'><marker>يستأذن منك</marker></example>
 		<example correction='استأذنك'><marker>استأذنت منك</marker></example>
-		-->
+<match no="2" regexp_match="من" regexp_replace=""/>
+	-->
 		<!--  Wrong: استأذن منه -->
 		<!--Correct: استأذنه -->
-	<!--</rule>-->
+   <!-- </rule>-->
 <rule id ='unsorted008'>
 		<pattern>
 		<token>متأكد</token>
@@ -1783,6 +2893,752 @@ USA
 		<!--  Wrong: يبدو ذلك غامضاً لأول وهلة -->
 		<!--Correct: يبدو ذلك غامضاً أول وهلة -->
 	</rule>
+	<rule id ='unsorted025' name="العشرينيات إلى التسعينيات"> 
+		<pattern>
+<marker>
+		<token regexp="yes">(و|ف)?(كال|لل|بال|ال)(عشر|ثلاث|أربع|خمس|ست|سبع|ثمان|تسع)ينات</token>
+</marker>
+		</pattern>
+		<message>يفضل أن يقال:
+		<suggestion><match no="1" regexp_match="ات$" regexp_replace="يات"/></suggestion>
+</message>
+	<example correction='الثلاثينيات' type="incorrect"> يبدو في <marker>الثلاثينات</marker> من عمره</example>
+		<example correction='والثلاثينيات' type="incorrect">  <marker>والثلاثينات</marker> من عمره</example>
+	</rule>
 	</rulegroup>
+	</category>
+    <!-- ====================================================================== -->
+    <!-- Common errors- on one word -->
+    <!-- ====================================================================== -->
+    <category id="COMMON_ERRORS_ON_ONE_WORD_USE" name="أخطاء شائعة في كلمة واحدة" type="grammar">
+        <rulegroup id="common_errors_one_word" name=" أخطاء شائعةذات كلمة واحدة">
+
+	<rule id ='unsorted297' name='rule_كلمة واحدة_297'>
+		<pattern>
+			<marker><token>ذاتا</token></marker>
+		</pattern>
+		<message>(ذاتا) لا تصح إلا في الشعر 
+			<suggestion>ذواتا</suggestion>
+		</message>
+		<example correction='ذواتا' type='incorrect'> هاتان المرأتان <marker>ذاتا</marker> مكانة عالية </example>
+<example type='correct'> هاتان المرأتان ذواتا مكانةٍ عالية </example>
+	</rule>
+
+
+	<rule id ='unsorted311' name='rule_كلمة واحدة_311'>
+		<pattern>
+		<marker>	<token>خطير</token>
+		</marker>
+		</pattern>
+		<message>(الخطير): الرفيعُ المقام. (الخطورة): عِظَمُ الشَّأْن والمنزلة 
+			<suggestion>شديد الْخَطَر</suggestion>
+			<suggestion>يُنذِرُ بالخطر</suggestion>
+			<suggestion>محفوف بالخطر</suggestion>
+		</message>
+		<example correction='شديد الْخَطَر|يُنذِرُ بالخطر|محفوف بالخطر' type='incorrect'>  موقف <marker>خطير</marker>  </example>
+<example type='correct'> موقفٌ يُنْذِرُ / محفوف بالْخَطَر </example>
+
+	</rule>
+	<rule id ='unsorted312' name='rule_ذو خطورة_312'>
+		<pattern>
+		<marker>	<token>ذو</token>
+		<token>خطورة</token>
+		</marker>
+		</pattern>
+		<message>(الخطير): الرفيعُ المقام. (الخطورة): عِظَمُ الشَّأْن والمنزلة 
+			<suggestion>شديد الْخَطَر</suggestion>
+			<suggestion>يُنذِرُ بالخطر</suggestion>
+			<suggestion>محفوف بالخطر</suggestion>
+		</message>
+		<example correction='شديد الْخَطَر|يُنذِرُ بالخطر|محفوف بالخطر' type='incorrect'>  موقف <marker>ذو خطورة</marker>  </example>
+<example type='correct'> موقفٌ يُنْذِرُ / محفوف بالْخَطَر </example>
+
+	</rule>
+<rule id ='unsorted313' name='rule_أسطحة_313'>
+		<pattern>
+<marker>			<token inflected="yes">أسطحة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>سُطُوح</suggestion>
+			<suggestion>أسْطُح</suggestion>
+		</message>
+		<example correction='سُطُوح|أسْطُح' type='incorrect'> <marker>أسطحة</marker> </example>
+<example type='correct'> سُطُوح / أسْطُح </example>
+	</rule>
+        
+
+	<rule id ='unsorted314' name='rule_أسقفة_314'>
+		<pattern>
+<marker>			<token>أسقفة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>سُقُوف</suggestion>
+			<suggestion>أسْقُف</suggestion>
+			<suggestion>سُقُف</suggestion>
+		</message>
+		<example correction='سُقُوف|أسْقُف|سُقُف' type='incorrect'> <marker>أسقفة</marker> </example>
+<example type='correct'> سُقُوف / أسْقُف / سُقُف </example>
+	</rule>
+        
+	<rule id ='unsorted315' name='rule_أظافر_315'>
+		<pattern>
+<marker>			<token inflected="yes">أظافر</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أَظْفَار</suggestion>
+		</message>
+		<example correction='أَظْفَار' type='incorrect'> <marker>أظافر</marker> </example>
+<example type='correct'> أَظْفَار </example>
+	</rule>
+        
+
+        
+	<rule id ='unsorted321' name='rule_الحصوة_321'>
+		<pattern>
+<marker>			<token inflected="yes">حصوة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حَصَاة</suggestion>
+		</message>
+		<example correction='حَصَاة' type='incorrect'> <marker>حصوة</marker> </example>
+<example type='correct'> الحَصَاةُ </example>
+	</rule>
+        
+	<rule id ='unsorted322' name='rule_الخمارة_322'>
+		<pattern>
+<marker>			<token inflected="yes">خمارة</token>
+</marker>		</pattern>
+		<message>(الخمّارة): بائعةُ الخمر 
+			<suggestion>مَخْمَرَة</suggestion>
+			<suggestion>حانة</suggestion>
+		</message>
+		<example correction='مَخْمَرَة|حانة' type='incorrect'> <marker>خمارة</marker> </example>
+<example type='correct'> الْمَخْمَرَة / الحانة </example>
+	</rule>
+       
+
+	<rule id ='unsorted324' name='rule_الزعتر_324'>
+		<pattern>
+<marker>			<token>الزعتر</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>السَّعْتَر</suggestion>
+			<suggestion>الصَّعْتَر</suggestion>
+		</message>
+		<example correction='السَّعْتَر|الصَّعْتَر' type='incorrect'> يحب <marker>الزعتر</marker> </example>
+<example type='correct'> يُحبّ السَّعْتَر / الصَّعْتَر </example>
+	</rule>
+        
+	<rule id ='unsorted327' name='rule_الصالون_327'>
+		<pattern>
+<marker>			<token>الصالون</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>البَهو</suggestion>
+		</message>
+		<example correction='البَهو' type='incorrect'> استقبل الضيوف في <marker>الصالون</marker> </example>
+<example type='correct'> استقبل الضيوف في البَهو </example>
+	</rule>
+        
+	<rule id ='unsorted329' name='rule_الكادر_329'>
+		<pattern>
+<marker>			<token>الكادر</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>المَلاك</suggestion>
+			<suggestion>المِلاك</suggestion>
+		</message>
+		<example correction='المَلاك|المِلاك' type='incorrect'> <marker>الكادر</marker> </example>
+<example type='correct'> المَلاك / المِلاك </example>
+	</rule>
+        
+	<rule id ='unsorted330' name='rule_الكرتون_330'>
+		<pattern>
+<marker>			<token>الكرتون</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>المُقَوَّى</suggestion>
+		</message>
+		<example correction='المُقَوَّى' type='incorrect'> <marker>الكرتون</marker> </example>
+<example type='correct'> المُقَوَّى </example>
+	</rule>
+        
+	<rule id ='unsorted331' name='rule_الموانئ_331'>
+		<pattern>
+<marker>			<token>الموانئ</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>المواني</suggestion>
+		</message>
+		<example correction='المواني' type='incorrect'> <marker>الموانئ</marker> </example>
+<example type='correct'> المواني </example>
+	</rule>
+
+	<rule id ='unsorted333' name='rule_الوريث_333'>
+		<pattern>
+<marker>			<token>الوريث</token>
+</marker>		</pattern>
+		<message>(الوريث) لم تسمع عن العرب 
+			<suggestion>الوَارِثُ</suggestion>
+		</message>
+		<example correction='الوَارِثُ' type='incorrect'> فلان هو <marker>الوريث</marker> الوحيد </example>
+<example type='correct'> فلان هو الوَارِثُ الوحيد </example>
+	</rule>
+        
+	<rule id ='unsorted334' name='rule_اليافطة_334'>
+		<pattern>
+<marker>			<token>اليافطة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>اللافتة</suggestion>
+		</message>
+		<example correction='اللافتة' type='incorrect'> <marker>اليافطة</marker> </example>
+<example type='correct'> اللافتة </example>
+	</rule>
+       
+	<rule id ='unsorted335' name='rule_انذهل_335'>
+		<pattern>
+<marker>			<token>انذهل</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ذَهِلَ</suggestion>
+		</message>
+		<example correction='ذَهِلَ' type='incorrect'> <marker>انذهل</marker> فلان </example>
+<example type='correct'> ذَهِلَ فلانٌ </example>
+	</rule>
+        
+	<rule id ='unsorted336' name='rule_انعكاس_336'>
+		<pattern>
+<marker>			<token>انعكاس</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أثر</suggestion>
+		</message>
+		<example correction='أثر' type='incorrect'> وهذه الأرقام تبين <marker>انعكاس</marker> فقدان الأمن على الحالة الاقتصادية </example>
+<example type='correct'> وهذه الأرقام تبيّن أثر فقدان الأمن على الحالة الاقتصادية </example>
+	</rule>
+        
+	<rule id ='unsorted337' name='rule_أنوية_337'>
+		<pattern>
+<marker>			<token>أنوية</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>نَوًى</suggestion>
+			<suggestion>نَوَيات</suggestion>
+		</message>
+		<example correction='نَوًى|نَوَيات' type='incorrect'> <marker>أنوية</marker> </example>
+<example type='correct'> نَوًى / نَوَيات </example>
+	</rule>
+        
+	<rule id ='unsorted338' name='rule_بأكمله_338'>
+		<pattern>
+<marker>			<token>بأكمله</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>كُلَّه</suggestion>
+			<suggestion>جَميعَه</suggestion>
+			<suggestion>برُمَّته</suggestion>
+		</message>
+		<example correction='كُلَّه|جَميعَه|برُمَّته' type='incorrect'> اشتراه <marker>بأكمله</marker> </example>
+<example type='correct'> اشتراهُ كُلَّه / جَميعَه / برُمَّته </example>
+	</rule>
+        
+	<rule id ='unsorted339' name='rule_تحمم_339'>
+		<pattern>
+<marker>			<token>تحمم</token>
+</marker>		</pattern>
+		<message>(تَحَمَّمَ): اسودَّ 
+			<suggestion>استَحَمَّ</suggestion>
+		</message>
+		<example correction='استَحَمَّ' type='incorrect'> <marker>تحمم</marker> فلان </example>
+<example type='correct'> استَحَمَّ فلانٌ </example>
+	</rule>
+        
+
+
+	<rule id ='unsorted340' name='rule_تشكل_340'>
+		<pattern>
+<marker>			<token>تشكل</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>هي</suggestion>
+			<suggestion></suggestion>
+		</message>
+		<example correction='هي|' type='incorrect'> هذه القواعد <marker>تشكل</marker> محور البحث </example>
+<example type='correct'> هذه القواعد هي محور البحث </example>
+	</rule>
+        
+	<rule id ='unsorted342' name='rule_تصامم_342'>
+		<pattern>
+<marker>			<token>تصامم</token>
+</marker>		</pattern>
+		<message>يلازم الفعلُ المضعَّفُ الإدغامَ ما لم يتصلْ بضميرِ رفعٍ متحرِّك، نحو: تَصَامَمْتُ 
+			<suggestion>تَصَامَّ عن الحديث</suggestion>
+		</message>
+		<example correction='تَصَامَّ عن الحديث' type='incorrect'> <marker>تصامم</marker> عن الحديث </example>
+<example type='correct'> تَصَامَّ عن الحديث </example>
+	</rule>
+        
+	<rule id ='unsorted343' name='rule_تطمين_343'>
+		<pattern>
+<marker>			<token>تطمين</token>
+</marker>		</pattern>
+		<message>الفعل هو: (طمأن)، لا: (طَمَّنَ) 
+			<suggestion>طَمأَنَةُ</suggestion>
+		</message>
+		<example correction='طَمأَنَةُ' type='incorrect'> <marker>تطمين</marker> الناس </example>
+<example type='correct'> طَمأَنَةُ الناسِ </example>
+	</rule>
+        
+	<rule id ='unsorted344' name='rule_تعكس_344'>
+		<pattern>
+<marker>			<token>تعكس</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>تُظهِر</suggestion>
+			<suggestion>تفضح</suggestion>
+		</message>
+		<example correction='تُظهِر|تفضح' type='incorrect'> ثم إن الرقابة <marker>تعكس</marker> خوف السلطة </example>
+<example type='correct'> ثم إن الرقابة تُظهِر خوف السلطة/ ثم إن الرقابة تفضح خوف السلطة </example>
+	</rule>
+        
+	<rule id ='unsorted345' name='rule_جنوبي_345'>
+		<pattern>
+<marker>			<token>جنوبي</token>
+</marker>		</pattern>
+		<message>(جنوبيّ المدينة): في الجهة الجنوبية داخل المدينة. (جنوب المدينة): في الجهة الجنوبية خارج المدينة 
+			<suggestion>جنوبَ</suggestion>
+		</message>
+		<example correction='جنوبَ' type='incorrect'> تقع دمشق <marker>جنوبي</marker> حلب </example>
+<example type='correct'> تقع دمشقُ جنوبَ حلب </example>
+	</rule>
+        
+	<rule id ='unsorted346' name='rule_حكايا_346'>
+		<pattern>
+<marker>			<token>حكايا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>حكايات</suggestion>
+		</message>
+		<example correction='حكايات' type='incorrect'> <marker>حكايا</marker> </example>
+<example type='correct'> حكايات </example>
+	</rule>
+        
+	<rule id ='unsorted347' name='rule_خارطة_347'>
+		<pattern>
+<marker>			<token inflected="yes">خارطة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مصوَّر</suggestion>
+			<suggestion>خَرِيطَة</suggestion>
+		</message>
+		<example correction='مصوَّر|خَرِيطَة' type='incorrect'> <marker>خارطة</marker> </example>
+<example type='correct'> مصوَّر / خَرِيطَة </example>
+	</rule>
+        
+	<rule id ='unsorted348' name='rule_خصيصا_348'>
+		<pattern>
+<marker>			<token>خصيصا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>خِصِّيصَى</suggestion>
+			<suggestion>خاصاً</suggestion>
+		</message>
+		<example correction='خِصِّيصَى|خاصاً' type='incorrect'> فعله <marker>خصيصا</marker> لك </example>
+<example type='correct'> فَعَلَهُ خِصِّيصَى لك / فَعَلَهُ خاصاً بك </example>
+	</rule>
+
+	<rule id ='unsorted349' name='rule_خضار|خضروات_349'>
+		<pattern>
+<marker>			
+		<token inflected="yes">خضار</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>خُضَر</suggestion>
+			<suggestion>خَضْراوات</suggestion>
+		</message>
+		<example correction='خُضَر|خَضْراوات' type='incorrect'> يحب <marker>الخضار</marker> </example>
+<example type='correct'> يُحبّ الخُضَر </example>
+	</rule>
+
+        
+	<rule id ='unsorted350' name='rule_خلوق_350'>
+		<pattern>
+<marker>			<token inflected="yes">خلوق</token>
+</marker>		</pattern>
+		<message>(الخَلُوق): الطِّيب 
+			<suggestion>حَسَنُ الخُلُق</suggestion>
+		</message>
+		<example correction='حَسَنُ الخُلُق' type='incorrect'> فلان <marker>خلوق</marker> </example>
+<example type='correct'> فلانٌ حَسَنُ الخُلُق </example>
+	</rule>
+        
+	<rule id ='unsorted351' name='rule_رئيف_351'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?رئيف|رئيفا</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>رؤوف</suggestion>
+		</message>
+		<example correction='رؤوف' type='incorrect'> كان خالد <marker>رئيفا</marker> بصاحبه </example>
+<example type='correct'> كان خالدٌ رؤوفاً بصاحبه </example>
+	</rule>
+        
+	<rule id ='unsorted352' name='rule_رتوش_352'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?رتوش</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>لمسة</suggestion>
+		</message>
+		<example correction='لمسة' type='incorrect'> وضع <marker>الرتوش</marker> الأخير </example>
+<example type='correct'> وضع اللمسة الأخيرة </example>
+	</rule>
+        
+	<rule id ='unsorted353' name='rule_رسومات_353'>
+		<pattern>
+<marker>			<token inflected="yes">رسومات</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>رُسُوم</suggestion>
+			<suggestion>أَرْسُم</suggestion>
+		</message>
+		<example correction='رُسُوم|أَرْسُم' type='incorrect'> <marker>رسومات</marker> </example>
+<example type='correct'> رُسُوم / أَرْسُم </example>
+	</rule>
+	<rule id ='unsorted354' name='rule_رغم_354'>
+		<pattern>
+<marker>			<token>رغم</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>على الرغْم</suggestion>
+			<suggestion>بالرغْم</suggestion>
+			<suggestion>على</suggestion>
+			<suggestion>مع</suggestion>
+		</message>
+		<example correction='على الرغْم|بالرغْم|على|مع' type='incorrect'> يحبها <marker>رغم</marker> كرهها له </example>
+<example type='correct'> يحبها على الرغْم / بالرغْم من كرهها له </example>
+	</rule>
+        
+
+       
+	<rule id ='unsorted356' name='rule_رفاة_356'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?رفاة</token>
+</marker>		</pattern>
+		<message>(رفات) اسمٌ مفردٌ مذَّكر 
+			<suggestion>رُفاتُ</suggestion>
+		</message>
+		<example correction='رُفاتُ' type='incorrect'> نقلت <marker>رفاة</marker> الجندي </example>
+<example type='correct'> نُقِلَ رُفاتُ الجندي </example>
+	</rule>
+        
+	<!--<rule id ='unsorted357' name='rule_سيما_357'>
+		<pattern>
+<marker>			<token negate="yes" regexp="yes">لا|ولا</token>
+<token>سيما</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>لا سيّما</suggestion>
+		</message>
+		<example correction='لا سيّما' type='incorrect'>سأحقق ما تريد <marker>سيما</marker> الراتب</example>
+<example type='correct'> سأحقِّقُ ما تريد ولا سيّما../سأحقِّقُ ما تريد لا سيّما.. </example>
+	</rule>
+-->
+        
+	<rule id ='unsorted358' name='rule_شـويا_358'>
+		<pattern>
+<marker>			<token>شويا</token>
+</marker>		</pattern>
+		<message>تُقْلَبُ الواوُ في مصدر اللفيف المقرون ياءً، وتُدْغَمُ في الياءِ التي تليها 
+			<suggestion>شَيًّا</suggestion>
+		</message>
+		<example correction='شَيًّا' type='incorrect'> شوى اللحم <marker>شويا</marker> </example>
+<example type='correct'> شَوَى اللحمَ شَيًّا </example>
+	</rule>
+        
+	<rule id ='unsorted359' name='rule_عرايا_359'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?عرايا</token>
+</marker>		</pattern>
+		<message>(عارٍ) جَمْعُهُ (عُراة)، و(عارية) جمعُها (عاريات)، و(عُرْيانة) جمعُها (عُرْيانات) 
+			<suggestion>عُرْيانُون</suggestion>
+		</message>
+		<example correction='عُرْيانُون' type='incorrect'> <marker>عرايا</marker> </example>
+<example type='correct'> عُرْيانُون </example>
+	</rule>
+        
+	<rule id ='unsorted360' name='rule_عكست_360'>
+		<pattern>
+<marker>			<token>عكست</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>تركت</suggestion>
+		</message>
+		<example correction='تركت' type='incorrect'> <marker>عكست</marker> الرحلة آثارا طيبة على... </example>
+<example type='correct'> تركت الرحلة آثاراً طيبة على... </example>
+	</rule>
+        
+	<rule id ='unsorted361' name='rule_فحوصات_361'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?فحوصات</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>فُحُوصٍ</suggestion>
+		</message>
+		<example correction='فُحُوصٍ' type='incorrect'> خضع <marker>لفحوصات</marker> طبية </example>
+<example type='correct'> خَضَعَ لفُحُوصٍ طبية </example>
+	</rule>
+        
+	<rule id ='unsorted362' name='rule_قفازات_362'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?قفازات</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>قَفافيز</suggestion>
+		</message>
+		<example correction='قَفافيز' type='incorrect'> <marker>قفازات</marker> </example>
+<example type='correct'> قَفافيز </example>
+	</rule>
+        
+	<rule id ='unsorted363' name='rule_كبلات_363'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?كبلات</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أكْبُل</suggestion>
+			<suggestion>كُبُول</suggestion>
+			<suggestion>أكبال</suggestion>
+			<suggestion>كِبال</suggestion>
+		</message>
+		<example correction='أكْبُل|كُبُول|أكبال|كِبال' type='incorrect'> <marker>كبلات</marker> </example>
+<example type='correct'> أكْبُل / كُبُول / أكبال / كِبال </example>
+	</rule>
+        
+	<rule id ='unsorted364' name='rule_لوحده_364'>
+		<pattern>
+<marker>			<token>لوحده</token>
+</marker>		</pattern>
+		<message>(وَحْد) منصوبٌ على الحال 
+			<suggestion>وَحْدَهُ</suggestion>
+		</message>
+		<example correction='وَحْدَهُ' type='incorrect'> سافر <marker>لوحده</marker> </example>
+<example type='correct'> سَافَرَ وَحْدَهُ </example>
+	</rule>
+        
+	<rule id ='unsorted365' name='rule_مائة_365'>
+		<pattern>
+<marker>			<token>مائة</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مئةُ</suggestion>
+		</message>
+		<example correction='مئةُ' type='incorrect'> <marker>مائة</marker> صفحة </example>
+<example type='correct'> مئةُ صفحة </example>
+	</rule>
+        
+	<rule id ='unsorted366' name='rule_متوعك_366'>
+		<pattern>
+<marker>			<token>متوعك</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مَوْعُوك</suggestion>
+			<suggestion>وَعِكٌ</suggestion>
+		</message>
+		<example correction='مَوْعُوك|وَعِكٌ' type='incorrect'> فلان <marker>متوعك</marker> </example>
+<example type='correct'> فلانٌ مَوْعُوك / وَعِكٌ </example>
+	</rule>
+        
+	<rule id ='unsorted367' name='rule_محلات_367'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?محلات</token>
+</marker>		</pattern>
+		<message>(مَحَلاَّت) جَمْعُ (مَحَلَّة)، لا جَمْع (مَحَلّ) 
+			<suggestion>مَحَالّ</suggestion>
+		</message>
+		<example correction='مَحَالّ' type='incorrect'> <marker>محلات</marker> </example>
+<example type='correct'> مَحَالّ </example>
+	</rule>
+        
+	<rule id ='unsorted368' name='rule_مدراء_368'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?مدراء</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مُديرو</suggestion>
+		</message>
+		<example correction='مُديرو' type='incorrect'> اجتمع <marker>مدراء</marker> المدارس </example>
+<example type='correct'> اجتمع مُديرو المدارس </example>
+	</rule>
+
+	<rule id ='unsorted370' name='rule_معاق_370'>
+		<pattern>
+<marker>			<token  inflected="yes">معاق</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>مَعُوق</suggestion>
+		</message>
+		<example correction='مَعُوق' type='incorrect'> طفل <marker>معاق</marker> </example>
+<example type='correct'> طفل مَعُوق </example>
+	</rule>
+        
+	<rule id ='unsorted371' name='rule_مندهش_371'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?مندهش</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>دَهِشٌ</suggestion>
+			<suggestion>مدهوش</suggestion>
+		</message>
+		<example correction='دَهِشٌ|مدهوش' type='incorrect'> فلان <marker>مندهش</marker> </example>
+<example type='correct'> فلان دَهِشٌ / مدهوش </example>
+	</rule>
+        
+	<rule id ='unsorted372' name='rule_نافوخ_372'>
+		<pattern>
+<marker>			<token regexp="yes">(&procletics;)?نافوخ(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>يَافُوخ</suggestion>
+		</message>
+		<example correction='يَافُوخ' type='incorrect'> ضربه على <marker>نافوخه</marker> </example>
+<example type='correct'> ضَرَبَهُ على يَافُوخِه </example>
+	</rule>
+        
+	<rule id ='unsorted373' name='rule_نشط_373'>
+		<pattern>
+<marker>			<token  regexp="yes">(&procletics;)?نشط</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>نشيطٌ</suggestion>
+			<suggestion>ناشطٌ</suggestion>
+		</message>
+		<example correction='نشيطٌ|ناشطٌ' type='incorrect'> فلان <marker>نشط</marker> </example>
+<example type='correct'> فلانٌ نشيطٌ / ناشطٌ </example>
+	</rule>
+        
+	<rule id ='unsorted374' name='rule_نصوح_374'>
+		<pattern>
+<marker>			<token inflected="yes">نصوح</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ناصِحٌ</suggestion>
+		</message>
+		<example correction='ناصِحٌ' type='incorrect'> رجل <marker>نصوح</marker> </example>
+<example type='correct'> رجلٌ ناصِحٌ </example>
+	</rule>
+        
+	<rule id ='unsorted375' name='rule_والتي_375'>
+		<pattern>
+<marker>			<token>والتي</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>التي</suggestion>
+		</message>
+		<example correction='التي' type='incorrect'> سنتبع سياسة الترغيب <marker>والتي</marker> ستكون.. </example>
+<example type='correct'> سنتبع سياسة الترغيب التي ستكون.. </example>
+	</rule>
+        
+	<rule id ='unsorted376' name='rule_والذي_376'>
+		<pattern>
+<marker>			<token>والذي</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>الذي</suggestion>
+		</message>
+		<example correction='الذي' type='incorrect'> سيبدأ قريبا الفصل الدراسي الثاني <marker>والذي</marker> مدته ثلاثة أشهر </example>
+<example type='correct'> سيبدأ قريباً الفصل الدراسي الثاني الذي مدته ثلاثة أشهر </example>
+	</rule>
+        
+	<rule id ='unsorted377' name='rule_يشـكل_377'>
+		<pattern>
+<marker>			<token inflected="yes">شَكَّلَ</token>
+</marker>		</pattern>
+		<message>(شَكَّل): صَوَّرَ، وألَّفَ، وقَيَّدَ 
+			<suggestion></suggestion>
+		</message>
+		<example correction='' type='incorrect'> الفدائيون <marker>يشكلون</marker> خطرا عليهم </example>
+<example type='correct'> الفدائيون خطرٌ عليهم </example>
+	</rule>
+        
+	</rulegroup>
+
+	<rule id ='unsorted138' name='rule_الإطلاع_138'>
+		<pattern>
+<marker>			<token>الإطلاع</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>اطّلاع</suggestion>
+		</message>
+		<example correction='اطّلاع' type='incorrect'> يرجى <marker>الإطلاع</marker> </example>
+<example type='correct'> يرجى الاطّلاع </example>
+	</rule>
+        
+	<rule id ='unsorted140' name='rule_استبديت_140'>
+		<pattern>
+<marker>			<token>استبديت</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>استبدَدْتُ</suggestion>
+		</message>
+		<example correction='استبدَدْتُ' type='incorrect'> <marker>استبديت</marker> برأيي </example>
+<example type='correct'> استبدَدْتُ برأيي </example>
+	</rule>
+        
+	<rule id ='unsorted141' name='rule_استغليت_141'>
+		<pattern>
+<marker>			<token>استغليت</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>استغلَلْتُ</suggestion>
+		</message>
+		<example correction='استغلَلْتُ' type='incorrect'> <marker>استغليت</marker> الأرض </example>
+<example type='correct'> استغلَلْتُ الأرض </example>
+	</rule>
+        
+	<rule id ='unsorted142' name='rule_استقليت_142'>
+		<pattern>
+<marker>			<token>استقليت</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>استقلَلْتُ</suggestion>
+		</message>
+		<example correction='استقلَلْتُ' type='incorrect'> <marker>استقليت</marker> برأيي </example>
+<example type='correct'> استقلَلْتُ برأيي </example>
+	</rule>
+        
+	<rule id ='unsorted143' name='rule_اضطرد_143'>
+		<pattern>
+<marker>			<token>اضطرد</token>
+</marker>		</pattern>
+		<message>الفعل هو: (طرد)، لا: (ضرد) 
+			<suggestion>اطَّرَدَ</suggestion>
+		</message>
+		<example correction='اطَّرَدَ' type='incorrect'> <marker>اضطرد</marker> الأمر </example>
+<example type='correct'> اطَّرَدَ الأمرُ </example>
+	</rule>
+        
+	<rule id ='unsorted144' name='rule_إيلول_144'>
+		<pattern>
+<marker>			<token>إيلول</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أَيْلول</suggestion>
+		</message>
+		<example correction='أَيْلول' type='incorrect'> شهر <marker>إيلول</marker> </example>
+<example type='correct'> شهر أَيْلول </example>
+	</rule>
+        
+	<rule id ='unsorted145' name='rule_عواميد_145'>
+		<pattern>
+<marker>			<token>عواميد</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>أعْمِدة</suggestion>
+			<suggestion>عُمُد</suggestion>
+		</message>
+		<example correction='أعْمِدة|عُمُد' type='incorrect'> <marker>عواميد</marker> البناء </example>
+<example type='correct'> أعْمِدة / عُمُد البناء </example>
+	</rule>
 	</category>
 </rules>
