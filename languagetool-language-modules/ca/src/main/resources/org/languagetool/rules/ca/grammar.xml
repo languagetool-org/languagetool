@@ -9872,6 +9872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fins al"><marker>Fins el</marker> mes que ve.</example>
                 <example correction="Fins al"><marker>Fins el</marker> 4 d'abril.</example>
                 <example correction="Fins al"><marker>Fins el</marker> novembre vinent.</example>
+                <example correction="Fins al"><marker>Fins el</marker> 2000 tot va ser clar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46526,6 +46527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">\d+(\.\d\d\d)*</token>
                 <token regexp="yes">a|i|o|ni|/|-</token>
+                <token min="0" postag="DA..P." postag_regexp="yes"/>
                 <token regexp="yes">\d+(\.\d\d\d)*</token>
             </antipattern>
             <rule>
@@ -46542,7 +46544,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Preferible amb lletres</short>
                 <example correction="vint-i-quatre"><marker>24</marker> anys</example>
                 <example correction="dos milions"><marker>2.000.000</marker> d'anys</example>
-                <example>ha de casar-se als 14 o 15 anys</example>
+                <example>Ha de casar-se als 14 o 15 anys.</example>
+                <example>Dels 10 als 14 anys d'edat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46574,6 +46577,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És dels anys 1960.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[1-9]0</token>
+                    <token postag="NC.[PN].*|Y" postag_regexp="yes"/> 
+                </antipattern>
                 <pattern>
                     <token postag="DA.MP." postag_regexp="yes"/>
                     <marker>
@@ -46587,6 +46594,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="seixanta">Va sorgir en els <marker>60</marker>.</example>
                 <example correction="seixanta">Va sorgir en la dècada dels <marker>'60</marker>.</example>
                 <example>És dels anys 1960.</example>
+                <example>Ultrapassa els 10 km de llargària.</example>
+                <example>Inclosos en els 10 districtes.</example>
+                <example>dels 10 als 14 anys d'edat</example>
             </rule>
         </rulegroup>
         <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
