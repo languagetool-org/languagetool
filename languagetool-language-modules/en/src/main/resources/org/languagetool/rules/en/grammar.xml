@@ -17401,6 +17401,12 @@ USA
                 <example>She teaches English to advanced students.</example>
             </rule>
             <rule>
+                <antipattern><!-- invited to dances occasionally -->
+                    <token inflected="yes" regexp="yes">ask|invite|order|want|allow|force</token>
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag="RB"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="2">advise|ask|encourage|invite|order|persuade|remind|warn|expect|intend|want|allow|enable|force|teach|convince|manipulate|try<exception scope="next">,</exception></token>
                     <token>to</token>
@@ -17413,6 +17419,8 @@ USA
                 <example correction="go">She wants you to <marker>goes</marker> there.</example>
                 <example correction="get">She is manipulating her father to <marker>gets</marker> her way.</example>
                 <example>Tom doesn't get invited to parties anymore.</example>
+                <example>Tom doesn't get invited to parties frequently.</example>
+                <example>Mary was asked to dances occasionally.</example>
                 <example>Tom gets invited to parties often.</example>
             </rule>
             <rule>
@@ -25884,6 +25892,81 @@ USA
                 <example>He did <marker>dancing</marker> and thinks that to be good, intense concentration is necessary.</example>
             </rule>-->
         </rulegroup>
+        <rule id="ANYMORE_ADVERB" name="anymore (any more)"><!-- Premium #759 -->
+            <antipattern>
+                <token>anymore</token>
+                <token chunk="E-NP-singular" regexp="yes">\(|to</token>
+            </antipattern>
+            <antipattern>
+                <token>anymore</token>
+                <token chunk="B-VP"/>
+            </antipattern>
+            <antipattern><!-- anymore in Japan. -->
+                <token>anymore</token>
+                <token postag="IN"/>
+                <token chunk="E-NP-singular" postag="NNP"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- anymore in this town. -->
+                <token>anymore</token>
+                <token postag="IN"/>
+                <token chunk="B-NP-singular" postag="DT"/>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- use anymore will, -->
+                <token postag_regexp="yes" postag="VB.*"/>
+                <token postag="RB"/>
+                <token postag="MD"/>
+                <token postag="PCT"/>
+            </antipattern>
+            <antipattern>
+                <token>anymore</token>
+                <token>due</token>
+                <token>to</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>anymore</token>
+                </marker>
+                <token>
+                    <exception postag_regexp="yes" postag="SENT_END|PCT|CC|DT|TO|WP|WRB"/>
+                    </token>
+            </pattern>
+            <message>Make sure that '\1' is used as an adverb, not as an adjective. Did you mean <suggestion>any more</suggestion>.</message>
+            <url>https://www.grammarphobia.com/blog/2011/04/anymore-3.html</url>
+            <short>Grammar error</short>
+            <example correction="any more">Do you need <marker>anymore</marker> information?</example>
+            <example correction="any more">If the customers wanted <marker>anymore</marker> nice cakes, they could ask.</example>
+            <example correction="any more">We won't miss <marker>anymore</marker> congestion revenue.</example>
+            <example correction="Any more"><marker>Anymore</marker> info regarding a pending release?</example>
+            <example correction="any more">If you would like <marker>anymore</marker> (large or small) cakes, just ask.</example>
+            <example correction="any more">My end game is always having my Kingdom power level maxed (can’t keep my kingdom levels maxed <marker>anymore</marker>).</example>
+            <example correction="any more">He claimed he didn't eat <marker>anymore</marker> "cakes and biscuits".</example>
+            <example correction="any more">We know that <marker>anymore</marker> of the defects will cause ...</example>
+            <example correction="any more">I don't know <marker>anymore</marker> about Japan than you do.</example>
+            <example correction="any more">I don't know <marker>anymore</marker> about Japan; do you?</example>
+            <example>Do you need <marker>any more</marker> information?</example>
+            <example>We don't need this anymore.</example>
+            <example>We don't need that anymore.</example>
+            <example>Electricity is not cheap anymore</example><!-- No closing punctuation -->
+            <example>The car engine light is not on anymore.</example>
+            <example>Now I can't log in anymore because a dot is now prohibited.</example>
+            <example>The zoom-out function doesn’t work anymore (for the time being hopefully).</example>
+            <example>A new user cannot log on anymore to nextcloud.</example>
+            <example>We have a house full of Samsung devices and appliances and this has officially burnt me from buying ANYMORE!</example><!-- Ambiguous -->
+            <example>... that Jews can no longer be safe in the city anymore due to the risk of violent assaults.</example>
+            <example>Whoever reads light novels despite not being a kid anymore is a retard, don't you think?</example>
+            <example>Scholarships were not granted anymore to the same students this summer as last year.</example>
+            <example>An advantage of ageing is that one doesn't demand anymore the things that one failed to obtain...</example>
+            <example>Now I don't have anymore any certainty.</example>
+            <example>Tom didn't care anymore what happened to Mary.</example>
+            <example>We don't remember anymore where we placed our key.</example>
+            <example>Public morals are not respected anymore in this town.</example>
+            <example>There's not a single safe place anymore in Japan.</example>
+            <example>Those who send in old junk they don't use anymore will, without exception, receive a present.</example>
+            <example type="triggers_error">This is the first day of the new “My hips don’t hurt anymore” routine.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
