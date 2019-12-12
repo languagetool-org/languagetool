@@ -26163,7 +26163,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
-        <!--<rule id="GUIONET_ENTRE_NOMBRES" name="Exigeix guionet en "-->
+        <rule id="GUIONET_EN_CORRELACIONS" name="Exigeix guionet en correlacions de nombres" default="off">
+            <pattern>
+                <token regexp="yes">[\d,\.]*\d</token>
+                <token regexp="yes" spacebefore="no">[–—―‒]</token>
+                <token regexp="yes" spacebefore="no">[\d,\.]*\d</token>
+            </pattern>
+            <message>Utilitzem un guionet entre nombres en correlacions.</message>
+            <suggestion>\1-\3</suggestion>
+            <example correction="34-36">En les pàgines <marker>34—36</marker>.</example>
+            <example correction="34-36">En les pàgines <marker>34–36</marker>.</example>
+            <exmaple>En les pàgines 34-35.</exmaple>
+        </rule>
+        <rule id="NDASH_EN_CORRELACIONS" name="Exigeix guió mitjà en correlacions de nombres" default="off">
+            <pattern>
+                <token regexp="yes">[\d,\.]*\d</token>
+                <token regexp="yes" spacebefore="no">[—―‒-]</token>
+                <token regexp="yes" spacebefore="no">[\d,\.]*\d</token>
+            </pattern>
+            <message>Utilitzem un guió mitjà entre nombres en correlacions.</message>
+            <suggestion>\1–\3</suggestion>
+            <example correction="34–36">En les pàgines <marker>34—36</marker>.</example>
+            <example correction="34–36">En les pàgines <marker>34-36</marker>.</example>
+            <exmaple>En les pàgines 34–35.</exmaple>
+        </rule>
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
             <antipattern> <!-- més d'un punt -->
                 <marker>
@@ -27918,70 +27941,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És dels anys cinquanta.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PUNT_EN_HORES" name="*22:30 h/22.30 h">
+        <rulegroup id="PUNT_O_DOS_PUNTS_EN_HORES" name="22:30 h/22.30 h">
             <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
-            <rule>
+            <!--<rule>
+                <antipattern>
+                    <token regexp="yes">[012]?\d</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">[012345]\d</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[012]?\d</token>
+                    <token spacebefore="no">:</token>
+                    <token regexp="yes" spacebefore="no">[012345]\d</token>
+                    <token spacebefore="no">:</token>
+                    <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[012]?\d</token>
-                    <token regexp="yes" spacebefore="no">[,:]</token>
+                    <token regexp="yes" spacebefore="no">[,:\.]</token>
                     <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token regexp="yes" spacebefore="no">[,:]</token>
+                    <token regexp="yes" spacebefore="no">[,:\.]</token>
                     <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
                 </pattern>
-                <message>En les expressions d'hores, usem el punt.</message>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
                 <suggestion>\1.\3.\5</suggestion>
-                <short>Preferència tipogràfica</short>
-                <example correction="10.00.43">A les <marker>10:00:43</marker>.</example>
-                <example correction="10.00.43,5">A les <marker>10:00:43,5</marker>.</example>
+                <suggestion>\1:\3:\5</suggestion>
+                <example correction="10.00.43|10:00:43">A les <marker>10,00,43</marker>.</example>
+                <example correction="10.00.43,5|20:00:43,5">A les <marker>10,00:43,5</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">[012]?\d</token>
-                    <token regexp="yes" spacebefore="no">[,:]</token>
+                    <token spacebefore="no">,</token>
                     <token regexp="yes" spacebefore="no">[012345]\d</token>
                     <token regexp="yes">h|hores|hrs|hs|hora</token>
                 </pattern>
-                <message>En les expressions d'hores, usem el punt.</message>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
                 <suggestion>\1.\3&#160;\4</suggestion>
-                <short>Preferència tipogràfica</short>
-                <example correction="22.50&#160;h">A les <marker>22:50 h</marker>.</example>
-                <example correction="6.05&#160;h">A les <marker>6:05 h</marker>.</example>
+                <suggestion>\1:\3&#160;\4</suggestion>
+                <example correction="22.50&#160;h|22:50&#160;h">A les <marker>22,50 h</marker>.</example>
+                <example correction="6.05&#160;h|6:05&#160;h">A les <marker>6,05 h</marker>.</example>
                 <example>A les 22.30 h.</example>
                 <example>L'ascenció dura 8, 10 hores.</example>
-            </rule>
+            </rule>-->
             <rule>
                 <pattern>
                     <token regexp="yes">a|de</token>
                     <token min="0">les</token>
                     <marker>
-                        <token regexp="yes">[012]?\d</token>
-                        <token regexp="yes" spacebefore="no">[,:]</token>
-                        <token regexp="yes" spacebefore="no">[012345]\d</token>
+                        <token regexp="yes">[012]?\d,[012345]\d</token>
                     </marker>
                 </pattern>
-                <message>En les expressions d'hores, usem el punt.</message>
-                <suggestion>\3.\5</suggestion>
-                <short>Preferència tipogràfica</short>
-                <example correction="10.00">A les <marker>10:00</marker>.</example>
-                <example correction="10.00">De <marker>10:00</marker> a ... </example>
-                <example correction="10.50">De ... a <marker>10:50</marker>.</example>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="10.00|10:00">A les <marker>10,00</marker>.</example>
+                <example correction="10.00|10:00">De <marker>10,00</marker> a ... </example>
+                <example correction="10.50|10:50">De ... a <marker>10,50</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[012]?\d</token>
-                        <token regexp="yes" spacebefore="no">[,:]</token>
-                        <token regexp="yes" skip="2" spacebefore="no">[012345]\d</token>
+                        <token regexp="yes" skip="2" >[012]?\d,[012345]\d</token>
                     </marker>
                     <token regexp="yes" inflected="yes">&parts_dia;</token>
                 </pattern>
-                <message>En les expressions d'hores, usem el punt.</message>
-                <suggestion>\1.\3</suggestion>
-                <short>Preferència tipogràfica</short>
-                <example correction="5.00">A les <marker>5:00</marker> de la matinada.</example>
-                <example correction="6.05">A les <marker>6:05</marker> del matí.</example>
-                <example correction="6.05">A les <marker>6:05</marker> de la nit.</example>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="5.00|5:00">A les <marker>5,00</marker> de la matinada.</example>
+                <example correction="6.05|6:05">A les <marker>6,05</marker> del matí.</example>
+                <example correction="6.05|6:05">A les <marker>6,05</marker> de la nit.</example>
                 <example>A les 22.30 h.</example>
             </rule>
         </rulegroup>
