@@ -52,7 +52,7 @@ class LightRuleMatch {
     this.suggestions = suggestions == null ? "" : suggestions;
     this.ruleSource = ruleSource;
     this.title = title;
-    this.status = status;
+    this.status = Objects.requireNonNull(status);
   }
 
   int getLine() {
@@ -108,6 +108,7 @@ class LightRuleMatch {
       ", covered=" + coveredText +
       ", suggestions=" + suggestions +
       ", title=" + title +
+      //", status=" + status +
       ", ctx=" + context;
   }
 }

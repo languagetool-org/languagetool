@@ -31,7 +31,7 @@ class DiffTools {
   }
   
   static String getMasterId(String ruleId) {
-    return ruleId.replaceFirst("\\[\\d+\\]", "");
+    return ruleId.replaceFirst("\\[\\d+\\]", "").trim();
   }
 
   @Nullable

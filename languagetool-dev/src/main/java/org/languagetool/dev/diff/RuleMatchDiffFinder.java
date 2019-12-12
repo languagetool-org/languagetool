@@ -37,6 +37,7 @@ public class RuleMatchDiffFinder {
       if (oldMatch != null) {
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
             !oldMatch.getMessage().equals(match.getMessage()) ||
+            oldMatch.getStatus() != match.getStatus() ||
             !Objects.equals(oldMatch.getSubId(), match.getSubId()) ||
             !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
@@ -114,6 +115,9 @@ public class RuleMatchDiffFinder {
     }
     if (newMatch.getStatus() != LightRuleMatch.Status.on) {
       fw.write("  <br><span class='status'>[" + newMatch.getStatus() + "]</span>");
+    }
+    if (oldMatch != null && newMatch.getStatus() != oldMatch.getStatus()) {
+      fw.write("  <br><span class='status'>[" + oldMatch.getStatus() + " => " + newMatch.getStatus() + "]</span>");
     }
     if (newMatch.getRuleSource() != null) {
       String source = newMatch.getRuleSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
