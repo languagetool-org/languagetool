@@ -28219,6 +28219,11 @@ The accident victim died from her injuries.
     </rule>
     <rule id='ASK_TO' name='Collocation: ask (to)'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <antipattern><!-- Edited by MFU 2019-12-12 -->
+        <token inflected="yes">ask</token>
+        <token>to</token>
+        <token chunk='B-NP-plural' postag='NNS'/>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected="yes">ask</token>
@@ -28227,10 +28232,11 @@ The accident victim died from her injuries.
           <token>
             <exception postag='VB'/></token>
       </pattern>
-      <message>This is a collocation error. You do not need a preposition after "\1'. Remove it: <suggestion>\1</suggestion>.</message>
+      <message>This is a collocation error. You do not need a preposition after '\1'. Remove it: <suggestion>\1</suggestion>.</message>
       <example correction="Ask"><marker>Ask to</marker> all the employees.</example>
       <example>I was asked to put away all the papers we used at the meeting.</example>
       <example>The reason I'm here is because I was asked to come.</example>
+      <example>Mary was asked to dances occasionally.</example>
     </rule>
     <rule id='AT_IN_THE_KITCHEN' name='Collocation: at/in the room'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
