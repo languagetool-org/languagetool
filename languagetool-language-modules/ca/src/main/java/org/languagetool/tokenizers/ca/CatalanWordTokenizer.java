@@ -202,7 +202,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (!speller.isMisspelled(s)) {
+          if (!speller.isMisspelled(s.replace("’", "'"))) {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)

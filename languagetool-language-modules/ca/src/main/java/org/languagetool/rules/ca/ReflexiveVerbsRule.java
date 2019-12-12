@@ -220,9 +220,13 @@ public class ReflexiveVerbsRule extends Rule {
           continue loop;
         
         // the rule matches
-        final String msg = "Expressió incorrecta si equival a 'adonar-se', correcta si vol dir 'retre compte'.";
-        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
+        final String msg = "'Donar-se compte' és una expressió incorrecta si equival a 'adonar-se'; és correcta si vol dir 'retre compte'.";
+        int endPosition = 1;
+        if (tokens[i+2].getToken().equals("compte")) {
+          endPosition = 2;
+        }
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i].getStartPos(),
+            tokens[i + endPosition].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);
       }
       

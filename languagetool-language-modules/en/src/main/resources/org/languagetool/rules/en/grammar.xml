@@ -13097,7 +13097,7 @@ USA
                 <example correction="easy-to-use">There are many ways to eat at McDonald's, for example their <marker>easy to use</marker> drive-in.</example>
                 <example correction="easy-to-understand">Chris prepared an <marker>easy to understand</marker> tutorial.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|y?our</token>
                     <marker>
@@ -23604,6 +23604,14 @@ USA
             <!-- Note: 
                 I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
                 -->
+            <antipattern><!-- 2019-12-06 MFU. Incomplete sentences (three dots: ...) -->
+                 <token>.</token>
+                 <token>.</token>
+                <token postag="SENT_END">.</token>
+            </antipattern>
+            <antipattern><!-- Incomplete sentences (ellipsis character: … ) -->
+                <token postag="SENT_END">…</token>
+            </antipattern>
             <rule>
           <!-- 01-09-2019 All other rulegroup rules look good. Check false positives on this one, disable, improve, re-enable -->
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
@@ -23699,6 +23707,7 @@ USA
                 <example><!-- formula + line end -->where C is an arbitrary constant of integration.</example>
                 <!--example>If only we'd stop trying to be happy we could have a...</example> XXX This would be a valid correction -->
                 <example type="triggers_error">As if you could kill time without injuring eternity.</example>
+                <example>When the original stories were related (e.g. The War a...</example>
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
@@ -23781,6 +23790,7 @@ USA
                 <example>So if the dog likes to bark; it's still a nice dog.</example>
                 <example correction=""><marker>So that</marker> through him all man might believe.</example>
                 <example><marker>So that</marker> through him, all man might believe.</example>
+                <example>So though it may be seen plainly that what he has done has …</example>
             </rule>
             <!--rule R0.1D phrase 'So, [list]', likely to start a fragment -->
             <!-- Note:
@@ -42455,6 +42465,34 @@ The accident victim died from her injuries.
       <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
     </rule>
   </rulegroup>
+
+    <rulegroup id="NON_STANDARD_COMMA" name="Non-standard comma"><!-- #2208 -->
+        <short>Non-standard comma</short>
+        <rule><!-- mid-word 'comma' -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.+，.+</token>
+            </pattern>
+            <message>The character '，' is not a standard comma, although it can look like a comma. Use <suggestion><match no="1" regexp_match="(.+)，(.+)" regexp_replace="$1, $2"/></suggestion>.</message>
+            <example correction="careful, this">Be <marker>careful，this</marker> is not a standard comma.</example>
+            <example correction="10, or">You can use <marker>10，or</marker> more if necessary.</example>
+            <example correction="ABC123, XYZ10">Use one of these Part Numbers: <marker>ABC123，XYZ10</marker>.</example>
+            <example><marker>But, this</marker> is a standard comma and a space.</example>
+            <example>China<marker>, </marker> therefore will...</example>
+            <example>You can use <marker>10， or</marker> more if necessary.</example>
+            <example>Do not find an isolated <marker>，</marker> like this.</example>
+            <example>Do not suggest a <marker>space，</marker> because there is a space after the character.</example>
+            <example>The character '，' is not a standard comma.</example>
+        </rule>
+        <rule><!-- space after the 'comma' -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.+，</token>
+            </pattern>
+            <message>The character '，' is not a standard comma, although it can look like a comma. Use <suggestion><match no="1" regexp_match="(.+)，" regexp_replace="$1,"/></suggestion>.</message>
+            <example correction="careful,">Be <marker>careful，</marker> because this is not a standard comma.</example>
+            <example correction="5,">You can use <marker>5，</marker> or more if necessary.</example>
+            <example><marker>But, this</marker> is a standard comma.</example>
+        </rule>
+    </rulegroup>
 
   </category>
 
