@@ -26163,6 +26163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <!--<rule id="GUIONET_ENTRE_NOMBRES" name="Exigeix guionet en "-->
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
             <antipattern> <!-- més d'un punt -->
                 <marker>
@@ -27853,6 +27854,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">ls|els|anys</token>
                     <marker>
+                        <token regexp="yes">[1-9]0s</token>
+                    </marker>
+                </pattern>
+                <message>La 's' és innecessària, i és preferible escriure-ho amb lletres.</message>
+                <!--<suggestion><match no="2" regexp_match="(\d+)s" regexp_replace="$1" postag="_spell_number_"/></suggestion>-->
+                <suggestion><match no="2" regexp_match="(\d+)s" regexp_replace="$1"/></suggestion>
+                <example correction="50">És dels anys <marker>50s</marker>.</example>
+                <example>És dels anys 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ls|els|anys</token>
+                    <marker>
+                        <token regexp="yes">[1-9]0</token>
+                        <token regexp="yes">[’']</token>
+                        <token>s</token>
+                    </marker>
+                </pattern>
+                <message>La 's' és innecessària, i és preferible escriure-ho amb lletres.</message>
+                <suggestion><match no="2" postag="_spell_number_"/></suggestion>
+                <suggestion>\2</suggestion>
+                <example correction="cinquanta|50">És dels anys <marker>50’s</marker>.</example>
+                <example>És dels anys 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ls|els|anys</token>
+                    <marker>
                         <token regexp="yes">\d*0s</token>
                     </marker>
                 </pattern>
@@ -27891,7 +27920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PUNT_EN_HORES" name="*22:30 h/22.30 h">
             <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
-            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12802&amp;idHit=12802&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=3&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Nova+gram%E0tica+%2F+Les+hores%3A+sistema+de+campanar+i+sistema+de+rellotge+%2F+Les+hores+en+catal%E0&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token regexp="yes">[012]?\d</token>
