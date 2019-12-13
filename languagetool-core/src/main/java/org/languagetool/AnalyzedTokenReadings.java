@@ -106,8 +106,10 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (oldAtr.isImmunized()) {
       this.immunize();
     }
-    this.setHistoricalAnnotations(
-        oldAtr.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldAtr.toString() + " -> " + this.toString()); 
+    if (oldAtr.isIgnoredBySpeller()) {
+      this.isIgnoredBySpeller();
+    }
+    addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
   AnalyzedTokenReadings(AnalyzedToken token) {
@@ -278,7 +280,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Add a new reading.
    * @param token new reading, given as {@link AnalyzedToken}
    */
-  public void addReading(AnalyzedToken token) {
+  public void addReading(AnalyzedToken token, String ruleApplied) {
+    String oldValue = this.toString();
     List<AnalyzedToken> l = new ArrayList<>(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
@@ -294,6 +297,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
+    addHistoricalAnnotations(oldValue, ruleApplied); 
   }
 
   /**
@@ -302,7 +306,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * and an empty lemma is created.
    * @param token reading to be removed
    */
-  public void removeReading(AnalyzedToken token) {
+  public void removeReading(AnalyzedToken token, String ruleApplied) {
+    String oldValue = this.toString();
     List<AnalyzedToken> l = new ArrayList<>();
     AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -332,6 +337,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       setParagraphEnd();
     }
     hasSameLemmas = areLemmasSame();
+    addHistoricalAnnotations(oldValue, ruleApplied); 
   }
 
   /**
@@ -398,7 +404,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (!isParagraphEnd()) {
       AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
           PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
-      addReading(paragraphEnd);
+      addReading(paragraphEnd, "add_paragaph_end");
     }
   }
 
@@ -425,7 +431,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (!isSentenceEnd()) {
       AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
-      addReading(sentenceEnd);
+      addReading(sentenceEnd, "add_sentence_end");
     }
   }
 
@@ -524,9 +530,17 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Used to track disambiguator actions.
    * @param historicalAnnotations the historicalAnnotations to set
    */
-  public void setHistoricalAnnotations(String historicalAnnotations) {
+  private void setHistoricalAnnotations(String historicalAnnotations) {
     this.historicalAnnotations = historicalAnnotations;
   }
+  
+  private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
+    if (!ruleApplied.isEmpty()) {
+      this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
+          + this.toString();
+    }
+  }
+  
 
   /**
    * @since 2.3
