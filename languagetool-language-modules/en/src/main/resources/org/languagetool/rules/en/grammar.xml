@@ -42583,6 +42583,46 @@ The accident victim died from her injuries.
         </rule>
     </rulegroup>
 
+    <rulegroup id="NON_STANDARD_ALPHABETIC_CHARACTERS" name="Non-standard alphabetic characters" default="temp_off"><!-- #2211 -->
+        <url>https://www.unicode.org/charts/</url><!-- Unicode charts are in PDF format. Thus, do not link to the specific chart. Reference: www.utf8-chartable.de/unicode-utf8-table.pl?start=384&number=1024 -->
+        <short>Non-standard alphabetic character</short>
+        <rule><!-- Cyrillic small letter o, U+043E -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.*\u043E.*</token>
+            </pattern>
+            <message>The character 'о' is a Cyrillic small letter 'o' (Unicode U+043E), although it can look like an English 'o'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u043E(.*)" regexp_replace="$1o$2"/></suggestion>.</message>
+            <example correction="hot">The sun is <marker>hоt</marker> (contains Cyrillic small letter 'o').</example>
+            <example correction="o">Cyrillic small letter <marker>о</marker>.</example>
+            <example correction="open">Please <marker>оpen</marker> the door.</example>
+            <example correction="Houѕе">The word '<marker>Hоuѕе</marker>' contains 3 non-standard characters.</example>
+            <example>The sun is <marker>hot</marker>.</example>
+        </rule>
+        <rule><!-- Cyrillic small letter dze, U+0455 -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.*\u0455.*</token>
+            </pattern>
+            <message>The character 'ѕ' is a Cyrillic small letter 'dze' (Unicode U+0455), although it can look like an English 's'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0455(.*)" regexp_replace="$1s$2"/></suggestion>.</message>
+            <example correction="his">This is <marker>hiѕ</marker> (contains Cyrillic small letter 'dze').</example>
+            <example>This is <marker>his</marker>.</example>
+        </rule>
+        <rule><!-- Cyrillic small letter ie, U+0435 -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.*\u0435.*</token>
+            </pattern>
+            <message>The character 'е' is a Cyrillic small letter 'ie' (Unicode U+0435), although it can look like an English 'e'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0435(.*)" regexp_replace="$1e$2"/></suggestion>.</message>
+            <example correction="tea">I like <marker>tеa</marker> (contains Cyrillic small letter 'ie').</example>
+            <example>I like <marker>tea</marker>.</example>
+        </rule>
+        <rule><!-- Cyrillic small letter er, U+0440 -->
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.*\u0440.*</token>
+            </pattern>
+            <message>The character 'р' is a Cyrillic small letter 'er' (Unicode U+0440), although it can look like an English 'e'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0440(.*)" regexp_replace="$1p$2"/></suggestion>.</message>
+            <example correction="pea">This is a <marker>рea</marker> (contains Cyrillic small letter 'er').</example>
+            <example>This is a <marker>pea</marker>.</example>
+        </rule>
+    </rulegroup>
+
   </category>
 
     <!-- ====================================================================== -->
