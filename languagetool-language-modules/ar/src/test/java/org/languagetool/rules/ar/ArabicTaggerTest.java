@@ -47,7 +47,6 @@ public class ArabicTaggerTest {
   @Test
   public void testTagger() throws IOException {
 
-
     TestTools.myAssert("هذه",
       "هذه/[هذه]DFS", tokenizer, tagger);
 
