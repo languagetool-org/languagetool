@@ -442,28 +442,4 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     return whTokens;
   }
 
-  /*private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr,
-      AnalyzedTokenReadings newAtr) {
-    String prevValue = oldAtr.toString();
-    String prevAnot = oldAtr.getHistoricalAnnotations();
-    boolean isSentEnd = oldAtr.isSentenceEnd();
-    boolean isParaEnd = oldAtr.isParagraphEnd();
-    boolean spaceBefore = oldAtr.isWhitespaceBefore();
-    int startPosition = oldAtr.getStartPos();
-    List<ChunkTag> chunkTags = oldAtr.getChunkTags();
-    if (isSentEnd) {
-      newAtr.setSentEnd();
-    }
-    if (isParaEnd) {
-      newAtr.setParagraphEnd();
-    }
-    newAtr.setWhitespaceBefore(spaceBefore);
-    newAtr.setStartPos(startPosition);
-    newAtr.setChunkTags(chunkTags);
-    if (oldAtr.isImmunized()) {
-      newAtr.immunize();
-    }
-    annotateChange(newAtr, prevValue, prevAnot);
-    return newAtr;
-  }*/
 }

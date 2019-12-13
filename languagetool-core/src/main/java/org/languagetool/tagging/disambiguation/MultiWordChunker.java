@@ -225,8 +225,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   }
 
   private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {  
-    AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(),
-            oldReading.getStartPos());
+    AnalyzedTokenReadings newAtr = oldReading;
     newAtr.addReading(newReading, "MULTIWORD_CHUNKER");
     return newAtr;
   }

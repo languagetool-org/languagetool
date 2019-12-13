@@ -107,8 +107,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       this.immunize();
     }
     if (oldAtr.isIgnoredBySpeller()) {
-      this.isIgnoredBySpeller();
+      this.ignoreSpelling();
     }
+    this.setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
@@ -431,7 +432,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (!isSentenceEnd()) {
       AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
-      addReading(sentenceEnd, "add_sentence_end");
+      addReading(sentenceEnd, "");
     }
   }
 
