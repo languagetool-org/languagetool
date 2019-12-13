@@ -1666,6 +1666,234 @@ USA
         <example correction=''> نتج <marker>عن</marker> هذا الدواء أعراض جانبية</example>
     </rule>
 
+
+	<rule id ='unsorted3117' name='rule_حول_3117'>
+		<pattern>
+			<token inflected="yes" skip="1">آراء</token>
+		<marker>	<token regexp="yes">حول(&encletics;)?</token>
+</marker>	</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>في<match no="2" regexp_match="^حول" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='في' type='incorrect'> آراء القراء <marker>حول</marker> الكتاب </example>
+<example type='correct'> آراء القراء في الكتاب </example>
+	</rule>
+        
+	<rule id ='unsorted3118' name='rule_حول_3118'>
+		<pattern>
+		<token regexp="yes">(&procletics;)?إرشادات(&encletics;)?</token>
+		<marker>	<token regexp="yes">حول(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ذات صلة</suggestion>
+			<suggestion>تتعلق ب</suggestion>
+		</message>
+		<example correction='ذات صلة|تتعلق ب' type='incorrect'> إرشادات <marker>حول</marker> كذا ... </example>
+<example type='correct'> إرشادات ذات صلة / تتعلق بكذا... </example>
+	</rule>
+        
+	<rule id ='unsorted3119' name='rule_ل_3119'>
+		<pattern>
+		<token skip="1">المشرف</token>
+			<token>اللغوي</token>
+<marker>		<token postag="N.*;-L.?" postag_regexp="yes"/>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>على <match no="3" regexp_match="^ل" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='على برنامج' type='incorrect'>المشرف اللغوي <marker>لبرنامج</marker> إذاعي.
+ </example>
+<example type='correct'> المشرف اللغوي على البرنامج </example>
+	</rule>
+        
+	<rule id ='unsorted3120' name='rule_ضد_3120'>
+		<pattern>
+			<token inflected="yes">تأمين</token>
+		<marker>	<token regexp="yes">ضد(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>من<match no="2" regexp_match="^ضد" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='من' type='incorrect'> تأمين <marker>ضد</marker> جميع الأخطار </example>
+<example type='correct'> تأمين من جميع الأخطار </example>
+	</rule>
+        
+	<rule id ='unsorted3121' name='rule_حول_3121'>
+		<pattern>
+			<token inflected="yes">تقرير</token>
+		<marker>	<token regexp="yes">حول(&encletics;)?</token></marker>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>عن<match no="2" regexp_match="^حول" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='عن' type='incorrect'> تقرير <marker>حول</marker> الجلسة </example>
+<example type='correct'> تقرير عن الجلسة </example>
+	</rule>
+        
+	<rule id ='unsorted3122' name='rule_حول_3122'>
+		<pattern>
+		<token>توضيح</token>
+<marker>				<token regexp="yes">حول(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion></suggestion>
+			<suggestion>ل</suggestion>
+		</message>
+		<example correction='|ل' type='incorrect'> توضيح <marker>حول</marker> فتوى ... </example>
+<example type='correct'> توضيحُ فتوى ... / توضيحٌ لفتوى ... </example>
+	</rule>
+        
+	<rule id ='unsorted3123' name='rule_حول_3123'>
+		<pattern>
+		<token inflected="yes">دراسة</token>
+<marker>	<token regexp="yes">حول(&encletics;)?</token></marker>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>في<match no="2" regexp_match="^حول" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='في' type='incorrect'> دراسات <marker>حول</marker> اللغة </example>
+<example type='correct'> دراسات في اللغة </example>
+	</rule>
+        
+	<rule id ='unsorted3124' name='rule_ضد_3124'>
+		<pattern>
+<marker>	<token>ضد</token>
+			<token>الصدمات</token></marker>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>تتحمل الصدمات</suggestion>
+			<suggestion>لا تتأثر بالصدمات</suggestion>
+		</message>
+		<example correction='تتحمل الصدمات|لا تتأثر بالصدمات' type='incorrect'> ساعة <marker>ضد الصدمات</marker> </example>
+<example type='correct'> ساعة تتحمل الصدمات/ ساعة لا تتأثر بالصدمات </example>
+	</rule>
+        
+	<rule id ='unsorted3125' name='rule_عن_3125'>
+		<pattern>
+			<token inflected="yes">عاطل</token>
+	<marker>		<token>عن</token></marker>
+			<token>العمل</token>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>من</suggestion>
+		</message>
+		<example correction='من' type='incorrect'> عاطل <marker>عن</marker> العمل </example>
+<example type='correct'> عَاطِلٌ من العمل </example>
+	</rule>
+        
+	<rule id ='unsorted3126' name='rule_مع_3126'>
+		<pattern>
+		<token inflected="yes">علاقة</token>
+			<token inflected="yes">حميم</token>
+<marker>	<token>مع</token></marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>ب</suggestion>
+		</message>
+		<example correction='ب' type='incorrect'> له علاقة حميمة <marker>مع</marker> ابنه </example>
+<example type='correct'> له علاقةٌ حميمةٌ بابنه </example>
+	</rule>
+        
+	<rule id ='unsorted3127' name='rule_عن_3127'>
+		<pattern>
+			<token inflected="yes">لمحة</token>
+<marker>			<token>عن</token></marker>
+			<token>حياة</token>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>إلى</suggestion>
+			<suggestion>من</suggestion>
+		</message>
+		<example correction='إلى|من' type='incorrect'> لمحة <marker>عن</marker> حياة المؤلف </example>
+<example type='correct'> لَمحَة إلى حياة المؤلف </example>
+	</rule>
+ 
+        
+	<rule id ='unsorted3129' name='rule_في_3129'>
+		<pattern>
+			<token inflected="yes">متضلع</token>
+<marker>			<token>في</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>من</suggestion>
+		</message>
+		<example correction='من' type='incorrect'> متضلع <marker>في</marker> اللغة </example>
+<example type='correct'> مُتَضَلِّعٌ من اللغة </example>
+	</rule>
+        
+	<rule id ='unsorted3130' name='rule_عن_3130'>
+		<pattern>
+		<token inflected="yes">معصوم</token>
+<marker>				<token>عن</token>
+</marker>			<token>الخطأ</token>
+		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>من</suggestion>
+		</message>
+		<example correction='من' type='incorrect'> معصوم <marker>عن</marker> الخطأ </example>
+<example type='correct'> معصومٌ من الخطأ </example>
+	</rule>
+        
+	<rule id ='unsorted3131' name='rule_حول_3131'>
+		<pattern>
+		<token inflected="yes">ملاحظة</token>
+<marker>				<token regexp="yes">حول(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>على</suggestion>
+		</message>
+		<example correction='على' type='incorrect'> ملاحظات <marker>حول</marker> الأسباب ... </example>
+<example type='correct'> ملاحظات على الأسباب ... </example>
+	</rule>
+        
+	<rule id ='unsorted3132' name='rule_حول_3132'>
+		<pattern>
+		<token inflected="yes">تعقيب</token>
+<marker>			<token regexp="yes">حول(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>يتعلق ب</suggestion>
+		</message>
+		<example correction='يتعلق ب' type='incorrect'> تعقيب <marker>حول</marker> الأسباب ... </example>
+<example type='correct'> تعقيب يتعلق بالأسباب ... </example>
+	</rule>
+        
+	<rule id ='unsorted3133' name='rule_حول_3133'>
+		<pattern>
+			<token inflected="yes">استدراك</token>
+<marker>			<token regexp="yes">حول(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>على</suggestion>
+		</message>
+		<example correction='على' type='incorrect'> استدراك <marker>حول</marker> الأسباب ... </example>
+<example type='correct'> استدراك على الأسباب... </example>
+	</rule>
+        
+	<rule id ='unsorted3134' name='rule_ضد_3134'>
+		<pattern>
+		<token inflected="yes">مناعة</token>
+<marker>				<token regexp="yes">ضد(&encletics;)?</token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>من<match no="2" regexp_match="^ضد" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='من' type='incorrect'> مناعة <marker>ضد</marker> المرض </example>
+<example type='correct'> مناعة من المرض </example>
+	</rule>
+        
+	<rule id ='unsorted3441' name='rule_رغبة شديدة ل_3441'>
+		<pattern>
+<marker>			<token inflected="yes">رغبة</token>
+			<token inflected="yes">شديد</token>
+			<token postag="N.*;-L.?" postag_regexp="yes"></token>
+</marker>		</pattern>
+		<message>يفضل أن يقال: 
+			<suggestion>رَغْبَةٌ شديدة في <match no="3" regexp_match="^ل" regexp_replace=""/></suggestion>
+		</message>
+		<example correction='رَغْبَةٌ شديدة في كتابة' type='incorrect'> لديه <marker>رغبة شديدة لكتابة</marker> الروايات </example>
+<example type='correct'> لديه رَغْبَةٌ شديدة في الكتابة </example>
+	</rule>
+        
         </rulegroup>
     </category>
     <!-- ====================================================================== -->
@@ -3640,5 +3868,27 @@ USA
 		<example correction='أعْمِدة|عُمُد' type='incorrect'> <marker>عواميد</marker> البناء </example>
 <example type='correct'> أعْمِدة / عُمُد البناء </example>
 	</rule>
+	</category>
+
+  <!-- ====================================================================== -->
+    <!-- Common errors- on adjective -->
+    <!-- ====================================================================== -->
+    <category id="COMMON_ERRORS_ON_ADJECTIVES" name="أخطاء شائعة - النعوت" type="grammar">
+        <rulegroup id="common_errors_adjective" name="أخطاء شائعة- الصفات">
+	<rule id ='unsorted5143' name='rule_شيء بسيط_5143'>
+		<pattern>
+<marker>			<token inflected="yes">شيء</token>
+			<token regexp="yes">بسيط</token>
+</marker>		</pattern>
+		<message>(أرض بسيطة): أرض منبسطة، مستوية. (ثوبٌ بسيط): مبسوط منشور. 
+			<suggestion>شيء قليل</suggestion>
+			<suggestion>شيء يسير</suggestion>
+		</message>
+		<example correction='شيء قليل|شيء يسير' type='incorrect'> <marker>شيء بسيط</marker> </example>
+<example type='correct'> شيء قليل / يسير </example>
+	</rule>
+        
+        
+		</rulegroup>
 	</category>
 </rules>

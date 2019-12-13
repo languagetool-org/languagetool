@@ -20,9 +20,11 @@
 package org.languagetool.tagging.ar;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.language.Arabic;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
 
@@ -34,11 +36,12 @@ import java.io.IOException;
 public class ArabicHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ar/multiwords.txt");
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Arabic());
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
     throws IOException {
-    return chunker.disambiguate(input);
+    return disambiguator.disambiguate(chunker.disambiguate(input));
   }
 
 }
