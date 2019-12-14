@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.Languages;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.PatternToken;
@@ -47,7 +48,36 @@ public class GermanTest extends LanguageSpecificTest {
     );
     runTests(lang);
   }
-  
+
+  @Test
+  public void testMessageCoherency() {
+    Language lang = Languages.getLanguageForShortCode("de-DE");
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllRules()) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule patternRule = (AbstractPatternRule) rule;
+        String message = patternRule.getMessage();
+        String origWord = null;
+        String suggWord = null;
+        if (message.contains("Kommata")) {
+          origWord = "Kommata";
+          suggWord = "Kommas";
+        }
+        if (message.contains("Substantiv")) {
+          origWord = "Substantiv";
+          suggWord = "Nomen";
+        }
+        if (message.toLowerCase().contains("substantiviert")) {
+          origWord = "substantiviert";
+          suggWord = "nominalisiert";
+        }
+        if (origWord != null) {
+          System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
+        }
+      }
+    }
+  }
+
   // test that patterns with 'ß' also contain that pattern with 'ss' so the rule can match for de-CH users
   @Test
   @Ignore("too many warnings yet - activate once the conversion has (mostly) been finished")
