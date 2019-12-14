@@ -66,7 +66,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"", "DZ"};
+    return new String[]{"", "SA", "DZ", "BH", "EG", "IQ", "JO", "KW", "LB", "LY", "MA", "OM", "QA", "SD", "SY", "TN", "AE", "YE"};
   }
 
   @Override
