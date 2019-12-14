@@ -2258,6 +2258,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="uns mitjans"><marker>un mitjans</marker> públics.</example>
                 <example correction="uns alts"><marker>un alts</marker> càrrecs públics.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                        <token postag="DI.*" postag_regexp="yes" inflected="yes">algun<exception postag="RG.*|_GN_.*" postag_regexp="yes"/><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                        <token postag=".*_GN_.*" postag_regexp="yes"><exception postag="D[AIR].*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag=".*_GN_(..).*" postag_replace="DI0$10">algun</match> \2</suggestion>
+                <example correction="alguns mitjans"><marker>algun mitjans</marker> públics.</example>
+                <example correction="alguns alts"><marker>alguna alts</marker> càrrecs públics.</example>
+            </rule>
             <rule> <!--  Falta veure què passa amb tots els altres determinants -->
                 <pattern>
                     <unify negate="yes">
@@ -2517,6 +2531,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Alguns altres culleres</marker>.</example>
                 <example>Algunes altres culleres.</example>
                 <example>S'explicaven els uns als altres històries de por.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre"></feature>
+                        <feature id="genere"></feature>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">algun</token>
+                        <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">altre|tal|cert</token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <example correction=""><marker>Alguna altre</marker> motiu.</example>
+                <example correction=""><marker>Algun tals</marker> motius.</example>
+                <example correction=""><marker>Alguna cert</marker> motiu.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_TOT" name="concordances amb 'tot'">
