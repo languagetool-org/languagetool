@@ -1870,6 +1870,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="Nom_propi" name="noms propis">
         <rule>
+           <pattern>
+               <token postag="SENT_START"/>
+               <token min="0" max="3" regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
+               <marker>
+                    <token>Useu</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
                 <marker>

@@ -263,7 +263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">aquest</token>
                 </pattern>
-                <message>Useu demostratius no reforçats.</message>
+                <message>Useu demostratius reduïts.</message>
                 <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">este</match></suggestion>
                 <example correction="Estos"><marker>Aquests</marker> homes</example>
                 <example>Estes cases</example>
@@ -272,7 +272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">aqueix</token>
                 </pattern>
-                <message>Useu demostratius no reforçats.</message>
+                <message>Useu demostratius reduïts.</message>
                 <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">eixe</match></suggestion>
                 <example correction="Eixos"><marker>Aqueixos</marker> homes</example>
                 <example>Eixes cases</example>
@@ -27941,7 +27941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És dels anys cinquanta.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PUNT_O_DOS_PUNTS_EN_HORES" name="22:30 h/22.30 h">
+        <rulegroup id="PUNT_O_DOS_PUNTS_EN_HORES" name="22.30 h/22:30 h">
             <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <!--<rule>
@@ -27989,32 +27989,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>-->
             <rule>
                 <pattern>
-                    <token regexp="yes">a|de</token>
-                    <token min="0">les</token>
                     <marker>
-                        <token regexp="yes">[012]?\d,[012345]\d</token>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
+                        <token regexp="yes">h|hores|hrs|hs|hora</token>
+                    </marker>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/>&#160;\2</suggestion>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/>&#160;\2</suggestion>
+                <example correction="22.50&#160;h|22:50&#160;h">A les <marker>22,50 h</marker>.</example>
+                <example correction="6.05&#160;h|6:05&#160;h">A les <marker>6,05 h</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token>les</token>
+                    <marker>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
                     </marker>
                 </pattern>
                 <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
                 <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
                 <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
                 <example correction="10.00|10:00">A les <marker>10,00</marker>.</example>
-                <example correction="10.00|10:00">De <marker>10,00</marker> a ... </example>
-                <example correction="10.50|10:50">De ... a <marker>10,50</marker>.</example>
+                <example correction="10.00|10:00">De les <marker>10,00</marker> a ... </example>
+                <exmaple>un pes de 7,26 kg</exmaple>
+                <exmaple>un matalàs de caiguda de 6,50 m x 5 m.</exmaple>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token postag="Y"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[012]?\d,[012345]\d</token>
+                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
+                        <token>a</token>
+                        <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
+                    </marker>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/> a <match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/> a <match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="10.00 a 13.30|10:00 a 13:30">De <marker>10,00 a 13,30</marker>.</example>
+                <example>De 10,15 a 10,30 km.</example>
+                <example>De 10,15 a 10,30 quilòmetres.</example>
+                <example>De 23,50 a 25,00</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" skip="2" >[012]?\d,[012345]\d</token>
+                        <token regexp="yes" skip="2">([01]?\d|2[0-4]),[012345]\d</token>
                     </marker>
                     <token regexp="yes" inflected="yes">&parts_dia;</token>
                 </pattern>
                 <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
                 <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1.$2"/></suggestion>
                 <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
-                <example correction="5.00|5:00">A les <marker>5,00</marker> de la matinada.</example>
-                <example correction="6.05|6:05">A les <marker>6,05</marker> del matí.</example>
-                <example correction="6.05|6:05">A les <marker>6,05</marker> de la nit.</example>
+                <example correction="5.00|5:00">Eren les <marker>5,00</marker> de la matinada.</example>
+                <example correction="6.05|6:05">Són les <marker>6,05</marker> del matí.</example>
+                <example correction="6.05|6:05">Les <marker>6,05</marker> de la nit.</example>
                 <example>A les 22.30 h.</example>
             </rule>
         </rulegroup>
@@ -29075,8 +29113,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DONAR_EN_EL_CLAU" name="donar en el clau">
             <pattern>
                 <token inflected="yes">donar</token>
-                <token>en</token>
-                <token>el</token>
+                <token regexp="yes">en|a</token>
+                <token regexp="yes">el|l</token>
                 <token>clau</token>
             </pattern>
             <message>Castellanisme.</message>
@@ -29084,6 +29122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>(endevinar la tecla)</suggestion>
             <suggestion>(tocar-hi de mig a mig)</suggestion>
             <example correction="(encertar-la)|(endevinar la tecla)|(tocar-hi de mig a mig)">No va saber <marker>donar en el clau</marker>.</example>
+            <example correction="(encertar-la)|(endevinar la tecla)|(tocar-hi de mig a mig)">No va saber <marker>donar al clau</marker>.</example>
         </rule>
         <rule id="ELS_TOTS_ELS" name="els tots els">
             <pattern>
@@ -35583,6 +35622,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="SIQUIERA" name="siquiera">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=cerca_generica&amp;input_cercar=siquiera&amp;tipusCerca=cerca.tot</url>
+            <rule>
+                <pattern>
+                    <token>ni</token>
+                    <token>siquiera</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion>ni tan sols</suggestion>. 'Siquiera' és el femení de 'siquier'.</message>
+                <suggestion>ni tan solament</suggestion>
+                <example correction="ni tan sols|ni tan solament">I <marker>ni siquiera</marker> ha vingut.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>siquiera</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion>tan sols</suggestion>. 'Siquiera' és el femení de 'siquier'.</message>
+                <suggestion>tan solament</suggestion>
+                <suggestion>almenys</suggestion>
+                <suggestion>si més no</suggestion>
+                <example correction="tan sols|tan solament|almenys|si més no">I <marker>siquiera</marker> ha vingut.</example>
+            </rule>
+        </rulegroup>
         <rule id="DISTOPIA" name="distòpia/distopia">
             <pattern>
                 <marker>
@@ -46592,11 +46653,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" postag="DA..P." postag_regexp="yes"/>
                 <token regexp="yes">\d+(\.\d\d\d)*</token>
             </antipattern>
-            <antipattern>
-                <token regexp="yes">\d+(\.\d\d\d)*<exception>1</exception></token>
-                <token postag="NC.S.*" postag_regexp="yes"/>
-            </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">\d+(\.\d\d\d)*<exception>1</exception></token>
+                    <token postag="NC.S.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+(\.\d\d\d)*</token>
@@ -46609,12 +46670,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>(set in filter)</suggestion>
                 <short>Preferible amb lletres</short>
                 <example correction="vint-i-quatre"><marker>24</marker> anys</example>
+                <example correction="un"><marker>1</marker> mil·lenni</example>
                 <example correction="dos milions"><marker>2.000.000</marker> d'anys</example>
                 <example>Ha de casar-se als 14 o 15 anys.</example>
                 <example>Dels 10 als 14 anys d'edat.</example>
                 <example>2009 Any internacional del llibre.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">\d+(\.\d\d\d)*<exception>1</exception></token>
+                    <token postag="NC.S.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">\d+(\.\d\d\d)*</token>
@@ -46627,6 +46693,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>(set in filter)</suggestion>
                 <short>Preferible amb lletres</short>
                 <example correction="vint-i-dues"><marker>22</marker> dècades</example>
+                <example>50 setmana del llibre.</example>
+                <example>50a setmana del llibre.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46641,6 +46709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Preferible amb lletres</short>
                 <example correction="seixanta">Va sorgir en els anys <marker>60</marker>.</example>
                 <example correction="seixanta">Va sorgir en els anys <marker>'60</marker>.</example>
+                <example correction="vuitanta">a mitjan anys <marker>80</marker> referit a motos</example>
+                <example correction="seixanta">una escultura dels anys <marker>60</marker> feta de peces de ferro</example>
                 <example>És dels anys 1960.</example>
             </rule>
             <rule>
