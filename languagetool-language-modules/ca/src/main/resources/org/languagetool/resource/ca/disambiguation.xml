@@ -7702,20 +7702,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="PI.*"></disambig>
     </rule>
-    <rulegroup id="DET_POSS_NOM" name="Det + possessiu + Nom/adj">
-        <rule>
-            <pattern>
+    <rule id="DET_POSS_NOM0" name="excepció a la regla següent">
+        <pattern>
+            <unify>
+            <feature id="nombre"/>
+            <feature id="genere"/>
                 <token postag="DA.*" postag_regexp="yes"></token>
                 <marker>
-                    <token postag="PX.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes">seu</token>
                 </marker>
                 <token min="0" postag="RG"/>
-                <token postag="(N|A).*" postag_regexp="yes"><exception>que</exception></token>
-            </pattern>
-            <disambig action="filter" postag="PX.*"></disambig>
-            <example type="untouched">I la seu també ha sigut expropiada.</example>
-        </rule>
-    </rulegroup>
+                <token postag="A.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="remove" postag="PX.*"></disambig>
+    </rule>
+    <rule id="DET_POSS_NOM" name="Det + possessiu + Nom/adj">
+        <pattern>
+            <token postag="DA.*" postag_regexp="yes"></token>
+            <marker>
+                <token postag="PX.*" postag_regexp="yes"></token>
+            </marker>
+            <token min="0" postag="RG"/>
+            <token postag="[AN].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="PX.*"></disambig>
+        <example type="untouched">I la seu també ha sigut expropiada.</example>
+        <example type="untouched">perquè fos la seu sempre fixa dels déus</example>
+    </rule>
     <rule id="que" name="que (no adv)">
         <pattern>
             <marker>
