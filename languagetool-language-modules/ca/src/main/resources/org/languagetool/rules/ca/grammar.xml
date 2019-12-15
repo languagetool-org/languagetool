@@ -4328,24 +4328,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="VERBS" name="Verbs" type="grammar">
-        <rule id="VENIR_NO_REFLEXIU" name="v. venir no és reflexiu">
-            <pattern>
+        <rulegroup id="VENIR_NO_REFLEXIU" name="v. venir no és reflexiu">
+            <rule>
+                <pattern>
                     <marker>
                         <token>se</token>
-                        <token postag="P.*" postag_regexp="yes"/>
+                        <token postag="&pronom_feble;" postag_regexp="yes"/>
+                        <token inflected="yes" spacebefore="no" postag="V.[SI].3S.." postag_regexp="yes">haver</token>
                     </marker>
-                    <token min="0" inflected="yes" regexp="yes">haver|anar</token>
-                    <token inflected="yes">venir</token>
+                    <token inflected="yes" postag="V.P..SM." postag_regexp="yes">venir</token>
                     <token min="0">a</token>
                     <token regexp="yes">sobre|damunt</token>
-            </pattern>
-            <message>El v. 'venir' no és reflexiu.</message>
-            <suggestion><match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
-            <example correction="ens">La tempesta que <marker>se'ns</marker> venia a sobre</example>
-            <example correction="li">La tempesta que <marker>se li</marker> venia a sobre</example>
-            <example correction="els">La tempesta que <marker>se'ls</marker> venia a sobre</example>
-            <example correction="em">La tempesta que <marker>se'm</marker> venia damunt</example>
-        </rule>
+                </pattern>
+                <message>El v. 'venir' no és reflexiu.</message>
+                <suggestion>\2\3</suggestion>
+                <example correction="m'ha">La tempesta que <marker>se m'ha</marker> vingut a sobre</example>
+                <example correction="t'ha">La tempesta que <marker>se t'ha</marker> vingut a sobre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" inflected="yes" regexp="yes" postag="V.[SI].3S.." postag_regexp="yes">anar|haver</token>
+                    <token inflected="yes" postag="V.[SI].3S..|V.[NP].*" postag_regexp="yes">venir</token>
+                    <token min="0">a</token>
+                    <token regexp="yes">sobre|damunt</token>
+                </pattern>
+                <message>El v. 'venir' no és reflexiu.</message>
+                <suggestion><match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
+                <example correction="ens">La tempesta que <marker>se'ns</marker> vindria a sobre</example>
+                <example correction="ens">La tempesta que <marker>se'ns</marker> ha vingut a sobre</example>
+                <example correction="li">La tempesta que <marker>se li</marker> vingué a sobre</example>
+                <example correction="els">La tempesta que <marker>se'ls</marker> vingués a sobre</example>
+                <example correction="em">La tempesta que <marker>se'm</marker> venia damunt</example>
+                <example correction="em">La tempesta que <marker>se'm</marker> va venir damunt</example>
+            </rule>
+        </rulegroup>
         <rule id="SOLO_SOLC" name="*solo/solc fer">
             <pattern>
                 <marker>
