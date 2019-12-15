@@ -464,6 +464,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Tankungen", w -> Arrays.asList("Betankungen", "Tankvorgänge"));
     put("Ärcker", w -> Arrays.asList("Erker", "Ärger"));
     put("überlasstet", w -> Arrays.asList("überlastet", "überließt"));
+    put("zeren", w -> Arrays.asList("zerren", "zehren"));
+    put("Hänchen", w -> Arrays.asList("Hähnchen", "Hänschen"));
     put("[sS]itwazion", "Situation");
     put("geschriehen", "geschrien");
     put("beratete", "beriet");
@@ -476,7 +478,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geschmelt?zt", "geschmolzen");
     put("gewunschen", "gewünscht");
     put("bittete", "bat");
-    putRepl("[uU]nfär(e[mnrs]?)?", "fär", "fair");
+    put("möchst", "möchtest");
+    put("anschein[dt]", "anscheinend");
+    put("Subvestitionen", "Subventionen");
+    put("angeschaffen", "angeschafft");
+    put("Rechtspruch", "Rechtsspruch");
+    put("guterletzt", "guter Letzt");
+    putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
+    putRepl("[uU]nfäh?r(e[mnrs]?)?", "fäh?r", "fair");
     putRepl("[mM]edikatös(e[mnrs]?)?", "ka", "kamen");
     putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
     putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
@@ -551,6 +560,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("D[eèé]ja-?[vV]o?ue?", "Déjà-vu");
     put("Cr[eèé]me-?fra[iî]che", "Crème fraîche");
     put("[aA]rr?an?gemont", "Arrangement");
+    put("[aA]ngagemon", "Engagement");
     put("Phyrr?ussieg", "Pyrrhussieg");
     put("Mio", "Mio.");
     put("Datein", "Dateien");

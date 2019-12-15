@@ -404,6 +404,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
     assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
     assertFirstSuggestion("zweiundhalb", "zweieinhalb", rule, lt);
+    assertFirstSuggestion("dreiundhalb", "dreieinhalb", rule, lt);
+    assertFirstSuggestion("Zuguterletzt", "Zu guter Letzt", rule, lt);
+    assertFirstSuggestion("guterletzt", "guter Letzt", rule, lt);
+    assertFirstSuggestion("unfährer", "unfairer", rule, lt);
     assertFirstSuggestion("unfäre", "unfaire", rule, lt);
     assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
   }
