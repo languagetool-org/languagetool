@@ -5567,7 +5567,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Hispanic names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Nacional</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a|[Ll][eoa]s</token>
             </marker>
@@ -5579,7 +5579,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Hispanic names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Villas</token>
                 <token regexp="yes">[Dd]el</token>
             </marker>
             <token regexp="yes">[A-Z].+</token>
@@ -5589,12 +5589,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     
     <rule id="IGNORE_SPELLING_OF_DE_LA" name="Ignore spelling of 'de la' in Hispanic names">
         <pattern>
-            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+            <token postag="NNP?|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
             <marker>
                 <token>de</token>
-                <token regexp="yes">las?</token>
+                <token regexp="yes">l[ao]s?</token>
             </marker>
             <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_EAU_DE" name="Ignore spelling of 'eau de'">
+        <pattern>
+            <marker>
+                <token regexp="yes">eaux?</token>
+                <token>de</token>
+                <token regexp="yes">toilettes?|parfums?|javel|javelle|nile|colognes?</token>
+            </marker>
         </pattern>
         <disambig action="ignore_spelling"></disambig>
     </rule>

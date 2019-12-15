@@ -32167,6 +32167,33 @@ Andere Projekte</example>
                 <example correction="Start-ups">Er gründete mehrere <marker>Start-Ups</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CLOSE_UP" name="'Close-up'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Close</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Close-<match no="2" case_conversion="alllower" /></suggestion> (= Nahaufnahme)?</message>
+                <url>https://www.duden.de/rechtschreibung/Close_up</url>
+                <example correction="Close-up">Sein <marker>Close Up</marker> zeigte jedes Detail.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Closeups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Closeup" regexp_replace="Close-up" /></suggestion> (= Nahaufnahme)?</message>
+                <url>https://www.duden.de/rechtschreibung/Close_up</url>
+                <example correction="Close-up">Sein Foto war ein <marker>Closeup</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Close-?Ups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)close-?up" regexp_replace="Close-up" /></suggestion> (= Nahaufnahme)?</message>
+                <url>https://www.duden.de/rechtschreibung/Close_up</url>
+                <example correction="Close-ups">Er machte mehrere <marker>Close-Ups</marker> um später eines für die Galerie auszuwählen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="E_AUTO" name="E-Auto/E-Mobilität">
             <url>https://www.duden.de/rechtschreibung/E_Auto</url>
             <rule>

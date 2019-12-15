@@ -1415,6 +1415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Possible error de concordança.</message>
                 <suggestion>\1s \2 \3</suggestion>
                 <example correction="els 70 mm">En <marker>el 70 mm</marker>.</example>
+                <example correction="Els 70 mm"><marker>El 70 mm</marker> anuals.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS_DUES" name="Exigeix concordança amb 'dues'" default="on">
@@ -2462,7 +2463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de concordança.</message>
                 <example correction=""><marker>El tres homes</marker>.</example>
-                <example correction=""><marker>El 70 mm</marker> anuals.</example>
+                <example correction=""><marker>El 70 mil·límetres</marker> anuals.</example>
                 <example>Els tres homes.</example>
                 <example>va ser vassall seu tres anys</example>
                 <example>al nou model polític</example>
@@ -4327,6 +4328,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="VERBS" name="Verbs" type="grammar">
+        <rulegroup id="VENIR_NO_REFLEXIU" name="v. venir no és reflexiu">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"/>
+                        <token inflected="yes" spacebefore="no" postag="V.[SI].3S.." postag_regexp="yes">haver</token>
+                    </marker>
+                    <token inflected="yes" postag="V.P..SM." postag_regexp="yes">venir</token>
+                    <token min="0">a</token>
+                    <token regexp="yes">sobre|damunt</token>
+                </pattern>
+                <message>El v. 'venir' no és reflexiu.</message>
+                <suggestion>\2\3</suggestion>
+                <example correction="m'ha">La tempesta que <marker>se m'ha</marker> vingut a sobre</example>
+                <example correction="t'ha">La tempesta que <marker>se t'ha</marker> vingut a sobre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" inflected="yes" regexp="yes" postag="V.[SI].3S.." postag_regexp="yes">anar|haver</token>
+                    <token inflected="yes" postag="V.[SI].3S..|V.[NP].*" postag_regexp="yes">venir</token>
+                    <token min="0">a</token>
+                    <token regexp="yes">sobre|damunt</token>
+                </pattern>
+                <message>El v. 'venir' no és reflexiu.</message>
+                <suggestion><match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
+                <example correction="ens">La tempesta que <marker>se'ns</marker> vindria a sobre</example>
+                <example correction="ens">La tempesta que <marker>se'ns</marker> ha vingut a sobre</example>
+                <example correction="li">La tempesta que <marker>se li</marker> vingué a sobre</example>
+                <example correction="els">La tempesta que <marker>se'ls</marker> vingués a sobre</example>
+                <example correction="em">La tempesta que <marker>se'm</marker> venia damunt</example>
+                <example correction="em">La tempesta que <marker>se'm</marker> va venir damunt</example>
+            </rule>
+        </rulegroup>
         <rule id="SOLO_SOLC" name="*solo/solc fer">
             <pattern>
                 <marker>
@@ -5503,6 +5542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>hi <match no="2" postag="(VA..3)P(..?)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <short>Expressió incorrecta</short>
                 <example correction="hi ha">No <marker>hi han</marker> bananes</example>
+                <example correction="Hi havia"><marker>Hi havien</marker> algunes activitats dedicades als infants.</example>
                 <example>No hi ha bananes</example>
                 <example>S'hi han de fer millores.</example>
                 <example>Hi han descaradament contribuït.</example>
@@ -21225,7 +21265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vista de fora estant</example>
                 <example>deixant fora altres empreses menors</example>
                 <example>Extensió de terreny fora poblat</example>
-                <exmaple>Si fora bufa el vent, no sortim.</exmaple>
+                <example>Si fora bufa el vent, no sortim.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26207,7 +26247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1-\3</suggestion>
             <example correction="34-36">En les pàgines <marker>34—36</marker>.</example>
             <example correction="34-36">En les pàgines <marker>34–36</marker>.</example>
-            <exmaple>En les pàgines 34-35.</exmaple>
+            <example>En les pàgines 34-35.</example>
         </rule>
         <rule id="NDASH_EN_CORRELACIONS" name="Exigeix guió mitjà en correlacions de nombres" default="off">
             <pattern>
@@ -26219,7 +26259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1–\3</suggestion>
             <example correction="34–36">En les pàgines <marker>34—36</marker>.</example>
             <example correction="34–36">En les pàgines <marker>34-36</marker>.</example>
-            <exmaple>En les pàgines 34–35.</exmaple>
+            <example>En les pàgines 34–35.</example>
         </rule>
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
             <antipattern> <!-- més d'un punt -->
@@ -28047,13 +28087,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/></suggestion>
                 <example correction="10.00|10:00">A les <marker>10,00</marker>.</example>
                 <example correction="10.00|10:00">De les <marker>10,00</marker> a ... </example>
-                <exmaple>un pes de 7,26 kg</exmaple>
-                <exmaple>un matalàs de caiguda de 6,50 m x 5 m.</exmaple>
+                <example>un pes de 7,26 kg</example>
+                <example>un matalàs de caiguda de 6,50 m x 5 m.</example>
             </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">[012]?\d,[012345]\d</token>
-                    <token postag="Y"/>
+                    <token postag="Y|NC[MF][PN]000" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[012]?\d,[012345]\d</token>
@@ -46750,7 +46790,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">[1-9]0</token>
-                    <token postag="NC.[PN].*|Y" postag_regexp="yes"/> 
+                    <token postag="NC.[PN].*|Y|UNKNOWN" postag_regexp="yes"/> 
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[1-9]0</token>
+                    <token regexp="yes">.*(gram|litre|metre|bit|byte)</token> 
                 </antipattern>
                 <pattern>
                     <token postag="DA.MP." postag_regexp="yes"/>
@@ -46768,6 +46812,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ultrapassa els 10 km de llargària.</example>
                 <example>Inclosos en els 10 districtes.</example>
                 <example>dels 10 als 14 anys d'edat</example>
+                <example>No ultrapassen els 30 cm.</example>
+                <example>No ultrapassen els 30 kJ.</example>
+                <example>No ultrapassen els 30 KJ.</example>
+                <example>No ultrapassen els 30 kilobits</example>
+                <example>No ultrapassen els 30 kilobit/s</example>
             </rule>
         </rulegroup>
         <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
@@ -48242,6 +48291,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Té la temperatura mitjana més baixa de l'any.</example>
                 <example>Les possibilitats són aquí baixes.</example>
                 <example>La frase que la revista ens presenta aquesta setmana és aquesta.</example>
+                <example>Eren uns 30 dòlars més barates que altres companyies.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
