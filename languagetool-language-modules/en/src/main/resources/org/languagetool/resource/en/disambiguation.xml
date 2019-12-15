@@ -3965,6 +3965,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag_regexp="yes" postag="JJR|RBR"/><!-- I tried this token with min/max in an attempt to use only 1 antipattern for this and for "Can't wait to", but I could not get it to work. -->
         <token postag_regexp="yes" postag="VB|RB"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. use anymore will, -->
+        <token postag_regexp="yes" postag="VB.*"/>
+        <token postag="RB"/>
+        <token postag="MD"/>
+        <token postag="PCT"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4003,6 +4009,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Can’t <marker>control</marker> with switches.</example><!-- Incomplete sentence, but a verb in this context. -->
       <example type="untouched">Won’t <marker>start</marker>, but turns over.</example><!-- Incomplete sentence, but a verb in this context. -->
       <example type="untouched">Won’t further <marker>address</marker> it.</example><!-- Incomplete sentence, but a verb in this context. -->
+      <example type="untouched">Those who send in old junk they don't use anymore <marker>will</marker>, without exception, receive a present.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
     </rule>
@@ -4060,6 +4067,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     	<example type="untouched">Are <marker>whales</marker> smarter than we are?</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
       </rule>
+<!-- MFU 2019-12-12: This rule is not correct. Verb + to + VBZ is not correct English. Also, the rule incorrectly assigns VBZ to nouns, as in: Mary was asked to dances occasionally.
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>                    
@@ -4075,6 +4083,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He tried to laugh.</example>
         <example type="ambiguous" inputform="laughs[laugh/NNS,laugh/VBZ]" outputform="laughs[laugh/VBZ]">He tried to <marker>laughs</marker>.</example>
       </rule>
+-->
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>

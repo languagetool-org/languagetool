@@ -283,13 +283,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
         for (int i = 0; i < unifiedTokens.length; i++) {
           int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-          unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
-          String prevValue = whTokens[position].toString();
-          String prevAnot = whTokens[position].getHistoricalAnnotations();
-          List<ChunkTag> chTags = whTokens[position].getChunkTags();
-          whTokens[position] = unifiedTokens[i];
-          whTokens[position].setChunkTags(chTags);
-          annotateChange(whTokens[position], prevValue, prevAnot);
+          whTokens[position] = new AnalyzedTokenReadings(whTokens[position], unifiedTokens[i].getReadings(), rule.getFullId());
         }
       }
       break;
@@ -299,10 +293,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
             int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-            String prevValue = whTokens[position].toString();
-            String prevAnot = whTokens[position].getHistoricalAnnotations();
-            whTokens[position].removeReading(newTokenReadings[i]);
-            annotateChange(whTokens[position], prevValue, prevAnot);
+            whTokens[position].removeReading(newTokenReadings[i], rule.getFullId());
           }
         }
       } else if (!StringTools.isEmpty(disambiguatedPOS)) { // negative filtering
@@ -312,10 +303,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         for (AnalyzedToken analyzedToken : tmp) {
           if (analyzedToken.getPOSTag() != null && p.matcher(analyzedToken.getPOSTag()).matches()) {
             int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
-            String prevValue = whTokens[position].toString();
-            String prevAnot = whTokens[position].getHistoricalAnnotations();
-            whTokens[position].removeReading(analyzedToken);
-            annotateChange(whTokens[position], prevValue, prevAnot);
+            whTokens[position].removeReading(analyzedToken, rule.getFullId());
           }
         }
       }
@@ -339,10 +327,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           }
           AnalyzedToken newTok = new AnalyzedToken(token,
               newTokenReadings[i].getPOSTag(), lemma);
-          String prevValue = whTokens[position].toString();
-          String prevAnot = whTokens[position].getHistoricalAnnotations();
-          whTokens[position].addReading(newTok);
-          annotateChange(whTokens[position], prevValue, prevAnot);
+          whTokens[position].addReading(newTok, rule.getFullId());
         }
       }
       break;
@@ -367,10 +352,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             Match.IncludeRange.NONE);
 
         MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position]);
-        String prevValue = whTokens[position].toString();
-        String prevAnot = whTokens[position].getHistoricalAnnotations();
-        whTokens[position] = matchState.filterReadings();
-        annotateChange(whTokens[position], prevValue, prevAnot);
+        whTokens[position] = new AnalyzedTokenReadings(whTokens[position], matchState.filterReadings().getReadings(), rule.getFullId());
       }
       break;
     case IMMUNIZE:
@@ -402,10 +384,8 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
         if (newPOSmatches) {
           MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-          String prevValue = whTokens[fromPos].toString();
-          String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
-          whTokens[fromPos] = matchState.filterReadings();
-          annotateChange(whTokens[fromPos], prevValue, prevAnot);
+          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], matchState.filterReadings().getReadings(), rule.getFullId());
+          
         }
         break;
       }
@@ -432,8 +412,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                   analyzedToken,
                   whTokens[fromPos].getStartPos());
-              whTokens[position] = replaceTokens(
-                  whTokens[position], toReplace);
+              whTokens[position] = new AnalyzedTokenReadings(whTokens[position], toReplace.getReadings(), rule.getFullId());
             }
           }
         } else if (matchElement == null) {
@@ -451,49 +430,16 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
           AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               analyzedToken, whTokens[fromPos].getStartPos());
-          whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
+          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], toReplace.getReadings(), rule.getFullId());
         } else {
           // using the match element
           MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-          String prevValue = whTokens[fromPos].toString();
-          String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
-          whTokens[fromPos] = matchElementState.filterReadings();
-          whTokens[fromPos].setWhitespaceBefore(spaceBefore);
-          annotateChange(whTokens[fromPos], prevValue, prevAnot);
+          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], matchElementState.filterReadings().getReadings(), rule.getFullId());
+          matchElementState.filterReadings();
         }
       }
 
     return whTokens;
   }
 
-  private void annotateChange(AnalyzedTokenReadings atr,
-      String prevValue, String prevAnot) {
-    atr.setHistoricalAnnotations(prevAnot + "\n" + rule.getFullId() + ": "
-        + prevValue + " -> " + atr);
-  }
-
-  private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr,
-      AnalyzedTokenReadings newAtr) {
-    String prevValue = oldAtr.toString();
-    String prevAnot = oldAtr.getHistoricalAnnotations();
-    boolean isSentEnd = oldAtr.isSentenceEnd();
-    boolean isParaEnd = oldAtr.isParagraphEnd();
-    boolean spaceBefore = oldAtr.isWhitespaceBefore();
-    int startPosition = oldAtr.getStartPos();
-    List<ChunkTag> chunkTags = oldAtr.getChunkTags();
-    if (isSentEnd) {
-      newAtr.setSentEnd();
-    }
-    if (isParaEnd) {
-      newAtr.setParagraphEnd();
-    }
-    newAtr.setWhitespaceBefore(spaceBefore);
-    newAtr.setStartPos(startPosition);
-    newAtr.setChunkTags(chunkTags);
-    if (oldAtr.isImmunized()) {
-      newAtr.immunize();
-    }
-    annotateChange(newAtr, prevValue, prevAnot);
-    return newAtr;
-  }
 }

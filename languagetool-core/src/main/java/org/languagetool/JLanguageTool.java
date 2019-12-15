@@ -1034,7 +1034,7 @@ public class JLanguageTool {
         // addReading() modifies a readings.token if last token is longer - need to use it first
         posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
         AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
-        aTokens.get(i).addReading(newToken);
+        aTokens.get(i).addReading(newToken, "softHyphenTokens");
       }
     }
         

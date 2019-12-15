@@ -129,6 +129,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return synthesize(token, posTag);
+    }
     if (posTagRegExp) {
       initPossibleTags();
       Pattern p;
