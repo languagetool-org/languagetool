@@ -1415,6 +1415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Possible error de concordança.</message>
                 <suggestion>\1s \2 \3</suggestion>
                 <example correction="els 70 mm">En <marker>el 70 mm</marker>.</example>
+                <example correction="Els 70 mm"><marker>El 70 mm</marker> anuals.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS_DUES" name="Exigeix concordança amb 'dues'" default="on">
@@ -2462,7 +2463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de concordança.</message>
                 <example correction=""><marker>El tres homes</marker>.</example>
-                <example correction=""><marker>El 70 mm</marker> anuals.</example>
+                <example correction=""><marker>El 70 mil·límetres</marker> anuals.</example>
                 <example>Els tres homes.</example>
                 <example>va ser vassall seu tres anys</example>
                 <example>al nou model polític</example>
@@ -28053,7 +28054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">[012]?\d,[012345]\d</token>
-                    <token postag="Y"/>
+                    <token postag="Y|NC[MF][PN]000" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[012]?\d,[012345]\d</token>
@@ -46750,7 +46751,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">[1-9]0</token>
-                    <token postag="NC.[PN].*|Y" postag_regexp="yes"/> 
+                    <token postag="NC.[PN].*|Y|UNKNOWN" postag_regexp="yes"/> 
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[1-9]0</token>
+                    <token regexp="yes">.*(gram|litre|metre|bit|byte)</token> 
                 </antipattern>
                 <pattern>
                     <token postag="DA.MP." postag_regexp="yes"/>
@@ -46769,6 +46774,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Inclosos en els 10 districtes.</example>
                 <example>dels 10 als 14 anys d'edat</example>
                 <example>No ultrapassen els 30 cm.</example>
+                <example>No ultrapassen els 30 kJ.</example>
+                <example>No ultrapassen els 30 KJ.</example>
+                <example>No ultrapassen els 30 kilobits</example>
+                <example>No ultrapassen els 30 kilobit/s</example>
             </rule>
         </rulegroup>
         <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
