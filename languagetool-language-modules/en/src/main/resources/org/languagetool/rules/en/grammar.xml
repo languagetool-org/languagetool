@@ -776,7 +776,7 @@ USA
         <rulegroup id="CONFUSION_OF_ME_I" name="me (I)">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token postag_regexp="yes" postag="SENT_START|RB_SENT"/><!-- 2019-12-16 RB_SENT refer to #2213 -->
                     <token/>
                     <token>and</token>
                     <marker><token>me</token></marker>
@@ -787,6 +787,10 @@ USA
                 <example correction="I">Tim and <marker>me</marker> work together.</example>
                 <example correction="I">Digitization and <marker>me</marker> don't agree.</example><!-- Anthropomorphism. -->
                 <example correction="I">Mary and <marker>me</marker> would often walk in the park.</example>
+                <example correction="I">However, Tim and <marker>me</marker> work well together.</example>
+                <example correction="I">First of all, digitization and <marker>me</marker> don't agree.</example>
+                <example correction="I">Whenever possible, Mary and <marker>me</marker> would walk in the park.</example>
+                <example correction="I">On the other hand, she and <marker>me</marker> would walk in the park.</example>
             </rule>
             <rule>
                 <pattern>

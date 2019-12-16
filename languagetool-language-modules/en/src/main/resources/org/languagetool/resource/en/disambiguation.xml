@@ -7971,6 +7971,60 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rulegroup id="SENTENCE_ADVERBIALS" name="Adverbial phrases at the start of a sentence"><!-- #2213 -->
+
+        <rule id="PHRASES_1_WORD" name="1-word phrases">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">But|However|Initially|Moreover|Nevertheless|Really</token>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="RB_SENT"/><wd pos="RB_SENT"/></disambig>
+        </rule>
+
+        <rule id="PHRASE_WHENEVER_POSSIBLE" name="Whenever possible">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">Whenever</token>
+                    <token>possible</token>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/></disambig>
+        </rule>
+
+        <rule id="PHRASE_FIRST_OF_ALL" name="First of all">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">First</token>
+                    <token>of</token>
+                    <token>all</token>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/></disambig>
+        </rule>
+
+        <rule id="PHRASE_ON_THE_OTHER_HAND" name="On the other hand">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">On</token>
+                    <token>the</token>
+                    <token>other</token>
+                    <token>hand</token>
+                    <token>,</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/><wd pos="RB_SENT"/></disambig>
+        </rule>
+
+    </rulegroup>
+
     <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
     <!-- Created by Tiago F. Santos, 2019-08-29  -->
     <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
