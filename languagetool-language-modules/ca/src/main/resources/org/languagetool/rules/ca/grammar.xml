@@ -5407,6 +5407,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hi ha">Fins <marker>ha</marker> quin punt estava decidit.</example>
                 <example correction="hi havia">No <marker>havia</marker> sortida.</example>
                 <example correction="hi ha">On se l'<marker>ha</marker> pretén col·locar.</example>
+                <example correction="hi havia">Ni tan sols <marker>havia</marker> diferències degudes a la mateixa velocitat.</example>
                 <example>no me n'hauria pas recordat.</example>
                 <example>S'han fos els ploms.</example>
                 <example>No hi ha gairebé ningú.</example>
@@ -5422,6 +5423,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ho havia o no ho havia assumit?</example>
                 <example>Havia o no dit això.</example>
                 <example>que anys ha degué ésser conegut</example>
+                <example>Els grafiti han estat després un tema habitual.</example>
+                <example>El que havia deixat amagat el 1944.</example>
+                <example>el disseny dels quals ha estat després utilitzat en la indústria</example>
             </rule>
             <rule>
                 <antipattern>
@@ -5543,6 +5547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Expressió incorrecta</short>
                 <example correction="hi ha">No <marker>hi han</marker> bananes</example>
                 <example correction="Hi havia"><marker>Hi havien</marker> algunes activitats dedicades als infants.</example>
+                <example correction="hi havia">Ja <marker>hi havien</marker> 590 matriculats.</example>
                 <example>No hi ha bananes</example>
                 <example>S'hi han de fer millores.</example>
                 <example>Hi han descaradament contribuït.</example>
@@ -28062,6 +28067,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'ascenció dura 8, 10 hores.</example>
             </rule>-->
             <rule>
+                <antipattern>
+                    <token>h</token> <!--habitants-->
+                    <token regexp="yes">/|per</token>
+                    <token regexp="yes">km|km²|km2|quilòmetre|kilòmetre</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">([01]?\d|2[0-4]),[012345]\d</token>
@@ -28073,6 +28083,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="([012]?\d),([012345]\d)" regexp_replace="$1:$2"/>&#160;\2</suggestion>
                 <example correction="22.50&#160;h|22:50&#160;h">A les <marker>22,50 h</marker>.</example>
                 <example correction="6.05&#160;h|6:05&#160;h">A les <marker>6,05 h</marker>.</example>
+                <example>Una densitat de població de 5,27 h/km2</example>
+                <example>1,09 h per km</example>
             </rule>
             <rule>
                 <pattern>
@@ -28097,7 +28109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[012]?\d,[012345]\d</token>
-                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre</token>
+                    <token regexp="yes" inflected="yes">.*metre|.*gram|.*litre|Ma</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -48046,52 +48058,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
             <antipattern>
-                <marker>
-                    <token regexp="yes">causa|cost</token>
-                    <token regexp="yes">[/-]</token>
-                    <token regexp="yes">efecte|benefici</token>
-                </marker>
+                <token regexp="yes">causa|cost</token>
+                <token regexp="yes">[/-]</token>
+                <token regexp="yes">efecte|benefici</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes" regexp="yes">binomi|relació</token>
-                    <token/>
-                    <token regexp="yes">[/-]</token>
-                    <token/>
-                </marker>
+                <token inflected="yes" regexp="yes">binomi|relació</token>
+                <token/>
+                <token regexp="yes">[/-]</token>
+                <token/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes">tenir</token>
-                    <token min="0" postag="RG"/>
-                    <token>lloc</token>
-                </marker>
+                <token inflected="yes">tenir</token>
+                <token min="0" postag="RG"/>
+                <token>lloc</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">major|gran|bona|formar|fer</token>
-                    <token inflected="yes">part</token>
-                </marker>
+                <token regexp="yes" inflected="yes">major|gran|bona|formar|fer</token>
+                <token inflected="yes">part</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>número</token>
-                    <token postag="DN.*" postag_regexp="yes"/>
-                </marker>
+                <token>número</token>
+                <token postag="DN.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>el</token>
-                    <token>concepte</token>
-                </marker>
+                <token>el</token>
+                <token>concepte</token>
+            </antipattern>
+            <antipattern>
+                <token/>
+                <token regexp="yes">amunt|avall|enllà|endins|enfora</token>
             </antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">factors?|mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria|substantius?|objectes?|&dies_setmana;</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">símbols?|factors?|mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria|substantius?|objectes?|&dies_setmana;</exception></token>
                         <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*|fra|don|&dies_setmana;|.+ador(a|s|es)?</exception></token>
                     </marker>
-                    <token><exception regexp="yes">amunt|avall|enllà</exception></token>
                 </pattern>
                 <message>Reviseu: dos substantius junts. Potser hi falta algun element (una coma, una conjunció, una preposició).</message>
                 <short>Reviseu: dos substantius junts.</short>
@@ -48126,6 +48129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La despesa corrent és alta.</example>
                 <example>Una altra pràctica corrent.</example>
                 <example>El factor temps és determinant.</example>
+                <example>fins a 200 km mar endins</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">

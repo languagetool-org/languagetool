@@ -374,7 +374,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token>la</token>
+                <token>la<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
                 <marker>
                     <token regexp="yes">[1234567890]+</token>
                 </marker>
@@ -4256,19 +4256,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
         <antipattern>
-            <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SM." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="RG"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SF." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[MC][PN]000" postag_regexp="yes"><exception postag="RG"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[MC][PN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..PM." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[FC][PN]000" postag_regexp="yes"><exception postag="RG"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[FC][PN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..PF." postag_regexp="yes"/>
         </antipattern>
         <rule>
