@@ -46,6 +46,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "thank you for the patience",
       "your patience regarding",
       "your fix",  // fix = bug fix
+      "your commit",
       "on point",
       "chapter one",
       "usb port",
