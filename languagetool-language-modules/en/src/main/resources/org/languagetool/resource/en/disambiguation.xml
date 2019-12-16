@@ -2450,6 +2450,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token skip="-1" postag_regexp="yes" postag="VBP?"/>
             <token>?</token>
         </antipattern>
+        <antipattern><!-- #2224. : So explain [Why is this antipattern necessary?] -->
+            <token>:</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token regexp="yes">\p{Ll}+</token>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <marker>
@@ -2465,6 +2470,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Title: Can I Sue?</example>
         <example type="untouched">"Will this do now?", she asked.</example>
         <example type="untouched">The song 'Who Do You <marker>Love</marker>?' with its roots of hip hop...</example>
+        <example type="untouched">Jake: <marker>So</marker> explain to me why you are unhappy.</example><!-- #2224 -->
+        <example type="untouched">The fat psychiatrist: <marker>So</marker> explain to me why you are unhappy.</example><!-- #2224 -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>        
     </rule>
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
