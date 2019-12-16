@@ -31,7 +31,7 @@ public class WhitespaceCheckFilter extends RuleFilter  {
     String wsChar = getRequired("whitespaceChar", arguments);
     int pos = Integer.parseInt(getRequired("position", arguments));
     if (pos < 1 || pos > patternTokens.length) {
-      throw new IllegalArgumentException("Wrong position in WhitespaceCheckFilter: " + pos);
+      throw new IllegalArgumentException("Wrong position in WhitespaceCheckFilter: " + pos + ", must be 1 to " + patternTokens.length);
     }
     if (!patternTokens[pos - 1].getWhitespaceBefore().equals(wsChar)) {
       return match;
