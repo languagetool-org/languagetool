@@ -3028,6 +3028,11 @@ USA
             <example type="triggers_error">A <marker>cant</marker>, called Shelta, is spoken by Irish Travellers...</example>
         </rule>
         <rulegroup id="HELL" name="hell/shell (he'll, she'll)">
+            <antipattern>
+                <token>sure</token>
+                <token>as</token>
+                <token>hell</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -3253,6 +3258,14 @@ USA
                 <example>But it's literal brain damage</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">first|second|third</token>
+                    <token>of</token>
+                    <token>all</token>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </antipattern>
                 <pattern>
                     <token>all<exception scope="previous">after</exception></token>
                     <marker>
@@ -19221,6 +19234,12 @@ USA
                 <example type="triggers_error">...were built during the Old and Middle Kingdoms, but most <marker>later rulers</marker> abandoned them in favor of...</example><!-- MFI: The adjective 'later' modifies the noun rulers. -->
             </rule>
             <rule>
+                <antipattern>
+                    <token>is</token>
+                    <token>more</token>
+                    <token>better</token>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
                     <token>more<exception scope="previous" postag="CD"/></token>
                     <token postag="JJR|RBR" postag_regexp="yes"><exception>later</exception></token>
