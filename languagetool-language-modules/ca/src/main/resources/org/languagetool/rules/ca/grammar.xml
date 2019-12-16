@@ -13704,14 +13704,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Atenent a tots els clients</example>
             </rule>
         </rulegroup>
-        <rule id="ALTES_ALTRES" name="altes/altres">
-            <pattern>
-                <token>altes</token>
-                <token regexp="yes">coses|causes</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>altres \2</suggestion>?</message>
-            <example correction="altres coses">Vol <marker>altes coses</marker>.</example>
-        </rule>
+        <rulegroup id="ALTES_ALTRES" name="altes/altres">
+            <rule>
+                <pattern>
+                    <token>altes</token>
+                    <token regexp="yes">coses|causes</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>altres \2</suggestion>?</message>
+                <example correction="altres coses">Vol <marker>altes coses</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>altres</token>
+                    </marker>
+                    <token>hores</token>
+                    <token>de</token>
+                    <token regexp="yes">la|l</token>
+                    <token regexp="yes">nit|vespre|matinada</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>altes</suggestion>?</message>
+                <example correction="altes">Vam acabar a <marker>altres</marker> hores de la nit.</example>
+            </rule>
+        </rulegroup>
         <rule id="CAP_A_MUNT" name="cap *a munt/amunt">
             <pattern>
                 <token>cap</token>
