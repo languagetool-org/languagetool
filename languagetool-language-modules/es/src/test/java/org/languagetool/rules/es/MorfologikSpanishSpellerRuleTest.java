@@ -60,6 +60,10 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(64, matches[0].getFromPos());
     assertEquals(76, matches[0].getToPos());
     assertEquals("ortográficos", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Juan -el menor- jugó a la pelota."));
+    assertEquals(0, matches.length);
+    
   }
 
 }
