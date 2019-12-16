@@ -26242,7 +26242,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
-        <rulegroup id="ESPAI_FI" name="Espai fi entre nombres i unitats">
+        <rulegroup id="PUNT_EN_HORES" name="punt en les expressions d'hores" default="temp_off">
+            <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">([01]?\d|2[0-4])</token>
+                    <token spacebefore="no">:</token>
+                    <token spacebefore="no" regexp="yes">[012345]\d</token>
+                    <token spacebefore="no">:</token>
+                    <token spacebefore="no" regexp="yes">[012345]\d(,\d+)?</token>
+                </pattern>
+                <message>Fem servir un punt en les expressions d'hores.</message>
+                <suggestion>\1.\3.\5</suggestion>
+                <example correction="12.30.58">Són les <marker>12:30:58</marker> hores.</example>
+                <example correction="12.30.58,5">Són les <marker>12:30:58,5</marker> hores.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">([01]?\d|2[0-4])</token>
+                    <token spacebefore="no">:</token>
+                    <token spacebefore="no" regexp="yes">[012345]\d</token>
+                </pattern>
+                <message>Fem servir un punt en les expressions d'hores.</message>
+                <suggestion>\1.\3</suggestion>
+                <example correction="12.30">Són les <marker>12:30</marker> hores.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DOSPUNTS_EN_HORES" name="dos punts en les expressions d'hores" default="temp_off">
+            <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)\.([012345]\d(,\d+)?)</token>
+                </pattern>
+                <message>Fem servir dos punts en les expressions d'hores.</message>
+                <suggestion><match no="1" regexp_match="([01]?\d|2[0-4])\.([012345]\d)\.([012345]\d(,\d+)?)" regexp_replace="$1:$2:$3"/></suggestion>
+                <example correction="12:30:58">Són les <marker>12.30.58</marker> hores.</example>
+                <example correction="12:30:58,5">Són les <marker>12.30.58,5</marker> hores.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
+                    <token postag="Y|NC.P.*" postag_regexp="yes"><exception regexp="yes">h|hores|hrs|hs|hora|am|pm</exception></token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
+                </pattern>
+                <message>Fem servir dos punts en les expressions d'hores.</message>
+                <suggestion><match no="1" regexp_match="([01]?\d|2[0-4])\.([012345]\d)" regexp_replace="$1:$2"/></suggestion>
+                <example correction="12:30">Són les <marker>12.30</marker> hores.</example>
+                <example correction="12:30">Són les <marker>12.30</marker> AM.</example>
+                <example>Són <marker>12.30</marker> m.</example>
+                <example>Són <marker>12.30</marker> pessetes.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESPAI_FI" name="Espai fi entre nombres i unitats" default="temp_off">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=percentatge&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8786&amp;idHit=8786&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=per+cent+%28s%EDmbol%29+%2F+percentatge+o+tant+per+cent+%28s%EDmbol%29&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token regexp="yes">\d[\d+\.,]*</token>
@@ -28047,52 +28103,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PUNT_O_DOS_PUNTS_EN_HORES" name="22.30 h/22:30 h">
             <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html;jsessionid=6E692BAB1070977E6DD710A6AAED2D07?action=Principal&amp;method=detall&amp;input_cercar=hores&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12804&amp;idHit=12804&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Les+hores%3A+amb+lletres+o+amb+xifres%3F+%2F+Com+s%27escriuen+les+hores%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
-            <!--<rule>
-                <antipattern>
-                    <token regexp="yes">[012]?\d</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[012]?\d</token>
-                    <token spacebefore="no">:</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token spacebefore="no">:</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">[012]?\d</token>
-                    <token regexp="yes" spacebefore="no">[,:\.]</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token regexp="yes" spacebefore="no">[,:\.]</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
-                </pattern>
-                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
-                <suggestion>\1.\3.\5</suggestion>
-                <suggestion>\1:\3:\5</suggestion>
-                <example correction="10.00.43|10:00:43">A les <marker>10,00,43</marker>.</example>
-                <example correction="10.00.43,5|20:00:43,5">A les <marker>10,00:43,5</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[012]?\d</token>
-                    <token spacebefore="no">,</token>
-                    <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token regexp="yes">h|hores|hrs|hs|hora</token>
-                </pattern>
-                <message>En les expressions d'hores, usem el punt o els dos punts (sistema internacional).</message>
-                <suggestion>\1.\3&#160;\4</suggestion>
-                <suggestion>\1:\3&#160;\4</suggestion>
-                <example correction="22.50&#160;h|22:50&#160;h">A les <marker>22,50 h</marker>.</example>
-                <example correction="6.05&#160;h|6:05&#160;h">A les <marker>6,05 h</marker>.</example>
-                <example>A les 22.30 h.</example>
-                <example>L'ascenció dura 8, 10 hores.</example>
-            </rule>-->
             <rule>
                 <antipattern>
                     <token>h</token> <!--habitants-->
+                    <token min="0">.</token>
                     <token regexp="yes">/|per</token>
                     <token regexp="yes">km|km²|km2|quilòmetre|kilòmetre</token>
                 </antipattern>
@@ -28109,6 +28123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="6.05&#160;h|6:05&#160;h">A les <marker>6,05 h</marker>.</example>
                 <example>Una densitat de població de 5,27 h/km2</example>
                 <example>1,09 h per km</example>
+                <example>1,09 h. per km</example>
             </rule>
             <rule>
                 <pattern>
