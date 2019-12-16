@@ -28381,21 +28381,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="SUPERINDEXS" name="superíndexs en unitats: m2/m²">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">(m|c|d|h|k)?m2</token>
+                <pattern>
+                    <token regexp="yes" postag="Y">.*2</token>
                 </pattern>
                 <message>Si és una unitat, cal escriure un superíndex.</message>
                 <suggestion><match no="1" regexp_match="(.*)2" regexp_replace="$1²"/></suggestion>
-                <example correction="km²"><marker>km2</marker></example>
+                <example correction="km²">30 <marker>km2</marker></example>
                 <example>KM2</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">(m|c|d|h|k)?m3</token>
+                <pattern>
+                    <token regexp="yes" postag="Y">.*3</token>
                 </pattern>
                 <message>Si és una unitat, cal escriure un superíndex.</message>
                 <suggestion><match no="1" regexp_match="(.*)3" regexp_replace="$1³"/></suggestion>
-                <example correction="km³"><marker>km3</marker></example>
+                <example correction="m³">10 <marker>m3</marker></example>
             </rule>
         </rulegroup>
     </category>
