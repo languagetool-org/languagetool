@@ -49,7 +49,9 @@ public class ReflexiveVerbsRuleTest {
     //TODO: se'n vola / s'envola
     // correct sentences:
     assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
-    //assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
+    assertCorrect("El tauler es pot construir baixant amb cartes.");
+    assertCorrect("El botó del ratolí es configura per anar endavant i endarrere.");
+    assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
     assertCorrect("les circumstàncies m'obliguen a gloriar-me"); 
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
