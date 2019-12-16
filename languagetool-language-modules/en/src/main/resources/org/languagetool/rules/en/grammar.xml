@@ -21203,6 +21203,16 @@ USA
                 <example>He then summons them.</example><!-- #2222 -->
             </rule>
             <rule>
+                <antipattern><!-- #2223 we will usually receive it so don't listen -->
+                    <token regexp="yes">it|(any|every|no|some)(one|body)</token>
+                    <token postag="CC"/>
+                    <token postag="VBP"/>
+                </antipattern>
+                <antipattern><!-- #2223 ['thus' is not a conjunction: www.lexico.com/definition/thus, www.merriam-webster.com/dictionary/thus] -->
+                    <token regexp="yes">it|(any|every|no|some)(one|body)</token>
+                    <token>thus</token>
+                    <token postag="VBP"/>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">s?he|it|(any|every|no|some)(one|body)</token>
@@ -21223,6 +21233,10 @@ USA
                 <example correction="doesn't|didn't">He really <marker>don't</marker> like it.</example><!-- #1907 -->
                 <example>He really doesn't like it.</example>
                 <example>He really didn't like it.</example>
+                <example>If we expect the negative, we will usually receive it so don't listen to the world's negative talk.</example><!-- #2223 -->
+                <example>I don't like it therefore don't expect me to buy it.</example><!-- #2223 -->
+                <example>They don't know about it thus don't listen to them.</example><!-- #2223 -->
+                <example>She doesn't know anyone therefore don't expect her to go to the party.</example><!-- #2223 -->
             </rule>
             <rule>
                 <pattern>
