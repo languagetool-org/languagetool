@@ -214,26 +214,43 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <rule id="SEMICOLON" name=""> <!-- na ; begint eigenlijk een soort 2e zin, maar zonder hoofdletter -->
         <pattern><token>;</token></pattern>
         <disambig action="add"><wd lemma=";" pos="START">;</wd></disambig>    
-	</rule>	
-    <!-- als zin met aanhalingsteken begint, begint de zin eigenlijk pas daarna -->
-    <rule id="AANHAAL_1" name=""> 
-        <antipattern><token postag="SENT_START"/><token>'</token><token regexp="yes">[trkmn]</token></antipattern>
-        <pattern><token postag="SENT_START"/><marker><token>'</token></marker></pattern>
-        <disambig action="add"><wd lemma="'" pos="START">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_2" name="">
-        <pattern><token postag="SENT_START"/><marker><token>&quot;</token></marker></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="START">&quot;</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_3" name="">
-        <pattern><token postag="SENT_START"/><marker><token>‘</token></marker></pattern>
-        <disambig action="add"><wd lemma="‘" pos="START">‘</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_4" name="">
-        <pattern><token postag="SENT_START"/><marker><token>“</token></marker></pattern>
-        <disambig action="add"><wd lemma="“" pos="START">“</wd></disambig>        
-	</rule>	
+	</rule>
 
+    <!-- aanhalingstekens openen -->
+	<rule id="AANHAAL_OPN_1" name="">
+        <pattern><token>‘</token></pattern>
+        <disambig action="add"><wd lemma="‘" pos="AHL:OPN">‘</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_2" name="">
+        <pattern><token>“</token></pattern>
+        <disambig action="add"><wd lemma="“" pos="AHL:OPN">“</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_3" name="">
+        <pattern><token>'</token></pattern>
+        <disambig action="add"><wd lemma="'" pos="AHL:OPN">'</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_4" name="">
+        <pattern><token>&quot;</token></pattern>
+        <disambig action="add"><wd lemma="&quot;" pos="AHL:OPN">&quot;</wd></disambig>        
+	</rule>	
+    <!-- aanhalingstekens sluiten -->
+	<rule id="AANHAAL_SLT_1" name="">
+        <pattern><token>’</token></pattern>
+        <disambig action="add"><wd lemma="’" pos="AHL:SLT">’</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_2" name="">
+        <pattern><token>”</token></pattern>
+        <disambig action="add"><wd lemma="”" pos="AHL:SLT">”</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_3" name="">
+        <pattern><token>'</token></pattern>
+        <disambig action="add"><wd lemma="'" pos="AHL:SLT">'</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_4" name="">
+        <pattern><token>&quot;</token></pattern>
+        <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">&quot;</wd></disambig>        
+	</rule>	
+    
 	<!-- ADDING TAGS FOR FUNCTIONS FOR MULTIFUNCTIONAL TAGS -->
 	<!-- this added ambiguity can be removed using multi-word patterns if needed -->
 	<rule id="WKW-ODW-VRB" name="lopende is ook bijvoeglijk">
