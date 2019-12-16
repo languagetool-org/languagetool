@@ -168,7 +168,7 @@ public class MatchState {
     // but there's no setToken() available :(
 //    anTkRead.setToken(formattedToken.getToken());
     
-    anTkRead.setWhitespaceBefore(formattedToken.isWhitespaceBefore());
+    anTkRead.setWhitespaceBefore(formattedToken.getWhitespaceBefore());
     if (!formattedToken.getChunkTags().isEmpty()) {
       anTkRead.setChunkTags(formattedToken.getChunkTags());
     }

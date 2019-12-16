@@ -1027,7 +1027,7 @@ public class JLanguageTool {
     int posFix = 0; 
     for (int i = 0; i < numTokens; i++) {
       if( i > 0 ) {
-        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).getToken());
         aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {

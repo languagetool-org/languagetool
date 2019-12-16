@@ -26242,6 +26242,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
+        <rulegroup id="ESPAI_FI" name="Espai fi entre nombres i unitats">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d[\d+\.,]*</token>
+                    <token postag="Y"/>
+                </pattern>
+                <filter class="org.languagetool.rules.WhitespaceCheckFilter" args="whitespaceChar:&#x2006; position:2"/>
+                <message>Utilitzeu un espai fi entre nombres i unitats.</message>
+                <suggestion>\1&#x2006;\2</suggestion>
+                <example correction="3&#x2006;km"><marker>3 km</marker></example>
+                <example correction="36&#x2006;mm"><marker>36 mm</marker></example>
+                <example correction="36&#x2006;mm"><marker>36&#160;mm</marker></example>
+                <example correction="36&#x2006;%"><marker>36&#160;%</marker></example>
+                <example>L'any 1560 habitants.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d.,]+[%‰‱]</token>
+                </pattern>
+                <message>Utilitzeu un espai fi entre nombres i unitats.</message>
+                <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1&#x2006;$2"/></suggestion> 
+                <example correction="3&#x2006;‰"><marker>3‰</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="GUIONET_EN_CORRELACIONS" name="Exigeix guionet en correlacions de nombres" default="off">
             <pattern>
                 <token regexp="yes">[\d,\.]*\d</token>
