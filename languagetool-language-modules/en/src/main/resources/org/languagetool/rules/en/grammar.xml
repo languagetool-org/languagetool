@@ -21554,11 +21554,17 @@ USA
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
                 </antipattern>
+                <antipattern case_sensitive="no"><!-- #2225 How are Victor and Carl related? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token regexp="yes">and|or</token>
+                    <token postag="NNP"/>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
                     <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">Have|Are|Am</token>
+                        <token regexp="yes">have|are|am</token>
                     </marker>
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNP?S|IN|RB|WRB" postag_regexp="yes"/></token>
                 </pattern>
@@ -21566,6 +21572,8 @@ USA
                 <example correction="has">When <marker>have</marker> Mary bought a ticket?</example>
                 <example>Why has Mary done this?</example>
                 <example>Which are Taro's?</example>
+                <example>How are Victor and Carl related?</example><!-- #2225 -->
+                <example>Why have Janet and John gone to Hull?</example><!-- #2225 -->
             </rule>
         </rulegroup>
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
