@@ -47,6 +47,22 @@ public class ArabicHunspellSpellerRuleTest {
     assertTrue(matches[0].getSuggestedReplacements().contains("العبارة"));
     assertThat(matches[0].getFromPos(), is(4));
     assertThat(matches[0].getToPos(), is(11));
+
+    matches = rule.match(langTool.getAnalyzedSentence("تظاعف"));
+    assertTrue(matches[0].getSuggestedReplacements().contains("تساعف"));
+    assertTrue(matches[0].getSuggestedReplacements().contains("تضاعف"));
+
+    matches = rule.match(langTool.getAnalyzedSentence("مساءل"));
+    assertTrue(matches[0].getSuggestedReplacements().contains("مسائل"));
+
+    matches = rule.match(langTool.getAnalyzedSentence("مصر دوله افريقية اهلها بيتكلموا مصرى"));
+    assertThat(matches.length, is(5));
+    assertThat(matches[3].getFromPos(), is(23));
+    assertThat(matches[3].getToPos(), is(31));
+    assertTrue(matches[3].getSuggestedReplacements().contains("يتكلموا"));
+    assertThat(matches[4].getFromPos(), is(32));
+    assertThat(matches[4].getToPos(), is(36));
+    assertTrue(matches[4].getSuggestedReplacements().contains("مصري"));
   }
 
 }
