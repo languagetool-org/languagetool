@@ -4851,6 +4851,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
               <token skip="-1">it</token>
               <token>?</token>
           </antipattern>
+          <antipattern><!-- Missing question mark: does it work. -->
+              <token regexp="yes">does|did</token>
+              <token>it</token>
+              <token min="0" max="2" postag="RB"/>
+              <token>work</token>
+          </antipattern>
+          <antipattern><!-- deem it work -->
+              <token regexp="yes" inflected="yes">think|consider|deem|believe</token>
+              <token>it</token>
+              <token>work</token><!-- This rule is semantic. Cannot use only postags. Adjective: We consider it wrong. Noun: We consider it work. -->
+          </antipattern>
+          <antipattern><!-- make it work -->
+              <token regexp="yes" inflected="yes">make|see</token>
+              <token>it</token>
+              <token postag_regexp="yes" postag="VBP?"/>
+          </antipattern>
           <pattern>
             <token regexp="yes" inflected="yes">do|find|make|get|think|like|see|consider|deem|play|believe|keep|paint|give|leave|pound</token>
             <token>it</token>
@@ -4868,10 +4884,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Does it <marker>work</marker> correctly?</example>
           <example type="untouched">And did it <marker>open</marker> when you tried yesterday?</example>
           <example type="untouched">But do it <marker>work</marker> correctly? [Incorrect grammar.]</example>
-          <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">We thought it <marker>wrong</marker> to leave her alone.</example>
+          <example type="untouched">But does it work.</example><!-- Missing question mark. But not an adjective. -->
           <example type="untouched">Let's keep it simple.</example>
+          <example type="untouched">They deem it <marker>work</marker>, although we think of it as play.</example>
+          <example type="untouched">Give yourself a bonus point if you made it <marker>work</marker> correctly.</example>
+          <example type="untouched">Such a beautiful flower; she saw it <marker>open</marker> its petals in the sunshine.</example>
+          <example type="untouched">When you make toast, make it <marker>brown</marker> slowly.</example><!-- brown/VBP,B-ADJP. Ambiguous: Verb: brown it slowly; adjective: slowly make it a brown colour. -->
+          <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">We thought it <marker>wrong</marker> to leave her alone.</example>
+          <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">... nevertheless, we believed it <marker>wrong</marker>.</example>
           <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
           <example type="ambiguous" inputform="free[free/JJ,free/NN,free/VB,free/VBP]" outputform="free[free/JJ]">Can you help me by doing it <marker>free</marker>? (I have no money whatsoever.)</example>
+          <example type="ambiguous" inputform="brown[brown/JJ,brown/NN,brown/NN:U,brown/VB,brown/VBP]" outputform="brown[brown/JJ]">Please paint it <marker>brown</marker>, not black.</example>
         </rule>
 
         <rule id="VERB_XX_BETTER_RBR" name='know/stand + xx + better => RBR'>
