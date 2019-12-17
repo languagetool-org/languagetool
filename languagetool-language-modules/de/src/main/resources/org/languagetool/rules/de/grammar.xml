@@ -32034,11 +32034,12 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>Management</token>
-                    <token case_sensitive="yes" regexp="yes">Buy\-?(in|out)s?</token>
+                    <token case_sensitive="yes" regexp="yes">Buy\-?([Ii]n|[Oo]ut)s?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Management-Buy-<match no="2" regexp_match="(?i)buy-?(ins?|outs?)" regexp_replace="$1" case_conversion="alllower" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/Management_Buy_out</url>
                 <example correction="Management-Buy-out">Es kam zum <marker>Management Buyout</marker>.</example>
+                <example correction="Management-Buy-in">Mangeldes <marker>Management Buy-In</marker> kann zum Hindernis werden.</example>
             </rule>
             <rule>
                 <pattern>
@@ -37066,11 +37067,12 @@ Andere Projekte</example>
                 <pattern>
                     <token>Rock</token>
                     <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
-                    <token>Roll</token>
+                    <token regexp="yes">Rolls?</token>
                 </pattern>
-                <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ Roll</suggestion>, <suggestion>Rock 'n' Roll</suggestion>, <suggestion>Rock and Roll</suggestion></message>
+                <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ <match case_conversion="startupper" no="3" /></suggestion>, <suggestion>Rock 'n' <match case_conversion="startupper" no="3" /></suggestion>, <suggestion>Rock and <match case_conversion="startupper" no="3" /></suggestion></message>
                 <example correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n´ Roll</marker>, Baby!</example>
                 <example correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n' Roll</marker>, Baby!</example>
+                <example correction="Rock ’n’ Rolls|Rock 'n' Rolls|Rock and Rolls">Eine Legende des <marker>Rock n' Rolls</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -37084,12 +37086,13 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="DOPPELTES_AUSRUFEZEICHEN" name="mehrere Ausrufezeichen etc.">
-            <regexp>(\!|\?)(\!|\?)</regexp>
+            <regexp>([\!\?])[\!\?]{1,}</regexp>
             <message>Die Verwendung von mehreren Frage- oder Ausrufezeichen wirkt oft übertrieben emphatisch.</message>
             <suggestion>\1</suggestion>
             <example>Das ist doch kein Problem<marker>?</marker></example>
             <example correction="!">Das ist kein Problem<marker>!!</marker></example>
             <example correction="?">Ist das ein Problem für dich<marker>?!</marker></example>
+            <example correction="?">Dein Ernst<marker>????</marker></example>
         </rule>
         <rule id="NICHTS_OHNE_APOSTROPH" name="Kein Apostroph bei 'nichts', 'nachts', 'montags' etc.">
             <regexp>(&wochentage;|nicht|morgen|mittag|nachmittag|abend|nacht)['’´`‘]s</regexp>
