@@ -3,7 +3,7 @@
 #
 #  test.py
 #   Convert a file which contains grammar rules into grammar xml format for LanguageTool
-#   The text file contains linguistic rules from book of "Guide of Commons errors" n by  Marwan Albawab
+#   The text file contains linguistic rules from book of "Guide of Commons errors" by Marwan Albawab
 # الملف معالج يدويا ومجهز للبرمجة
 # الملف فيه الأعمدة التالية:
 # * style pattern النمطة

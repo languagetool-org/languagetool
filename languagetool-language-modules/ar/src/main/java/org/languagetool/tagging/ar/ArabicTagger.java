@@ -52,7 +52,6 @@ public class ArabicTagger extends BaseTagger {
       tmp.setCharAt(postag.length() - 2, 'L');
     }
     return tmp.toString();
-
   }
 
   /* test if flag exists */
@@ -63,9 +62,7 @@ public class ArabicTagger extends BaseTagger {
     } else if (flag == "has_jar") {
       return postag.contains("B");
     }
-
     return false;
-
   }
 
   @Override
@@ -96,7 +93,7 @@ public class ArabicTagger extends BaseTagger {
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
 
-    //Any well-formed word started by conjuction letters like Waw and Feh is the same word without  the conjuction + a conjuction tag
+    // Any well-formed word started by conjunction letters like Waw and Feh is the same word without the conjunction + a conjunction tag
     // case of Lam jar + Al ta3rif
     // w + ll or f + ll
     List<String> tags = new ArrayList();
@@ -130,7 +127,7 @@ public class ArabicTagger extends BaseTagger {
       tags_with_jar.add("L"); // only if has_jar
     }
 
-    // to avoid redendecy all attached pronouns in dictionary are represented only by a generic pronoun
+    // to avoid redundancy all attached pronouns in dictionary are represented only by a generic pronoun
     //  for words like بيتك بيتكما بيتهم بيتنا بيتكن there are one word which is بيتك
     // we can simulate all word forms into the same tag which endec by H( H is tag for attached pronouns الضمائر المصتلة)
     if (word.endsWith("ه")
@@ -148,9 +145,6 @@ public class ArabicTagger extends BaseTagger {
       taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
       for (AnalyzedToken taggerToken : taggerTokens) {
         String posTag = taggerToken.getPOSTag();
-        if (hasFlag(posTag, "has_pronoun")) {
-        }
-
         for (int i = 0; i < tags_with_jar.size(); i++) {
           if (hasFlag(posTag, "has_jar"))
             posTag = addTag(posTag, tags_with_jar.get(i));
@@ -163,7 +157,6 @@ public class ArabicTagger extends BaseTagger {
       // if possible word has a conjuction at the begining like Waw or FEH
       if (word.startsWith("و") || word.startsWith("ف")) {
         possibleWord = possibleWord.replaceAll("^[وف]", "");
-        //List<AnalyzedToken> taggerTokens;
         taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
         for (AnalyzedToken taggerToken : taggerTokens) {
           String posTag = taggerToken.getPOSTag();
@@ -178,7 +171,6 @@ public class ArabicTagger extends BaseTagger {
             posTag = addTag(posTag, tags.get(i));
           }
           additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
-
         }
       }
     } else {

@@ -45,8 +45,7 @@ public class ArabicWordTokenizer extends WordTokenizer {
     StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       String token = st.nextToken();
-      // Strip Tashkeel and tatweel
-      //String striped = token.replaceAll("[ًٌٍَُِْـ]","");
+      // Strip Tashkeel and tatweel ([ًٌٍَُِْـ]",")
       String striped = token.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
       l.add(striped);
     }

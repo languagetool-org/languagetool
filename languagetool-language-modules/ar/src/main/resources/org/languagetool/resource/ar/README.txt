@@ -3,43 +3,44 @@ Arabic LanguageTool support
 A project to support Arabic language in LT grammar and style checker.
 
 
-Project resources:
+Project resources
 =================
 * TagSet described in arabic resource/ar/arabic_tags.txt
-* Arabic dictionary with tags in morfolojik format (binary) is resource/ar/arabic.dict
+* Arabic dictionary with tags in morfologik format (binary) is resource/ar/arabic.dict
 * The Arabic dictionary is based on Arramooz project.
 * The Arabic spellchecking dictionary is based on Ayaspell project.
 * A separate project to create and add new rules is developed as Fareh project.
 
-Connexe Projects:
+Connexe Projects
 =================
-* Fareh:
+* Fareh
 	Arabic rules database for grammar and style checking فارح: لغتنا الجميلة
 	https://github.com/linuxscout/fareh
 
 * Arramooz
 	Arabic Dictionary for Morphological analysis
 	https://github.com/linuxscout/arramooz
+
 * Ayaspell
 	AyaSpell Arabic Dictionary for Hunspell Spellchecker
 	https://github.com/linuxscout/ayaspell
 
-* Tagset and Tag manager:
+* Tagset and Tag manager
 	mysam-tagmanager
 	https://github.com/linuxscout/mysam-tagmanager
 
-How to contribute:
+How to contribute
 ==================
 * Add new rules
 * Check existing rules
 You can contribute in adding new rules by using the Fareh project as an assistant to convert flat rules into XML format used by LT.
 
-Authors:
+Authors
 =======
 Taha Zerrouki taha.zerrouki (at) gmail.com		http://tahadz.com
 Sohaib Afifi me(at)sohaibafifi.com	http://sohaibafifi.com
 
-Credits:
+Credits
 =======
 Fellak Samia, Bouira university, Algeria
 Saidi Yasmine, Bouira university, Algeria
@@ -48,7 +49,7 @@ KALI Imen, Medea University, Algeria
 TCHOKETCH Karima, Medea University, Algeria
 
 
-Thanks:
+Thanks
 ======
 Marwan Albawab: a linguist member of Damascus Academic of Arabic language, for his help and permission to use his works.
 
