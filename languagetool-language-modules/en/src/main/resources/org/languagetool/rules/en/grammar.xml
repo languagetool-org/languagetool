@@ -12410,7 +12410,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">the|an?</token>
-                    <token postag="JJS?" postag_regexp="yes" min="0">
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
@@ -12423,7 +12423,9 @@ USA
             <rule>
                 <pattern>
                     <token regexp='yes'>an?|the|that|which|this|those|my|his|her|their|our|your|s</token>
-                    <token postag="JJS?|VBD" postag_regexp="yes" min="0" />
+                    <token postag="JJ.*|VBD" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">google|excel|chevy|react|skype|photoshop|kindle|discover|aspire|velcro|intuit</token>
                     </marker>
@@ -12441,6 +12443,7 @@ USA
                 <example>The bassist who wanted to <marker>excel</marker> at improvising</example>
                 <example>He wanted to <marker>google</marker> for the medicine.</example>
                 <example>The <marker>Chevy</marker> Impala is a beautiful car.</example>
+                <example>Brand advertising presents a substantial opportunity to help people around the world discover Google's brand and products.</example>
                 <example>Let's google life.</example>
                 <example correction="Excel">The <marker>excel</marker>, powerpoint and word program.</example>
                 <example correction="Skype">Please open your <marker>skype</marker>.</example>
