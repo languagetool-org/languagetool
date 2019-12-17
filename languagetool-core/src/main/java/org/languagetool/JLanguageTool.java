@@ -758,7 +758,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, this.enabledRules).filter(ruleMatches);
+    ruleMatches = new LanguageDependentFilter(language, this.enabledRules, this.disabledRuleCategories).filter(ruleMatches);
 
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 
@@ -1027,14 +1027,14 @@ public class JLanguageTool {
     int posFix = 0; 
     for (int i = 0; i < numTokens; i++) {
       if( i > 0 ) {
-        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).getToken());
         aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         // addReading() modifies a readings.token if last token is longer - need to use it first
         posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
         AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
-        aTokens.get(i).addReading(newToken);
+        aTokens.get(i).addReading(newToken, "softHyphenTokens");
       }
     }
         

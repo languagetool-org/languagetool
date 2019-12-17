@@ -522,6 +522,10 @@ public class ConfigurationDialog implements ActionListener {
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
     
+    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
+    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
+    fullTextCheckAtFirstBox.addItemListener(e -> config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected()));
+
     for (int i = 0; i < 4; i++) {
       numParaGroup.add(radioButtons[i]);
     }
@@ -529,30 +533,37 @@ public class ConfigurationDialog implements ActionListener {
     if (numParaCheck == 0) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(true);
     } else if (numParaCheck < -1) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);    
+      fullTextCheckAtFirstBox.setEnabled(false);
     } else if (numParaCheck < 0) {
       radioButtons[2].setSelected(true);
       numParaField.setEnabled(false);    
+      fullTextCheckAtFirstBox.setEnabled(false);
     } else {
       radioButtons[3].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
       numParaField.setEnabled(true);
+      fullTextCheckAtFirstBox.setEnabled(true);
     }
 
     radioButtons[0].addActionListener(e -> {
       numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(true);
       config.setNumParasToCheck(0);
     });
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(false);
       config.setNumParasToCheck(-2);
     });
     
     radioButtons[2].addActionListener(e -> {
       numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(false);
       config.setNumParasToCheck(-1);
     });
     
@@ -564,6 +575,7 @@ public class ConfigurationDialog implements ActionListener {
       numParaField.setForeground(Color.BLACK);
       numParaField.setText(Integer.toString(numParaCheck1));
       numParaField.setEnabled(true);
+      fullTextCheckAtFirstBox.setEnabled(true);
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
@@ -625,9 +637,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noMultiResetbox, cons);
     
-    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
-    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
-    fullTextCheckAtFirstBox.addItemListener(e -> config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected()));
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
     cons.gridy++;

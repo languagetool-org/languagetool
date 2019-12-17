@@ -31,6 +31,8 @@ import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -45,6 +47,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * TODO: reimplement using apache commons KeyedObjectPool
  */
 class PipelinePool {
+
+  private static final Logger logger = LoggerFactory.getLogger(PipelinePool.class);
 
   static final long PIPELINE_EXPIRE_TIME = 15 * 60 * 1000;
 
@@ -156,7 +160,7 @@ class PipelinePool {
       requests++;
       ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
       if (requests % 1000 == 0) {
-        ServerTools.print(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
+        logger.info(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
       }
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {

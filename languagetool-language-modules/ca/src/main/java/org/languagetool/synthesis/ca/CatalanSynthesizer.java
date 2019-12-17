@@ -69,11 +69,19 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
   public CatalanSynthesizer(Language lang) {
-    super("/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
+    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
   }
 
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      String[] tag = posTag.split(":");
+      String strToSpell = token.getToken();
+      if (tag.length > 1 && tag[1].equals("feminine")) {
+        strToSpell = "feminine " + strToSpell;
+      }
+      return new String[] { getSpelledNumber(strToSpell) };
+    }
     initPossibleTags();
     Pattern p;
     boolean addDt = false; 
@@ -121,6 +129,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return synthesize(token, posTag);
+    }
     if (posTagRegExp) {
       initPossibleTags();
       Pattern p;

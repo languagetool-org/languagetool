@@ -30,10 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -124,20 +121,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    //lazy init
-    if (speller1 == null) {
-      String binaryDict = null;
-      if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
-        binaryDict = getFileName();
-      }
-      if (binaryDict != null) {
-        initSpeller(binaryDict);
-      } else {
-        // should not happen, as we only configure this rule (or rather its subclasses)
-        // when we have the resources:
-        return toRuleMatchArray(ruleMatches);
-      }
-    }
+    if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
@@ -185,6 +169,23 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private boolean initSpellers() throws IOException {
+    if (speller1 == null) {
+      String binaryDict = null;
+      if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
+        binaryDict = getFileName();
+      }
+      if (binaryDict != null) {
+        initSpeller(binaryDict);
+      } else {
+        // should not happen, as we only configure this rule (or rather its subclasses)
+        // when we have the resources:
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void initSpeller(String binaryDict) throws IOException {
     List<String> plainTextDicts = new ArrayList<>();
     String languageVariantPlainTextDict = null;
@@ -216,6 +217,16 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
 
+  /**
+   * @since 4.8
+   */
+  @Experimental
+  @Override
+  public boolean isMisspelled(String word) throws IOException {
+    initSpellers();
+    return isMisspelled(speller1, word);
+  }
+  
   /**
    * @return true if the word is misspelled
    * @since 2.4

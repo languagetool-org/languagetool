@@ -86,7 +86,7 @@ class SimpleDisambiguator {
 //          continue;
 
         if( tokenMatcher.matches(analyzedToken) ) {
-          tokens[i].removeReading(analyzedToken);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }    

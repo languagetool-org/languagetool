@@ -41,15 +41,15 @@ public class AnalyzedTokenReadingsTest {
     //test SEND_END or PARA_END added without directly via addReading
     //which is possible e.g. in rule disambiguator 
     tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
-    tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null));
+    tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null), "");
     assertEquals(true, tokenReadings.isSentenceEnd());
     assertEquals(false, tokenReadings.isParagraphEnd());
-    tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
+    tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null), "");
     assertEquals(true, tokenReadings.isParagraphEnd());
     assertEquals(false, tokenReadings.isSentenceStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
-    tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
+    tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null), "");
     assertEquals(false, tokenReadings.isSentenceStart());
     AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
@@ -61,7 +61,7 @@ public class AnalyzedTokenReadingsTest {
     aTok3.setWhitespaceBefore(true);
     assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
     AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
-    testReadings.removeReading(aTok3);
+    testReadings.removeReading(aTok3, "");
     assertTrue(testReadings.getReadingsLength()==1);
     assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
@@ -70,7 +70,7 @@ public class AnalyzedTokenReadingsTest {
     assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
     
-    testReadings.removeReading(aTok2);
+    testReadings.removeReading(aTok2, "");
     assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
   }
@@ -80,7 +80,7 @@ public class AnalyzedTokenReadingsTest {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals("word[lemma/POS*]", tokenReadings.toString());
     AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
-    tokenReadings.addReading(aTok2);
+    tokenReadings.addReading(aTok2, "");
     assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
   }
 

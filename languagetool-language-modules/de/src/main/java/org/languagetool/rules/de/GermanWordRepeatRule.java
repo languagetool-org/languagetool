@@ -59,6 +59,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("ha"),
       token("ha")
     ),
+    Arrays.asList( // Phi Phi Islands
+      token("Phi"),
+      token("Phi")
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),

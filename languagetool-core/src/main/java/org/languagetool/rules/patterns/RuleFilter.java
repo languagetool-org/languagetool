@@ -57,5 +57,13 @@ public abstract class RuleFilter {
     @Override public String getDescription() { return "<none>"; }
     @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }
   }
-  
+
+  protected String getRequired(String key, Map<String, String> map) {
+    String result = map.get(key);
+    if (result == null) {
+      throw new IllegalArgumentException("Missing key '" + key + "'");
+    }
+    return result;
+  }
+
 }

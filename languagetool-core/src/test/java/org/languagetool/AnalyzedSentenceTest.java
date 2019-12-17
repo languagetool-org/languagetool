@@ -32,7 +32,7 @@ public class AnalyzedSentenceTest {
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));
     words[1] = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
-    words[2].addReading(new AnalyzedToken(".", "SENT_END", null));
+    words[2].addReading(new AnalyzedToken(".", "SENT_END", null), "");
     AnalyzedSentence sentence = new AnalyzedSentence(words);
     assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
   }
@@ -43,7 +43,7 @@ public class AnalyzedSentenceTest {
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));
     words[1] = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
-    words[2].addReading(new AnalyzedToken(".", "SENT_END", null));
+    words[2].addReading(new AnalyzedToken(".", "SENT_END", null), "");
     AnalyzedSentence sentence = new AnalyzedSentence(words);
     AnalyzedSentence copySentence = sentence.copy(sentence);
     assertEquals(sentence, copySentence);

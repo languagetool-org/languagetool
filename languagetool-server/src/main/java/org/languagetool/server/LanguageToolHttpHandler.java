@@ -20,19 +20,26 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.util.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
@@ -40,6 +47,8 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
   
@@ -279,7 +288,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logToDb) {
       logToDatabase(params, message);
     }
-    print(message);
+    logger.error(message);
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
@@ -296,10 +305,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logStacktrace) {
       message += "Stacktrace follows:";
       message += ExceptionUtils.getStackTrace(e);
-      print(message, System.err);
+      logger.error(message);
     } else {
       message += "(no stacktrace logged)";
-      print(message, System.err);
+      logger.error(message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
