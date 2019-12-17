@@ -22,8 +22,10 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 public class ArabicHunspellSpellerRuleTest {
 
@@ -33,11 +35,18 @@ public class ArabicHunspellSpellerRuleTest {
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("والبلاد")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("السلام عليييكم.")).length);
     // ignore URLs:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("تصفح http://foo.org/bar.")).length);
 
-  }
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("السلام عليييكم."));
+    assertThat(matches.length, is(1));
+    assertTrue(matches[0].getSuggestedReplacements().contains("عليميكم"));
 
+    matches = rule.match(langTool.getAnalyzedSentence("هذه العباره فيها أغلاط."));
+    assertThat(matches.length, is(1));
+    assertTrue(matches[0].getSuggestedReplacements().contains("العبارة"));
+    assertThat(matches[0].getFromPos(), is(4));
+    assertThat(matches[0].getToPos(), is(11));
+  }
 
 }
