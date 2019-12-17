@@ -371,7 +371,15 @@ class SingleDocument {
       isReset = true;
     }
     
-
+    // try to get next position from last FlatParagraph position (for performance reasons)
+    nParas = findNextParaPos(numLastFlPara, chPara);
+    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
+      numLastFlPara = nParas;
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nParas + logLineBreak);
+      }
+      return nParas;
+    }
     // Test if Size of allParas is correct; Reset if not
     nParas = docCursor.getNumberOfAllTextParagraphs();
     if (nParas < 2) {
@@ -396,14 +404,15 @@ class SingleDocument {
           && allParas.get(from).equals(oldParas.get(from))) {
         from++;
       }
-      resetFrom = from - numParasReset - 1;
+      resetFrom = from - numParasReset;
       int to = 1;
       while (to <= allParas.size() && to <= oldParas.size()
           && allParas.get(allParas.size() - to).equals(
               oldParas.get(oldParas.size() - to))) {
         to++;
       }
-      resetTo = allParas.size() + numParasReset - to;
+      to = allParas.size() - to;
+      resetTo = to + numParasReset;
       if(!ignoredMatches.isEmpty()) {
         Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
         for (int i = 0; i < from; i++) {
@@ -419,27 +428,16 @@ class SingleDocument {
         }
         ignoredMatches = tmpIgnoredMatches;
       }
-
       for(ResultCache cache : paragraphsCache) {
-        cache.removeAndShift(from, to, allParas.size() - oldParas.size());
+        cache.removeAndShift(resetFrom, resetTo, allParas.size() - oldParas.size());
       }
+      resetTo++;
       isReset = true;
       if(doResetCheck) {
-        from += numParasToCheck;
-        to -= numParasToCheck;
         sentencesCache.removeAndShift(from, to, allParas.size() - oldParas.size());
         resetCheck = true;
       }
       textIsChanged = true;
-    }
-    // try to get next position from last FlatParagraph position (for performance reasons)
-    nParas = findNextParaPos(numLastFlPara, chPara);
-    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
-      numLastFlPara = nParas;
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nParas + logLineBreak);
-      }
-      return nParas;
     }
     //  try to get paragraph position from automatic iteration
     if (flatPara == null) {
@@ -493,10 +491,12 @@ class SingleDocument {
           resetCheck = true;
           resetParaNum = nParas;
         }
-        resetFrom = nParas - numParasReset;
-        resetTo = nParas + numParasReset + 1;
-        ignoredMatches.remove(nParas);
-        textIsChanged = true;
+        if(!textIsChanged) {
+          resetFrom = nParas - numParasReset;
+          resetTo = nParas + numParasReset + 1;
+          ignoredMatches.remove(nParas);
+          textIsChanged = true;
+        }
         return nParas;
       }
     }

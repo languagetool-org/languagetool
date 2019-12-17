@@ -46,6 +46,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "thank you for the patience",
       "your patience regarding",
       "your fix",  // fix = bug fix
+      "your commit",
       "on point",
       "chapter one",
       "usb port",
@@ -55,6 +56,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "know your competition and",
       "know your competition or",
       "G Suite",
+      "paste event",
+      "need to know",
       "your look is" // Really, your look is
     );
     

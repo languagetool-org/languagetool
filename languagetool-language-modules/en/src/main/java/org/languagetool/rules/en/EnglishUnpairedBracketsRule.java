@@ -97,6 +97,10 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
           && prevToken.getToken().endsWith("in")) {
         return false;
       }
+      // Dunkin' Donuts
+      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().equals("Dunkin")) {
+        return false;
+      }
     }
     if (precSpace && !follSpace) {
       if ("'".equals(tokenStr) && i + 1 < tokens.length) {

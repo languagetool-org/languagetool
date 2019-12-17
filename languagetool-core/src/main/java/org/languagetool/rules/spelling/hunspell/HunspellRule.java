@@ -285,6 +285,7 @@ public class HunspellRule extends SpellingCheckRule {
    * @since public since 4.1
    */
   @Experimental
+  @Override
   public boolean isMisspelled(String word) {
     try {
       if (needsInit) {

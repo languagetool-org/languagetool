@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  */
 class TatoebaSentenceSource extends SentenceSource {
 
-  private final List<String> sentences;
+  private final List<TatoebaSentence> sentences;
   private final Scanner scanner;
 
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
@@ -60,7 +60,9 @@ class TatoebaSentenceSource extends SentenceSource {
     if (sentences.isEmpty()) {
       throw new NoSuchElementException();
     }
-    return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org", ++articleCount);
+    TatoebaSentence sentence = sentences.remove(0);
+    String title = "Tatoeba-" + sentence.id;
+    return new Sentence(sentence.sentence, getSource(), title, "http://tatoeba.org", ++articleCount);
   }
 
   @Override
@@ -79,11 +81,20 @@ class TatoebaSentenceSource extends SentenceSource {
         System.err.println("Unexpected line format: expected three tab-separated columns: '" + line  + "', skipping");
         continue;
       }
+      long id = Long.parseLong(parts[0]);
       String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
       if (acceptSentence(sentence)) {
-        sentences.add(sentence);
+        sentences.add(new TatoebaSentence(id, sentence));
       }
     }
   }
 
+  private static class TatoebaSentence {
+    long id;
+    String sentence;
+    private TatoebaSentence(long id, String sentence) {
+      this.id = id;
+      this.sentence = Objects.requireNonNull(sentence);
+    }
+  }
 }
