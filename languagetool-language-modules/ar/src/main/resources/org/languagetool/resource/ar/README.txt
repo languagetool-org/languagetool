@@ -16,18 +16,22 @@ Connexe Projects
 * Fareh
 	Arabic rules database for grammar and style checking فارح: لغتنا الجميلة
 	https://github.com/linuxscout/fareh
+    licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Arramooz
 	Arabic Dictionary for Morphological analysis
 	https://github.com/linuxscout/arramooz
+    licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Ayaspell
 	AyaSpell Arabic Dictionary for Hunspell Spellchecker
 	https://github.com/linuxscout/ayaspell
+    licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Tagset and Tag manager
 	mysam-tagmanager
 	https://github.com/linuxscout/mysam-tagmanager
+    licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 How to contribute
 ==================

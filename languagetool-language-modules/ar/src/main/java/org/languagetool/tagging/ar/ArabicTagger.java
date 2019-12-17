@@ -146,8 +146,9 @@ public class ArabicTagger extends BaseTagger {
       for (AnalyzedToken taggerToken : taggerTokens) {
         String posTag = taggerToken.getPOSTag();
         for (int i = 0; i < tags_with_jar.size(); i++) {
-          if (hasFlag(posTag, "has_jar"))
+          if (hasFlag(posTag, "has_jar")) {
             posTag = addTag(posTag, tags_with_jar.get(i));
+          }
         }
         for (int i = 0; i < tags.size(); i++) {
           posTag = addTag(posTag, tags.get(i));
@@ -178,8 +179,9 @@ public class ArabicTagger extends BaseTagger {
       for (AnalyzedToken taggerToken : taggerTokens) {
         String posTag = taggerToken.getPOSTag();
         for (int i = 0; i < tags_with_jar.size(); i++) {
-          if (hasFlag(posTag, "has_jar"))
+          if (hasFlag(posTag, "has_jar")) {
             posTag = addTag(posTag, tags_with_jar.get(i));
+          }
         }
         for (int i = 0; i < tags.size(); i++) {
           posTag = addTag(posTag, tags.get(i));
