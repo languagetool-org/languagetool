@@ -12704,6 +12704,28 @@ USA
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
         </rulegroup>
+        <rule id="VITAMIN_C" name="vitamin C" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">vitamin|VITAMIN</token>
+                <token regexp="yes">[A-Z]</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token>Vitamin</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">:|;</token>
+                <token>Vitamin</token>
+            </antipattern>
+            <pattern>
+                <token>vitamin</token>
+                <token regexp="yes">[A-Z]</token>
+            </pattern>
+            <message>The word 'vitamin' is not capitalized in <suggestion><match no="1" case_conversion="alllower" /> <match no="2" case_conversion="allupper" /></suggestion></message>
+            <url>https://www.merriam-webster.com/dictionary/vitamin%20C</url>
+            <example correction="vitamin C">Prolonged storage or cooking may reduce <marker>Vitamin C</marker> content in foods.</example>
+            <example>Vitamin C</example>
+        </rule>
         <rule id="WHATS_APP" name="WhatsApp">
             <pattern>
                 <token>whats</token>
