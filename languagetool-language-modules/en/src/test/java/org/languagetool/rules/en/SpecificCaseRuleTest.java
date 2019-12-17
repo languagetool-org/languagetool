@@ -39,12 +39,9 @@ public class SpecificCaseRuleTest {
     assertGood("Harry Potter");
     assertGood("I like Harry Potter.");
     assertGood("I like HARRY POTTER.");
-    assertGood("Vitamin C is good for you.");
-    assertGood("But vitamin C is good for you.");
     assertBad("harry potter");
     assertBad("harry Potter");
     assertBad("Harry potter");
-    assertBad("But Vitamin C is good for you.");
     RuleMatch[] matches1 = assertBad("I like Harry potter.");
     assertThat(matches1[0].getFromPos(), is(7));
     assertThat(matches1[0].getToPos(), is(19));
