@@ -12431,6 +12431,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>com veurem</suggestion> (futur)?</message>
             <example correction="com veurem">I, <marker>com veure'm</marker> després.</example>
         </rule>
+        <rule id="QUOTA_COTA" name="quota/cota">
+            <pattern>
+                <marker>
+                    <marker>
+                        <token inflected="yes">quota</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">neu|altitud</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">cota</match></suggestion>?</message>
+            <example correction="cotes">Les <marker>quotes</marker> de neu més alta.</example>
+        </rule>
         <rule id="PER_LA_A" name="per la a/per a la">
             <pattern>
                 <marker>
@@ -28424,6 +28437,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és una unitat, cal escriure un superíndex.</message>
                 <suggestion><match no="1" regexp_match="(.*)3" regexp_replace="$1³"/></suggestion>
                 <example correction="m³">10 <marker>m3</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMA_PUNTSSUSPENSIUS" name="coma/punt i coma/dos punts + punts suspensius">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[,;:]</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </pattern>
+                <message>El símbol de puntuació va després dels punts suspensius, o potser és innecessari.</message>
+                <suggestion>...\1</suggestion>
+                <suggestion>...</suggestion>
+                <example correction="...,|...">Pantalons, camises<marker>, ...</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[,;:]</token>
+                    <token>…</token>
+                </pattern>
+                <message>El símbol de puntuació va després dels punts suspensius, o potser és innecessari.</message>
+                <suggestion>…\1</suggestion>
+                <suggestion>…</suggestion>
+                <example correction="…,|…">Pantalons, camises<marker>, …</marker></example>
             </rule>
         </rulegroup>
     </category>
