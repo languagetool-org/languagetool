@@ -210,11 +210,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
 	<!-- replaced by extensive postag database, but may be added again later, when disambiguations is better -->
     
-    <!-- add special signals -->
-    <rule id="SEMICOLON" name=""> <!-- na ; begint eigenlijk een soort 2e zin, maar zonder hoofdletter -->
-        <pattern><token>;</token></pattern>
-        <disambig action="add"><wd lemma=";" pos="START">;</wd></disambig>    
-	</rule>
 
     <!-- aanhalingstekens openen -->
 	<rule id="AANHAAL_OPN_1" name="">
@@ -250,6 +245,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         <pattern><token>&quot;</token></pattern>
         <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">&quot;</wd></disambig>        
 	</rule>	
+
+    <!-- add special signals -->
+    <rule id="SEMICOLON" name=""> <!-- na ; begint eigenlijk een soort 2e zin, maar zonder hoofdletter -->
+        <pattern><token>;</token></pattern>
+        <disambig action="add"><wd lemma=";" pos="START">;</wd></disambig>    
+	</rule>
+
+    <rule id="START_QUOT" name=""> 
+        <pattern><token postag="SENT_START"/><marker><token postag="AHL:OPN"/></marker></pattern>
+        <disambig action="add"><wd pos="START"/></disambig>    
+	</rule>
     
 	<!-- ADDING TAGS FOR FUNCTIONS FOR MULTIFUNCTIONAL TAGS -->
 	<!-- this added ambiguity can be removed using multi-word patterns if needed -->
