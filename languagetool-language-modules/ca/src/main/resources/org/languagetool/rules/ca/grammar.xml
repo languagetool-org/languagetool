@@ -1962,6 +1962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>tant planetes com cometes</example>
                 <example>Però aquestes rai!</example>
                 <example>Anirà variant cada 5°.</example>
+                <example>Sonava com a una s sonora.</example>
                 <!-- <example>tant pilars i motllures com l'acabament</example>
                     tota jo-->
             </rule>
@@ -26335,6 +26336,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
                     <token postag="Y|NC.P.*" postag_regexp="yes"><exception regexp="yes">h|hores|hrs|hs|hora|am|pm</exception></token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\+|=|\-|×|html|Debian|versió|version</token>
+                    <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
+                    <token regexp="yes">\+|=|\-|×|mil</token>
+                </antipattern>
+                <antipattern> <!-- taules, etc  -->
+                    <marker>
+                        <token inflected="yes" regexp="yes">epígraf|revisió|versió|resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                        <token min="0" regexp="yes" inflected="yes">actual|anterior|antiga|nova</token>
+                        <token regexp="yes">\d+\.\d+</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+                        <token min="0">.</token>
+                        <token regexp="yes">\d+\.\d+</token>
+                    </marker>
+                </antipattern>
+                <antipattern> <!--  llibres de la Bíblia -->
+                    <marker>
+                        <token postag="_abrev_biblia"/>
+                        <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
+                        <token regexp="yes">\d+\.\d+</token>
+                    </marker>
+                </antipattern>
+                <antipattern> <!--  versions -->
+                    <marker>
+                        <token regexp="yes">[\d\.]+</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d+\.\d+</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">([01]?\d|2[0-4])\.([012345]\d)</token>
                 </pattern>
@@ -26344,6 +26381,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="12:30">Són les <marker>12.30</marker> AM.</example>
                 <example>Són <marker>12.30</marker> m.</example>
                 <example>Són <marker>12.30</marker> pessetes.</example>
+                <example>amb un pKaR = 8.14</example>
+                <example>estenent l'HTML 4.01</example>
+                <example>de la versió 3.11</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESPAI_FI" name="Espai fi entre nombres i unitats" default="temp_off">
