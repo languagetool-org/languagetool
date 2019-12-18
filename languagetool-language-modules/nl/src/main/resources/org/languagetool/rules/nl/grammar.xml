@@ -12441,33 +12441,33 @@ onwaarschijnlijk
 		</rulegroup>
 		
 		<rulegroup id="TE-VREEMD" name="Vreemd woord na 'te'">
+            <antipattern><token>te</token><token postag="UNKNOWN"/></antipattern>
+            <antipattern case_sensitive="yes"><token>te</token><token>Den</token><token regexp="yes">[A-Z].*</token></antipattern>
+            <antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
+            <antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
+            <antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
+            <antipattern><token>te</token><token postag="AHL:OPN"/></antipattern>
+            <antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
+            <antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
+            <antipattern><token>te</token><token regexp="yes">elfder|voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling</token></antipattern>
+            
+            <antipattern><token>te</token><token regexp="yes">rug|voorschijn|voren</token></antipattern><!-- frequente fouten -->
+            <antipattern><token>mis</token><token>te</token><token>verstane</token></antipattern>
+
+            <antipattern><token>te</token><token regexp="yes">mijnen|uwen|zijnen|haren|onzen|hunnen</token><token>laste</token></antipattern>
+            <antipattern><token>te</token><token>goeder</token><token>trouw</token></antipattern>
+            <antipattern><token>te</token><token>midden</token><token>van</token></antipattern>
+
+            <antipattern><token>te</token><token case_sensitive="yes">Den</token><token case_sensitive="yes" regexp="yes">Haag|Bosch|Helder</token></antipattern>
+            
+            <antipattern><token>(</token><token>te</token><token>)</token></antipattern>
+            <antipattern><token postag="ENM:PER:1ST"/><token>te</token><token/></antipattern>
+            <antipattern><token>te</token><token>kust</token><token>en</token><token>te</token><token>keur</token></antipattern>
+            <antipattern><token>te</token><token>vuur</token><token>en</token><token>te</token><token>zwaard</token></antipattern>
+            <antipattern><token>te</token><token>gelegener</token><token>tijd</token></antipattern>
+            <antipattern><token>te</token><token>gelegener</token><token>plaats</token></antipattern>
+            <antipattern><token>al</token><token>te</token><token regexp="yes">beste?</token></antipattern>
 			<rule>
-				<antipattern><token>te</token><token postag="UNKNOWN"/></antipattern>
-                <antipattern case_sensitive="yes"><token>te</token><token>Den</token><token regexp="yes">[A-Z].*</token></antipattern>
-				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
-				<antipattern><token>te</token><token regexp="yes">['"]</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
-				<antipattern><token>te</token><token regexp="yes">elfder|voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling</token></antipattern>
-				
-				<antipattern><token>te</token><token regexp="yes">rug|voorschijn|voren</token></antipattern><!-- frequente fouten -->
-				<antipattern><token>mis</token><token>te</token><token>verstane</token></antipattern>
-
-				<antipattern><token>te</token><token regexp="yes">mijnen|uwen|zijnen|haren|onzen|hunnen</token><token>laste</token></antipattern>
-                <antipattern><token>te</token><token>goeder</token><token>trouw</token></antipattern>
-                <antipattern><token>te</token><token>midden</token><token>van</token></antipattern>
-
-				<antipattern><token>te</token><token case_sensitive="yes">Den</token><token case_sensitive="yes" regexp="yes">Haag|Bosch|Helder</token></antipattern>
-				
-				<antipattern><token>(</token><token>te</token><token>)</token></antipattern>
-				
-				<antipattern><token>te</token><token>kust</token><token>en</token><token>te</token><token>keur</token></antipattern>
-				<antipattern><token>te</token><token>vuur</token><token>en</token><token>te</token><token>zwaard</token></antipattern>
-                <antipattern><token>te</token><token>gelegener</token><token>tijd</token></antipattern>
-                <antipattern><token>te</token><token>gelegener</token><token>plaats</token></antipattern>
-                <antipattern><token>al</token><token>te</token><token regexp="yes">beste?</token></antipattern>
 				
 				<pattern><marker><token>te</token><token case_sensitive="yes" regexp="yes">[^A-Z].*</token></marker></pattern>
 				<message>Onverwacht woord na 'te'. Mogelijk bedoelt u 'de'. Maar het kan ook iets anders zijn.</message>
@@ -12475,21 +12475,6 @@ onwaarschijnlijk
                 <example type="incorrect"><marker>te liep</marker></example>
 			</rule>
 			<rule>
-				<antipattern><token>te</token><token postag="UNKNOWN"/></antipattern>
-				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:VRB|BYW:JES|WKW:(VTD|ODW):VRB"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
-				<antipattern><token>te</token><token regexp="yes">['"]</token><token postag_regexp="yes" postag="WKW:TGW:INF.*"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:VTD:ONV"/></antipattern>
-				<antipattern><token>te</token><token postag_regexp="yes" postag="ENM:LOC:.*"/></antipattern>
-				<antipattern><token>te</token><token regexp="yes">voet|paard|woord|meer|weinig|veel|werk|gronde|pletter|koop|huur|ruil|hulp|boven|gast|bed|buiten|hooi|pas|onpas|gras|binnen|grabbel|lijf|stade|velde|dezen|haren|allen|bekwamer|bestemder|kwader|leen|vaak|rade|niet|hoop|boek|water|kijk|beurt|over|berde|weeg|dikwijls|vriend|land|wapen|baat|vondeling</token></antipattern>
-
-				<antipattern><token>te</token><token regexp="yes">rug|voorschijn|voren</token></antipattern><!-- frequente fouten -->
-				<antipattern><token>mis</token><token>te</token><token>verstane</token></antipattern>
-				<antipattern><token postag="ENM:PER:1ST"/><token>te</token><token/></antipattern>
-                <antipattern><token>te</token><token regexp="yes">mijnen|uwen|zijnen|haren|onzen|hunnen</token><token>laste</token></antipattern>
-                <antipattern><token>al</token><token>te</token><token regexp="yes">beste?</token></antipattern>
-				
 				<pattern><marker><token>te</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></marker></pattern>
 				<message>Deze (plaats)naam kennen we nog niet. Klopt de spelling wel?</message>
 				<short>onverwacht</short>
@@ -37291,7 +37276,7 @@ steenwijk;Steenwijk
             <antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
             <antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
             <antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten</token></antipattern>
-
+            <antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
             <!-- eigennamen -->
             <antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
             
