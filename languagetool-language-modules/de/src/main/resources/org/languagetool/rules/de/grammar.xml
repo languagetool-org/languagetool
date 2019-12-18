@@ -8475,6 +8475,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="SOCIETE_GENERALE" name="Société Générale" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Société</token>
+                <token regexp="yes">Générales?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Soci.t.</token>
+                <token regexp="yes">G.n.ral.?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
+            <url>https://de.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
+            <example correction="Société Générale">Die <marker>Societé General</marker> ist eine französische Bank.</example>
+        </rule>
         <rule id="COPY_AND_PASTE" name="Copy-and-paste">
             <pattern>
                 <token>Copy</token>
@@ -36955,12 +36968,13 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Falls es sich um eine Frage handelt, sollte sie mit einem Fragezeichen enden.</message>
                 <suggestion>?</suggestion>
                 <example correction="?">Soll er schon nach Hause gehen<marker>.</marker></example>
+                <example correction="?">Könnte das perspektivisch auch über die API direkt im Webbrowser realisiert werden, z.B. zum Diktieren des Artikel-Textes<marker>.</marker></example>
                 <!--<example correction="?">"Soll er schon nach Hause gehen<marker>.</marker></example> TODO: doesn't work because tagger confused by quote character -->
                 <example>Mach es bitte ein zweites Mal.</example>
             </rule>
@@ -36977,7 +36991,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Falls es sich um eine Frage handelt, sollte sie mit einem Fragezeichen enden.</message>
@@ -37045,7 +37059,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Eine Frage bitte mit einem '?' abschließen, eine Aufforderung mit einem '!' oder '.'</message>
@@ -37598,17 +37612,31 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Massstab|Verhältnis|unentschieden</token>
+                <token inflected="yes" regexp="yes" skip="1">mit|verlieren|gewinnen|enden|unentschieden|trennen|spielen|schlagen|Spiel</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" skip="1" regexp="yes">schlagen|Spiel</token>
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes" skip="1">[0-9]+</token>
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|unentschieden|spielen</token>
+            </antipattern>
+            <antipattern>
+                <!-- Maßstab -->
+                <token inflected="yes" regexp="yes" skip="-1">Maßstab|Massstab|Verh(ae|ä)ltnis</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
+            </antipattern>
+            <antipattern>
+                <!-- Maßstab -->
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes" skip="-1">[0-9]+</token>
+                <token inflected="yes" regexp="yes">Maßstab|Massstab|Verh(ae|ä)ltnis</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -37631,6 +37659,8 @@ Andere Projekte</example>
             <example>Sie verloren das Spiel mit 3:0.</example>
             <example>Zwischen 9:00 und 16:45.</example>
             <example>Das 5:2 gegen Ungarn</example>
+            <example>Sie trennten sich 1:1.</example>
+            <example>Das Verhältnis war lange 1:4.</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
             <example>Das Spiel endete <marker>3:5</marker>.</example>
@@ -38609,7 +38639,7 @@ Andere Projekte</example>
             <example>Eine Liste: (a) Argument, (b) 2 Argumente, (c) 2014 Argumente.</example>
         </rule>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!-?[()/D])</regexp>
+            <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
@@ -38619,6 +38649,7 @@ Andere Projekte</example>
             <example>So sieht’s aus :(</example>
             <example>So sieht’s aus :-/</example>
             <example>So sieht’s aus :/</example>
+            <example>Das Ergebnis von 4 : 2 ist 2.</example>
         </rule>
         <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
             <regexp> - </regexp>
