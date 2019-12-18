@@ -13097,16 +13097,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>T'hi assembles molt.</example>
             <example>T'assembles molt a ell.</example>
         </rule>
-        <rule id="FRUIT" name="fruït/fruit">
-            <pattern>
-                <token regexp="yes">fruïts?<exception scope="previous" postag="VA.*" postag_regexp="yes" inflected="yes">haver</exception><exception scope="previous">havent</exception></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fruït(s?)" regexp_replace="fruit$1"/></suggestion>? "Fruït" és el participi del verb fruir.</message>
-            <example correction="fruits">Els <marker>fruïts</marker> de la seva feina.</example>
-            <example>Havent fruït d'un bon menjar.</example>
-            <example>Havien fruït d'un bon menjar.</example>
-            <example>Si haguessin fruït d'un bon menjar.</example>
-        </rule>
         <rule id="PODER_NO_PODER_HO" name="*poder-no/poder-ho">
             <pattern>
                 <token postag="V.[NGM].*" postag_regexp="yes"></token>
@@ -14621,10 +14611,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">recondits?<exception scope="previous" inflected="yes">haver</exception></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Rr]ec)o(ndits?)" regexp_replace="$1ò$2"/></suggestion>? "\1" exisiteix com a participi de recondir.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(rec)o(ndits?)" regexp_replace="$1ò$2"/></suggestion>? "\1" exisiteix com a participi del v. 'recondir'.</message>
             <short>Possible confusió</short>
             <example correction="recòndit">En un lloc <marker>recondit</marker>.</example>
             <example>Han recondit els diners.</example>
+        </rule>
+        <rule id="ATONIT" name="atonit/atònit">
+            <pattern>
+                <token regexp="yes">atonits?<exception scope="previous" inflected="yes">haver</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(at)o(nits?)" regexp_replace="$1ò$2"/></suggestion>? "\1" exisiteix com a participi del v. 'atonir'.</message>
+            <short>Possible confusió</short>
+            <example correction="atònit">Va quedar <marker>atonit</marker>.</example>
+        </rule>
+        <rule id="FRUIT" name="fruït/fruit">
+            <pattern>
+                <token regexp="yes">fruïts?<exception scope="previous" postag="VA.*" postag_regexp="yes" inflected="yes">haver</exception><exception scope="previous">havent</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fruït(s?)" regexp_replace="fruit$1"/></suggestion>? "Fruït" és el participi del verb fruir.</message>
+            <example correction="fruits">Els <marker>fruïts</marker> de la seva feina.</example>
+            <example>Havent fruït d'un bon menjar.</example>
+            <example>Havien fruït d'un bon menjar.</example>
+            <example>Si haguessin fruït d'un bon menjar.</example>
         </rule>
         <rule id="QUEDAT_QUEDA" name="*quedat/queda determinat">
             <pattern>
