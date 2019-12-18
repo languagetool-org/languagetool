@@ -115,11 +115,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    * and that's only the demo language for languagetool-core.
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
-    int i = 0;
     for (Language lang : Languages.get()) {
-      if (i>0)
         runGrammarRuleForLanguage(lang);
-      i++;
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");

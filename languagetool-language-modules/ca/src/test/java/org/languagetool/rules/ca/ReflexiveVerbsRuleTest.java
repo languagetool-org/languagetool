@@ -48,7 +48,19 @@ public class ReflexiveVerbsRuleTest {
 
     //TODO: se'n vola / s'envola
     // correct sentences:
+    //TODO: assertCorrect("Mai se m'hauria ocorregut vanagloriar-me");
+    assertCorrect("s’està esforçant");
+    assertCorrect("m'he estat queixant");
+    assertCorrect("se'n va començar a ressentir");
+    assertCorrect("Me’n pensava endur més de mil");
+    assertCorrect("ja se'n comença a adonar");
+    assertCorrect("s'acaba d'adonar que ha escrit poemes");
+    assertCorrect("se’ls acaben d’emportar un familiar");
+    assertCorrect("i ens l'acabem empassant.");
+    assertCorrect("se’l va acabar enduent");
     assertCorrect("Ella se sol endur les garrotades.");
+    assertCorrect(" No t’acabes d’atrevir.");
+    assertCorrect("Es va intentar suïcidar.");
     assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
     assertCorrect("El tauler es pot construir baixant amb cartes.");
     assertCorrect("El botó del ratolí es configura per anar endavant i endarrere.");
