@@ -12899,6 +12899,19 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="SOCIETE_GENERALE" name="Société Générale" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Société</token>
+                <token regexp="yes">Générales?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Soci.t.</token>
+                <token regexp="yes">G.n.ral.?s?</token>
+            </pattern>
+            <message>Did you mean <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
+            <url>https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
+            <example correction="Société Générale">The <marker>Societé General</marker> is a French bank.</example>
+        </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
                 <marker>
