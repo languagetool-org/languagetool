@@ -32141,6 +32141,52 @@ Andere Projekte</example>
                 <example correction="Check-outs">Während des <marker>Check-Outs</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COMING_OUT" name="'Coming-out'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Comm?ing</token>
+                    <token case_sensitive="yes" regexp="yes">Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Coming-<match no="2" case_conversion="alllower" /></suggestion> (= bewusstes Öffentlichmachen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Coming_out</url>
+                <example correction="Coming-out">Er hatte sein <marker>Coming Out</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Comm?ing-?Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)comm?ing-?out" regexp_replace="Coming-out" /></suggestion> (= bewusstes Öffentlichmachen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Coming_out</url>
+                <example correction="Coming-outs">Während seines <marker>Comming-Outs</marker> sah man ihm seinen Stolz an.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DRIVE_IN" name="'Drive-in'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Drive</token>
+                    <token case_sensitive="yes" regexp="yes">Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Drive-<match no="2" case_conversion="alllower" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-in">Bitte fahren Sie zum <marker>Drive In</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Driveins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Drivein" regexp_replace="Drive-in" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-in">Bitte fahren Sie zum <marker>Drivein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Drive-?Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)drive-?in" regexp_replace="Drive-in" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-ins">Während des <marker>Drive-Ins</marker> suchte er panisch sein Geld.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="START_UP" name="'Start-up'">
             <rule>
                 <pattern>
@@ -32216,7 +32262,7 @@ Andere Projekte</example>
                 <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CUM_EX" name="Cum-Ex" default="temp_off">
+        <rulegroup id="CUM_EX" name="Cum-Ex">
             <rule>
                 <pattern>
                     <token>cum</token>
