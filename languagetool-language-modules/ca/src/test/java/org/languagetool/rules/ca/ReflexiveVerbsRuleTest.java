@@ -48,6 +48,7 @@ public class ReflexiveVerbsRuleTest {
 
     //TODO: se'n vola / s'envola
     // correct sentences:
+    assertCorrect("Ella se sol endur les garrotades.");
     assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
     assertCorrect("El tauler es pot construir baixant amb cartes.");
     assertCorrect("El botó del ratolí es configura per anar endavant i endarrere.");
@@ -122,6 +123,7 @@ public class ReflexiveVerbsRuleTest {
     assertCorrect("La mort del pare m’havia portat la imatge d’aquests morts");
     assertCorrect("Una onada de foc em pujava del pit a la cara.");
 
+    assertIncorrect("Ens vàrem marxar amb tren.");
     //donar-se compte
     assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
     assertCorrect("Encara em cal donar compte d'un altre recull");

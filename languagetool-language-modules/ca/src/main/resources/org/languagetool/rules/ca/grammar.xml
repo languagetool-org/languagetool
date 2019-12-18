@@ -26309,6 +26309,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="12.30.58,5">Són les <marker>12:30:58,5</marker> hores.</example>
             </rule>
             <rule>
+                <antipattern> <!--  llibres de la Bíblia -->
+                    <token postag="_abrev_biblia"/>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">([01]?\d|2[0-4])</token>
                     <token spacebefore="no">:</token>
@@ -26317,6 +26326,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Fem servir un punt en les expressions d'hores.</message>
                 <suggestion>\1.\3</suggestion>
                 <example correction="12.30">Són les <marker>12:30</marker> hores.</example>
+                <example>(Gn 2:22)</example>
+                <example>Science of Tsunami Hazards 16:21-30</example>
+                <example>Èxode 2:23</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOSPUNTS_EN_HORES" name="dos punts en les expressions d'hores" default="temp_off">
@@ -26359,11 +26371,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <antipattern> <!--  llibres de la Bíblia -->
-                    <marker>
-                        <token postag="_abrev_biblia"/>
-                        <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
-                        <token regexp="yes">\d+\.\d+</token>
-                    </marker>
+                    <token postag="_abrev_biblia"/>
+                    <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
+                    <token regexp="yes">\d+\.\d+</token>
                 </antipattern>
                 <antipattern> <!--  versions -->
                     <marker>
@@ -28476,6 +28486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és una unitat, cal escriure un superíndex.</message>
                 <suggestion><match no="1" regexp_match="(.*)2" regexp_replace="$1²"/></suggestion>
                 <example correction="km²">30 <marker>km2</marker></example>
+                <example correction="m²">és superior als 1000 W/<marker>m2</marker></example>
                 <example>KM2</example>
             </rule>
             <rule>
