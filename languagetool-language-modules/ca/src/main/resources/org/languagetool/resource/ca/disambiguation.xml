@@ -425,7 +425,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+                    <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})<exception postag="_enumeracio"/></token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -433,7 +433,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})<exception regexp="yes">cm|mm</exception></token>
+                    <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})<exception regexp="yes">cm|mm</exception><exception postag="_enumeracio"/></token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="AO0CN0"/></disambig>
@@ -874,6 +874,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">a|e|u</token>
                 </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D..FS.|SPS00" postag_regexp="yes"></token>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">i</token>
+                </marker>
+                <token regexp="yes">llarga|breu</token>
             </pattern>
             <disambig action="filter" postag="N.*" />
         </rule>
@@ -13199,8 +13209,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="UNITATS_SI" name="Sistema Internacional d'Unitats">
         <rule>
+            <antipattern>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
+                <token regexp="yes">aC|dC</token>
+            </antipattern>
+            <antipattern>
+                <token postag="_C_TEMPS"/>
+                <token regexp="yes">a|aC|dC</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">[\d\., &#160;]*\d<exception postag="_C_TEMPS"/></token>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
@@ -13209,7 +13227,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">[\d\., &#160;]*\d<exception postag="_C_TEMPS"/></token>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
                 <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
                 <token>/</token>
                 <marker>
@@ -13228,7 +13246,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="replace"><wd pos="NCFS000"></wd></disambig>
     </rule>
-    <rule id="lletres_majuscules" name="lletres soltes majúscules">
+    <rulegroup id="lletres_majuscules" name="lletres soltes majúscules">
+        <rule>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
                 <marker>
@@ -13237,6 +13256,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="NPCN000"></wd></disambig>
         </rule>
+        <rule> <!--A és igual a B-->
+            <pattern>
+                <token postag="SENT_START"/>
+                <!--<token min="0" regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>-->
+                <marker>
+                    <token regexp="yes">\p{Lu}</token>
+                </marker>
+                <token postag="VS..3S.." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="NPCN000"></wd></disambig>
+        </rule>
+        <rule> <!--A és igual a B-->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
+                <marker>
+                    <token regexp="yes">\p{Lu}</token>
+                </marker>
+                <token postag="VS..3S.." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="NPCN000"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
         <pattern>
            <token/>
