@@ -12,7 +12,6 @@ commons-*: Apache License 2.0, http://commons.apache.org/lang/
 german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest
-hunspell-native-libs.jar: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
 hppc.jar: Apache License 2.0, http://labs.carrotsearch.com/hppc.html
 HanLP: Apache License 2.0, https://github.com/hankcs/HanLP
 hunspell.jar: Apache License 2.0, https://gitlab.com/dumonts/hunspell-java

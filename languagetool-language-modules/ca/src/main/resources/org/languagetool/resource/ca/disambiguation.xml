@@ -1908,15 +1908,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="NP.*"/>
         </rule>
-        <rule id="lletres_majuscules" name="lletres soltes majúscules">
-            <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
-                <marker>
-                    <token regexp="yes">\p{Lu}</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NPCN000"/>
-        </rule>
         <rule id="senyor_senyora" name="senyor -a">
             <pattern>
                 <marker>
@@ -2792,7 +2783,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa</token>
+                <token inflected="yes" regexp="yes">esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa|prova|capítol|habitatge|vivenda</token>
                 <marker>
                     <token>pilot</token>
                 </marker>
@@ -4255,10 +4246,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
-        <antipattern>
-            <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
+        <!--<antipattern>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*|P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SM." postag_regexp="yes"/>
-        </antipattern>
+        </antipattern>-->
         <antipattern>
             <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SF." postag_regexp="yes"/>
@@ -13065,7 +13056,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="llibres_biblia" name="abreviatures de llibres de la Bíblia">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH</token>
+                <token regexp="yes">Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH|Abdies|Ageu|Amós|Apocalipsi|Apòstols|Baruc|Cohèlet|Colossencs|Corintis|Cròniques|Càntic|Daniel|Deuteronomi|Efesis|Escrits|Esdres|Ester|Ezequiel|Fets|Filipencs|Filèmon|grec|Gàlates|Gènesi|Habacuc|Hebreus|Isaïes|Jaume|Jeremies|Joan|Job|Joel|Jonàs|Josuè|Judes|Judit|Jutges|Lamentacions|Levític|Lluc|Macabeus|Malaquies|Marc|Mateu|Miquees|Nahum|Nehemies|Nombres|Osees|Pentateuc|Pere|Proverbis|Reis|Romans|Rut|Salms|Samuel|Saviesa|Siràcida|Sofonies|Tessalonicencs|Timoteu|Titus|Tobit|Zecaries|Èxode</token>
             </marker>
             <token regexp="yes">[0-9][0-9,.-]*</token>
         </pattern>
@@ -13200,15 +13191,46 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="AQ0FP0" lemma="pringat"></wd></disambig>
         </rule>
     </rulegroup>
-    <rule id="UNITATS_SI" name="Sistema Internacional d'Unitats">
+    <rulegroup id="UNITATS_SI" name="Sistema Internacional d'Unitats">
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d\., &#160;]*\d<exception postag="_C_TEMPS"/></token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Y"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d\., &#160;]*\d<exception postag="_C_TEMPS"/></token>
+                <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                <token>/</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Y"></wd></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="noms_lletres" name="algunes lletres">
         <pattern>
-            <token regexp="yes">[\d\., &#160;]+</token>
+            <token postag="D..FS." postag_regexp="yes"/>
             <marker>
-                <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?</token>
+                <token regexp="yes">s|g</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd pos="Y"></wd></disambig>
+        <disambig action="replace"><wd pos="NCFS000"></wd></disambig>
     </rule>
+    <rule id="lletres_majuscules" name="lletres soltes majúscules">
+            <pattern>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
+                <marker>
+                    <token regexp="yes">\p{Lu}<exception postag="Y"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="NPCN000"></wd></disambig>
+        </rule>
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
         <pattern>
            <token/>
