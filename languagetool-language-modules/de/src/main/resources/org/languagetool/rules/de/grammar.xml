@@ -17127,7 +17127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöü]+</token></marker>
                     <token regexp="yes">d(ies)?e[rs]|[mds]?eine[rs]</token>
                 </pattern>
-                <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier substantivisch verwendet zu werden und muss daher großgeschrieben werden.</message>
+                <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier nominalisiert verwendet zu werden und muss daher großgeschrieben werden.</message>
                 <example correction="Absenken">Ein vorsichtiges <marker>absenken</marker> des Drucks ist notwendig.</example>
             </rule>
         </rulegroup>
@@ -18212,7 +18212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </pattern>
-            <message>Falls <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier substantivisch gebraucht wird, muss man es großschreiben.</message>
+            <message>Falls <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier nominalisiert gebraucht wird, muss man es großschreiben.</message>
             <short>&prgk;.</short>
             <example correction="Einsetzen">Wir berechnen die Werte durch <marker>einsetzen</marker>.</example>
         </rule>
@@ -29297,7 +29297,7 @@ Andere Projekte</example>
                         <token>wehe</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Wehe</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <message>&subanfang;<suggestion>Wehe</suggestion> hier nominalisiert verwendet wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example correction="Wehe">Das entscheidet über das wohl und <marker>wehe</marker> der Partei.</example>
             </rule>
@@ -29310,7 +29310,7 @@ Andere Projekte</example>
                     <token>und</token>
                     <token regexp="yes">[wW]ehe</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Wohl</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <message>&subanfang;<suggestion>Wohl</suggestion> hier nominalisiert verwendet wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example correction="Wohl">Das entscheidet womöglich über das <marker>wohl</marker> und Wehe der Partei.</example>
             </rule>
@@ -40185,6 +40185,14 @@ Andere Projekte</example>
                     <token>je</token>
                     <token case_sensitive="yes">nachdem</token>
                     <token case_sensitive="yes" regexp="yes">ob|w[a-z]+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="KON:UNT"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="VER:.+" postag_regexp="yes"/>
+                        <exception postag="VER:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SENT_END"/>
                 </antipattern>
                 <pattern>
                     <marker>
