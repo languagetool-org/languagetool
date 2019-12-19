@@ -8693,6 +8693,10 @@ USA
                 <token>dog</token>
                 <token>tired</token>
             </antipattern>
+            <antipattern><!-- https://en.wiktionary.org/wiki/bubble_wrap#Noun -->
+                <token>bubble</token>
+                <token>wrap</token>
+            </antipattern>
             <antipattern>
                 <token inflected="yes">give</token>
                 <token>rise</token>
@@ -8729,23 +8733,23 @@ USA
                 </token>
                 <token postag="VB.*" postag_regexp="yes">
                     <exception postag="RBR" />
-                    <exception regexp="yes">please|cant|off|let|rule|right|con|last|google</exception>
+                    <exception regexp="yes">please|cant|off|up|let|rule|right|con|last|google</exception>
                     <exception inflected="yes" regexp="yes">say|mean|mention|click|tap|hit|press|hold</exception>
                 </token>
                 <marker>
                     <token postag="NN">
-                        <exception postag="NNS|NNPS?|NN:UN?|IN|W.*|CD|JJR?|RB|PRP.*|MD|DT|VBN" postag_regexp="yes" />
-                        <exception regexp="yes">atm|able|if|setup|backup|blackout|login|logout|are|is|brand|amazon|run|given|SOL|SEG|arm|raspberry|internet|inline|auto|iot|fine|dude|visa|three-fourths|host|rise|good-?bye|go|dat|sweetheart|girl</exception>
+                        <exception postag="NNS|NNPS?|NN:UN?|IN|W.*|CD|JJR?|RB.*|PRP.*|MD|DT|VBN" postag_regexp="yes" />
+                        <exception regexp="yes">atm|able|if|setup|backup|blackout|checkout|rollout|signup|signin|login|logout|are|is|brand|amazon|run|arm|raspberry|internet|inline|auto|iot|fine|dude|visa|three-fourths|host|rise|good-?bye|go|dat|sweet.*|girl|boy|m[uo]m|dad|m[uo]mmy|daddy|son</exception>
                         <exception scope="next" regexp="yes">#?\d+</exception>
                         <exception scope="next" postag="CD" />
-                        <exception regexp="yes" case_sensitive="yes">[A-Z]+</exception>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
                     </token>
                 </marker>
                 <token postag="PCT|IN|JJ|CC" postag_regexp="yes">
                     <exception regexp="yes">wide|specific|only</exception>
                 </token>
             </pattern>
-            <message>It seems that a determiner is missing.</message>
+            <message>It seems that a determiner for the countable noun '\5' is missing.</message>
             <suggestion>a \5</suggestion>
             <suggestion>the \5</suggestion>
             <example correction="a event|the event">We can schedule <marker>event</marker>.</example>
@@ -8769,7 +8773,9 @@ USA
             <example>I wonder why I can switch on a light in a Routine.</example>
             <example>Can you please fix this issue?</example>
             <example>I have one integrated wall switch.</example>
+            <example>What are you doing sweetheart.</example>
             <example>Keep it up girl.</example>
+            <example>He told Hanger about it.</example>
             <example>You can save face with a happy smile.</example>
             <example>Looking for a wall Switch to replace the one I have atm.</example>
             <example>Adelaide also plays host to two of Australia's leading contemporary dance ...</example>
