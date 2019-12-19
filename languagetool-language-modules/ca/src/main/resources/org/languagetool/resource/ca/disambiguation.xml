@@ -60,6 +60,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd pos="Y" lemma="litre"/></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>Carles</token>
+            </pattern>
+            <disambig action="remove"><wd pos="NPCSG00" lemma="Carles"/></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
@@ -6951,6 +6957,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>-->
+    <rulegroup id="grups_adj_n" name="grups d'ajectius i noms">
+        <rule>
+            <pattern>
+                <token postag="NC.P.*" postag_regexp="yes"/>
+                <token postag="A...S.*" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="A...S.*" postag_regexp="yes"/>
+                <token postag="A...P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.P.*" postag_regexp="yes"/>
+                <token postag="A...S.*" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag="A...S.*" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="A...S.*" postag_regexp="yes"/>
+                <token postag="A...P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
