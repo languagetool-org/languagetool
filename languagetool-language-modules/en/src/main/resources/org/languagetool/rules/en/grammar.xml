@@ -3808,6 +3808,16 @@ USA
                     <token>bad</token>
                     <token>manners</token>
                 </antipattern>
+                <antipattern><!-- #2234 because it's rich text, you -->
+                    <token postag="CC"/>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ"/>
+                    <token postag="NN:UN?" postag_regexp="yes"/>
+                    <token min="0" max="1">,</token>
+                    <token postag="PRP(\$)?" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -3817,7 +3827,12 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>its <match no="4"/> <match no="5"/></suggestion>?</message>
                 <example correction="its odorless handshake">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
+                <example correction="its rich text">Note also that because <marker>it's rich text</marker> is illustrated with stunning graphics, the book is perfect for your coffee table.</example>
+                <example correction="its rich text">... and <marker>it's rich text</marker>, stunning graphics, and low price make the book the perfect present.</example>
                 <example>I appreciate its odorless handshake by the fifth time.</example>
+                <example>Since it's rich text, you can do things like turn a selection...</example><!-- #2234 -->
+                <example>... because it's rich text it shows the...</example><!-- #2234 -->
+                <example>... because it's rich text, your editor will show the...</example><!-- #2234 -->
             </rule>
             <rule>
                 <pattern>
