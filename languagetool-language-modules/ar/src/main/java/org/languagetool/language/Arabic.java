@@ -30,10 +30,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicHybridDisambiguator;
 import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tokenizers.ArabicSentenceTokenizer;
-import org.languagetool.tokenizers.ArabicWordTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,7 +82,7 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer = new ArabicSentenceTokenizer(this);
+      sentenceTokenizer =new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
