@@ -15255,6 +15255,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vull 100 l que no arriben.</example>
                 <example>Abans del que creus.</example>
                 <example>La L representa la inductància.</example>
+                <example>Deixeble de L. Valla.</example>
+                <example>calculats per L.E. Cunningham</example>
             </rule>
             <rule>
                 <pattern>
@@ -19556,7 +19558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>de</token>
-                        <token regexp="yes">&nombres_que_apostrofen;|últim(s|a|es)?</token>
+                        <token regexp="yes">&nombres_que_apostrofen;|últim(s|a|es)?|(?-i)u</token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -19566,6 +19568,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="d'1%"><marker>de 1%</marker>.</example>
                 <example correction="d'11°C">Per damunt <marker>de 11°C</marker>.</example>
                 <example correction="d'última"><marker>de última</marker> generació</example>
+                <example correction="d'u">definició <marker>de u</marker></example>
+                <example>definició de U</example>
                 <example>de 1.400 habitants</example>
                 <example>a una distància de 1 630 anys llum.</example>
             </rule>
@@ -19573,7 +19577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>el</token>
-                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                        <token regexp="yes">u|últim|&nombres_que_apostrofen;</token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -19592,7 +19596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">a|de</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                        <token regexp="yes">u|últim|&nombres_que_apostrofen;</token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -19608,7 +19612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>pe</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">&nombres_que_apostrofen;|últim</token>
+                        <token regexp="yes">u|últim|&nombres_que_apostrofen;</token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -19658,6 +19662,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>el 23 de agosto de 1984</example>
                 <example>de oro</example> <!-- very common in Spanish-->
                 <example>Miguel de Unamuno</example>
+                <example>definició de U.</example>
                 <!-- gira al voltant de OH
                     de ARN-->
             </rule>
@@ -26462,16 +26467,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <antipattern> <!-- hores -->
-                <marker>
-                    <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
-                    <token regexp="yes">h|hores|am|pm</token>
-                </marker>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <token regexp="yes">h|hores|am|pm</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes" skip="2">([01]?[0-9]|2[0-4])\.\d{2}</token>
-                    <token regexp="yes">&parts_dia;</token>
-                </marker>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <token regexp="yes" min="1" max="2">i|a|fins|-|/</token>
+                <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <token regexp="yes">h|hores|am|pm</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="2">([01]?[0-9]|2[0-4])\.\d{2}</token>
+                <token regexp="yes">&parts_dia;</token>
             </antipattern>
             <antipattern>
                 <marker>
@@ -26550,6 +26557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example>
                 <example>Tinc la versió 5.6.3.4 de LibreOffice.</example>
                 <example>Tinc la versió 5.6.3 de LibreOffice.</example>
+                <example>Des de 15.30 fins a 16.30 h.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27894,9 +27902,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>s. \3</suggestion>
             <suggestion>segle \3</suggestion>
             <example correction="s. XVIII|segle XVIII">A començament del <marker>s XVIII</marker>.</example>
+            <example correction="s. X|segle X">Ciutat antiga (<marker>s X</marker>)</example>
             <example>En el segle XVIII.</example>
             <example>Va tardar 50,4 s a arribar-hi.</example>
             <example>El Samsung Galaxy S III</example>
+
         </rule>
         <rulegroup id="CARACTERS_INCORRECTES" name="caràcters incorrectes">
             <rule id="COMETES_INCORRECTES" name="Detecta cometes en posició incorrecta">
