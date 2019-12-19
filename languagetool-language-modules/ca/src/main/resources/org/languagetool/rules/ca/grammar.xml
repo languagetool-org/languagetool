@@ -2057,7 +2057,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="A..FS." postag_regexp="yes"/>
-                    <token postag="N.FS.*" postag_regexp="yes"/>
+                    <token postag="N.FS.*|A..[FC]S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="A..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.*|A..[FC]P." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
@@ -2092,6 +2096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Benvolguda Pilar</example>
                 <example>als extrems meridional i septentrional valencians</example>
                 <example>literatures catalana, castellana i anglesa contemporànies</example>
+                <example>les primeres regulars del teatre</example>
             </rule>
             <rule>
                 <pattern>
@@ -2338,6 +2343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>l'origen del modus vivendi</example>
                 <example>Fins a les nou i set minuts.</example>
                 <example>Ha partit pel mig dos gegants.</example>
+                <example>I el 2005 57 114 h.</example>
                 <!-- <example>així com per la molt posterior Patlabor.</example>
                     a fer tots botànica cultural-->
             </rule>
@@ -43298,7 +43304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PASSAR_PER" name="passar per + infinitiu">
             <pattern>
                 <marker>
-                    <token postag="V.[IS].*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="V.[IS].*" postag_regexp="yes" inflected="yes">passar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
                     <token>per</token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"><exception>ser</exception></token>
@@ -43313,6 +43319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No passis per la plaça.</example>
             <example>les vicissituds que ha hagut de passar per arribar al plaçament actual</example>
             <example>a finals del segle passat per examinar críticament</example>
+            <example>Això em passa per anar a veure'l tan sovint.</example>
         </rule>
         <rule id="POSSESIU_CARREC_FAVOR_PARER" name="possessiu + càrrec/favor/parer">
             <antipattern>

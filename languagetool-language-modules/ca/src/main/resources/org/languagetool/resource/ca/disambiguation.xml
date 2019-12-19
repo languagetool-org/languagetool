@@ -7522,6 +7522,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GN_FP"/><wd pos="_GN_FP"/><wd pos="_GN_FP"/></disambig>
         </rule>
     </rulegroup>
+    <rule id="DAA" name="det + adj + adj">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="D[^R].*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall" />
+    </rule>
     <rulegroup id="part" name="part nom masculí o femení">
         <rule>
             <pattern>

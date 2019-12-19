@@ -115,6 +115,13 @@ public class CatalanWordTokenizerTest {
     assertEquals("[Sud, -, Est]", tokens.toString());
     tokens = wordTokenizer.tokenize("Sud-est");
     assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("10 000");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("1 000 000");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("2005 57 114");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[2005,  , 57 114]", tokens.toString());
     
   }
 }
