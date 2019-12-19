@@ -8634,254 +8634,77 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="VB_NN" name="missing determiner">
-            <!-- TODO: "we can create good event" -->
-            <!-- TODO: "we can create music event" -->
+        <rulegroup id="BUNCH_OF" name="a bunch of" default="temp_off">
             <antipattern>
-                <token postag="NNP"></token>
-                <token postag="VB.*" postag_regexp="yes" regexp="yes">[A-Z].*</token>
-                <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
+                <token>parking</token>
+                <token>lot</token>
             </antipattern>
             <antipattern>
-                <token postag="NN" min="1" max="3"></token>
-                <token postag="NN:UN|NN:U|NNP?S|UNKNOWN|CD" postag_regexp="yes"></token>
+                <token postag="DT" skip="2" />
+                <token regexp="yes">bunch|lot|pair|couple|majority</token>
             </antipattern>
-            <antipattern>
-                <token postag="NN" min="1" max="3"></token>
-                <token regexp="yes">,|and|&amp;|or</token>
-                <token postag="JJ|UNKNOWN" postag_regexp="yes" min="0" />
-                <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token postag="NN" min="1" max="3"></token>
-                <token regexp="yes" min="0">,</token>
-                <token regexp="yes">not|instead</token>
-            </antipattern>
-            <antipattern>
-                <token postag="NN"></token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">.+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">have|has|had</token>
-                <token postag="NN.*" postag_regexp="yes" min="1" max="3" />
-                <token>do</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">sort|kind</token>
-                <token>of</token>
-            </antipattern>
-            <antipattern>
-                <token postag="MD" />
-                <token>be</token>
-                <token postag="VBN" />
-            </antipattern>
-            <antipattern>
-                <token>echo</token>
-                <token>dot</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">plug|log</token>
-                <token>in</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" regexp="yes">keep|lose</token>
-                <token>track</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">that|which|who|what|when|while</token>
-                <token />
-                <token postag="VB.*" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token>got</token>
-                <token>word</token>
-            </antipattern>
-            <antipattern>
-                <token>step</token>
-                <token>by</token>
-                <token>step</token>
-            </antipattern>
-            <antipattern>
-                <token>taken</token>
-                <token>prisoner</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">end|face|start|look</token>
-                <token>up</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">become</token>
-                <token regexp="yes">ma[yj]or|emperor|king|commander|chair(wo)?man</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">find</token>
-                <token>fault</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">receive</token>
-                <token>word</token>
-            </antipattern>
-            <antipattern>
-                <token>dog</token>
-                <token>tired</token>
-            </antipattern>
-            <antipattern><!-- https://en.wiktionary.org/wiki/bubble_wrap#Noun -->
-                <token>bubble</token>
-                <token>wrap</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">give</token>
-                <token>rise</token>
-                <token>to</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" regexp="yes">save|lose</token>
-                <token>face</token>
-            </antipattern>
-            <antipattern><!-- I cannot help laugh at it -->
-                <token postag="MD" />
-                <token>help</token>
-                <token postag="VB.*" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">get</token>
-                <token postag="VB[DN]" postag_regexp="yes" />
-            </antipattern>
-            <antipattern><!-- What do you think came to pass here? -->
-                <token postag="W.*" postag_regexp="yes" />
-                <token inflected="yes">do</token>
-                <token postag="PRP" />
-                <token postag="RB.*" postag_regexp="yes" min="0" />
-                <token postag="VB.*" postag_regexp="yes" />
-            </antipattern>
-            <pattern>
-                <token postag="NNP|PRP" postag_regexp="yes">
-                    <exception>one</exception>
-                    <exception postag="PRP$" />
-                </token>
-                <token postag="MD" min="0"></token>
-                <token postag="RB" min="0">
-                    <exception postag="IN" />
-                </token>
-                <token postag="VB.*" postag_regexp="yes">
-                    <exception postag="RBR" />
-                    <exception regexp="yes">please|cant|off|up|let|rule|right|con|last|google</exception>
-                    <exception inflected="yes" regexp="yes">say|mean|mention|click|tap|hit|press|hold</exception>
-                </token>
-                <marker>
-                    <token postag="NN">
-                        <exception postag="NNS|NNPS?|NN:UN?|IN|W.*|CD|JJR?|RB.*|PRP.*|MD|DT|VBN" postag_regexp="yes" />
-                        <exception regexp="yes">atm|able|if|setup|backup|blackout|checkout|rollout|signup|signin|login|logout|are|is|brand|amazon|run|arm|raspberry|internet|inline|auto|iot|fine|dude|visa|three-fourths|host|rise|good-?bye|go|dat|sweet.*|girl|boy|m[uo]m|dad|m[uo]mmy|daddy|son</exception>
-                        <exception scope="next" regexp="yes">#?\d+</exception>
-                        <exception scope="next" postag="CD" />
-                        <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|IN|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="JJ.*" postag_regexp="yes" />
                     </token>
-                </marker>
-                <token postag="PCT|IN|JJ|CC" postag_regexp="yes">
-                    <exception regexp="yes">wide|specific|only</exception>
-                </token>
-            </pattern>
-            <message>It seems that a determiner for the countable noun '\5' is missing.</message>
-            <suggestion>a \5</suggestion>
-            <suggestion>the \5</suggestion>
-            <example correction="a event|the event">We can schedule <marker>event</marker>.</example>
-            <example correction="a car|the car">Tom regularly makes <marker>car</marker> clean.</example>
-            <example correction="a relay|the relay">Maybe you configured <marker>relay</marker> for a maintained connection.</example>
-            <example correction="a fan|the fan">I am <marker>fan</marker> of Google.</example>
-            <example correction="a bunch|the bunch">I’m trying to make my zigbee robuts I have <marker>bunch</marker> of them.</example>
-            <example correction="a bunch|the bunch">I just bought <marker>bunch</marker> of securifi peanut smart plugs.</example>
-            <example correction="a problem|the problem">If you have <marker>problem</marker> with the app itself or with the IFTTT channel, these are the people you contact.</example>
-            <example correction="a link|the link">Can you provide <marker>link</marker> to the Smartapp?</example>
-            <example correction="a sensor|the sensor">Every 24 hours we remind <marker>sensor</marker> to wake up regularly.</example>
-            <example correction="a module|the module">You can control <marker>module</marker> with this remote.</example>
-            <example correction="a hub|the hub">Do you have <marker>hub</marker>?</example>
-            <example correction="a answer|the answer">Also I got <marker>answer</marker> from support that there is no power metering in this socket.</example>
-            <example correction="a device|the device">In the Alexa app I select Smart Home then add <marker>device</marker>.</example>
-            <example correction="a leader|the leader">He was <marker>leader</marker> of the Hunnic Empire.</example>
-            <example correction="a bit|the bit">I am <marker>bit</marker> weak at figures.</example>
-            <example correction="a merry-go-round|the merry-go-round">Being able to revolve, it is <marker>merry-go-round</marker>.</example>
-            <example>As long as the thermostat implements capability thermostat it should show up.</example>
-            <example>They waved good-bye to their parents as the train pulled out.</example>
-            <example>I wonder why I can switch on a light in a Routine.</example>
-            <example>Can you please fix this issue?</example>
-            <example>I have one integrated wall switch.</example>
-            <example>What are you doing sweetheart.</example>
-            <example>Keep it up girl.</example>
-            <example>He told Hanger about it.</example>
-            <example>You can save face with a happy smile.</example>
-            <example>Looking for a wall Switch to replace the one I have atm.</example>
-            <example>Adelaide also plays host to two of Australia's leading contemporary dance ...</example>
-            <example>Have they discontinued support and development for this?</example>
-            <example>We contacted support.</example>
-            <example>when I let go</example>
-            <example>I held reset for 30 seconds, still no change.</example>
-            <example>I think that makes me feel better?</example>
-            <example>At least one GE z-wave electrical outlet which I understand serve as ‘repeaters’ for the mesh network.</example>
-            <example>I always keep track.</example>
-            <example>The new Samsung Connect app.</example>
-            <example>I had given up on this.</example>
-            <example>I actually keep track of this.</example>
-            <example>If you press master B, only the light that it controls comes on.</example>
-            <example>The 2 motions that I have drop off the map for days then magically start working again.</example>
-            <example>I have Siri as a back up.</example>
-            <example>A generic Z-Wave Water Sensor handler.</example>
-            <example>I have run into this before.</example>
-            <example>When you say hub, what do you mean?</example>
-            <example>It works great.</example>
-            <example>I missed step one.</example>
-            <example>Hopefully you will be given a variety of options here.</example>
-            <example>It was closer.</example>
-            <example>I just have Siri do it.</example>
-            <example>If I open garage door 1, I see garage door 2 in the logs.</example>
-            <example>Not to throw it off topic, but it’s called an Arrival Sensor.</example>
-            <example>I use several of these handy little temperature and humidity sensors.</example>
-            <example>It is specific to the Samsung platform.</example>
-            <example>I just bought one from Amazon.</example>
-            <example>Summing up, I want wall control and automation capabilities.</example>
-            <example>I already set mine up.</example>
-            <example>Please explain step by step.</example>
-            <example>I needed smoker and meat temps.</example>
-            <example>If you have can you share your config.json with me?</example>
-            <example>I cannot find documentation on Schlage Connect.</example>
-            <example>Have you checked graph.api.smartthings.com to dig into the cause?</example>
-            <example>It’s using the HA profile and I think endpoint 3.</example>
-            <example>I use weather tile device to view the current observations.</example>
-            <example>It says no.</example>
-            <example>you can do soft reset by holding power button.</example>
-            <example>Until I hit refresh on that particular switch.</example>
-            <example>I think you need no led in your case.</example>
-            <example>Also if you look on ebay you can find brand new sealed Leviton or GE Z-Wave plus switches.</example>
-            <example>I exit full screen mode.</example>
-            <example>Look up the 3rd gen Echo Dot Mount Genie in wall mount on Amazon.</example>
-            <example>The Arlo connect smart app.</example>
-            <example>Does the remote need to be in the same room as the candles or will it work house wide?</example>
-            <example>I posted this here because it is device related.</example>
-            <example>I believe device uptime, not distance to be the main factor.</example>
-            <example>it worked sort of.</example>
-            <example>Reports are coming in that people’s phones have been dropping off after he last update.</example>
-            <example>They now work fine.</example>
-            <example>He has lied to them.</example>
-            <example>Had it better go with you.</example>
-            <example>Do you accept visa?</example>
-            <example>I hate karaoke.</example>
-            <example>You better put on another shirt.</example>
-            <example>She is known for her two best-selling novels</example>
-            <example>Let's play catch.</example>
-            <example>You suck dude!</example>
-            <example>He was himself taken prisoner.</example>
-            <example>It may give rise to serious trouble.</example>
-            <example>I cannot help laugh at it.</example>
-            <example>If you go on drinking so much, you may well end up an alcoholic.</example>
-            <example>You should write HANDLE WITH CARE on the parcel that contains the teacups.</example>
-            <example>I can't understand why James always finds fault with his wife.</example>
-            <example>I was dog tired when I got home last night.</example>
-            <example>What do you think came to pass here?</example>
-            <example>She penned her first short story,</example>
-            <example>We received word of his death.</example>
-            <example>You are Go for TLI.</example>
-            <example>He became commander of the Confederacy's western armies.</example>
-        </rule>
+                    <marker>
+                        <token regexp="yes">vast|huge|large|big|significant</token>
+                        <token>majority</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>the \2 \3 \4</suggestion>
+                <example correction="the vast majority of">He received <marker>vast majority of</marker> files on Thursday.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|IN|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="JJ.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>majority</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>the \2 \3</suggestion>
+                <example correction="the majority of">He received <marker>majority of</marker> files on Thursday.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|IN|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="JJ.*|DT|RB" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">new|old|only|so|good|great</token>
+                        <token regexp="yes">bunch|lot|pair|couple</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>a \2 \3 \4</suggestion>
+                <example correction="a great bunch of">He received <marker>great bunch of</marker> new things.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|IN|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="JJ.*|DT" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">bunch|lot|pair|couple</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>a \2 \3</suggestion>
+                <example correction="a bunch of">He received <marker>bunch of</marker> new things.</example>
+                <example>Happened again on a Saturday in the parking lot of a Village Inn.</example>
+                <example>Either pair of shoes is fine.</example>
+                <example correction="a lot of">In <marker>lot of</marker> cases.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="CONDITIONAL_CLAUSE" name="conditional clause">
             <url>https://grammar.collinsdictionary.com/easy-learning/conditional-clauses</url>
@@ -12951,6 +12774,18 @@ USA
             <message>Did you mean <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
             <url>https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
             <example correction="Société Générale">The <marker>Societé General</marker> is a French bank.</example>
+        </rule>
+        <rule id="NDRANGHETA" name="'Ndrangheta" default="temp_off">
+            <pattern>
+                <token>
+                    Ndrangheta
+                    <exception scope="previous" regexp="yes">['`´’]</exception>
+                </token>
+            </pattern>
+            <message>This name is prefixed with an apostrophe.</message>
+            <suggestion>'Ndrangheta</suggestion>
+            <url>https://en.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
+            <example correction="'Ndrangheta">The <marker>Ndrangheta</marker> is a Mafia-type[3] organized crime group based in Calabria.</example>
         </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
@@ -23981,6 +23816,11 @@ USA
         </rulegroup>
         <rulegroup id="DOUBLE_NEGATIVE" name="Double negative (e.g., 'not... nothing' instead of 'not... anything')">
             <url>https://www.lexico.com/grammar/double-negatives</url>
+            <antipattern>
+                <token>no</token>
+                <token>matter</token>
+                <token regexp="yes">w.+</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|sh(a|ould)n|wasn|weren|won|wouldn</token>
@@ -24025,6 +23865,151 @@ USA
                 <example correction="anything">I didn't notice <marker>nothing</marker> wrong.</example>
                 <example>Those who possess nothing lose nothing.</example>
                 <example>I can't believe nobody came to your party.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">don|doesn</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                        <token regexp="yes">need|have|want|make|take|get</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion>\4 \5</suggestion>
+                <suggestion>\1\2\3 \4 any</suggestion>
+                <example correction="have no|don't have any">I <marker>don't have no</marker> idea.</example>
+                <example correction="need no|don't need any">I <marker>don't need no</marker> damn help.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>can</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                        <token postag="VBP?" postag_regexp="yes" />
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion>\1 \4 \5</suggestion>
+                <suggestion>\1\2\3 \4 any</suggestion>
+                <example correction="can show no|can't show any">I <marker>can't show no</marker> emotion.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>cannot</token>
+                        <token postag="VBP?" postag_regexp="yes" />
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion>can \2 \3</suggestion>
+                <suggestion>\1 \2 any</suggestion>
+                <example correction="can show no|cannot show any">I <marker>cannot show no</marker> emotion.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">do|does</token>
+                        <token>not</token>
+                        <token regexp="yes">need|have|want|make|take|get</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion>\3 \4</suggestion>
+                <suggestion>\1 \2 \3 any</suggestion>
+                <example correction="have no|do not have any">I <marker>do not have no</marker> idea.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>didn</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                        <token regexp="yes">need|have|want|make|take|get</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion><match no="4" postag="VBD" /> \5</suggestion>
+                <suggestion>\1\2\3 \4 any</suggestion>
+                <example correction="had no|didn't have any">I <marker>didn't have no</marker> idea.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>did</token>
+                        <token>not</token>
+                        <token regexp="yes">need|have|want|make|take|get</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion><match no="3" postag="VBD" /> \4</suggestion>
+                <suggestion>\1 \2 \3 any</suggestion>
+                <example correction="had no|did not have any">I <marker>did not have no</marker> idea.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">haven|hasn|hadn</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                        <token postag="VBN" />
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion><match no="1" regexp_match="(?i)n" regexp_replace="" /> \4 \5</suggestion>
+                <suggestion>\1\2\3 \4 any</suggestion>
+                <example correction="have done no|haven't done any">I <marker>haven't done no</marker> harm.</example>
+                <example correction="had done no|hadn't done any">I <marker>hadn't done no</marker> harm.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">have|has|had</token>
+                        <token>not</token>
+                        <token postag="VBN" />
+                        <token>no</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>Try to avoid double negations.</message>
+                <suggestion>\1 \3 \4</suggestion>
+                <suggestion>\1 \2 \3 any</suggestion>
+                <example correction="have done no|have not done any">I <marker>have not done no</marker> harm.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">not</token>
+                    <token postag="VB.*" postag_regexp="yes" min="0"></token>
+                    <marker>
+                        <token regexp="yes">n(othing|obody|owhere)</token>
+                    </marker>
+                </pattern>
+                <message>This word is part of a double negation. Consider using <suggestion><match no="3" regexp_match="(?i)no" regexp_replace="any" /></suggestion>.</message>
+                <example correction="anything">I didn't see <marker>nothing</marker>.</example>
+                <example correction="anybody">... but there wasn’t <marker>nobody</marker> in the office.</example>
             </rule>
             <rule>
                 <antipattern>
