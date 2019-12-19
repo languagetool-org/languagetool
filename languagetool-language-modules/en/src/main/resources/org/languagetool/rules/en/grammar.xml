@@ -8597,17 +8597,21 @@ USA
         </rule>
         <rule id="BU" name="bu (by, bus, but)"><!-- #2233 -->
             <pattern>
-                 <token>bu</token>
+                 <token case_sensitive="yes" regexp="yes">[Bb]u</token><!-- https://en.wikipedia.org/wiki/BU -->
             </pattern>
-            <message>Make sure that '\1' is an abbreviation (bureau, bushel, business unit). Did you mean <suggestion>by</suggestion>, <suggestion>but</suggestion>, <suggestion>bug</suggestion>, or <suggestion>bus</suggestion>?</message>
+            <message>Make sure that '\1' is an abbreviation (bureau, bushel). Did you mean <suggestion>by</suggestion>, <suggestion>but</suggestion>, <suggestion>bug</suggestion>, or <suggestion>bus</suggestion>?</message>
             <url>https://www.merriam-webster.com/dictionary/bu</url>
             <short>Possible typo</short>
             <example correction="by|but|bug|bus">I did it <marker>bu</marker> mistake.</example>
             <example correction="by|but|bug|bus">The food is cheap <marker>bu</marker> t delicious.</example><!-- The suggestion does not deal with the extra 't' -->
             <example correction="by|but|bug|bus">There is a subtle <marker>bu</marker> in the software.</example>
             <example correction="by|but|bug|bus">I was on the <marker>bu</marker> when I saw the accident.</example>
+            <example correction="By|But|Bug|Bus"><marker>Bu</marker> is this correct?</example>
             <example>I did it <marker>by</marker> mistake.</example>
+            <example>Which BU did you mean?</example>
+            <example>Refer to https://www.bu.edu for more information.</example>
             <example type="triggers_error">Our <marker>bu</marker> is full.</example><!-- Possibly correct, possibly an error. -->
+            <example type="triggers_error"><marker>Bu.</marker> is an abbreviation for bushel (www.lexico.com/definition/bu.).</example>
         </rule>
     </category>
 
