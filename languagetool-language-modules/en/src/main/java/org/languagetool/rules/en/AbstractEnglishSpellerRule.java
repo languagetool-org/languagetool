@@ -316,6 +316,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("E-Book");
     } else if ("Ebooks".equals(word)) {
       return Arrays.asList("E-Books");
+    } else if ("R&B".equals(word)) {
+      return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {
