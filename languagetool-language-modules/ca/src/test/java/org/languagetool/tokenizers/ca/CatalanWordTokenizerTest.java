@@ -121,7 +121,9 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("2005 57 114");
     assertEquals(tokens.size(), 3);
-    assertEquals("[2005,  , 57 114]", tokens.toString());
-    
+    assertEquals("[2005,  , 57 114]", tokens.toString());   
+    tokens = wordTokenizer.tokenize("2005 454");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[2005,  , 454]", tokens.toString());
   }
 }
