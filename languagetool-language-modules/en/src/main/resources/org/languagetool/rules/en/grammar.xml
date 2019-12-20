@@ -8635,6 +8635,26 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>State</token>
+                <token regexp="yes">[Oo]f</token>
+                <token regexp="yes">[Tt]he</token>
+                <token>Union</token>
+            </antipattern>
+            <pattern>
+                <token>state</token>
+                <token>of</token>
+                <token>the</token>
+                <token>union</token>
+            </pattern>
+            <message>Consider using the proper capitalization if you mean the president's annual speech.</message>
+            <suggestion>State of the Union</suggestion>
+            <url>https://en.wikipedia.org/wiki/State_of_the_Union</url>
+            <example correction="State of the Union">Since Franklin Roosevelt, the <marker>State of the union</marker> is given typically each January before a joint session of the United States Congress </example>
+            <example>State of the Union</example>
+        </rule>
+
         <rulegroup id="BUNCH_OF" name="a bunch of" default="temp_off">
             <antipattern>
                 <token>parking</token>
@@ -12564,7 +12584,7 @@ USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">chrome|chromium</token>
                     </marker>
-                    <token regexp="yes">extension|add-?on|browser|update|download|adblock|beta|developer|support|incognito|version|web|window|tab|release|compatibility|dev(elopment)?</token>
+                    <token regexp="yes">extension|add-?on|browsers?|updates?|downloads?|adblock|beta|developer|support|incognito|version|web|windows?|tabs?|releases?|compatibility|dev(elopment)?</token>
                 </pattern>
                 <message>The proper noun <suggestion>Chrome</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome">The <marker>chrome</marker> browser is better than Internet Explorer.</example>
@@ -12788,6 +12808,27 @@ USA
             <url>https://en.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="'Ndrangheta">The <marker>Ndrangheta</marker> is a Mafia-type[3] organized crime group based in Calabria.</example>
         </rule>
+        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <token>Von</token>
+                <token>der</token>
+                <token>Leyen</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>von</token>
+                <token>der</token>
+                <token>Leyen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">v.n</token>
+                <token regexp="yes" min="0">der?</token>
+                <token regexp="yes">Le.en</token>
+            </pattern>
+            <message>Did you mean <suggestion>von der Leyen</suggestion> (= politician)?</message>
+            <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+            <example correction="von der Leyen">Ursula <marker>van de Leyen</marker> is a German politician and the President of the European Commission</example>
+        </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
                 <marker>
@@ -12948,10 +12989,25 @@ USA
             <message>It appears that 'thank you' is missing a hyphen or needs to be quoted.</message>
             <suggestion>thank-you</suggestion>
             <suggestion>“Thank You”</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/thank-you</url>
             <example correction='thank-you|“Thank You”'>Have you seen my <marker>thank you</marker> letter?</example>
             <example correction='thank-you|“Thank You”'>Did you receive our little <marker>thank you</marker>?</example>
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
             <example>Let's thank you.</example>
+        </rule>
+        <rule id="SO_CALLED_HYPHEN" name="missing hyphen in 'so called'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">[Ss]o</token>
+                    <token>called</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" max="2" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/so-called</url>
+            <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
         <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <pattern>
@@ -13070,6 +13126,29 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
+        <rule id="CATCH_ALL_HYPHEN" name="missing hyphen in 'catch-all'" default="temp_off">
+            <antipattern>
+                <token skip="1">let</token>
+                <token>s</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>her</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">the|an|my|y?our|its|his|her|their|s|of</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception postag="NN.*" postag_regexp="yes" />
+                </token>
+                <marker>
+                    <token>catch</token>
+                    <token>all</token>
+                </marker>
+            </pattern>
+            <message>It seems that a hyphen in the noun or adjective <suggestion>\3-\4</suggestion> is missing.</message>
+            <url>https://www.lexico.com/definition/catch_all</url>
+            <example correction="catch-all">We plugged our <marker>catch all</marker> accounts into all our tools without absolutely no problem.</example>
+        </rule>
         <rulegroup id="BUILT_IN_HYPHEN" name="missing hyphen in 'built in'">
             <rule>
                 <pattern>
@@ -13077,11 +13156,13 @@ USA
                         <token>built</token>
                         <token>in</token>
                     </marker>
-                    <token regexp="yes">features?|quality|battery|voltage|functions?|furniture|effects|controllers?|project?|.*speaker|packages?|inductor|relay|ai|intelligence|cameras?|microphones?|alexa|google|protection|security|subwoofers?|pedometers?</token>
+                    <token min="0" />
+                    <token regexp="yes">features?|sensors?|quality|battery|voltage|functions?|furniture|effects|controllers?|project?|.*speaker|packages?|inductor|relay|ai|intelligence|cameras?|microphones?|alexa|google|protection|security|subwoofers?|pedometers?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1-\2</suggestion>
                 <example correction="built-in">The iPhone has a <marker>built in</marker> camera.</example>
+                <example correction="built-in">The <marker>built in</marker> motion sensor.</example>
             </rule>
             <rule>
                 <pattern>
