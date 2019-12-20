@@ -1085,7 +1085,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>botó</token>
                 </antipattern>
                 <pattern>
-                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|AO.*" postag_regexp="yes" /><exception regexp="yes">0*1</exception></token>
                     <marker>
                         <token postag="NC.S.*" postag_regexp="yes"><exception postag="N..[PN].*|V.[^P].*|_possible_nompropi|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any;</exception><exception regexp="yes">bis|(?-i)CE</exception></token>
                     </marker>
@@ -1108,6 +1108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1/24 part d'unitat</example>
                 <example>En l'article 4 bis</example>
                 <example>Anava vestit de vint-i-un botó.</example>
+                <example>01 valor numèric 20</example>
             </rule>
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example>la comissió de vint-i-quatre encarregada</example>-->
@@ -26427,6 +26428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'any 1560 habitants.</example>
                 <example>de l'any 1650 A.C.</example>
                 <example>del 1650 aC</example>
+                <example>El 2013 El Singular Digital.cat va assenyalar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27552,15 +27554,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&mesos_any;</token>
-                    <token skip="1">de</token>
+                    <token>de</token>
+                    <token min="0">l</token>
                     <marker>
                         <token regexp="yes">\d{1,2}\.\d{3}</token>
                     </marker>
                 </pattern>
                 <message>Els anys s'escriuen sense punt.</message>
-                <suggestion><match no="3" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <suggestion><match no="4" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
                 <short>Error ortotipogràfic</short>
                 <example correction="1989">Ell és de desembre del <marker>1.989</marker>.</example>
+                <example correction="2007">Ell és de desembre de <marker>2.007</marker> 33.678 persones.</example>
+                <example>Ell és de desembre de 2007 33.678 persones.</example>
             </rule>
             <rule>
                 <pattern>
