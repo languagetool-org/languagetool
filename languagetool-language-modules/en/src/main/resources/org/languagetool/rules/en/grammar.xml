@@ -13963,6 +13963,11 @@ USA
             <example>You must be kidding!</example>
         </rule>
         <rule id="DOES_NP_VBZ" name="'does' ... 3rd person verb (base verb)">
+            <antipattern>
+                <token postag="WP"/>
+                <token min="0" max="2" postag="RB"/>
+                <token>does</token>
+            </antipattern>
             <pattern>
                 <token>does</token>
                 <token chunk="B-NP-singular" min="0"/>
@@ -13976,6 +13981,12 @@ USA
             <short>Possible typo</short>
             <example correction="grow">Does your memory usage <marker>grows</marker> during processing?</example>
             <example correction="grow">Does memory usage <marker>grows</marker> during processing?</example>
+            <example correction="affect">Can you tell me how does each increase <marker>affects</marker> the test.</example><!-- MFU 2019-12-21: Also missing question mark that is not found by other rules. -->
+            <example>Does your memory usage <marker>grow</marker> during processing?</example>
+            <example>Whoever does the new test is really smart.</example>
+            <example>In this demonstration, the person who actually does this interesting work shows you how the...</example>
+            <example>The device that does the signal processing samples the data at ...</example><!-- Chunker error (processing/B-VP), so the pattern cannot cause a false positive. -->
+            <example>We know that whatever does each memory test slows the processing considerably.</example>
         </rule>
         <rule id="SENT_START_DOE" name="Doe (Does)">
             <pattern>
