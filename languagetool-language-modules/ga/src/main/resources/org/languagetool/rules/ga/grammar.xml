@@ -10434,6 +10434,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='áirimh'><marker>airimh</marker></example>
             <example correction='háirimh'><marker>hairimh</marker></example>
         </rule>
+        <rule id="AIRITHE" name="airithe">
+            <pattern>
+                <token regexp="yes">h?airithe</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion><match no="1" regexp_match="(h)?airithe" regexp_replace="$1irithe"/></suggestion> a scríobh.</message>
+            <example correction='áirithe'><marker>airithe</marker></example>
+        </rule>
+        <rule id="AITHNIGH" name="aithnigh">
+            <pattern>
+                <token>aithnigh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>aithin</suggestion> a scríobh.</message>
+            <example correction='aithin'><marker>aithnigh</marker></example>
+        </rule>
+        <rule id="AG_AOR" name="ag aor">
+            <pattern>
+                <token>ag</token>
+                <marker>
+                    <token>aor</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>aoradh</suggestion> a scríobh.</message>
+            <example correction='aoradh'>ag <marker>aor</marker></example>
+        </rule>
+        <rule id="AOR" name="aor">
+            <antipattern>
+                <token>ag</token>
+                <token>aor</token>
+            </antipattern>
+            <pattern>
+                <token>aor</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>aor</suggestion> a scríobh.</message>
+            <example correction='aoir'><marker>aor</marker></example>
+        </rule>
     </category>
     <category id="SUPERLATIVES" name="superlatives" type="grammar">
         <rule id="NÍOS_BIGE" name="níos bige">
