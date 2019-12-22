@@ -6096,11 +6096,16 @@ USA
         <!-- &amp;comparisons then::word=\0 than::pivots=then,than::options=then,than -->
         <rule id="COMPARISONS_THEN" name="comparisons then (than)">
             <pattern>
-                <token regexp="yes">hotter|colder|lamer|lesser|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
-                <token>then</token>
+                <marker>
+                    <token regexp="yes">hotter|colder|lamer|lesser|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+                    <token>then</token>
+                </marker>
+            <token><exception postag="SENT_END"/></token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> than</suggestion>?</message>
             <example correction="hotter than">It was <marker>hotter then</marker> it'd ever been.</example>
+            <example>It was <marker>hotter than</marker> it'd ever been.</example>
+            <example>We were younger then.</example>
         </rule>
         <!-- &amp;comparisons .*/NNS then::word=\0 \1 than::pivots=then,than::options=then,than -->
         <rule id="COMPARISONS_NNS_THEN" name="comparisons NNS then (than)">
