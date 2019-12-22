@@ -32516,6 +32516,13 @@ Andere Projekte</example>
                 <example correction="als solche">Die Person <marker>als solches</marker> hat gewisse unveräußerliche Rechte.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VER:(AUX|MOD).+" postag_regexp="yes" skip="3"/>
+                    <token regexp="yes">im|am|zum|vom|d(ies)?em</token>
+                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
+                    <token>als</token>
+                    <token regexp="yes">solche[nrs]?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">im|am|zum|vom|d(ies)?em</token>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
@@ -32529,6 +32536,7 @@ Andere Projekte</example>
                 <example correction="als solchem">Dem Menschen <marker>als solchen</marker> stehen gewisse unveräußerliche Rechte zu.</example>
                 <example correction="als solchem">Zum Thema <marker>als solches</marker> wollte sie sich nicht äußern.</example>
                 <example correction="als solchem">Dem Subjekt <marker>als solches</marker> stehen gewisse unveräußerliche Rechte zu.</example>
+                <example>Das ist ja auch praktische Erfahrung, die darf man ruhig im Lebenslauf als solche verkaufen.</example>
             </rule>
             <rule>
                 <pattern>
