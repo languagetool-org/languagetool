@@ -17791,6 +17791,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Null">Ich bin eine absolute <marker>null</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EINS_UND_EINS" name="eins und eins zusammenzählen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Eins</token>
+                    <token>und</token>
+                    <token>Eins</token>
+                </pattern>
+                <message>&inwend;'eins und eins zusammenzählen' wird <suggestion><match no="1" case_conversion="startlower"/> und <match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+                <url>https://www.korrekturen.de/synonyme/eins+und+eins+zusammenz%C3%A4hlen+k%C3%B6nnen/</url>
+                <short>&prgk;.</short>
+                <example correction="eins und eins">Er zählte <marker>Eins und Eins</marker> zusammen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Eins</token>
+                    <token case_sensitive="yes">und</token>
+                    <marker>
+                        <token case_sensitive="yes">Eins</token>
+                    </marker>
+                </pattern>
+                <message>Das Zahlwort <suggestion><match no="3" case_conversion="startlower"/></suggestion> wird kleingeschrieben.</message>
+                <url>https://www.korrekturen.de/synonyme/eins+und+eins+zusammenz%C3%A4hlen+k%C3%B6nnen/</url>
+                <short>&prgk;.</short>
+                <example correction="eins">Eins und <marker>Eins</marker> macht zwei.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
                 <pattern>
@@ -20317,22 +20343,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>weile</token>
                     </marker>
-                    <token>lang</token>
+                    <token inflected="yes" regexp="yes">lang|dauern</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Weile">Das wird ihn eine <marker>weile</marker> lang beschäftigen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">[eE]ine</token>
-                    <marker>
-                        <token>weile</token>
-                    </marker>
-                    <token inflected="yes">dauern</token>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example>Das wird ihn eine <marker>Weile</marker> lang beschäftigen.</example>
                 <example correction="Weile">Das wird eine <marker>weile</marker> dauern.</example>
                 <example correction="Weile">Das kann eine ganze <marker>weile</marker> dauern.</example>
