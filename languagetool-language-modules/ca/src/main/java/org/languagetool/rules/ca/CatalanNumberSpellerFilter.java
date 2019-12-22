@@ -36,12 +36,4 @@ public class CatalanNumberSpellerFilter extends RuleFilter {
 
   }
 
-protected String getRequired(String key, Map<String, String> map) {
-  String result = map.get(key);
-  if (result == null) {
-    throw new IllegalArgumentException("Missing key '" + key + "'");
-  }
-  return result;
-}
-
 }

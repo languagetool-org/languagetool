@@ -8475,6 +8475,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="SOCIETE_GENERALE" name="Société Générale">
+            <antipattern case_sensitive="yes">
+                <token>Société</token>
+                <token regexp="yes">Générales?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Soci.t.</token>
+                <token regexp="yes">G.n.ral.?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
+            <url>https://de.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
+            <example correction="Société Générale">Die <marker>Societé General</marker> ist eine französische Bank.</example>
+        </rule>
+        <rule id="NDRANGHETA" name="'Ndrangheta" default="temp_off">
+            <pattern>
+                <token regexp="yes">
+                    Ndranghetas?
+                    <exception scope="previous" regexp="yes">['`´’]</exception>
+                </token>
+            </pattern>
+            <message>Die Vereinigung wird normalerweise mit einem Apostroph geschrieben.</message>
+            <suggestion>’<match no="1" case_conversion="startupper" /></suggestion>
+            <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
+            <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
+        </rule>
         <rule id="COPY_AND_PASTE" name="Copy-and-paste">
             <pattern>
                 <token>Copy</token>
@@ -8542,6 +8567,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
             </rule>
         </rulegroup>
+        <rule id="FRISS_ODER_STIRB" name="Friss oder stirb" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>friss</token>
+                <token>oder</token>
+                <token>stirb</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <token>Friss</token>
+                <token>oder</token>
+                <token>stirb</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">fr.(ss|ß)</token>
+                <token regexp="yes">oder|und</token>
+                <token regexp="yes">
+                    st.rb
+                    <exception scope="next">trotzdem</exception>
+                </token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>friss oder stirb</suggestion>?</message>
+            <example correction="friss oder stirb">Bitte <marker>fress oder sterb</marker>!</example>
+            <example>Friss oder stirb!</example>
+            <example>Friss und stirb trotzdem!</example>
+        </rule>
         <rule id="AM_SONSTEN" name="am sonsten (ansonsten)">
             <pattern>
                 <token regexp="yes">a[nm]</token>
@@ -17114,7 +17164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöü]+</token></marker>
                     <token regexp="yes">d(ies)?e[rs]|[mds]?eine[rs]</token>
                 </pattern>
-                <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier substantivisch verwendet zu werden und muss daher großgeschrieben werden.</message>
+                <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier nominalisiert verwendet zu werden und muss daher großgeschrieben werden.</message>
                 <example correction="Absenken">Ein vorsichtiges <marker>absenken</marker> des Drucks ist notwendig.</example>
             </rule>
         </rulegroup>
@@ -18199,7 +18249,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </pattern>
-            <message>Falls <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier substantivisch gebraucht wird, muss man es großschreiben.</message>
+            <message>Falls <suggestion><match no="2" case_conversion="startupper"/></suggestion> hier nominalisiert gebraucht wird, muss man es großschreiben.</message>
             <short>&prgk;.</short>
             <example correction="Einsetzen">Wir berechnen die Werte durch <marker>einsetzen</marker>.</example>
         </rule>
@@ -25314,6 +25364,20 @@ Andere Projekte</example>
                 <example correction="Unterschied">Ich sehe keinen großen <marker>unterschied</marker> zwischen den beiden.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="UNTER_ANDEREM" name="'unter Anderem (anderem)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[uU]nter</token>
+                    <marker>
+                        <token regexp="yes">Andere?m</token>
+                    </marker>
+                </pattern>
+                <message>In der Kombination mit "unter" wird <suggestion><match no="2" case_conversion="alllower"/></suggestion> in der Regel kleingeschrieben</message>
+                <url>http://www.rechtschreibtipps.de/unter-anderem.php</url>
+                <example correction="anderem">Er wollte unter <marker>Anderem</marker> ein Geschenk kaufen.</example>
+                <example correction="anderm">Er wollte unter <marker>Anderm</marker> ein Geschenk kaufen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DUSCHE_SUBST" name="'unter der dusche (Dusche)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -29270,7 +29334,7 @@ Andere Projekte</example>
                         <token>wehe</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Wehe</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <message>&subanfang;<suggestion>Wehe</suggestion> hier nominalisiert verwendet wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example correction="Wehe">Das entscheidet über das wohl und <marker>wehe</marker> der Partei.</example>
             </rule>
@@ -29283,7 +29347,7 @@ Andere Projekte</example>
                     <token>und</token>
                     <token regexp="yes">[wW]ehe</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Wohl</suggestion> hier substantivisch verwendet wird und dementsprechend großgeschrieben werden muss.</message>
+                <message>&subanfang;<suggestion>Wohl</suggestion> hier nominalisiert verwendet wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example correction="Wohl">Das entscheidet womöglich über das <marker>wohl</marker> und Wehe der Partei.</example>
             </rule>
@@ -32034,11 +32098,12 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>Management</token>
-                    <token case_sensitive="yes" regexp="yes">Buy\-?(in|out)s?</token>
+                    <token case_sensitive="yes" regexp="yes">Buy\-?([Ii]n|[Oo]ut)s?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Management-Buy-<match no="2" regexp_match="(?i)buy-?(ins?|outs?)" regexp_replace="$1" case_conversion="alllower" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/Management_Buy_out</url>
                 <example correction="Management-Buy-out">Es kam zum <marker>Management Buyout</marker>.</example>
+                <example correction="Management-Buy-in">Mangeldes <marker>Management Buy-In</marker> kann zum Hindernis werden.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32140,6 +32205,52 @@ Andere Projekte</example>
                 <example correction="Check-outs">Während des <marker>Check-Outs</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COMING_OUT" name="'Coming-out'">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Comm?ing</token>
+                    <token case_sensitive="yes" regexp="yes">Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Coming-<match no="2" case_conversion="alllower" /></suggestion> (= bewusstes Öffentlichmachen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Coming_out</url>
+                <example correction="Coming-out">Er hatte sein <marker>Coming Out</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Comm?ing-?Outs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)comm?ing-?out" regexp_replace="Coming-out" /></suggestion> (= bewusstes Öffentlichmachen)?</message>
+                <url>https://www.duden.de/rechtschreibung/Coming_out</url>
+                <example correction="Coming-outs">Während seines <marker>Comming-Outs</marker> sah man ihm seinen Stolz an.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DRIVE_IN" name="'Drive-in'">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Drive</token>
+                    <token case_sensitive="yes" regexp="yes">Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Drive-<match no="2" case_conversion="alllower" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-in">Bitte fahren Sie zum <marker>Drive In</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Driveins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Drivein" regexp_replace="Drive-in" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-in">Bitte fahren Sie zum <marker>Drivein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Drive-?Ins?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)drive-?in" regexp_replace="Drive-in" /></suggestion> (Restaurant, Kino)?</message>
+                <url>https://www.duden.de/rechtschreibung/Drive_in</url>
+                <example correction="Drive-ins">Während des <marker>Drive-Ins</marker> suchte er panisch sein Geld.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="START_UP" name="'Start-up'">
             <rule>
                 <pattern>
@@ -32167,7 +32278,7 @@ Andere Projekte</example>
                 <example correction="Start-ups">Er gründete mehrere <marker>Start-Ups</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CLOSE_UP" name="'Close-up'" default="temp_off">
+        <rulegroup id="CLOSE_UP" name="'Close-up'">
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Close</token>
@@ -32199,7 +32310,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder</token>
+                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
@@ -32209,10 +32320,32 @@ Andere Projekte</example>
                     <token regexp="yes">E-[A-Z].+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder)</token>
+                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CUM_EX" name="Cum-Ex">
+            <rule>
+                <pattern>
+                    <token>cum</token>
+                    <token>ex</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise laut Wikipedia ist <suggestion>Cum-Ex</suggestion> (= Dividendenstripping).</message>
+                <url>https://de.wikipedia.org/wiki/Dividendenstripping</url>
+                <example correction="Cum-Ex">Bei einer als <marker>Cum Ex</marker> bekannt gewordenen Variante dieser Geschäfte kam es in der Vergangenheit in großem Umfang zu bewusst herbeigeführter mehrfacher Erstattung von nur einmal abgeführter Kapitalertragsteuer.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Cum-Ex</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">cum\-?ex</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise laut Wikipedia ist <suggestion>Cum-Ex</suggestion> (= Dividendenstripping).</message>
+                <url>https://de.wikipedia.org/wiki/Dividendenstripping</url>
+                <example correction="Cum-Ex">Bei einer als <marker>CumEx</marker> bekannt gewordenen Variante dieser Geschäfte kam es in der Vergangenheit in großem Umfang zu bewusst herbeigeführter mehrfacher Erstattung von nur einmal abgeführter Kapitalertragsteuer.</example>
             </rule>
         </rulegroup>
         <!-- TODO: too many false alarms
@@ -34455,10 +34588,11 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="EINE_MILLIONEN" name="'eine Millionen (Million)'">
-            <regexp>\b(einer?|1) Millionen\b</regexp>
+            <regexp>(?&lt;!,)\b(einer?|1) Millionen\b</regexp>
             <message>Meinten Sie <suggestion>\1 Million</suggestion>, die Zahl 1.000.000? 'Millionen' ist der Plural von 'Million' und sollte nur verwendet werden, wenn von mehr als einer Million die Rede ist.</message>
             <example correction="eine Million">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
             <example correction="1 Million">Sie verdient <marker>1 Millionen</marker> Euro im Jahr.</example>
+            <example>Die Stadt hat 2,1 Millonen Einwohner.</example>
         </rule>
         <rule id="IM_KEINEN" name="'im keinen (kleinen)'">
             <pattern>
@@ -36871,12 +37005,13 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Falls es sich um eine Frage handelt, sollte sie mit einem Fragezeichen enden.</message>
                 <suggestion>?</suggestion>
                 <example correction="?">Soll er schon nach Hause gehen<marker>.</marker></example>
+                <example correction="?">Könnte das perspektivisch auch über die API direkt im Webbrowser realisiert werden, z.B. zum Diktieren des Artikel-Textes<marker>.</marker></example>
                 <!--<example correction="?">"Soll er schon nach Hause gehen<marker>.</marker></example> TODO: doesn't work because tagger confused by quote character -->
                 <example>Mach es bitte ein zweites Mal.</example>
             </rule>
@@ -36893,7 +37028,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Falls es sich um eine Frage handelt, sollte sie mit einem Fragezeichen enden.</message>
@@ -36961,7 +37096,7 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">\?|!|“|»|«|"</exception>
                     </token>
                     <marker>
-                    <token>.</token>
+                        <token postag="SENT_END">.</token>
                     </marker>
                 </pattern>
                 <message>Eine Frage bitte mit einem '?' abschließen, eine Aufforderung mit einem '!' oder '.'</message>
@@ -37043,11 +37178,12 @@ Andere Projekte</example>
                 <pattern>
                     <token>Rock</token>
                     <token skip="1"><exception regexp="yes">and|’n’|'n'</exception></token>
-                    <token>Roll</token>
+                    <token regexp="yes">Rolls?</token>
                 </pattern>
-                <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ Roll</suggestion>, <suggestion>Rock 'n' Roll</suggestion>, <suggestion>Rock and Roll</suggestion></message>
+                <message>Meinten Sie den Musikstil aus den fünfziger Jahren? Gängige Schreibweisen: <suggestion>Rock ’n’ <match case_conversion="startupper" no="3" /></suggestion>, <suggestion>Rock 'n' <match case_conversion="startupper" no="3" /></suggestion>, <suggestion>Rock and <match case_conversion="startupper" no="3" /></suggestion></message>
                 <example correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n´ Roll</marker>, Baby!</example>
                 <example correction="Rock ’n’ Roll|Rock 'n' Roll|Rock and Roll">Das ist <marker>Rock n' Roll</marker>, Baby!</example>
+                <example correction="Rock ’n’ Rolls|Rock 'n' Rolls|Rock and Rolls">Eine Legende des <marker>Rock n' Rolls</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -37061,12 +37197,13 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="DOPPELTES_AUSRUFEZEICHEN" name="mehrere Ausrufezeichen etc.">
-            <regexp>(\!|\?)(\!|\?)</regexp>
+            <regexp>([\!\?])[\!\?]{1,}</regexp>
             <message>Die Verwendung von mehreren Frage- oder Ausrufezeichen wirkt oft übertrieben emphatisch.</message>
             <suggestion>\1</suggestion>
             <example>Das ist doch kein Problem<marker>?</marker></example>
             <example correction="!">Das ist kein Problem<marker>!!</marker></example>
             <example correction="?">Ist das ein Problem für dich<marker>?!</marker></example>
+            <example correction="?">Dein Ernst<marker>????</marker></example>
         </rule>
         <rule id="NICHTS_OHNE_APOSTROPH" name="Kein Apostroph bei 'nichts', 'nachts', 'montags' etc.">
             <regexp>(&wochentage;|nicht|morgen|mittag|nachmittag|abend|nacht)['’´`‘]s</regexp>
@@ -37512,17 +37649,31 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Massstab|Verhältnis|unentschieden</token>
+                <token inflected="yes" regexp="yes" skip="1">mit|verlieren|gewinnen|enden|unentschieden|trennen|spielen|schlagen|Spiel</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" skip="1" regexp="yes">schlagen|Spiel</token>
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes" skip="1">[0-9]+</token>
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|unentschieden|spielen</token>
+            </antipattern>
+            <antipattern>
+                <!-- Maßstab -->
+                <token inflected="yes" regexp="yes" skip="-1">Maßstab|Massstab|.*verh(ae|ä)ltnis</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
+            </antipattern>
+            <antipattern>
+                <!-- Maßstab -->
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes" skip="-1">[0-9]+</token>
+                <token inflected="yes" regexp="yes">Maßstab|Massstab|.*verh(ae|ä)ltnis</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -37542,9 +37693,12 @@ Andere Projekte</example>
             <example>Am 2014-01-23 10:32 schrieb ich:</example>
             <example>a = 2 · x² + 5</example>
             <example>4,5 × 2,5</example>
+            <example>Während es einem Mischungsverhältnis (nach Gewichtsanteilen) von 1 : 0,6 : 6,3 entspricht.</example>
             <example>Sie verloren das Spiel mit 3:0.</example>
             <example>Zwischen 9:00 und 16:45.</example>
             <example>Das 5:2 gegen Ungarn</example>
+            <example>Sie trennten sich 1:1.</example>
+            <example>Das Verhältnis war lange 1:4.</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
             <example>Das Spiel endete <marker>3:5</marker>.</example>
@@ -38523,7 +38677,7 @@ Andere Projekte</example>
             <example>Eine Liste: (a) Argument, (b) 2 Argumente, (c) 2014 Argumente.</example>
         </rule>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!-?[()/D])</regexp>
+            <regexp>(\w+) ([!?:])(?!(-?[()/D]|\s\d))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
@@ -38533,6 +38687,7 @@ Andere Projekte</example>
             <example>So sieht’s aus :(</example>
             <example>So sieht’s aus :-/</example>
             <example>So sieht’s aus :/</example>
+            <example>Das Ergebnis von 4 : 2 ist 2.</example>
         </rule>
         <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
             <regexp> - </regexp>
@@ -39026,14 +39181,14 @@ Andere Projekte</example>
                     <token regexp="yes">“|»|«|"|\)|\}</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token regexp="yes">\.|\?|!</token>
                     <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
-                    </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.WhitespaceCheckFilter" args="whitespaceChar:&#160; position:2"/>
                 <message>Bitte das überflüssige Leerzeichen löschen.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction=".«">Er sagte: »Der Garten ist wirklich schön<marker>. «</marker></example>
+                <example>Er sagte:&#160;»Der Garten ist wirklich schön.«</example>
                 <example correction=".«">»Der Garten«, sagte er, »ist wirklich schön<marker>. «</marker></example>
                 <example>Manche englische Wörter haben zwei Schreibweisen, z. B. "gray" und "grey".</example>
             </rule>
@@ -39811,6 +39966,11 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
+                    <token>ja</token>
+                    <token>oder</token>
+                    <token>nein</token>
+                </antipattern>
+                <antipattern>
                     <token>ach</token>
                     <token>ja</token>
                     <token>?</token>
@@ -39849,13 +40009,14 @@ Andere Projekte</example>
                         <exception regexp="yes">,|-|„|»|«|"</exception>
                         <exception postag="SENT_START"/>
                     </token>
-                    <token  regexp="yes">oder|ja</token>
+                    <token  regexp="yes">ja|nein|oder</token>
                     </marker>
                     <token>?</token>
                 </pattern>
                 <message>Ein Komma vor '\2' setzen?</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
+                <example>Ja oder nein?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -40067,6 +40228,14 @@ Andere Projekte</example>
                     <token>je</token>
                     <token case_sensitive="yes">nachdem</token>
                     <token case_sensitive="yes" regexp="yes">ob|w[a-z]+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="KON:UNT"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="VER:.+" postag_regexp="yes"/>
+                        <exception postag="VER:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SENT_END"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -40853,7 +41022,7 @@ Andere Projekte</example>
         <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F">
             <rule>
                 <antipattern>
-                    <token regexp="yes">Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                    <token regexp="yes">Phone|Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Pho(to|n)[\wäöüÄÖÜß-]*</token>

@@ -214,6 +214,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("Mysql", "MySQL");
+    put("MWST", "MwSt");
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("[pP][qQ]-Formel", "p-q-Formel");
@@ -226,7 +227,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
     put("weibt", "weißt");
+    put("fress", "friss");
     put("Mamma", "Mama");
+    put("Präse", "Präsentation");
+    put("Präsen", "Präsentationen");
+    put("Orga", "Organisation");
+    put("Orgas", "Organisationen");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
@@ -243,6 +249,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
     putRepl("Einzigste[mnrs]?", "zigst", "zig");
+    putRepl("Invests?", "Invest", "Investment");
     putRepl("(aller)?einzie?gste[mnrs]?", "(aller)?einzie?gst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("[iI]ntersannt(e[mnrs]?)?", "sannt", "essant");

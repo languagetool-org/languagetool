@@ -116,7 +116,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
-      runGrammarRuleForLanguage(lang);
+        runGrammarRuleForLanguage(lang);
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
@@ -172,7 +172,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       String ruleFilePath = rulesDir + "/" + grammarFile;
       try (InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath)) {
         if (xmlStream == null) {
-          System.out.println("No rule file found at " + ruleFilePath + " in classpath");
+          System.out.println("No rule file found at " + ruleFilePath + " in classpath. THIS SHOULD BE FIXED!");
           continue;
         }
         // if there are multiple xml grammar files we'll prepend all unification elements 

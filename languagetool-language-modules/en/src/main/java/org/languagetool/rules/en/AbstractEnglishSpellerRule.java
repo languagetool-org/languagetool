@@ -208,6 +208,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("A lot");
     } else if ("alot".equals(word)) {
       return Arrays.asList("a lot");
+    } else if ("da".equals(word)) {
+      return Arrays.asList("the");
+    } else if ("Da".equals(word)) {
+      return Arrays.asList("The");
     } else if ("errornous".equals(word)) {
       return Arrays.asList("erroneous");
     } else if ("brang".equals(word) || "brung".equals(word)) {
@@ -316,6 +320,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("E-Book");
     } else if ("Ebooks".equals(word)) {
       return Arrays.asList("E-Books");
+    } else if ("R&B".equals(word)) {
+      return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {

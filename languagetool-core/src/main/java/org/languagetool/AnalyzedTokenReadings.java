@@ -52,6 +52,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
   private boolean isPosTagUnknown;
+  private String whitespaceBeforeChar;
 
   // If true, then the token is marked up as immune against tests:
   // it should never be matched by any rule. Used to have generalized
@@ -90,6 +91,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isPosTagUnknown = tokens.size() == 1 && tokens.get(0).getPOSTag() == null;
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
+    whitespaceBeforeChar = "";
   }
   
   // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
@@ -101,7 +103,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (oldAtr.isParagraphEnd()) {
       this.setParagraphEnd();
     }
-    this.setWhitespaceBefore(oldAtr.isWhitespaceBefore());
+    this.setWhitespaceBefore(oldAtr.getWhitespaceBefore());
     this.setChunkTags(oldAtr.getChunkTags());
     if (oldAtr.isImmunized()) {
       this.immunize();
@@ -453,13 +455,20 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return token;
   }
 
-  public void setWhitespaceBefore(boolean isWhiteSpaceBefore) {
-    isWhitespaceBefore = isWhiteSpaceBefore;
+  public void setWhitespaceBefore(String prevToken) {
+    isWhitespaceBefore = !prevToken.isEmpty() && StringTools.isWhitespace(prevToken);
     for (AnalyzedToken aTok : anTokReadings) {
-      aTok.setWhitespaceBefore(isWhiteSpaceBefore);
+      aTok.setWhitespaceBefore(isWhitespaceBefore);
+    }
+    if (isWhitespaceBefore) {
+      whitespaceBeforeChar = prevToken;
     }
   }
 
+  public String getWhitespaceBefore() {
+    return whitespaceBeforeChar;
+  }
+  
   public boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }

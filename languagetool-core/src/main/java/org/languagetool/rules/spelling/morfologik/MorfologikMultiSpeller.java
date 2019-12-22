@@ -35,7 +35,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
-import org.languagetool.JLanguageTool;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -254,6 +253,8 @@ public class MorfologikMultiSpeller {
     for (MorfologikSpeller speller : spellerList) {
       List<String> suggestions = speller.getSuggestions(word);
       for (String suggestion : suggestions) {
+        // this is how we could normalize special chars:
+        //String noSpecialCharSuggestion = Normalizer.normalize(suggestion, Normalizer.Form.NFD).replaceAll("\\p{M}", "");  // https://stackoverflow.com/questions/3322152
         if (!result.contains(suggestion) && !suggestion.equals(word)) {
           if (word.equals(StringTools.uppercaseFirstChar(suggestion)) || suggestion.equals(StringTools.uppercaseFirstChar(word))) {
             // We're appending the results of both lists, even though the second list isn't necessarily 

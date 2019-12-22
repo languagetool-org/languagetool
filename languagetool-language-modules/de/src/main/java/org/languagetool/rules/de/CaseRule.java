@@ -113,15 +113,15 @@ public class CaseRule extends Rule {
       regex("vor|den"),
       token("Gefahren")
     ),
-    // company names with english adjectives
+    // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native"),
       pos("UNKNOWN")
     ),
-    // company names with english adjectives
+    // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -408,6 +408,8 @@ public class CaseRule extends Rule {
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
     "Studierende",
+    "Suchbegriffen",
+    "Wallet",
     "Str",
     "Auszubildende",
     "Auszubildender",
