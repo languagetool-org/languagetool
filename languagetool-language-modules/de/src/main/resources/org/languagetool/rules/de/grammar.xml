@@ -8488,7 +8488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
             <example correction="Société Générale">Die <marker>Societé General</marker> ist eine französische Bank.</example>
         </rule>
-        <rule id="NDRANGHETA" name="'Ndrangheta" default="temp_off">
+        <rule id="NDRANGHETA" name="'Ndrangheta">
             <pattern>
                 <token regexp="yes">
                     Ndranghetas?
@@ -8567,7 +8567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
             </rule>
         </rulegroup>
-        <rule id="FRISS_ODER_STIRB" name="Friss oder stirb" default="temp_off">
+        <rule id="FRISS_ODER_STIRB" name="Friss oder stirb">
             <antipattern case_sensitive="yes">
                 <token>friss</token>
                 <token>oder</token>
@@ -17791,6 +17791,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Null">Ich bin eine absolute <marker>null</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EINS_UND_EINS" name="eins und eins zusammenzählen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Eins</token>
+                    <token>und</token>
+                    <token>Eins</token>
+                </pattern>
+                <message>&inwend;'eins und eins zusammenzählen' wird <suggestion><match no="1" case_conversion="startlower"/> und <match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+                <url>https://www.korrekturen.de/synonyme/eins+und+eins+zusammenz%C3%A4hlen+k%C3%B6nnen/</url>
+                <short>&prgk;.</short>
+                <example correction="eins und eins">Er zählte <marker>Eins und Eins</marker> zusammen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Eins</token>
+                    <token case_sensitive="yes">und</token>
+                    <marker>
+                        <token case_sensitive="yes">Eins</token>
+                    </marker>
+                </pattern>
+                <message>Das Zahlwort <suggestion><match no="3" case_conversion="startlower"/></suggestion> wird kleingeschrieben.</message>
+                <url>https://www.korrekturen.de/synonyme/eins+und+eins+zusammenz%C3%A4hlen+k%C3%B6nnen/</url>
+                <short>&prgk;.</short>
+                <example correction="eins">Eins und <marker>Eins</marker> macht zwei.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
                 <pattern>
@@ -20317,22 +20343,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>weile</token>
                     </marker>
-                    <token>lang</token>
+                    <token inflected="yes" regexp="yes">lang|dauern</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Weile">Das wird ihn eine <marker>weile</marker> lang beschäftigen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">[eE]ine</token>
-                    <marker>
-                        <token>weile</token>
-                    </marker>
-                    <token inflected="yes">dauern</token>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example>Das wird ihn eine <marker>Weile</marker> lang beschäftigen.</example>
                 <example correction="Weile">Das wird eine <marker>weile</marker> dauern.</example>
                 <example correction="Weile">Das kann eine ganze <marker>weile</marker> dauern.</example>
@@ -32501,6 +32516,13 @@ Andere Projekte</example>
                 <example correction="als solche">Die Person <marker>als solches</marker> hat gewisse unveräußerliche Rechte.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VER:(AUX|MOD).+" postag_regexp="yes" skip="3"/>
+                    <token regexp="yes">im|am|zum|vom|d(ies)?em</token>
+                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
+                    <token>als</token>
+                    <token regexp="yes">solche[nrs]?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">im|am|zum|vom|d(ies)?em</token>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
@@ -32514,6 +32536,7 @@ Andere Projekte</example>
                 <example correction="als solchem">Dem Menschen <marker>als solchen</marker> stehen gewisse unveräußerliche Rechte zu.</example>
                 <example correction="als solchem">Zum Thema <marker>als solches</marker> wollte sie sich nicht äußern.</example>
                 <example correction="als solchem">Dem Subjekt <marker>als solches</marker> stehen gewisse unveräußerliche Rechte zu.</example>
+                <example>Das ist ja auch praktische Erfahrung, die darf man ruhig im Lebenslauf als solche verkaufen.</example>
             </rule>
             <rule>
                 <pattern>

@@ -6100,7 +6100,7 @@ USA
                     <token regexp="yes">hotter|colder|lamer|lesser|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
                     <token>then</token>
                 </marker>
-            <token><exception postag="SENT_END"/></token>
+            <token><exception postag="SENT_END|PCT" postag_regexp="yes" /></token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> than</suggestion>?</message>
             <example correction="hotter than">It was <marker>hotter then</marker> it'd ever been.</example>
@@ -6110,12 +6110,16 @@ USA
         <!-- &amp;comparisons .*/NNS then::word=\0 \1 than::pivots=then,than::options=then,than -->
         <rule id="COMPARISONS_NNS_THEN" name="comparisons NNS then (than)">
             <pattern>
-                <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
-                <token postag="NNS"><exception postag="NNS" negate_pos="yes"/></token>
-                <token>then</token>
+                <marker>
+                    <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+                    <token postag="NNS"><exception postag="NNS" negate_pos="yes"/></token>
+                    <token>then</token>
+                </marker>
+                <token><exception postag="SENT_END|PCT" postag_regexp="yes" /></token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> <match no="2"/> than</suggestion>?</message>
             <example correction="better companies than">There were <marker>better companies then</marker> GE and Google.</example>
+            <example>There were better companies then.</example>
         </rule>
         <rule id="COMPARISONS_AS_ADJECTIVE_AS" name="comparison 'as ... as' (no comparative/superlative)">
             <pattern>
@@ -8640,7 +8644,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'" default="temp_off">
+        <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'">
             <antipattern case_sensitive="yes">
                 <token>State</token>
                 <token regexp="yes">[Oo]f</token>
@@ -8660,7 +8664,7 @@ USA
             <example>State of the Union</example>
         </rule>
 
-        <rulegroup id="BUNCH_OF" name="a bunch of" default="temp_off">
+        <rulegroup id="BUNCH_OF" name="a bunch of">
             <antipattern>
                 <token>parking</token>
                 <token>lot</token>
@@ -12801,7 +12805,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
             <example correction="Société Générale">The <marker>Societé General</marker> is a French bank.</example>
         </rule>
-        <rule id="NDRANGHETA" name="'Ndrangheta" default="temp_off">
+        <rule id="NDRANGHETA" name="'Ndrangheta">
             <pattern>
                 <token>
                     Ndrangheta
@@ -12813,7 +12817,7 @@ USA
             <url>https://en.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="'Ndrangheta">The <marker>Ndrangheta</marker> is a Mafia-type[3] organized crime group based in Calabria.</example>
         </rule>
-        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen" default="temp_off">
+        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
                 <token postag="SENT_START" />
                 <token>Von</token>
@@ -13000,7 +13004,7 @@ USA
             <example>He was surprised by the <marker>thank-you</marker> message.</example>
             <example>Let's thank you.</example>
         </rule>
-        <rule id="SO_CALLED_HYPHEN" name="missing hyphen in 'so called'" default="temp_off">
+        <rule id="SO_CALLED_HYPHEN" name="missing hyphen in 'so called'">
             <pattern>
                 <marker>
                     <token regexp="yes">[Ss]o</token>
@@ -13131,7 +13135,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="logged-in">Only <marker>logged in</marker> users can see this feature.</example>
         </rule>
-        <rule id="CATCH_ALL_HYPHEN" name="missing hyphen in 'catch-all'" default="temp_off">
+        <rule id="CATCH_ALL_HYPHEN" name="missing hyphen in 'catch-all'">
             <antipattern>
                 <token skip="1">let</token>
                 <token>s</token>
@@ -23978,7 +23982,7 @@ USA
                 <example>Those who possess nothing lose nothing.</example>
                 <example>I can't believe nobody came to your party.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">don|doesn</token>
@@ -23996,7 +24000,7 @@ USA
                 <example correction="have no|don't have any">I <marker>don't have no</marker> idea.</example>
                 <example correction="need no|don't need any">I <marker>don't need no</marker> damn help.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>can</token>
@@ -24013,7 +24017,7 @@ USA
                 <suggestion>\1\2\3 \4 any</suggestion>
                 <example correction="can show no|can't show any">I <marker>can't show no</marker> emotion.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>cannot</token>
@@ -24028,7 +24032,7 @@ USA
                 <suggestion>\1 \2 any</suggestion>
                 <example correction="can show no|cannot show any">I <marker>cannot show no</marker> emotion.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">do|does</token>
@@ -24044,7 +24048,7 @@ USA
                 <suggestion>\1 \2 \3 any</suggestion>
                 <example correction="have no|do not have any">I <marker>do not have no</marker> idea.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>didn</token>
@@ -24061,7 +24065,7 @@ USA
                 <suggestion>\1\2\3 \4 any</suggestion>
                 <example correction="had no|didn't have any">I <marker>didn't have no</marker> idea.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>did</token>
@@ -24077,7 +24081,7 @@ USA
                 <suggestion>\1 \2 \3 any</suggestion>
                 <example correction="had no|did not have any">I <marker>did not have no</marker> idea.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">haven|hasn|hadn</token>
@@ -24095,7 +24099,7 @@ USA
                 <example correction="have done no|haven't done any">I <marker>haven't done no</marker> harm.</example>
                 <example correction="had done no|hadn't done any">I <marker>hadn't done no</marker> harm.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">have|has|had</token>
@@ -24111,7 +24115,7 @@ USA
                 <suggestion>\1 \2 \3 any</suggestion>
                 <example correction="have done no|have not done any">I <marker>have not done no</marker> harm.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">not</token>
                     <token postag="VB.*" postag_regexp="yes" min="0"></token>
@@ -38623,7 +38627,7 @@ The accident victim died from her injuries.
             <url>https://www.lexico.com/en/definition/luv</url>
             <example correction="loves">He <marker>luvs</marker> you</example>
         </rule>
-        <rule id="DAT" name="dat (that)" default="temp_off">
+        <rule id="DAT" name="dat (that)">
             <antipattern>
                 <token skip="2">dat</token>
                 <token regexp="yes">.*motor.*|cars?|auto.*|internali.ation|transporter|formats?|files?|recorders?|nguyen</token>
@@ -38653,7 +38657,7 @@ The accident victim died from her injuries.
             <example>Bill, it appears that all is well with updating the DAT files to CSV</example>
             <example>list.dat</example>
         </rule>
-        <rule id="DIS" name="dis (this)" default="temp_off">
+        <rule id="DIS" name="dis (this)">
             <antipattern>
                 <token>(</token>
                 <token>dis</token>
