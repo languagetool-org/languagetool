@@ -8018,15 +8018,27 @@ USA
             <short>Possible typo</short>
             <example correction="fund">A vulture <marker>fond</marker> is a...</example>
         </rule>
-        <rule id="CONTRACT_CONTACT" name="confusion of contract/contact">
-            <pattern>
-                <token>please</token>
-                <marker><token>contract</token></marker>
-            </pattern>
-            <message>Did you mean <suggestion>contact</suggestion> (=muscular organ)?</message>
-            <short>Possible typo</short>
-            <example correction="contact">Please <marker>contract</marker> me as soon as possible.</example>
-        </rule>
+        <rulegroup id="CONTRACT_CONTACT" name="confusion of contract/contact">
+            <rule>
+                <pattern>
+                    <token regexp="yes">electrical|please|surface</token>
+                    <marker><token>contract</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>contact</suggestion> (=connection)?</message>
+                <short>Possible typo</short>
+                <example correction="contact">Please <marker>contract</marker> me as soon as possible.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sign</token>
+                    <token min="0">the</token>
+                    <marker><token>contact</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>contract</suggestion> (=binding agreement)?</message>
+                <short>Possible typo</short>
+                <example correction="contract">He signed the <marker>contact</marker> yesterday.</example>
+            </rule>
+        </rulegroup>
         <rule id="HART_HARD" name="confusion of hart/hard">
             <pattern>
                 <marker><token>hart</token></marker>
