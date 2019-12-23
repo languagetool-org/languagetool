@@ -926,7 +926,7 @@ public class CaseRule extends Rule {
         && tokens[pos].hasAnyPartialPosTag("SUB:NOM:SIN:NEU:INF", "SUB:DAT:PLU:")
         && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:", "ADV:TMP", "ABK"))) {
       // find error in: "Der Brief wird morgen Übergeben." / "Die Ausgaben haben eine Mrd. Euro Überschritten."
-      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !tokens[pos-1].hasPosTagStartingWith("VER:AUX:3");
+      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !tokens[pos-1].hasPosTagStartingWith("VER:AUX:3") && !lowercaseReadings.hasPosTag("VER:3:PLU:PRT:NON");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
       // find error in: "Sie bat ihn, es zu Überprüfen."
       // find error in: "Das Geld wird Überwiesen."

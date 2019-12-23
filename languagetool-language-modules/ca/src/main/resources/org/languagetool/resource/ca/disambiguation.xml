@@ -62,6 +62,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token>g</token>
+            </pattern>
+            <disambig action="remove"><wd pos="Y" lemma="gram"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token>Carles</token>
             </pattern>
             <disambig action="remove"><wd pos="NPCSG00" lemma="Carles"/></disambig>
@@ -2487,14 +2493,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="[DPR].*"/>
         </rule>
-        <rule> 
+        <rule>
             <pattern>
                 <token postag="[DPR].*" postag_regexp="yes" inflected="yes">molt</token>
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
     </rulegroup>
-    <rule id="fer_nVerbConjug" name="no sol ser verb conjugar: fer">
+    <rule id="fer_nVerbConjug" name="no sol ser verb conjugat: fer">
         <!--  paraules comunes que no solen ser verb gairebé mai -->
         <pattern>
             <marker>
@@ -4268,10 +4274,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
-        <!--<antipattern>
+        <antipattern>
             <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*|P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SM." postag_regexp="yes"/>
-        </antipattern>-->
+        </antipattern>
         <antipattern>
             <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SF." postag_regexp="yes"/>
@@ -7529,8 +7535,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="genere"/>
                 <marker>
                     <token postag="D[^R].*" postag_regexp="yes"/>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="D.*|V.[^P].*" postag_regexp="yes"/></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="V.[^P].*" postag_regexp="yes"/></token>
                 </marker>
             </unify>
         </pattern>

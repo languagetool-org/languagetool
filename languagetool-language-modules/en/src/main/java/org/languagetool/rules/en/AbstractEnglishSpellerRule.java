@@ -206,6 +206,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
+    } else if ("acc".equals(word)) {
+      return Arrays.asList("account", "accusative");
+    } else if ("Acc".equals(word)) {
+      return Arrays.asList("Account", "Accusative");
+    } else if ("cmon".equals(word)) {
+      return Arrays.asList("c'mon");
+    } else if ("Cmon".equals(word)) {
+      return Arrays.asList("C'mon");
     } else if ("alot".equals(word)) {
       return Arrays.asList("a lot");
     } else if ("da".equals(word)) {

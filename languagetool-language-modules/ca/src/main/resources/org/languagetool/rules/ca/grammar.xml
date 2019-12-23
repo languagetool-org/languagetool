@@ -2204,7 +2204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="genere" />
                         <marker>
                             <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_|V.[MIS].*|RG|ignore_concordance|complement.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">titular|a?nomenar|dir|denominar|plegats|cognomenar|declarar|morir|incloure|esmentar</exception><exception>mes</exception></token>
-                            <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes" /></token>
+                            <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*|NPCN.*" postag_regexp="yes" /></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -2225,6 +2225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Donat cas que arribi.</example>
                 <example>Posat cas que arribi.</example>
                 <example>El somni de moltes generacions de benissers fet realitat.</example>
+                <example>el recentment desaparegut E. Forbes</example>
             </rule>
         </rulegroup>
         <!-- <rulegroup id="CONCORDANCES_ADJ_ADJ" name="Concordances adjectiu i nom">
@@ -2993,7 +2994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token postag="N.MS.*" postag_regexp="yes"><exception postag="_GN_FS" /></token>
+                    <token postag="N.MS.*|PX.MS..." postag_regexp="yes"><exception postag="_GN_FS" /></token>
                     <marker>
                         <token>esquerra</token>
                     </marker>
@@ -3007,7 +3008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N.FS.*" postag_regexp="yes"><exception postag="_GN_MS" /></token>
+                    <token postag="N.FS.*|PX.FS..." postag_regexp="yes"><exception postag="_GN_MS" /></token>
                     <marker>
                         <token>esquerre</token>
                     </marker>
@@ -3015,6 +3016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança.</message>
                 <suggestion>esquerra</suggestion>
                 <example correction="esquerra">La cama <marker>esquerre</marker>.</example>
+                <example correction="esquerra">El salvavides a la seva <marker>esquerre</marker>.</example>
                 <example>La cama esquerra.</example>
                 <example>El llum esquerre.</example>
             </rule>
@@ -6874,6 +6876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>N'hi ha molts disponibles per altres mitjans.</example>
             <example>Treballem amb molts autònoms.</example>
             <example>Molts portàtils tenen un commutador.</example>
+            <example>I molts altres petitons.</example>
         </rule>
         <rule id="MOLTS_POCS" name="*molts pocs / molt pocs">
             <pattern>
@@ -15300,7 +15303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="D" name="*d/de/d'">
             <rule>
                 <pattern>
-                    <token spacebefore="yes">d<exception postag="_possible_nompropi"/></token>
+                    <token spacebefore="yes">d<exception postag="_possible_nompropi|NP.*" postag_regexp="yes"/></token>
                     <token postag="N.*|A.*|V.P.*|D.*|P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de \2</suggestion>?</message>
@@ -15309,6 +15312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de veritat|d'veritat">És <marker>d veritat</marker>.</example>
                 <example correction="de altres|d'altres">I <marker>d altres</marker>.</example>
                 <example>És de veritat.</example>
+                <example>Més amb B, C i D que amb les altres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19562,10 +19566,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DE_EL_NOMBRE_APOSTROFEN" name="apostrofació: de, el + nombre">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=apostrofaci%F3&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11580&amp;idHit=11580&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Apostrofaci%F3+davant+de+xifres+%2F+Apostrofaci%F3+davant+de+%271%27+i+%2711%27&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
-                <marker>
-                    <token regexp="yes">&nombres_que_apostrofen;</token>
-                    <token postag="decimal_comma"/>
-                </marker>
+                <token regexp="yes">&nombres_que_apostrofen;</token>
+                <token postag="decimal_comma"/>
+            </antipattern>
+            <antipattern>
+                <token>forma</token>
+                <token>de</token>
+                <token>u</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -19585,6 +19592,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>definició de U</example>
                 <example>de 1.400 habitants</example>
                 <example>a una distància de 1 630 anys llum.</example>
+                <example>Era en forma de u</example>
             </rule>
             <rule>
                 <pattern>
@@ -19751,7 +19759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>al Hubble</example>
                 <example>al atletismo</example>
                 <example>el iugoslau</example>
-                <!-- (al W i N) i Ser (al E) -->
+                <example>(al W i N) i Ser (al E) </example>
             </rule>
             <rule>
                 <pattern>
@@ -35837,9 +35845,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vegada|volta</token>
                 </marker>
             </pattern>
-            <message>Ordre no habitual.</message>
+            <message>Val més fer servir una altra expressió.</message>
             <suggestion>una <match no="5"/> hi havia</suggestion>
-            <example correction="Una vegada hi havia"><marker>Hi havia una vegada</marker></example>
+            <suggestion>una <match no="5"/> era</suggestion>
+            <suggestion>vet aquí que una <match no="5"/> hi havia</suggestion>
+            <suggestion>heus ací que una <match no="5"/> hi havia</suggestion>
+            <example correction="Una vegada hi havia|Una vegada era|Vet aquí que una vegada hi havia|Heus ací que una vegada hi havia"><marker>Hi havia una vegada</marker></example>
+            <example correction="Una volta hi havia|Una volta era|Vet aquí que una volta hi havia|Heus ací que una volta hi havia"><marker>Hi havia una volta</marker></example>
             <example>que hi havia una vegada acabada la sessió</example>
         </rule>
         <rule id="PER_AIXI_DIRHO" name="*per així dir-ho/per dir-ho així">
@@ -41895,7 +41907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Catalunya</token>
                 <token>Nord</token>
             </pattern>
-            <message>La forma preferent, fixada per l'IEC és <suggestion>Catalunya del Nord</suggestion></message>
+            <message>La forma preferent és <suggestion>Catalunya del Nord</suggestion>.</message>
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=Catalunya+del+Nord&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=7993&amp;idHit=7993&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcta+la+denominaci%F3+Catalunya+Nord+en+catal%E0%3F+%2F+Catalunya+del+Nord&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <example correction="Catalunya del Nord"><marker>Catalunya Nord</marker>.</example>
         </rule>
@@ -48229,6 +48241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No hi ha res de més inútil que intentar explicar-ho.</example>
                 <example>No hi ha res més inútil que intentar explicar-ho.</example>
                 <example>Hi ha alguna cosa més inútil que intentar explicar-ho.</example>
+                <example>És molt diferent fer de novel·lista que fer de poeta.</example>
             </rule>
             <rule>
                 <pattern>
