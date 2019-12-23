@@ -779,7 +779,7 @@ USA
                     <token postag_regexp="yes" postag="SENT_START|RB_SENT"/><!-- 2019-12-16 RB_SENT refer to #2213 -->
                     <token/>
                     <token>and</token>
-                    <marker><token>me</token></marker>
+                    <marker><token regexp="yes">me|myself</token></marker>
                     <token postag="VB.?|MD" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>I</suggestion>?</message>
@@ -797,7 +797,7 @@ USA
                     <token postag="IN"/>
                     <token/>
                     <token>and</token>
-                    <marker><token>I</token></marker>
+                    <marker><token regexp="yes">I|myself</token></marker>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Did you mean <suggestion><match no="4" regexp_match="I" regexp_replace="me" case_conversion="startlower"/></suggestion>?</message>
@@ -888,6 +888,19 @@ USA
                 <message>Did you mean <suggestion>she</suggestion>?</message>
                 <example correction="she">My mother and <marker>her</marker> went to California.</example>
                 <example correction="she">My brother and <marker>her</marker> would often argue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">and|or</token>
+                    <marker><token>myself</token></marker>
+                    <token postag="PCT|TO|VB[PD]" postag_regexp="yes"/>
+                </pattern>
+                <message>Please check whether you should use the object pronoun <suggestion>me</suggestion>.</message>
+                <url>https://www.spreeder.com/me-myself-and-i-the-correct-uses-for-these-three-words/</url>
+                <example correction="me">The teacher asked Ben and <marker>myself</marker>.</example>
+                <example correction="me">The teacher asked Ben and <marker>myself</marker> to go over there.</example>
+                <example correction="me">Mary, Ben and <marker>myself</marker> went over there.</example>
+                <example correction="me">Just between you and <marker>myself</marker>, do you think Peter deserved that award?</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_OF_BEEN_BEING" name="been (being)">
