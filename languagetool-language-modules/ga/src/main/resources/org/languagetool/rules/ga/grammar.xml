@@ -5707,17 +5707,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>faoi deara</suggestion> de ghnáth</message>
             <example correction="faoi deara"><marker>deara</marker></example>
         </rule>
-        <rule id="MHARACH" name="mhárach">
-            <antipattern>
-                <token>arna</token>
-                <token>mhárach</token>
-            </antipattern>
-            <pattern>
+        <rulegroup id="MHARACH" name="mhárach">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ar</token>
+                        <token>na</token>
+                    </marker>
                     <token>mhárach</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>arna mhárach</suggestion> de ghnáth</message>
-            <example correction="arna mhárach"><marker>mhárach</marker></example>
-        </rule>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>arna</suggestion> mhárach de ghnáth</message>
+                <example correction="arna">Maidin lá <marker>ar na</marker> mhárach thug a fhear gaoil cuairt air.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>arna</token>
+                    <token>mhárach</token>
+                </antipattern>
+                <pattern>
+                    <token>mhárach</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>arna mhárach</suggestion> de ghnáth</message>
+                <example correction="arna mhárach"><marker>mhárach</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="CEATHAIR" name="ceathair">
             <antipattern>
                 <token>a</token>
@@ -7962,7 +7975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>siún sincín</suggestion> de ghnáth</message>
             <example correction="siún sincín"><marker>siún</marker></example>
         </rule>
-        <rule id="SON" name="son">
+        <rulegroup id="SON" name="son">
             <antipattern>
                 <token>ar</token>
                 <token>son</token>
@@ -7977,14 +7990,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">ár|bhur|a</token>
                 <token>son</token>
             </antipattern>
-            <pattern>
+            <rule>
+                <pattern>
+                    <token>ar</token>
+                    <marker>
+                        <token>shon</token>
+                    </marker>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín ar <suggestion>son</suggestion> de ghnáth</message>
+                <example correction="son">Labhair mé ar <marker>shon</marker> na daoine.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ar</token>
+                    <token>shon</token>
+                </antipattern>
+                <pattern>
                     <token regexp="yes">sh?on</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ar son</suggestion> de ghnáth</message>
-            <example correction="ar son"><marker>son</marker></example>
-	    <example correction="ar son">Labhair mé ar <marker>shon</marker> na daoine.</example>
-	    <example correction="ar son">Tá sé tábhachtach bheith ag obair an <marker>son</marker> na cearta.</example>
-        </rule>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ar son</suggestion> de ghnáth</message>
+                <example correction="ar son">Tá sé tábhachtach bheith ag obair an <marker>son</marker> na cearta.</example>
+            </rule>
+        </rulegroup>
         <rule id="SPIOR_SPEAR" name="spior spear">
             <antipattern>
                 <token>spior</token>
