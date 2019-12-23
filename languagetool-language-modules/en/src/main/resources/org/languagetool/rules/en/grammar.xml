@@ -2139,15 +2139,32 @@ USA
             <rule>
                 <pattern>
                     <token inflected="yes">be</token>
-                    <token>one</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">if|off</token>
+                        <token>one</token>
+                        <token regexp="yes" case_sensitive="yes" min="0">if|off</token>
                     </marker>
                     <token case_sensitive="yes">the</token>
                 </pattern>
-                <message>Did you mean <suggestion>of</suggestion>?</message>
+                <message>Did you mean <suggestion>one of</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="of">She is one <marker>if</marker> the most talented students I know.</example>
+                <example correction="one of">She is <marker>one if</marker> the most talented students I know.</example>
+                <example correction="one of">She is <marker>one</marker> the most talented students I know.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <token>couple</token>
+                        <token regexp="yes" case_sensitive="yes" min="0">if|off</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">days|decades|games|guys|hours|hundred|minutes|months|occasions|people|players|points|reasons|seasons|things|times|weeks|years</token>
+                </pattern>
+                <message>Did you mean <suggestion>couple of</suggestion>? (In formal written English 'of' should follow 'couple'.)</message>
+                <url>https://jakubmarian.com/a-couple-vs-a-couple-of-in-english/</url>
+                <short>Possible typo</short>
+                <example correction="couple of">After a <marker>couple</marker> days, they became bored.</example>
+                <example correction="couple of">After a <marker>couple if</marker> days, they became bored.</example>
+                <example correction="couple of">After a <marker>couple off</marker> days, they became bored.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IF_IS" name="if it if (is)">
@@ -38221,6 +38238,33 @@ The accident victim died from her injuries.
             <short>Redundant phrase</short>
             <example correction="repeat">We made the song <marker>repeat again</marker>.</example>
         </rule>
+        <rulegroup id="REPEATED_CURRENCY" name="$500 (dollars)">
+            <url>https://btr.michaelkwan.com/2012/06/22/grammar-101-redundant-numbers-and-terms/</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">([$€¥])\d+</token>
+                    </marker>
+                    <token spacebefore="yes" regexp="yes">dollars|euros?|Yens?</token>
+                </pattern>
+                <message>Consider using <suggestion><match no="1" regexp_match="[$€£¥]" regexp_replace=""/></suggestion> only.</message>
+                <url>https://btr.michaelkwan.com/2012/06/22/grammar-101-redundant-numbers-and-terms/</url>
+                <short>Redundant phrase</short>
+                <example correction="55">She bought it for <marker>$55</marker> dollars.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">US[$D]</token>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">\d+</token>
+                        <token spacebefore="yes">dollars</token>
+                    </marker>
+                </pattern>
+                <message>Consider using <suggestion><match no="2"/></suggestion> only.</message>
+                <short>Redundant phrase</short>
+                <example correction="55">She bought it for US$ <marker>55 dollars</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MIGHT_PERHAPS" name="might perhaps (might)">
             <pattern>
                 <token inflected="yes" regexp="yes">may|might</token>
