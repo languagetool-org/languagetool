@@ -35409,11 +35409,14 @@ Andere Projekte</example>
                     <marker>
                         <token>an</token>
                     </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">[a-zü].+en</token>
                     <token regexp="yes">&wochentage;</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="n" regexp_replace="m"/></suggestion>?</message>
                 <example correction="Am"><marker>An</marker> Montag tranken wir Kaffee.</example>
                 <example correction="am">Wir tranken Kaffee <marker>an</marker> Dienstag.</example>
+                <example correction="am">Wir tranken Kaffee <marker>an</marker> letzten Dienstag.</example>
+                <example correction="Am"><marker>An</marker> übernächsten Montag tranken wir Kaffee.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_IM" name="in (im)">
@@ -35424,7 +35427,7 @@ Andere Projekte</example>
                     <marker>
                         <token>in</token>
                     </marker>
-                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|.*zimmer</token>
+                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|Preis|.*zimmer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>im</suggestion>?</message>
                 <example correction="im">Zwölf Feuerwehren waren <marker>in</marker> Einsatz.</example>
