@@ -45,6 +45,10 @@
   * updated spell checker to version 1.82 (2015-10-23)
     (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+
 #### Russian
   * added new words
   * improve java rule
