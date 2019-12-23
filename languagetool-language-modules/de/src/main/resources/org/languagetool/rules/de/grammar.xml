@@ -35083,6 +35083,48 @@ Andere Projekte</example>
                 <example correction="den">Wir machten uns auf <marker>dem</marker> Weg!</example>
                 <example correction="den">Wir machten uns auf <marker>dem</marker> Heimweg!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP:LOK+TMP:DAT"></token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token regexp="yes">de[nrs]</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+                <example correction="dem">Wir sehen uns am Samstag, <marker>den</marker> 23.08.2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token regexp="yes">de[mns]</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>der</suggestion>?</message>
+                <example correction="der">Gestern war Samstag, <marker>den</marker> 23.08.2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="PRP:LOK+TMP:DAT"></exception></token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token>des</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>der</suggestion>?</message>
+                <example correction="dem|den|der">Bis nächsten Samstag, <marker>des</marker> 23.08.2014.</example>
+            </rule>          
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
             <pattern case_sensitive="yes">
