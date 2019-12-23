@@ -8664,7 +8664,243 @@ USA
             <example>State of the Union</example>
         </rule>
 
-        <rulegroup id="BUNCH_OF" name="a bunch of">
+        <rulegroup id="A_BIT" name="(a) bit" default="temp_off">
+            <antipattern>
+                <token skip="2">bit</token>
+                <token regexp="yes">serial|parallel|arch(itecture)?|computer|patterned|code|error|signaling|string|shift(ing)?|rate|compression|manipulation|plant|set|sequence|measurement|recording|density|chip(set)?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DT" skip="2" />
+                <token>bit</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">bit</token>
+                <token regexp="yes" inflected="yes">shark|mosquito|dog|cat|monkey|ape|tick|spider|mouse</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="6" inflected="yes">shark|mosquito|dog|cat|monkey|ape|tick|spider|mouse</token>
+                <token>bit</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*|MD" postag_regexp="yes" skip="1" />
+                <token skip="1">bit</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token>bit</token>
+                <token skip="1">by</token>
+                <token>bit</token>
+            </antipattern>
+            <antipattern>
+                <token>bit</token>
+                <token>budget</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">"|”|’|“|»</token>
+                <token spacebefore="yes">bit</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|SENT_START|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="CD|DT|PRP.*|JJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">an?|first|little</exception>
+                    </token>
+                    <marker>
+                        <token min="0">little</token>
+                        <token case_sensitive="yes" regexp="yes">
+                            [Bb]it
+                        </token>
+                    </marker>
+                    <token postag="JJ|NN:U.*|RB" postag_regexp="yes">
+                        <exception regexp="yes">not|then|off|through</exception><!-- confusion of 'bit' and 'but' -->
+                    </token>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>a <match no="2" case_conversion="alllower" /> <match no="3" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/a_bit</url>
+                <example correction="a bit">I'm <marker>bit</marker> weak today.</example>
+                <example correction="A bit"><marker>Bit</marker> odd that you say that I have made up the html.</example>
+                <example correction="A little bit"><marker>Little bit</marker> stupid actually.</example>
+                <example correction="a bit">Interesting approach, <marker>bit</marker> too much for me to look at personally.</example>
+                <example correction="a little bit">Your comment led me to think <marker>little bit</marker> different about implementation.</example>
+                <example>Just a bit expensive.</example>
+                <example>One more bit of info.</example>
+                <example>Tom bit into the apple.</example>
+                <example>He bit into the apple.</example>
+                <example>The dog bit off his genitals.</example>
+                <example>My friend bit into the apple.</example>
+                <example correction="a bit">I got <marker>bit</marker> money</example>
+                <example>I was bit by a mosquito.</example>
+                <example>I wondered that if we got bit after we knew there was a shark in the water, if other would think we were beyond dumb.</example>
+                <example>That was a nicely done bit of poetry, Sirrian.</example>
+                <example>Bit serial logic designs are more common in calculators whereas bit parallel designs dominate general-purpose computers.</example>
+                <example>Hi, so I’ve bought a ST hub, and got my first bit of home automation working - a switch and some lights</example>
+                <example>The ".xxx" bit in dynamic IP addresses is commendable.</example>
+                <example>Bit rate is an important property when transmitting video.</example>
+                <example>an early implementation of zone bit recording.</example>
+                <example>Searing pain bit through skin and muscle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*|SENT_START|PCT|CC|RB|UH" postag_regexp="yes">
+                        <exception postag="CD|DT|PRP.*|JJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">an?|first|little</exception>
+                        <exception inflected="yes">get</exception>
+
+                    </token>
+                    <marker>
+                        <token min="0">little</token>
+                        <token case_sensitive="yes" regexp="yes">
+                            [Bb]it
+                        </token>
+                    </marker>
+                    <token postag="IN">
+                        <exception regexp="yes">to|through|off</exception>
+                    </token>
+                </pattern>
+                <message>It seems that an article is missing.</message>
+                <suggestion>a <match no="2" case_conversion="alllower" /> <match no="3" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/a_bit</url>
+                <example correction="a bit">I am having <marker>bit</marker> of a problem here. </example>
+                <example correction="A little bit"><marker>Little bit</marker> of right shoulder soreness that resided shortlly after the workout ended.</example>
+                <example correction="a bit">Thanks for your reply and <marker>bit</marker> of an explanation.</example>
+                <example correction="a bit">Maybe I am <marker>bit</marker> behind the moon, but I don't see any dirty dealing like that happening.</example>
+                <example>Just a bit expensive.</example>
+                <example>One more bit of info.</example>
+                <example>Tom bit into the apple.</example>
+                <example>He bit into the apple.</example>
+                <example>My friend bit into the apple.</example>
+                <example>I was bit by a mosquito.</example>
+                <example>The shark bit off my arm.</example>
+                <example>That was a nicely done bit of poetry, Sirrian.</example>
+                <example>Bit serial logic designs are more common in calculators whereas bit parallel designs dominate general-purpose computers.</example>
+                <example>Hi, so I’ve bought a ST hub, and got my first bit of home automation working - a switch and some lights</example>
+                <example>The ".xxx" bit in dynamic IP addresses is commendable.</example>
+                <example>Bit rate is an important property when transmitting video.</example>
+                <example>I hope you haven't lost any data, but most people get bit at least once before they really take backups seriously.</example>
+                <example>Searing pain bit through skin and muscle.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="A_BIT_OF" name="a bit (of)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">thanks|thx</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">bit</token>
+                <token regexp="yes">serial|parallel|arch(itecture)?|computer|patterned|code|error|signaling|string|shift(ing)?|rate|compression|manipulation|plant|set|sequence|measurement|recording|density|chip(set)?</token>
+            </antipattern>
+            <antipattern>
+                <token>pair</token>
+                <token>example</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">majority</token>
+                <token regexp="yes">opinions?|decisions?|party|parties|rules|tilts|moves|base|basis|governments?|elections?|views?|political|interest|religions?|interpretations?|floor|leaders?|shares?|language|populations?|oppositions?|factions?|coalitions?|commitments?|reports?|positions?|equity|stakes?</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">majority</token>
+                <token regexp="yes">left|right</token>
+            </antipattern>
+            <antipattern>
+                <token>bit</token>
+                <token>old</token>
+                <token>school</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token regexp="yes">and|or|&amp;</token>
+                <token>a</token>
+                <token>bit</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bunch|lot|pair|majority|bit</token>
+                <token>time</token>
+                <token>consuming</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bunch|lot|pair|majority|bit</token>
+                <token></token>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bunch|lot|pair|majority|bit</token>
+                <token></token>
+                <token regexp="yes">related|based|specific|wise|dependent|resistant|deprived|shaped</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">is</token>
+                <token>a</token>
+                <token />
+                <token>bit</token>
+                <token postag="JJ" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">an?</token>
+                <token regexp="yes" min="0">vast|huge|large|big|significant|small|little|new|old|good|great</token>
+                <marker>
+                    <token regexp="yes">bunch|lot|pair|majority|bit</token>
+                </marker>
+                <token postag="JJ" min="0">
+                    <exception postag="JJR|IN|RB|NN.*" postag_regexp="yes"></exception>
+                    <exception regexp="yes">else|last</exception>
+                </token>
+                <token postag="NNS|NN:UN?|NNPS" postag_regexp="yes">
+                    <exception regexp="yes">of|back|support|crap|shit|nuts|overkill|light|long|down|up|wrong|right|rough|OP|DIY|lame|tender|cause|part|question|answer|process|concern|bear|system|rule|uses?|thinks?|makes?|thanks|nothing|lead|para|red|yellow|blue|green|black|white|pink|gray|grey|orange|will</exception>
+                    <exception postag="JJ.*|VBG|RB|MD" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <message>It seems that there's a missing preposition after '\2'.</message>
+            <suggestion>\3 of</suggestion>
+            <url>https://www.ecenglish.com/learnenglish/lessons/a-lot-lots-a-lot</url>
+            <example correction="bit of">I have a <marker>bit</marker> money</example>
+            <example correction="bit of">You had to give the car a good <marker>bit</marker> extra gas.</example>
+            <example correction="bit of">BTW there is a little <marker>bit</marker> rush for me to get this one fixed.</example>
+            <example correction="lot of">The current graphs are not “weighted” or aggregated, and show’s a <marker>lot</marker> spikes here and there.</example>
+            <example correction="lot of">We’ve added a <marker>lot</marker> functionality for automatic transaction.</example>
+            <example correction="lot of">Would like to learn and share a <marker>lot</marker> things in the future.</example>
+            <example correction="bit of">Mennad needs a little <marker>bit</marker> help with that.</example>
+            <example>Thanks a lot guys.</example>
+            <example>It gets a bit old after a decade and a half.</example>
+            <example>Looks a lot better man!</example>
+            <example>A recent proposal showed that a majority support a feature that allows editing of posts.</example>
+            <example>I have a lot going on.</example>
+            <example>It would take a lot less time than making a post on the forums.</example>
+            <example>The controls are a bit backwards.</example>
+            <example>It's a bit like lunch.</example>
+            <example>It's a bit rough right now.</example>
+            <example>It goes a bit nuts.</example>
+            <example>There is a version for APM but it doesn’t support server monitoring and seems a bit light on features and testing.</example>
+            <example>Those four could be upped a little bit reward wise.</example>
+            <example>I know my macro could be done cleaner, and it's probably a bit rough around the edges but for now, it does exactly what I need it to do.</example>
+            <example>Even on a mythic self filling multiple times like that is a bit op.</example>
+            <example>As I said in my original post, this car went to the shop a LOT last year.</example>
+            <example>That sounds a bit overkill.</example>
+            <example>A majority rules in Venezuela.</example>
+            <example>So many choices and they all seem a bit lame.</example>
+            <example>As it is, all the majority party in the House of Reps can do is play a cat and mouse game.</example>
+            <example>I trained a bunch last week.</example>
+            <example>The log files as mine are a bit long?</example>
+            <example>Is there a pair example of SmartApp and its counter part DeviceHandler so I can see and relate?</example>
+            <example>In 1863, the International Financial Society became the majority shareholders of the HBC.</example>
+            <example>The financial success of The Jazz Singer and The Singing Fool enabled Warner Bros. to purchase a majority interest in First National in September 1928.</example>
+            <example>I have a bit similar question.</example>
+            <example>It is a bit wrong.</example>
+            <example>The use of a lot system, a characteristic of Athenian democracy, is unique to direct democracies.</example>
+            <example>However, a majority coalition between the KMT, People First Party, and New Party prevented it from taking control of the chamber.</example>
+            <example>I'll do my best not to be one of those people who blogs a lot right at the start and then quits blogging.</example>
+            <example>Noticed that quite a lot use green for comments for instance.</example>
+            <example>I buy a bit bottle of syrup and then extract the dxm from the syrup.</example>
+            <example>Only two and a bit hours left until the football game starts.</example>
+            <example>A lot lead up to that.</example>
+            <example>But a lot will, and the projects that are postponed will probably still go through permitting and land acquisition, "things that don't cost a lot of money," Rose said.</example>
+            <example>The rain in Saskatchewan delayed us a bit back in July, but we managed to catch up on the construction there in August.</example>
+            <example>K2 will acquire a majority equity stake in SilverCube in a stock exchange.</example>
+            <example>Today a bit blue.</example>
+        </rule>
+
+        <rulegroup id="BUNCH_OF" name="(a) bunch of">
             <antipattern>
                 <token>parking</token>
                 <token>lot</token>
@@ -8679,7 +8915,7 @@ USA
                         <exception postag="JJ.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">vast|huge|large|big|significant</token>
+                        <token regexp="yes">vast|huge|large|big|significant|small|little|great</token>
                         <token>majority</token>
                         <token>of</token>
                     </marker>
@@ -8708,7 +8944,7 @@ USA
                         <exception postag="JJ.*|DT|RB" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes">new|old|only|so|good|great</token>
+                        <token regexp="yes">new|old|only|so|good|great|small|little</token>
                         <token regexp="yes">bunch|lot|pair|couple</token>
                         <token>of</token>
                     </marker>
@@ -12792,6 +13028,15 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="TIK_TOK" name="TikTok" default="temp_off">
+            <pattern>
+                <token>tik</token>
+                <token>tok</token>
+            </pattern>
+            <message>Did you mean <suggestion>TikTok</suggestion> (= social networking app)?</message>
+            <url>https://en.wikipedia.org/wiki/TikTok</url>
+            <example correction="TikTok"><marker>Tik tok</marker> is a video-sharing social networking service owned by ByteDance.</example>
+        </rule>
         <rule id="SOCIETE_GENERALE" name="Société Générale">
             <antipattern case_sensitive="yes">
                 <token>Société</token>
@@ -12819,7 +13064,7 @@ USA
         </rule>
         <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
-                <token postag="SENT_START" />
+                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
                 <token>Von</token>
                 <token>der</token>
                 <token>Leyen</token>
@@ -12834,9 +13079,10 @@ USA
                 <token regexp="yes" min="0">der?</token>
                 <token regexp="yes">Le.en</token>
             </pattern>
-            <message>Did you mean <suggestion>von der Leyen</suggestion> (= politician)?</message>
+            <message>Did you mean <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von"  /> der Leyen</suggestion> (= politician)?</message>
             <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-            <example correction="von der Leyen">Ursula <marker>van de Leyen</marker> is a German politician and the President of the European Commission</example>
+            <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
+            <example correction="von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
         </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
@@ -38699,6 +38945,17 @@ The accident victim died from her injuries.
             <example>The dis track was part released on his recent studio album.</example>
             <example>The rapper want to dis his opponent.</example>
             <example>Punished within Dis are those whose lives were marked by active (rather than passive) sins.</example>
+        </rule>
+        <rule id="GIMME" name="gimme (give me)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">gimmi?e</token>
+                </marker>
+                <token regexp="yes">my|y?our|his|her|its|their|the|an?|this|that|th[eo]se|many|some|more|less|what|back|something</token>
+            </pattern>
+            <message>\1 is highly informal. Consider using <suggestion>give me</suggestion>.</message>
+            <example correction="Give me"><marker>Gimme</marker> my money.</example>
+            <example>Clearly, both the stock and bond market view Enron as being in dire straits," said independent research firm Gimme Credit analyst Carol Levenson.</example>
         </rule>
         <rulegroup id="WANNA" name="wanna (want to)">
             <rule>

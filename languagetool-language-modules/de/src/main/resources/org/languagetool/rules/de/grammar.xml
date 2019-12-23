@@ -8475,6 +8475,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="TIK_TOK" name="TikTok" default="temp_off">
+            <pattern>
+                <token>tik</token>
+                <token>tok</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>TikTok</suggestion> (= App)?</message>
+            <url>https://de.wikipedia.org/wiki/TikTok</url>
+            <example correction="TikTok"><marker>Tik tok</marker> wurde von ByteDance entwickelt.</example>
+        </rule>
+        <rulegroup id="FRITZ_BOX" name="Schreibweise 'Fritz!Box'" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Fritz|FRITZ</token>
+                <token>!</token>
+                <token>Box</token>
+            </antipattern>
+            <rule>
+                <pattern><token>fritzbox</token></pattern>
+                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
+                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
+                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritzbox</marker> funktioniert nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fritz</token>
+                    <token>box</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
+                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
+                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritz Box</marker> funktioniert nicht.</example>
+                <example>Die <marker>Fritz!Box</marker> ist ein beliebter WLAN-Router.</example>
+            </rule>
+        </rulegroup>
         <rule id="SOCIETE_GENERALE" name="Société Générale">
             <antipattern case_sensitive="yes">
                 <token>Société</token>
@@ -8500,10 +8532,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
         </rule>
+        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
+                <token>Von</token>
+                <token>der</token>
+                <token>Leyen</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>von</token>
+                <token>der</token>
+                <token>Leyen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">v.n</token>
+                <token regexp="yes">der?</token>
+                <token regexp="yes">L[ea][yi]en</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der Leyen</suggestion> (= Politikerin)?</message>
+            <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+            <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+            <example>Von der leben sie heute.</example>
+        </rule>
         <rule id="COPY_AND_PASTE" name="Copy-and-paste">
             <pattern>
                 <token>Copy</token>
-                <token regexp="yes">[au]nd</token>
+                <token regexp="yes">[au]nd|&amp;</token>
                 <token regexp="yes">Pastes?</token>
             </pattern>
             <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
@@ -8514,7 +8568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DRAG_AND_DROP" name="Drag-and-drop">
             <pattern>
                 <token>Drag</token>
-                <token regexp="yes">[au]nd</token>
+                <token regexp="yes">[au]nd|&amp;</token>
                 <token regexp="yes">Drops?</token>
             </pattern>
             <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
