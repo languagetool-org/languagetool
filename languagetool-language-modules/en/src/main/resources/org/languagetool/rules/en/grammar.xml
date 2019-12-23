@@ -23737,7 +23737,8 @@ USA
                 <token postag_regexp="yes" postag="SENT_END|IN"/>
             </antipattern>
             <pattern>
-                <token spacebefore="yes" postag="CD">
+                <token postag="CD">
+                    <exception scope="previous" spacebefore="no">/</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
@@ -23775,6 +23776,7 @@ USA
             <example correction="chapters">There are 500 college and university <marker>chapter</marker>.</example>
             <example correction="chapters">There are 400 College and university <marker>chapter</marker>.</example>
             <example correction="elements">... if we group 5 <marker>element</marker> in this manner.</example><!-- If the correct typography is used, the rule does not trigger an error. https://en.wikipedia.org/wiki/Group_5_element -->
+            <example correction="pixels">The maximum allowed height is 32,000 <marker>pixel</marker>.</example>
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
