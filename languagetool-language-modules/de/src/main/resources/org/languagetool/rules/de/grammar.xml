@@ -35403,6 +35403,19 @@ Andere Projekte</example>
                 <example correction="sind">Die Principia Mathematica <marker>ist</marker> ein dreibändiges Werk von Bertrand Russell und Alfred North Whitehead.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AN_AM" name="an (am)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token regexp="yes">&wochentage;</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="n" regexp_replace="m"/></suggestion>?</message>
+                <example correction="Am"><marker>An</marker> Montag tranken wir Kaffee.</example>
+                <example correction="am">Wir tranken Kaffee <marker>an</marker> Dienstag.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_IM" name="in (im)">
             <rule>
                 <pattern case_sensitive="yes">
