@@ -45,6 +45,10 @@
   * updated spell checker to version 1.82 (2015-10-23)
     (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+
 #### Russian
   * added new words
   * improve java rule
@@ -52,6 +56,11 @@
 #### Swedish
   * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
     (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
+
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization improvements
 
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`

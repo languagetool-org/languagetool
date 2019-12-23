@@ -2183,6 +2183,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="wird">Es <marker>wir</marker> wieder wärmer draußen.</example>
         </rule>
         <rule id="ZU_SEIEN" name="'zu seien (sein/seinen)'">
+            <antipattern>
+                <token>ab</token>
+                <token>und</token>
+                <token>zu</token>
+                <token>seien</token>
+                <token postag_regexp="yes" postag=".+PLU.+"/>
+            </antipattern>
             <pattern>
                 <token>zu</token>
                 <marker>
@@ -2194,6 +2201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sein|seinen">Er ist gut zu <marker>seien</marker> Haustieren.</example>
             <example correction="sein|seinen">Es scheint kaputt zu <marker>seien</marker>.</example>
             <example>Es scheint defekt zu <marker>sein</marker>.</example>
+            <example>Nur ab und zu <marker>seien</marker> sie dort gewesen, antwortete sie leise.</example>
         </rule>
         <rulegroup id="ES_KANN_NICHT_SEIEN" name="'es kann nicht seien (sein)'">
             <short>Möglicher Tippfehler</short>
@@ -35075,6 +35083,48 @@ Andere Projekte</example>
                 <example correction="den">Wir machten uns auf <marker>dem</marker> Weg!</example>
                 <example correction="den">Wir machten uns auf <marker>dem</marker> Heimweg!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP:LOK+TMP:DAT"></token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token regexp="yes">de[nrs]</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+                <example correction="dem">Wir sehen uns am Samstag, <marker>den</marker> 23.08.2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token regexp="yes">de[mns]</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>der</suggestion>?</message>
+                <example correction="der">Gestern war Samstag, <marker>den</marker> 23.08.2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="PRP:LOK+TMP:DAT"></exception></token>
+                    <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token min="0">,</token>
+                    <marker><token>des</token></marker>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>der</suggestion>?</message>
+                <example correction="dem|den|der">Bis nächsten Samstag, <marker>des</marker> 23.08.2014.</example>
+            </rule>          
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
             <pattern case_sensitive="yes">
@@ -35353,6 +35403,22 @@ Andere Projekte</example>
                 <example correction="sind">Die Principia Mathematica <marker>ist</marker> ein dreibändiges Werk von Bertrand Russell und Alfred North Whitehead.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AN_AM" name="an (am)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">[a-zü].+en</token>
+                    <token regexp="yes">&wochentage;</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="n" regexp_replace="m"/></suggestion>?</message>
+                <example correction="Am"><marker>An</marker> Montag tranken wir Kaffee.</example>
+                <example correction="am">Wir tranken Kaffee <marker>an</marker> Dienstag.</example>
+                <example correction="am">Wir tranken Kaffee <marker>an</marker> letzten Dienstag.</example>
+                <example correction="Am"><marker>An</marker> übernächsten Montag tranken wir Kaffee.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_IM" name="in (im)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -35361,7 +35427,7 @@ Andere Projekte</example>
                     <marker>
                         <token>in</token>
                     </marker>
-                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|.*zimmer</token>
+                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|Preis|.*zimmer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>im</suggestion>?</message>
                 <example correction="im">Zwölf Feuerwehren waren <marker>in</marker> Einsatz.</example>
