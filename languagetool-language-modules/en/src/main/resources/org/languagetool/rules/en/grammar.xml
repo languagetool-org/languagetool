@@ -6283,6 +6283,14 @@ USA
         </rulegroup>
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
         <rule id="VBG_YOURE" name="VBG you're (your)">
+            <antipattern>
+                <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+                <token>you</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="JJ"/>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
                 <token>you</token>
@@ -6291,6 +6299,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> your</suggestion>?</message>
             <example correction="visualizing your">Stop <marker>visualizing you're</marker> own demise.</example>
+            <example>I'm hoping you're wrong.</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's you're::word=\0 your::pivots=your,you're::options=your,you're -->
         <rule id="THATS_YOURE" name="that's you're (your)">
