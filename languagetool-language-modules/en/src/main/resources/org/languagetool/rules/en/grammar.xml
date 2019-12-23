@@ -30427,6 +30427,23 @@ The accident victim died from her injuries.
             <url>https://www.merriam-webster.com/dictionary/first%20come,%20first%20served</url>
             <example correction="come,">First <marker>come</marker> first served.</example>
         </rule>
+        <rulegroup id="MISSING_COMMA_WITH_TOO" name="Missing vocative comma">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min='0' regexp='yes'>["«»“”]</token>
+                    <marker>
+                        <token postag="PRP"><exception postag="PRP$"/></token>
+                        <token>too</token>
+                    </marker>
+                    <token postag="VB.'?" postag_regexp="yes"></token>
+                </pattern>
+                <message>Consider using commas to set off 'too', if you want to emphsize an abrupt change of thougt.</message>
+                <suggestion>\3, too,</suggestion>
+                <short>Missing comma</short>
+                <example correction="I, too,"><marker>I too</marker> love cheese cake.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
             <rule>
                 <pattern>
