@@ -8853,7 +8853,7 @@ USA
             </pattern>
             <message>It seems that there's a missing preposition after '\2'.</message>
             <suggestion>\3 of</suggestion>
-            <url>https://ruthlesseditor.com/a-couple-vs-a-couple-of/</url>
+            <url>https://www.ecenglish.com/learnenglish/lessons/a-lot-lots-a-lot</url>
             <example correction="bit of">I have a <marker>bit</marker> money</example>
             <example correction="bit of">You had to give the car a good <marker>bit</marker> extra gas.</example>
             <example correction="bit of">BTW there is a little <marker>bit</marker> rush for me to get this one fixed.</example>
@@ -13028,6 +13028,15 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="TIK_TOK" name="TikTok" default="temp_off">
+            <pattern>
+                <token>tik</token>
+                <token>tok</token>
+            </pattern>
+            <message>Did you mean <suggestion>TikTok</suggestion> (= social networking app)?</message>
+            <url>https://en.wikipedia.org/wiki/TikTok</url>
+            <example correction="TikTok"><marker>Tik tok</marker> is a video-sharing social networking service owned by ByteDance.</example>
+        </rule>
         <rule id="SOCIETE_GENERALE" name="Société Générale">
             <antipattern case_sensitive="yes">
                 <token>Société</token>
@@ -13055,7 +13064,7 @@ USA
         </rule>
         <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
-                <token postag="SENT_START" />
+                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
                 <token>Von</token>
                 <token>der</token>
                 <token>Leyen</token>
@@ -13070,9 +13079,10 @@ USA
                 <token regexp="yes" min="0">der?</token>
                 <token regexp="yes">Le.en</token>
             </pattern>
-            <message>Did you mean <suggestion>von der Leyen</suggestion> (= politician)?</message>
+            <message>Did you mean <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von"  /> der Leyen</suggestion> (= politician)?</message>
             <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-            <example correction="von der Leyen">Ursula <marker>van de Leyen</marker> is a German politician and the President of the European Commission</example>
+            <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
+            <example correction="von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
         </rule>
         <rule id="A_WINDOWS" name="Windows (proper noun)">
             <pattern>
@@ -38935,6 +38945,17 @@ The accident victim died from her injuries.
             <example>The dis track was part released on his recent studio album.</example>
             <example>The rapper want to dis his opponent.</example>
             <example>Punished within Dis are those whose lives were marked by active (rather than passive) sins.</example>
+        </rule>
+        <rule id="GIMME" name="gimme (give me)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">gimmi?e</token>
+                </marker>
+                <token regexp="yes">my|y?our|his|her|its|their|the|an?|this|that|th[eo]se|many|some|more|less|what|back|something</token>
+            </pattern>
+            <message>\1 is highly informal. Consider using <suggestion>give me</suggestion>.</message>
+            <example correction="Give me"><marker>Gimme</marker> my money.</example>
+            <example>Clearly, both the stock and bond market view Enron as being in dire straits," said independent research firm Gimme Credit analyst Carol Levenson.</example>
         </rule>
         <rulegroup id="WANNA" name="wanna (want to)">
             <rule>
