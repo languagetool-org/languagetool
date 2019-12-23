@@ -57,6 +57,11 @@
   * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
     (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
 
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization improvements
+
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
     has been removed. It hadn't been maintained for years and didn't work properly
