@@ -2184,6 +2184,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ZU_SEIEN" name="'zu seien (sein/seinen)'">
             <pattern>
+                <token>ab</token>
+                <token>und</token>
+                <token>zu</token>
+                <token>seien</token>
+                <token postag_regexp="yes" postag=".+PLU.+">
+            </pattern>
+            <pattern>
                 <token>zu</token>
                 <marker>
                     <token>seien</token>
@@ -2194,6 +2201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sein|seinen">Er ist gut zu <marker>seien</marker> Haustieren.</example>
             <example correction="sein|seinen">Es scheint kaputt zu <marker>seien</marker>.</example>
             <example>Es scheint defekt zu <marker>sein</marker>.</example>
+            <example>Nur ab und zu <marker>seien</marker> sie dort gewesen, antwortete sie leise.</example>
         </rule>
         <rulegroup id="ES_KANN_NICHT_SEIEN" name="'es kann nicht seien (sein)'">
             <short>Möglicher Tippfehler</short>
