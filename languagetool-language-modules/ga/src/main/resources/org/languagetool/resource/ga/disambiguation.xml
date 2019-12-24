@@ -285,6 +285,25 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rule id="I_CHOLM_CILLE" name="Í Cholm Cille">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag="Noun:Fem:(Com|Gen|Voc):Sg(:Len)?" postag_regexp="yes" inflected="yes">Í</token>
+                <token postag="Prop:Noun:Masc:Gen:Sg:Len">Cholm</token>
+                <token postag="Noun:Fem:Gen:Sg">Cille</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="OILEAN_I" name="Oileán Í">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag="Noun:Masc:.*:Sg.*" postag_regexp="yes">Oileán</token>
+                <token postag="Noun:Fem:Gen:Sg">Í</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="VTI_SUBJ_OBJ" name="VERB sé é">
         <pattern>
             <token postag="Verb:VTI:PresInd|Verb:VT:PresInd|Verb:VTI:PastInd(:Q|:NegQ|:Neg)?:Len" postag_regexp="yes"></token>
@@ -582,6 +601,15 @@
             </marker>
         </pattern>
         <disambig action="remove" postag=".*:DefArt"/>
+    </rule>
+    <rule id="NOT_NVOC" name="not vocative noun">
+        <pattern>
+            <token negate="yes">a</token>
+            <marker>
+                <token postag=".*(Noun|Subst).*:Voc.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".*:Voc.*"/>
     </rule>
     <rule id="NOT_DEFART_ADJ" name="not definite article before adj">
         <pattern>
