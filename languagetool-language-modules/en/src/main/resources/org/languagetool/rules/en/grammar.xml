@@ -6302,17 +6302,30 @@ USA
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="JJ"/>
-                <token postag="SENT_END"/>
+                <token postag="PCT" />
             </antipattern>
             <pattern>
-                <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
-                <token>you</token>
-                <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                <token>re</token>
+                <marker>
+                    <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+                    <token>you</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>re</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">not|in|with|of|about</exception>
+                    <exception postag="VBG" />
+                </token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> your</suggestion>?</message>
             <example correction="visualizing your">Stop <marker>visualizing you're</marker> own demise.</example>
+            <example correction="visualizing your">Stop <marker>visualizing you're</marker> problems</example>
             <example>I'm hoping you're wrong.</example>
+            <example>I'm hoping you're right, Paul.</example>
+            <example>I’m assuming you’re in the states since you’re on SSI?</example>
+            <example>What do you mean by saying you're not satisfied?</example>
+            <example type="triggers_error">I'm hoping you're right</example><!-- no punctuation at end, no idea how to solve this via antipattern -->
+            <example>But you’re saying you’re taking it too much and mixing it with alcohol.</example>
+            <example>I’m assuming you’re referring to Faceted NRQL Alerting, here.</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's you're::word=\0 your::pivots=your,you're::options=your,you're -->
         <rule id="THATS_YOURE" name="that's you're (your)">
