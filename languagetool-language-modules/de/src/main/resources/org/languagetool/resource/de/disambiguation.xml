@@ -1057,6 +1057,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="ADJ:.+|PA2:.+"/>
         </rule>
     </rulegroup>
+    <rulegroup id="KEIN_IMPERATIV" name="Entferne Imperativ am Satzende langer Sätze">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token></token>
+                <token></token>
+                <token skip="-1"></token>
+                <marker><token postag_regexp="yes" postag="VER:IMP.+"></token></marker>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="remove" postag="VER:IMP:.+"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="RETTUNGSWAGEN" name="Rettungswagen keine Verbform">
         <rule>
             <pattern case_sensitive="yes">
