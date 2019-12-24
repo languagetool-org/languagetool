@@ -6350,25 +6350,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>In abairt</short>
             <example correction="is féidir"><marker>féidir</marker></example>
         </rule>
-        <rule id="FOLAIR" name="foláir">
+        <rulegroup id="FOLAIR" name="foláir">
             <antipattern>
                 <token>ní</token>
                 <token>foláir</token>
             </antipattern>
-            <pattern>
+            <antipattern>
+                <token>ní</token>
+                <token>foláir</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Cop.*" postag_regexp="yes" regexp="yes">n.*</token>
                 <token regexp="yes">fh?oláir</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ní foláir</suggestion> de ghnáth</message>
-            <short>In abairt</short>
-            <example correction="ní foláir"><marker>foláir</marker></example>
-        </rule>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>ba</token>
+                <token>fholáir</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>fholáir</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag=".*Cop.*" postag_regexp="yes" regexp="yes">[^n].*</token>
+                    <token regexp="yes">fh?oláir</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ní foláir</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="Ní foláir"><marker>Is foláir</marker> dóibh a ndualgais a chomhlíonadh.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">fh?oláir</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ní foláir</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="ní foláir"><marker>foláir</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="IOMAI" name="iomaí">
             <antipattern>
                 <token>is</token>
                 <token>iomaí</token>
             </antipattern>
-            <pattern>
+            <antipattern>
+                <token>ní</token>
+                <token>hiomaí</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
                 <token>iomaí</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>ba</token>
+                <token>iomaí</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>iomaí</token>
+            </antipattern>
+            <antipattern>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>iomaí</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">h?iomaí</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>is iomaí</suggestion> de ghnáth</message>
             <short>In abairt</short>
@@ -6379,8 +6433,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>is</token>
                 <token>ionann</token>
             </antipattern>
-            <pattern>
+            <antipattern>
+                <token>ní</token>
+                <token>hionann</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
                 <token>ionann</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>ba</token>
+                <token>ionann</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>ionann</token>
+            </antipattern>
+            <antipattern>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>ionann</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">h?ionann</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>is ionann</suggestion> de ghnáth</message>
             <short>In abairt</short>
@@ -6389,6 +6467,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="LEIR" name="léir">
             <antipattern>
                 <token>is</token>
+                <token>léir</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>léir</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <token>léir</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>ba</token>
+                <token>léir</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>léir</token>
+            </antipattern>
+            <antipattern>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token>léir</token>
             </antipattern>
             <pattern>
@@ -6410,6 +6512,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>go</token>
                 <token>leor</token>
+                <token>leor</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>leor</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <token>leor</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>ba</token>
+                <token>leor</token>
+            </antipattern>
+            <antipattern>
+                <token>ní</token>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token>leor</token>
+            </antipattern>
+            <antipattern>
+                <token>b</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token>leor</token>
             </antipattern>
             <pattern>
