@@ -8545,22 +8545,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
                 <token>Von</token>
                 <token>der</token>
-                <token>Leyen</token>
+                <token regexp="yes">Leyens?</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token>von</token>
                 <token>der</token>
-                <token>Leyen</token>
+                <token regexp="yes">Leyens?</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">v.n</token>
                 <token regexp="yes">der?</token>
-                <token regexp="yes">L[ea][yi]en</token>
+                <token regexp="yes">L[ea][yi]ens?</token>
             </pattern>
-            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der Leyen</suggestion> (= Politikerin)?</message>
+            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
             <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
             <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
             <example>Von der leben sie heute.</example>
+            <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
+        </rule>
+        <rule id="JEROME_BOATENG" name="Jérôme Boateng" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Jérôme</token>
+                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">J.r.me</token>
+                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Jérôme <match no="2" case_conversion="startupper" /></suggestion> (= prominente Person)</message>
+            <example correction="Jérôme Boateng"><marker>Jerome Boateng</marker> ist ein deutscher Fußballspieler.</example>
+            <example>Jérôme Boatengs Karriere erreichte seinen Höhepunkt mit dem Gewinn der WM 2014.</example>
+        </rule>
+        <rule id="LEROY_SANE" name="Leroy Sané" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Leroy</token>
+                <token regexp="yes">Sanés?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Lee?roy</token>
+                <token regexp="yes">San.s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Leroy <match no="2" regexp_match="(?i)San." regexp_replace="Sané" /></suggestion> (= Fußballspieler)</message>
+            <url>https://de.wikipedia.org/wiki/Leroy_San%C3%A9</url>
+            <example correction="Leroy Sanés"><marker>Leroy Sanes</marker> neuer Fußballverein heißt wohl bald Bayern München.</example>
         </rule>
         <rule id="COPY_AND_PASTE" name="Copy-and-paste">
             <pattern>
@@ -37806,7 +37833,7 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" regexp="yes" skip="1">mit|verlieren|gewinnen|enden|unentschieden|trennen|spielen|schlagen|Spiel</token>
+                <token inflected="yes" regexp="yes" skip="1">mit|verlieren|gewinnen|enden|unentschieden|trennen|spielen|schlagen|Spiel|treffen</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
@@ -37816,7 +37843,7 @@ Andere Projekte</example>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes" skip="1">[0-9]+</token>
-                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|unentschieden|spielen</token>
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|unentschieden|spielen|treffen</token>
             </antipattern>
             <antipattern>
                 <!-- Maßstab -->
@@ -37856,6 +37883,8 @@ Andere Projekte</example>
             <example>Das 5:2 gegen Ungarn</example>
             <example>Sie trennten sich 1:1.</example>
             <example>Das Verhältnis war lange 1:4.</example>
+            <example>Er hat zum 1:0 getroffen.</example>
+            <example>Er traf zum 1:0.</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
             <example>Das Spiel endete <marker>3:5</marker>.</example>
@@ -40945,6 +40974,11 @@ Andere Projekte</example>
                    <token postag="SUB:.+" postag_regexp="yes"/>
                    <token postag="KON:.+" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">Hallo|Hey|Hi|Moin|Servus</token>
+                    <token regexp="yes" skip="2">ihr|du|sie</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -40966,6 +41000,7 @@ Andere Projekte</example>
                 <example>Sehr geehrte Frau Schmidt, zum 20. Jahrestag Ihrer Firma gratulieren wir Ihnen recht herzlich!</example>
                 <example>Klarheit über die eigenen Kompetenzen, Erfolge und den Mehrwert für das Unternehmen können dabei helfen.</example>
                 <example>In der ersten Version eher nicht, d.h. es gibt kein User Interface dafür.</example>
+                <example>Hallo ihr beiden, Tim und ich sind ab heute Nachmittag unterwegs.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
