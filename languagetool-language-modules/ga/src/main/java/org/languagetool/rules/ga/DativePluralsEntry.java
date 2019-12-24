@@ -23,7 +23,7 @@ public class DativePluralsEntry {
   String form_modern;
   String lemma;
   String lemma_modern;
-  String equivalent_common_plural;
+  String equivalent;
   String replacement;
   String gender;
 
@@ -35,7 +35,7 @@ public class DativePluralsEntry {
   }
 
   public void setEquivalent(String equiv) {
-    this.equivalent_common_plural = equiv;
+    this.equivalent = equiv;
   }
   public void setModernised(String modernised) {
     this.form_modern = modernised;
@@ -44,12 +44,15 @@ public class DativePluralsEntry {
     this.lemma_modern = modernised;
   }
   public boolean hasEquivalent() {
-    return !(equivalent_common_plural == null || equivalent_common_plural.equals(""));
+    return !(equivalent == null || equivalent.equals(""));
   }
   public boolean hasModernised() {
     return !(form_modern == null || form_modern.equals(""));
   }
   public boolean hasModernLemma() {
     return !(lemma_modern == null || lemma_modern.equals(""));
+  }
+  public String getBaseTag() {
+    return (this.gender.equals("f")) ? "Noun:Fem:Dat:Pl" : "Noun:Masc:Dat:Pl";
   }
 }
