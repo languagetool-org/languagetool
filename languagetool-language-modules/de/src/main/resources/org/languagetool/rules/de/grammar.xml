@@ -31888,6 +31888,20 @@ Andere Projekte</example>
           </rule>
         </rulegroup>
         -->
+        <rulegroup id="PRP_DAT_AKK" name="Präposition mit Dativ oder Akkusativ">
+          <rule>
+            <pattern>
+              <marker>
+                  <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
+                      <exception postag=".+(AKK|DAT):.+|UNKNOWN" postag_regexp="yes" scope="next"/>
+                  </token>
+              </marker>
+              <token postag="VER:[123].+" postag_regexp="yes"/>
+            </pattern>
+            <message>Kasusfehler: Sollte nach '\1' eine Dativ- oder Akkusativform folgen?.</message>
+            <example correction="">Sie fragte, was <marker>in</marker> jeden Geschichtsbuches steht.</example>
+          </rule>
+        </rulegroup>
         <!-- TODO: testen!!
         <rulegroup id="EINER_EINE" name="'unbestimmter weiblicher Artikel im Akkusativ'">
           <rule>
