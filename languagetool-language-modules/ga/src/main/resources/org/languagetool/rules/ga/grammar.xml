@@ -6975,37 +6975,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcoitinne</suggestion> de ghnáth</message>
             <example correction="i gcoitinne"><marker>gcoitinne</marker></example>
         </rule>
-        <rule id="CIOLAR" name="ciolar">
+        <rulegroup id="CIOLAR_CHIOT" name="ciolar">
             <antipattern>
-                <token>ciolar</token>
+                <token regexp="yes">g?ch?iolar</token>
                 <token>chiot</token>
             </antipattern>
-            <pattern>
+            <rule>
+                <pattern>
                     <token regexp="yes">g?ch?iolar</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion><match no="1" regexp_match="(g?ch?)iolar" regexp_replace="$1iolar"/> chiot</suggestion> de ghnáth</message>
-            <example correction="ciolar chiot"><marker>ciolar</marker></example>
-        </rule>
-        <rule id="CHIOT" name="chiot">
-            <antipattern>
-                <token>ciolar</token>
-                <token>chiot</token>
-            </antipattern>
-            <pattern>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion><match no="1" regexp_match="(g?ch?)iolar" regexp_replace="$1iolar"/> chiot</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="ciolar chiot"><marker>ciolar</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>chiot</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ciolar chiot</suggestion> de ghnáth</message>
-            <example correction="ciolar chiot"><marker>chiot</marker></example>
-        </rule>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ciolar chiot</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="ciolar chiot"><marker>chiot</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="COLGSHEASAMH" name="colgsheasamh">
             <antipattern>
                 <token>ina</token>
                 <token>cholgsheasamh</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">g?ch?olgsheasamh</token>
+                <token regexp="yes">g?ch?olgsheasamh</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ina cholgsheasamh</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="ina cholgsheasamh"><marker>colgsheasamh</marker></example>
         </rule>
         <rule id="COMHCHLOS" name="comhchlos">
@@ -7014,9 +7015,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>gcomhchlos</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">g?ch?omhchlos</token>
+                <token regexp="yes">g?ch?omhchlos</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhchlos</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="i gcomhchlos"><marker>comhchlos</marker></example>
         </rule>
         <rule id="COMHTHRATH" name="comhthráth">
@@ -7025,9 +7027,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>gcomhthráth</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">g?ch?omhthráth</token>
+                <token regexp="yes">g?ch?omhthráth</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>i gcomhthráth</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="i gcomhthráth"><marker>comhthráth</marker></example>
         </rule>
         <rule id="DALLACH" name="dallach">
@@ -7036,9 +7039,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dubh</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">n?dh?allach</token>
+                <token regexp="yes">n?dh?allach</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion><match no="1" regexp_match="(n?dh?)allach" regexp_replace="$1allach"/> dubh</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="dallach dubh"><marker>dallach</marker></example>
         </rule>
         <rule id="DHEA" name="dhea">
@@ -7047,9 +7051,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dhea</token>
             </antipattern>
             <pattern>
-                    <token>dhea</token>
+                <token>dhea</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>mar dhea</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="mar dhea"><marker>dhea</marker></example>
         </rule>
         <rule id="DEARGLASADH" name="dearglasadh">
@@ -7058,9 +7063,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dearglasadh</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">n?dh?earglasadh</token>
+                <token regexp="yes">n?dh?earglasadh</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ar dearglasadh</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="ar dearglasadh"><marker>dearglasadh</marker></example>
         </rule>
         <rule id="DEARGMHEISCE" name="deargmheisce">
@@ -7069,9 +7075,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>deargmheisce</token>
             </antipattern>
             <pattern>
-                    <token regexp="yes">n?dh?eargmheisce</token>
+                <token regexp="yes">n?dh?eargmheisce</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>ar deargmheisce</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="ar deargmheisce"><marker>deargmheisce</marker></example>
         </rule>
         <rule id="DEO" name="deo">
@@ -7079,10 +7086,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>go</token>
                 <token>deo</token>
             </antipattern>
+            <antipattern>
+                <token>go</token>
+                <token>deo</token>
+                <token>deo</token>
+            </antipattern>
+            <antipattern>
+                <token>deo</token>
+                <token>deo</token>
+            </antipattern>
             <pattern>
-                    <token>deo</token>
+                <token>deo</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>go deo</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="go deo"><marker>deo</marker></example>
         </rule>
         <rule id="DHEOIDH" name="dheoidh">
@@ -7091,9 +7108,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dheoidh</token>
             </antipattern>
             <pattern>
-                    <token>dheoidh</token>
+                <token>dheoidh</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>faoi dheoidh</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="faoi dheoidh"><marker>dheoidh</marker></example>
         </rule>
         <rule id="EATAR" name="éatar">
@@ -7102,9 +7120,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>éatar</token>
             </antipattern>
             <pattern>
-                    <token>éatar</token>
+                <token>éatar</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>liútar éatar</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="liútar éatar"><marker>éatar</marker></example>
         </rule>
         <rule id="EINDI" name="éindí">
@@ -7113,9 +7132,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>éindí</token>
             </antipattern>
             <pattern>
-                    <token>éindí</token>
+                <token>éindí</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>in éindí</suggestion> de ghnáth</message>
+            <short>In abairt</short>
             <example correction="in éindí"><marker>éindí</marker></example>
         </rule>
         <rule id="EINEACHT" name="éineacht">
@@ -7264,7 +7284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>feanna</token>
             </antipattern>
             <pattern>
-                    <token>feanna</token>
+                <token>feanna</token>
             </pattern>
             <message>Ní úsáidtear an focal seo ach san abairtín <suggestion>fionna feanna</suggestion> de ghnáth</message>
             <short>In abairt</short>
