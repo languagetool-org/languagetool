@@ -10983,6 +10983,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
                 <token postag=".*Adj.*" postag_regexp="yes" regexp="yes">&unboundadj;</token>
             </antipattern>
+            <antipattern>
+                <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes" regexp="yes">bheith|oiread</token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token postag=".*Noun:Fem:Com:Sg|.*Noun:Fem:Com:Sg:DefArt" postag_regexp="yes"></token>
                 <marker>
@@ -10996,8 +11000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="mhór">bó <marker>mór</marker></example>
             <example>Léimeann an fharraige céad méadar suas sa spéir.</example>
         </rule>
-        <!-- First: disambiguation
-        <rule id="NFCS_A_A" name="NFCS Adj Adj" default="temp_off">
+        <rule id="NFCS_A_A" name="NFCS Adj Adj">
             <antipattern>
                 <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
                 <token postag=".*Adj.*" postag_regexp="yes" regexp="yes">&unboundadj;</token>
@@ -11029,7 +11032,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Séimhiú ar iarraidh</short>
             <example correction="dhearg">bó mhór <marker>dearg</marker></example>
         </rule>
-        -->
         <rule id="NFCS_A_ACH_A" name="NFCS Adj ach Adj">
             <antipattern>
                 <token postag=".*Noun:Fem:Com:Sg" postag_regexp="yes"></token>
