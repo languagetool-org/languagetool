@@ -31917,16 +31917,51 @@ Andere Projekte</example>
         -->
         <rulegroup id="PRP_DAT_AKK" name="Präposition mit Dativ oder Akkusativ">
           <rule>
+            <antipattern>
+                <token skip="3">in</token>
+                <token regexp="yes">genannt|bezeichnet</token>
+            </antipattern>
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">genannt|bezeichnet</token>
+            </antipattern>
+            <antipattern>
+                <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                <token postag="VER:[123].+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token postag="VER:[123].+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token postag="VER:[123].+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
+                <token postag="VER:[123].+" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
               <marker>
                   <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
-                      <exception postag=".+(AKK|DAT):.+|UNKNOWN" postag_regexp="yes" scope="next"/>
+                      <exception postag=".+(AKK|DAT):.+|UNKNOWN|PKT" postag_regexp="yes" scope="next"/>
+                      <exception case_sensitive="yes">an</exception>
                   </token>
               </marker>
               <token postag="VER:[123].+" postag_regexp="yes"/>
             </pattern>
-            <message>Kasusfehler: Sollte nach '\1' eine Dativ- oder Akkusativform folgen?.</message>
+            <message>Kasusfehler: Sollte nach '\1' eine Dativ- oder Akkusativform folgen?</message>
             <example correction="">Sie fragte, was <marker>in</marker> jeden Geschichtsbuches steht.</example>
+            <example>Weil sie es <marker>in</marker> etwas anderes umtauschen wollte, ...</example>
+            <example>Von nun an benutze ich dieses Wort nicht mehr.</example>
+            <example>...die in ihrer eigenen Sprache Kelten und in unserer Gallier genannt werden.</example>
+            <example>Ich frage mich, was ein von Geburt an Blinder denkt.</example>
           </rule>
         </rulegroup>
         <!-- TODO: testen!!
