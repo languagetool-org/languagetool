@@ -196,10 +196,7 @@ public class SubjectVerbAgreementRule extends Rule {
                       && !hasUnknownTokenToTheLeft(tokens, i)
                       && !hasQuestionPronounToTheLeft(tokens, i-1)
                       && !hasVerbToTheLeft(tokens, i-1)
-                      && !containsRegexToTheLeft("wer", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)alle[nr]?", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)jede[rs]?", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)manche[nrs]?", tokens, i-1)
+                      && !containsRegexToTheLeft("wer|(?i)alle[nr]?|(?i)jede[rs]?|(?i)manche[nrs]?", tokens, i-1)
                       && !containsOnlyInfinitivesToTheLeft(tokens, i-1);
       if (match) {
         String message = "Bitte prüfen, ob hier <suggestion>" + getPluralFor(tokenStr) + "</suggestion> stehen sollte.";

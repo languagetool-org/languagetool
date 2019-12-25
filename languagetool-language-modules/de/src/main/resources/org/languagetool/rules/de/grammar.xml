@@ -5202,6 +5202,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
+        <rulegroup id="HODEN_HOSEN" name="Hoden (Hosen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes" skip="1">Hoden</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">kaufen|waschen|anprobieren|ausziehen|anziehen|gefallen|flicken|tragen|zuknöpfen|nähen</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="d" regexp_replace="s"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Hosen">Man muss neue <marker>Hoden</marker> waschen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">neu|alt|&farbadj;</token>
+                    <marker>
+                        <token inflected="yes" skip="1">Hoden</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="d" regexp_replace="s"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Hosen">Man muss neue <marker>Hoden</marker> am besten mehrmals waschen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KACKE_JACKE" name="Kacke (Jacke)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" skip="1">[KH]acken?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">kaufen|waschen|anprobieren|ausziehen|anziehen|gefallen|flicken|tragen|zuknöpfen|nähen</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="[HK]" regexp_replace="J"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Jacken">Man muss neue <marker>Kacken</marker> waschen.</example>
+                <example correction="Jacke">Er wollte die <marker>Hacke</marker> anprobieren.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">neu|alt|&farbadj;</token>
+                    <marker>
+                        <token regexp="yes" skip="1">Kacken?</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="K" regexp_replace="J"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Jacken">Man muss neue <marker>Kacken</marker> am besten mehrmals waschen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACH_NACH" name="ach/nach">
             <rule>
                 <pattern>
@@ -12791,6 +12840,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Diese Wörter haben dieselbe Bedeutung.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SEIT_IN_KRAFT_TRETEN" name="'ungefähr genau'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token skip="6">seit<exception scope="next" postag="PKT"/></token>
+                    <token>in</token>
+                    <marker>
+                        <token>Kraft</token>
+                        <token inflected="yes">treten</token>
+                    </marker>
+                </pattern>
+                <message>&unstimmig; Bitte wählen Sie zwischen 'seit ... in Kraft' und 'zum ... in Kraft treten'.</message>
+                <suggestion>Kraft</suggestion>
+                <example correction="Kraft">Dieser Erlass ist seit letztem Samstag in <marker>Kraft getreten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IMMER_NIE" name="'immer nie'">
             <rule>
                 <regexp>\b(immer) (nie)\b</regexp>
@@ -16111,6 +16175,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Diese häufig benutzte Formulierung lautet standardsprachlich korrekt <suggestion>dieses Jahres</suggestion>.</message>
             <url>https://www.korrekturen.de/beliebte_fehler/diesen_jahres.shtml</url>
             <example correction="dieses Jahres">Im April <marker>diesen Jahres</marker> ist Ostern.</example>
+        </rule>
+        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv">
+            <pattern>
+                <token regexp="yes">idealste.?</token>
+            </pattern>
+            <message>Das Adjektiv 'ideal' sollte nicht gesteigert werden.</message>
+            <suggestion><match no="1" regexp_match="st" regexp_replace=""/></suggestion>
+            <example correction="ideale">Die <marker>idealste</marker> Lösung ist das nicht.</example>
         </rule>
         <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'">
             <regexp>\bnicht adäquat genug\b</regexp>
@@ -23144,7 +23216,7 @@ Andere Projekte</example>
         <rulegroup id="KRAFT_SUBST" name="'keine kraft (Kraft) haben' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[kK]eine</token>
+                    <token regexp="yes">[kK]eine|in</token>
                     <marker>
                         <token>kraft</token>
                     </marker>
@@ -23152,6 +23224,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Kraft</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Kraft">Ich habe keine <marker>kraft</marker> mehr.</example>
+                <example correction="Kraft">Das Gesetz ist seit gestern in <marker>kraft</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -35933,7 +36006,7 @@ Andere Projekte</example>
                     <token skip="2" regexp='yes'>insofern|insoweit</token>
                     <token>,</token>
                     <marker>
-                    <token regexp='yes'>dass|weil</token>
+                    <token regexp='yes'>da(ss)?|weil</token>
                     </marker>
                 </pattern>
                 <message>Auf '<match no="1"/>' folgt gewöhnlich die Konjunktion <suggestion>als</suggestion>.</message>
