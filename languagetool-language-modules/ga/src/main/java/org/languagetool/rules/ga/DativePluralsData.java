@@ -71,7 +71,7 @@ final class DativePluralsData {
         String repl = parts[3];
         String repl_modern = null;
         if(repl.contains(":")) {
-          String repls[] = form.split(":");
+          String repls[] = repl.split(":");
           if(repls.length != 2) {
             System.err.println("Skipping entry (replacement has more than 1 modern form): " + line);
             continue;
@@ -82,7 +82,7 @@ final class DativePluralsData {
         String lemma = parts[1];
         String lemma_modern = null;
         if(lemma.contains(":")) {
-          String lemmata[] = form.split(":");
+          String lemmata[] = lemma.split(":");
           if(lemmata.length != 2) {
             System.err.println("Skipping entry (lemma has more than 1 modern form): " + line);
             continue;
