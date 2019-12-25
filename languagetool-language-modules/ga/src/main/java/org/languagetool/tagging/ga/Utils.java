@@ -346,6 +346,36 @@ public class Utils {
     }
   }
 
+  public static String eclipse(String in) {
+    if(in == null || in.equals("")) {
+      return in;
+    }
+    if(isUpperVowel(in.charAt(0))) {
+      return "n" + in;
+    }
+    if(isLowerVowel(in.charAt(0))) {
+      return "n-" + in;
+    }
+
+    switch(in.toLowerCase().charAt(0)) {
+      case 'b':
+        return "m" + in;
+      case 'c':
+        return "g" + in;
+      case 'd':
+      case 'g':
+        return "n" + in;
+      case 'f':
+        return "bh" + in;
+      case 'p':
+        return "b" + in;
+      case 't':
+        return "d" + in;
+      default:
+        return in;
+    }
+  }
+
   public static String toLowerCaseIrish(String s) {
     if(s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
       return s.substring(0,1) + "-" + s.substring(1).toLowerCase();
