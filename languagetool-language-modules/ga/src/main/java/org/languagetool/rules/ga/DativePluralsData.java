@@ -30,6 +30,10 @@ final class DativePluralsData {
 
   private static Map<String, String> modernisations = getModernisations(datives);
 
+  public static Map<String, String> getModernisations() {
+    return modernisations;
+  }
+
   /**
    * Load words.
    */
