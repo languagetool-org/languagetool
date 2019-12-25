@@ -271,6 +271,10 @@ public class Utils {
     }
   }
 
+  public static boolean isVowel(char c) {
+    return isLowerVowel(c) || isUpperVowel(c);
+  }
+
   public static boolean isUpperLenitable(char c) {
     switch(c) {
       case 'B':
