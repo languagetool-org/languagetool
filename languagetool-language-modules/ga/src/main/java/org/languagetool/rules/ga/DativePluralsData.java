@@ -28,10 +28,16 @@ final class DativePluralsData {
 
   private static final Set<DativePluralsEntry> datives = loadWords("/ga/dative-plurals.txt");
 
-  private static Map<String, String> modernisations = getModernisations(datives);
+  private static final Map<String, String> modernisations = getModernisations(datives);
+
+  private static final Map<String, String> simple_replacements = buildSimpleReplacements(datives);
 
   public static Map<String, String> getModernisations() {
     return modernisations;
+  }
+
+  public static Map<String, String> getSimpleReplacements() {
+    return simple_replacements;
   }
 
   /**
