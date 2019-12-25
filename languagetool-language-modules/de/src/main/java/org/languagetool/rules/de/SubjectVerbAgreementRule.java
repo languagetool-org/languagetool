@@ -95,9 +95,9 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("ist|war")
     ),
     Arrays.asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      posRegex("EIG:.*"),
-      new PatternTokenBuilder().csToken("und").setSkip(2).build(),
+      posRegex(JLanguageTool.SENTENCE_START_TAGNAME+"|KON:UNT"),
+      posRegex("(EIG|SUB):.*"),
+      new PatternTokenBuilder().csToken("und").setSkip(3).build(),
       tokenRegex("sind|waren")
     ),
     Arrays.asList(
