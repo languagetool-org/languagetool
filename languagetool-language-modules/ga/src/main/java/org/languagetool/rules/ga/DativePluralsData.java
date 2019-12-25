@@ -19,14 +19,16 @@
 package org.languagetool.rules.ga;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.ga.Utils;
 
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 final class DativePluralsData {
+
+  private static final Set<DativePluralsEntry> datives = loadWords("/ga/dative-plurals.txt");
+
+  private static Map<String, String> modernisations = getModernisations(datives);
 
   /**
    * Load words.
@@ -92,5 +94,36 @@ final class DativePluralsData {
       }
     }
     return Collections.unmodifiableSet(set);
+  }
+
+  /**
+   * Makes a map of modernisations (i.e., if there is a more modern dative
+   * plural). This is only relevant to Munster Irish.
+   * Additionally generates mutated forms
+   * @param datives data, as loaded from dative-plurals.txt
+   * @return a map of replacements
+   */
+  private static Map<String, String> getModernisations(Set<DativePluralsEntry> datives) {
+    Map<String, String> out = new HashMap<>();
+    for(DativePluralsEntry entry : datives) {
+      if(entry.hasModernised()) {
+        out.put(entry.getForm(), entry.getModern());
+        String lenited_form = Utils.lenite(entry.getForm());
+        String lenited_repl = Utils.lenite(entry.getReplacement());
+        if(!lenited_form.equals(entry.getForm())) {
+          out.put(lenited_form, lenited_repl);
+        }
+        String eclipsed_form = Utils.eclipse(entry.getForm());
+        String eclipsed_repl = Utils.eclipse(entry.getReplacement());
+        if(!eclipsed_form.equals(entry.getForm())) {
+          out.put(eclipsed_form, eclipsed_repl);
+        }
+        // h-prothesis
+        if(Utils.isVowel(entry.getForm().charAt(0))) {
+          out.put("h" + entry.getForm(), "h" + entry.getModern());
+        }
+      }
+    }
+    return out;
   }
 }
