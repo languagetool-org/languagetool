@@ -84,4 +84,11 @@ public class DativePluralsEntry {
   public String getBaseTag() {
     return (this.gender.equals("f")) ? "Noun:Fem:Dat:Pl" : "Noun:Masc:Dat:Pl";
   }
+  public String getStandard() {
+    if(hasEquivalent()) {
+      return equivalent;
+    } else {
+      return replacement;
+    }
+  }
 }

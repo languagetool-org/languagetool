@@ -100,6 +100,28 @@ final class DativePluralsData {
     return Collections.unmodifiableSet(set);
   }
 
+  private static Map<String, String> buildSimpleReplacements(Set<DativePluralsEntry> datives) {
+    Map<String, String> out = new HashMap<>();
+    for(DativePluralsEntry entry : datives) {
+      out.put(entry.getForm(), entry.getStandard());
+      String lenited_form = Utils.lenite(entry.getForm());
+      String lenited_repl = Utils.lenite(entry.getStandard());
+      if(!lenited_form.equals(entry.getForm())) {
+        out.put(lenited_form, lenited_repl);
+      }
+      String eclipsed_form = Utils.eclipse(entry.getForm());
+      String eclipsed_repl = Utils.eclipse(entry.getStandard());
+      if(!eclipsed_form.equals(entry.getForm())) {
+        out.put(eclipsed_form, eclipsed_repl);
+      }
+      // h-prothesis
+      if(Utils.isVowel(entry.getForm().charAt(0))) {
+        out.put("h" + entry.getForm(), "h" + entry.getStandard());
+      }
+    }
+    return out;
+  }
+
   /**
    * Makes a map of modernisations (i.e., if there is a more modern dative
    * plural). This is only relevant to Munster Irish.
