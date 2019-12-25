@@ -118,6 +118,23 @@ final class DativePluralsData {
       if(Utils.isVowel(entry.getForm().charAt(0))) {
         out.put("h" + entry.getForm(), "h" + entry.getStandard());
       }
+      if(entry.hasModernised()) {
+        out.put(entry.getModern(), entry.getStandard());
+        lenited_form = Utils.lenite(entry.getModern());
+        lenited_repl = Utils.lenite(entry.getStandard());
+        if(!lenited_form.equals(entry.getModern())) {
+          out.put(lenited_form, lenited_repl);
+        }
+        eclipsed_form = Utils.eclipse(entry.getModern());
+        eclipsed_repl = Utils.eclipse(entry.getStandard());
+        if(!eclipsed_form.equals(entry.getModern())) {
+          out.put(eclipsed_form, eclipsed_repl);
+        }
+        // h-prothesis
+        if(Utils.isVowel(entry.getModern().charAt(0))) {
+          out.put("h" + entry.getModern(), "h" + entry.getStandard());
+        }
+      }
     }
     return out;
   }
