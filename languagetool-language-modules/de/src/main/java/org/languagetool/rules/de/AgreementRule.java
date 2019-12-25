@@ -484,6 +484,11 @@ public class AgreementRule extends Rule {
       pos("SUB:DAT:SIN:FEM")
     ),
     Arrays.asList(
+      csToken("Rede"),
+      csToken("und"),
+      csToken("Antwort")
+    ),
+    Arrays.asList(
       posRegex("ABK:.+:SUB")
     ),
     Arrays.asList(
