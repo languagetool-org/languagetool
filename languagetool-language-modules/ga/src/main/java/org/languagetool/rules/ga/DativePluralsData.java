@@ -123,6 +123,7 @@ final class DativePluralsData {
       // h-prothesis
       if(Utils.isVowel(entry.getForm().charAt(0))) {
         out.put("h" + entry.getForm(), "h" + entry.getStandard());
+        out.put("h-" + entry.getForm(), "h" + entry.getStandard());
       }
       if(entry.hasModernised()) {
         out.put(entry.getModern(), entry.getStandard());
@@ -139,6 +140,7 @@ final class DativePluralsData {
         // h-prothesis
         if(Utils.isVowel(entry.getModern().charAt(0))) {
           out.put("h" + entry.getModern(), "h" + entry.getStandard());
+          out.put("h-" + entry.getModern(), "h" + entry.getStandard());
         }
       }
     }
@@ -170,6 +172,7 @@ final class DativePluralsData {
         // h-prothesis
         if(Utils.isVowel(entry.getForm().charAt(0))) {
           out.put("h" + entry.getForm(), "h" + entry.getModern());
+          out.put("h-" + entry.getForm(), "h" + entry.getModern());
         }
       }
     }
