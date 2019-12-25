@@ -353,6 +353,11 @@ public class AgreementRule extends Rule {
       tokenRegex("viele|wenige"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(
+      token("das"),
+      posRegex("SUB:.+"),
+      new PatternTokenBuilder().csToken("dauern").matchInflectedForms().build()
+    ),
     Arrays.asList( // "Er verspricht allen/niemandem/jedem hohe Gewinne."
       tokenRegex("allen|(nieman|je(man)?)dem"),
       posRegex("ADJ:AKK:PLU:.*"),
