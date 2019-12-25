@@ -19,12 +19,41 @@
 package org.languagetool.rules.ga;
 
 public class DativePluralsEntry {
-  String form;
-  String form_modern;
-  String lemma;
-  String lemma_modern;
-  String equivalent;
-  String replacement;
+  private String form;
+  private String form_modern;
+  private String lemma;
+  private String lemma_modern;
+  private String equivalent;
+  private String replacement;
+
+  public String getForm() {
+    return form;
+  }
+
+  public String getModern() {
+    return form_modern;
+  }
+
+  public String getLemma() {
+    return lemma;
+  }
+
+  public String getLemmaModern() {
+    return lemma_modern;
+  }
+
+  public String getEquivalent() {
+    return equivalent;
+  }
+
+  public String getReplacement() {
+    return replacement;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
   String gender;
 
   public DativePluralsEntry(String form, String lemma, String gender, String replacement) {
