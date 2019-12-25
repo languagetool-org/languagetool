@@ -115,8 +115,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY leniteddfst "[dfst]h.+">
         <!ENTITY leniteddst "[dst]h.+">
         <!ENTITY lenited "(?:[cdfgmpst]h|bh[^fF]).+">
-        <!ENTITY slenderfinalconsonant "[^ ]*[eéií][^aeiouáéíóú]+">
-        <!ENTITY broadfinalconsonant "[^ ]*[aáoóuú][^aeiouáéíóú]+">
+        <!ENTITY slenderfinalconsonant ".*[eéií][^aeiouáéíóú]+">
+        <!ENTITY broadfinalconsonant ".*[aáoóuú][^aeiouáéíóú]+">
         <!ENTITY finalvowel ".*[^bcdfghjlmnprstvxz ]+">
         <!ENTITY finala ".*[aá]">
         <!ENTITY slenderfinaldlnst ".*[eéií][^aeiouáéíóú]*[dlnst]">
@@ -9908,19 +9908,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='pháirtí'>cúig <marker>páirtí</marker></example>
             <example>cúig pháirtí</example>
         </rule>
-        <rule id="CUIG_N_ADJ" name="cúig NOUN ADJ">
-            <pattern>
-                <token regexp="yes">g?ch?úig</token>
-                <token postag=".*Noun.*" postag_regexp="yes"></token>
-                <marker>
-                    <token postag="Adj:.*" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Len"/></suggestion></message>
-            <short>Séimhiú ar iarraidh</short>
-            <example correction='mhóra'>cúig pháirtí <marker>móra</marker></example>
-            <example>cúig pháirtí mhóra</example>
-        </rule>
+        <rulegroup id="CUIG_N_ADJ" name="cúig NOUN ADJ">
+            <rule>
+                <pattern>
+                    <token regexp="yes">g?ch?úig</token>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&slenderfinalconsonant;|.*[eéií]</token>
+                    <marker>
+                        <token postag="Adj:(Com|Gen):NotSlen:Pl" postag_regexp="yes"><exception postag=".*:Len" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Séimhiú ar iarraidh: <suggestion><match no="3" postag="Adj:(Com|Gen):NotSlen:Pl" postag_regexp="yes" postag_replace="Adj:$1:Slender:Pl:Len"/></suggestion></message>
+                <short>Séimhiú ar iarraidh</short>
+                <example correction='mhóra'>cúig pháirtí <marker>móra</marker></example>
+                <example>cúig pháirtí mhóra</example>
+            </rule>
+        </rulegroup>
         <rule id="CUIG_N_DEAG_ADJ" name="cúig NOUN déag ADJ">
             <pattern>
                 <token regexp="yes">g?ch?úig</token>
