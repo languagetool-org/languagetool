@@ -62,6 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
     <!ENTITY unstimmig "Diese Formulierung ist möglicherweise unstimmig: ">
     <!ENTITY verw "Mögliche Wortverwechslung: ">
+    <!ENTITY typo "Möglicher Tippfehler">
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
     <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant. ">
 
@@ -164,6 +165,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example>Es war eine <marker>stille</marker> Nacht.</example>
                 <example correction="Stille">Sie wurde in aller <marker>Stile</marker> beigesetzt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HAT_HAST" name="hat (hast)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="KON:UNT"></token>
+                    <token skip="6">du
+                        <exception scope="next" postag="PKT"/>
+                    </token>
+                    <token postag="PA2:.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">hat|wurdet</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="4" regexp_match="t" regexp_replace="st"/></suggestion> (Bezugswort 'du') oder fehlt ein vorausgehendes Komma?</message>
+                <short>&typo;.</short>
+                <example correction="hast">Weil du gestern gelogen <marker>hat</marker>, musst du bestraft werden.</example>
+                <example correction="wurdest">Als du gestern gekündigt <marker>wurdet</marker>, warst du darauf vorbereitet?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="KON:UNT"></token>
+                    <token skip="6">wir
+                        <exception scope="next" postag="PKT"/>
+                    </token>
+                    <token postag="PA2:.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">habe|wurde</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="4" regexp_match="e" regexp_replace="en"/></suggestion> (Bezugswort 'wir') oder fehlt ein vorausgehendes Komma?</message>
+                <short>&typo;.</short>
+                <example correction="haben">Weil wir gestern gelogen <marker>habe</marker>, müssen wir bestraft werden.</example>
+                <example correction="wurden">Als wir gestern gekündigt <marker>wurde</marker>, waren wir darauf vorbereitet.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="KON:UNT"></token>
+                    <token skip="6">du
+                        <exception scope="next" postag="PKT"/>
+                    </token>
+                    <token postag="PA2:.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token>ist</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>bist</suggestion> (Bezugswort 'wir') oder fehlt ein vorausgehendes Komma?</message>
+                <short>&typo;.</short>
+                <example correction="bist">Weil du gestern gegangen <marker>ist</marker>, müssen wir bestraft werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEIEN" name="'im Feien (Freien)'">
@@ -31544,6 +31594,18 @@ Andere Projekte</example>
             <example correction="Blau">Ich werde nie das <marker>blau</marker> des Meeres vergessen.</example>
             <example>Das <marker>lila</marker> Kleid gefällt.</example>
         </rule>
+        <rulegroup id="FARBE_IN_WENDUNG" name="Karpfen Blau (blau)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Forelle|Karpfen</token>
+                    <marker><token case_sensitive="yes">Blau</token></marker>
+                </pattern>
+                <message>In dieser Wendung wird der Farbname kleingeschrieben.</message>
+                <suggestion><match case_conversion="startlower" no="2"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="blau">Wir essen Forelle <marker>Blau</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="VERB_VOR_NEBENSATZ" name="Verb + ',' + Nebensatz">
             <pattern>
                 <token postag="VER:(MOD|AUX):[123]:.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">haben|sein</exception></token>
@@ -31952,6 +32014,7 @@ Andere Projekte</example>
                   <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
                       <exception postag=".+(AKK|DAT):.+|UNKNOWN|PKT" postag_regexp="yes" scope="next"/>
                       <exception case_sensitive="yes">an</exception>
+                      <exception case_sensitive="yes" regexp="yes">[A-ZÜ].+</exception>
                   </token>
               </marker>
               <token postag="VER:[123].+" postag_regexp="yes"/>
@@ -31962,6 +32025,7 @@ Andere Projekte</example>
             <example>Von nun an benutze ich dieses Wort nicht mehr.</example>
             <example>...die in ihrer eigenen Sprache Kelten und in unserer Gallier genannt werden.</example>
             <example>Ich frage mich, was ein von Geburt an Blinder denkt.</example>
+            <example>In deren Tradition entstanden unter anderem die Buddenbrocks.</example>
           </rule>
         </rulegroup>
         <!-- TODO: testen!!

@@ -64,6 +64,7 @@ public class CaseRuleTest {
     assertGood("Das Winseln stört.");
     assertGood("Das schlägt nicht so zu Buche.");
     assertGood("Dirk Hetzel ist ein Name.");
+    assertGood("Aber sie tat es, sodass unsere Klasse das sehen und fotografieren konnte.");
     assertGood("Sein Verhalten war okay.");
     assertGood("Hier ein Satz. \"Ein Zitat.\"");
     assertGood("Hier ein Satz. 'Ein Zitat.'");

@@ -204,7 +204,7 @@ public class CaseRule extends Rule {
       csToken("das"),
       posRegex("VER:.+"),
       new PatternTokenBuilder().pos("KON:NEB").setSkip(5).build(),
-      posRegex("VER:AUX:.*"),
+      posRegex("VER:(AUX|MOD):.*"),
       posRegex("PKT|KON:NEB")
     ),
     Arrays.asList(
