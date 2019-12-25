@@ -5202,6 +5202,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
+        <rulegroup id="HODEN_HOSEN" name="Hoden (Hosen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes" skip="1">Hoden</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">kaufen|waschen|anprobieren|ausziehen|anziehen|gefallen|flicken|tragen|zuknöpfen|nähen</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="d" regexp_replace="s"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Hosen">Man muss neue <marker>Hoden</marker> waschen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">neu|alt|&farbadj;</token>
+                    <marker>
+                        <token inflected="yes" skip="1">Hoden</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="d" regexp_replace="s"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Hosen">Man muss neue <marker>Hoden</marker> am besten mehrmals waschen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KACKE_JACKE" name="Kacke (Jacke)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" skip="1">[KH]acken?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">kaufen|waschen|anprobieren|ausziehen|anziehen|gefallen|flicken|tragen|zuknöpfen|nähen</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="[HK]" regexp_replace="J"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Jacken">Man muss neue <marker>Kacken</marker> waschen.</example>
+                <example correction="Jacke">Er wollte die <marker>Hacke</marker> anprobieren.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">neu|alt|&farbadj;</token>
+                    <marker>
+                        <token regexp="yes" skip="1">Kacken?</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="K" regexp_replace="J"/></suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Jacken">Man muss neue <marker>Kacken</marker> am besten mehrmals waschen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACH_NACH" name="ach/nach">
             <rule>
                 <pattern>
