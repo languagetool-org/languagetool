@@ -1284,6 +1284,14 @@
         </rule>
         <rule>
             <pattern>
+                <token postag=".*Noun:(Masc|Fem):Com:Pl.*" postag_regexp="yes" regexp="yes">[^ ]*[eéií][^aeiouáéíóú]+</token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <marker><token postag="Adj:Com:NotSlen:Pl"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Com:Slender:Pl:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
                 <token postag=".*Adj.*" postag_regexp="yes"></token>
                 <marker><token postag="Adj:Masc:Com:Sg"></token></marker>
