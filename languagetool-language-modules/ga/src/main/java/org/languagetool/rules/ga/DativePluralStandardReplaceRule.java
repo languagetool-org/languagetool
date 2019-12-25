@@ -80,8 +80,8 @@ public class DativePluralStandardReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Is litriú réamhchaighdeánach (tabharthach iolra) é " + tokenStr + "; an "
-      + String.join(", ", replacements) + " a bhí i gceist agat?";
+    return "Is litriú réamhchaighdeánach (tabharthach iolra) é \"" + tokenStr + "\"; an \""
+      + String.join(", ", replacements) + "\" a bhí i gceist agat?";
   }
 
 }
