@@ -49,7 +49,7 @@ public class AnnotatedTextBuilderTest {
    * Test case for https://github.com/languagetool-org/languagetool/issues/2247
    */
   @Test
-  public void testWithBr() throws IOException {
+  public void testWithEmptyFakeContent() throws IOException {
 
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
       .addText("And ths is ")
