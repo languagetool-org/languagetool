@@ -12260,6 +12260,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="gaoth"><marker>gaoith</marker></example>
         </rule>
+        <rule id="AN_GHNACH" name="an ghnách">
+            <pattern>
+                <token>an</token>
+                <marker>
+                    <token>ghnách</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>ghnáth</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="ghnáth">an <marker>ghnách</marker></example>
+        </rule>
         <rule id="GOIRE" name="goire">
             <pattern>
                 <token regexp="yes">n?gh?oire</token>
@@ -12388,24 +12399,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="meán"><marker>méan</marker></example>
         </rule>
-        <rule id="DEIRE" name="deire">
+        <rule id="MUSCAIL" name="muscail">
             <pattern>
-                <token regexp="yes">n?dh?eire</token>
+                <token regexp="yes">mh?uscail</token>
             </pattern>
-            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(nd|dh|d)eire" regexp_replace="$1eireadh"/></suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(mh|m)uscail" regexp_replace="$1úscail"/></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="deireadh"><marker>deire</marker></example>
+            <example correction="múscail"><marker>muscail</marker></example>
         </rule>
-        <rule id="AN_GHNACH" name="an ghnách">
+        <rule id="PLAIGH" name="pláigh">
             <pattern>
-                <token>an</token>
-                <marker>
-                    <token>ghnách</token>
-                </marker>
+                <token regexp="yes">b?ph?láigh</token>
             </pattern>
-            <message>Focal ceart ach tá <suggestion>ghnáth</suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(bp|ph|p)láigh" regexp_replace="$1lá"/></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="ghnáth"><marker>ghnách</marker></example>
+            <example correction="plá"><marker>pláigh</marker></example>
+        </rule>
+        <rule id="TOISEACH" name="toiseach">
+            <pattern>
+                <token regexp="yes">d?th?oiseach</token>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(dt|th|t)oiseach" regexp_replace="$1osach"/></suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="tosach"><marker>toiseach</marker></example>
+        </rule>
+        <rule id="TOISIGH" name="toisigh">
+            <pattern>
+                <token regexp="yes">th?oisigh</token>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(th|t)oisigh" regexp_replace="$1osaigh"/></suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="tosaigh"><marker>toisigh</marker></example>
+        </rule>
+        <rule id="TOITHE" name="toithe">
+            <pattern>
+                <token regexp="yes">d?th?oithe</token>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(dt|th|t)oithe" regexp_replace="$1ithe"/></suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="tithe"><marker>toithe</marker></example>
         </rule>
     </category>
     <category id="SUPERLATIVES" name="superlatives" type="grammar">
