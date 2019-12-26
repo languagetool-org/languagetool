@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
@@ -27,9 +28,13 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsAnything.anything;
 
 public class AnnotatedTextBuilderTest {
-  
+
+  private final JLanguageTool ltGB =  new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
+
+
   @Test
   public void test() throws IOException {
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
@@ -38,5 +43,21 @@ public class AnnotatedTextBuilderTest {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     List<RuleMatch> matches = lt.check(builder.build());
     assertThat(matches.size(), is(0));
-  } 
+  }
+
+  /**
+   * Test case for https://github.com/languagetool-org/languagetool/issues/2247
+   */
+  @Test
+  public void testWithBr() throws IOException {
+
+    AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
+      .addText("And ths is ")
+      .addMarkup("_", "");
+
+    List<RuleMatch> matchs = ltGB.check(builder.build());
+
+    Assert.assertThat(matchs, anything());
+  }
+
 }
