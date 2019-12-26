@@ -5632,6 +5632,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="á"><marker>ghá</marker> cheilt</example>
         </rule>
         <rule id="GHA_UNMUTATEDVNISH" name="ghá UNMUTATEDVNISH">
+            <antipattern>
+                <token>aon</token>
+                <token>ghá</token>
+                <token postag=".*Noun.*"></token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>ghá</token>
@@ -5641,6 +5646,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
             <short>Neamhchaighdeánach</short>
             <example correction="á"><marker>ghá</marker> flibertáil</example>
+        </rule>
+        <rule id="GHA_NOTVNISHUNLEN" name="ghá NOTVNISHUNLEN">
+            <antipattern>
+                <token>aon</token>
+                <token>ghá</token>
+                <token postag=".*Noun.*"></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ghá</token>
+                </marker>
+                <token regexp="yes">&notvnishunlen;</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>á</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="á"><marker>ghá</marker> foghlaim</example>
         </rule>
         <rule id="GHA_CEANNACH" name="ghá ceannach">
             <pattern>
