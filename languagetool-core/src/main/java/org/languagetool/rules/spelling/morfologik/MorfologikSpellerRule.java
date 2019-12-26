@@ -159,7 +159,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if( token.getEndPos() < ruleMatch.getToPos() ) // done by multi-token speller, no need to adjust
               continue;
 
-            ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);
+            ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset, ruleMatch);
           }
         }
       }

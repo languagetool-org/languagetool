@@ -110,7 +110,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
-        if (m.matches()) {
+        if (m.matches() && token.getLemma() != null) {
           lookup(token.getLemma(), tag, results, det);
         }
       }

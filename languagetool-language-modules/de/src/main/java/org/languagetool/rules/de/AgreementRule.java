@@ -18,6 +18,12 @@
  */
 package org.languagetool.rules.de;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +36,10 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -38,18 +47,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.tagging.de.AnalyzedGermanToken;
-import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
-
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -121,17 +122,17 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "Wir releasen das Montag.", "Wir präsentierten das Januar."
       posRegex("VER:.*|UNKNOWN"),
       token("das"),
-      tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
+      tokenRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
     ),
     Arrays.asList(  // "Kannst du das Mittags machen?"
       token("das"),
-      tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
+      tokenRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
       posRegex("VER:.*|UNKNOWN")
     ),
     Arrays.asList(  // "Kannst du das nächsten Monat machen?"
       token("das"),
       tokenRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten"),
-      tokenRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
+      tokenRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
       posRegex("VER:.*|UNKNOWN")
     ),
     Arrays.asList(
@@ -352,6 +353,11 @@ public class AgreementRule extends Rule {
       tokenRegex("viele|wenige"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(
+      token("das"),
+      posRegex("SUB:.+"),
+      new PatternTokenBuilder().csToken("dauern").matchInflectedForms().build()
+    ),
     Arrays.asList( // "Er verspricht allen/niemandem/jedem hohe Gewinne."
       tokenRegex("allen|(nieman|je(man)?)dem"),
       posRegex("ADJ:AKK:PLU:.*"),
@@ -481,6 +487,11 @@ public class AgreementRule extends Rule {
       csToken("dieser"),
       csToken("einen"),
       pos("SUB:DAT:SIN:FEM")
+    ),
+    Arrays.asList(
+      csToken("Rede"),
+      csToken("und"),
+      csToken("Antwort")
     ),
     Arrays.asList(
       posRegex("ABK:.+:SUB")
