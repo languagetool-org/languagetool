@@ -10646,6 +10646,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Chonaic mé líon agus crainn tógála ann.</example>
         </rule>
         <rule id="NO_DO" name="nó dó">
+            <antipattern>
+                <token>di</token>
+                <token>nó</token>
+                <token>dó</token>
+            </antipattern>
             <pattern>
                 <token>nó</token>
                 <marker>
@@ -11495,11 +11500,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='Dé'><marker>Dia</marker> Luain</example>
         </rule>
         <rule id="DAREAG" name="dáréag">
+            <antipattern>
+                <token>an</token>
+                <token>dáréag</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&fusedprep;</token>
+                <token>dáréag</token>
+            </antipattern>
+            <antipattern>
+                <token>aon</token>
+                <token>dáréag</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ch?éad</token>
+                <token>dáréag</token>
+            </antipattern>
             <pattern>
                 <token>dáréag</token>
             </pattern>
             <message>Ba chóir duit <suggestion>dháréag</suggestion> a scríobh.</message>
             <example correction='dháréag'><marker>dáréag</marker></example>
+        </rule>
+        <rule id="DO_AN" name="do an">
+            <pattern>
+                <token>do</token>
+                <token>an</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>don</suggestion> a scríobh.</message>
+            <example correction="don"> Cá bhfuil feoil le fáil agamsa le tabhairt <marker>do an</marker> mhuintir?</example>
         </rule>
         <rule id="DUBH_OILEÁN" name="Dubh Oileán">
             <pattern>
