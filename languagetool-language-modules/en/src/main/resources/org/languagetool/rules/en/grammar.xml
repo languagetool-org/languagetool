@@ -2338,7 +2338,7 @@ USA
                 <example correction="very">A lot of <marker>vary</marker> happy people live in this town.</example>
                 <example correction="very">A <marker>vary</marker> cool project.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">be|of|the|an?|my|his|her|their|our|your</token>
                     <marker><token>vary</token></marker>
@@ -8741,7 +8741,7 @@ USA
             <example>State of the Union</example>
         </rule>
 
-        <rulegroup id="A_BIT" name="(a) bit" default="temp_off">
+        <rulegroup id="A_BIT" name="(a) bit">
             <antipattern>
                 <token skip="2">bit</token>
                 <token regexp="yes">serial|parallel|arch(itecture)?|computer|patterned|code|error|signaling|string|shift(ing)?|rate|compression|manipulation|plant|set|sequence|measurement|recording|density|chip(set)?</token>
@@ -8859,7 +8859,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id="A_BIT_OF" name="a bit (of)" default="temp_off">
+        <rule id="A_BIT_OF" name="a bit (of)">
             <antipattern>
                 <token regexp="yes">thanks|thx</token>
                 <token>a</token>
@@ -12054,7 +12054,7 @@ USA
                 <example>A requires B.</example>
                 <example>The students were chosen because St Paul's requires formal wear at dinner.</example>
             </rule>
-            <rule default="temp_off"><!-- the immigrate -->
+            <rule><!-- the immigrate -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12068,7 +12068,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/immigrant</url>
                 <example correction="immigrant">I'm an <marker>immigrate</marker> from Syria ...</example>
             </rule>
-            <rule default="temp_off"><!-- the reflect -->
+            <rule><!-- the reflect -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12082,7 +12082,7 @@ USA
                 <example correction="reflection">The <marker>reflect</marker> of light was visible after the sunrise.</example>
                 <example>The reflect.com management approved my request.</example>
             </rule>
-            <rule default="temp_off"><!-- the acknowledge -->
+            <rule><!-- the acknowledge -->
                 <antipattern>
                     <token skip="2">acknowledge</token>
                     <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
@@ -12099,7 +12099,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>acknowledgment</suggestion>?</message>
                 <example correction="acknowledgment">He gave his <marker>acknowledge</marker> after he reviewed the process.</example>
             </rule>
-            <rule default="temp_off"><!-- the contribute -->
+            <rule><!-- the contribute -->
                 <antipattern>
                     <token skip="2">contribute</token>
                     <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
@@ -13192,7 +13192,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="TIK_TOK" name="TikTok" default="temp_off">
+        <rule id="TIK_TOK" name="TikTok">
             <pattern>
                 <token>tik</token>
                 <token>tok</token>
@@ -23648,7 +23648,13 @@ USA
           <antipattern>
             <token regexp="yes">\d+0</token>
             <token>decade</token>
-          </antipattern>
+        </antipattern>
+        <antipattern><!-- A 100,000 person lower bound has -->
+                <token postag="CD" />
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes">upper|lower</token>
+                <token>bound</token>
+            </antipattern>
           <antipattern>
             <token regexp="yes">8|16|32|64|128|256|512|1024|2048|4096</token>
             <token>bit</token>
@@ -23801,7 +23807,7 @@ USA
             <antipattern>
                 <token postag="CD" />
                 <token>year</token>
-                <token>guarantee</token>
+                <token regexp="yes">guarantee|old</token>
             </antipattern>
             <antipattern><!-- #1903. slide 8 and click on -->
                 <token postag="CD" regexp="yes">[0-9]+</token>
@@ -23867,7 +23873,7 @@ USA
             </antipattern>
             <pattern>
                 <token postag="CD">
-                    <exception scope="previous" spacebefore="no">/</exception>
+                    <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
@@ -23887,9 +23893,8 @@ USA
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|said</exception>
-                        <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad|bounty</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -23909,11 +23914,18 @@ USA
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
+            <example>A 100,000 person lower bound has been cited for ASL users.</example>
+            <example>A 5,000 year old earthen bowl found in Iran in Shahr-i Sokhta has five images</example>
+            <example>A list of assassination targets, with a "$5,000 bounty on his head.</example>
+            <example>... in the middle of Silicon Valley, at 1–6 Infinite Loop, Cupertino, California.</example>
+            <example>What time will we reach Akita if we take the 9:30 train?</example>
+            <example>The Cichorioidea has only ray florets, with a 5+0 scheme – all five petals form the ligule.</example>
             <example>It was 30 cm long.</example>
             <example>But mesage two said he is not available anymore.</example>
             <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
             <example>The iphone 11 pro max.</example>
+            <example>In the 1835–36 legislative session, he voted to expand suffrage to white males.</example>
             <example>The room 51 movie.</example>
             <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
@@ -25870,7 +25882,7 @@ USA
             <message>Did you mean <suggestion>afternoon</suggestion>?</message>
             <example correction="afternoon">I will have lunch in the <marker>after noon</marker>.</example>
         </rule>
-        <rulegroup id="THERE_AFTER" name="thereafter" default="temp_off">
+        <rulegroup id="THERE_AFTER" name="thereafter">
             <antipattern>
                 <token>after</token>
                 <token regexp="yes">all|\d+</token>
@@ -25912,6 +25924,7 @@ USA
                 <example correction="thereafter">... after the said disposition was made, and <marker>there after</marker> return to his house.</example>
                 <example>He went in there after all that has happened.</example>
                 <example>Tom arrived there after me.</example>
+                <example>The train will get you there after half the time.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32083,13 +32096,15 @@ The accident victim died from her injuries.
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
-                    <token postag="NN.*|SENT_END|PCT" postag_regexp="yes"/>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token postag="NN.*|PCT" postag_regexp="yes"/>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3-\4</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
                 <short>Missing hyphens</short>
                 <example correction="two-year-old">Rudolph is a <marker>two year old</marker> reindeer.</example>
                 <example>Rudolph is two years old.</example>
+                <example>Rudolph is two years old actually</example>
             </rule>
             <rule>
                 <pattern>
@@ -32138,6 +32153,42 @@ The accident victim died from her injuries.
                 <example correction="100-metre">He won the <marker>100 metre</marker> sprint.</example>
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
+                    <token postag="JJ" min="0"/>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token spacebefore="no">,</token>
+                        <token spacebefore="no" regexp="yes">\d{3}</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
+                    </marker>
+                    <token postag="NN.*|JJ" postag_regexp="yes"/>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3\4\5-\6</suggestion></message>
+                <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
+                <short>Missing hyphen</short>
+                <example correction="5,000-year">The country has an over <marker>5,000 year</marker> history of producing wine.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
+                    <token postag="JJ" min="0"/>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token spacebefore="no">,</token>
+                        <token spacebefore="no" regexp="yes">\d{3}</token>
+                        <token spacebefore="no">,</token>
+                        <token spacebefore="no" regexp="yes">\d{3}</token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
+                    </marker>
+                    <token postag="NN.*|JJ" postag_regexp="yes"/>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3\4\5\6\7-\8</suggestion></message>
+                <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
+                <short>Missing hyphen</short>
+                <example correction="5,000,000-year">The earth has an over <marker>5,000,000 year</marker> history.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -39244,7 +39295,7 @@ The accident victim died from her injuries.
             <example>The rapper WRONG_PRP_AT_SENT_START to dis his opponent.</example>
             <example>Punished within Dis are those whose lives were marked by active (rather than passive) sins.</example>
         </rule>
-        <rule id="GIMME" name="gimme (give me)" default="temp_off">
+        <rule id="GIMME" name="gimme (give me)">
             <pattern>
                 <marker>
                     <token regexp="yes">gimmi?e</token>
@@ -43356,7 +43407,7 @@ The accident victim died from her injuries.
                 <token>encrypt</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="2">[\$€£#]</token>
+                <token regexp="yes" skip="2">[\$€£#¥฿]</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern>
