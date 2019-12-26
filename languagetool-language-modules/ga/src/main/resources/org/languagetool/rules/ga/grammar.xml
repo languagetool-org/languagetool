@@ -13014,6 +13014,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Réamhlitir ‘h’ ar iarraidh</short>
             <example correction='háit'>Cá <marker>áit</marker> a nochtfadh sé é féin ach i mBostún!</example>
         </rule>
+        <rule id="CE_PRONVOWEL" name="cé iad">
+            <antipattern>
+                <token>cé</token>
+                <token>ea</token>
+            </antipattern>
+            <pattern>
+                <token>cé</token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes" regexp="yes">[aáeéiíoóuú].*</token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion><match no="2" case_conversion="startlower" regexp_match="^([AaÁáEeÉéIiÍíOoÓóUuÚú])" regexp_replace="h$1" /></suggestion>.</message>
+            <short>Réamhlitir ‘h’ ar iarraidh</short>
+            <example correction='hiad'>Cé <marker>iad</marker> na fir seo ag fanacht farat?</example>
+            <example>Cé ea, rachaidh mé ann leat</example>
+        </rule>
     </category>
     <category id="COLLOCATIONS" name="collocations" type="style">
         <rule id="DIRIU_ISTEACH_AR" name="díriú isteach ar">
