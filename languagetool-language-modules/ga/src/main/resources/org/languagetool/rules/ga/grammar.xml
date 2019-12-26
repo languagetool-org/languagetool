@@ -12934,7 +12934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Subjunctive" id="SUBJUNCTIVE" type="typographical">
         <rule id="MODH_FOSHUITEACH" name="Modh foshuiteach">
             <antipattern>
-                <token regexp="yes">dá|go|sula|mura</token>
+                <token regexp="yes">dá|go|sula|mura|nár</token>
                 <token postag=".*PresSubj.*|.*PastImp.*Ecl" postag_regexp="yes"></token>
             </antipattern>
             <pattern>
@@ -12945,6 +12945,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ach go rithe an fhíréantacht mar uisce agus an t-ionracas mar shruth gan dísc</example>
             <example correction="">Ba iad mo shinsear <marker>rithe</marker> Chúige Uladh.</example>
             <example correction="">Is iad na trí cholún sin le <marker>cheile</marker> an tAontas Eorpach.</example>
+            <example>Bhrostaigh sé go dtí an t-ospidéal</example>
+        </rule>
+    </category>
+    <category name="Prefix H" id="GRAMADOIR_PREFIXH" type="grammar">
+        <rule id="DARA_INITIALVOWEL" name="dara alt">
+            <pattern>
+                <token>dara</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&initialvowel;</token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion>h\2</suggestion>.</message>
+            <short>Réamhlitir ‘h’ ar iarraidh</short>
+            <example correction='halt'>dara <marker>alt</marker></example>
         </rule>
     </category>
     <category id="COLLOCATIONS" name="collocations" type="style">
