@@ -11951,6 +11951,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
+        <rule id="AICI" name="aicí">
+            <pattern>
+                <token>aicí</token>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>aici</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="aici"><marker>aicí</marker></example>
+        </rule>
         <rule id="AINIC" name="ainic">
             <pattern>
                 <token>ainic</token>
@@ -11977,6 +11985,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(h)?airithe" regexp_replace="$1áirithe"/></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
             <example correction='áirithe'><marker>airithe</marker></example>
+        </rule>
+        <rule id="FPREP_AIT" name="ait">
+            <pattern>
+                <token regexp="yes">&fusedprep;</token>
+                <marker>
+                    <token>ait</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>áit</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="áit">faoin <marker>ait</marker></example>
+        </rule>
+        <rule id="IN_AIT" name="in ait">
+            <pattern>
+                <token>in</token>
+                <marker>
+                    <token>ait</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>áit</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="áit">in <marker>ait</marker></example>
+        </rule>
+        <rule id="AN_AIT" name="in ait">
+            <pattern>
+                <token>an</token>
+                <marker>
+                    <token>ait</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>áit</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="áit">an <marker>ait</marker></example>
+        </rule>
+        <rule id="HAIT" name="hait">
+            <pattern>
+                <token>hait</token>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>háit</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="háit"><marker>hait</marker></example>
         </rule>
         <rule id="AITHNIGH" name="aithnigh">
             <pattern>
@@ -12673,7 +12722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">th?arrach?</token>
             </pattern>
-            <message>Focal ceart ach tá <suggestion>tarraingt</suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(th|t)arrach?" regexp_replace="$1arraingt"/></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
             <example correction="tarraingt"><marker>tarrac</marker></example>
         </rule>
