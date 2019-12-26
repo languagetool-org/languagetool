@@ -34,7 +34,6 @@ public class AnnotatedTextBuilderTest {
 
   private final JLanguageTool ltGB =  new JLanguageTool(Languages.getLanguageForShortCode("en-GB"));
 
-
   @Test
   public void test() throws IOException {
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
@@ -45,19 +44,16 @@ public class AnnotatedTextBuilderTest {
     assertThat(matches.size(), is(0));
   }
 
-  /**
+  /*
    * Test case for https://github.com/languagetool-org/languagetool/issues/2247
    */
   @Test
   public void testWithEmptyFakeContent() throws IOException {
-
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
       .addText("And ths is ")
       .addMarkup("_", "");
-
-    List<RuleMatch> matchs = ltGB.check(builder.build());
-
-    Assert.assertThat(matchs, anything());
+    List<RuleMatch> matches = ltGB.check(builder.build());
+    assertThat(matches.size(), is(1));
   }
 
 }

@@ -126,7 +126,7 @@ public class AnnotatedTextBuilder {
         if (hasFakeContent(i, parts)) {
           plainTextPosition += parts.get(i + 1).getPart().length();
           i++;
-          if(mapping.get(plainTextPosition)==null){
+          if (mapping.get(plainTextPosition) == null) {
             MappingValue mappingValue = new MappingValue(totalPosition, part.getPart().length());
             mapping.put(plainTextPosition, mappingValue);
           }
