@@ -2849,6 +2849,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="VN" name="Verbal" type="grammar">
         <rulegroup id="AG_DEANAMH_E" name="ag déanamh é">
+            <antipattern>
+                <token>ag</token>
+                <token>machnamh</token>
+                <token regexp="yes">iad|[éeíi]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>ag</token>
@@ -2857,6 +2862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Ba chóir duit <suggestion>á <match no="2" postag="(Verbal:Noun:V(?:TI|I|T)|Verbal:Noun:NStem)" postag_regexp="yes" postag_replace="$1:Len"/></suggestion> a scríobh.</message>
                 <example correction="á dhéanamh"><marker>ag déanamh é</marker></example>
+                <example>Chuir sí ag machnamh é.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2906,6 +2912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Ba chóir duit <suggestion>do mo <match no="2"/></suggestion> a scríobh.</message>
                 <example correction="do mo lorg"><marker>ag lorg mé</marker></example>
+                <example correction="do mo leanúint">Bhí neach oilbhéasach <marker>ag leanúint mé</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2983,6 +2990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Ba chóir duit <suggestion>á <match no="2" /></suggestion> a scríobh.</message>
                 <example correction="á ithe"><marker>ag ithe é</marker></example>
+                <example correction="á ullmhú">Tá sí <marker>ag ullmhú é</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11391,6 +11399,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>arna mhárach</suggestion> a scríobh.</message>
             <example correction="arna mhárach"><marker>ar na mhárach</marker></example>
+        </rule>
+        <rule id="A_TA" name="a tá">
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">&justta;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>a\2</suggestion> a scríobh.</message>
+            <example correction="atá">Cad é mar <marker>a tá</marker> tú?</example>
         </rule>
         <rule id="NA_NUASAL" name="na n-uasal">
             <pattern>
