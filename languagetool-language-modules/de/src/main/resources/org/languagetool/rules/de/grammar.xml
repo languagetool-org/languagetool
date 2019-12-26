@@ -33895,6 +33895,13 @@ Andere Projekte</example>
                     <token regexp="yes" case_sensitive="yes" skip="-1">D(ies)?er</token>
                     <token postag="SUB:NOM:SIN:MAS"><exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/></token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">D(ies)?er|Jener</token>
+                    <token/>
+                    <token>und</token>
+                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"></token>
+                    <token postag="SUB:NOM:SIN:MAS"></token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception postag="PRO:DEM:NOM:SIN:MAS.*|PRP:.+" postag_regexp="yes"/>
@@ -33916,6 +33923,7 @@ Andere Projekte</example>
                 <message>Überprüfen Sie die grammatikalische Übereinstimmung von '\2' und '\3'</message>
                 <example correction="">Am liebsten esse ich Marias <marker>selbstgemachte Kartoffelsalat</marker>.</example>
                 <example>Ich spiele gerade Fußball.</example>
+                <example>Der Ex-SPD-Chef und ehemalige Präsident des Europaparlaments.</example>
                 <example>Sie hat tonnenweise Sex-Appeal.</example>
                 <example>Ich liebe Schnee.</example>
                 <example>Welcher klassische Komponist gefällt dir?</example>
