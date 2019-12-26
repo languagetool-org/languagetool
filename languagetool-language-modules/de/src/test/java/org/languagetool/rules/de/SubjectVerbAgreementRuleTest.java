@@ -413,7 +413,8 @@ public class SubjectVerbAgreementRuleTest {
         "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
         "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
         "Sie sind so erfolgreich, weil sie eine Einheit sind.",
-        "Auch Polizisten zu Fuß sind unterwegs."
+        "Auch Polizisten zu Fuß sind unterwegs.",
+        "Julia sagte, dass Vater und Mutter zu Hause sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

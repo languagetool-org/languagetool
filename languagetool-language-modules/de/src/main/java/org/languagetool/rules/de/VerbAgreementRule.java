@@ -84,7 +84,7 @@ public class VerbAgreementRule extends TextLevelRule {
       token("anstelle")
     ),
     Arrays.asList( // "Ok bin ab morgen bei euch." (umgangssprachlich, benötigt eigene Regel)
-      tokenRegex("ok|okay|ja|nein|vielleiecht|oh"),
+      tokenRegex("ok(ay)?|ja|nein|vielleicht|oh"),
       tokenRegex("bin|sind")
     ),
     Arrays.asList(

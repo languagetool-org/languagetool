@@ -71,6 +71,14 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "substantiviert";
           suggWord = "nominalisiert";
         }
+        if (message.toLowerCase().contains("substantivisch")) {
+          origWord = "substantivisch";
+          suggWord = "nominalisiert";
+        }
+        if (message.contains("Genetiv")) {
+          origWord = "Genetiv";
+          suggWord = "Genitiv";
+        }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
         }

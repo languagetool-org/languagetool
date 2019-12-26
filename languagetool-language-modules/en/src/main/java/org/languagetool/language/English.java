@@ -288,7 +288,6 @@ public class English extends Language implements AutoCloseable {
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
       case "HAVE_PART_AGREEMENT":       return -1;  // prefer other more specific rules
-      case "BEEN_PART_AGREEMENT":       return -1;  // prefer other more specific rules (e.g. VARY_VERY)
       case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
       case "PRP_VBG":                   return -1;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
@@ -299,7 +298,7 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -1;  // prefer other more specific rules (with suggestions)
       case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions)
-      case "VB_NN":                     return -1;  // prefer other more specific rules (with suggestions)
+      case "BEEN_PART_AGREEMENT":       return -2;  // prefer other more specific rules (e.g. VARY_VERY, VB_NN)
       case "A_INFINITIVE":              return -2;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB)
       case "I_MOVING":                  return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "HE_VERB_AGR":               return -2;  // prefer other more specific rules (e.g. PRP_VBG)

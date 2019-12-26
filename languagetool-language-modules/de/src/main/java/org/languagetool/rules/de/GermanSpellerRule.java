@@ -227,6 +227,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
     put("weibt", "weißt");
+    put("fress", "friss");
     put("Mamma", "Mama");
     put("Präse", "Präsentation");
     put("Präsen", "Präsentationen");
