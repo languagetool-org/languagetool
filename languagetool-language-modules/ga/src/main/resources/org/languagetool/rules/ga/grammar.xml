@@ -10326,7 +10326,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">h?adharc</token>
-		<token postag=".*Noun.*Gen.*" postag_regexp="yes"></token>
+                <token postag=".*Noun.*Gen.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes" regexp="yes">&finaldlnst;</token>
+                <token postag=".*Noun.*Gen.*" postag_regexp="yes" regexp="yes">&leniteddst;</token>
             </antipattern>
             <pattern>
                 <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
@@ -12647,6 +12651,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     -->
     <category id="GRAMADOIR_NISEIMHIU" name="Séimhiú gan ghá">
+        <rule id="NFCSdentals_NGdots" name="trí bhliana">
+            <antipattern>
+                <token>maidin</token>
+                <token>shamhraidh</token>
+	    </antipattern>
+            <antipattern>
+                <token>áit</token>
+                <token>dhúchais</token>
+	    </antipattern>
+            <antipattern>
+                <token>fuil</token>
+                <token>shróine</token>
+	    </antipattern>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes" regexp="yes">&finaldlnst;</token>
+                <marker>
+                    <token postag=".*Noun.*Gen.*:Len.*" postag_regexp="yes" regexp="yes">&leniteddst;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <short>Séimhiú gan ghá</short>
+            <example correction='seasaimh'>áit <marker>sheasaimh</marker></example>
+            <example>áit chónaithe</example>
+        </rule>
         <rule id="TRI_BHLIANA" name="trí bhliana">
             <pattern>
                 <token regexp="yes">d?trí</token>
