@@ -12262,6 +12262,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="cláir"><marker>cláraí</marker></example>
         </rule>
+        <rule id="AR_CUL" name="cúl">
+            <pattern>
+                <token>ar</token>
+                <marker>
+                    <token>cúl</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion>gcúl</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="gcúl">ar <marker>cúl</marker></example>
+        </rule>
         <rule id="DALTA" name="dálta">
             <antipattern>
                 <token>dálta</token>
@@ -12785,6 +12796,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Focal ceart ach tá <suggestion>cad chuige</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
             <example correction="cad chuige"><marker>tuige</marker></example>
+        </rule>
+        <rule id="AN_TRAIGH" name="tráigh">
+            <pattern>
+                <token>an</token>
+                <marker>
+                    <token regexp="yes">th?ráigh</token>
+                </marker>
+            </pattern>
+            <message>Focal ceart ach tá <suggestion><match no="2" regexp_match="(th|t)ráigh" regexp_replace="$1rá"/></suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
+            <example correction="trá">an <marker>tráigh</marker></example>
         </rule>
     </category>
     <category id="SUPERLATIVES" name="superlatives" type="grammar">
