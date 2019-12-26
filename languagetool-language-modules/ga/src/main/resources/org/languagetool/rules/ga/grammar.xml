@@ -12958,7 +12958,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Réamhlitir ‘h’ ar iarraidh: <suggestion>h\2</suggestion>.</message>
             <short>Réamhlitir ‘h’ ar iarraidh</short>
-            <example correction='halt'>dara <marker>alt</marker></example>
+            <example correction='halt'>Sa dara <marker>alt</marker>, déan cur síos ar a bhfaca siad sa Spáinn.</example>
+        </rule>
+        <rule id="ORD_INITIALVOWEL" name="3ú alt">
+            <pattern>
+                <token postag="Num:Ord" regexp="yes">.*ú|.*adh</token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&initialvowel;</token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion>h\2</suggestion>.</message>
+            <short>Réamhlitir ‘h’ ar iarraidh</short>
+            <example correction='halt'>Sa tríú <marker>alt</marker>, déan cur síos ar a bhfaca siad sa Spáinn.</example>
+        </rule>
+        <rule id="DIGORD_INITIALVOWEL" name="3ú alt">
+            <pattern>
+                <token postag="Num:Dig:Ord"></token>
+                <marker>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&initialvowel;</token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion>h\2</suggestion>.</message>
+            <short>Réamhlitir ‘h’ ar iarraidh</short>
+            <example correction='halt'>Sa 3ú <marker>alt</marker>, déan cur síos ar a bhfaca siad sa Spáinn.</example>
         </rule>
     </category>
     <category id="COLLOCATIONS" name="collocations" type="style">
