@@ -12960,9 +12960,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Réamhlitir ‘h’ ar iarraidh</short>
             <example correction='halt'>Sa dara <marker>alt</marker>, déan cur síos ar a bhfaca siad sa Spáinn.</example>
         </rule>
-        <rule id="ORD_INITIALVOWEL" name="3ú alt">
+        <rule id="ORD_INITIALVOWEL" name="tríú alt">
+            <antipattern>
+                <token regexp="yes">ch?éad|dara</token>
+                <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&initialvowel;</token>
+            </antipattern>
             <pattern>
-                <token postag="Num:Ord" regexp="yes">.*ú|.*adh</token>
+                <token postag="Num:Ord"></token>
                 <marker>
                     <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">&initialvowel;</token>
                 </marker>
