@@ -6,38 +6,44 @@ use utf8;
 binmode(STDIN, ":utf8");
 binmode(STDOUT, ":utf8");
 
+#!/usr/bin/perl
+
 sub unfada {
-    my $word = shift;
-    $word =~ s/á/a/g;
-    $word =~ s/é/e/g;
-    $word =~ s/í/i/g;
-    $word =~ s/ó/o/g;
-    $word =~ s/ú/u/g;
-    $word;
+    my $in = shift;
+    $in =~ s/á/a/;
+    $in =~ s/Á/A/;
+    $in =~ s/é/e/;
+    $in =~ s/É/E/;
+    $in =~ s/í/i/;
+    $in =~ s/Í/I/;
+    $in =~ s/Ó/O/;
+    $in =~ s/ó/o/;
+    $in =~ s/ú/u/;
+    $in =~ s/Ú/U/;
+    $in;
 }
 
 while(<>) {
     chomp;
-    my ($in, $out) = split/=/;
-    next if($in =~ /'/);
-#    write_rule($in, $out);
-    print "$_\n";
+    if(/<[^>]+>([^<]+)<\/[^>]+>:IONADAI\{([^}]+)\}/) {
+        write_rule($1, $2);
+    }
 }
 
 sub write_rule {
-    my $in = shift;
+    my $tok = shift;
     my $out = shift;
-    my ($tok1, $tok2) = split/'/, $in;
-    my $utok1 = uc(unfada($tok1));
-    my $utok2 = uc(unfada($tok2));
+    my $in = $tok;
+    my $regex = ($tok =~ /\?/) ? " regexp=\"yes\"" : "";
+    $in =~ s/.\?//g;
+    my $uin1 = uc(unfada($in));
     print<<__END__;
-        <rule id="${utok1}_APOS_$utok2" name="$in">
+        <rule id="${uin1}" name="$in">
             <pattern>
-                <token>$tok1</token>
-                <token spacebefore="no" regexp="yes">&apost;</token>
-                <token spacebefore="no">$tok2</token>
+                <token$regex>$tok</token>
             </pattern>
-            <message>An <suggestion>$out</suggestion> a bhí i gceist agat?</message>
+            <message>Focal ceart ach tá <suggestion>$out</suggestion> níos coitianta.</message>
+            <short>Neamhchoitianta</short>
             <example correction="$out"><marker>$in</marker></example>
         </rule>
 __END__
