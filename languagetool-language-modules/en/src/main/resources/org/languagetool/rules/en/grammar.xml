@@ -21581,6 +21581,112 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
+        <rule id="PRP_DINT" name="he dint (didn't)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|we|they|it</token>
+                <marker>
+                    <token>dint</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>didn't</suggestion>?</message>
+            <example correction="didn't">He <marker>dint</marker> know about it.</example>
+        </rule>
+        <rule id="PRP_HAVES" name="he haves (has)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>haves</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>has</suggestion>?</message>
+            <example correction="has">He <marker>haves</marker> no idea.</example>
+        </rule>
+        <rule id="PRP_WONTS" name="he wonts (wants)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>wonts</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>wants</suggestion>?</message>
+            <example correction="wants">He <marker>wonts</marker> to go there.</example>
+        </rule>
+        <rule id="PRP_SUITES" name="he suites (suits)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>suites</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>suits</suggestion> (verb)?</message>
+            <example correction="suits">He <marker>suites</marker> in the car.</example>
+        </rule>
+        <rule id="PRP_MUS" name="he mus (must)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|we|they|it</token>
+                <marker>
+                    <token>mus</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>must</suggestion>?</message>
+            <example correction="must">I <marker>mus</marker> admit that you are right.</example>
+        </rule>
+        <rule id="PRP_NEDS" name="he neds (needs)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|we|they|it</token>
+                <marker>
+                    <token regexp="yes">neds?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="(?i)ed" regexp_replace="eed" /></suggestion>?</message>
+            <example correction="needs">He <marker>neds</marker> to know about it.</example>
+        </rule>
+        <rule id="PRP_DELT" name="he delt (dealt)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|we|they|it</token>
+                <marker>
+                    <token>delt</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>dealt</suggestion> (past tense of 'to deal')?</message>
+            <example correction="dealt">He <marker>delt</marker> with it.</example>
+        </rule>
+        <rule id="PRP_GOS" name="he gos (goes)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>gos</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>goes</suggestion>?</message>
+            <example correction="goes">He <marker>gos</marker> home.</example>
+        </rule>
+        <rule id="PRP_CAM" name="he cam (came)" default="temp_off">
+            <pattern>
+                <token regexp="yes">I|you|s?he|we|they|it</token>
+                <marker>
+                    <token>cam</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>came</suggestion> (past tense of 'to come')?</message>
+            <example correction="came">He <marker>cam</marker> to help.</example>
+        </rule>
+        <rule id="WASEN_T" name="he wasen't (wasn't)" default="temp_off">
+            <pattern>
+                <token regexp="yes">wasen|was|wasnt</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>Did you mean <suggestion>wasn\2t</suggestion>?</message>
+            <example correction="wasn't">He <marker>wasen't</marker> sure.</example>
+        </rule>
+        <rule id="WASENT" name="he wasent (wasn't)" default="temp_off">
+            <pattern>
+                <token regexp="yes">was[ie]nt</token>
+            </pattern>
+            <message>Did you mean <suggestion>wasn't</suggestion>?</message>
+            <example correction="wasn't">He <marker>wasent</marker> sure.</example>
+        </rule>
         <rulegroup id="PRP_DON" name="they don (don't)">
             <rule>
                 <pattern>
@@ -23691,6 +23797,12 @@ USA
                 <token postag="CD" />
                 <token>tutor</token>
                 <token>squadron</token>
+            </antipattern>
+            <antipattern><!-- "a 10 min walk" / "45 min max" -->
+                <token postag="CD" />
+                <token>min</token>
+                <token min="0">.</token>
+                <token regexp="yes">walk|max</token>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -26340,6 +26452,24 @@ USA
                 <token regexp="yes">you|it</token>
                 <token postag_regexp="yes" postag="CC|IN"/>
             </antipattern>
+            <antipattern><!-- I stand with you arm in arm -->
+                <token regexp="yes">you|it</token>
+                <token>arm</token>
+                <token>in</token>
+                <token>arm</token>
+            </antipattern>
+            <antipattern><!-- I talk to you face to face -->
+                <token regexp="yes">you|it</token>
+                <token>face</token>
+                <token>to</token>
+                <token>face</token>
+            </antipattern>
+            <antipattern><!-- I help you step by step -->
+                <token regexp="yes">you|it</token>
+                <token>step</token>
+                <token>by</token>
+                <token>step</token>
+            </antipattern>
             <antipattern><!-- we robots will -->
                 <token regexp="yes">you|we</token>
                 <token postag="NNS"/>
@@ -26352,7 +26482,7 @@ USA
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron)s?</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid)s?|kiddo|sir</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -26419,6 +26549,11 @@ USA
                 <token regexp="yes">we|you</token>
                 <token postag="NNPS"/>
             </antipattern>
+            <antipattern><!-- World War I veterans -->
+                <token>war</token>
+                <token>I</token>
+                <token regexp="yes">veterans?</token>
+            </antipattern>
             <antipattern><!-- has he permission -->
                 <token regexp="yes">ha[ds]</token>
                 <token regexp="yes">s?he|it</token>
@@ -26435,6 +26570,7 @@ USA
                         <!-- our confusion rule will find 'he things it's great' and offer a suggestion -->
                         <exception regexp="yes">things?</exception>
                         <exception>re</exception><!-- "He re attends the event" (different error) -->
+                        <exception>oh</exception><!-- "I pray to you oh lord" (different error) -->
                     </token>
                 </marker>
             </pattern>
@@ -26450,6 +26586,7 @@ USA
             <example>… to which <marker>he quickly responded</marker>.</example>
             <example>She told me her secret.</example>
             <example>Is it bad?</example>
+            <example>I pray to you oh lord.</example>
             <example>All of you girls</example>
             <example>... if I ask you anything else today.</example>
             <example>They sold you garbage!</example>
@@ -26478,6 +26615,7 @@ USA
             <example>...has no articles of faith; accordingly, <marker>in it nothing can</marker> be assumed as existing except what is...</example>
             <example>On no condition <marker>has he permission</marker> to touch it.</example>
             <example>... but <marker>had she time</marker> to do it?</example>
+            <example>I'm going to stand with you arm in arm.</example>
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
 <!-- testrules gives an error when 'triggers_error' is used and when it is not used. 
             <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
@@ -30531,7 +30669,7 @@ The accident victim died from her injuries.
                 <token>for</token>
                 <marker>
                     <token>it</token>
-                    <token regexp="yes">(girl|gal|boy|guy|dude|friend|folk)s?</token>
+                    <token regexp="yes">lady|ladies|(girl|gal|boy|guy|dude|friend|folk)s?</token>
                 </marker>
             </pattern>
             <message>It seems that a comma is missing.</message>
@@ -32748,6 +32886,8 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean the verb <suggestion>logs <match no="2" regexp_match="(?i)log(.+?)s" regexp_replace="$1" /></suggestion> instead of the noun '\2'?</message>
                 <example correction="logs in">He <marker>logins</marker> every day.</example>
+                <example>Why doesn’t it <marker>login</marker>?</example><!-- TODO -->
+                <example>Is it login?</example>
             </rule>
         </rulegroup>
         <rulegroup id="THERE_THEIR" name="there (their)">
