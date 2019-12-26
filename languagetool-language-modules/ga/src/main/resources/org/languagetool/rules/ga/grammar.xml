@@ -12975,6 +12975,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='halt'>Sa 3ú <marker>alt</marker>, déan cur síos ar a bhfaca siad sa Spáinn.</example>
         </rule>
         <rule id="A_AON" name="a aon">
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">aon|ochtó|ocht</token>
+                <token postag=".*Noun.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <marker>
@@ -12985,6 +12990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Réamhlitir ‘h’ ar iarraidh</short>
             <example correction='haon'>a <marker>aon</marker></example>
             <example correction='hAon'>a <marker>Aon</marker></example>
+            <example>Ba é a aon aidhm ar an saol daoine a ghnóthú don chúis</example>
         </rule>
         <rule id="DE_AOINE" name="Dé Aoine">
             <pattern>
@@ -12993,7 +12999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Aoine</token>
                 </marker>
             </pattern>
-            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion><match no="2" case_conversion="startlower" regexp_match="^A" regexp_replace="hA" /></suggestion>.</message>
+            <message>Réamhlitir ‘h’ ar iarraidh: <suggestion><match no="2" case_conversion="startlower" regexp_match="^[Aa]" regexp_replace="hA" /></suggestion>.</message>
             <short>Réamhlitir ‘h’ ar iarraidh</short>
             <example correction='hAoine'>Dé <marker>Aoine</marker></example>
         </rule>
