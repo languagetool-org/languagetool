@@ -50,11 +50,13 @@ public class CommaWhitespaceRuleTest {
     assertMatches("This is $1,000,000.", 0);
     assertMatches("This is 1,5.", 0);
     assertMatches("This is a ,,test''.", 0);
+    assertMatches("Run ./validate.sh to check the file.", 0);
     assertMatches("This is,\u00A0really,\u00A0non-breaking whitespace.", 0);
     //test OpenOffice field codes:
     assertMatches("In his book,\u0002 Einstein proved this to be true.", 0);
     assertMatches("- [ ] A checkbox at GitHub", 0);
     assertMatches("- [x] A checked checkbox at GitHub", 0);
+    assertMatches("A sentence 'with' ten \"correct\" examples of ’using’ quotation “marks” at «once» in it.", 0);
 
     // errors:
     assertMatches("This,is a test sentence.", 1);
@@ -69,6 +71,9 @@ public class CommaWhitespaceRuleTest {
     assertMatches("This (foo bar } is a test!.", 1);
     assertMatches("This is a sentence with an orphaned full stop .", 1);
     assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
+    assertMatches("A sentence ' with ' ten \" incorrect \" examples of ’ using ’ quotation “ marks ” at « once » in it.", 10);
+    assertMatches("A sentence ' with' one examples of wrong quotations marks in it.", 1);
+    assertMatches("A sentence 'with ' one examples of wrong quotations marks in it.", 1);
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     assertEquals(2, matches.length);

@@ -404,6 +404,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
     assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
     assertFirstSuggestion("zweiundhalb", "zweieinhalb", rule, lt);
+    assertFirstSuggestion("dreiundhalb", "dreieinhalb", rule, lt);
+    assertFirstSuggestion("Zuguterletzt", "Zu guter Letzt", rule, lt);
+    assertFirstSuggestion("guterletzt", "guter Letzt", rule, lt);
+    assertFirstSuggestion("unfährer", "unfairer", rule, lt);
     assertFirstSuggestion("unfäre", "unfaire", rule, lt);
     assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
   }
@@ -723,6 +727,19 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "is", "IS", "die", "in", "im", "ist");  // 'ist' should actually be preferred...
     assertCorrectionsByOrder(rule, "Fux", "Fuchs");  // fixed in morfologik 2.1.4
     assertCorrectionsByOrder(rule, "schänken", "Schänken");  // "schenken" is missing
+  }
+  
+  @Test
+  public void testIsMisspelled() {
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.isMisspelled("dshfsdhsdf"));
+    assertTrue(rule.isMisspelled("Haussarbeit"));
+    assertTrue(rule.isMisspelled("Überschus"));
+    assertTrue(rule.isMisspelled("Überschussen"));
+
+    assertFalse(rule.isMisspelled("Hausarbeit"));
+    assertFalse(rule.isMisspelled("Überschuss"));
+    assertFalse(rule.isMisspelled("Überschüsse"));
   }
   
   @Test

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,28 +19,30 @@
 package org.languagetool.markup;
 
 /**
- * A fake markup data object giving information on the impact of the fake markup
+ * A fake markup data object giving information on the impact of the fake markup.
  * Use {@link AnnotatedTextBuilder} to create objects of this type.
  * @since 4.8
  */
-public class MappingValue {
+class MappingValue {
 
-  private int totalPosition;
-  private int fakeMarkupLength;
+  private final int totalPosition;
+  private final int fakeMarkupLength;
 
-  public int getTotalPosition() {
+  MappingValue(int totalPosition) {
+    this(totalPosition, 0);
+  }
+
+  MappingValue(int totalPosition, int fakeMarkupLength) {
+    this.totalPosition = totalPosition;
+    this.fakeMarkupLength = fakeMarkupLength;
+  }
+
+  int getTotalPosition() {
     return totalPosition;
   }
 
-  public void setTotalPosition(int totalPosition) {
-    this.totalPosition = totalPosition;
-  }
-
-  public int getFakeMarkupLength() {
+  int getFakeMarkupLength() {
     return fakeMarkupLength;
   }
 
-  public void setFakeMarkupLength(int fakeMarkupLength) {
-    this.fakeMarkupLength = fakeMarkupLength;
-  }
 }

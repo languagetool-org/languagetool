@@ -278,6 +278,8 @@ public class English extends Language implements AutoCloseable {
       case "APPSTORE":                  return 1;   // prefer over spell checker
       case "DONT_T":                    return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "WHATS_APP":                 return 1;   // prefer over EN_CONTRACTION_SPELLING
+      case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
+      case "NON_STANDARD_ALPHABETIC_CHARACTERS":        return 1;   // prefer over spell checker
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
@@ -286,16 +288,17 @@ public class English extends Language implements AutoCloseable {
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
       case "HAVE_PART_AGREEMENT":       return -1;  // prefer other more specific rules
-      case "BEEN_PART_AGREEMENT":       return -1;  // prefer other more specific rules (e.g. VARY_VERY)
       case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
       case "PRP_VBG":                   return -1;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VB":                    return -1;  // prefer other more specific rules (with suggestions)
       case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
       case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
       case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
+      case "ADVERB_OR_HYPHENATED_ADJECTIVE": return -1; // prefer other more specific rules (with suggestions)
       case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -1;  // prefer other more specific rules (with suggestions)
       case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions)
+      case "BEEN_PART_AGREEMENT":       return -2;  // prefer other more specific rules (e.g. VARY_VERY, VB_NN)
       case "A_INFINITIVE":              return -2;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB)
       case "I_MOVING":                  return -2;  // prefer other more specific rules (e.g. PRP_VBG)
       case "HE_VERB_AGR":               return -2;  // prefer other more specific rules (e.g. PRP_VBG)

@@ -42,11 +42,10 @@ public class AnnotatedTextTest {
       .addText("Une ")
       .addMarkup("&eacute;", "é")
       .addText("chapatoire est possible.");
-    RuleMatch match = lt.check(builder.build()).get(0);
 
+    RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "&eacute;chapatoire";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("&eacute;chapatoire"));
   }
 
   @Test
@@ -58,11 +57,10 @@ public class AnnotatedTextTest {
       .addText("J'ai trouuv")
       .addMarkup("&eacute;", "é")
       .addText(" le livre.");
+    
     RuleMatch match = lt.check(builder.build()).get(0);
-
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "trouuv&eacute;";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("trouuv&eacute;"));
   }
 
 
@@ -72,16 +70,14 @@ public class AnnotatedTextTest {
     String textToCheck = "J'ai louper le train.<span> Ce n'était pas dans mes habitudes.</span>";
 
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
-
       .addText("J'ai louper le train.")
       .addMarkup("<span>")
       .addText(" Ce n'était pas dans mes habitudes.")
       .addMarkup("</span>");
-    RuleMatch match = lt.check(builder.build()).get(0);
 
+    RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "louper";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("louper"));
   }
 
   @Test
@@ -90,18 +86,16 @@ public class AnnotatedTextTest {
     String textToCheck = "J'ai louper le train.<span> Ce n'était pas dans mes habitudes.</span>";
 
     AnnotatedTextBuilder builder = new AnnotatedTextBuilder()
-
       .addText("J'ai louper le train.")
       .addMarkup("<span>")
       .addText(" Ce n'était pas dans mes habitudes.")
       .addMarkup("</span>")
       .addMarkup("<span>")
       .addMarkup("</span>");
-    RuleMatch match = lt.check(builder.build()).get(0);
 
+    RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "louper";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("louper"));
   }
 
   @Test
@@ -118,10 +112,8 @@ public class AnnotatedTextTest {
       .addText(" est possible.");
 
     RuleMatch match = lt.check(builder.build()).get(0);
-
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "&eacute;chapatoire";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("&eacute;chapatoire"));
   }
 
 
@@ -134,12 +126,10 @@ public class AnnotatedTextTest {
       .addText("J'ai louper le train.")
       .addMarkup("<br/>", "\n")
       .addText(" Ce n'était pas dans mes habitudes.");
+
     RuleMatch match = lt.check(builder.build()).get(0);
-
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    String wordThanShouldBeHighlighted = "louper";
-    assertThat(markedWord, is(wordThanShouldBeHighlighted));
+    assertThat(markedWord, is("louper"));
   }
-
 
 }

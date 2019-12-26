@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.Experimental;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
@@ -52,6 +53,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private boolean autoCorrect = false;
+  
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -62,6 +64,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this(rule, fromPos, toPos, message, null, false, null);
   }
+  
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -72,6 +75,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message) {
     this(rule, sentence, fromPos, toPos, message, null, false, null);
   }
+  
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -85,7 +89,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this(rule, sentence, fromPos, toPos, message, shortMessage, false, null);
   }
 
-
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
@@ -93,6 +96,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
                    boolean startWithUppercase, String suggestionsOutMsg) {
     this(rule, null, fromPos, toPos, message, shortMessage, startWithUppercase, suggestionsOutMsg);
   }
+  
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -121,6 +125,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     while (matcher.find(pos)) {
       pos = matcher.end();
       String replacement = matcher.group(1);
+      if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
+        continue;
+      }
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }

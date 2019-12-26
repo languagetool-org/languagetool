@@ -33,8 +33,7 @@ import java.util.List;
 import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 
@@ -287,6 +286,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");  // test again because of caching
   }
 
+  @Test
+  public void testIsMisspelled() throws IOException {
+    assertTrue(rule.isMisspelled("sdadsadas"));
+    assertTrue(rule.isMisspelled("bicylce"));
+    assertTrue(rule.isMisspelled("tabble"));
+    assertTrue(rule.isMisspelled("tabbles"));
+
+    assertFalse(rule.isMisspelled("bicycle"));
+    assertFalse(rule.isMisspelled("table"));
+    assertFalse(rule.isMisspelled("tables"));
+  }
+  
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
     assertSuggestion(input, rule, lt, expectedSuggestions);
   }

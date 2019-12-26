@@ -100,7 +100,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( PosTagHelper.hasPosTagPart(analyzedToken, ":bad") 
               && lowerLemmaToCheck.equals(analyzedToken.getLemma()) ) {
-            tokens[i].removeReading(analyzedToken);
+            tokens[i].removeReading(analyzedToken, this.toString());
           }
         }
       }
@@ -120,30 +120,31 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( ! PosTagHelper.hasPosTagPart(analyzedToken, ":abbr") 
               && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken) ) {
-            tokens[i].removeReading(analyzedToken);
+            tokens[i].removeReading(analyzedToken, this.toString());
           }
         }
       }
     }    
   }
 
-  private static final Pattern PUNCT_AFTER_KLY_PATTERN = Pattern.compile("[,!»\"\u201C\u201D]|[\\.!]{3}");
+  private static final Pattern PUNCT_AFTER_KLY_PATTERN = Pattern.compile("[!?,»\"\u201C\u201D…]|[\\.!?]{2,3}");
+  private static final Pattern ADJ_V_KLY_PATTERN = Pattern.compile("adj:.:v_kly.*");
+  private static final Pattern PREP_PATTERN = Pattern.compile("prep.*");
 
   private void removeInanimVKly(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
 
-      if( i < tokens.length - 1
-          && PUNCT_AFTER_KLY_PATTERN.matcher(tokens[i+1].getToken()).matches()
-          && (PosTagHelper.hasPosTag(tokens[i-1], "adj:.:v_kly.*")
-            || "о".equalsIgnoreCase(tokens[i-1].getToken())) )
+      if( ! PosTagHelper.hasPosTag(analyzedTokens, Pattern.compile("noun:inanim:.:v_kly.*") )
+          || likelyVklyContext(tokens, i) )
         continue;
 
       ArrayList<AnalyzedToken> inanimVklyReadings = new ArrayList<>();
       boolean otherFound = false;
       for(int j=0; j<analyzedTokens.size(); j++) {
         String posTag = analyzedTokens.get(j).getPOSTag();
+
         if( posTag == null )
           break;
         if( posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )
@@ -156,15 +157,21 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           otherFound = true;
         }
       }
+
       if( inanimVklyReadings.size() > 0 && otherFound ) {
-//        System.err.println("====================1 " + tokens[i]);
         for(AnalyzedToken analyzedToken: inanimVklyReadings) {
-          tokens[i].removeReading(analyzedToken);
-//          System.err.println("===== Removing: " + analyzedToken);
-//          System.err.println("====================2 " + tokens[i]);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }
+  }
+
+  private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
+    return i < tokens.length - 1
+        && ("о".equalsIgnoreCase(tokens[i-1].getToken()) || ! PosTagHelper.hasPosTag(tokens[i-1], PREP_PATTERN))
+        && PUNCT_AFTER_KLY_PATTERN.matcher(tokens[i+1].getToken()).matches()
+        && (PosTagHelper.hasPosTag(tokens[i-1], ADJ_V_KLY_PATTERN)
+          || "о".equalsIgnoreCase(tokens[i-1].getToken()));
   }
 
   private void removePluralForNames(AnalyzedSentence input) {
@@ -200,7 +207,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         if( posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )
           continue;
           
-//        System.err.println("-- " + analyzedTokens.get(j));
         if( PLURAL_NAME.matcher(posTag).matches() ) {
           pluralNameReadings.add(analyzedTokens.get(j));
         }
@@ -209,11 +215,8 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         }
       }
       if( pluralNameReadings.size() > 0 && otherFound ) {
-//        System.err.println("====================1 " + tokens[i]);
         for(AnalyzedToken analyzedToken: pluralNameReadings) {
-          tokens[i].removeReading(analyzedToken);
-//          System.err.println("===== Removing: " + analyzedToken);
-//          System.err.println("====================2 " + tokens[i]);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }
@@ -374,7 +377,7 @@ TODO:
 
         if( ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken.getPOSTag())
             && ! PosTagHelper.hasPosTag(analyzedToken, pattern) ) {
-          readings.removeReading(analyzedToken);
+          readings.removeReading(analyzedToken, "UkranianHybridDisambiguator");
         }
       }
 

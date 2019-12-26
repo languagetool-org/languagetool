@@ -35,6 +35,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -45,8 +47,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.languagetool.server.ServerTools.print;
 
 /**
  * @since 3.4
@@ -70,6 +70,7 @@ abstract class TextChecker {
   protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
+  private static final Logger logger = LoggerFactory.getLogger(TextChecker.class);
 
   private static final String ENCODING = "UTF-8";
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
@@ -83,7 +84,7 @@ abstract class TextChecker {
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
-  private final DatabaseLogger logger;
+  private final DatabaseLogger databaseLogger;
   private final Long logServerId;
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
@@ -96,8 +97,8 @@ abstract class TextChecker {
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
-    this.logger = DatabaseLogger.getInstance();
-    if (logger.isLogging()) {
+    this.databaseLogger = DatabaseLogger.getInstance();
+    if (databaseLogger.isLogging()) {
       this.logServerId = DatabaseAccess.getInstance().getOrCreateServerId();
     } else {
       this.logServerId = null;
@@ -112,12 +113,12 @@ abstract class TextChecker {
 
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
-      ServerTools.print("Prewarming pipelines...");
+      logger.info("Prewarming pipelines...");
       prewarmPipelinePool();
-      ServerTools.print("Prewarming finished.");
+      logger.info("Prewarming finished.");
     }
     if (config.getAbTest() != null) {
-      ServerTools.print("A/B-Test enabled: " + config.getAbTest());
+      logger.info("A/B-Test enabled: " + config.getAbTest());
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
@@ -189,7 +190,7 @@ abstract class TextChecker {
     // logging information
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     Long agentId = null, userId = null;
-    if (logger.isLogging()) {
+    if (databaseLogger.isLogging()) {
       DatabaseAccess db = DatabaseAccess.getInstance();
       agentId = db.getOrCreateClientId(parameters.get("useragent"));
       userId = limits.getPremiumUid();
@@ -199,7 +200,7 @@ abstract class TextChecker {
 
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
       String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
-      logger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
+      databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
@@ -292,7 +293,7 @@ abstract class TextChecker {
           long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
           long segmentOffset = random * randomSegmentSize;
           if (timestamp > randomSegmentSize) {
-            print(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
           }
           textSessionId = segmentOffset + timestamp;
         } else {
@@ -302,7 +303,7 @@ abstract class TextChecker {
         userConfig.setTextSessionId(textSessionId);
       }
     } catch (NumberFormatException ex) {
-      print("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
     int textSize = aText.getPlainText().length();
 
@@ -330,10 +331,10 @@ abstract class TextChecker {
       future.cancel(true);
       if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
         ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
-        logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
+        databaseLogger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
       }
       if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+        logger.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
           "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
           parameters, System.currentTimeMillis()-timeStart, reqCounter));
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -359,13 +360,13 @@ abstract class TextChecker {
                        ", mode: " + mode.toString().toLowerCase() +
                        ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
-        print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+        logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
       } else {
         ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
-        logger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
+        databaseLogger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
           logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
         throw new RuntimeException(message, e);
       }
@@ -379,7 +380,7 @@ abstract class TextChecker {
       if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
         ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-        print("Warn: Skipped querying hidden matches server at " +
+        logger.warn("Warn: Skipped querying hidden matches server at " +
           config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
       } else {
         ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
@@ -388,12 +389,12 @@ abstract class TextChecker {
           List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), parameters);
           hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
           long end = System.currentTimeMillis();
-          print("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
+          logger.info("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms for " + lang.getShortCodeWithCountryAndVariant());
           ServerMetricsCollector.getInstance().logHiddenServerStatus(true);
           lastHiddenMatchesServerTimeout = -1;
         } catch (Exception e) {
           ServerMetricsCollector.getInstance().logHiddenServerStatus(false);
-          print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters");
+          logger.warn("Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + aText.getPlainText().length() + " characters");
           lastHiddenMatchesServerTimeout = System.currentTimeMillis();
         }
       }
@@ -424,7 +425,7 @@ abstract class TextChecker {
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
-    print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
+    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
@@ -446,7 +447,7 @@ abstract class TextChecker {
         lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
       logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
         config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
-      logger.log(logEntry);
+      databaseLogger.log(logEntry);
     }
   }
   
@@ -481,7 +482,7 @@ abstract class TextChecker {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       double hitRate = cache.hitRate();
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
-      print("Cache stats: " + hitPercentage + "% hit rate");
+      logger.info("Cache stats: " + hitPercentage + "% hit rate");
       //print("Matches    : " + cache.getMatchesCache().stats().hitRate() + " hit rate");
       //print("Sentences  : " + cache.getSentenceCache().stats().hitRate() + " hit rate");
       //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");

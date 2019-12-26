@@ -75,6 +75,7 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
     assertCorrect("Kill 'em all!");
     assertCorrect("Puttin' on the Ritz");
+    assertCorrect("Dunkin' Donuts");
     //some more cases
     assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
     assertCorrect("On their 'host' societies.");

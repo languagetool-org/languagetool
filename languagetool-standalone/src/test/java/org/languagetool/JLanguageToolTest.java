@@ -170,8 +170,8 @@ public class JLanguageToolTest {
 
     String textToCheck = "here is an error. And <i attr='foo'/>here is also <i>a</i> error.";
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
-            /*.addText("here")*/
-            .addText("here is an error. And ")
+            .addText("here")
+            .addText(" is an error. And ")
             .addMarkup("<i attr='foo'/>")
             .addText("here is also ")
             .addMarkup("<i>")
@@ -181,7 +181,6 @@ public class JLanguageToolTest {
             .build();
 
     assertThat(annotatedText.getTextWithMarkup(), is(textToCheck));
-
     List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(2));
     assertThat(matches.get(0).getFromPos(), is(0));

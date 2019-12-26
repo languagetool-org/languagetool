@@ -116,7 +116,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
-      runGrammarRuleForLanguage(lang);
+        runGrammarRuleForLanguage(lang);
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
@@ -172,7 +172,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       String ruleFilePath = rulesDir + "/" + grammarFile;
       try (InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath)) {
         if (xmlStream == null) {
-          System.out.println("No rule file found at " + ruleFilePath + " in classpath");
+          System.out.println("No rule file found at " + ruleFilePath + " in classpath. THIS SHOULD BE FIXED!");
           continue;
         }
         // if there are multiple xml grammar files we'll prepend all unification elements 
@@ -218,7 +218,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           boolean hasExplicitMarker = patternTokens.stream().anyMatch(PatternToken::isInsideMarker);
           for (PatternToken patternToken : patternTokens) {
             if ((patternToken.isInsideMarker() || !hasExplicitMarker) && patternToken.isSentenceStart()) {
-              System.out.println("WARNING: Sentence start in <marker>: " + ((AbstractPatternRule) rule).getFullId() +
+              System.err.println("WARNING: Sentence start in <marker>: " + ((AbstractPatternRule) rule).getFullId() +
                       " (hasExplicitMarker: " + hasExplicitMarker + ") - please move the <marker> so the SENT_START is not covered");
             }
           }
@@ -432,7 +432,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       for (RuleMatch match : matchesAllRules) {
         if (!match.getRule().getId().equals(rule.getId()) && !matches.isEmpty()
             && rangeIsOverlapping(matches.get(0).getFromPos(), matches.get(0).getToPos(), match.getFromPos(), match.getToPos()))
-          System.err.println("WARN: " + lang.getShortCode() + ": '" + badSentence + "' in "
+          System.err.println("WARNING: " + lang.getShortCode() + ": '" + badSentence + "' in "
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/
     }
@@ -537,7 +537,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       /*
       List<RuleMatch> matches = allRulesLt.check(goodSentence);
       for (RuleMatch match : matches) {
-        System.err.println("WARN: " + lang.getShortCode() + ": '" + goodSentence + "' did not match "
+        System.err.println("WARNING: " + lang.getShortCode() + ": '" + goodSentence + "' did not match "
                 + rule.getId() + " but matched " + match.getRule().getId());
       }
       */

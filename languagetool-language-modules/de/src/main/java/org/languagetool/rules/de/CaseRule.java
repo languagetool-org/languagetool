@@ -113,15 +113,15 @@ public class CaseRule extends Rule {
       regex("vor|den"),
       token("Gefahren")
     ),
-    // company names with english adjectives
+    // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native"),
       pos("UNKNOWN")
     ),
-    // company names with english adjectives
+    // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -170,7 +170,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe")
     ),
     Arrays.asList(
       token(","),
@@ -204,7 +204,7 @@ public class CaseRule extends Rule {
       csToken("das"),
       posRegex("VER:.+"),
       new PatternTokenBuilder().pos("KON:NEB").setSkip(5).build(),
-      posRegex("VER:AUX:.*"),
+      posRegex("VER:(AUX|MOD):.*"),
       posRegex("PKT|KON:NEB")
     ),
     Arrays.asList(
@@ -402,11 +402,14 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
     "Studierende",
+    "Suchbegriffen",
+    "Wallet",
     "Str",
     "Auszubildende",
     "Auszubildender",
@@ -432,6 +435,7 @@ public class CaseRule extends Rule {
     "Beschäftigten",
     "Bekannter",
     "Bekannte",
+    "Brecht",
     "Tel",  // Tel. = Telefon
     "Unschuldiger",
     "Vorgesetzter",
@@ -922,7 +926,7 @@ public class CaseRule extends Rule {
         && tokens[pos].hasAnyPartialPosTag("SUB:NOM:SIN:NEU:INF", "SUB:DAT:PLU:")
         && ("zu".equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], "SUB", "EIG", "VER:AUX:3:", "ADV:TMP", "ABK"))) {
       // find error in: "Der Brief wird morgen Übergeben." / "Die Ausgaben haben eine Mrd. Euro Überschritten."
-      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !tokens[pos-1].hasPosTagStartingWith("VER:AUX:3");
+      isPotentialError |= lowercaseReadings.hasPosTag("PA2:PRD:GRU:VER") && !tokens[pos-1].hasPosTagStartingWith("VER:AUX:3") && !lowercaseReadings.hasPosTag("VER:3:PLU:PRT:NON");
       // find error in: "Er lässt das Arktisbohrverbot Überprüfen."
       // find error in: "Sie bat ihn, es zu Überprüfen."
       // find error in: "Das Geld wird Überwiesen."

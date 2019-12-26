@@ -37,51 +37,53 @@ public class CommonWords {
   private final static Pattern numberPattern = Pattern.compile("[0-9.,%-]+");
 
   public CommonWords() throws IOException {
-    if (word2langs.isEmpty()) {
-      for (Language lang : Languages.get()) {
-        if (lang.isVariant()) {
-          continue;
-        }
-        ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-        String path = lang.getCommonWordsPath();
-        InputStream stream = null;
-        try {
-          if (path != null) {
-            if (dataBroker.resourceExists(path)) {
-              stream = dataBroker.getFromResourceDirAsStream(path);
-            } else if (new File(path).exists()) {
-              stream = new FileInputStream(path);
-            } else {
-              throw new IOException("Common words file not found for " + lang + ": " + path);
-            }
-          } else {
-            System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
-            continue; 
+    synchronized (word2langs) {
+      if (word2langs.isEmpty()) {
+        for (Language lang : Languages.get()) {
+          if (lang.isVariant()) {
+            continue;
           }
-          try (Scanner scanner = new Scanner(stream, "utf-8")) {
-            while (scanner.hasNextLine()) {
-              String line = scanner.nextLine();
-              if (line.isEmpty() || line.startsWith("#")) {
-                continue;
-              }
-              String key = line.toLowerCase();
-              if (key.length() == 1 && Character.isSpaceChar(key.charAt(0))) {
-                continue;
-              }
-              List<Language> languages = word2langs.get(key);
-              if (languages == null) {
-                // word2langs is static, so this can be accessed from multiple threads concurrently -> prevent exceptions
-                List<Language> l = Collections.synchronizedList(new LinkedList<>());
-                l.add(lang);
-                word2langs.put(key, l);
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          String path = lang.getCommonWordsPath();
+          InputStream stream = null;
+          try {
+            if (path != null) {
+              if (dataBroker.resourceExists(path)) {
+                stream = dataBroker.getFromResourceDirAsStream(path);
+              } else if (new File(path).exists()) {
+                stream = new FileInputStream(path);
               } else {
-                languages.add(lang);
+                throw new IOException("Common words file not found for " + lang + ": " + path);
+              }
+            } else {
+              System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
+              continue;
+            }
+            try (Scanner scanner = new Scanner(stream, "utf-8")) {
+              while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.isEmpty() || line.startsWith("#")) {
+                  continue;
+                }
+                String key = line.toLowerCase();
+                if (key.length() == 1 && Character.isSpaceChar(key.charAt(0))) {
+                  continue;
+                }
+                List<Language> languages = word2langs.get(key);
+                if (languages == null) {
+                  // word2langs is static, so this can be accessed from multiple threads concurrently -> prevent exceptions
+                  List<Language> l = Collections.synchronizedList(new LinkedList<>());
+                  l.add(lang);
+                  word2langs.put(key, l);
+                } else {
+                  languages.add(lang);
+                }
               }
             }
-          }
-        } finally {
-          if (stream != null) {
-            stream.close();
+          } finally {
+            if (stream != null) {
+              stream.close();
+            }
           }
         }
       }

@@ -115,55 +115,34 @@ public class AnnotatedTextBuilder {
     int totalPosition = 0;
     Map<Integer, MappingValue> mapping = new HashMap<>();
     for (int i = 0; i < parts.size(); i++) {
-
       TextPart part = parts.get(i);
-
       if (part.getType() == TextPart.Type.TEXT) {
-
         plainTextPosition += part.getPart().length();
         totalPosition += part.getPart().length();
-
-        MappingValue mappingValue = new MappingValue();
-        mappingValue.setTotalPosition(totalPosition);
-
+        MappingValue mappingValue = new MappingValue(totalPosition);
         mapping.put(plainTextPosition, mappingValue);
-
       } else if (part.getType() == TextPart.Type.MARKUP) {
-
         totalPosition += part.getPart().length();
-
         if (hasFakeContent(i, parts)) {
-
           plainTextPosition += parts.get(i + 1).getPart().length();
           i++;
-
-          MappingValue mappingValue = new MappingValue();
-          mappingValue.setTotalPosition(totalPosition);
-          mappingValue.setFakeMarkupLength(part.getPart().length());
-
+          MappingValue mappingValue = new MappingValue(totalPosition, part.getPart().length());
           mapping.put(plainTextPosition, mappingValue);
         }
-
       }
-
     }
     return new AnnotatedText(parts, mapping, metaData, customMetaData);
   }
 
   private boolean hasFakeContent(int i, List<TextPart> parts) {
-
     int nextPartIndex = i + 1;
     if (nextPartIndex < parts.size()) {
-
       if (parts.get(nextPartIndex).getType().equals(TextPart.Type.FAKE_CONTENT)) {
-
         return true;
       }
-
     }
     return false;
-
-
   }
 
 }
+

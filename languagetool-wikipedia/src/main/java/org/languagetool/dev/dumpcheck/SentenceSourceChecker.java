@@ -151,6 +151,7 @@ public class SentenceSourceChecker {
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors,
                    File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
+    long startTime = System.currentTimeMillis();
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     lt.setCleanOverlappingMatches(false);
@@ -222,7 +223,9 @@ public class SentenceSourceChecker {
       if (resultHandler != null) {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
-        System.out.printf(lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        long runTimeMillis = System.currentTimeMillis() - startTime;
+        //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
         try {
           resultHandler.close();
         } catch (Exception e) {

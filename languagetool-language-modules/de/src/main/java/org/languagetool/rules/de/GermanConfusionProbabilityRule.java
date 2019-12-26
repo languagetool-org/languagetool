@@ -57,6 +57,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "da mir der",
     "das wir uns",
     "so wir können",
+    "wie zahlen sie",
     "ich drei bin" // seit ich drei bin.
   );
 

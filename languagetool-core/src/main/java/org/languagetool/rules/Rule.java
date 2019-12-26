@@ -323,9 +323,10 @@ public abstract class Rule {
   }
 
   /**
-   * Turns the rule off by default, expect for internal regression tests.
+   * Turns the pattern rule off by default, expect for internal regression tests.
    */
   public final void setDefaultTempOff() {
+    defaultOff = true;
     defaultTempOff = true;
   }
 

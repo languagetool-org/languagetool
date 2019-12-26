@@ -278,7 +278,7 @@ USA
                 <token postag_regexp="yes" postag="NN|NNS" regexp="yes">planes?</token>
             </pattern>
             <message>The term '\1 \2' is common for American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">aeroplane</match></suggestion>.</message>
-            <url>https://en.oxforddictionaries.com/definition/airplane</url>
+            <url>https://www.lexico.com/definition/airplane</url>
             <short>AmE/BrE: air plane/aeroplane</short>
             <example correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
             <example correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
@@ -330,6 +330,16 @@ USA
             <example correction="OK"><marker>Ok</marker>, I'll let you know.</example>
             <example correction="OK">Are you <marker>ok</marker>?</example>
         </rule>
+        <rule id="ANYMORE" name="anymore (any more)"><!-- Premium #759 -->
+            <pattern>
+                <token>anymore</token>
+            </pattern>
+            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>.</message>
+            <url>https://www.collinsdictionary.com/dictionary/english/anymore</url>
+            <short>AmE/BrE: anymore/any more</short>
+            <example correction="any more">I don't want to do this <marker>anymore</marker>.</example>
+            <example>I don't want to do this <marker>any more</marker>.</example>
+        </rule>
     </category>
     <category id="BRE_STYLE_OXFORD_SPELLING" name="British English, Oxford spelling (~iz~ not ~is~)" type="style">
         <rulegroup id="OXFORD_SPELLING_GRAM" name="Oxford spelling of 'gram' (not 'gramme')">
@@ -373,7 +383,7 @@ USA
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
         <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
-            <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+            <url>https://www.lexico.com/grammar/ize-ise-or-yse</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -431,7 +441,7 @@ USA
                 <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities</example>
                 <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
             </rule>
-            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://en.oxforddictionaries.com/spelling/ize-ise-or-yse -->
+            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->

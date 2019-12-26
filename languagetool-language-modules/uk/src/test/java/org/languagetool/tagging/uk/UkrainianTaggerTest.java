@@ -130,7 +130,7 @@ public class UkrainianTaggerTest {
          tokenizer, tagger);
 
     TestTools.myAssert("Валерій (міліціонер-пародист. – Авт.) стане пародистом.",
-        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[авт.]noun:inanim:m:v_naz:abbr"
+        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[авт.]noun:anim:m:v_naz:abbr"
  //       "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[null]null"
       + " -- стане/[стан]noun:inanim:m:v_kly:xp1|стане/[стан]noun:inanim:m:v_kly:xp2|стане/[станути]verb:perf:futr:s:3|стане/[стати]verb:perf:futr:s:3 -- пародистом/[пародист]noun:anim:m:v_oru",
          tokenizer, tagger);
@@ -141,7 +141,7 @@ public class UkrainianTaggerTest {
 //         tokenizer, tagger);
 
     TestTools.myAssert("Є. Бакуліна.",
-      "Є./[null]null -- Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
+      "Є./[null]null -- Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_kly:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
        tokenizer, tagger);
   }
 
@@ -290,7 +290,7 @@ public class UkrainianTaggerTest {
     // dash-prefix2
     TestTools.myAssert("он-лайн-навчання", "он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_naz|он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_rod|он-лайн-навчання/[он-лайн-навчання]noun:inanim:n:v_zna|он-лайн-навчання/[он-лайн-навчання]noun:inanim:p:v_naz|он-лайн-навчання/[он-лайн-навчання]noun:inanim:p:v_zna", tokenizer, tagger);
 
-    assertNotTagged("р--електронами");
+//    assertNotTagged("р--електронами");
   }
 
   @Test

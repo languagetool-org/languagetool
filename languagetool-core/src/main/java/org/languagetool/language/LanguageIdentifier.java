@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
-import com.optimaize.langdetect.cybozu.util.Messages;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
@@ -121,6 +120,7 @@ public class LanguageIdentifier {
         fasttextEnabled = true;
       } catch (IOException e) {
         fasttextEnabled = false;
+        logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
@@ -244,9 +244,10 @@ public class LanguageIdentifier {
       } catch (Exception e) {
         fasttextEnabled = false;
         RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
-          String.format("Fasttext disabled, failed on '%s': %s", text, ExceptionUtils.getStackTrace(e)));
+          String.format("Fasttext disabled, failed on '%s' (shortText='%s'): %s", text, shortText, ExceptionUtils.getStackTrace(e)));
         RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
+        logger.error(String.format("Fasttext disabled, failed on '%s' (shortText='%s')", text, shortText), e);
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
@@ -296,9 +297,23 @@ public class LanguageIdentifier {
       fasttextOut.newLine();
       fasttextOut.flush();
       buffer = fasttextIn.readLine();
+      if (buffer == null) {
+        // hack to see if this helps us debug the rare case of readLine() returning null:
+        try {
+          logger.warn("fasttextIn.readLine() returned null, trying again after short delay for input '" + text + "'");
+          Thread.sleep(10);
+          buffer = fasttextIn.readLine();
+          if (buffer == null) {
+            logger.warn("fasttextIn.readLine() returned null again");
+          }
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
+      logger.error("Error while parsing fasttext output '{}'", buffer);
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
     }
     for (int i = 0; i < values.length; i += 2) {

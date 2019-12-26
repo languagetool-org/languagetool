@@ -2,6 +2,10 @@
 
 ## 4.8-SNAPSHOT (release planned for 2019-12-27)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.6)
+
 #### Chinese
   * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
 
@@ -15,6 +19,11 @@
 
 #### English
   * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.79 - 2019-12-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+  * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+
 
 #### Esperanto
   * corrections are now offered for spell check errors 
@@ -36,14 +45,29 @@
   * updated spell checker to version 1.82 (2015-10-23)
     (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+
+#### Russian
+  * added new words
+  * improve java rule
+
 #### Swedish
   * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
     (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
+
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization improvements
 
 #### General
   * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
     has been removed. It hadn't been maintained for years and didn't work properly
     anymore.
+  * `spelling_global.txt` has been added. Words or phrases added here will
+    be accepted for all languages.
   * `prohibit_custom.txt` and `spelling_custom.txt` can be used to make your
     own additions to `spelling.txt` and `prohibit.txt` without having to edit those
     files after a LanguageTool update (you will still need to manually copy those

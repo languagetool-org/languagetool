@@ -206,8 +206,22 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
+    } else if ("acc".equals(word)) {
+      return Arrays.asList("account", "accusative");
+    } else if ("Acc".equals(word)) {
+      return Arrays.asList("Account", "Accusative");
+    } else if ("cmon".equals(word)) {
+      return Arrays.asList("c'mon");
+    } else if ("Cmon".equals(word)) {
+      return Arrays.asList("C'mon");
     } else if ("alot".equals(word)) {
       return Arrays.asList("a lot");
+    } else if ("da".equals(word)) {
+      return Arrays.asList("the");
+    } else if ("Da".equals(word)) {
+      return Arrays.asList("The");
+    } else if ("errornous".equals(word)) {
+      return Arrays.asList("erroneous");
     } else if ("brang".equals(word) || "brung".equals(word)) {
       return Arrays.asList("brought");
     } else if ("thru".equals(word)) {
@@ -228,6 +242,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("should have");
     } else if ("woulda".equals(word)) {
       return Arrays.asList("would have");
+    } else if ("tellem".equals(word)) {
+      return Arrays.asList("tell them");
+    } else if ("Tellem".equals(word)) {
+      return Arrays.asList("Tell them");
     } else if ("afro-american".equalsIgnoreCase(word)) {
       return Arrays.asList("Afro-American");
     } else if ("Webex".equals(word)) {
@@ -264,6 +282,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("McDonald's");
     } else if ("ux".equals(word)) {
       return Arrays.asList("UX");
+    } else if ("ive".equals(word)) {
+      return Arrays.asList("I've");
     } else if ("infos".equals(word)) {
       return Arrays.asList("informations");
     } else if ("Infos".equals(word)) {
@@ -274,6 +294,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Priority");
     } else if ("prio".equals(word)) {
       return Arrays.asList("Priority");
+    } else if ("esport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("Esport".equals(word)) {
+      return Arrays.asList("E-Sport");
+    } else if ("eSport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("esports".equals(word)) {
+      return Arrays.asList("e-sports");
+    } else if ("Esports".equals(word)) {
+      return Arrays.asList("E-Sports");
+    } else if ("eSports".equals(word)) {
+      return Arrays.asList("e-sports");
     } else if ("ecommerce".equals(word)) {
       return Arrays.asList("e-commerce");
     } else if ("Ecommerce".equals(word)) {
@@ -296,6 +328,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("E-Book");
     } else if ("Ebooks".equals(word)) {
       return Arrays.asList("E-Books");
+    } else if ("R&B".equals(word)) {
+      return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {
@@ -304,12 +338,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
       return Arrays.asList("thanks");
+    } else if ("ty".equals(word)) {
+      return Arrays.asList("thank you", "thanks");
     } else if ("Sry".equals(word)) {
       return Arrays.asList("Sorry");
     } else if ("sry".equals(word)) {
       return Arrays.asList("sorry");
     } else if ("im".equals(word)) {
       return Arrays.asList("I'm");
+    } else if ("spoilt".equals(word)) {
+      return Arrays.asList("spoiled");
     } else if ("Lil".equals(word)) {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
@@ -324,6 +362,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("What are you", "What do you");
     } else if ("sinc".equals(word)) {
       return Arrays.asList("sync");
+    } else if ("Hongkong".equals(word)) {
+      return Arrays.asList("Hong Kong");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");
@@ -349,6 +389,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("well-being");
     } else if ("cuz".equals(word) || "coz".equals(word) ) {
       return Arrays.asList("because");
+    } else if ("pls".equals(word)) {
+      return Arrays.asList("please");
+    } else if ("Pls".equals(word)) {
+      return Arrays.asList("Please");
     } else if ("prio".equals(word)) {
       return Arrays.asList("priority");
     } else if ("prios".equals(word)) {
@@ -512,6 +556,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("don't you");
     } else if ("Dontcha".equals(word)) {
       return Arrays.asList("don't you");
+    } else if ("greatfruit".equals(word)) {
+      return Arrays.asList("grapefruit", "great fruit");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {

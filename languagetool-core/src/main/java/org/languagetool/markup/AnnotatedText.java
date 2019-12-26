@@ -104,12 +104,9 @@ public class AnnotatedText {
     if (plainTextPosition < 0) {
       throw new IllegalArgumentException("plainTextPosition must be >= 0: " + plainTextPosition);
     }
-
-    if(mapping.isEmpty()){
-
+    if (mapping.isEmpty()) {
       return 0;
     }
-
     int minDiff = Integer.MAX_VALUE;
     MappingValue bestMatch = null;
     // algorithm: find the closest lower position
@@ -126,49 +123,16 @@ public class AnnotatedText {
     if (bestMatch == null) {
       throw new RuntimeException("Could not map " + plainTextPosition + " to original position");
     }
-
     // we remove markup total length if usage of fake markup and need from position
     if (!isToPos && bestMatch.getFakeMarkupLength() > 0) {
-
       minDiff = bestMatch.getFakeMarkupLength();
     }
-
-    // we assume that when we have found the closest match there's a one-to-one mapping
-    // in this region, thus we can substract 'minDiff' to get the exact position.
-    // if the bestMatch is a fakeMarkup, substract it
+    // We assume that when we have found the closest match there's a one-to-one mapping
+    // in this region, thus we can subtract 'minDiff' to get the exact position.
+    // If the bestMatch is a fakeMarkup, subtract it:
     return bestMatch.getTotalPosition() - minDiff;
   }
-
-  public int getOriginalTextPositionForOld(int plainTextPosition) {
-    if (plainTextPosition < 0) {
-      throw new IllegalArgumentException("plainTextPosition must be >= 0: " + plainTextPosition);
-    }
-    Integer origPosition = mapping.get(plainTextPosition).getTotalPosition();
-    if (origPosition != null) {
-      return origPosition;
-    }
-    int minDiff = Integer.MAX_VALUE;
-    Integer bestMatch = null;
-    // algorithm: find the closest lower position
-    for (Map.Entry<Integer, MappingValue> entry : mapping.entrySet()) {
-      int maybeClosePosition = entry.getKey();
-      if (plainTextPosition > maybeClosePosition) {
-        int diff = plainTextPosition - maybeClosePosition;
-        if (diff >= 0 && diff < minDiff) {
-          bestMatch = entry.getValue().getTotalPosition();
-          minDiff = diff;
-        }
-      }
-    }
-    if (bestMatch == null) {
-      throw new RuntimeException("Could not map " + plainTextPosition + " to original position");
-    }
-    // we assume that when we have found the closest match there's a one-to-one mapping
-    // in this region, thus we can add 'minDiff' to get the exact position:
-    return bestMatch + minDiff;
-  }
-
-
+  
   /**
    * @since 3.9
    */

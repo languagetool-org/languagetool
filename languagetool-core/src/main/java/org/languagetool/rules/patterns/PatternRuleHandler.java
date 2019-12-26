@@ -680,7 +680,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setDefaultOff();
     }
     if (defaultTempOff) {
-      rule.setDefaultOff();
       rule.setDefaultTempOff();
     }
     if (url != null && url.length() > 0) {

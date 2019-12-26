@@ -679,8 +679,7 @@ public class MultiDocumentsHandler {
     private void insertRule (int minPara, String RuleId) {
       if(minPara < 0) {
         int n = minToCheckParagraph.indexOf(minPara);
-        if( n >= 0) {
-        } else {
+        if( n < 0) {
           minToCheckParagraph.add(minPara);
           textLevelRules.add(new ArrayList<String>());
         }

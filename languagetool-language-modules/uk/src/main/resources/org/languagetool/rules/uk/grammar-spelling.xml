@@ -1014,6 +1014,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>Бі-Бі-Сі</suggestion>
         <example correction="BBC|Бі-Бі-Сі">повідомляє <marker>ВВС</marker> Україна.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ІР-[а-яіїєґ].*</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion><match no="1" regexp_match="ІР(.*)" regexp_replace="IP$1"/></suggestion>
+        <example correction="IP-адреса"><marker>ІР-адреса</marker>.</example>
+        <example>ІР-21</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">МАС-адрес.*</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських</message>
+        <suggestion><match no="1" regexp_match="МАС(.*)" regexp_replace="MAC$1"/></suggestion>
+        <example correction="MAC-адреса"><marker>МАС-адреса</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ТВ-[а-яіїєґ].*</token>
+        </pattern>
+        <message>Потенційна помилка: ТВ замість ТБ</message>
+        <suggestion><match no="1" regexp_match="ТВ(.*)" regexp_replace="ТБ$1"/></suggestion>
+        <example correction="ТБ-шоу"><marker>ТВ-шоу</marker>.</example>
+        <example>ТВ-21</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="KVT_HOD" name="кВт*год">

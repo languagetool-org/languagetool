@@ -95,9 +95,9 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("ist|war")
     ),
     Arrays.asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      posRegex("EIG:.*"),
-      new PatternTokenBuilder().csToken("und").setSkip(2).build(),
+      posRegex(JLanguageTool.SENTENCE_START_TAGNAME+"|KON:UNT"),
+      posRegex("(EIG|SUB):.*"),
+      new PatternTokenBuilder().csToken("und").setSkip(3).build(),
       tokenRegex("sind|waren")
     ),
     Arrays.asList(
@@ -196,10 +196,7 @@ public class SubjectVerbAgreementRule extends Rule {
                       && !hasUnknownTokenToTheLeft(tokens, i)
                       && !hasQuestionPronounToTheLeft(tokens, i-1)
                       && !hasVerbToTheLeft(tokens, i-1)
-                      && !containsRegexToTheLeft("wer", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)alle[nr]?", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)jede[rs]?", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)manche[nrs]?", tokens, i-1)
+                      && !containsRegexToTheLeft("wer|(?i)alle[nr]?|(?i)jede[rs]?|(?i)manche[nrs]?", tokens, i-1)
                       && !containsOnlyInfinitivesToTheLeft(tokens, i-1);
       if (match) {
         String message = "Bitte prüfen, ob hier <suggestion>" + getPluralFor(tokenStr) + "</suggestion> stehen sollte.";

@@ -218,23 +218,13 @@ public class MultiWordChunker2 extends AbstractDisambiguator {
   }
 
   private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
-    String old = oldReading.toString();
-    String prevAnot = oldReading.getHistoricalAnnotations();
-
-    List<AnalyzedToken> initialNewReadings = removeOtherReadings ? Arrays.asList(newReading) : oldReading.getReadings();
-    AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(initialNewReadings, oldReading.getStartPos());
-    newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
-    if( ! removeOtherReadings ) {
-      newAtr.addReading(newReading);
+    List<AnalyzedToken> newAnalyzedTokenList = new ArrayList<AnalyzedToken>();
+    if(!removeOtherReadings) {
+      newAnalyzedTokenList.addAll(oldReading.getReadings());
     }
-    newAtr.setHistoricalAnnotations(annotateToken(prevAnot, old, newAtr.toString()));
-    newAtr.setChunkTags(oldReading.getChunkTags());
-    
+    newAnalyzedTokenList.add(newReading);
+    AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading, newAnalyzedTokenList, "MULTIWORD_CHUNKER"); 
     return newAtr;
-  }
-  
-  private String annotateToken(String prevAnot, String oldReading, String newReading) {
-    return prevAnot + "\nMULTIWORD_CHUNKER: " + oldReading + " -> " + newReading;
   }
 
   private List<String> loadWords(InputStream stream) {

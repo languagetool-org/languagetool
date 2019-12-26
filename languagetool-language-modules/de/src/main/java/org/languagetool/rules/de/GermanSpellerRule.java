@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -213,6 +214,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("Mysql", "MySQL");
+    put("MWST", "MwSt");
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("[pP][qQ]-Formel", "p-q-Formel");
@@ -225,7 +227,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
     put("weibt", "weißt");
+    put("fress", "friss");
     put("Mamma", "Mama");
+    put("Präse", "Präsentation");
+    put("Präsen", "Präsentationen");
+    put("Orga", "Organisation");
+    put("Orgas", "Organisationen");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
@@ -242,6 +249,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
     putRepl("Einzigste[mnrs]?", "zigst", "zig");
+    putRepl("Invests?", "Invest", "Investment");
     putRepl("(aller)?einzie?gste[mnrs]?", "(aller)?einzie?gst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("[iI]ntersannt(e[mnrs]?)?", "sannt", "essant");
@@ -255,7 +263,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[gG]ottseidank", "[gG]ottseidank", "Gott sei Dank");
     putRepl("[gG]rundauf", "[gG]rundauf", "Grund auf");
     putRepl("[aA]nsichtnach", "[aA]nsicht", "Ansicht ");
-    putRepl("[uU]nswar", "swar", "d zwar");
+    putRepl("[uU]n[sz]war", "[sz]war", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
     putRepl("Probiren?", "ir", "ier");
@@ -463,6 +471,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Tankungen", w -> Arrays.asList("Betankungen", "Tankvorgänge"));
     put("Ärcker", w -> Arrays.asList("Erker", "Ärger"));
     put("überlasstet", w -> Arrays.asList("überlastet", "überließt"));
+    put("zeren", w -> Arrays.asList("zerren", "zehren"));
+    put("Hänchen", w -> Arrays.asList("Hähnchen", "Hänschen"));
     put("[sS]itwazion", "Situation");
     put("geschriehen", "geschrien");
     put("beratete", "beriet");
@@ -475,7 +485,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geschmelt?zt", "geschmolzen");
     put("gewunschen", "gewünscht");
     put("bittete", "bat");
-    putRepl("[uU]nfär(e[mnrs]?)?", "fär", "fair");
+    put("möchst", "möchtest");
+    put("anschein[dt]", "anscheinend");
+    put("Subvestitionen", "Subventionen");
+    put("angeschaffen", "angeschafft");
+    put("Rechtspruch", "Rechtsspruch");
+    put("guterletzt", "guter Letzt");
+    putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
+    putRepl("[uU]nfäh?r(e[mnrs]?)?", "fäh?r", "fair");
     putRepl("[mM]edikatös(e[mnrs]?)?", "ka", "kamen");
     putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
     putRepl("[gG]roßzüge[mnrs]?", "züg", "zügig");
@@ -550,6 +567,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("D[eèé]ja-?[vV]o?ue?", "Déjà-vu");
     put("Cr[eèé]me-?fra[iî]che", "Crème fraîche");
     put("[aA]rr?an?gemont", "Arrangement");
+    put("[aA]ngagemon", "Engagement");
     put("Phyrr?ussieg", "Pyrrhussieg");
     put("Mio", "Mio.");
     put("Datein", "Dateien");
@@ -930,9 +948,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     try {
       String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
-        // spell data will not exist in LibreOffice/OpenOffice context
-        List<String> paths = Arrays.asList("/de/hunspell/spelling.txt");
+      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {  // spell data will not exist in LibreOffice/OpenOffice context
+        List<String> paths = Arrays.asList(
+          "/de/hunspell/spelling.txt",
+          "/de/hunspell/spelling_custom.txt",
+          "spelling_global.txt"
+        );
         List<InputStream> streams = new ArrayList<>();
         for (String path : paths) {
           // add separation between streams so that missing newlines at the end don't join the last & first line from two files
@@ -941,6 +962,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             Charset.defaultCharset().encode(separation).array());
           streams.add(separationStream);
           streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
+          streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
         }
         try (BufferedReader br = new BufferedReader(
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
