@@ -14674,6 +14674,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='fhoghlaim'>Níorbh fhada, ámh, gur <marker>d'fhoghlaim</marker> sí an téarma ceart uathu.</example>
             <example>Nílim ag rá gur d'aon ghuth a ainmníodh Sheehy.</example>
         </rule>
+        <rule id="RFORMPREP_INITIALDAPOSTF" name="inar d'fhoghlaim">
+            <pattern>
+                <token regexp="yes">dár|(?:faoi|i|le|ó|trí)nar</token>
+                <marker>
+                    <token regexp="yes">dh?</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <token postag=".*Verb.*" postag_regexp="yes" spacebefore="ignore"></token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘d’ gan ghá: <suggestion>\4</suggestion></message>
+            <short>Réamhlitir ‘d’ gan ghá</short>
+            <example correction='fhoghlaim'>inar <marker>d'fhoghlaim</marker></example>
+        </rule>
         <rule id="AR_INITIALDAPOSTF" name="ar d'fhoghlaim">
             <pattern>
                 <token regexp="yes">ar|cár|char|nár|níor</token>
