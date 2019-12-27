@@ -25,7 +25,7 @@ sub unfada {
 
 while(<>) {
     chomp;
-    if(/<[^>]+>([^<]+)<\/[^>]+>:IONADAI\{([^}]+)\}/) {
+    if(/^(?:<[^>]+>)?([^< ]+)(?:<\/[^>]+>)? (?:<[^>]+>)?INITIALBAPOST(?:<\/[^>]+>)?:BACHOIR\{([^}]+)\}/) {
         write_rule($1, $2);
     }
 }
@@ -38,13 +38,14 @@ sub write_rule {
     $in =~ s/.\?//g;
     my $uin1 = uc(unfada($in));
     print<<__END__;
-        <rule id="${uin1}" name="$in">
+        <rule id="${uin1}_BAPOST" name="$in b'">
             <pattern>
                 <token$regex>$tok</token>
+                <token>b</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
             </pattern>
-            <message>Focal ceart ach tá <suggestion>$out</suggestion> níos coitianta.</message>
-            <short>Neamhchoitianta</short>
-            <example correction="$out"><marker>$in</marker></example>
+            <message>Ba chóir duit <suggestion>$out</suggestion> a scríobh.</message>
+            <example correction="$out"><marker>$in b'</marker></example>
         </rule>
 __END__
 }
