@@ -13077,18 +13077,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
             <example correction="níor"><marker>níorbh</marker> ?</example>
         </rule>
-        <!-- <S>óna</S> <VPAST>ANYTHING</VPAST>:BACHOIR{ónar} -->
+        <!-- <S>óna<\/S> <VPAST>ANYTHING</VPAST>:BACHOIR{ónar} -->
         <rule id="ONA_VPAST" name="óna ?">
             <pattern>
                 <marker>
                     <token>óna</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
             <example correction="ónar"><marker>óna</marker> ?</example>
         </rule>
-        <!-- <S>ónar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{óna} -->
         <rule id="ONAR_VNOTPAST" name="ónar ?">
             <pattern>
                 <marker>
@@ -13097,7 +13096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
-            <example correction="óna"><marker>ónar</marker> ?</example>
+            <example correction="óna">Seo teaghlach ag a bhfuil go leor fadhbanna agus <marker>ónar</marker> dteastaíonn tacaíocht atá dírithe.</example>
         </rule>
         <!-- <S>ónar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{óna} -->
         <rule id="ONAR_PASTNORFORMLEN" name="ónar ?">
