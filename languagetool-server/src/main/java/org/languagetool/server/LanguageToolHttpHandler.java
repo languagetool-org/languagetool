@@ -92,6 +92,11 @@ class LanguageToolHttpHandler implements HttpHandler {
           path = "/" + path;
         }
       }
+      if (path.startsWith("/v2/stop") && config.isStoppable()) {
+        logger.warn("Server stopped by external command");
+        shutdown();
+        return;
+      }
       if (path.startsWith("/v2/")) {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = path.substring("/v2/".length());
