@@ -786,6 +786,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>dank</token>
+                    <token>im</token>
+                    <token>voraus</token>
+                    <token postag="PKT" />
+                </antipattern>
+                <antipattern>
+                    <token>dank</token>
+                    <token>im</token>
+                    <token postag="SENT_END">voraus</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -800,6 +811,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ihm">Er schaffte es nicht, sich bei <marker>im</marker> zu bedanken.</example>
                 <example correction="ihm">Sie schaute <marker>im</marker> zu.</example>
                 <example>Tom ist nicht besonders gut im rückwärts Einparken.</example>
+                <example>Vielen Dank im voraus.</example><!-- different error (voraus -> Voraus, caught by IM_KLAREN) -->
+
             </rule>
         </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
