@@ -11816,6 +11816,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='dhá'>in <marker>dá</marker></example>
         </rule>
         <rule id="IN_INITIALCONSONANT" name="in INITIALCONSONANT">
+            <antipattern>
+                <token>in</token>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token regexp="yes">&vowelnumeral;</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>bhur</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>dhá</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>in</token>
@@ -11824,6 +11840,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>i</suggestion> a scríobh.</message>
             <example correction='i'><marker>in</marker> bpáirc</example>
+            <example correction='i'>Thug sé seo deis dom breathnú <marker>in</marker> mo thimpeall.</example>
+            <example correction='i'>Phós sí Pádraig, fear ón mBlascaod Mór, <marker>in</marker> 1982.</example>
+            <example>Theastaigh uaibh beirt bheith in bhur scríbhneoirí.</example>
+            <example>Beidh an spórt seo á imirt in dhá ionad.</example>
         </rule>
         <rule id="NA_DHÁ" name="na dhá">
             <pattern>
@@ -12437,19 +12457,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
             <example correction="cha"><marker>char</marker> fuair</example>
         </rule>
-        <!-- <C>dá</C> <VNOTCOND>ANYTHING</VNOTCOND>:BACHOIR{má} -->
-        <rule id="DA_VNOTCOND" name="dá ?">
+        <rule id="DA_VNOTCOND" name="dá tá">
             <pattern>
                 <marker>
                     <token>dá</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Cond.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>má</suggestion> a scríobh.</message>
-            <example correction="má"><marker>dá</marker> ?</example>
+            <example correction="má"><marker>dá</marker> tá</example>
         </rule>
-        <!-- <V cop="y">dar</V> INITIALVOWEL:BACHOIR{darb, darbh} -->
-        <rule id="DAR_INITIALVOWEL" name="dar ?">
+        <rule id="DAR_INITIALVOWEL" name="dar as">
             <pattern>
                 <marker>
                     <token>dar</token>
@@ -12457,10 +12475,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
             <message>Ba chóir duit “darb, darbh” a scríobh.</message>
-            <example correction=""><marker>dar</marker> ?</example>
+            <example correction=""><marker>dar</marker> as</example>
         </rule>
-        <!-- <V cop="y">dar</V> LENITEDF:BACHOIR{darbh} -->
-        <rule id="DAR_LENITEDF" name="dar ?">
+        <rule id="DAR_LENITEDF" name="dar fháltas">
             <pattern>
                 <marker>
                     <token>dar</token>
@@ -12468,10 +12485,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&lenitedf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>darbh</suggestion> a scríobh.</message>
-            <example correction="darbh"><marker>dar</marker> ?</example>
+            <example correction="darbh"><marker>dar</marker> fháltas</example>
         </rule>
-        <!-- <V cop="y">darb</V> INITIALCONSONANT:BACHOIR{dar} -->
-        <rule id="DARB_INITIALCONSONANT" name="darb ?">
+        <rule id="DARB_INITIALCONSONANT" name="darb ndóigh">
             <pattern>
                 <marker>
                     <token>darb</token>
@@ -12479,10 +12495,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialconsonant;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
-            <example correction="dar"><marker>darb</marker> ?</example>
+            <example correction="dar"><marker>darb</marker> ndóigh</example>
         </rule>
-        <!-- <V cop="y">darbh</V> NONVOWELNONF:BACHOIR{dar} -->
-        <rule id="DARBH_NONVOWELNONF" name="darbh ?">
+        <rule id="DARBH_NONVOWELNONF" name="darbh le">
             <pattern>
                 <marker>
                     <token>darbh</token>
@@ -12490,10 +12505,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
-            <example correction="dar"><marker>darbh</marker> ?</example>
+            <example correction="dar"><marker>darbh</marker> le</example>
         </rule>
-        <!-- dár <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{dá} -->
-        <rule id="DAR_VNOTPAST" name="dár ?">
+        <rule id="DAR_VNOTPAST" name="dár mbéadh">
             <pattern>
                 <marker>
                     <token>dár</token>
@@ -12501,7 +12515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
-            <example correction="dá"><marker>dár</marker> ?</example>
+            <example correction="dá"><marker>dár</marker> mbéadh</example>
         </rule>
         <rule id="DAR_PASTNORFORMLEN" name="dár fuair">
             <pattern>
@@ -12522,8 +12536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="d'obair"><marker>do obair</marker></example>
             <example correction="d'airteagail">Is amhlaidh a bheidh freisin do na tagairtí <marker>do airteagail</marker>.</example>
         </rule>
-        <!-- <S>faoina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{faoinar} -->
-        <rule id="FAOINA_VPAST" name="faoina ?">
+        <rule id="FAOINA_VPAST" name="faoina tharla">
             <pattern>
                 <marker>
                     <token>faoina</token>
@@ -12531,10 +12544,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
-            <example correction="faoinar"><marker>faoina</marker> ?</example>
+            <example correction="faoinar">Is dócha go raibh a fhios ag Arlene <marker>faoina</marker> tharla.</example>
         </rule>
-        <!-- <S>faoinar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{faoina} -->
-        <rule id="FAOINAR_VNOTPAST" name="faoinar ?">
+        <rule id="FAOINAR_VNOTPAST" name="faoinar bhfuil">
             <pattern>
                 <marker>
                     <token>faoinar</token>
@@ -12542,7 +12554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
-            <example correction="faoina"><marker>faoinar</marker> ?</example>
+            <example correction="faoina"><marker>faoinar</marker> bhfuil</example>
         </rule>
         <rule id="FAOINAR_PASTNORFORMLEN" name="faoinar fuair">
             <pattern>
@@ -12554,19 +12566,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
             <example correction="faoina"><marker>faoinar</marker> fuair</example>
         </rule>
-        <!-- <V cop="y">faoinar</V> INITIALVOWEL:BACHOIR{faoinarb, faoinarbh} -->
-        <rule id="FAOINAR_INITIALVOWEL" name="faoinar ?">
+        <rule id="FAOINAR_INITIALVOWEL" name="faoinar iníoctha">
             <pattern>
                 <marker>
                     <token>faoinar</token>
                 </marker>
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>faoinarb, faoinarbh</suggestion> a scríobh.</message>
-            <example correction="faoinarb, faoinarbh"><marker>faoinar</marker> ?</example>
+            <message>Ba chóir duit “faoinarb, faoinarbh” a scríobh.</message>
+            <example correction="">cíos feo-fheirme, pé acu a bhunaíos nó nach mbunaíonn an deontas <marker>faoinar</marker> iníoctha é comhbhaint thiarna talún agus tionónta</example>
         </rule>
-        <!-- <V cop="y">faoinar</V> LENITEDF:BACHOIR{faoinarbh} -->
-        <rule id="FAOINAR_LENITEDF" name="faoinar ?">
+        <rule id="FAOINAR_LENITEDF" name="faoinar fhéidir ">
             <pattern>
                 <marker>
                     <token>faoinar</token>
@@ -12574,10 +12584,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&lenitedf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoinarbh</suggestion> a scríobh.</message>
-            <example correction="faoinarbh"><marker>faoinar</marker> ?</example>
+            <example correction="faoinarbh"><marker>faoinar</marker> fhéidir </example>
         </rule>
-        <!-- <V cop="y">faoinarb</V> INITIALCONSONANT:BACHOIR{faoinar} -->
-        <rule id="FAOINARB_INITIALCONSONANT" name="faoinarb ?">
+        <rule id="FAOINARB_INITIALCONSONANT" name="faoinarb cláraíodh">
             <pattern>
                 <marker>
                     <token>faoinarb</token>
@@ -12585,7 +12594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialconsonant;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
-            <example correction="faoinar"><marker>faoinarb</marker> ?</example>
+            <example correction="faoinar"><marker>faoinarb</marker> cláraíodh é</example>
         </rule>
         <!-- <V cop="y">faoinarbh</V> NONVOWELNONF:BACHOIR{faoinar} -->
         <rule id="FAOINARBH_NONVOWELNONF" name="faoinarbh ?">
