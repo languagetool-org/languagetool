@@ -12537,6 +12537,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="d'airteagail">Is amhlaidh a bheidh freisin do na tagairtí <marker>do airteagail</marker>.</example>
         </rule>
         <rule id="FAOINA_VPAST" name="faoina tharla">
+            <antipattern>
+                <token>faoina</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>faoina</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>faoina</token>
@@ -12607,6 +12615,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="faoinar"><marker>faoinarbh</marker> cláraíodh</example>
         </rule>
         <rule id="GO_VPAST" name="go éirigh">
+            <antipattern>
+                <token>go</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>go</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>go</token>
@@ -12634,7 +12650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&pastnorformlen;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
-            <example correction="go"><marker>gur</marker> fuair</example>
+            <example correction="go">Bhraith mé <marker>gur</marker> fuair mé boladh trom tais uathu.</example>
         </rule>
         <!-- <V cop="y">gur</V> LENITEDF:BACHOIR{gurbh} -->
         <rule id="GUR_LENITEDF" name="gur ?">
@@ -13028,8 +13044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>nárbh</suggestion> a scríobh.</message>
             <example correction="nárbh"><marker>nár</marker> oibreofá</example>
         </rule>
-        <!-- <V cop="y">nárbh</V> NONVOWELNONF:BACHOIR{nár} -->
-        <rule id="NARBH_NONVOWELNONF" name="nárbh ?">
+        <rule id="NARBH_NONVOWELNONF" name="nárbh cailleadh">
             <pattern>
                 <marker>
                     <token>nárbh</token>
@@ -13037,10 +13052,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
-            <example correction="nár"><marker>nárbh</marker> ?</example>
+            <example correction="nár">Déarfadh sé féin <marker>nárbh</marker> cailleadh riamh é.</example>
         </rule>
-        <!-- ní <VPAST>ANYTHING</VPAST>:BACHOIR{níor} -->
-        <rule id="NI_VPAST" name="ní ?">
+        <rule id="NI_VPAST" name="ní chuireadar">
+            <antipattern>
+                <token>ní</token>
+                <token regexp="yes">&pastafterni;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>ní</token>
@@ -13048,7 +13066,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
-            <example correction="níor"><marker>ní</marker> ?</example>
+            <example correction="Níor"><marker>Ní</marker> chuireadar aon áthas ar Mhac Dara.</example>
+            <example>Ní dúirt sé cad a bhí déanta acu.</example>
         </rule>
         <rule id="NIOR_VNOTPAST" name="níor ?">
             <pattern>
@@ -13080,8 +13099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>níorbh</suggestion> a scríobh.</message>
             <example correction="níorbh"><marker>níor</marker> fhada</example>
         </rule>
-        <!-- <V cop="y">níorbh</V> NONVOWELNONF:BACHOIR{níor} -->
-        <rule id="NIORBH_NONVOWELNONF" name="níorbh ?">
+        <rule id="NIORBH_NONVOWELNONF" name="níorbh bhog">
             <pattern>
                 <marker>
                     <token>níorbh</token>
@@ -13089,7 +13107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
-            <example correction="níor"><marker>níorbh</marker> ?</example>
+            <example correction="níor"><marker>Níorbh</marker> bhog sí</example>
         </rule>
         <!-- <S>óna<\/S> <VPAST>ANYTHING</VPAST>:BACHOIR{ónar} -->
         <rule id="ONA_VPAST" name="óna ?">
@@ -13283,8 +13301,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
             <example correction="sular"><marker>sularbh</marker> ?</example>
         </rule>
-        <!-- <S>trína</S> <VPAST>ANYTHING</VPAST>:BACHOIR{trínar} -->
         <rule id="TRINA_VPAST" name="trína ?">
+            <antipattern>
+                <token>trína</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>trína</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>trína</token>
@@ -13292,7 +13317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
-            <example correction="trínar"><marker>trína</marker> ?</example>
+            <example correction="trínar">Ba é an gleann cúng <marker>trína</marker> ghabh an abhainn.</example>
         </rule>
         <rule id="TRINAR_VNOTPAST" name="trínar bhfuil">
             <pattern>
