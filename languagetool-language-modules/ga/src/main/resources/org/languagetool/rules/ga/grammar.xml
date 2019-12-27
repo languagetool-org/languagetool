@@ -12407,7 +12407,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="char"><marker>cha</marker> bhfaca</example>
             <example>Cha dtug mé cur síos ach ar dhá bhabhta collaíochta san úrscéal ar fad.</example>
         </rule>
-        <!-- <U>cha</U> INITIALVOWELORF:BACHOIR{chan} -->
         <rule id="CHA_INITIALVOWELORF" name="cha oibreofá">
             <pattern>
                 <marker>
@@ -12515,16 +12514,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
             <example correction="dá"><marker>dár</marker> fuair</example>
         </rule>
-        <!-- d[eo] <N>INITIALVOWELORF</N>:BACHOIR{d'} -->
-        <rule id="DE_INITIALVOWELORF" name="de ?">
+        <rule id="DE_INITIALVOWELORF" name="de obair">
             <pattern>
-                <marker>
-                    <token>d[eo]</token>
-                </marker>
+                <token regexp="yes">d[eo]</token>
                 <token regexp="yes">&initialvowelorf;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>d'</suggestion> a scríobh.</message>
-            <example correction="d'"><marker>d[eo]</marker> ?</example>
+            <message>Ba chóir duit <suggestion>d'\2</suggestion> a scríobh.</message>
+            <example correction="d'obair"><marker>do obair</marker></example>
+            <example correction="d'airteagail">Is amhlaidh a bheidh freisin do na tagairtí <marker>do airteagail</marker>.</example>
         </rule>
         <!-- <S>faoina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{faoinar} -->
         <rule id="FAOINA_VPAST" name="faoina ?">
@@ -12993,8 +12990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
             <example correction="nach"><marker>nár</marker> fuair</example>
         </rule>
-        <!-- <V cop="y">nár</V> INITIALVOWELORF:BACHOIR{nárbh} -->
-        <rule id="NAR_INITIALVOWELORF" name="nár ?">
+        <rule id="NAR_INITIALVOWELORF" name="nár oibreofá">
             <pattern>
                 <marker>
                     <token>nár</token>
@@ -13002,7 +12998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialvowelorf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>nárbh</suggestion> a scríobh.</message>
-            <example correction="nárbh"><marker>nár</marker> ?</example>
+            <example correction="nárbh"><marker>nár</marker> oibreofá</example>
         </rule>
         <!-- <V cop="y">nárbh</V> NONVOWELNONF:BACHOIR{nár} -->
         <rule id="NARBH_NONVOWELNONF" name="nárbh ?">
