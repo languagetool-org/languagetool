@@ -12606,8 +12606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
             <example correction="faoinar"><marker>faoinarbh</marker> cláraíodh</example>
         </rule>
-        <!-- go <VPAST>ANYTHING</VPAST>:BACHOIR{gur} -->
-        <rule id="GO_VPAST" name="go ?">
+        <rule id="GO_VPAST" name="go éirigh">
             <pattern>
                 <marker>
                     <token>go</token>
@@ -12615,7 +12614,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
-            <example correction="gur"><marker>go</marker> ?</example>
+            <example correction="gur"><marker>go</marker> éirigh an ghrian</example>
         </rule>
         <rule id="GUR_VNOTPAST" name="gur bhfuil">
             <pattern>
@@ -13094,6 +13093,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!-- <S>óna<\/S> <VPAST>ANYTHING</VPAST>:BACHOIR{ónar} -->
         <rule id="ONA_VPAST" name="óna ?">
+            <antipattern>
+                <token>óna</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>óna</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>óna</token>
@@ -13203,8 +13210,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>sa, san</suggestion> a scríobh.</message>
             <example correction=""><marker>sna</marker> ?</example>
         </rule>
-        <!-- <C>sula</C> <VPAST>ANYTHING</VPAST>:BACHOIR{sular} -->
         <rule id="SULA_VPAST" name="sula ?">
+            <antipattern>
+                <token>sula</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>sula</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>sula</token>
@@ -13212,7 +13226,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
-            <example correction="sular"><marker>sula</marker> ?</example>
+            <example correction="Sular"><marker>Sula</marker> sroicheadar an bun arís, bhí an oíche ann agus chuadar ar strae.</example>
+            <example>Sula ndearna sé amhlaidh, más ea, léirigh sé a chreidiúint san fhoireann.</example>
         </rule>
         <!-- <C>sular</C> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{sula} -->
         <rule id="SULAR_VNOTPAST" name="sular ?">
