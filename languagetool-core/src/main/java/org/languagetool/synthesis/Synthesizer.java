@@ -57,7 +57,7 @@ public interface Synthesizer {
   
   /**
    * Spells out a number
-   * @param Number in arabic numerals 
+   * @param arabicNumeral in arabic numerals 
    * @return String of the spelled out number
    */
   
