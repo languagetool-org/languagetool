@@ -12219,6 +12219,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>arbh</suggestion> a scríobh.</message>
             <example correction="arbh"><marker>ar</marker> fhearr</example>
         </rule>
+        <rule id="ARB_INITIALCONSONANT" name="arb dhochtúir">
+            <pattern>
+                <marker>
+                    <token>arb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>arb</marker> dhochtúir é?</example>
+        </rule>
+        <rule id="ARBH_NONVOWELNONF" name="arbh dhochtúir">
+            <pattern>
+                <marker>
+                    <token>arbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>arbh</marker> dhochtúir é?</example>
+        </rule>
+        <rule id="BA_INITIALVOWELORF" name="ba álainn">
+            <pattern>
+                <marker>
+                    <token regexp="yes">m?ba</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit “b', ab” a scríobh.</message>
+            <example correction=""><marker>ba</marker> álainn</example>
+            <example correction=""><marker>Ba</marker> eol duit go hiomlán m'anam.</example>
+        </rule>
+        <rule id="INITIALC_VNOTCOP" name="cad déarfaidh">
+            <antipattern>
+                <token postag=".*:Cop:.*:Q.*|Pron:Q|Adv:Q.*" postag_regexp="yes" regexp="yes">c.*</token>
+                <token regexp="yes">&justata;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">cár?</token>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Cop:.*" postag_regexp="yes" /></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag=".*:Cop:.*:Q.*|Pron:Q|Adv:Q.*" postag_regexp="yes" regexp="yes">c.*</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*:Cop:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>\1 a</suggestion> a scríobh.</message>
+            <example correction="Cad a"><marker>Cad</marker> déarfaidh mé libh mar sin?</example>
+        </rule>
+        <rule id="CA_VPAST" name="cá imigh">
+            <antipattern>
+                <token>cá</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>cá</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>cá</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cár</suggestion> a scríobh.</message>
+            <!--example correction="Cár"><marker>Cá</marker> n-oibrigh an t-údar sular imigh sí le ceol?</example-->
+            <example correction="Cár"><marker>Cá</marker> ith</example>
+            <example>Cá raibh na rudaí go léir?</example>
+        </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
         <rule id="AICI" name="aicí">
