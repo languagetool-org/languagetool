@@ -11924,6 +11924,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='trínar'><marker>trí ar</marker></example>
         </rule>
         <rule id="SAN_NONVOWELNONF" name="san NONVOWELNONF">
+            <antipattern>
+                <token>san</token>
+                <token regexp="yes">&vowelordinal;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>san</token>
@@ -11932,6 +11936,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>sa</suggestion> a scríobh.</message>
             <example correction='sa'><marker>san</marker> bhaile</example>
+            <example correction="sa">Tugaimid faoi abhainn na Sionainne <marker>san</marker> bhád locha ó Ros Comáin.</example>
+            <example>Tógadh an foirgneamh féin san 18ú haois.</example>
         </rule>
         <rulegroup id="SNA_AON" name="sna aon">
             <rule>
@@ -13155,26 +13161,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="san"><marker>sa</marker> ?</example>
         </rule>
         <!-- <S>sa</S> <NP>ANYTHING</NP>:BACHOIR{sna} -->
-        <rule id="SA_ANYTHING" name="sa ?">
+        <rule id="SA_NP" name="sa ?">
             <pattern>
                 <marker>
                     <token>sa</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
             <example correction="sna"><marker>sa</marker> ?</example>
-        </rule>
-        <!-- <S>san</S> NONVOWELNONF:BACHOIR{sa} -->
-        <rule id="SAN_NONVOWELNONF" name="san ?">
-            <pattern>
-                <marker>
-                    <token>san</token>
-                </marker>
-                <token regexp="yes">&nonvowelnonf;</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>sa</suggestion> a scríobh.</message>
-            <example correction="sa"><marker>san</marker> ?</example>
         </rule>
         <!-- <S>sna</S> <NCS>ANYTHING</NCS>:BACHOIR{sa, san} -->
         <rule id="SNA_NCS" name="sna ?">
