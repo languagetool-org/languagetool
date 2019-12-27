@@ -13308,23 +13308,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sular"><marker>sularbh</marker> ?</example>
         </rule>
         <!-- <S>trína</S> <VPAST>ANYTHING</VPAST>:BACHOIR{trínar} -->
-        <rule id="TRINA_ANYTHING" name="trína ?">
+        <rule id="TRINA_VPAST" name="trína ?">
             <pattern>
                 <marker>
                     <token>trína</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
             <example correction="trínar"><marker>trína</marker> ?</example>
         </rule>
         <!-- <S>trínar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{trína} -->
-        <rule id="TRINAR_ANYTHING" name="trínar ?">
+        <rule id="TRINAR_VNOTPAST" name="trínar ?">
             <pattern>
                 <marker>
                     <token>trínar</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" negate_pos="yes" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
             <example correction="trína"><marker>trínar</marker> ?</example>
@@ -13349,7 +13349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>trínarb, trínarbh</suggestion> a scríobh.</message>
-            <example correction="trínarb, trínarbh"><marker>trínar</marker> ?</example>
+            <example correction=""><marker>trínar</marker> ?</example>
         </rule>
         <!-- <V cop="y">trínar</V> LENITEDF:BACHOIR{trínarbh} -->
         <rule id="TRINAR_LENITEDF" name="trínar ?">
