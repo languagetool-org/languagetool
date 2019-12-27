@@ -12249,34 +12249,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="b', ab"><marker>ba</marker> ?</example>
         </rule>
         <!-- <Q>INITIALC</Q> <VNOTCOP>ANYTHING</VNOTCOP>:BACHOIR{a} -->
-        <rule id="INITIALC_ANYTHING" name="INITIALC ?">
+        <rule id="INITIALC_VNOTCOP" name="INITIALC ?">
             <pattern>
                 <marker>
                     <token>INITIALC</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>a</suggestion> a scríobh.</message>
             <example correction="a"><marker>INITIALC</marker> ?</example>
         </rule>
         <!-- <Q>cá</Q> <VPAST>ANYTHING</VPAST>:BACHOIR{cár} -->
-        <rule id="CA_ANYTHING" name="cá ?">
+        <rule id="CA_VPAST" name="cá ?">
             <pattern>
                 <marker>
                     <token>cá</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>cár</suggestion> a scríobh.</message>
             <example correction="cár"><marker>cá</marker> ?</example>
         </rule>
         <!-- <Q>cár</Q> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{cá} -->
-        <rule id="CAR_ANYTHING" name="cár ?">
+        <rule id="CAR_VNOTPAST" name="cár ?">
             <pattern>
                 <marker>
                     <token>cár</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" negate_pos="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
             <example correction="cá"><marker>cár</marker> ?</example>
@@ -12287,7 +12287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>cár</token>
                 </marker>
-                <token regexp="yes">&pastnorformlen;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
             <example correction="cá"><marker>cár</marker> ?</example>
@@ -12381,12 +12381,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="cér"><marker>cérbh</marker> ?</example>
         </rule>
         <!-- <U>cha</U> <VPAST>ANYTHING</VPAST>:BACHOIR{char} -->
-        <rule id="CHA_ANYTHING" name="cha ?">
+        <rule id="CHA_VPAST" name="cha ?">
             <pattern>
                 <marker>
                     <token>cha</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>char</suggestion> a scríobh.</message>
             <example correction="char"><marker>cha</marker> ?</example>
@@ -12403,12 +12403,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="chan"><marker>cha</marker> ?</example>
         </rule>
         <!-- <U>char</U> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{cha} -->
-        <rule id="CHAR_ANYTHING" name="char ?">
+        <rule id="CHAR_VNOTPAST" name="char ?">
             <pattern>
                 <marker>
                     <token>char</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" negate_pos="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
             <example correction="cha"><marker>char</marker> ?</example>
@@ -12419,18 +12419,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>char</token>
                 </marker>
-                <token regexp="yes">&pastnorformlen;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
             <example correction="cha"><marker>char</marker> ?</example>
         </rule>
         <!-- <C>dá</C> <VNOTCOND>ANYTHING</VNOTCOND>:BACHOIR{má} -->
-        <rule id="DA_ANYTHING" name="dá ?">
+        <rule id="DA_VNOTCOND" name="dá ?">
             <pattern>
                 <marker>
                     <token>dá</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>má</suggestion> a scríobh.</message>
             <example correction="má"><marker>dá</marker> ?</example>
@@ -12480,12 +12480,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dar"><marker>darbh</marker> ?</example>
         </rule>
         <!-- dár <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{dá} -->
-        <rule id="DAR_ANYTHING" name="dár ?">
+        <rule id="DAR_VNOTPAST" name="dár ?">
             <pattern>
                 <marker>
                     <token>dár</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
             <example correction="dá"><marker>dár</marker> ?</example>
@@ -12511,17 +12511,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>d'</suggestion> a scríobh.</message>
             <example correction="d'"><marker>d[eo]</marker> ?</example>
-        </rule>
-        <!-- <S>DATIVEPREP</S> <N>EIRE</N>:BACHOIR{Éirinn} -->
-        <rule id="DATIVEPREP_EIRE" name="DATIVEPREP ?">
-            <pattern>
-                <marker>
-                    <token>DATIVEPREP</token>
-                </marker>
-                <token regexp="yes">&eire;</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>Éirinn</suggestion> a scríobh.</message>
-            <example correction="Éirinn"><marker>DATIVEPREP</marker> ?</example>
         </rule>
         <!-- <S>faoina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{faoinar} -->
         <rule id="FAOINA_ANYTHING" name="faoina ?">
