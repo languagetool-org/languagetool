@@ -12522,7 +12522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dá"><marker>dár</marker> ?</example>
         </rule>
         <!-- d[eo] <N>INITIALVOWELORF</N>:BACHOIR{d'} -->
-        <rule id="D[EO]_INITIALVOWELORF" name="d[eo] ?">
+        <rule id="DE_INITIALVOWELORF" name="de ?">
             <pattern>
                 <marker>
                     <token>d[eo]</token>
@@ -12533,12 +12533,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="d'"><marker>d[eo]</marker> ?</example>
         </rule>
         <!-- <S>faoina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{faoinar} -->
-        <rule id="FAOINA_ANYTHING" name="faoina ?">
+        <rule id="FAOINA_VPAST" name="faoina ?">
             <pattern>
                 <marker>
                     <token>faoina</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
             <example correction="faoinar"><marker>faoina</marker> ?</example>
@@ -12675,16 +12675,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
             <example correction="gur"><marker>gurbh</marker> ?</example>
         </rule>
-        <!-- <S>i</S> <N>ECLIPSEDVOWEL</N>:BACHOIR{in} -->
-        <rule id="I_ECLIPSEDVOWEL" name="i ?">
+        <rule id="I_ECLIPSEDVOWEL" name="i n-oifig">
             <pattern>
                 <marker>
                     <token>i</token>
                 </marker>
                 <token regexp="yes">&eclipsedvowel;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
-            <example correction="in"><marker>i</marker> ?</example>
+            <message>Ba chóir duit <suggestion>sa <match no="2" regexp_match="^n-?" regexp_replace=""/></suggestion> a scríobh.</message>
+            <example correction="in oifig"><marker>i n-oifig</marker></example>
         </rule>
         <rule id="I_INITIALVOWEL" name="i oifig">
             <pattern>
@@ -13205,7 +13204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>sula</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
             <example correction="sular"><marker>sula</marker> ?</example>
