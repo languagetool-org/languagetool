@@ -12110,19 +12110,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>go dtí</suggestion> a scríobh.</message>
             <example correction="go dtí">Bhí an teachtaireacht dulta <marker>go</marker> m'inchinn.</example>
         </rule>
-        <!-- <H>a</H> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
-        <rule id="A_VPAST" name="a ?">
+        <!-- <H>a</H>?
+# rule below, analogue of "cár", "níor", etc. (CB p.132 #5)
+# does not hold in general because "a" can also be the direct relative
+# conjunction, CB p. 132 #8; so can't have it with <U>a</U>...
+         -->
+        <rule id="A_VPAST" name="a bhris" default="temp_off">
             <pattern>
                 <marker>
                     <token>a</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
-            <example correction="ar"><marker>a</marker> ?</example>
+            <example correction="ar"><marker>a</marker> bhris</example>
         </rule>
-        <!-- <V cop="y">ab</V> NONVOWELNONF:BACHOIR{ba} -->
-        <rule id="AB_NONVOWELNONF" name="ab ?">
+        <rule id="AB_NONVOWELNONF" name="ab mhaith">
             <pattern>
                 <marker>
                     <token>ab</token>
@@ -12130,32 +12133,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>ba</suggestion> a scríobh.</message>
-            <example correction="ba"><marker>ab</marker> ?</example>
+            <example correction="Ba"><marker>Ab</marker>bhreá an bhean í, nár bhreá?</example>
         </rule>
-        <!-- <Q>an</Q> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
-        <rule id="AN_VPAST" name="an ?">
+        <rule id="AN_VPAST" name="an chuala">
             <pattern>
                 <marker>
                     <token>an</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
-            <example correction="ar"><marker>an</marker> ?</example>
+            <example correction="Ar"><marker>An</marker> chuir an bhean bheag mórán ceisteanna ort?</example>
         </rule>
-        <!-- <S>FUSEDPREP</S> <NP>ANYTHING</NP>:BACHOIR{na} -->
         <rule id="FUSEDPREP_NP" name="FUSEDPREP NP">
             <pattern>
                 <marker>
-                    <token postag="Prep:Art:Sg"></token>
+                    <token postag="Prep:Art:Sg" regexp="yes">&fusedprep;</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Noun:(Masc|Fem):Com:Sg(?::DefArt)?" postag_regexp="yes"></token>
             </pattern>
-            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
-            <example correction="na"><marker>FUSEDPREP</marker> ?</example>
+            <message>Ba chóir duit <suggestion><match no="1" postag="(Prep:)Art:Sg" postag_regexp="yes" postag_replace="$1Simp"/> na</suggestion> a scríobh.</message>
+            <example correction="faoi na"><marker>faoin</marker> gcainteoirí</example>
         </rule>
-        <!-- <S>ar</S> ECLIPSED:BACHOIR{ár} -->
-        <rule id="AR_ECLIPSED" name="ar ?">
+        <rule id="AR_ECLIPSED" name="ar gcuid">
             <pattern>
                 <marker>
                     <token>ar</token>
@@ -12163,32 +12163,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&eclipsed;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>ár</suggestion> a scríobh.</message>
-            <example correction="ár"><marker>ar</marker> ?</example>
+            <example correction="ár">Bhíomar ag féachaint ar an Ghaeltacht mar ionad chun feabhas a chur ar <marker>ar</marker> gcuid Gaeilge.</example>
         </rule>
-        <!-- <[QU]>ar</[QU]> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{a, an} -->
         <rule id="AR_PASTNORFORMLEN" name="ar ?">
             <pattern>
                 <marker>
                     <token>ar</token>
                 </marker>
-                <token regexp="yes">&pastnorformlen;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>a, an</suggestion> a scríobh.</message>
-            <example correction="a, an"><marker>ar</marker> ?</example>
+            <message>Ba chóir duit “a, an” a scríobh.</message>
+            <example correction="">Bhí daoine le fáil i Sasana a chreid gach <marker>ar</marker> dúradh sa bholscaireacht.</example>
         </rule>
-        <!-- <V cop="y">ar</V> INITIALVOWEL:BACHOIR{arb, arbh} -->
-        <rule id="AR_INITIALVOWEL" name="ar ?">
+        <rule id="AR_INITIALVOWEL" name="ar ea">
             <pattern>
                 <marker>
                     <token>ar</token>
                 </marker>
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>arb, arbh</suggestion> a scríobh.</message>
-            <example correction="arb, arbh"><marker>ar</marker> ?</example>
+            <message>Ba chóir duit “arb, arbh” a scríobh.</message>
+            <example correction=""><marker>Ar</marker> é a bhí ann?</example>
         </rule>
-        <!-- <V cop="y">ar</V> LENITEDF:BACHOIR{arbh} -->
-        <rule id="AR_LENITEDF" name="ar ?">
+        <rule id="AR_LENITEDF" name="ar fhearr">
             <pattern>
                 <marker>
                     <token>ar</token>
@@ -12196,7 +12193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&lenitedf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>arbh</suggestion> a scríobh.</message>
-            <example correction="arbh"><marker>ar</marker> ?</example>
+            <example correction="arbh"><marker>ar</marker> fhearr</example>
         </rule>
         <!-- <V cop="y">arb</V> INITIALCONSONANT:BACHOIR{ar} -->
         <rule id="ARB_INITIALCONSONANT" name="arb ?">
