@@ -13162,16 +13162,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
             <example correction="san">An bhfuil aon uachtar reoite agat <marker>sa</marker> oighear?</example>
         </rule>
-        <!-- <S>sa</S> ECLIPSEDVOWEL:BACHOIR{san} -->
         <rule id="SA_ECLIPSEDVOWEL" name="sa ?">
             <pattern>
-                <marker>
-                    <token>sa</token>
-                </marker>
+                <token>sa</token>
                 <token regexp="yes">&eclipsedvowel;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
-            <example correction="san"><marker>sa</marker> ?</example>
+            <message>Ba chóir duit <suggestion>sa <match no="2" regexp_match="^n-?" regexp_replace=""/></suggestion> a scríobh.</message>
+            <example correction="san eachtra">Gortaíodh ceathrar <marker>sa n-eachtra</marker>.</example>
         </rule>
         <!-- <S>sa</S> <NP>ANYTHING</NP>:BACHOIR{sna} -->
         <rule id="SA_NP" name="sa ?">
@@ -13338,8 +13335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
             <example correction="trínar"><marker>trínarbh</marker> ?</example>
         </rule>
-        <!-- <S>sa</S> VOWELORDINAL:BACHOIR{san} -->
-        <rule id="SA_VOWELORDINAL" name="sa ?">
+        <rule id="SA_VOWELORDINAL" name="sa 8ú">
             <pattern>
                 <marker>
                     <token>sa</token>
@@ -13347,7 +13343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&vowelordinal;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
-            <example correction="san"><marker>sa</marker> ?</example>
+            <example correction="san">Abairt a chuireann in iúl dearóile na hÉireann <marker>sa</marker> 18ú agus sa 19ú haois.</example>
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
