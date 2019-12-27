@@ -21581,7 +21581,7 @@ USA
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
         </rule>
-        <rule id="PRP_DINT" name="he dint (didn't)" default="temp_off">
+        <rule id="PRP_DINT" name="he dint (didn't)">
             <pattern>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
                 <marker>
@@ -21591,9 +21591,10 @@ USA
             <message>Did you mean <suggestion>didn't</suggestion>?</message>
             <example correction="didn't">He <marker>dint</marker> know about it.</example>
         </rule>
-        <rule id="PRP_HAVES" name="he haves (has)" default="temp_off">
+        <rule id="PRP_HAVES" name="he haves (has)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>haves</token>
                 </marker>
@@ -21601,9 +21602,10 @@ USA
             <message>Did you mean <suggestion>has</suggestion>?</message>
             <example correction="has">He <marker>haves</marker> no idea.</example>
         </rule>
-        <rule id="PRP_WONTS" name="he wonts (wants)" default="temp_off">
+        <rule id="PRP_WONTS" name="he wonts (wants)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>wonts</token>
                 </marker>
@@ -21611,17 +21613,19 @@ USA
             <message>Did you mean <suggestion>wants</suggestion>?</message>
             <example correction="wants">He <marker>wonts</marker> to go there.</example>
         </rule>
-        <rule id="PRP_SUITES" name="he suites (suits)" default="temp_off">
+        <rule id="PRP_SUITES" name="he suites (suits)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>suites</token>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion>suits</suggestion> (verb)?</message>
+            <message>Did you mean <suggestion>suits</suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/suit</url>
             <example correction="suits">He <marker>suites</marker> in the car.</example>
         </rule>
-        <rule id="PRP_MUS" name="he mus (must)" default="temp_off">
+        <rule id="PRP_MUS" name="he mus (must)">
             <pattern>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
                 <marker>
@@ -21629,49 +21633,58 @@ USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>must</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/must</url>
             <example correction="must">I <marker>mus</marker> admit that you are right.</example>
         </rule>
-        <rule id="PRP_NEDS" name="he neds (needs)" default="temp_off">
+        <rule id="PRP_NEDS" name="he neds (needs)">
             <pattern>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token regexp="yes">neds?</token>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="2" regexp_match="(?i)ed" regexp_replace="eed" /></suggestion>?</message>
+            <message>Did you mean <suggestion><match no="3" regexp_match="(?i)ed" regexp_replace="eed" /></suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/need</url>
             <example correction="needs">He <marker>neds</marker> to know about it.</example>
         </rule>
-        <rule id="PRP_DELT" name="he delt (dealt)" default="temp_off">
+        <rule id="PRP_DELT" name="he delt (dealt)">
             <pattern>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>delt</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>dealt</suggestion> (past tense of 'to deal')?</message>
+            <url>https://www.merriam-webster.com/dictionary/dealt</url>
             <example correction="dealt">He <marker>delt</marker> with it.</example>
         </rule>
-        <rule id="PRP_GOS" name="he gos (goes)" default="temp_off">
+        <rule id="PRP_GOS" name="he gos (goes)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>gos</token>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion>goes</suggestion>?</message>
+            <message>Did you mean <suggestion>goes</suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
         </rule>
-        <rule id="PRP_CAM" name="he cam (came)" default="temp_off">
+        <rule id="PRP_CAM" name="he cam (came)">
             <pattern>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
+                <token postag="RB" min="0" />
                 <marker>
                     <token>cam</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>came</suggestion> (past tense of 'to come')?</message>
+            <url>https://www.merriam-webster.com/dictionary/come</url>
             <example correction="came">He <marker>cam</marker> to help.</example>
         </rule>
-        <rule id="WASEN_T" name="he wasen't (wasn't)" default="temp_off">
+        <rule id="WASEN_T" name="he wasen't (wasn't)">
             <pattern>
                 <token regexp="yes">wasen|was|wasnt</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -21680,7 +21693,7 @@ USA
             <message>Did you mean <suggestion>wasn\2t</suggestion>?</message>
             <example correction="wasn't">He <marker>wasen't</marker> sure.</example>
         </rule>
-        <rule id="WASENT" name="he wasent (wasn't)" default="temp_off">
+        <rule id="WASENT" name="he wasent (wasn't)">
             <pattern>
                 <token regexp="yes">was[ie]nt</token>
             </pattern>
@@ -32292,7 +32305,7 @@ The accident victim died from her injuries.
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <token postag="JJ" min="0"/>
@@ -32309,7 +32322,7 @@ The accident victim died from her injuries.
                 <short>Missing hyphen</short>
                 <example correction="5,000-year">The country has an over <marker>5,000 year</marker> history of producing wine.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <token postag="JJ" min="0"/>
