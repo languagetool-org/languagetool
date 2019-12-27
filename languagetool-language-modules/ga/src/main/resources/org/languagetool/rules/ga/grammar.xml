@@ -12685,8 +12685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
             <example correction="in"><marker>i</marker> ?</example>
         </rule>
-        <!-- <S>i</S> <N>INITIALVOWEL</N>:BACHOIR{in} -->
-        <rule id="I_INITIALVOWEL" name="i ?">
+        <rule id="I_INITIALVOWEL" name="i oifig">
             <pattern>
                 <marker>
                     <token>i</token>
@@ -12694,10 +12693,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
-            <example correction="in"><marker>i</marker> ?</example>
+            <example correction="in"><marker>i</marker> oifig</example>
+            <example correction="in">Tá ainm <marker>i</marker> easnamh a mbeadh coinne agat leis.</example>
         </rule>
-        <!-- <S>ina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{inar} -->
-        <rule id="INA_VPAST" name="ina ?">
+        <rule id="INA_VPAST" name="ina dúradh">
+            <antipattern>
+                <token>ina</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>ina</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>ina</token>
@@ -12705,18 +12712,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
-            <example correction="inar"><marker>ina</marker> ?</example>
+            <example correction="inar"><marker>ina</marker> dúradh</example>
         </rule>
-        <!-- <S>inar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{ina} -->
-        <rule id="INAR_VNOTPAST" name="inar ?">
+        <rule id="INAR_VNOTPAST" name="inar bhfuil">
             <pattern>
                 <marker>
                     <token>inar</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
-            <example correction="ina"><marker>inar</marker> ?</example>
+            <example correction="ina"><marker>inar</marker> bhfuil</example>
         </rule>
         <!-- <S>inar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{ina} -->
         <rule id="INAR_PASTNORFORMLEN" name="inar ?">
@@ -13162,7 +13168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
             <example correction="san">An bhfuil aon uachtar reoite agat <marker>sa</marker> oighear?</example>
         </rule>
-        <rule id="SA_ECLIPSEDVOWEL" name="sa ?">
+        <rule id="SA_ECLIPSEDVOWEL" name="sa n-oifig">
             <pattern>
                 <token>sa</token>
                 <token regexp="yes">&eclipsedvowel;</token>
