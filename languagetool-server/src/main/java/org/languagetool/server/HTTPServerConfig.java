@@ -97,6 +97,7 @@ public class HTTPServerConfig {
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
+  protected boolean stoppable = false;
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -170,6 +171,9 @@ public class HTTPServerConfig {
           break;
         case NN_MODEL_OPTION:
           setNeuralNetworkModelDir(args[++i]);
+          break;
+        case "--stoppable":  // internal only, doesn't need to be documented
+          stoppable = true;
           break;
         default:
           if (args[i].contains("=")) {
@@ -921,6 +925,13 @@ public class HTTPServerConfig {
    */
   public List<String> getDisabledRuleIds() {
     return disabledRuleIds;
+  }
+
+  /**
+   * Whether the server can be stopped by sending a command (useful for tests only).
+   */
+  boolean isStoppable() {
+    return stoppable;
   }
   
   /**
