@@ -14700,6 +14700,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Réamhlitir ‘d’ gan ghá</short>
             <example correction='fhoghlaim'>níor <marker>d'fhoghlaim</marker></example>
         </rule>
+        <rule id="NONRFORMCONJ_INITIALDAPOSTF" name="go d'fhoghlaim">
+            <pattern>
+                <token regexp="yes">go|mura|sula</token>
+                <marker>
+                    <token regexp="yes">dh?</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <token postag="(?:C[MCU]:)?Verb(?::VTI|VT|VI|VD)?(?::Vow)?:Cond(?:[123]P:(?:Sg|Pl)(?:Emph))?(?:C[MCU])?" postag_regexp="yes" spacebefore="ignore"></token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘d’ gan ghá: <suggestion><match no="4" postag="(?:C[MCU]:)?(Verb(?::VTI|VT|VI|VD)?(?::Vow)?:Cond(?:[123]P:(?:Sg|Pl)(?:Emph))?)(?:C[MCU])?" postag_regexp="yes" postag_replace="$1:Ecl"/></suggestion></message>
+            <short>Réamhlitir ‘d’ gan ghá</short>
+            <example correction='n-athródh'>go <marker>d'athródh</marker></example>
+        </rule>
     </category>
     <!--
     <category name="MORPH" id="morph errors">
