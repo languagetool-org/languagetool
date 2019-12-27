@@ -25,7 +25,7 @@ sub unfada {
 
 while(<>) {
     chomp;
-    if(/^(?:<[^>]+>)?([^< ]+)(?:<\/[^>]+>)? (?:<[^>]+>)?INITIALMBAPOST(?:<\/[^>]+>)?:BACHOIR\{([^}]+)\}/) {
+    if(/^(?:<[^>]+>)?([^< ]+)(?:<\/[^>]+>)? (?:<[^>]+>)?INITIALMORDAPOST(?:<\/[^>]+>)?:BACHOIR\{([^}]+)\}/) {
         write_rule($1, $2);
     }
 }
@@ -38,14 +38,16 @@ sub write_rule {
     $in =~ s/.\?//g;
     my $uin1 = uc(unfada($in));
     print<<__END__;
-        <rule id="${uin1}_MBAPOST" name="$in b'">
+        <rule id="${uin1}_MORDAPOST" name="$in m'">
             <pattern>
-                <token$regex>$tok</token>
-                <token>mb</token>
+                <marker>
+                    <token$regex>$tok</token>
+                </marker>
+                <token regexp="yes">[md]</token>
                 <token regexp="yes" spacebefore="no">&apost;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>$out</suggestion> a scríobh.</message>
-            <example correction="$out"><marker>$in b'</marker></example>
+            <example correction="$out"><marker>$in</marker> m'</example>
         </rule>
 __END__
 }
