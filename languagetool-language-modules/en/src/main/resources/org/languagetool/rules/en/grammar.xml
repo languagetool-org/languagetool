@@ -2224,15 +2224,26 @@ USA
             <short>Possible typo</short>
             <example correction="bad">Sorry for my <marker>bed</marker> English.</example>
         </rule>
-        <rule id="WIFI" name="WiFi (Wi-Fi)">
-            <pattern>
-                <token>wifi</token>
-            </pattern>
-            <message>Did you mean <suggestion>Wi-Fi</suggestion>? (This is the officially approved term by the Wi-Fi Alliance.)</message>
+        <rulegroup id="WIFI" name="WiFi (Wi-Fi)">
             <url>https://www.merriam-webster.com/dictionary/wifi</url>
-            <short>Possible typo</short>
-            <example correction="Wi-Fi"><marker>WiFi</marker> is a technology for wireless local area networking with devices based on the IEEE 802.11 standards.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token>wifi</token>
+                </pattern>
+                <message>Did you mean <suggestion>Wi-Fi</suggestion>? (This is the officially approved term by the Wi-Fi Alliance.)</message>
+                <short>Possible typo</short>
+                <example correction="Wi-Fi"><marker>WiFi</marker> is a technology for wireless local area networking with devices based on the IEEE 802.11 standards.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wi</token>
+                    <token>fi</token>
+                </pattern>
+                <message>Did you mean <suggestion>Wi-Fi</suggestion>? (This is the officially approved term by the Wi-Fi Alliance.)</message>
+                <short>Possible typo</short>
+                <example correction="Wi-Fi"><marker>Wi Fi</marker> is a technology for wireless local area networking with devices based on the IEEE 802.11 standards.</example>
+            </rule>
+        </rulegroup>
         <rule id="SENT_START_THEM" name="'Them (Then)' at sentence start">
             <pattern>
                 <token postag="SENT_START"/>
@@ -6302,7 +6313,36 @@ USA
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token postag="JJ"/>
-                <token postag="PCT" />
+                <token postag="PCT|IN" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+                <token>you</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="JJ"/>
+                <token postag="VBZ" />
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="RB" min="0" />
+                <token postag="VBG" />
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="RB" />
+                <token postag="JJ" />
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="JJ" />
+                <token>that</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -6312,33 +6352,63 @@ USA
                     <token>re</token>
                 </marker>
                 <token>
-                    <exception regexp="yes">not|in|with|of|about</exception>
-                    <exception postag="VBG" />
+                    <exception regexp="yes">not|out</exception>
+                    <exception postag="DT|IN|UNKNOWN" postag_regexp="yes" />
+                    <exception postag="SENT_END" regexp="yes">&optional_short_adjectives;|&short_adjectives;|awesome|beautiful|ready|possible|dangerous|different|enough|t?here|right|wrong|left</exception>
                 </token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> your</suggestion>?</message>
             <example correction="visualizing your">Stop <marker>visualizing you're</marker> own demise.</example>
             <example correction="visualizing your">Stop <marker>visualizing you're</marker> problems</example>
+            <example correction="causing your">Zigbee is very low power compared to Wi-Fi so if zigbee is <marker>causing you’re</marker> Wi-Fi devices to fall offline…</example>
             <example>I'm hoping you're wrong.</example>
+            <example type="triggers_error">I’m hoping you’re right (about the schedule) for all kinds of reasons.</example>
             <example>I'm hoping you're right, Paul.</example>
             <example>I’m assuming you’re in the states since you’re on SSI?</example>
             <example>What do you mean by saying you're not satisfied?</example>
-            <example type="triggers_error">I'm hoping you're right</example><!-- no punctuation at end, no idea how to solve this via antipattern -->
+            <example>I'm hoping you're right</example>
             <example>But you’re saying you’re taking it too much and mixing it with alcohol.</example>
             <example>I’m assuming you’re referring to Faceted NRQL Alerting, here.</example>
+            <example>I’m assuming you’re on Windows.</example>
+            <example>Claiming you're Berber is not a crime.</example>
+            <example>I'm assuming you're out.</example>
+            <example>I’m assuming you’re familiar with the mechanism that is making them.</example>
+            <example>You mentioned NginX, so I’m assuming you’re just running a website on that port.</example>
+            <example>I’m assuming you’re mainly looking at synthetic browser queries.</example>
+            <example>I get what you’re saying, and I’m thinking you’re just half-serious</example>
+            <example>I’m guessing you’re munging the data that is saved somewhere.</example>
+            <example>I'm hoping you're the person who takes care of this book.</example>
+            <example>I’m assuming you’re aware that those lines shouldn’t be there.</example>
+            <example>I’m assuming you’re from the US.</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's you're::word=\0 your::pivots=your,you're::options=your,you're -->
         <rule id="THATS_YOURE" name="that's you're (your)">
-            <pattern>
-                <token regexp="yes">that|it|who|s?he|there</token>
-                <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                <token>s</token>
+            <antipattern>
+                <token postag="W.*" postag_regexp="yes" skip="2" />
+                <token regexp="yes">that|it|who|what|s?he|there</token>
+            </antipattern>
+            <antipattern>
                 <token>you</token>
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token>re</token>
+                <token postag="VBG" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">that|it|who|what|s?he|there</token>
+                <token spacebefore="no" regexp="yes" min="0">&apostrophe;</token>
+                <token regexp="yes">i?s</token>
+                <marker>
+                    <token>you</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>re</token>
+                </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> your</suggestion>?</message>
-            <example correction="that's your">Don't ask me, <marker>that's you're</marker> own problem.</example>
+            <message>Did you mean <suggestion>your</suggestion>?</message>
+            <example correction="your">Don't ask me, that's <marker>you're</marker> own problem.</example>
+            <example>It just goes to show that once you keep at whatever it is you're doing.</example>
+            <example correction="your">He’s <marker>you’re</marker> best bet.</example>
+            <example>It's WordPress that's you're having problems with.</example><!-- different error -->
+            <example correction="your">What is <marker>you're</marker> biggest regret?</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's they're::word=\0 their::pivots=they're,their::options=their,they're -->
         <rule id="THATS_THEYRE" name="that's they're (their)">
@@ -11967,6 +12037,20 @@ USA
                 <example correction="breath">They were out of their <marker>breathe</marker>.</example>
                 <example>Let's breathe the fresh air.</example>
             </rule>
+            <rule default="temp_off"><!-- the believe -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>believe</token>
+                    </marker>
+                </pattern>
+                <message>The word 'believe' is a verb. Did you mean the noun <suggestion>belief</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/belief</url>
+                <example correction="belief">My <marker>believe</marker> in god.</example>
+            </rule>
             <rule><!-- the advertise -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -13192,6 +13276,24 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rulegroup id="JONG_UN" name="Kim Jong-un" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Kim_Jong-un</url>
+            <rule>
+                <pattern>
+                    <token>jong</token>
+                    <token>un</token>
+                </pattern>
+                <message>Did you mean <suggestion>Jong-un</suggestion> (= person from North Korea)?</message>
+                <example correction="Jong-un">Kim <marker>Jong un</marker> lives in North Korea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jongun</token>
+                </pattern>
+                <message>Did you mean <suggestion>Jong-un</suggestion> (= person from North Korea)?</message>
+                <example correction="Jong-un">Kim <marker>Jongun</marker> lives in North Korea.</example>
+            </rule>
+        </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
                 <token>tik</token>
@@ -34204,6 +34306,19 @@ The accident victim died from her injuries.
                 <example correction="loose|loss">The <marker>lose</marker> of a good friend.</example>
                 <example correction="loose|loss">A <marker>lose</marker> tooth in a child often signals an exciting rite of passage.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">I|you|we|s?he|they|it</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>loss</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>lost</suggestion> (past tense of the verb 'lose')?</message>
+                <url>https://www.merriam-webster.com/dictionary/lose</url>
+                <short>Possible typo</short>
+                <example correction="lost">I <marker>loss</marker> a good friend.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GIVE_ADVISE" name="give/any/of advise (advice)">
             <url>https://www.grammar-monster.com/easily_confused/advice_advise.htm</url>
@@ -35675,7 +35790,7 @@ The accident victim died from her injuries.
         </rulegroup>
         <rule id="BELIEVE_BELIEF" name="believe (belief)">
             <pattern>
-                <token postag="JJ|PRP\$|W?DT" postag_regexp="yes"><exception postag="JJ|PRP\$|W?DT" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">former|th[eo]se|some|many|all</exception></token>
+                <token postag="JJ|PRP\$|W?DT" postag_regexp="yes"><exception postag="JJ|PRP\$|W?DT" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">former|th[eo]se|some|many|all|both</exception></token>
                 <marker>
                     <token regexp="yes">believes?</token>
                 </marker>
@@ -35691,6 +35806,8 @@ The accident victim died from her injuries.
             <example>Some <marker>believe</marker> the public should have the freedom.</example>
             <example>We all believe that it's true.</example>
             <example>My sister believes that I'll end up with someone really generic.</example>
+            <example>Ed Rendell is the type of Corporate Hack that supports Biden because they both believe in the Bribery System of Governance.</example>
+            <example type="triggers_error">Nayland Smith and Fu Manchu share a grudging respect for one another, as each believes that a man must keep his word, even to an enemy.</example>
         </rule>
         <rule id="BELIEF_BELIEVE" name="belief (believe)">
             <pattern>
@@ -43784,6 +43901,17 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>The official / recommended spelling of this holiday is: <suggestion>New Year's <match no="4" case_conversion="startupper"/></suggestion></message>
                 <example correction="New Year's Day">What did you do on <marker>New Years' Day</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>New</token>
+                    <token>Years</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">resolutions?|goals?|wish(es)?</token>
+                </pattern>
+                <message>It seems that a possessive apostrophe is missing.</message>
+                <suggestion>New Year's \4</suggestion>
+                <example correction="New Year's resolutions">What are your <marker>New Years resolutions</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup id="CAPITALIZATION_NNP_DERIVED" name="Capitalization of words derived from proper nouns"><!-- 1) AmE and BrE have different capitalization, but for simplicity, put all the terms in one general rule. If necessary, move the rule to the locale-specific directory and edit as necessary. 2) Cannot use <or> in the pattern; a rulegroup is necessary. -->
