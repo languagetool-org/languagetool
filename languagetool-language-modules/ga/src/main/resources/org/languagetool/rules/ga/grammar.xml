@@ -11519,6 +11519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction='na'>teach <marker>an</marker> mná</example>
+            <example correction='na'> Tá sin ráite cheana féin acu le muintir <marker>an</marker> tíre seo.</example>
         </rule>
         <rule id="AN_NP" name="an NP">
             <antipattern>
@@ -11533,6 +11534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction='na'>teach <marker>an</marker> mban</example>
+	    <example correction='na'> Is é is dóichí go raibh baint ag <marker>an</marker> eisimirce leis an laghdú i líon an gcainteoirí Gaeilge.</example>
         </rule>
         <rule id="BEIRT_MBEAN" name="beirt mbean">
             <pattern>
@@ -12109,12 +12111,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="go dtí">Bhí an teachtaireacht dulta <marker>go</marker> m'inchinn.</example>
         </rule>
         <!-- <H>a</H> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
-        <rule id="A_ANYTHING" name="a ?">
+        <rule id="A_VPAST" name="a ?">
             <pattern>
                 <marker>
                     <token>a</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
             <example correction="ar"><marker>a</marker> ?</example>
@@ -12131,45 +12133,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ba"><marker>ab</marker> ?</example>
         </rule>
         <!-- <Q>an</Q> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
-        <rule id="AN_ANYTHING" name="an ?">
+        <rule id="AN_VPAST" name="an ?">
             <pattern>
                 <marker>
                     <token>an</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
             <example correction="ar"><marker>an</marker> ?</example>
         </rule>
-        <!-- <T>an</T> <NFGS>ANYTHING</NFGS>:BACHOIR{na} -->
-        <rule id="AN_ANYTHING" name="an ?">
-            <pattern>
-                <marker>
-                    <token>an</token>
-                </marker>
-                <token regexp="yes">&anything;</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
-            <example correction="na"><marker>an</marker> ?</example>
-        </rule>
-        <!-- <T>an</T> <NP>ANYTHING</NP>:BACHOIR{na} -->
-        <rule id="AN_ANYTHING" name="an ?">
-            <pattern>
-                <marker>
-                    <token>an</token>
-                </marker>
-                <token regexp="yes">&anything;</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
-            <example correction="na"><marker>an</marker> ?</example>
-        </rule>
         <!-- <S>FUSEDPREP</S> <NP>ANYTHING</NP>:BACHOIR{na} -->
-        <rule id="FUSEDPREP_ANYTHING" name="FUSEDPREP ?">
+        <rule id="FUSEDPREP_NP" name="FUSEDPREP NP">
             <pattern>
                 <marker>
-                    <token>FUSEDPREP</token>
+                    <token postag="Prep:Art:Sg"></token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction="na"><marker>FUSEDPREP</marker> ?</example>
@@ -13172,8 +13152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
             <example correction="ónar"><marker>ónarbh</marker> ?</example>
         </rule>
-        <!-- <S>sa</S> INITIALVOWELORF:BACHOIR{san} -->
-        <rule id="SA_INITIALVOWELORF" name="sa ?">
+        <rule id="SA_INITIALVOWELORF" name="sa oighear">
             <pattern>
                 <marker>
                     <token>sa</token>
@@ -13181,7 +13160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialvowelorf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
-            <example correction="san"><marker>sa</marker> ?</example>
+            <example correction="san">An bhfuil aon uachtar reoite agat <marker>sa</marker> oighear?</example>
         </rule>
         <!-- <S>sa</S> ECLIPSEDVOWEL:BACHOIR{san} -->
         <rule id="SA_ECLIPSEDVOWEL" name="sa ?">
