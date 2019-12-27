@@ -12290,6 +12290,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Cár"><marker>Cá</marker> ith</example>
             <example>Cá raibh na rudaí go léir?</example>
         </rule>
+        <rule id="CAR_VNOTPAST" name="cár bhfuil">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
+            <example correction="Cá"><marker>Cár</marker> fág tú eisean?</example>
+        </rule>
+        <rule id="CAR_PASTNORFORMLEN" name="cár fuair">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
+            <example correction="cá"><marker>cár</marker> fuair</example>
+        </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
         <rule id="AICI" name="aicí">
