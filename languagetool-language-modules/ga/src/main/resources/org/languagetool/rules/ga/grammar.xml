@@ -11556,7 +11556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction='na'>teach <marker>an</marker> mban</example>
-	    <example correction='na'> Is é is dóichí go raibh baint ag <marker>an</marker> eisimirce leis an laghdú i líon an gcainteoirí Gaeilge.</example>
+	    <example correction='na'> Is é is dóichí go raibh baint ag an eisimirce leis an laghdú i líon <marker>an</marker> gcainteoirí Gaeilge.</example>
         </rule>
         <rule id="BEIRT_MBEAN" name="beirt mbean">
             <pattern>
@@ -12417,8 +12417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>chan</suggestion> a scríobh.</message>
             <example correction="chan"><marker>cha</marker> oibreofá</example>
         </rule>
-        <!-- <U>char</U> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{cha} -->
-        <rule id="CHAR_VNOTPAST" name="char ?">
+        <rule id="CHAR_VNOTPAST" name="char bhfuil">
             <pattern>
                 <marker>
                     <token>char</token>
@@ -12426,7 +12425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
-            <example correction="cha"><marker>char</marker> ?</example>
+            <example correction="cha"><marker>char</marker> bhfuil</example>
         </rule>
         <rule id="CHAR_PASTNORFORMLEN" name="char fuair">
             <pattern>
@@ -12610,8 +12609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
             <example correction="gur"><marker>go</marker> ?</example>
         </rule>
-        <!-- <C>gur</C> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{go} -->
-        <rule id="GUR_VNOTPAST" name="gur ?">
+        <rule id="GUR_VNOTPAST" name="gur bhfuil">
             <pattern>
                 <marker>
                     <token>gur</token>
@@ -12619,7 +12617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
-            <example correction="go"><marker>gur</marker> ?</example>
+            <example correction="go">Ba mhaith liom <marker>gur</marker> bhfágann daoine óga an scoil agus iad ullmhaithe.</example>
         </rule>
         <rule id="GUR_PASTNORFORMLEN" name="gur fuair">
             <pattern>
@@ -12969,16 +12967,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
             <example correction="nár"><marker>nach</marker> chuala</example>
         </rule>
-        <!-- nár <VNOTPASTSUBJ>ANYTHING</VNOTPASTSUBJ>:BACHOIR{nach} -->
-        <rule id="NAR_VNOTPASTSUBJ" name="nár ?">
+        <rule id="NAR_VNOTPASTSUBJ" name="nár bhfuil">
             <pattern>
                 <marker>
                     <token>nár</token>
                 </marker>
-                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*Sub.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
-            <example correction="nach"><marker>nár</marker> ?</example>
+            <example correction="nach"><marker>nár</marker> bhfuil</example>
         </rule>
         <rule id="NAR_PASTNORFORMLEN" name="nár fuair">
             <pattern>
