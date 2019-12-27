@@ -13079,14 +13079,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="colainn"><marker>colann</marker></example>
         </rule>
-<!--        <rule id="CRADH" name="crádh">
+        <rule id="A_CRADH" name="an crádh">
             <pattern>
-                <token regexp="yes">g?ch?rádh</token>
+                <token postag=".*Art.*|.*Poss.*" postag_regexp="yes"></token>
+                <marker>
+                    <token regexp="yes">g?ch?rádh</token>
+                </marker>
             </pattern>
-            <message>Focal ceart ach tá <suggestion><match no="1" regexp_match="(gc|ch|c)rádh" regexp_replace="$1rá"/></suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion><match no="2" regexp_match="(gc|ch|c)rádh" regexp_replace="$1rá"/></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="crá"><marker>crádh</marker></example>
-        </rule>-->
+            <example correction="crá">a <marker>crádh</marker></example>
+        </rule>
         <rule id="CHUM" name="chum" default="off">
             <pattern>
                 <token>chum</token>
