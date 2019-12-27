@@ -12684,13 +12684,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="I_ECLIPSEDVOWEL" name="i n-oifig">
             <pattern>
-                <marker>
-                    <token>i</token>
-                </marker>
+                <token>i</token>
                 <token regexp="yes">&eclipsedvowel;</token>
             </pattern>
-            <message>Ba chóir duit <suggestion>sa <match no="2" regexp_match="^n-?" regexp_replace=""/></suggestion> a scríobh.</message>
+            <message>Ba chóir duit <suggestion>in <match no="2" regexp_match="^n[-]?(.*)" regexp_replace="$1"/></suggestion> a scríobh.</message>
             <example correction="in oifig"><marker>i n-oifig</marker></example>
+            <example correction="in easnamh">Tá ainm <marker>i n-easnamh</marker> a mbeadh coinne agat leis.</example>
         </rule>
         <rule id="I_INITIALVOWEL" name="i oifig">
             <pattern>
@@ -13223,7 +13222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit “sa, san” a scríobh.</message>
             <example correction="">Soláthraíonn an Roinn seisiúin <marker>sna</marker> Gaeilge labhartha do na mic léinn.</example>
         </rule>
-        <rule id="SULA_VPAST" name="sula ?">
+        <rule id="SULA_VPAST" name="sula sroicheadar">
             <antipattern>
                 <token>sula</token>
                 <token regexp="yes">&pastnorform;</token>
