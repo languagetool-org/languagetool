@@ -14628,6 +14628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Réamhlitir ‘t’ gan ghá: <suggestion><match no="3" postag="([^:]*):Masc:Com:Sg:DefArt(.*)" postag_regexp="yes" postag_replace="$1:Masc:Com:Sg:DefArt"/></suggestion></message>
+                <short>Réamhlitir ‘t’ gan ghá</short>
                 <example correction="seomra">ar an <marker>t-seomra</marker></example>
             </rule>
             <rule>
@@ -14639,10 +14640,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Réamhlitir ‘t’ gan ghá: <suggestion><match no="3" postag="(.*):Gen(.*)(?::MorphError)?" postag_regexp="yes" postag_replace="$1:Com$2"/></suggestion></message>
+                <short>Réamhlitir ‘t’ gan ghá</short>
                 <example correction="seomra">ar an <marker>tseomra</marker></example>
                 <example correction="Seomra">ar an <marker>Tseomra</marker></example>
             </rule>
         </rulegroup>
+    </category>
+    <category id="GRAMADOIR_NIDEE" name="Réamhlitir ‘d’ gan ghá" type="grammar">
+        <rule id="A_INITIALDAPOSTF" name="a dh'fháil">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token regexp="yes">dh?</token>
+                    <token regexp="yes" spacebefore="no">&apost;</token>
+                    <token regexp="yes" spacebefore="ignore">fh.*</token>
+                </marker>
+            </pattern>
+            <message>Réamhlitir ‘d’ gan ghá: <suggestion>\4</suggestion></message>
+            <short>Réamhlitir ‘d’ gan ghá</short>
+            <example correction='fháil'>a <marker>dh'fháil</marker></example>
+        </rule>
     </category>
     <!--
     <category name="MORPH" id="morph errors">
