@@ -12596,8 +12596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
             <example correction="faoinar"><marker>faoinarb</marker> cláraíodh é</example>
         </rule>
-        <!-- <V cop="y">faoinarbh</V> NONVOWELNONF:BACHOIR{faoinar} -->
-        <rule id="FAOINARBH_NONVOWELNONF" name="faoinarbh ?">
+        <rule id="FAOINARBH_NONVOWELNONF" name="faoinarbh cláraíodh">
             <pattern>
                 <marker>
                     <token>faoinarbh</token>
@@ -12605,7 +12604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
-            <example correction="faoinar"><marker>faoinarbh</marker> ?</example>
+            <example correction="faoinar"><marker>faoinarbh</marker> cláraíodh</example>
         </rule>
         <!-- go <VPAST>ANYTHING</VPAST>:BACHOIR{gur} -->
         <rule id="GO_VPAST" name="go ?">
@@ -12774,8 +12773,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
             <example correction="inar"><marker>inarbh</marker> ?</example>
         </rule>
-        <!-- <S>lena</S> <VPAST>ANYTHING</VPAST>:BACHOIR{lenar} -->
-        <rule id="LENA_VPAST" name="lena ?">
+        <rule id="LENA_VPAST" name="lena thóg">
+            <antipattern>
+                <token>lena</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>lena</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>lena</token>
@@ -12783,7 +12789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
-            <example correction="lenar"><marker>lena</marker> ?</example>
+            <example correction="lenar">Sin an t-airgead <marker>lena</marker> thóg sé an teach.</example>
         </rule>
         <rule id="LENAR_VNOTPAST" name="lenar bhfuil">
             <pattern>
