@@ -12108,6 +12108,1293 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>go dtí</suggestion> a scríobh.</message>
             <example correction="go dtí">Bhí an teachtaireacht dulta <marker>go</marker> m'inchinn.</example>
         </rule>
+        <!-- <H>a</H> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
+        <rule id="A_ANYTHING" name="a ?">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>a</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ab</V> NONVOWELNONF:BACHOIR{ba} -->
+        <rule id="AB_NONVOWELNONF" name="ab ?">
+            <pattern>
+                <marker>
+                    <token>ab</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ba</suggestion> a scríobh.</message>
+            <example correction="ba"><marker>ab</marker> ?</example>
+        </rule>
+        <!-- <Q>an</Q> <VPAST>ANYTHING</VPAST>:BACHOIR{ar} -->
+        <rule id="AN_ANYTHING" name="an ?">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>an</marker> ?</example>
+        </rule>
+        <!-- <T>an</T> <NFGS>ANYTHING</NFGS>:BACHOIR{na} -->
+        <rule id="AN_ANYTHING" name="an ?">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction="na"><marker>an</marker> ?</example>
+        </rule>
+        <!-- <T>an</T> <NP>ANYTHING</NP>:BACHOIR{na} -->
+        <rule id="AN_ANYTHING" name="an ?">
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction="na"><marker>an</marker> ?</example>
+        </rule>
+        <!-- <S>FUSEDPREP</S> <NP>ANYTHING</NP>:BACHOIR{na} -->
+        <rule id="FUSEDPREP_ANYTHING" name="FUSEDPREP ?">
+            <pattern>
+                <marker>
+                    <token>FUSEDPREP</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction="na"><marker>FUSEDPREP</marker> ?</example>
+        </rule>
+        <!-- <S>ar</S> ECLIPSED:BACHOIR{ár} -->
+        <rule id="AR_ECLIPSED" name="ar ?">
+            <pattern>
+                <marker>
+                    <token>ar</token>
+                </marker>
+                <token regexp="yes">&eclipsed;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ár</suggestion> a scríobh.</message>
+            <example correction="ár"><marker>ar</marker> ?</example>
+        </rule>
+        <!-- <[QU]>ar</[QU]> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{a, an} -->
+        <rule id="AR_PASTNORFORMLEN" name="ar ?">
+            <pattern>
+                <marker>
+                    <token>ar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>a, an</suggestion> a scríobh.</message>
+            <example correction="a, an"><marker>ar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ar</V> INITIALVOWEL:BACHOIR{arb, arbh} -->
+        <rule id="AR_INITIALVOWEL" name="ar ?">
+            <pattern>
+                <marker>
+                    <token>ar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>arb, arbh</suggestion> a scríobh.</message>
+            <example correction="arb, arbh"><marker>ar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ar</V> LENITEDF:BACHOIR{arbh} -->
+        <rule id="AR_LENITEDF" name="ar ?">
+            <pattern>
+                <marker>
+                    <token>ar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>arbh</suggestion> a scríobh.</message>
+            <example correction="arbh"><marker>ar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">arb</V> INITIALCONSONANT:BACHOIR{ar} -->
+        <rule id="ARB_INITIALCONSONANT" name="arb ?">
+            <pattern>
+                <marker>
+                    <token>arb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>arb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">arbh</V> NONVOWELNONF:BACHOIR{ar} -->
+        <rule id="ARBH_NONVOWELNONF" name="arbh ?">
+            <pattern>
+                <marker>
+                    <token>arbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ar</suggestion> a scríobh.</message>
+            <example correction="ar"><marker>arbh</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">m?ba</V> <[AN]>INITIALVOWELORF</[AN]>:BACHOIR{b', ab} -->
+        <rule id="BA_INITIALVOWELORF" name="ba ?">
+            <pattern>
+                <marker>
+                    <token regexp="yes">m?ba</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>b', ab</suggestion> a scríobh.</message>
+            <example correction="b', ab"><marker>ba</marker> ?</example>
+        </rule>
+        <!-- <Q>INITIALC</Q> <VNOTCOP>ANYTHING</VNOTCOP>:BACHOIR{a} -->
+        <rule id="INITIALC_ANYTHING" name="INITIALC ?">
+            <pattern>
+                <marker>
+                    <token>INITIALC</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>a</suggestion> a scríobh.</message>
+            <example correction="a"><marker>INITIALC</marker> ?</example>
+        </rule>
+        <!-- <Q>cá</Q> <VPAST>ANYTHING</VPAST>:BACHOIR{cár} -->
+        <rule id="CA_ANYTHING" name="cá ?">
+            <pattern>
+                <marker>
+                    <token>cá</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cár</suggestion> a scríobh.</message>
+            <example correction="cár"><marker>cá</marker> ?</example>
+        </rule>
+        <!-- <Q>cár</Q> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{cá} -->
+        <rule id="CAR_ANYTHING" name="cár ?">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
+            <example correction="cá"><marker>cár</marker> ?</example>
+        </rule>
+        <!-- <Q>cár</Q> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{cá} -->
+        <rule id="CAR_PASTNORFORMLEN" name="cár ?">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cá</suggestion> a scríobh.</message>
+            <example correction="cá"><marker>cár</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cár</V> INITIALVOWEL:BACHOIR{cárb, cárbh} -->
+        <rule id="CAR_INITIALVOWEL" name="cár ?">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cárb, cárbh</suggestion> a scríobh.</message>
+            <example correction="cárb, cárbh"><marker>cár</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cár</V> LENITEDF:BACHOIR{cárbh} -->
+        <rule id="CAR_LENITEDF" name="cár ?">
+            <pattern>
+                <marker>
+                    <token>cár</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cárbh</suggestion> a scríobh.</message>
+            <example correction="cárbh"><marker>cár</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cárb</V> INITIALCONSONANT:BACHOIR{cár} -->
+        <rule id="CARB_INITIALCONSONANT" name="cárb ?">
+            <pattern>
+                <marker>
+                    <token>cárb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cár</suggestion> a scríobh.</message>
+            <example correction="cár"><marker>cárb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cárbh</V> NONVOWELNONF:BACHOIR{cár} -->
+        <rule id="CARBH_NONVOWELNONF" name="cárbh ?">
+            <pattern>
+                <marker>
+                    <token>cárbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cár</suggestion> a scríobh.</message>
+            <example correction="cár"><marker>cárbh</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cér</V> INITIALVOWEL:BACHOIR{cérb, cérbh} -->
+        <rule id="CER_INITIALVOWEL" name="cér ?">
+            <pattern>
+                <marker>
+                    <token>cér</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cérb, cérbh</suggestion> a scríobh.</message>
+            <example correction="cérb, cérbh"><marker>cér</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cér</V> LENITEDF:BACHOIR{cérbh} -->
+        <rule id="CER_LENITEDF" name="cér ?">
+            <pattern>
+                <marker>
+                    <token>cér</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cérbh</suggestion> a scríobh.</message>
+            <example correction="cérbh"><marker>cér</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cérb</V> INITIALCONSONANT:BACHOIR{cér} -->
+        <rule id="CERB_INITIALCONSONANT" name="cérb ?">
+            <pattern>
+                <marker>
+                    <token>cérb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cér</suggestion> a scríobh.</message>
+            <example correction="cér"><marker>cérb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">cérbh</V> NONVOWELNONF:BACHOIR{cér} -->
+        <rule id="CERBH_NONVOWELNONF" name="cérbh ?">
+            <pattern>
+                <marker>
+                    <token>cérbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cér</suggestion> a scríobh.</message>
+            <example correction="cér"><marker>cérbh</marker> ?</example>
+        </rule>
+        <!-- <U>cha</U> <VPAST>ANYTHING</VPAST>:BACHOIR{char} -->
+        <rule id="CHA_ANYTHING" name="cha ?">
+            <pattern>
+                <marker>
+                    <token>cha</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>char</suggestion> a scríobh.</message>
+            <example correction="char"><marker>cha</marker> ?</example>
+        </rule>
+        <!-- <U>cha</U> INITIALVOWELORF:BACHOIR{chan} -->
+        <rule id="CHA_INITIALVOWELORF" name="cha ?">
+            <pattern>
+                <marker>
+                    <token>cha</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>chan</suggestion> a scríobh.</message>
+            <example correction="chan"><marker>cha</marker> ?</example>
+        </rule>
+        <!-- <U>char</U> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{cha} -->
+        <rule id="CHAR_ANYTHING" name="char ?">
+            <pattern>
+                <marker>
+                    <token>char</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
+            <example correction="cha"><marker>char</marker> ?</example>
+        </rule>
+        <!-- <U>char</U> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{cha} -->
+        <rule id="CHAR_PASTNORFORMLEN" name="char ?">
+            <pattern>
+                <marker>
+                    <token>char</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
+            <example correction="cha"><marker>char</marker> ?</example>
+        </rule>
+        <!-- <C>dá</C> <VNOTCOND>ANYTHING</VNOTCOND>:BACHOIR{má} -->
+        <rule id="DA_ANYTHING" name="dá ?">
+            <pattern>
+                <marker>
+                    <token>dá</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>má</suggestion> a scríobh.</message>
+            <example correction="má"><marker>dá</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">dar</V> INITIALVOWEL:BACHOIR{darb, darbh} -->
+        <rule id="DAR_INITIALVOWEL" name="dar ?">
+            <pattern>
+                <marker>
+                    <token>dar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>darb, darbh</suggestion> a scríobh.</message>
+            <example correction="darb, darbh"><marker>dar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">dar</V> LENITEDF:BACHOIR{darbh} -->
+        <rule id="DAR_LENITEDF" name="dar ?">
+            <pattern>
+                <marker>
+                    <token>dar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>darbh</suggestion> a scríobh.</message>
+            <example correction="darbh"><marker>dar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">darb</V> INITIALCONSONANT:BACHOIR{dar} -->
+        <rule id="DARB_INITIALCONSONANT" name="darb ?">
+            <pattern>
+                <marker>
+                    <token>darb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
+            <example correction="dar"><marker>darb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">darbh</V> NONVOWELNONF:BACHOIR{dar} -->
+        <rule id="DARBH_NONVOWELNONF" name="darbh ?">
+            <pattern>
+                <marker>
+                    <token>darbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
+            <example correction="dar"><marker>darbh</marker> ?</example>
+        </rule>
+        <!-- dár <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{dá} -->
+        <rule id="DAR_ANYTHING" name="dár ?">
+            <pattern>
+                <marker>
+                    <token>dár</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>dár</marker> ?</example>
+        </rule>
+        <!-- dár <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{dá} -->
+        <rule id="DAR_PASTNORFORMLEN" name="dár ?">
+            <pattern>
+                <marker>
+                    <token>dár</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>dár</marker> ?</example>
+        </rule>
+        <!-- d[eo] <N>INITIALVOWELORF</N>:BACHOIR{d'} -->
+        <rule id="D[EO]_INITIALVOWELORF" name="d[eo] ?">
+            <pattern>
+                <marker>
+                    <token>d[eo]</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>d'</suggestion> a scríobh.</message>
+            <example correction="d'"><marker>d[eo]</marker> ?</example>
+        </rule>
+        <!-- <S>DATIVEPREP</S> <N>EIRE</N>:BACHOIR{Éirinn} -->
+        <rule id="DATIVEPREP_EIRE" name="DATIVEPREP ?">
+            <pattern>
+                <marker>
+                    <token>DATIVEPREP</token>
+                </marker>
+                <token regexp="yes">&eire;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>Éirinn</suggestion> a scríobh.</message>
+            <example correction="Éirinn"><marker>DATIVEPREP</marker> ?</example>
+        </rule>
+        <!-- <S>faoina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{faoinar} -->
+        <rule id="FAOINA_ANYTHING" name="faoina ?">
+            <pattern>
+                <marker>
+                    <token>faoina</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar"><marker>faoina</marker> ?</example>
+        </rule>
+        <!-- <S>faoinar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{faoina} -->
+        <rule id="FAOINAR_ANYTHING" name="faoinar ?">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
+            <example correction="faoina"><marker>faoinar</marker> ?</example>
+        </rule>
+        <!-- <S>faoinar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{faoina} -->
+        <rule id="FAOINAR_PASTNORFORMLEN" name="faoinar ?">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
+            <example correction="faoina"><marker>faoinar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">faoinar</V> INITIALVOWEL:BACHOIR{faoinarb, faoinarbh} -->
+        <rule id="FAOINAR_INITIALVOWEL" name="faoinar ?">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinarb, faoinarbh</suggestion> a scríobh.</message>
+            <example correction="faoinarb, faoinarbh"><marker>faoinar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">faoinar</V> LENITEDF:BACHOIR{faoinarbh} -->
+        <rule id="FAOINAR_LENITEDF" name="faoinar ?">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinarbh</suggestion> a scríobh.</message>
+            <example correction="faoinarbh"><marker>faoinar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">faoinarb</V> INITIALCONSONANT:BACHOIR{faoinar} -->
+        <rule id="FAOINARB_INITIALCONSONANT" name="faoinarb ?">
+            <pattern>
+                <marker>
+                    <token>faoinarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar"><marker>faoinarb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">faoinarbh</V> NONVOWELNONF:BACHOIR{faoinar} -->
+        <rule id="FAOINARBH_NONVOWELNONF" name="faoinarbh ?">
+            <pattern>
+                <marker>
+                    <token>faoinarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar"><marker>faoinarbh</marker> ?</example>
+        </rule>
+        <!-- go <VPAST>ANYTHING</VPAST>:BACHOIR{gur} -->
+        <rule id="GO_ANYTHING" name="go ?">
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>go</marker> ?</example>
+        </rule>
+        <!-- go <D>REGULARPOSS</D>:BACHOIR{go dtí} -->
+        <rule id="GO_REGULARPOSS" name="go ?">
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token regexp="yes">&regularposs;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>go dtí</suggestion> a scríobh.</message>
+            <example correction="go dtí"><marker>go</marker> ?</example>
+        </rule>
+        <!-- <C>gur</C> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{go} -->
+        <rule id="GUR_ANYTHING" name="gur ?">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
+            <example correction="go"><marker>gur</marker> ?</example>
+        </rule>
+        <!-- <C>gur</C> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{go} -->
+        <rule id="GUR_PASTNORFORMLEN" name="gur ?">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
+            <example correction="go"><marker>gur</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">gur</V> LENITEDF:BACHOIR{gurbh} -->
+        <rule id="GUR_LENITEDF" name="gur ?">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gurbh</suggestion> a scríobh.</message>
+            <example correction="gurbh"><marker>gur</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">gurb</V> INITIALCONSONANT:BACHOIR{gur} -->
+        <rule id="GURB_INITIALCONSONANT" name="gurb ?">
+            <pattern>
+                <marker>
+                    <token>gurb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>gurb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">gurbh</V> NONVOWELNONF:BACHOIR{gur} -->
+        <rule id="GURBH_NONVOWELNONF" name="gurbh ?">
+            <pattern>
+                <marker>
+                    <token>gurbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>gurbh</marker> ?</example>
+        </rule>
+        <!-- <S>i</S> <N>ECLIPSEDVOWEL</N>:BACHOIR{in} -->
+        <rule id="I_ECLIPSEDVOWEL" name="i ?">
+            <pattern>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
+            <example correction="in"><marker>i</marker> ?</example>
+        </rule>
+        <!-- <S>i</S> <N>INITIALVOWEL</N>:BACHOIR{in} -->
+        <rule id="I_INITIALVOWEL" name="i ?">
+            <pattern>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
+            <example correction="in"><marker>i</marker> ?</example>
+        </rule>
+        <!-- <S>in</S> INITIALCONSONANT:BACHOIR{i} -->
+        <rule id="IN_INITIALCONSONANT" name="in ?">
+            <pattern>
+                <marker>
+                    <token>in</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>i</suggestion> a scríobh.</message>
+            <example correction="i"><marker>in</marker> ?</example>
+        </rule>
+        <!-- <S>ina</S> <VPAST>ANYTHING</VPAST>:BACHOIR{inar} -->
+        <rule id="INA_ANYTHING" name="ina ?">
+            <pattern>
+                <marker>
+                    <token>ina</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>ina</marker> ?</example>
+        </rule>
+        <!-- <S>inar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{ina} -->
+        <rule id="INAR_ANYTHING" name="inar ?">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
+            <example correction="ina"><marker>inar</marker> ?</example>
+        </rule>
+        <!-- <S>inar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{ina} -->
+        <rule id="INAR_PASTNORFORMLEN" name="inar ?">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
+            <example correction="ina"><marker>inar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">inar</V> INITIALVOWEL:BACHOIR{inarb, inarbh} -->
+        <rule id="INAR_INITIALVOWEL" name="inar ?">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inarb, inarbh</suggestion> a scríobh.</message>
+            <example correction="inarb, inarbh"><marker>inar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">inar</V> LENITEDF:BACHOIR{inarbh} -->
+        <rule id="INAR_LENITEDF" name="inar ?">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inarbh</suggestion> a scríobh.</message>
+            <example correction="inarbh"><marker>inar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">inarb</V> INITIALCONSONANT:BACHOIR{inar} -->
+        <rule id="INARB_INITIALCONSONANT" name="inarb ?">
+            <pattern>
+                <marker>
+                    <token>inarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>inarb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">inarbh</V> NONVOWELNONF:BACHOIR{inar} -->
+        <rule id="INARBH_NONVOWELNONF" name="inarbh ?">
+            <pattern>
+                <marker>
+                    <token>inarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>inarbh</marker> ?</example>
+        </rule>
+        <!-- <S>lena</S> <VPAST>ANYTHING</VPAST>:BACHOIR{lenar} -->
+        <rule id="LENA_ANYTHING" name="lena ?">
+            <pattern>
+                <marker>
+                    <token>lena</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar"><marker>lena</marker> ?</example>
+        </rule>
+        <!-- <S>lenar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{lena} -->
+        <rule id="LENAR_ANYTHING" name="lenar ?">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lena</suggestion> a scríobh.</message>
+            <example correction="lena"><marker>lenar</marker> ?</example>
+        </rule>
+        <!-- <S>lenar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{lena} -->
+        <rule id="LENAR_PASTNORFORMLEN" name="lenar ?">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lena</suggestion> a scríobh.</message>
+            <example correction="lena"><marker>lenar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">lenar</V> INITIALVOWEL:BACHOIR{lenarb, lenarbh} -->
+        <rule id="LENAR_INITIALVOWEL" name="lenar ?">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenarb, lenarbh</suggestion> a scríobh.</message>
+            <example correction="lenarb, lenarbh"><marker>lenar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">lenar</V> LENITEDF:BACHOIR{lenarbh} -->
+        <rule id="LENAR_LENITEDF" name="lenar ?">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenarbh</suggestion> a scríobh.</message>
+            <example correction="lenarbh"><marker>lenar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">lenarb</V> INITIALCONSONANT:BACHOIR{lenar} -->
+        <rule id="LENARB_INITIALCONSONANT" name="lenarb ?">
+            <pattern>
+                <marker>
+                    <token>lenarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar"><marker>lenarb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">lenarbh</V> NONVOWELNONF:BACHOIR{lenar} -->
+        <rule id="LENARBH_NONVOWELNONF" name="lenarbh ?">
+            <pattern>
+                <marker>
+                    <token>lenarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar"><marker>lenarbh</marker> ?</example>
+        </rule>
+        <!-- <C>má</C> <VCOND>ANYTHING</VCOND>:BACHOIR{dá} -->
+        <rule id="MA_ANYTHING" name="má ?">
+            <pattern>
+                <marker>
+                    <token>má</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>má</marker> ?</example>
+        </rule>
+        <!-- <D>mo</D> INITIALVOWELORF:BACHOIR{m'} -->
+        <rule id="MO_INITIALVOWELORF" name="mo ?">
+            <pattern>
+                <marker>
+                    <token>mo</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>m'</suggestion> a scríobh.</message>
+            <example correction="m'"><marker>mo</marker> ?</example>
+        </rule>
+        <!-- <C>mar</C> <V>ECLIPSED</V>:BACHOIR{mura} -->
+        <rule id="MAR_ECLIPSED" name="mar ?">
+            <pattern>
+                <marker>
+                    <token>mar</token>
+                </marker>
+                <token regexp="yes">&eclipsed;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>mar</marker> ?</example>
+        </rule>
+        <!-- <C>mura</C> <VPAST>ANYTHING</VPAST>:BACHOIR{murar} -->
+        <rule id="MURA_ANYTHING" name="mura ?">
+            <pattern>
+                <marker>
+                    <token>mura</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
+            <example correction="murar"><marker>mura</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">murar?</V> INITIALVOWEL:BACHOIR{murab, murarbh} -->
+        <rule id="MURA_INITIALVOWEL" name="mura ?">
+            <pattern>
+                <marker>
+                    <token regexp="yes">murar?</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murab, murarbh</suggestion> a scríobh.</message>
+            <example correction="murab, murarbh"><marker>mura</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">murar</V> LENITEDF:BACHOIR{murarbh} -->
+        <rule id="MURAR_LENITEDF" name="murar ?">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murarbh</suggestion> a scríobh.</message>
+            <example correction="murarbh"><marker>murar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">murab</V> INITIALCONSONANT:BACHOIR{mura} -->
+        <rule id="MURAB_INITIALCONSONANT" name="murab ?">
+            <pattern>
+                <marker>
+                    <token>murab</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>murab</marker> ?</example>
+        </rule>
+        <!-- <C>murar</C> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{mura} -->
+        <rule id="MURAR_ANYTHING" name="murar ?">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>murar</marker> ?</example>
+        </rule>
+        <!-- <C>murar</C> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{mura} -->
+        <rule id="MURAR_PASTNORFORMLEN" name="murar ?">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>murar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">murarbh</V> NONVOWELNONF:BACHOIR{murar} -->
+        <rule id="MURARBH_NONVOWELNONF" name="murarbh ?">
+            <pattern>
+                <marker>
+                    <token>murarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
+            <example correction="murar"><marker>murarbh</marker> ?</example>
+        </rule>
+        <!-- <T>na</T> <NCS>ANYTHING</NCS>:BACHOIR{an} -->
+        <rule id="NA_ANYTHING" name="na ?">
+            <pattern>
+                <marker>
+                    <token>na</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>an</suggestion> a scríobh.</message>
+            <example correction="an"><marker>na</marker> ?</example>
+        </rule>
+        <!-- nach <VPAST>ANYTHING</VPAST>:BACHOIR{nár} -->
+        <rule id="NACH_ANYTHING" name="nach ?">
+            <pattern>
+                <marker>
+                    <token>nach</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
+            <example correction="nár"><marker>nach</marker> ?</example>
+        </rule>
+        <!-- nár <VNOTPASTSUBJ>ANYTHING</VNOTPASTSUBJ>:BACHOIR{nach} -->
+        <rule id="NAR_ANYTHING" name="nár ?">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
+            <example correction="nach"><marker>nár</marker> ?</example>
+        </rule>
+        <!-- nár <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{nach} -->
+        <rule id="NAR_PASTNORFORMLEN" name="nár ?">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
+            <example correction="nach"><marker>nár</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">nár</V> INITIALVOWELORF:BACHOIR{nárbh} -->
+        <rule id="NAR_INITIALVOWELORF" name="nár ?">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nárbh</suggestion> a scríobh.</message>
+            <example correction="nárbh"><marker>nár</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">nárbh</V> NONVOWELNONF:BACHOIR{nár} -->
+        <rule id="NARBH_NONVOWELNONF" name="nárbh ?">
+            <pattern>
+                <marker>
+                    <token>nárbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
+            <example correction="nár"><marker>nárbh</marker> ?</example>
+        </rule>
+        <!-- ní <VPAST>ANYTHING</VPAST>:BACHOIR{níor} -->
+        <rule id="NI_ANYTHING" name="ní ?">
+            <pattern>
+                <marker>
+                    <token>ní</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
+            <example correction="níor"><marker>ní</marker> ?</example>
+        </rule>
+        <!-- níor <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{ní} -->
+        <rule id="NIOR_ANYTHING" name="níor ?">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ní</suggestion> a scríobh.</message>
+            <example correction="ní"><marker>níor</marker> ?</example>
+        </rule>
+        <!-- níor <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{ní} -->
+        <rule id="NIOR_PASTNORFORMLEN" name="níor ?">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ní</suggestion> a scríobh.</message>
+            <example correction="ní"><marker>níor</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">níor</V> INITIALVOWELORF:BACHOIR{níorbh} -->
+        <rule id="NIOR_INITIALVOWELORF" name="níor ?">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níorbh</suggestion> a scríobh.</message>
+            <example correction="níorbh"><marker>níor</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">níorbh</V> NONVOWELNONF:BACHOIR{níor} -->
+        <rule id="NIORBH_NONVOWELNONF" name="níorbh ?">
+            <pattern>
+                <marker>
+                    <token>níorbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
+            <example correction="níor"><marker>níorbh</marker> ?</example>
+        </rule>
+        <!-- <S>óna</S> <VPAST>ANYTHING</VPAST>:BACHOIR{ónar} -->
+        <rule id="ONA_ANYTHING" name="óna ?">
+            <pattern>
+                <marker>
+                    <token>óna</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>óna</marker> ?</example>
+        </rule>
+        <!-- <S>ónar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{óna} -->
+        <rule id="ONAR_ANYTHING" name="ónar ?">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
+            <example correction="óna"><marker>ónar</marker> ?</example>
+        </rule>
+        <!-- <S>ónar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{óna} -->
+        <rule id="ONAR_PASTNORFORMLEN" name="ónar ?">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
+            <example correction="óna"><marker>ónar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ónar</V> INITIALVOWEL:BACHOIR{ónarb, ónarbh} -->
+        <rule id="ONAR_INITIALVOWEL" name="ónar ?">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónarb, ónarbh</suggestion> a scríobh.</message>
+            <example correction="ónarb, ónarbh"><marker>ónar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ónar</V> LENITEDF:BACHOIR{ónarbh} -->
+        <rule id="ONAR_LENITEDF" name="ónar ?">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónarbh</suggestion> a scríobh.</message>
+            <example correction="ónarbh"><marker>ónar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ónarb</V> INITIALCONSONANT:BACHOIR{ónar} -->
+        <rule id="ONARB_INITIALCONSONANT" name="ónarb ?">
+            <pattern>
+                <marker>
+                    <token>ónarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>ónarb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">ónarbh</V> NONVOWELNONF:BACHOIR{ónar} -->
+        <rule id="ONARBH_NONVOWELNONF" name="ónarbh ?">
+            <pattern>
+                <marker>
+                    <token>ónarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>ónarbh</marker> ?</example>
+        </rule>
+        <!-- <S>sa</S> INITIALVOWELORF:BACHOIR{san} -->
+        <rule id="SA_INITIALVOWELORF" name="sa ?">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
+            <example correction="san"><marker>sa</marker> ?</example>
+        </rule>
+        <!-- <S>sa</S> ECLIPSEDVOWEL:BACHOIR{san} -->
+        <rule id="SA_ECLIPSEDVOWEL" name="sa ?">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
+            <example correction="san"><marker>sa</marker> ?</example>
+        </rule>
+        <!-- <S>sa</S> <NP>ANYTHING</NP>:BACHOIR{sna} -->
+        <rule id="SA_ANYTHING" name="sa ?">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
+            <example correction="sna"><marker>sa</marker> ?</example>
+        </rule>
+        <!-- <S>san</S> NONVOWELNONF:BACHOIR{sa} -->
+        <rule id="SAN_NONVOWELNONF" name="san ?">
+            <pattern>
+                <marker>
+                    <token>san</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sa</suggestion> a scríobh.</message>
+            <example correction="sa"><marker>san</marker> ?</example>
+        </rule>
+        <!-- <S>sna</S> <NCS>ANYTHING</NCS>:BACHOIR{sa, san} -->
+        <rule id="SNA_ANYTHING" name="sna ?">
+            <pattern>
+                <marker>
+                    <token>sna</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sa, san</suggestion> a scríobh.</message>
+            <example correction="sa, san"><marker>sna</marker> ?</example>
+        </rule>
+        <!-- <C>sula</C> <VPAST>ANYTHING</VPAST>:BACHOIR{sular} -->
+        <rule id="SULA_ANYTHING" name="sula ?">
+            <pattern>
+                <marker>
+                    <token>sula</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
+            <example correction="sular"><marker>sula</marker> ?</example>
+        </rule>
+        <!-- <C>sular</C> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{sula} -->
+        <rule id="SULAR_ANYTHING" name="sular ?">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sula</suggestion> a scríobh.</message>
+            <example correction="sula"><marker>sular</marker> ?</example>
+        </rule>
+        <!-- <C>sular</C> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{sula} -->
+        <rule id="SULAR_PASTNORFORMLEN" name="sular ?">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sula</suggestion> a scríobh.</message>
+            <example correction="sula"><marker>sular</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">sular</V> INITIALVOWEL:BACHOIR{sularb, sularbh} -->
+        <rule id="SULAR_INITIALVOWEL" name="sular ?">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sularb, sularbh</suggestion> a scríobh.</message>
+            <example correction="sularb, sularbh"><marker>sular</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">sular</V> LENITEDF:BACHOIR{sularbh} -->
+        <rule id="SULAR_LENITEDF" name="sular ?">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sularbh</suggestion> a scríobh.</message>
+            <example correction="sularbh"><marker>sular</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">sularb</V> INITIALCONSONANT:BACHOIR{sular} -->
+        <rule id="SULARB_INITIALCONSONANT" name="sularb ?">
+            <pattern>
+                <marker>
+                    <token>sularb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
+            <example correction="sular"><marker>sularb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">sularbh</V> NONVOWELNONF:BACHOIR{sular} -->
+        <rule id="SULARBH_NONVOWELNONF" name="sularbh ?">
+            <pattern>
+                <marker>
+                    <token>sularbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
+            <example correction="sular"><marker>sularbh</marker> ?</example>
+        </rule>
+        <!-- <S>trína</S> <VPAST>ANYTHING</VPAST>:BACHOIR{trínar} -->
+        <rule id="TRINA_ANYTHING" name="trína ?">
+            <pattern>
+                <marker>
+                    <token>trína</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar"><marker>trína</marker> ?</example>
+        </rule>
+        <!-- <S>trínar</S> <VNOTPAST>ANYTHING</VNOTPAST>:BACHOIR{trína} -->
+        <rule id="TRINAR_ANYTHING" name="trínar ?">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&anything;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
+            <example correction="trína"><marker>trínar</marker> ?</example>
+        </rule>
+        <!-- <S>trínar</S> <VPAST>PASTNORFORMLEN</VPAST>:BACHOIR{trína} -->
+        <rule id="TRINAR_PASTNORFORMLEN" name="trínar ?">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
+            <example correction="trína"><marker>trínar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">trínar</V> INITIALVOWEL:BACHOIR{trínarb, trínarbh} -->
+        <rule id="TRINAR_INITIALVOWEL" name="trínar ?">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínarb, trínarbh</suggestion> a scríobh.</message>
+            <example correction="trínarb, trínarbh"><marker>trínar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">trínar</V> LENITEDF:BACHOIR{trínarbh} -->
+        <rule id="TRINAR_LENITEDF" name="trínar ?">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínarbh</suggestion> a scríobh.</message>
+            <example correction="trínarbh"><marker>trínar</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">trínarb</V> INITIALCONSONANT:BACHOIR{trínar} -->
+        <rule id="TRINARB_INITIALCONSONANT" name="trínarb ?">
+            <pattern>
+                <marker>
+                    <token>trínarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar"><marker>trínarb</marker> ?</example>
+        </rule>
+        <!-- <V cop="y">trínarbh</V> NONVOWELNONF:BACHOIR{trínar} -->
+        <rule id="TRINARBH_NONVOWELNONF" name="trínarbh ?">
+            <pattern>
+                <marker>
+                    <token>trínarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar"><marker>trínarbh</marker> ?</example>
+        </rule>
+        <!-- <S>sa</S> VOWELORDINAL:BACHOIR{san} -->
+        <rule id="SA_VOWELORDINAL" name="sa ?">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&vowelordinal;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
+            <example correction="san"><marker>sa</marker> ?</example>
+        </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
         <rule id="AICI" name="aicí">
