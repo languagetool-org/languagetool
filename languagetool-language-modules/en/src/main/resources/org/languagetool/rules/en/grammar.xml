@@ -9811,6 +9811,10 @@ USA
                 <token postag='NN'/>
                 <token>of</token>
             </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Rose_Parade -->
+                <token>roses</token>
+                <token>parade</token>
+            </antipattern>
             <pattern>
                 <token postag='NN'>
                     <exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'/>
@@ -9846,6 +9850,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Pok%C3%A9mon#Name</url>
             <example correction="Pokémon">I have collected almost all of the <marker>Pokemons</marker>.</example>
         </rule>
+
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBD' name='a fleet of ships have (has)'>
             <pattern>
                 <token postag='NN'>
@@ -13275,6 +13280,14 @@ USA
             <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
+        <rule id="LOS_ANGELS" name="Los Angels (Angeles)" default="temp_off">
+            <pattern>
+                <token>los</token>
+                <token>angels</token>
+            </pattern>
+            <message>Did you mean <suggestion>Los Angeles</suggestion>?</message>
+            <example correction="Los Angeles">I live in <marker>Los Angels</marker>.</example>
         </rule>
         <rulegroup id="JONG_UN" name="Kim Jong-un" default="temp_off">
             <url>https://en.wikipedia.org/wiki/Kim_Jong-un</url>
@@ -39227,6 +39240,62 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="SUPER_BOWL" name="Super Bowl (roman literals)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                    <token regexp="yes">#?53</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LIII</suggestion>?</message>
+                <example correction="Super Bowl LIII">The <marker>Super Bowl 53</marker> is happening in February 2018.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">53(th)?</token>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LIII</suggestion>?</message>
+                <example correction="Super Bowl LIII">The <marker>53th Super Bowl</marker> is happening in February 2018.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                    <token regexp="yes">#?54</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LIV</suggestion>?</message>
+                <example correction="Super Bowl LIV">The <marker>Super Bowl 54</marker> is happening in February 2020.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">54(th)?</token>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LIV</suggestion>?</message>
+                <example correction="Super Bowl LIV">The <marker>54th Super Bowl</marker> is happening in February 2020.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                    <token regexp="yes">#?55</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LV</suggestion>?</message>
+                <example correction="Super Bowl LV">The <marker>Super Bowl 55</marker> is happening in February 2021.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">55(th)?</token>
+                    <token>Super</token>
+                    <token>Bowl</token>
+                </pattern>
+                <message>Do you want to use the official name including roman numerals <suggestion>Super Bowl LV</suggestion>?</message>
+                <example correction="Super Bowl LV">The <marker>55th Super Bowl</marker> is happening in February 2021.</example>
+            </rule>
+        </rulegroup>
         <rule id="HAPPY_CHRISTMAS" name="Happy (Merry) Christmas">
             <antipattern>
                 <token>christmas</token>
