@@ -13897,37 +13897,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="Socraigh"><marker>Socair</marker></example>
         </rule>
-        <rule id="ANYTHING" name="ANYTHING">
+        <rule id="SHOCAIR_PRON" name="shocair PRON">
             <pattern>
-                <token>ANYTHING</token>
+                <marker>
+                    <token>shocair</token>
+                </marker>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
             </pattern>
             <message>Focal ceart ach tá <suggestion>shocraigh</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="shocraigh"><marker>ANYTHING</marker></example>
+            <example correction="shocraigh"><marker>shocair</marker></example>
         </rule>
-        <rule id="DTEORANN" name="dteorann">
+        <rule id="NA_DTEORANN" name="na dteorann" default="off">
             <pattern>
-                <token>dteorann</token>
+                <token>na</token>
+                <marker>
+                    <token>dteorann</token>
+                </marker>
             </pattern>
             <message>Focal ceart ach tá <suggestion>dteorainneacha</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="dteorainneacha"><marker>dteorann</marker></example>
+            <example correction="dteorainneacha">na <marker>dteorann</marker></example>
         </rule>
         <rule id="TRAIGH" name="tráigh">
             <pattern>
-                <token regexp="yes">th?ráigh</token>
-            </pattern>
-            <message>Focal ceart ach tá <suggestion>an trá</suggestion> níos coitianta.</message>
-            <short>Neamhchoitianta</short>
-            <example correction="an trá"><marker>tráigh</marker></example>
-        </rule>
-        <rule id="TRAIGH" name="tráigh">
-            <pattern>
-                <token regexp="yes">th?ráigh</token>
+                <token postag=".*Verb.*|.*Prep.*" postag_regexp="yes"></token>
+                <marker>
+                    <token regexp="yes">th?ráigh</token>
+                </marker>
             </pattern>
             <message>Focal ceart ach tá <suggestion>trá</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="trá"><marker>tráigh</marker></example>
+            <example correction="trá">faoi <marker>tráigh</marker></example>
         </rule>
         <rule id="TRITHE" name="tríthe">
             <pattern>
@@ -13937,15 +13938,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="tríthi"><marker>tríthe</marker></example>
         </rule>
-        <rule id="THUILLE" name="thuille">
+        <rule id="A_THUILLE" name="a thuille" default="off">
             <pattern>
-                <token>thuille</token>
+                <token>a</token>
+                <marker>
+                    <token>thuille</token>
+                </marker>
             </pattern>
-            <message>Focal ceart ach tá <suggestion>a thuilleadh</suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion>thuilleadh</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="a thuilleadh"><marker>thuille</marker></example>
+            <example correction="thuilleadh">a <marker>thuille</marker></example>
         </rule>
         <rule id="UAITHNE" name="uaithne">
+            <antipattern>
+                <token case_sensitive="yes">Uaithne</token>
+            </antipattern>
             <pattern>
                 <token>uaithne</token>
             </pattern>
@@ -13954,6 +13961,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="uaine"><marker>uaithne</marker></example>
         </rule>
         <rule id="UATHA" name="uatha">
+            <antipattern>
+                <token postag=".*Prep.*" postag_regexp="yes"></token>
+                <token>uatha</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ainmneach|gh?airmeach|gh?inideach|th?abharthach</token>
+                <token>uatha</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ph?earsa|uimhir</token>
+                <token>uatha</token>
+            </antipattern>
+            <antipattern>
+                <token>uatha</token>
+                <token postag=".*Conj.*" postag_regexp="yes"></token>
+                <token>iolra</token>
+            </antipattern>
+            <antipattern>
+                <token>iolra</token>
+                <token postag=".*Conj.*" postag_regexp="yes"></token>
+                <token>uatha</token>
+            </antipattern>
             <pattern>
                 <token>uatha</token>
             </pattern>
@@ -13961,23 +13990,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Neamhchoitianta</short>
             <example correction="uathu"><marker>uatha</marker></example>
         </rule>
-        <rule id="URLA" name="urla">
+        <rule id="TARRAINGT_URLA" name="tarraingt urla">
             <pattern>
-                <token>urla</token>
+                <token>tarraingt</token>
+                <marker>
+                    <token>urla</token>
+                </marker>
             </pattern>
             <message>Focal ceart ach tá <suggestion>orla</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="orla"><marker>urla</marker></example>
+            <example correction="orla">tarraingt <marker>urla</marker></example>
         </rule>
         <rule id="FATA" name="fata">
             <pattern>
-                <token>fata</token>
+                <token inflected="yes">fata</token>
             </pattern>
-            <message>Focal ceart ach tá <suggestion>práta</suggestion> níos coitianta.</message>
+            <message>Focal ceart ach tá <suggestion><match no="1" postag="Noun:.*">práta</match></suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
             <example correction="práta"><marker>fata</marker></example>
         </rule>
         <rule id="RE" name="re">
+            <antipattern>
+                <token>gach</token>
+                <token>re</token>
+            </antipattern>
             <pattern>
                 <token>re</token>
             </pattern>
