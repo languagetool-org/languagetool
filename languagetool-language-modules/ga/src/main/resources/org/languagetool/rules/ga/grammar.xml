@@ -13135,11 +13135,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>díleas</token>
                 </marker>
-                <token regexp="yes">&doword;</token>
+                <token inflected="yes">do</token>
             </pattern>
             <message>Focal ceart ach tá <suggestion>dílis</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="dílis"><marker>dílis</marker> don</example>
+            <example correction="dílis"><marker>díleas</marker> don</example>
         </rule>
         <rule id="DILEAS_DAPOST" name="díleas DAPOST" default="off">
             <pattern>
@@ -13151,7 +13151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Focal ceart ach tá <suggestion>dílis</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="dílis"><marker>dílis</marker> d'</example>
+            <example correction="dílis"><marker>díleas</marker> d'</example>
         </rule>
         <rule id="DILEAS" name="díleas">
             <pattern>
@@ -13275,8 +13275,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="D_APOS_EIRI" name="d'eirí">
             <pattern>
                 <token>d</token>
-                <token regexp="yes" spacebefore="yes">&apost;</token>
-                <token spacebefore="yes">eirí</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <marker>
+                    <token spacebefore="ignore">eirí</token>
+                </marker>
             </pattern>
             <message>Focal ceart ach tá <suggestion>éirí</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
@@ -13328,7 +13330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="A_BHFAIL" name="á bhfail">
             <pattern>
-                <token>a</token>
+                <token>á</token>
                 <marker>
                     <token>bhfail</token>
                 </marker>
@@ -13501,7 +13503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Focal ceart ach tá <suggestion>inti</suggestion> níos coitianta.</message>
             <short>Neamhchoitianta</short>
-            <example correction="inti"><marker>intí</marker></example>
+            <example correction="inti">bhí <marker>intí</marker></example>
         </rule>
         <rule id="ATA_INTI" name="atá intí">
             <pattern>
