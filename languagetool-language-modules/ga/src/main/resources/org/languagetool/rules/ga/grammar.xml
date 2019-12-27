@@ -12652,8 +12652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
             <example correction="go">Bhraith mé <marker>gur</marker> fuair mé boladh trom tais uathu.</example>
         </rule>
-        <!-- <V cop="y">gur</V> LENITEDF:BACHOIR{gurbh} -->
-        <rule id="GUR_LENITEDF" name="gur ?">
+        <rule id="GUR_LENITEDF" name="gur fhéidearthacht">
             <pattern>
                 <marker>
                     <token>gur</token>
@@ -12661,10 +12660,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&lenitedf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>gurbh</suggestion> a scríobh.</message>
-            <example correction="gurbh"><marker>gur</marker> ?</example>
+            <example correction="gurbh">Bhí neart den tuairim <marker>gur</marker> fhéidearthacht é go gcuirfí brú ar Ahern éirí as a phost.</example>
         </rule>
-        <!-- <V cop="y">gurb</V> INITIALCONSONANT:BACHOIR{gur} -->
-        <rule id="GURB_INITIALCONSONANT" name="gurb ?">
+        <rule id="GURB_INITIALCONSONANT" name="gurb cumadh">
             <pattern>
                 <marker>
                     <token>gurb</token>
@@ -12672,10 +12670,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&initialconsonant;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
-            <example correction="gur"><marker>gurb</marker> ?</example>
+            <example correction="gur"><marker>gurb</marker> cumadh</example>
         </rule>
-        <!-- <V cop="y">gurbh</V> NONVOWELNONF:BACHOIR{gur} -->
-        <rule id="GURBH_NONVOWELNONF" name="gurbh ?">
+        <rule id="GURBH_NONVOWELNONF" name="gurbh cumadh">
             <pattern>
                 <marker>
                     <token>gurbh</token>
@@ -12683,7 +12680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&nonvowelnonf;</token>
             </pattern>
             <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
-            <example correction="gur"><marker>gurbh</marker> ?</example>
+            <example correction="gur"><marker>gurbh</marker> cumadh</example>
         </rule>
         <rule id="I_ECLIPSEDVOWEL" name="i n-oifig">
             <pattern>
@@ -12984,16 +12981,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
             <example correction="murar"><marker>murarbh</marker> ?</example>
         </rule>
-        <!-- <T>na</T> <NCS>ANYTHING</NCS>:BACHOIR{an} -->
-        <rule id="NA_NCS" name="na ?">
+        <rule id="NA_NCS" name="na rud">
             <pattern>
                 <marker>
                     <token>na</token>
                 </marker>
-                <token regexp="yes"></token>
+                <token postag=".*Noun:(?:Fem|Masc):Com:Sg.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>an</suggestion> a scríobh.</message>
-            <example correction="an"><marker>na</marker> ?</example>
+            <example correction="an">Athdhéantar <marker>na</marker> snáithe i ngach ceann de na curaclaim seo.</example>
         </rule>
         <rule id="NACH_VPAST" name="nach chuala">
             <antipattern>
@@ -13217,16 +13213,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
             <example correction="sna"><marker>sa</marker> ?</example>
         </rule>
-        <!-- <S>sna</S> <NCS>ANYTHING</NCS>:BACHOIR{sa, san} -->
         <rule id="SNA_NCS" name="sna ?">
             <pattern>
                 <marker>
                     <token>sna</token>
                 </marker>
-                <token></token>
+                <token postag=".*Noun:(?:Fem|Masc):Com:Sg.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Ba chóir duit <suggestion>sa, san</suggestion> a scríobh.</message>
-            <example correction=""><marker>sna</marker> ?</example>
+            <message>Ba chóir duit “sa, san” a scríobh.</message>
+            <example correction="">Soláthraíonn an Roinn seisiúin <marker>sna</marker> Gaeilge labhartha do na mic léinn.</example>
         </rule>
         <rule id="SULA_VPAST" name="sula ?">
             <antipattern>
