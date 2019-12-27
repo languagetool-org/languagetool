@@ -61,6 +61,13 @@ public class PatternTokenBuilder {
     return this;
   }
 
+  public PatternTokenBuilder csTokenRegex(String token) {
+    this.token = Objects.requireNonNull(token);
+    regexp = true;
+    caseSensitive = true;
+    return this;
+  }
+
   public PatternTokenBuilder pos(String posTag) {
     return pos(posTag, false);
   }
