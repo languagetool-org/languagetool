@@ -12886,8 +12886,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
             <example correction="mura"><marker>mar</marker> ?</example>
         </rule>
-        <!-- <C>mura</C> <VPAST>ANYTHING</VPAST>:BACHOIR{murar} -->
-        <rule id="MURA_VPAST" name="mura ?">
+        <rule id="MURA_VPAST" name="mura dtuig">
+            <antipattern>
+                <token>mura</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>mura</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>mura</token>
@@ -12895,7 +12902,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
-            <example correction="murar"><marker>mura</marker> ?</example>
+            <example correction="Murar"><marker>Mura</marker> dtuig siad é, nach dóibh féin is mó náire?</example>
+            <example>Mura bhfuair, sin an chraobh aige.</example>
         </rule>
         <!-- <V cop="y">murar?</V> INITIALVOWEL:BACHOIR{murab, murarbh} -->
         <rule id="MURA_INITIALVOWEL" name="mura ?">
@@ -12973,6 +12981,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="an"><marker>na</marker> ?</example>
         </rule>
         <rule id="NACH_VPAST" name="nach chuala">
+            <antipattern>
+                <token>nach</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>nach</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>nach</token>
@@ -12981,6 +12997,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
             <example correction="nár"><marker>nach</marker> chuala</example>
+            <example>Nach raibh dóthain eolais aige?</example>
         </rule>
         <rule id="NAR_VNOTPASTSUBJ" name="nár bhfuil">
             <pattern>
