@@ -12694,7 +12694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>inar</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
             <example correction="ina"><marker>inar</marker> ?</example>
@@ -12961,12 +12961,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="nár"><marker>nach</marker> chuala</example>
         </rule>
         <!-- nár <VNOTPASTSUBJ>ANYTHING</VNOTPASTSUBJ>:BACHOIR{nach} -->
-        <rule id="NAR_ANYTHING" name="nár ?">
+        <rule id="NAR_VNOTPASTSUBJ" name="nár ?">
             <pattern>
                 <marker>
                     <token>nár</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
             <example correction="nach"><marker>nár</marker> ?</example>
@@ -13005,12 +13005,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="nár"><marker>nárbh</marker> ?</example>
         </rule>
         <!-- ní <VPAST>ANYTHING</VPAST>:BACHOIR{níor} -->
-        <rule id="NI_ANYTHING" name="ní ?">
+        <rule id="NI_VPAST" name="ní ?">
             <pattern>
                 <marker>
                     <token>ní</token>
                 </marker>
-                <token regexp="yes">&anything;</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
             </pattern>
             <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
             <example correction="níor"><marker>ní</marker> ?</example>
@@ -13241,17 +13241,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>sularbh</suggestion> a scríobh.</message>
             <example correction="sularbh"><marker>sular</marker> ?</example>
-        </rule>
-        <!-- <V cop="y">sularb</V> INITIALCONSONANT:BACHOIR{sular} -->
-        <rule id="SULARB_INITIALCONSONANT" name="sularb ?">
-            <pattern>
-                <marker>
-                    <token>sularb</token>
-                </marker>
-                <token regexp="yes">&initialconsonant;</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
-            <example correction="sular"><marker>sularb</marker> ?</example>
         </rule>
         <!-- <V cop="y">sularbh</V> NONVOWELNONF:BACHOIR{sular} -->
         <rule id="SULARBH_NONVOWELNONF" name="sularbh ?">
