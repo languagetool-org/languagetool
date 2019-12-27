@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 4.8-SNAPSHOT (release planned for 2019-12-27)
+## 4.8 (released 2019-12-27)
 
 #### Catalan
   * added and improved rules
@@ -23,7 +23,6 @@
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
   * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
-
 
 #### Esperanto
   * corrections are now offered for spell check errors 
