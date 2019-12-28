@@ -3,8 +3,9 @@
 ## 4.9-SNAPSHOT (release planned for 2020-03-24)
 
 ...
-
-
+#### German
+  * added and improved rules
+...
 
 
 ## 4.8 (released 2019-12-27)
