@@ -84,6 +84,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Regelschreiber",
           "Glasreinigern",
           "Holzstele",
+          "Brandschutz",
           "Testbahn",
           "Reiszwecke"
   ));

@@ -23,6 +23,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -188,16 +189,7 @@ public class AgreementRule extends Rule {
       tokenRegex("Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember|[12][0-9]{3}")
     ),
     Arrays.asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      tokenRegex("Ist|Sind|Macht|Wird"),
-      token("das"),
-      posRegex("SUB:.*"),
-      posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
-    ),
-    Arrays.asList(
-      // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
-      token(":"),
-      tokenRegex("Ist|Sind|Macht|Wird"),
+      csRegex("Ist|Sind|Macht|Wird"),
       token("das"),
       posRegex("SUB:.*"),
       posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"

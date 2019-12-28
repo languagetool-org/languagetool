@@ -140,6 +140,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <!-- this is an example rule: -->
+        <rule id="GILBT" name="gilbt (gilt/gibt)">
+            <pattern>
+                <token>gilbt</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>gibt</suggestion> oder <suggestion>gilt</suggestion>?</message>
+            <example correction="gibt|gilt">In Italien <marker>gilbt</marker> es viele Italiener.</example>
+        </rule>
         <rule id="PRP_DM" name="über/mit dm (dem)">
             <antipattern case_sensitive="yes">
                 <token>per</token>
@@ -176,7 +184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="PA2:.+" postag_regexp="yes"></token>
                     <marker>
-                        <token regexp="yes">hat|wurdet</token>
+                        <token regexp="yes">hat|w[uü]rdet</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="4" regexp_match="t" regexp_replace="st"/></suggestion> (Bezugswort 'du') oder fehlt ein vorausgehendes Komma?</message>
@@ -192,7 +200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="PA2:.+" postag_regexp="yes"></token>
                     <marker>
-                        <token regexp="yes">habe|wurde</token>
+                        <token regexp="yes">habe|w[uü]rde</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="4" regexp_match="e" regexp_replace="en"/></suggestion> (Bezugswort 'wir') oder fehlt ein vorausgehendes Komma?</message>
@@ -786,6 +794,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>dank</token>
+                    <token>im</token>
+                    <token>voraus</token>
+                    <token postag="PKT" />
+                </antipattern>
+                <antipattern>
+                    <token>dank</token>
+                    <token>im</token>
+                    <token postag="SENT_END">voraus</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -800,6 +819,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ihm">Er schaffte es nicht, sich bei <marker>im</marker> zu bedanken.</example>
                 <example correction="ihm">Sie schaute <marker>im</marker> zu.</example>
                 <example>Tom ist nicht besonders gut im rückwärts Einparken.</example>
+                <example>Vielen Dank im voraus.</example><!-- different error (voraus -> Voraus, caught by IM_KLAREN) -->
+
             </rule>
         </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
@@ -8582,6 +8603,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rulegroup id="JONG_UN" name="Kim Jong-un" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Kim_Jong-un</url>
+            <rule>
+                <pattern>
+                    <token>jong</token>
+                    <token>un</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
+                <example correction="Jong-un">Kim <marker>Jong un</marker> kommt aus Nordkorea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jongun</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
+                <example correction="Jong-un">Kim <marker>Jongun</marker> kommt aus Nordkorea.</example>
+            </rule>
+        </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
                 <token>tik</token>
@@ -31533,7 +31572,7 @@ Andere Projekte</example>
                     <token postag="ZAL"/>
                 </antipattern>
                 <pattern>
-                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:AKK:...:NEU:.*|ZAL" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
+                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:(AKK|DAT):...:NEU:.*|ZAL" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
                     <marker>
                     <token case_sensitive="yes">mal</token>
                     </marker>
@@ -32441,6 +32480,31 @@ Andere Projekte</example>
                 <example correction="Make-ups">Während des Auftragens ihres <marker>Make-Ups</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="POST_IT" name="'Post-it'" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Klebezettel</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Post</token>
+                    <token regexp="yes">its?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Post-<match no="2" case_conversion="alllower" /></suggestion> (= Klebezettel)?</message>
+                <example correction="Post-it">Bitte entfernen Sie das <marker>Post It</marker> von der Wand.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Postits?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Postit" regexp_replace="Post-it" /></suggestion> (= Klebezettel)?</message>
+                <example correction="Post-it">Sie musste das <marker>Postit</marker> beschriften.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Post-?Its?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)post-?it" regexp_replace="Post-it" /></suggestion> (= Klebezettel)?</message>
+                <example correction="Post-its">Beim kleben des <marker>Post-Its</marker> fiel ihm auf, dass er einen Rechtschreibfehler darauf hatte.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CHECK_IN" name="'Check-in'">
             <rule>
                 <pattern>
@@ -32600,7 +32664,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?</token>
+                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
@@ -32610,10 +32674,12 @@ Andere Projekte</example>
                     <token regexp="yes">E-[A-Z].+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?)</token>
+                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?)</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
+                <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)^e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
+                <example correction="E-Scooter">Ein <marker>EScooter</marker> wird elektrisch angetrieben.</example>
+                <example>Das Kind wurde fast überfahren, als der LKW rückwärts fuhr.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CUM_EX" name="Cum-Ex">

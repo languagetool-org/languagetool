@@ -58,16 +58,18 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final RequestLimiter requestLimiter;
   private final ErrorRequestLimiter errorRequestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
+  private final Server httpServer;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final RequestCounter reqCounter = new RequestCounter();
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue, Server httpServer) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
     this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
+    this.httpServer = httpServer;
     this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
@@ -91,6 +93,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (!path.startsWith("/")) {
           path = "/" + path;
         }
+      }
+      if (path.startsWith("/v2/stop") && config.isStoppable()) {
+        logger.warn("Stopping server by external command");
+        httpServer.stop();
+        return;
       }
       if (path.startsWith("/v2/")) {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
