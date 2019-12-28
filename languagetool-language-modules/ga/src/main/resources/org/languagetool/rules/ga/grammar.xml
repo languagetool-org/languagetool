@@ -11807,7 +11807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Ba chóir duit <suggestion>ón</suggestion> a scríobh.</message>
-            <example correction='ón'><marker>ó an</marker></example>
+            <example correction='ón'>Bíodh bhur ngrá saor <marker>ó an</marker> chur i gcéill.</example>
         </rule>
         <rule id="TRI_N-AR" name="trí n-ár">
             <pattern>
@@ -14094,6 +14094,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>lenár</suggestion> a scríobh.</message>
             <example correction="lenár"><marker>le n-ár</marker></example>
+        </rule>
+        <rule id="O_IS" name="ó is">
+            <pattern>
+                <marker>
+                    <token>ó</token>
+                    <token>is</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ós</suggestion> a scríobh.</message>
+            <example correction="ós"><marker>ó is</marker></example>
+        </rule>
+        <rule id="O_SIN" name="ó sin">
+            <antipattern>
+                <token>ó</token>
+                <token>sin</token>
+                <token>go</token>
+                <token>dtí</token>
+            </antipattern>
+            <antipattern>
+                <token>ó</token>
+                <token>sin</token>
+                <token regexp="yes">chuig|go</token>
+            </antipattern>
+            <pattern>
+                <token>ó</token>
+                <marker>
+                    <token>sin</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>shin</suggestion> a scríobh.</message>
+            <example correction="shin">ó <marker>sin</marker></example>
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
