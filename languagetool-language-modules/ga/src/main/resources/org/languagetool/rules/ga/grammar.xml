@@ -2382,6 +2382,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ROIMH_CONTRACTIONS" name="roimh Contractions">
+            <antipattern>
+                <token>roimh</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>roimh</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>roimh</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="ROIMH_ME_ROMHAM" name="roimh + mé = romham">
                 <pattern>
                     <marker>
@@ -9665,7 +9685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_MBLIAIN" name="seach mbliain">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>mbliain</token>
                 </marker>
@@ -9675,7 +9695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_GCEANN" name="seach gceann">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>gceann</token>
                 </marker>
@@ -9685,7 +9705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_GCLOIGEANN" name="seacht gcloigeann">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>gcloigeann</token>
                 </marker>
@@ -9695,7 +9715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_GCUAIRT" name="seacht gcuairt">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>gcuairt</token>
                 </marker>
@@ -9705,7 +9725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_BHFICHE" name="seacht bhfiche">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>bhfiche</token>
                 </marker>
@@ -9715,7 +9735,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_N-ORLACH" name="seacht n-orlach">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>n-orlach</token>
                 </marker>
@@ -9725,7 +9745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_BPINGIN" name="seacht bpingin">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>bpingin</token>
                 </marker>
@@ -9735,7 +9755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_SCILLING" name="seacht scilling">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>scilling</token>
                 </marker>
@@ -9745,7 +9765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_SEACHTAIN" name="seacht seachtain">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>seachtain</token>
                 </marker>
@@ -9755,7 +9775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_DTROIGH" name="seacht dtroigh">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>dtroigh</token>
                 </marker>
@@ -9765,7 +9785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_N-UBH" name="seacht n-ubh">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>n-ubh</token>
                 </marker>
@@ -9775,7 +9795,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SEACHT_N-UAIR" name="seacht n-uair">
             <pattern>
-                <token regexp="yes">sh?eacht|h?ocht|n?dh?eich</token>
+                <token regexp="yes">sh?eacht|h?ocht|naoi|n?dh?eich</token>
                 <marker>
                     <token>n-uair</token>
                 </marker>
@@ -11787,7 +11807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
-            <example correction='faoina'><marker>faoi a</marker></example>
+            <example correction='faoina'>Cuireann sí a neart mar chrios <marker>faoi a</marker> coim.</example>
         </rule>
         <rule id="FAOI_AN" name="faoi an">
             <pattern>
@@ -11814,7 +11834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>na</token>
             </pattern>
             <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
-            <example correction='sna'><marker>i na</marker></example>
+            <example correction='sna'>An bhfuil aon uachtar reoite agat  <marker>i na</marker> cuisneoirí?</example>
         </rule>
         <rule id="I_AN" name="i an">
             <pattern>
@@ -11822,7 +11842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>an</token>
             </pattern>
             <message>Ba chóir duit <suggestion>sa</suggestion> a scríobh.</message>
-            <example correction='sa'><marker>i an</marker></example>
+            <example correction="sa">An bhfuil aon uachtar reoite agat <marker>i an</marker> chuisneoir?</example>
         </rule>
         <rule id="I_A" name="i a">
             <pattern>
@@ -11830,7 +11850,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
             </pattern>
             <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
-            <example correction='ina'><marker>i a</marker></example>
+            <example correction='ina'>An bhfuil aon uachtar reoite <marker>i a</marker> cuisneoir?</example>
+            <example correction='ina'>Roghnaigh na teangacha <marker>i a</marker> na leathanaigh seo.</example>
         </rule>
         <rule id="I_AR" name="i ar">
             <pattern>
@@ -11838,7 +11859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ar</token>
             </pattern>
             <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
-            <example correction='inar'><marker>i ar</marker></example>
+            <example correction='inar'>Rinne gach cine é sin sna cathracha <marker>i ar</marker> lonnaíodar.</example>
         </rule>
         <rule id="IN_AR" name="in ár">
             <pattern>
@@ -11846,7 +11867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ár</token>
             </pattern>
             <message>Ba chóir duit <suggestion>inár</suggestion> a scríobh.</message>
-            <example correction='inár'><marker>i ár</marker></example>
+            <example correction='inár'>An bhfuil aon uachtar reoite <marker>i ár</marker> mála?</example>
         </rule>
         <rule id="I_INITIALBAPOST" name="i INITIALBAPOST">
             <pattern>
@@ -11971,7 +11992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
             </pattern>
             <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
-            <example correction='óna'><marker>ó a</marker></example>
+            <example correction='óna'>Amharcann sé <marker>ó a</marker> ionad cónaithe ar gach aon neach dá maireann ar talamh.</example>
         </rule>
         <rule id="Ó_AR" name="ó ar">
             <pattern>
@@ -11979,7 +12000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ar</token>
             </pattern>
             <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
-            <example correction='ónar'><marker>ó ar</marker></example>
+            <example correction='ónar'>Seo iad a gcéimeanna de réir na n-áiteanna <marker>ó ar</marker> thosaíodar.</example>
         </rule>
         <rule id="Ó_ÁR" name="ó ár">
             <pattern>
@@ -11987,7 +12008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ár</token>
             </pattern>
             <message>Ba chóir duit <suggestion>ónár</suggestion> a scríobh.</message>
-            <example correction='ónár'><marker>ó ár</marker></example>
+            <example correction='ónár'>Agus rinne sé ár bhfuascailt <marker>ó ár</marker> naimhde.</example>
         </rule>
         <rule id="TRÍ_A" name="trí a">
             <pattern>
@@ -12020,6 +12041,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='sa'><marker>san</marker> bhaile</example>
             <example correction="sa">Tugaimid faoi abhainn na Sionainne <marker>san</marker> bhád locha ó Ros Comáin.</example>
             <example>Tógadh an foirgneamh féin san 18ú haois.</example>
+        </rule>
+        <rule id="NA_AON" name="na aon">
+            <pattern>
+                <marker>
+                    <token>na</token>
+                </marker>
+                <token>aon</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>an</suggestion> a scríobh.</message>
+            <example correction='an'><marker>na</marker> aon</example>
         </rule>
         <rulegroup id="SNA_AON" name="sna aon">
             <rule>
@@ -13619,6 +13650,209 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>a fhad</suggestion> a scríobh.</message>
             <example correction="a fhad"><marker>fhad</marker> is</example>
+        </rule>
+        <rule id="I_BHUR" name="i bhur">
+            <pattern>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token>bhur</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
+            <example correction="in">An bhfuil aon uachtar reoite agaibh <marker>i</marker> bhur mála?</example>
+        </rule>
+        <rule id="LE_AN" name="le an">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>an</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>leis an</suggestion> a scríobh.</message>
+            <example correction="leis an">D'fhéadfadh tábhacht a bheith ag baint <marker>le an</marker> gcéad toisc díobh sin.</example>
+        </rule>
+        <rule id="LE_NA" name="le na">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>na</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>leis na</suggestion> a scríobh.</message>
+            <example correction="leis na">Molann an Coimisiún go maoineofaí scéim chun tacú <marker>le na</marker> pobail.</example>
+        </rule>
+        <rule id="SA_NA" name="sa na">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                    <token>na</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
+            <example correction="sna"><marker>sa na</marker></example>
+        </rule>
+        <rule id="AN_TRI" name="an trí">
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+                <token regexp="yes">g?ch?éad|mh?íle|mh?illiún</token>
+            </antipattern>
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+                <token>a</token>
+                <token>chlog</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction="na">Is iad <marker>an</marker> trí cholún le chéile an tAontas Eorpach.</example>
+            <example>Sheol an ceithre mhíle de na meirligh amach san fhásach.</example>
+        </rule>
+        <rule id="FUSEDPREP_TRI" name="FUSEDPREP trí">
+            <antipattern>
+                <token regexp="yes">&fusedprep;</token>
+                <token regexp="yes">(th?rí|ch?eithre|ch?úig|sh?é|sh?eacht|ocht|naoi|dh?eich)</token>
+                <token regexp="yes">g?ch?éad|mh?íle|mh?illiún</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&fusedprep;</token>
+                <token regexp="yes">(th?rí|ch?eithre|ch?úig|sh?é|sh?eacht|ocht|naoi|dh?eich)</token>
+                <token>a</token>
+                <token>chlog</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">&fusedprep;</token>
+                </marker>
+                <token regexp="yes">(th?rí|ch?eithre|ch?úig|sh?é|sh?eacht|ocht|naoi|dh?eich)</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> na</suggestion> a scríobh.</message>
+            <example correction="faoi na"><marker>faoin</marker> trí</example>
+        </rule>
+        <rule id="DE_IS" name="de is">
+            <pattern>
+                <token regexp="yes">d[eo]n?</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> nó <suggestion>darb</suggestion> a scríobh.</message>
+            <example correction="dar|darb"><marker>de is</marker></example>
+        </rule>
+        <rule id="DE_BA" name="de ba">
+            <pattern>
+                <token regexp="yes">d[eo]n?</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> nó <suggestion>darbh</suggestion> a scríobh.</message>
+            <example correction="dar|darbh"><marker>de ba</marker></example>
+        </rule>
+        <rule id="FAOI_IS" name="faoi is">
+            <pattern>
+                <token regexp="yes">faoin?</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> nó <suggestion>faoinarb</suggestion> a scríobh.</message>
+            <example correction="faoinar|faoinarb"><marker>faoi is</marker></example>
+        </rule>
+        <rule id="FAOI_BA" name="faoi ba">
+            <pattern>
+                <token regexp="yes">faoin?</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> nó <suggestion>faoinarbh</suggestion> a scríobh.</message>
+            <example correction="faoinar|faoinarbh"><marker>faoi ba</marker></example>
+        </rule>
+        <rule id="I_IS" name="i is">
+            <pattern>
+                <token regexp="yes">in?</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> nó <suggestion>inarb</suggestion> a scríobh.</message>
+            <example correction="inar|inarb"><marker>in is</marker></example>
+        </rule>
+        <rule id="I_BA" name="i ba">
+            <pattern>
+                <token regexp="yes">in?</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> nó <suggestion>inarbh</suggestion> a scríobh.</message>
+            <example correction="inar|inarbh"><marker>i ba</marker></example>
+        </rule>
+        <rule id="LE_IS" name="le is">
+            <pattern>
+                <token>le</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> nó <suggestion>lenarb</suggestion> a scríobh.</message>
+            <example correction="lenar|lenarb"><marker>le is</marker></example>
+        </rule>
+        <rule id="LE_BA" name="le ba">
+            <pattern>
+                <token>le</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> nó <suggestion>lenarbh</suggestion> a scríobh.</message>
+            <example correction="lenar|lenarbh"><marker>le ba</marker></example>
+        </rule>
+        <rule id="MA_IS" name="má is">
+            <pattern>
+                <token>má</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>más</suggestion> a scríobh.</message>
+            <example correction="más"><marker>má is</marker></example>
+        </rule>
+        <rule id="MURA_IS" name="mura is">
+            <pattern>
+                <token>mura</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> nó <suggestion>murab</suggestion> a scríobh.</message>
+            <example correction="mura|murab"><marker>mura is</marker></example>
+        </rule>
+        <rule id="MURA_BA" name="mura ba">
+            <pattern>
+                <token>mura</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murar</suggestion> nó <suggestion>murarbh</suggestion> a scríobh.</message>
+            <example correction="murar|murarbh"><marker>mura ba</marker></example>
+        </rule>
+        <rule id="SULA_IS" name="sula is">
+            <pattern>
+                <token>sula</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> nó <suggestion>sularb</suggestion> a scríobh.</message>
+            <example correction="sular|sularb"><marker>sula is</marker></example>
+        </rule>
+        <rule id="SULA_BA" name="sula ba">
+            <pattern>
+                <token>sula</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> nó <suggestion>sularbh</suggestion> a scríobh.</message>
+            <example correction="sular|sularbh"><marker>sula ba</marker></example>
+        </rule>
+        <rule id="TRINA_IS" name="trí is">
+            <pattern>
+                <token>trí</token>
+                <token regexp="yes">is|ar|arb</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> nó <suggestion>trínarb</suggestion> a scríobh.</message>
+            <example correction="trínar|trínarb"><marker>trí is</marker></example>
+        </rule>
+        <rule id="TRINA_BA" name="trí ba">
+            <pattern>
+                <token>trí</token>
+                <token regexp="yes">ba|ab|arbh</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> nó <suggestion>trínarbh</suggestion> a scríobh.</message>
+            <example correction="trínar|trínarbh"><marker>trí ba</marker></example>
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
