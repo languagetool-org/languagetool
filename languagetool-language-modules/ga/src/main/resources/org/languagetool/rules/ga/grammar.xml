@@ -1794,6 +1794,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="FAOI_CONTRACTIONS" name="faoi Contractions">
+            <antipattern>
+                <token>faoi</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>faoi</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>faoi</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="FAOI_ME_FUM" name="faoi + mé = fúm">
                 <pattern>
                     <marker>
