@@ -11541,6 +11541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction='na'>teach <marker>an</marker> mná</example>
+            <example correction='na'> Tá sin ráite cheana féin acu le muintir <marker>an</marker> tíre seo.</example>
         </rule>
         <rule id="AN_NP" name="an NP">
             <antipattern>
@@ -11555,6 +11556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
             <example correction='na'>teach <marker>an</marker> mban</example>
+	    <example correction='na'> Is é is dóichí go raibh baint ag an eisimirce leis an laghdú i líon <marker>an</marker> gcainteoirí Gaeilge.</example>
         </rule>
         <rule id="BEIRT_MBEAN" name="beirt mbean">
             <pattern>
@@ -11814,6 +11816,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='dhá'>in <marker>dá</marker></example>
         </rule>
         <rule id="IN_INITIALCONSONANT" name="in INITIALCONSONANT">
+            <antipattern>
+                <token>in</token>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token regexp="yes">&vowelnumeral;</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>bhur</token>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>dhá</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>in</token>
@@ -11822,6 +11840,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>i</suggestion> a scríobh.</message>
             <example correction='i'><marker>in</marker> bpáirc</example>
+            <example correction='i'>Thug sé seo deis dom breathnú <marker>in</marker> mo thimpeall.</example>
+            <example correction='i'>Phós sí Pádraig, fear ón mBlascaod Mór, <marker>in</marker> 1982.</example>
+            <example>Theastaigh uaibh beirt bheith in bhur scríbhneoirí.</example>
+            <example>Beidh an spórt seo á imirt in dhá ionad.</example>
         </rule>
         <rule id="NA_DHÁ" name="na dhá">
             <pattern>
@@ -12191,7 +12213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>ár</suggestion> a scríobh.</message>
             <example correction="ár">Bhíomar ag féachaint ar an Ghaeltacht mar ionad chun feabhas a chur ar <marker>ar</marker> gcuid Gaeilge.</example>
         </rule>
-        <rule id="AR_PASTNORFORMLEN" name="ar ?">
+        <rule id="AR_PASTNORFORMLEN" name="ar fuair">
             <pattern>
                 <marker>
                     <token>ar</token>
@@ -12404,6 +12426,950 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>char</suggestion> a scríobh.</message>
             <example correction="char"><marker>cha</marker> bhfaca</example>
             <example>Cha dtug mé cur síos ach ar dhá bhabhta collaíochta san úrscéal ar fad.</example>
+        </rule>
+        <rule id="CHA_INITIALVOWELORF" name="cha oibreofá">
+            <pattern>
+                <marker>
+                    <token>cha</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>chan</suggestion> a scríobh.</message>
+            <example correction="chan"><marker>cha</marker> oibreofá</example>
+        </rule>
+        <rule id="CHAR_VNOTPAST" name="char bhfuil">
+            <pattern>
+                <marker>
+                    <token>char</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
+            <example correction="cha"><marker>char</marker> bhfuil</example>
+        </rule>
+        <rule id="CHAR_PASTNORFORMLEN" name="char fuair">
+            <pattern>
+                <marker>
+                    <token>char</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>cha</suggestion> a scríobh.</message>
+            <example correction="cha"><marker>char</marker> fuair</example>
+        </rule>
+        <rule id="DA_VNOTCOND" name="dá tá">
+            <pattern>
+                <marker>
+                    <token>dá</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Cond.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>má</suggestion> a scríobh.</message>
+            <example correction="má"><marker>dá</marker> tá</example>
+        </rule>
+        <rule id="DAR_INITIALVOWEL" name="dar as">
+            <pattern>
+                <marker>
+                    <token>dar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “darb, darbh” a scríobh.</message>
+            <example correction=""><marker>dar</marker> as</example>
+        </rule>
+        <rule id="DAR_LENITEDF" name="dar fháltas">
+            <pattern>
+                <marker>
+                    <token>dar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>darbh</suggestion> a scríobh.</message>
+            <example correction="darbh"><marker>dar</marker> fháltas</example>
+        </rule>
+        <rule id="DARB_INITIALCONSONANT" name="darb ndóigh">
+            <pattern>
+                <marker>
+                    <token>darb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
+            <example correction="dar"><marker>darb</marker> ndóigh</example>
+        </rule>
+        <rule id="DARBH_NONVOWELNONF" name="darbh le">
+            <pattern>
+                <marker>
+                    <token>darbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dar</suggestion> a scríobh.</message>
+            <example correction="dar"><marker>darbh</marker> le</example>
+        </rule>
+        <rule id="DAR_VNOTPAST" name="dár mbeadh">
+            <pattern>
+                <marker>
+                    <token>dár</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>dár</marker> mbeadh</example>
+        </rule>
+        <rule id="DAR_PASTNORFORMLEN" name="dár fuair">
+            <pattern>
+                <marker>
+                    <token>dár</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>dár</marker> fuair</example>
+        </rule>
+        <rule id="DE_INITIALVOWELORF" name="de obair">
+            <pattern>
+                <token regexp="yes">d[eo]</token>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>d'\2</suggestion> a scríobh.</message>
+            <example correction="d'obair"><marker>do obair</marker></example>
+            <example correction="d'airteagail">Is amhlaidh a bheidh freisin do na tagairtí <marker>do airteagail</marker>.</example>
+        </rule>
+        <rule id="FAOINA_VPAST" name="faoina tharla">
+            <antipattern>
+                <token>faoina</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>faoina</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>faoina</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar">Is dócha go raibh a fhios ag Arlene <marker>faoina</marker> tharla.</example>
+        </rule>
+        <rule id="FAOINAR_VNOTPAST" name="faoinar bhfuil">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
+            <example correction="faoina"><marker>faoinar</marker> bhfuil</example>
+        </rule>
+        <rule id="FAOINAR_PASTNORFORMLEN" name="faoinar fuair">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoina</suggestion> a scríobh.</message>
+            <example correction="faoina"><marker>faoinar</marker> fuair</example>
+        </rule>
+        <rule id="FAOINAR_INITIALVOWEL" name="faoinar iníoctha">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “faoinarb, faoinarbh” a scríobh.</message>
+            <example correction="">cíos feo-fheirme, pé acu a bhunaíos nó nach mbunaíonn an deontas <marker>faoinar</marker> iníoctha é comhbhaint thiarna talún agus tionónta</example>
+        </rule>
+        <rule id="FAOINAR_LENITEDF" name="faoinar fhéidir ">
+            <pattern>
+                <marker>
+                    <token>faoinar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinarbh</suggestion> a scríobh.</message>
+            <example correction="faoinarbh"><marker>faoinar</marker> fhéidir </example>
+        </rule>
+        <rule id="FAOINARB_INITIALCONSONANT" name="faoinarb cláraíodh">
+            <pattern>
+                <marker>
+                    <token>faoinarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar"><marker>faoinarb</marker> cláraíodh é</example>
+        </rule>
+        <rule id="FAOINARBH_NONVOWELNONF" name="faoinarbh cláraíodh">
+            <pattern>
+                <marker>
+                    <token>faoinarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinar</suggestion> a scríobh.</message>
+            <example correction="faoinar"><marker>faoinarbh</marker> cláraíodh</example>
+        </rule>
+        <rule id="GO_VPAST" name="go éirigh">
+            <antipattern>
+                <token>go</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>go</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>go</marker> éirigh an ghrian</example>
+        </rule>
+        <rule id="GUR_VNOTPAST" name="gur bhfuil">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
+            <example correction="go">Ba mhaith liom <marker>gur</marker> bhfágann daoine óga an scoil agus iad ullmhaithe.</example>
+        </rule>
+        <rule id="GUR_PASTNORFORMLEN" name="gur fuair">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>go</suggestion> a scríobh.</message>
+            <example correction="go">Bhraith mé <marker>gur</marker> fuair mé boladh trom tais uathu.</example>
+        </rule>
+        <rule id="GUR_LENITEDF" name="gur fhéidearthacht">
+            <pattern>
+                <marker>
+                    <token>gur</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gurbh</suggestion> a scríobh.</message>
+            <example correction="gurbh">Bhí neart den tuairim <marker>gur</marker> fhéidearthacht é go gcuirfí brú ar Ahern éirí as a phost.</example>
+        </rule>
+        <rule id="GURB_INITIALCONSONANT" name="gurb cumadh">
+            <pattern>
+                <marker>
+                    <token>gurb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>gurb</marker> cumadh</example>
+        </rule>
+        <rule id="GURBH_NONVOWELNONF" name="gurbh cumadh">
+            <pattern>
+                <marker>
+                    <token>gurbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>gurbh</marker> cumadh</example>
+        </rule>
+        <rule id="I_ECLIPSEDVOWEL" name="i n-oifig">
+            <pattern>
+                <token>i</token>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in <match no="2" regexp_match="^n[-]?(.*)" regexp_replace="$1"/></suggestion> a scríobh.</message>
+            <example correction="in oifig"><marker>i n-oifig</marker></example>
+            <example correction="in easnamh">Tá ainm <marker>i n-easnamh</marker> a mbeadh coinne agat leis.</example>
+        </rule>
+        <rule id="I_INITIALVOWEL" name="i oifig">
+            <pattern>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
+            <example correction="in"><marker>i</marker> oifig</example>
+            <example correction="in">Tá ainm <marker>i</marker> easnamh a mbeadh coinne agat leis.</example>
+        </rule>
+        <rule id="INA_VPAST" name="ina dúradh">
+            <antipattern>
+                <token>ina</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>ina</token>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ina</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>ina</marker> tógadh</example>
+        </rule>
+        <rule id="INAR_VNOTPAST" name="inar bhfuil">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
+            <example correction="ina"><marker>inar</marker> bhfuil</example>
+        </rule>
+        <rule id="INAR_PASTNORFORMLEN" name="inar fuair">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ina</suggestion> a scríobh.</message>
+            <example correction="ina"><marker>inar</marker> fuair</example>
+        </rule>
+        <rule id="INAR_INITIALVOWEL" name="inar aoibhinn">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “inarb, inarbh” a scríobh.</message>
+            <example correction=""><marker>inar</marker> aoibhinn</example>
+        </rule>
+        <rule id="INAR_LENITEDF" name="inar fhéidir">
+            <pattern>
+                <marker>
+                    <token>inar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inarbh</suggestion> a scríobh.</message>
+            <example correction="inarbh"><marker>inar</marker> fhéidir</example>
+        </rule>
+        <rule id="INARB_INITIALCONSONANT" name="inarb thróid">
+            <pattern>
+                <marker>
+                    <token>inarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>inarb</marker> thróid</example>
+        </rule>
+        <rule id="INARBH_NONVOWELNONF" name="inarbh thróid">
+            <pattern>
+                <marker>
+                    <token>inarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inar</suggestion> a scríobh.</message>
+            <example correction="inar"><marker>inarbh</marker> thróid</example>
+        </rule>
+        <rule id="LENA_VPAST" name="lena thóg">
+            <antipattern>
+                <token>lena</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>lena</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>lena</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar">Sin an t-airgead <marker>lena</marker> thóg sé an teach.</example>
+        </rule>
+        <rule id="LENAR_VNOTPAST" name="lenar bhfuil">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lena</suggestion> a scríobh.</message>
+            <example correction="lena">Cuir alt eile <marker>lenar</marker> bhfuil scríofa agat i gCeist a trí.</example>
+        </rule>
+        <rule id="LENAR_PASTNORFORMLEN" name="lenar fuair">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lena</suggestion> a scríobh.</message>
+            <example correction="lena"><marker>lenar</marker> fuair</example>
+        </rule>
+        <rule id="LENAR_INITIALVOWEL" name="lenar osclaíodh">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “lenarb, lenarbh” a scríobh.</message>
+            <example correction=""><marker>lenar</marker> osclaíodh</example>
+        </rule>
+        <rule id="LENAR_LENITEDF" name="lenar fhiú">
+            <pattern>
+                <marker>
+                    <token>lenar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenarbh</suggestion> a scríobh.</message>
+            <example correction="lenarbh"><marker>lenar</marker> fhiú</example>
+        </rule>
+        <rule id="LENARB_INITIALCONSONANT" name="lenarb thóg">
+            <pattern>
+                <marker>
+                    <token>lenarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar">Sin an t-airgead <marker>lenarb</marker> thóg sé an teach.</example>
+        </rule>
+        <rule id="LENARBH_NONVOWELNONF" name="lenarbh maraíodh">
+            <pattern>
+                <marker>
+                    <token>lenarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar">Sin é Magh Uillin, a ainmníodh ón Uillin úd <marker>lenarbh</marker> maraíodh Oirbsean i</example>
+        </rule>
+        <rule id="MA_VCOND" name="má mbeadh">
+            <pattern>
+                <marker>
+                    <token>má</token>
+                </marker>
+                <token postag=".*Verb.*Cond.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá"><marker>má</marker> mbeadh</example>
+        </rule>
+        <rule id="MO_INITIALVOWELORF" name="mo athair">
+            <pattern>
+                <token>mo</token>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>m'\2</suggestion> a scríobh.</message>
+            <example correction="m'athair"><marker>mo athair</marker></example>
+            <example correction="m'aitheanta">Comhlíon <marker>mo aitheanta</marker> agus mairfidh tú beo.</example>
+        </rule>
+        <rule id="MAR_ECLIPSED" name="mar mbeadh">
+            <pattern>
+                <marker>
+                    <token>mar</token>
+                </marker>
+                <token regexp="yes">&eclipsed;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura">Ó Mianáin; <marker>mar</marker> mbíodh solas glinn sa seomra...</example>
+        </rule>
+        <rule id="MURA_VPAST" name="mura dtuig">
+            <antipattern>
+                <token>mura</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>mura</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>mura</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
+            <!--example correction="Murar"><marker>Mura</marker> dtuig siad é, nach dóibh féin is mó náire?</example-->
+            <example>Mura bhfuair, sin an chraobh aige.</example>
+            <!--example correction="murar">Fiú amháin <marker>mura</marker> dúnmharfóir mé.</example-->
+            <example correction="murar"><marker>mura</marker> cailleadh iad</example>
+        </rule>
+        <rule id="MURA_INITIALVOWEL" name="mura é">
+            <pattern>
+                <marker>
+                    <token regexp="yes">murar?</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “murab, murarbh” a scríobh.</message>
+            <example correction=""><marker>mura</marker> é</example>
+        </rule>
+        <rule id="MURAR_LENITEDF" name="murar fhéidir">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murarbh</suggestion> a scríobh.</message>
+            <example correction="murarbh"><marker>murar</marker> fhéidir</example>
+        </rule>
+        <rule id="MURAB_INITIALCONSONANT" name="murab bhfuil">
+            <pattern>
+                <marker>
+                    <token>murab</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>murab</marker> bhfuil</example>
+        </rule>
+        <rule id="MURAR_VNOTPAST" name="murar chruthaítear">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="Mura"><marker>Murar</marker> chruthaítear lá agus oíche... teilgim uaim sliocht Iacóib.</example>
+        </rule>
+        <rule id="MURAR_PASTNORFORMLEN" name="murar fuair">
+            <pattern>
+                <marker>
+                    <token>murar</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes" regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>mura</suggestion> a scríobh.</message>
+            <example correction="mura"><marker>murar</marker> fuair</example>
+        </rule>
+        <rule id="MURARBH_NONVOWELNONF" name="murarbh bhfuil">
+            <pattern>
+                <marker>
+                    <token>murarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>murar</suggestion> a scríobh.</message>
+            <example correction="murar"><marker>murarbh</marker> bhfuil</example>
+        </rule>
+        <rule id="NA_NCS" name="na rud">
+            <pattern>
+                <marker>
+                    <token>na</token>
+                </marker>
+                <token postag=".*Noun:(?:Fem|Masc):(Com|Gen):Sg.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>an</suggestion> a scríobh.</message>
+            <example correction="an">Athdhéantar <marker>na</marker> snáithe i ngach ceann de na curaclaim seo.</example>
+        </rule>
+        <rule id="NACH_VPAST" name="nach chuala">
+            <antipattern>
+                <token>nach</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>nach</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>nach</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
+            <example correction="nár"><marker>nach</marker> chuala</example>
+            <example>Nach raibh dóthain eolais aige?</example>
+        </rule>
+        <rule id="NAR_VNOTPASTSUBJ" name="nár bhfuil">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*Sub.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
+            <example correction="nach"><marker>nár</marker> bhfuil</example>
+        </rule>
+        <rule id="NAR_PASTNORFORMLEN" name="nár fuair">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nach</suggestion> a scríobh.</message>
+            <example correction="nach"><marker>nár</marker> fuair</example>
+        </rule>
+        <rule id="NAR_INITIALVOWELORF" name="nár oibreofá">
+            <pattern>
+                <marker>
+                    <token>nár</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nárbh</suggestion> a scríobh.</message>
+            <example correction="nárbh"><marker>nár</marker> oibreofá</example>
+        </rule>
+        <rule id="NARBH_NONVOWELNONF" name="nárbh cailleadh">
+            <pattern>
+                <marker>
+                    <token>nárbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>nár</suggestion> a scríobh.</message>
+            <example correction="nár">Déarfadh sé féin <marker>nárbh</marker> cailleadh riamh é.</example>
+        </rule>
+        <rule id="NI_VPAST" name="ní chuireadar">
+            <antipattern>
+                <token>ní</token>
+                <token regexp="yes">&pastafterni;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ní</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
+            <example correction="Níor"><marker>Ní</marker> chuireadar aon áthas ar Mhac Dara.</example>
+            <example>Ní dúirt sé cad a bhí déanta acu.</example>
+        </rule>
+        <rule id="NIOR_VNOTPAST" name="níor fheiceann">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ní</suggestion> a scríobh.</message>
+            <example correction="ní"><marker>níor</marker> fheiceann</example>
+        </rule>
+        <rule id="NIOR_PASTNORFORMLEN" name="níor fuair">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ní</suggestion> a scríobh.</message>
+            <example correction="ní">"Tá," ar sise, "ach <marker>níor</marker> fhacthas é sin."</example>
+        </rule>
+        <rule id="NIOR_INITIALVOWELORF" name="níor fhada">
+            <pattern>
+                <marker>
+                    <token>níor</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níorbh</suggestion> a scríobh.</message>
+            <example correction="níorbh"><marker>níor</marker> fhada</example>
+        </rule>
+        <rule id="NIORBH_NONVOWELNONF" name="níorbh bhog">
+            <pattern>
+                <marker>
+                    <token>níorbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>níor</suggestion> a scríobh.</message>
+            <example correction="Níor"><marker>Níorbh</marker> bhog sí</example>
+        </rule>
+        <rule id="ONA_VPAST" name="óna VPAST">
+            <antipattern>
+                <token>óna</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>óna</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>óna</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>óna</marker> bhris</example>
+        </rule>
+        <rule id="ONAR_VNOTPAST" name="ónar VNOTPAST">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
+            <example correction="óna">Seo teaghlach ag a bhfuil go leor fadhbanna agus <marker>ónar</marker> dteastaíonn tacaíocht atá dírithe.</example>
+        </rule>
+        <rule id="ONAR_PASTNORFORMLEN" name="ónar fuair">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>óna</suggestion> a scríobh.</message>
+            <example correction="óna"><marker>ónar</marker> fuair</example>
+        </rule>
+        <rule id="ONAR_INITIALVOWEL" name="ónar iníoctha">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “ónarb, ónarbh” a scríobh.</message>
+            <example correction="">an ráta úis, más ann, is iníoctha ar scór an chinnidh agus an dáta <marker>ónar</marker> iníoctha é</example>
+        </rule>
+        <rule id="ONAR_LENITEDF" name="ónar fhéidir">
+            <pattern>
+                <marker>
+                    <token>ónar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónarbh</suggestion> a scríobh.</message>
+            <example correction="ónarbh"><marker>ónar</marker> fhéidir</example>
+        </rule>
+        <rule id="ONARB_INITIALCONSONANT" name="ónarb tógadh">
+            <pattern>
+                <marker>
+                    <token>ónarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>ónarb</marker> tógadh</example>
+        </rule>
+        <rule id="ONARBH_NONVOWELNONF" name="ónarbh tógadh">
+            <pattern>
+                <marker>
+                    <token>ónarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ónar</suggestion> a scríobh.</message>
+            <example correction="ónar"><marker>ónarbh</marker> tógadh</example>
+        </rule>
+        <rule id="SA_INITIALVOWELORF" name="sa oighear">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&initialvowelorf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
+            <example correction="san">An bhfuil aon uachtar reoite agat <marker>sa</marker> oighear?</example>
+        </rule>
+        <rule id="SA_ECLIPSEDVOWEL" name="sa n-oifig">
+            <pattern>
+                <token>sa</token>
+                <token regexp="yes">&eclipsedvowel;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san <match no="2" regexp_match="^n-?" regexp_replace=""/></suggestion> a scríobh.</message>
+            <example correction="san eachtra">Gortaíodh ceathrar <marker>sa n-eachtra</marker>.</example>
+        </rule>
+        <rule id="SA_NP" name="sa ?">
+            <antipattern>
+                <token>sa</token>
+                <token postag=".*Noun:(Masc|Fem):Com:Sg:DefArt" postag_regexp="yes"></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token postag=".*Noun:.*:Pl:DefArt" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
+            <example correction="sna"><marker>sa</marker> gcainteoirí</example>
+        </rule>
+        <rule id="SNA_NCS" name="sna Gaeilge">
+            <pattern>
+                <marker>
+                    <token>sna</token>
+                </marker>
+                <token postag=".*Noun:(?:Fem|Masc):(Com|Gen):Sg.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit “sa, san” a scríobh.</message>
+            <example correction="">Soláthraíonn an Roinn seisiúin <marker>sna</marker> Gaeilge labhartha do na mic léinn.</example>
+        </rule>
+        <rule id="SULA_VPAST" name="sula VPAST">
+            <antipattern>
+                <token>sula</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>sula</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>sula</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
+            <!--example correction="Sular"><marker>Sula</marker> sroicheadar an bun arís, bhí an oíche ann agus chuadar ar strae.</example-->
+            <example>Sula ndearna sé amhlaidh, más ea, léirigh sé a chreidiúint san fhoireann.</example>
+            <example correction="sular"><marker>sula</marker> bhris</example>
+        </rule>
+        <rule id="SULAR_VNOTPAST" name="sular náiríonn">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sula</suggestion> a scríobh.</message>
+            <example correction="sula"><marker>sular</marker> náiríonn</example>
+        </rule>
+        <rule id="SULAR_PASTNORFORMLEN" name="sular fuair">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sula</suggestion> a scríobh.</message>
+            <example correction="sula"><marker>sular</marker> fuair</example>
+        </rule>
+        <rule id="SULAR_INITIALVOWEL" name="sular ann">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “sularb, sularbh” a scríobh.</message>
+            <example correction="">B’in ár ngnó <marker>sular</marker> ann don bhForas</example>
+        </rule>
+        <rule id="SULAR_LENITEDF" name="sular fhéidir">
+            <pattern>
+                <marker>
+                    <token>sular</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sularbh</suggestion> a scríobh.</message>
+            <example correction="sularbh">Gurbh éigean duit tamall a chaitheamh ag stánadh amach romhat chun dul i ngleic le léargas nua <marker>sular</marker> fhéidir leat coinneáil ort leis an léitheoireacht?</example>
+        </rule>
+        <rule id="SULARBH_NONVOWELNONF" name="sularbh chas">
+            <pattern>
+                <marker>
+                    <token>sularbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>sular</suggestion> a scríobh.</message>
+            <example correction="sular">Bhí sé ina lui leis féin ar feadh trí uaire <marker>sularbh</marker> chas bean air ar 4.30pm.</example>
+        </rule>
+        <rule id="TRINA_VPAST" name="trína ?">
+            <antipattern>
+                <token>trína</token>
+                <token regexp="yes">&pastnorform;</token>
+            </antipattern>
+            <antipattern>
+                <token>trína</token>
+                <token regexp="yes">&pastnorformlen;</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>trína</token>
+                </marker>
+                <token postag=".*Verb.*Past.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar">Ba é an gleann cúng <marker>trína</marker> ghabh an abhainn.</example>
+        </rule>
+        <rule id="TRINAR_VNOTPAST" name="trínar bhfuil">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token postag=".*Verb.*" postag_regexp="yes"><exception postag=".*Past.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
+            <example correction="trína"><marker>trínar</marker> bhfuil</example>
+            <example correction="trína">Is mar a chéile an próiseas <marker>trínar</marker> ndéantar é seo.</example>
+        </rule>
+        <rule id="TRINAR_PASTNORFORMLEN" name="trínar fuair">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&pastnorformlen;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
+            <example correction="trína"><marker>trínar</marker> fuair</example>
+        </rule>
+        <rule id="TRINAR_INITIALVOWEL" name="trínar VOWEL">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&initialvowel;</token>
+            </pattern>
+            <message>Ba chóir duit “trínarb, trínarbh” a scríobh.</message>
+            <example correction=""><marker>trínar</marker> ann</example>
+        </rule>
+        <rule id="TRINAR_LENITEDF" name="trínar ?">
+            <pattern>
+                <marker>
+                    <token>trínar</token>
+                </marker>
+                <token regexp="yes">&lenitedf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínarbh</suggestion> a scríobh.</message>
+            <example correction="trínarbh">An tollán <marker>trínar</marker> fhéidir tiomáint</example>
+        </rule>
+        <rule id="TRINARB_INITIALCONSONANT" name="trínarb CONSONANT">
+            <pattern>
+                <marker>
+                    <token>trínarb</token>
+                </marker>
+                <token regexp="yes">&initialconsonant;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar">B’álainn an tír <marker>trínarb</marker> ghabhamar.</example>
+        </rule>
+        <rule id="TRINARBH_NONVOWELNONF" name="trínarbh NONVOWEL">
+            <pattern>
+                <marker>
+                    <token>trínarbh</token>
+                </marker>
+                <token regexp="yes">&nonvowelnonf;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar"><marker>trínarbh</marker> léir</example>
+        </rule>
+        <rule id="SA_VOWELORDINAL" name="sa 8ú">
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+                <token regexp="yes">&vowelordinal;</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>san</suggestion> a scríobh.</message>
+            <example correction="san">Abairt a chuireann in iúl dearóile na hÉireann <marker>sa</marker> 18ú agus sa 19ú haois.</example>
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
