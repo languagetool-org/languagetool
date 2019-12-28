@@ -184,6 +184,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </phrases>
     <category id="CONTRACTIONS" name="syntactical errors: contractions" type="grammar">
         <rulegroup id="LE_CONTRACTIONS" name="le Contractions">
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="LE_ME_LIOM" name="le + mé = liom">
                 <pattern>
                     <marker>
