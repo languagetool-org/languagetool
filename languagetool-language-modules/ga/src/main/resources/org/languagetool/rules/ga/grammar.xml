@@ -13926,6 +13926,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dár">Seinnigí moladh ar an gcruit <marker>do ár</marker> máthair.</example>
             <example correction="dár">Is é seo mo Mhac muirneach <marker>do ar</marker> thug mé gnaoi.</example>
         </rule>
+        <rule id="DO_REIR" name="do réir">
+            <pattern>
+                <marker>
+                    <token>do</token>
+                </marker>
+                <token>réir</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>de</suggestion> a scríobh.</message>
+            <example correction="de"><marker>do</marker> réir</example>
+        </rule>
+        <rule id="DUBH_OILEAN" name="Dubh Oileán">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Dubh</token>
+                    <token case_sensitive="yes">Oileán</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>Dubhoileán</suggestion> a scríobh.</message>
+            <example correction="Dubhoileán"><marker>Dubh Oileán</marker></example>
+        </rule>
+        <rule id="FAOI_ÁR" name="faoi ár">
+            <pattern>
+                <marker>
+                    <token regexp="yes">faoin?</token>
+                    <token>ár</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinár</suggestion> a scríobh.</message>
+            <example correction="faoinár">Cuireann sé ciníocha <marker>faoi ár</marker> smacht agus cuireann sé náisiúin faoinár gcosa.</example>
+        </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
         <rule id="AICI" name="aicí">
