@@ -16219,12 +16219,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag=".*Noun.*Gen.*:Len.*" postag_regexp="yes" regexp="yes">&leniteddst;</token>
                 </marker>
             </pattern>
-            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='seasaimh'>áit <marker>sheasaimh</marker></example>
             <example>áit chónaithe</example>
             <example>beirt duine</example>
             <example>Is as Londain Shasana mé ó dhúchas.</example>
+        </rule>
+        <rule id="AG_FEMVN_NGlenited" name="ag VN GEN">
+            <antipattern>
+                <token>ag</token>
+                <token>fáil</token>
+                <token>bháis</token>
+            </antipattern>
+            <antipattern>
+                <token>ag</token>
+                <token>gabháil</token>
+                <token regexp="yes">fhoinn|cheoil</token>
+            </antipattern>
+            <pattern>
+                <token>ag</token>
+                <token postag=".*Noun:Fem:Com:Sg.*|.*Verbal:Noun.*" postag_regexp="yes" regexp="yes">&femvn;</token>
+                <marker>
+                    <token postag=".*Noun:(?:Fem|Masc):Gen:(?:Sg|Pl).*" postag_regexp="yes" regexp="yes">&lenited;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="3" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <short>Séimhiú gan ghá</short>
+            <example correction='Gaeilge'>Mar chuid den socrú beidh Michelle ag labhairt <marker>Ghaeilge</marker> ag ócáidí poiblí.</example>
         </rule>
         <rule id="TRI_BHLIANA" name="trí bhliana">
             <pattern>
@@ -16233,7 +16255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='bliana'>trí <marker>bhliana</marker></example>
         </rule>
@@ -16244,7 +16266,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Ní gá leis an dara séimhiú</short>
             <example correction='bliana'>thrí <marker>bhliana</marker></example>
         </rule>
@@ -16255,7 +16277,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='bliana'>ceithre <marker>bhliana</marker></example>
         </rule>
@@ -16266,7 +16288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Ní gá leis an dara séimhiú</short>
             <example correction='bliana'>cheithre <marker>bhliana</marker></example>
         </rule>
@@ -16277,7 +16299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='bliana'>cúig <marker>bhliana</marker></example>
         </rule>
@@ -16288,7 +16310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Ní gá leis an dara séimhiú</short>
             <example correction='bliana'>chúig <marker>bhliana</marker></example>
         </rule>
@@ -16299,7 +16321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='bliana'>sé <marker>bhliana</marker></example>
         </rule>
@@ -16310,7 +16332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bhliana|chinn|chloigne|chuarta|fhichid|phingine|sheachtaine|throithe</token>
                 </marker>
             </pattern>
-            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfpst])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <message>Ní gá leis an dara séimhiú: <suggestion><match no="2" regexp_match="([bcfgpstBCFGPST])h(.*)" regexp_replace="$1$2"/></suggestion></message>
             <short>Ní gá leis an dara séimhiú</short>
             <example correction='bliana'>shé <marker>bhliana</marker></example>
         </rule>
