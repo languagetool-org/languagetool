@@ -490,6 +490,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- Noun phrases unification -->
     <!-- ============================================================================================================== -->
+    <rulegroup id="UNIFY_PRP_DET_SUB" name="NP with preposition unify">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="PRP.+"></token>
+                <marker>
+                    <and>
+                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag=".+:NOM:.+"/>
+            <example type="ambiguous" inputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/ART:DEF:NOM:PLU:FEM,der/ART:DEF:NOM:PLU:MAS,der/ART:DEF:NOM:PLU:NEU,der/ART:DEF:NOM:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:DEM:NOM:PLU:ALG,der/PRO:DEM:NOM:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM,der/PRO:PER:NOM:PLU:ALG,der/PRO:PER:NOM:SIN:FEM]" outputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM]">Ein gutes Argument für <marker>die</marker> Politik, ...</example>
+        </rule>
+    </rulegroup>
 
     <rule name="NP unify 1" id="UNIFY_DET_SUB">
         <!--
@@ -888,6 +903,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="SEIN_PA2" name="PA2 nach 'sein'">
+        <pattern case_sensitive="yes">
+            <token inflected="yes">sein</token>
+            <marker>
+                <token postag=".*PA2:.+" postag_regexp="yes"/>
+            </marker>
+            <token postag="PKT"/>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3I].+"/>
+        <example type="ambiguous" inputform="belegt[belegen/VER:2:PLU:PRÄ:SFT,belegen/VER:3:SIN:PRÄ:SFT,belegen/VER:IMP:PLU:SFT,belegen/VER:PA2:SFT,belegt/PA2:PRD:GRU:VER]" outputform="belegt[belegen/VER:PA2:SFT,belegt/PA2:PRD:GRU:VER]">Gleichzeitig ist <marker>belegt</marker>, dass .</example>
+    </rule>
     <rule id="ZU_MIT_INFINITIV" name="Infinitiv nach 'zu'">
         <pattern case_sensitive="yes">
             <token>zu</token>
@@ -1078,6 +1104,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"></token>
+                <marker>
+                    <and>
+                        <token postag_regexp="yes" postag=".+(NOM|AKK):.+"></token>
+                        <token postag_regexp="yes" postag=".+(DAT|GEN):.+"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag=".+:(NOM|AKK):.+"/>
+        </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="PRP.+"></token>
