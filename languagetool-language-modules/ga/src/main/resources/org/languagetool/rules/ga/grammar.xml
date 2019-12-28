@@ -16663,13 +16663,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMADOIR_PREFIXD" name="Réamhlitir ‘d'’ ar iarraidh">
-        <rule id="VDEE" name="VDEE">
+        <rule id="VERB_NEEDING_D_PREFIX" name="VDEE">
+            <antipattern>
+                <token>d</token>
+                <token regexp="yes">&apost;</token>
+                <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
+            </antipattern>
             <pattern>
-                <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes">&initialvowelorf;</token>
+                <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
             </pattern>
             <message>Réamhlitir ‘d'’ ar iarraidh: <suggestion>d’<match no="1"/></suggestion></message>
             <short>Réamhlitir ‘d'’ ar iarraidh</short>
-            <example correction="d’fhan"><marker>fhan</marker></example>
+            <example correction="d’fhéach">Chuaigh sé chun na huaimhe agus <marker>fhéach</marker> sé isteach.</example>
+            <example>Fágadh faoi smacht a lámh iad.</example>
         </rule>
     </category>
     <category id="GRAMADOIR_URU" name="Urú ar iarraidh" type="grammar">
