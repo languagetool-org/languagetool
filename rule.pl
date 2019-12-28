@@ -6,46 +6,49 @@ use utf8;
 binmode(STDOUT,":utf8");
 
 my @things = qw/
-SEISEAN;seisean;eisean
-SI;sí;í
-SISE;sise;ise
-SIAD;siad;iad
-SIADSAN;siadsan;iadsan
+DO;n?[Dd]h?ó;dó;dhá
 /;
 
 for my $th (@things) {
-    my ($a, $b, $c) = split/;/, $th;
+    my ($a, $b, $c, $d) = split/;/, $th;
 
 print<<__END__;
-        <rule id="NOTVERB_$a" name="NOTVERB $b">
-            <pattern>
-                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
-                <marker>
-                    <token postag=".*Pron.*" postag_regexp="yes">$b</token>
-                </marker>
-            </pattern>
-            <message>Ba chóir duit <suggestion>$c</suggestion> a scríobh.</message>
-            <example correction="$c">is fearr liom <marker>$b</marker></example>
-        </rule>
-        <rule id="COP_$a" name="NOTVERB $b">
-            <pattern>
-                <token postag=".*Cop.*" postag_regexp="yes"></token>
-                <marker>
-                    <token postag=".*Pron.*" postag_regexp="yes">$b</token>
-                </marker>
-            </pattern>
-            <message>Ba chóir duit <suggestion>$c</suggestion> a scríobh.</message>
-            <example correction="$c">ba <marker>$b</marker></example>
-        </rule>
-        <rule id="AUT_$a" name="NOTVERB $b">
-            <pattern>
-                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
-                <marker>
-                    <token postag=".*Pron.*" postag_regexp="yes">$b</token>
-                </marker>
-            </pattern>
-            <message>Ba chóir duit <suggestion>$c</suggestion> a scríobh.</message>
-            <example correction="$c">deirtear <marker>$b</marker></example>
-        </rule>
+        <rulegroup id="${a}_DEAG" name="$c déag">
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">$c</token>
+                <token regexp="yes">dhéag</token>
+            </antipattern>
+            <antipattern>
+                <token>$d</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>$c</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">$b</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a $c dhéag<suggestion> nó <suggestion>$d X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a $c dhéag|$d X déag"><marker>$c déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token regexp="yes">$b</token>
+                    <marker>
+                    <token>déag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>dhéag</suggestion> a scríobh.</message>
+                <example correction="dhéag">a $c <marker>déag</marker></example>
+            </rule>
+        </rulegroup>
 __END__
 }
