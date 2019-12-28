@@ -16666,8 +16666,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="VERB_NEEDING_D_PREFIX" name="VDEE">
             <antipattern>
                 <token>d</token>
-                <token regexp="yes">&apost;</token>
-                <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes" spacebefore="ignore">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
+            </antipattern>
+            <antipattern>
+                <token>arsa</token>
+            </antipattern>
+            <antipattern>
+                <token postag=".*Verb.*:PastInd.*:Auto.*" postag_regexp="yes" regexp="yes">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
             </antipattern>
             <pattern>
                 <token postag=".*Verb.*(?:PastInd|PastImp|Cond).*" postag_regexp="yes" regexp="yes">^(?:[aeiouáéíóú]|fh[aeiouáéíóú]).+</token>
