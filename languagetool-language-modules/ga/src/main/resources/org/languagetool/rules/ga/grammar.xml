@@ -13691,6 +13691,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>sna</suggestion> a scríobh.</message>
             <example correction="sna"><marker>sa na</marker></example>
         </rule>
+        <rule id="AN_TRI" name="an trí">
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+                <token regexp="yes">g?ch?éad|mh?íle|mh?illiún</token>
+            </antipattern>
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+                <token>a</token>
+                <token>chlog</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token regexp="yes">trí|ceithre|cúig|sé|seacht|ocht|naoi|deich</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>na</suggestion> a scríobh.</message>
+            <example correction="na">Is iad <marker>an</marker> trí cholún le chéile an tAontas Eorpach.</example>
+            <example>Sheol an ceithre mhíle de na meirligh amach san fhásach.</example>
+        </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
         <rule id="AICI" name="aicí">
