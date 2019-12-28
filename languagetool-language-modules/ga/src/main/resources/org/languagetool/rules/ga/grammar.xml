@@ -6251,7 +6251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>In abairt</short>
             <example correction="i gcomhar le"><marker>i gcomhar</marker></example>
         </rule>
-        <rule id="DEAG" name="déag">
+        <rulegroup id="DEAG" name="déag">
             <antipattern>
                 <token>a</token>
                 <token regexp="yes">haon|dó|trí|ceathair|cúig|sé|seacht|hocht|naoi</token>
@@ -6262,16 +6262,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token></token>
                 <token>déag</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">dh?éag</token>
-            </pattern>
-            <message>Ní úsáidtear an focal seo ach san abairtín “a dó dhéag, dhá X déag” de ghnáth</message>
-            <short>In abairt</short>
-            <example correction=""><marker>déag</marker></example>
-            <example>Tabharfaidh an tUachtarán a óráid ag leath i ndiaidh a dó déag Dé Sathairn.</example>
-            <example>Bhuail an clog a trí dhéag.</example>
-            <example correction="">Tá trí <marker>déag</marker> litir san fhocal seo.</example>
-        </rule>
+            <antipattern>
+                <token>nó</token>
+                <token regexp="yes">aon|dó|trí|ceithre|cúig|sé|seacht|ocht|naoi</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín “a dó dhéag, dhá X déag” de ghnáth</message>
+                <short>In abairt</short>
+                <example correction=""><marker>déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">n?dh?ó|d?th?rí|g?ch?eathair|g?ch?úig|sh?é|sh?eacht|h?ocht|naoi</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach san abairtín “a dó dhéag, dhá X déag” de ghnáth</message>
+                <short>In abairt</short>
+                <example>Tabharfaidh an tUachtarán a óráid ag leath i ndiaidh a dó déag Dé Sathairn.</example>
+                <example>Bhuail an clog a trí dhéag.</example>
+                <example correction="">Tá <marker>trí déag</marker> litir san fhocal seo.</example>
+            </rule>
+        </rulegroup>
         <rule id="IDIR_GCAMAIN" name="idir gcamáin">
             <pattern>
                 <token>idir</token>
