@@ -10139,6 +10139,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>láimh</suggestion> a scríobh.</message>
             <example correction='láimh'>dá <marker>lámh</marker></example>
         </rule>
+        <rulegroup id="DO_DEAG" name="dó déag">
+            <antipattern>
+                <token>a</token>
+                <token>dó</token>
+                <token>dhéag</token>
+            </antipattern>
+            <antipattern>
+                <token>dhá</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>dó</token>
+                <token>dhéag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">n?[Dd]h?ó</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna habairtíní <suggestion>a dó dhéag</suggestion> agus <suggestion>dhá X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a dó dhéag|dhá X déag"><marker>dó déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>dó</token>
+                    <marker>
+                        <token>déag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>dhéag</suggestion> a scríobh.</message>
+                <example correction="dhéag">a dó <marker>déag</marker></example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
         <rule id="AMHAIL_AN_MBEAN" name="amhail an mbean">
