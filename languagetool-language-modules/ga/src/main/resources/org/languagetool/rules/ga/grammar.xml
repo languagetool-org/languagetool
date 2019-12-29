@@ -10440,12 +10440,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="Cor cainte aisteach" id="GRAMADOIR_CUPLA">
         <rule id="AON_NONNOUN" name="aon NONNOUN">
+            <antipattern>
+                <token>aon</token>
+                <token>mhíle</token>
+            </antipattern>
+            <antipattern>
+                <token>aon</token>
+                <token>le</token>
+                <token>haon</token>
+            </antipattern>
+            <antipattern>
+                <token>aon</token>
+                <token>dá</token>
+            </antipattern>
+            <antipattern>
+                <token>mar</token>
+                <token>aon</token>
+                <token postag=".*Prep.*|.*Pron.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern><!-- don't know what <O> is, but 'as' is mentioned, so add it -->
+                <token>mar</token>
+                <token>aon</token>
+                <token>as</token>
+            </antipattern>
             <pattern>
                 <token>aon</token>
                 <token postag=".*Noun.*|.*Subst.*" postag_regexp="yes" negate_pos="yes"></token>
             </pattern>
             <message>Cor cainte aisteach.</message>
             <example correction="">Rogha <marker>aon de</marker> na focail a tháinig i d'intinn.</example>
+            <example>Ná hith aon arán gabhála mar aon léi.</example>
+            <example>Freagair aon dá cheann ar bith díobh seo a leanas.</example>
         </rule>
     </category>
     <category id="SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
