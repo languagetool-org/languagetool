@@ -64,7 +64,7 @@ public class PeopleRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "";
+    return "Ainm Béarla, m.sh., 'Damocles' in áit 'Dámaicléas'.";
   }
 
   @Override
@@ -74,7 +74,8 @@ public class PeopleRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Ainm Béarla.";
+    return "Ainm Béarla. \""
+        + String.join(", ", replacements) + "\".";
   }
   
   @Override
