@@ -55,13 +55,13 @@ public class Retaggable {
     }
   }
 
-  String getWord() {
+  public String getWord() {
     return word;
   }
-  String getRestrictToPos() {
+  public String getRestrictToPos() {
     return restrictToPos;
   }
-  String getAppendTag() {
+  public String getAppendTag() {
     return appendTag;
   }
   String getPrefix() {
