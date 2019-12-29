@@ -64,12 +64,12 @@ public class EnglishHomophoneRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "";
+    return "Is homafóin iad na focail seo, m.sh., \"well\" agus \"bhuel\"";
   }
 
   @Override
   public String getShort() {
-    return "Litriú réamhchaighdeánach";
+    return "Homafón Béarla.";
   }
 
   @Override
