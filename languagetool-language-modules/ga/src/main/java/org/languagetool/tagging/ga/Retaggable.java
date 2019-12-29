@@ -23,7 +23,7 @@ package org.languagetool.tagging.ga;
 
 import java.util.Objects;
 
-class Retaggable {
+public class Retaggable {
   private String word;
   private String restrictToPos;
   private String appendTag;
