@@ -30,14 +30,14 @@ final class DativePluralsData {
 
   private static final Map<String, String> modernisations = getModernisations(datives);
 
-  private static final Map<String, String> simple_replacements = buildSimpleReplacements(datives);
+  private static final Map<String, String> simpleReplacements = buildSimpleReplacements(datives);
 
   public static Map<String, String> getModernisations() {
     return modernisations;
   }
 
   public static Map<String, String> getSimpleReplacements() {
-    return simple_replacements;
+    return simpleReplacements;
   }
 
   /**
@@ -52,53 +52,49 @@ final class DativePluralsData {
         if (line.isEmpty() || line.charAt(0) == '#') {
           continue;
         }
-        String parts[] = line.split(";");
+        String[] parts = line.split(";");
         if(parts.length != 4) {
-          System.err.println("Skipping entry (Incorrect number of fields): " + line);
-          continue;
+          throw new RuntimeException("Incorrect number of fields: " + line);
         }
         String form = parts[0];
-        String form_modern = null;
+        String formModern = null;
         if(form.contains(":")) {
-          String forms[] = form.split(":");
+          String[] forms = form.split(":");
           if(forms.length != 2) {
-            System.err.println("Skipping entry (form has more than 1 modern form): " + line);
-            continue;
+            throw new RuntimeException("Form has more than 1 modern form:" + line);
           }
           form = forms[0];
-          form_modern = forms[1];
+          formModern = forms[1];
         }
         String repl = parts[3];
-        String repl_modern = null;
+        String replModern = null;
         if(repl.contains(":")) {
-          String repls[] = repl.split(":");
+          String[] repls = repl.split(":");
           if(repls.length != 2) {
-            System.err.println("Skipping entry (replacement has more than 1 modern form): " + line);
-            continue;
+            throw new RuntimeException("Replacement has more than 1 modern form:" + line);
           }
           repl = repls[0];
-          repl_modern = repls[1];
+          replModern = repls[1];
         }
         String lemma = parts[1];
-        String lemma_modern = null;
+        String lemmaModern = null;
         if(lemma.contains(":")) {
-          String lemmata[] = lemma.split(":");
+          String[] lemmata = lemma.split(":");
           if(lemmata.length != 2) {
-            System.err.println("Skipping entry (lemma has more than 1 modern form): " + line);
-            continue;
+            throw new RuntimeException("Lemma has more than 1 modern form:" + line);
           }
           lemma = lemmata[0];
-          lemma_modern = lemmata[1];
+          lemmaModern = lemmata[1];
         }
         DativePluralsEntry entry = new DativePluralsEntry(form, lemma, parts[2], repl);
-        if(form_modern != null) {
-          entry.setModernised(form_modern);
+        if(formModern != null) {
+          entry.setModernised(formModern);
         }
-        if(repl_modern != null) {
-          entry.setEquivalent(repl_modern);
+        if(replModern != null) {
+          entry.setEquivalent(replModern);
         }
-        if(lemma_modern != null) {
-          entry.setModernLemma(lemma_modern);
+        if(lemmaModern != null) {
+          entry.setModernLemma(lemmaModern);
         }
         set.add(entry);
       }
@@ -110,15 +106,15 @@ final class DativePluralsData {
     Map<String, String> out = new HashMap<>();
     for(DativePluralsEntry entry : datives) {
       out.put(entry.getForm(), entry.getStandard());
-      String lenited_form = Utils.lenite(entry.getForm());
-      String lenited_repl = Utils.lenite(entry.getStandard());
-      if(!lenited_form.equals(entry.getForm())) {
-        out.put(lenited_form, lenited_repl);
+      String lenitedForm = Utils.lenite(entry.getForm());
+      String lenitedRepl = Utils.lenite(entry.getStandard());
+      if(!lenitedForm.equals(entry.getForm())) {
+        out.put(lenitedForm, lenitedRepl);
       }
-      String eclipsed_form = Utils.eclipse(entry.getForm());
-      String eclipsed_repl = Utils.eclipse(entry.getStandard());
-      if(!eclipsed_form.equals(entry.getForm())) {
-        out.put(eclipsed_form, eclipsed_repl);
+      String eclipsedForm = Utils.eclipse(entry.getForm());
+      String eclipsedRepl = Utils.eclipse(entry.getStandard());
+      if(!eclipsedForm.equals(entry.getForm())) {
+        out.put(eclipsedForm, eclipsedRepl);
       }
       // h-prothesis
       if(Utils.isVowel(entry.getForm().charAt(0))) {
@@ -127,15 +123,15 @@ final class DativePluralsData {
       }
       if(entry.hasModernised()) {
         out.put(entry.getModern(), entry.getStandard());
-        lenited_form = Utils.lenite(entry.getModern());
-        lenited_repl = Utils.lenite(entry.getStandard());
-        if(!lenited_form.equals(entry.getModern())) {
-          out.put(lenited_form, lenited_repl);
+        lenitedForm = Utils.lenite(entry.getModern());
+        lenitedRepl = Utils.lenite(entry.getStandard());
+        if(!lenitedForm.equals(entry.getModern())) {
+          out.put(lenitedForm, lenitedRepl);
         }
-        eclipsed_form = Utils.eclipse(entry.getModern());
-        eclipsed_repl = Utils.eclipse(entry.getStandard());
-        if(!eclipsed_form.equals(entry.getModern())) {
-          out.put(eclipsed_form, eclipsed_repl);
+        eclipsedForm = Utils.eclipse(entry.getModern());
+        eclipsedRepl = Utils.eclipse(entry.getStandard());
+        if(!eclipsedForm.equals(entry.getModern())) {
+          out.put(eclipsedForm, eclipsedRepl);
         }
         // h-prothesis
         if(Utils.isVowel(entry.getModern().charAt(0))) {
@@ -159,15 +155,15 @@ final class DativePluralsData {
     for(DativePluralsEntry entry : datives) {
       if(entry.hasModernised()) {
         out.put(entry.getForm(), entry.getModern());
-        String lenited_form = Utils.lenite(entry.getForm());
-        String lenited_repl = Utils.lenite(entry.getReplacement());
-        if(!lenited_form.equals(entry.getForm())) {
-          out.put(lenited_form, lenited_repl);
+        String lenitedForm = Utils.lenite(entry.getForm());
+        String lenitedRepl = Utils.lenite(entry.getReplacement());
+        if(!lenitedForm.equals(entry.getForm())) {
+          out.put(lenitedForm, lenitedRepl);
         }
-        String eclipsed_form = Utils.eclipse(entry.getForm());
-        String eclipsed_repl = Utils.eclipse(entry.getReplacement());
-        if(!eclipsed_form.equals(entry.getForm())) {
-          out.put(eclipsed_form, eclipsed_repl);
+        String eclipsedForm = Utils.eclipse(entry.getForm());
+        String eclipsedRepl = Utils.eclipse(entry.getReplacement());
+        if(!eclipsedForm.equals(entry.getForm())) {
+          out.put(eclipsedForm, eclipsedRepl);
         }
         // h-prothesis
         if(Utils.isVowel(entry.getForm().charAt(0))) {

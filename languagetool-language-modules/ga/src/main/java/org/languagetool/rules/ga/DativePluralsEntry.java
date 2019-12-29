@@ -20,9 +20,9 @@ package org.languagetool.rules.ga;
 
 public class DativePluralsEntry {
   private String form;
-  private String form_modern;
+  private String formModern;
   private String lemma;
-  private String lemma_modern;
+  private String lemmaModern;
   private String equivalent;
   private String replacement;
 
@@ -31,7 +31,7 @@ public class DativePluralsEntry {
   }
 
   public String getModern() {
-    return form_modern;
+    return formModern;
   }
 
   public String getLemma() {
@@ -39,7 +39,7 @@ public class DativePluralsEntry {
   }
 
   public String getLemmaModern() {
-    return lemma_modern;
+    return lemmaModern;
   }
 
   public String getEquivalent() {
@@ -54,7 +54,7 @@ public class DativePluralsEntry {
     return gender;
   }
 
-  String gender;
+  private String gender;
 
   public DativePluralsEntry(String form, String lemma, String gender, String replacement) {
     this.form = form;
@@ -67,19 +67,19 @@ public class DativePluralsEntry {
     this.equivalent = equiv;
   }
   public void setModernised(String modernised) {
-    this.form_modern = modernised;
+    this.formModern = modernised;
   }
   public void setModernLemma(String modernised) {
-    this.lemma_modern = modernised;
+    this.lemmaModern = modernised;
   }
   public boolean hasEquivalent() {
     return !(equivalent == null || equivalent.equals(""));
   }
   public boolean hasModernised() {
-    return !(form_modern == null || form_modern.equals(""));
+    return !(formModern == null || formModern.equals(""));
   }
   public boolean hasModernLemma() {
-    return !(lemma_modern == null || lemma_modern.equals(""));
+    return !(lemmaModern == null || lemmaModern.equals(""));
   }
   public String getBaseTag() {
     return (this.gender.equals("f")) ? "Noun:Fem:Dat:Pl" : "Noun:Masc:Dat:Pl";
