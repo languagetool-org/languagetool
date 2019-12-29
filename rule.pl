@@ -57,7 +57,7 @@ print<<__END__;
                 </pattern>
                 <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n\$" regexp_replace="\$1"/> <match no="2"$repl2/></suggestion></message>
                 <short>Níl gá leis an alt cinnte</short>
-                <example correction='faoi $cor2'><marker>faoin $first2</marker></example>
+                <example correction='faoi $first2'><marker>faoin $first2</marker></example>
             </rule>
         </rulegroup>
 __END__
