@@ -47,7 +47,7 @@ class Retaggable {
     }
   }
 
-  public void setRestrictToPos(String restrictToPos) {
+  void setRestrictToPos(String restrictToPos) {
     if(this.restrictToPos == null || "".equals(this.restrictToPos)) {
       this.restrictToPos = restrictToPos;
     } else {
@@ -55,16 +55,16 @@ class Retaggable {
     }
   }
 
-  public String getWord() {
+  String getWord() {
     return word;
   }
-  public String getRestrictToPos() {
+  String getRestrictToPos() {
     return restrictToPos;
   }
-  public String getAppendTag() {
+  String getAppendTag() {
     return appendTag;
   }
-  public String getPrefix() {
+  String getPrefix() {
     return prefix;
   }
 }
