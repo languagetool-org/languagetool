@@ -23,8 +23,8 @@ print<<__END__;
         <rulegroup id="${a}_DEAG" name="$c déag">
             <antipattern>
                 <token>a</token>
-                <token regexp="yes">$c</token>
-                <token regexp="yes">déag</token>
+                <token>$c</token>
+                <token>déag</token>
             </antipattern>
             <antipattern>
                 <token>$d</token>
@@ -33,7 +33,7 @@ print<<__END__;
             </antipattern>
             <antipattern>
                 <token>nó</token>
-                <token>$c</token>
+                <token>$d</token>
                 <token>déag</token>
             </antipattern>
             <rule>
@@ -50,7 +50,7 @@ print<<__END__;
                     <token>a</token>
                     <token regexp="yes">$c</token>
                     <marker>
-                    <token>déag</token>
+                    <token>dhéag</token>
                     </marker>
                 </pattern>
                 <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
