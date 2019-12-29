@@ -38,10 +38,6 @@ while (<>) {
         $cor2 =~ s/^t//;
         $repl2 = ' regexp_match="^t(.*)" regexp_replace="$1"';
     }
-    if($cor2 =~ /^([A-Z])h(.*)/) {
-        $cor2 = "$1$2";
-        $repl2 = ' regexp_match="^([A-Z])h(.*)" regexp_replace="$1$2"';
-    }
 
 print<<__END__;
         <rulegroup id="AN_$up" name="an $first">
