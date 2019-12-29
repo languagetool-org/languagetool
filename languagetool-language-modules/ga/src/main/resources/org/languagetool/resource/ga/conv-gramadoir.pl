@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-
+# Converts rules from an Gramadóir
+# Licence: MIT
 use warnings;
 use strict;
 use utf8;
