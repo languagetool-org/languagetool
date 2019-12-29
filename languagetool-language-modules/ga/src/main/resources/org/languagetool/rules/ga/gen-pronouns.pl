@@ -1,4 +1,6 @@
 #!/usr/bin/perl
+# Generates contracted prepositions + pronouns
+# Licence: MIT
 use warnings;
 use strict;
 use utf8;
