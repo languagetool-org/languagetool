@@ -17756,7 +17756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Réamhlitir ‘h’ ar iarraidh: <suggestion><match no="2" case_conversion="startlower" regexp_match="^[Aa]" regexp_replace="hA" /></suggestion>.</message>
             <short>Réamhlitir ‘h’ ar iarraidh</short>
-            <example correction='hAoine'>Dé <marker>Aoine</marker></example>
+            <example correction='hAoine'>D'oibrigh mé liom go dtí Dé <marker>Aoine</marker>.</example>
         </rule>
         <rule id="CA_NOUNVOWEL" name="cá áit">
             <pattern>
@@ -18443,6 +18443,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Séimhiú gan ghá: <suggestion><match no="2" postag="([^:]*):(.*):Len(.*)" postag_regexp="yes" postag_replace="$1:$2$3"/></suggestion></message>
             <short>Séimhiú gan ghá</short>
             <example correction='baile'>um <marker>bhaile</marker></example>
+        </rule>
+        <rule id="NIC_LENITEDCAPCG" name="Nic LENITEDCAPCG">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">Ni[cg]</token>
+                <marker>
+                    <token regexp="yes" postag_regexp="yes" postag=".*Noun.*">&lenitedcapcg;</token>
+                </marker>
+            </pattern>
+            <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([CG])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <short>Séimhiú gan ghá</short>
+            <example correction='Cormaic'>Is saoririseoir agus ceoltóir í Aoife Nic <marker>Chormaic</marker>.</example>
         </rule>
     </category>
     <category name="CHARACTERS" id="CHARACTERS">
