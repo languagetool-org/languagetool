@@ -64,7 +64,7 @@ public class EnglishHomophoneRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Is homafóin iad na focail seo, m.sh., \"well\" agus \"bhuel\"";
+    return "Is homafóin iad na focail, m.sh., \"well\" agus \"bhuel\"";
   }
 
   @Override
