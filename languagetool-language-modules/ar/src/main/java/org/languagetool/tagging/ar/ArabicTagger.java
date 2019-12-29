@@ -30,6 +30,9 @@ import java.util.List;
 import java.lang.StringBuilder;
 import java.util.Locale;
 
+/**
+ * @since 4.9
+ */
 public class ArabicTagger extends BaseTagger {
 
   public ArabicTagger() {
@@ -44,24 +47,23 @@ public class ArabicTagger extends BaseTagger {
   /* Add the flag to an encoded tag */
   public String addTag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if (flag == "W") {
+    if (flag.equals("W")) {
       tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag == "K") {
+    } else if (flag.equals("K")) {
       tmp.setCharAt(postag.length() - 2, 'K');
-    } else if (flag == "L") {
+    } else if (flag.equals("L")) {
       tmp.setCharAt(postag.length() - 2, 'L');
     }
     return tmp.toString();
   }
   
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    IStemmer dictLookup = new DictionaryLookup(getDictionary());
     int pos = 0;
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> l = new ArrayList<>();
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
@@ -77,11 +79,10 @@ public class ArabicTagger extends BaseTagger {
     return tokenReadings;
   }
 
-
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    List<String> tags = new ArrayList();
+    List<String> tags = new ArrayList<>();
     String possibleWord = word;
     if (possibleWord.startsWith("و") || possibleWord.startsWith("ف")) {
       tags.add("W");
@@ -114,15 +115,15 @@ public class ArabicTagger extends BaseTagger {
     taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
     for (AnalyzedToken taggerToken : taggerTokens) {
       String posTag = taggerToken.getPOSTag();
-      for (int i = 0; i < tags.size(); i++) {
-        posTag = addTag(posTag, tags.get(i));
+      for (String tag : tags) {
+        posTag = addTag(posTag, tag);
       }
       additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
     }
     return additionalTaggedTokens;
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       l.addAll(taggedTokens);
     }

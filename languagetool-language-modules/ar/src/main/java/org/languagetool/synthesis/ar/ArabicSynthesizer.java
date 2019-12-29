@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * Arabic word form synthesizer.
  * Based on part-of-speech lists in Public Domain. See readme.txt for details,
@@ -43,6 +42,7 @@ import java.util.regex.Pattern;
  * </ol>
  *
  * @author Taha Zerrouki
+ * @since 4.9
  */
 public class ArabicSynthesizer extends BaseSynthesizer {
 
@@ -62,22 +62,19 @@ public class ArabicSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag)
-    throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     IStemmer synthesizer = createStemmer();
     List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     List<String> wordForms = new ArrayList<>();
     for (WordData wd : wordData) {
       wordForms.add(wd.getStem().toString());
     }
-    return wordForms.toArray(new String[wordForms.size()]);
+    return wordForms.toArray(new String[0]);
   }
 
   /**
    * Special Arabic regexp based synthesizer that allows adding articles
    * when the regexp-based tag ends with a special signature {@code \\+GM} or {@code \\+GF}.
-   *
-   * @since 2.5
    */
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag,
@@ -96,7 +93,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
           lookup(token.getLemma(), tag, results, det);
         }
       }
-      return results.toArray(new String[results.size()]);
+      return results.toArray(new String[0]);
     }
 
     return synthesize(token, posTag);
@@ -112,5 +109,3 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   }
 
 }
-
-

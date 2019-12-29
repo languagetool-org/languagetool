@@ -28,9 +28,13 @@ import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @since 4.9
+ */
 public final class ArabicHunspellSpellerRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_RULE_AR";
+  
   private static final String RESOURCE_FILENAME = "/ar/hunspell/ar.dic";
 
   public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) {

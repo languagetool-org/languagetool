@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * @since 4.9
+ */
 public class ArabicWordTokenizer extends WordTokenizer {
 
   @Override
