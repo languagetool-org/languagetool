@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-
+# Filter An Gramadóir's equivalent of replacements for items that have been categorised
+# Copyright 2018 Jim O'Regan (MIT/LGPL)
 use warnings;
 use strict;
 use utf8;
