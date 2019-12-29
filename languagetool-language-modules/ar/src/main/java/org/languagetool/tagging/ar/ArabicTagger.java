@@ -47,11 +47,11 @@ public class ArabicTagger extends BaseTagger {
   /* Add the flag to an encoded tag */
   public String addTag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if (flag == "W") {
+    if (flag.equals("W")) {
       tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag == "K") {
+    } else if (flag.equals("K")) {
       tmp.setCharAt(postag.length() - 2, 'K');
-    } else if (flag == "L") {
+    } else if (flag.equals("L")) {
       tmp.setCharAt(postag.length() - 2, 'L');
     }
     return tmp.toString();
