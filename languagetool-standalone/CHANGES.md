@@ -2,10 +2,12 @@
 
 ## 4.9-SNAPSHOT (release planned for 2020-03-24)
 
-...
+#### Arabic
+  * Added initial support for Arabic, contributed by Sohaib Afifi
+    (https://github.com/languagetool-org/languagetool/pull/2219)
+
 #### German
   * added and improved rules
-...
 
 
 ## 4.8 (released 2019-12-27)

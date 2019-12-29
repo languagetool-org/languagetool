@@ -17,7 +17,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.ar;
 
 import org.languagetool.Language;
@@ -29,14 +28,16 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
+  
   public static final String RULE_ID = "AR_SIMPLE_REPLACE";
+  
   private static final String RESOURCE_FILENAME = "ar/replaces.txt";
 
   public ArabicSimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>إنشاء</marker>"),
-                    Example.fixed("<marker>إن شاء</marker>"));
+                   Example.fixed("<marker>إن شاء</marker>"));
   }
 
   @Override

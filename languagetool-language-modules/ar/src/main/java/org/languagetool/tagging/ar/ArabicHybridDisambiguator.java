@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.tagging.ar;
 
 import org.languagetool.AnalyzedSentence;
@@ -31,7 +30,7 @@ import java.io.IOException;
 /**
  * Hybrid chunker for Arabic.
  *
- * @since 4.8
+ * @since 4.9
  */
 public class ArabicHybridDisambiguator extends AbstractDisambiguator {
 
