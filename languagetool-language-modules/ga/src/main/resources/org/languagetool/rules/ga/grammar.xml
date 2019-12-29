@@ -18448,7 +18448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">Ni[cg]</token>
                 <marker>
-                    <token regexp="yes" postag_regexp="yes" postag=".*Noun.*">&lenitedcapcg;</token>
+                    <token regexp="yes" postag_regexp="yes" postag=".*Noun.*" case_sensitive="yes">&lenitedcapcg;</token>
                 </marker>
             </pattern>
             <message>Séimhiú gan ghá: <suggestion><match no="2" regexp_match="([CG])h(.*)" regexp_replace="$1$2"/></suggestion></message>
@@ -18470,6 +18470,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>An raibh <suggestion>⁊rl</suggestion> (agus araile) i gceist agat?</message>
             <example correction='⁊rl'><marker>ヿrl</marker></example>
+        </rule>
+    </category>
+    <category id="GRAMADOIR_NEEDART" name="Alt cinnte á lorg">
+        <rule id="MI_NOLLAG" name="mí Nollag">
+            <pattern>
+                <token regexp="yes">mh?í</token>
+                <marker>
+                    <token regexp="yes">Nollai?g</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>na Nollag</suggestion></message>
+            <example correction='na Nollag'>mí <marker>Nollag</marker></example>
         </rule>
     </category>
     <category id="GRAMADOIR_PREFIXD" name="Réamhlitir ‘d'’ ar iarraidh">
