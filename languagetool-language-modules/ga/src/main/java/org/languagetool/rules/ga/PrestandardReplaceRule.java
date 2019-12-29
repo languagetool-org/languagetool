@@ -64,7 +64,7 @@ public class PrestandardReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "";
+    return "Litriú réamhchaighdeánach, m.sh., \"baoghal\" in áit \"baol\"";
   }
 
   @Override
