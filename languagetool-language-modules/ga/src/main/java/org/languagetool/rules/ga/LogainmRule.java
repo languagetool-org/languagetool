@@ -64,7 +64,7 @@ public class LogainmRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "";
+    return "Logainm Béarla, m.sh., 'Dublin' in áit 'Baile Átha Cliath'.";
   }
 
   @Override
@@ -74,8 +74,8 @@ public class LogainmRule extends AbstractSimpleReplaceRule {
  
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Is logainm Béarla é " + tokenStr + " ar "
-        + String.join(", ", replacements) + ".";
+    return "Is logainm Béarla é \"" + tokenStr + "\" ar \""
+        + String.join(", ", replacements) + "\".";
   }
 
   @Override
