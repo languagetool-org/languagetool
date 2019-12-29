@@ -492,8 +492,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <rulegroup id="UNIFY_PRP_DET_SUB" name="NP with preposition unify">
         <rule>
-            <pattern case_sensitive="yes">
-                <token postag_regexp="yes" postag="PRP.+"></token>
+            <pattern>
+                <token postag_regexp="yes" postag="PRP.+">
+                    <exception postag="PRP.+" postag_regexp="yes" negate_pos="yes"/>
+                    <exception scope="previous">was</exception>
+                </token>
                 <marker>
                     <and>
                         <token postag_regexp="yes" postag=".+NOM:.+"></token>
@@ -503,6 +506,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag=".+:NOM:.+"/>
             <example type="ambiguous" inputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/ART:DEF:NOM:PLU:FEM,der/ART:DEF:NOM:PLU:MAS,der/ART:DEF:NOM:PLU:NEU,der/ART:DEF:NOM:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:DEM:NOM:PLU:ALG,der/PRO:DEM:NOM:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM,der/PRO:PER:NOM:PLU:ALG,der/PRO:PER:NOM:SIN:FEM]" outputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM]">Ein gutes Argument für <marker>die</marker> Politik, ...</example>
+            <example type="untouched">Er ist eher ein Lehrer, als ein Schriftsteller.</example>
+            <example type="untouched">Was für ein großer Supermarkt!</example>
+            <example type="untouched">Während der größte Teil unter Emission von Beta-Teilchen...</example>
+            <example type="untouched">Dabei zerfallen sie so lange, bis ein stabiler Kern erreicht ist;</example>
+            <example type="untouched">Hier ist nach wie vor der Unterschied bedeutsam.</example>
         </rule>
     </rulegroup>
 
