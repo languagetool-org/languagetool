@@ -160,6 +160,7 @@ public class German extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
                     Arrays.asList("]", ")", "}", "“", "«", "»", "\"")),

@@ -114,6 +114,7 @@ public class Russian extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                     Example.wrong("Не род<marker> ,</marker> а ум поставлю в воеводы."),
                     Example.fixed("Не род<marker>,</marker> а ум поставлю в воеводы.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Закончилось лето. <marker>дети</marker> снова сели за школьные парты."),

@@ -31,6 +31,7 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.QuotesWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
@@ -168,7 +169,7 @@ public class Ukrainian extends Language {
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
-
+        new QuotesWhitespaceRule(messages, null, null),
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
         new UppercaseSentenceStartRule(messages, this,
             Example.wrong("<marker>речення</marker> має починатися з великої."),

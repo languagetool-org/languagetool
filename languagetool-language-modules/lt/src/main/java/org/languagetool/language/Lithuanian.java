@@ -80,7 +80,8 @@ public class Lithuanian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, null, null),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new MorfologikLithuanianSpellerRule(messages, this, userConfig, altLanguages),

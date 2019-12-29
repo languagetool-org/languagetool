@@ -144,6 +144,7 @@ public class Serbian extends Language {
       new CommaWhitespaceRule(messages,
         Example.wrong("Није шија<marker> ,</marker> него врат."),
         Example.fixed("Није шија<marker>,</marker> него врат.")),
+      new QuotesWhitespaceRule(messages, null, null),
       new DoublePunctuationRule(messages),
       new GenericUnpairedBracketsRule(messages,
         Arrays.asList("[", "(", "{", "„", "„", "\""),

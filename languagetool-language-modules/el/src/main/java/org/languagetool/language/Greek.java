@@ -79,6 +79,7 @@ public class Greek extends Language {
             new CommaWhitespaceRule(messages, 
                     Example.wrong("Το κόμμα χωρίζει προτάσεις<marker> ,</marker> όρους προτάσεων και φράσεις."),
                     Example.fixed("Το κόμμα χωρίζει προτάσεις<marker>,</marker> όρους προτάσεων και φράσεις.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule("EL_UNPAIRED_BRACKETS", messages,
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),

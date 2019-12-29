@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.QuotesWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.LongSentenceRule;
@@ -76,6 +77,7 @@ public class ValencianCatalan extends Catalan {
             new CommaWhitespaceRule(messages, 
                 Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
                 Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new CatalanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,

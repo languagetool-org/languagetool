@@ -122,6 +122,7 @@ public class Galician extends Language {
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queixo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queixo, bolachas e uvas.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),

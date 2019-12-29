@@ -90,7 +90,8 @@ public class Danish extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, null, null),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "”"),

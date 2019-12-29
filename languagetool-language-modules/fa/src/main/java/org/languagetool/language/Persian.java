@@ -84,7 +84,8 @@ public class Persian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-        new CommaWhitespaceRule(messages),
+        new CommaWhitespaceRule(messages, null, null), // TODO: PersianCommaWhitespaceRule.java?
+        new QuotesWhitespaceRule(messages, null, null),
         new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages, userConfig),

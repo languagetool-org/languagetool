@@ -106,7 +106,8 @@ public class Breton extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, null, null),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new MorfologikBretonSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),

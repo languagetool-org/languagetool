@@ -196,6 +196,7 @@ public class English extends Language implements AutoCloseable {
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
                 Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
+        new QuotesWhitespaceRule(messages, null, null),
         new DoublePunctuationRule(messages),
         new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),

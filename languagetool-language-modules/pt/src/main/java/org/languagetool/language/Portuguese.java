@@ -139,6 +139,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
                 Example.fixed("Tomamos café<marker>,</marker> queijo, bolachas e uvas.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),

@@ -96,6 +96,7 @@ public class Catalan extends Language {
             new CommaWhitespaceRule(messages, 
             		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
             		Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
+            new QuotesWhitespaceRule(messages, null, null),
             new DoublePunctuationRule(messages),
             new CatalanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
