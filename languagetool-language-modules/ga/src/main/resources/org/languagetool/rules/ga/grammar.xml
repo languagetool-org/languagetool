@@ -10473,7 +10473,511 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Freagair aon dá cheann ar bith díobh seo a leanas.</example>
         </rule>
     </category>
-    <category id="SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
+    <category id="GRAMADOIR_BADART" name="Séimhiú ar iarraidh" type="grammar">
+        <rulegroup id="AN_ALBAIN" name="an Albain">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Albain</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Albain'><marker>an Albain</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Albain</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Albain'><marker>faoin Albain</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TANDÓRA" name="an tAndóra">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">tAndóra|tAngóla</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Andóra'><marker>an tAndóra</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Andóra|Angóla</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Andóra'><marker>faoin Andóra</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_BHEININ" name="an Bheinin">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Bheinin|Bhrúiné</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^([A-Z])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Beinin'><marker>an Bheinin</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Bheinin|Bhrúiné</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^([A-Z])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Beinin'><marker>faoin Bheinin</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_BARBADÓS" name="an Barbadós">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Barbadós|Buircíne</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Barbadós'><marker>an Barbadós</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Bharbadós|Bhuircíne</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Barbadós'><marker>faoin Bharbadós</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_CAMARÚN" name="an Camarún">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Camarún|Catar|Ceanada|Cireabaití|Cuáit|Cúba</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Camarún'><marker>an Camarún</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Chamarún|Chatar|Cheanada|Chireabaití|Chuáit|Chúba</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Camarún'><marker>faoin Chamarún</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_CÓSTA" name="an Cósta">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Cósta</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Cósta'><marker>an Cósta</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Chósta</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Cósta'><marker>faoin Chósta</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_DOIMINICE" name="an Doiminice">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Doiminice</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Doiminice'><marker>an Doiminice</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Doiminice</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Doiminice'><marker>faoin Doiminice</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TEACUADÓR" name="an tEacuadór">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>tEacuadór</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Eacuadór'><marker>an tEacuadór</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Eacuadór</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Eacuadór'><marker>faoin Eacuadór</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_ÉIRE" name="an Éire">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Éire</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Éire'><marker>an Éire</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Éire</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Éire'><marker>faoin Éire</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_GÁNA" name="an Gána">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Gána|Guatamala</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Gána'><marker>an Gána</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Ghána|Ghuatamala</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Gána'><marker>faoin Ghána</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_HÁÍTÍ" name="an Háítí">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Háítí|Hondúras</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Háítí'><marker>an Háítí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Háítí|Hondúras</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Háítí'><marker>faoin Háítí</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_IAMÁICE" name="an Iamáice">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Iamáice</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Iamáice'><marker>an Iamáice</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Iamáice</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Iamáice'><marker>faoin Iamáice</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TIOSRAEL" name="an tIosrael">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>tIosrael</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Iosrael'><marker>an tIosrael</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Iosrael</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Iosrael'><marker>faoin Iosrael</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_LAOS" name="an Laos">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Laos|Leosóta|Lichtinstéin|Lucsamburg</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Laos'><marker>an Laos</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Laos|Leosóta|Lichtinstéin|Lucsamburg</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Laos'><marker>faoin Laos</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_MHAILÍ" name="an Mhailí">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Mhailí|Mhósaimbíc</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^([A-Z])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Mailí'><marker>an Mhailí</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Mhailí|Mhósaimbíc</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^([A-Z])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Mailí'><marker>faoin Mhailí</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_MADAGASCAR" name="an Madagascar">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Madagascar|Maenmar|Málta|Maracó|Meicsiceo|Monacó</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Madagascar'><marker>an Madagascar</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Mhadagascar|Mhaenmar|Mhálta|Mharacó|Mheicsiceo|Mhonacó</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Madagascar'><marker>faoin Mhadagascar</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_NEIPEAL" name="an Neipeal">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Neipeal|Nicearagua</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Neipeal'><marker>an Neipeal</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Neipeal|Nicearagua</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Neipeal'><marker>faoin Neipeal</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TOMAN" name="an tOman">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>tOman</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Oman'><marker>an tOman</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Oman</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Oman'><marker>faoin Oman</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_PANAMA" name="an Panama">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Panama|Paragua|Peiriú</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Panama'><marker>an Panama</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Panama|Paragua|Peiriú</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Panama'><marker>faoin Panama</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_PORTÓ" name="an Portó">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Portó</token>
+                    <token>Ríce</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Portó Ríce'><marker>an Portó Ríce</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Phortó</token>
+                    <token>Ríce</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Portó Ríce'><marker>faoin Phortó Ríce</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_RUANDA" name="an Ruanda">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Ruanda</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Ruanda'><marker>an Ruanda</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Ruanda</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Ruanda'><marker>faoin Ruanda</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_SAMÓ" name="an Samó">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Samó|Sasana|Sead|Siarra|Singeapór|Suranam</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Samó'><marker>an Samó</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Samó|Sasana|Sead|Siarra|Singeapór|Suranam</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Samó'><marker>faoin Samó</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TÓGA" name="an Tóga">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>Tóga</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Tóga'><marker>an Tóga</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token>Tóga</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Tóga'><marker>faoin Tóga</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_TUGANDA" name="an tUganda">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">tUganda|tUragua</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Uganda'><marker>an tUganda</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Uganda|Uragua</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2" regexp_match="^t(.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Uganda'><marker>faoin Uganda</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AN_VANUATÚ" name="an Vanuatú">
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token regexp="yes">Vanuatú|Veiniséala|Vítneam</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='Vanuatú'><marker>an Vanuatú</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&fusedprep;</token>
+                    <token regexp="yes">Vanuatú|Veiniséala|Vítneam</token>
+                </pattern>
+                <message>Níl gá leis an alt cinnte anseo: <suggestion><match no="1" regexp_match="(.*)n$" regexp_replace="$1"/> <match no="2"/></suggestion></message>
+                <short>Níl gá leis an alt cinnte</short>
+                <example correction='faoi Vanuatú'><marker>faoin Vanuatú</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="GRAMADOIR_SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
         <rule id="AMHAIL_AN_MBEAN" name="amhail an mbean">
             <pattern>
                 <token>amhail</token>
