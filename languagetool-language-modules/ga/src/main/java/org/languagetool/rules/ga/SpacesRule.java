@@ -62,17 +62,18 @@ public class SpacesRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "";
+    return "Spás ar iarraidh";
   }
 
   @Override
   public String getShort() {
-    return "Spás á lorg";
+    return "Spás ar iarraidh";
   }
   
   @Override
-  public String getMessage(String tokenStr,List<String> replacements) {
-    return "Spás á lorg.";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return "Spás ar iarraidh: \""
+        + String.join(", ", replacements) + "\".";
   }
   
   @Override
