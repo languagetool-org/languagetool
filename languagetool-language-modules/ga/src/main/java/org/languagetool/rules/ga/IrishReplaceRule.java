@@ -74,7 +74,8 @@ public class IrishReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Litriú mícheart.";
+    return "Litriú mícheart: \""
+        + String.join(", ", replacements) + "\".";
   }
 
   @Override
