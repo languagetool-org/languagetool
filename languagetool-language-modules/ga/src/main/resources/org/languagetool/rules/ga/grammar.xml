@@ -184,6 +184,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </phrases>
     <category id="CONTRACTIONS" name="syntactical errors: contractions" type="grammar">
         <rulegroup id="LE_CONTRACTIONS" name="le Contractions">
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>le</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="LE_ME_LIOM" name="le + mé = liom">
                 <pattern>
                     <marker>
@@ -1368,6 +1388,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="Ó_CONTRACTIONS" name="ó Contractions">
+            <antipattern>
+                <token>ó</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>ó</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>ó</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="Ó_ME_UAIM" name="ó + mé = uaim">
                 <pattern>
                     <marker>
@@ -1510,6 +1550,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TRÍ_CONTRACTIONS" name="trí Contractions">
+            <antipattern>
+                <token>trí</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>trí</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token>féin</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token>trí</token>
+                <token postag=".*Pron.*" postag_regexp="yes"></token>
+                <token regexp="yes">seo|sin|siúd</token>
+                <token>a</token>
+                <token postag=".*Noun.*|.*Prep.*|.*Conj.*" postag_regexp="yes"></token>
+            </antipattern>
             <rule id="TRÍ_ME_TRIOM" name="trí + mé = tríom">
                 <pattern>
                     <marker>
@@ -6291,44 +6351,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>In abairt</short>
             <example correction="i gcomhar le"><marker>i gcomhar</marker></example>
         </rule>
-<!--        <rulegroup id="DEAG" name="déag">
-            <antipattern>
-                <token>a</token>
-                <token regexp="yes">haon|dó|trí|ceathair|cúig|sé|seacht|hocht|naoi</token>
-                <token regexp="yes">dh?éag</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">aon|dhá|trí|ceithre|cúig|sé|seacht|ocht|naoi</token>
-                <token></token>
-                <token>déag</token>
-            </antipattern>
-            <antipattern>
-                <token>nó</token>
-                <token regexp="yes">aon|dó|trí|ceithre|cúig|sé|seacht|ocht|naoi</token>
-                <token>déag</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">dh?éag</token>
-                </pattern>
-                <message>Ní úsáidtear an focal seo ach san abairtín “a dó dhéag, dhá X déag” de ghnáth</message>
-                <short>In abairt</short>
-                <example correction=""><marker>déag</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">n?dh?ó|d?th?rí|g?ch?eathair|g?ch?úig|sh?é|sh?eacht|h?ocht|naoi</token>
-                    <token regexp="yes">dh?éag</token>
-                </pattern>
-                <message>Ní úsáidtear an focal seo ach san abairtín “a dó dhéag, dhá X déag” de ghnáth</message>
-                <suggestion>a <match no="1" /> <match no="2"/></suggestion>
-                <suggestion><match no="1" /> X <match no="2"/></suggestion>
-                <short>In abairt</short>
-                <example>Tabharfaidh an tUachtarán a óráid ag leath i ndiaidh a dó déag Dé Sathairn.</example>
-                <example>Bhuail an clog a trí dhéag.</example>
-                <example correction="">Tá <marker>trí déag</marker> litir san fhocal seo.</example>
-            </rule>
-        </rulegroup> -->
         <rule id="IDIR_GCAMAIN" name="idir gcamáin">
             <pattern>
                 <token>idir</token>
@@ -9672,6 +9694,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="GRAMADOIR_UIMHREACHA" name="Uimhreacha" type="grammar">
         <rule id="TRI_UAIRE" name="trí uaire">
+            <antipattern>
+                <token>uair</token>
+                <token>amháin</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">trí|(?:gc|ch|c)eithre|(?:gc|ch|c)úig|sé</token>
                 <marker>
@@ -9682,6 +9708,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='huaire'>trí <marker>uaire</marker> ó shin</example>
             <example correction='huaire'>Chuir siad fios orm ceithre <marker>uaire</marker> ar an tslí sin.</example>
             <example correction="huaire">Caithfidh siad turas cúig <marker>uaire</marker> a chloig a dhéanamh.</example>
+            <example correction='huaire'>Ní féidir iad a sheinm le snáthaid ach cúig nó sé <marker>uaire</marker>.</example>
+            <example>Dúirt sé uair amháin nach raibh áit eile ar mhaith leis cónaí ann.</example>
         </rule>
         <rule id="SEACHT_MBLIAIN" name="seach mbliain">
             <pattern>
@@ -10073,6 +10101,342 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>láimh</suggestion> a scríobh.</message>
             <example correction='láimh'>dá <marker>lámh</marker></example>
         </rule>
+        <rulegroup id="DO_DEAG" name="dó déag">
+            <antipattern>
+                <token>a</token>
+                <token>dó</token>
+                <token>dhéag</token>
+            </antipattern>
+            <antipattern>
+                <token>dhá</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>dó</token>
+                <token>dhéag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">n?dh?ó</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna habairtíní <suggestion>a dó dhéag</suggestion> agus <suggestion>dhá X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a dó dhéag|dhá X déag"><marker>dó déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>dó</token>
+                    <marker>
+                        <token>déag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>dhéag</suggestion> a scríobh.</message>
+                <example correction="dhéag">a dó <marker>déag</marker></example>
+                <example correction="dhéag">Tabharfaidh an tUachtarán a óráid ag leath i ndiaidh a dó <marker>déag</marker> Dé Sathairn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AON_DEAG" name="haon déag">
+            <antipattern>
+                <token>a</token>
+                <token>haon</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>aon</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>aon</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">h?aon</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a haon déag</suggestion> agus <suggestion>aon X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a haon déag|aon X déag"><marker>haon déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>haon</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a haon <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TRI_DEAG" name="trí déag">
+            <antipattern>
+                <token>a</token>
+                <token>trí</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>trí</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>trí</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">d?th?rí</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a trí déag</suggestion> agus <suggestion>trí X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a trí déag|trí X déag"><marker>trí déag</marker></example>
+                <example correction="a trí déag|trí X déag">Tá <marker>trí déag</marker> litir san fhocal seo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>trí</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a trí <marker>dhéag</marker></example>
+                <example correction="déag">Bhuail an clog a trí <marker>dhéag</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CEATHAIR_DEAG" name="ceathair déag">
+            <antipattern>
+                <token>a</token>
+                <token>ceathair</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>ceithre</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>ceathair</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">g?ch?eathair</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a ceathair déag</suggestion> agus <suggestion>ceithre X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a ceathair déag|ceithre X déag"><marker>ceathair déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>ceathair</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a ceathair <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CUIG_DEAG" name="cúig déag">
+            <antipattern>
+                <token>a</token>
+                <token>cúig</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>cúig</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>cúig</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">g?ch?úig</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a cúig déag</suggestion> agus <suggestion>cúig X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a cúig déag|cúig X déag"><marker>cúig déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>cúig</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a cúig <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SE_DEAG" name="sé déag">
+            <antipattern>
+                <token>a</token>
+                <token>sé</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>sé</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>sé</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">sh?é</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a sé déag</suggestion> agus <suggestion>sé X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a sé déag|sé X déag"><marker>sé déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>sé</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a sé <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SEACHT_DEAG" name="seacht déag">
+            <antipattern>
+                <token>a</token>
+                <token>seacht</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>seacht</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>seacht</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">sh?eacht</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a seacht déag</suggestion> agus <suggestion>seacht X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a seacht déag|seacht X déag"><marker>seacht déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>seacht</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a seacht <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OCHT_DEAG" name="hocht déag">
+            <antipattern>
+                <token>a</token>
+                <token>hocht</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>ocht</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>ocht</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">h?ocht</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a hocht déag</suggestion> agus <suggestion>ocht X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a hocht déag|ocht X déag"><marker>hocht déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>hocht</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a hocht <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NAOI_DEAG" name="naoi déag">
+            <antipattern>
+                <token>a</token>
+                <token>naoi</token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>naoi</token>
+                <token></token>
+                <token>déag</token>
+            </antipattern>
+            <antipattern>
+                <token>nó</token>
+                <token>naoi</token>
+                <token>déag</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>naoi</token>
+                    <token regexp="yes">dh?éag</token>
+                </pattern>
+                <message>Ní úsáidtear an focal seo ach sna abairtíní <suggestion>a naoi déag</suggestion> agus <suggestion>naoi X déag</suggestion> de ghnáth</message>
+                <short>In abairt</short>
+                <example correction="a naoi déag|naoi X déag"><marker>naoi déag</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>naoi</token>
+                    <marker>
+                        <token>dhéag</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit <suggestion>déag</suggestion> a scríobh.</message>
+                <example correction="déag">a naoi <marker>dhéag</marker></example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
         <rule id="AMHAIL_AN_MBEAN" name="amhail an mbean">
@@ -11747,7 +12111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Ba chóir duit <suggestion>ón</suggestion> a scríobh.</message>
-            <example correction='ón'><marker>ó an</marker></example>
+            <example correction='ón'>Bíodh bhur ngrá saor <marker>ó an</marker> chur i gcéill.</example>
         </rule>
         <rule id="TRI_N-AR" name="trí n-ár">
             <pattern>
@@ -11759,7 +12123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit <suggestion>trínár</suggestion> a scríobh.</message>
             <example correction='trínár'><marker>trí n-ár</marker></example>
         </rule>
-        <rule id="TRI_AR" name="trí ár">
+        <rule id="TRI_ÁR" name="trí ár">
             <pattern>
                 <marker>
                     <token>trí</token>
@@ -11767,17 +12131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Ba chóir duit <suggestion>trínár</suggestion> a scríobh.</message>
-            <example correction='trínár'><marker>trí ár</marker></example>
-        </rule>
-        <rule id="TRI_AN" name="trí an">
-            <pattern>
-                <marker>
-                    <token>trí</token>
-                </marker>
-                <token>an</token>
-            </pattern>
-            <message>Ba chóir duit <suggestion>tríd</suggestion> a scríobh.</message>
-            <example correction='tríd'><marker>trí</marker> an</example>
+            <example correction='trínár'>Coinníodh lenár sála sa chaoi nárbh fhéidir siúl <marker>trí ár</marker> sráideanna.</example>
         </rule>
         <rule id="FAOI_N-AR" name="faoi n-ár">
             <pattern>
@@ -13853,6 +14207,408 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ba chóir duit <suggestion>trínar</suggestion> nó <suggestion>trínarbh</suggestion> a scríobh.</message>
             <example correction="trínar|trínarbh"><marker>trí ba</marker></example>
+        </rule>
+        <rule id="TRI_UAIR" name="trí uair">
+            <pattern>
+                <token>trí</token>
+                <marker>
+                    <token regexp="yes">uaire?</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>huaire</suggestion> a scríobh.</message>
+            <example correction="huaire">Timpeall trí <marker>uaire</marker> a chloig ina dhiaidh sin tháinig an bhean isteach.</example>
+        </rule>
+        <rule id="TRI_A" name="trí a">
+            <pattern>
+                <marker>
+                    <token>trí</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trína</suggestion> a scríobh.</message>
+            <example correction="trína">Scríobhaim chugaibh mar gur maitheadh daoibh bhur bpeacaí <marker>trí a</marker> ainm.</example>
+            <example correction="trína">Cuirtear i láthair na struchtúir <marker>trí a</marker> reáchtálfar gníomhartha ag an leibhéal náisiúnta.</example>
+        </rule>
+        <rule id="TRI_AR" name="trí ar">
+            <pattern>
+                <marker>
+                    <token>trí</token>
+                    <token>ar</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>trínar</suggestion> a scríobh.</message>
+            <example correction="trínar">Ní fhillfidh siad ar an ngeata <marker>trí ar</marker> ghabh siad isteach.</example>
+        </rule>
+        <rule id="TRI_AN" name="trí an">
+            <pattern>
+                <marker>
+                    <token>trí</token>
+                </marker>
+                <token>an</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>tríd</suggestion> a scríobh.</message>
+            <example correction="tríd">Beirimid an bua go caithréimeach <marker>trí</marker> an té úd a thug grá dúinn.</example>
+        </rule>
+        <rule id="DO_A" name="do a">
+            <pattern>
+                <marker>
+                    <token>do</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dá</suggestion> a scríobh.</message>
+            <example correction="dá">Tá sé de chúram seirbhís a chur ar fáil <marker>do a</marker> chustaiméirí i nGaeilge.</example>
+        </rule>
+        <rule id="DE_AR" name="de ár">
+            <pattern>
+                <marker>
+                    <token regexp="yes">d[eo]</token>
+                    <token regexp="yes">[áa]r</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>dár</suggestion> a scríobh.</message>
+            <example correction="dár">Seinnigí moladh ar an gcruit <marker>do ár</marker> máthair.</example>
+            <example correction="dár">Is é seo mo Mhac muirneach <marker>do ar</marker> thug mé gnaoi.</example>
+        </rule>
+        <rule id="DO_REIR" name="do réir">
+            <pattern>
+                <marker>
+                    <token>do</token>
+                </marker>
+                <token>réir</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>de</suggestion> a scríobh.</message>
+            <example correction="de"><marker>do</marker> réir</example>
+        </rule>
+        <rule id="DUBH_OILEAN" name="Dubh Oileán">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Dubh</token>
+                    <token case_sensitive="yes">Oileán</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>Dubhoileán</suggestion> a scríobh.</message>
+            <example correction="Dubhoileán"><marker>Dubh Oileán</marker></example>
+        </rule>
+        <rule id="FAOI_ÁR" name="faoi ár">
+            <pattern>
+                <marker>
+                    <token regexp="yes">faoin?</token>
+                    <token>ár</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>faoinár</suggestion> a scríobh.</message>
+            <example correction="faoinár">Cuireann sé ciníocha <marker>faoi ár</marker> smacht agus cuireann sé náisiúin faoinár gcosa.</example>
+        </rule>
+        <rule id="GO_MBA_PRON" name="go mba é">
+            <pattern>
+                <marker>
+                    <token>go</token>
+                    <token>mba</token>
+                </marker>
+                <token regexp="yes">[éí]|iad|iadsan|eisean|ise</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gurbh</suggestion> a scríobh.</message>
+            <example correction="gurbh"><marker>go mba</marker> iad</example>
+        </rule>
+        <rule id="GO_MBA" name="go mba">
+            <pattern>
+                <token>go</token>
+                <token>mba</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>gur</suggestion> a scríobh.</message>
+            <example correction="gur"><marker>go mba</marker></example>
+        </rule>
+        <rule id="I_N-AR" name="i n-ár">
+            <pattern>
+                <token>i</token>
+                <token>n-ár</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>inár</suggestion> a scríobh.</message>
+            <example correction="inár"><marker>i n-ár</marker></example>
+        </rule>
+        <rule id="I_DHA" name="i dhá">
+            <pattern>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token>dhá</token>
+            </pattern>
+            <message>Ba chóir duit <suggestion>in</suggestion> a scríobh.</message>
+            <example correction="in">An bhfuil aon uachtar reoite agat <marker>i</marker> dhá chuisneoir?</example>
+        </rule>
+        <rule id="INA_IOMLAN" name="ina iomlán">
+            <pattern>
+                <token>ina</token>
+                <marker>
+                    <token>iomlán</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iomláine</suggestion> nó <suggestion>hiomláine</suggestion> a scríobh.</message>
+            <example correction="iomláine|hiomláine">ina <marker>iomlán</marker></example>
+        </rule>
+        <rule id="AS_A_IOMLAN" name="as a iomlán">
+            <pattern>
+                <token>as</token>
+                <token>a</token>
+                <marker>
+                    <token>iomlán</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iomláine</suggestion> nó <suggestion>hiomláine</suggestion> a scríobh.</message>
+            <example correction="iomláine|hiomláine">as a <marker>iomlán</marker></example>
+        </rule>
+        <rule id="LE_A" name="le a">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lena</suggestion> a scríobh.</message>
+            <example correction="lena">Labhraíodh gach duine an fhírinne <marker>le a</marker> chomharsa.</example>
+            <example correction="lena">Le halt 16 i ndáil le hiarratas ar ordú <marker>le a</marker> meastar gur tugadh toiliú.</example>
+        </rule>
+        <rule id="LE_AR" name="le ar">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>ar</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenar</suggestion> a scríobh.</message>
+            <example correction="lenar">Beir i do láimh ar an tslat <marker>le ar</marker> bhuail tú an abhainn, agus seo leat.</example>
+        </rule>
+        <rule id="LE_ÁR" name="le ár">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>ár</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenár</suggestion> a scríobh.</message>
+            <example correction="lenár">Ba mhaith liom buíochas a ghlacadh <marker>le ár</marker> seirbhís riaracháin.</example>
+        </rule>
+        <rule id="LE_N-ÁR" name="le n-ár">
+            <pattern>
+                <marker>
+                    <token>le</token>
+                    <token>n-ár</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>lenár</suggestion> a scríobh.</message>
+            <example correction="lenár"><marker>le n-ár</marker></example>
+        </rule>
+        <rule id="O_IS" name="ó is">
+            <pattern>
+                <marker>
+                    <token>ó</token>
+                    <token>is</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ós</suggestion> a scríobh.</message>
+            <example correction="ós"><marker>ó is</marker></example>
+        </rule>
+        <rule id="O_SIN" name="ó sin">
+            <antipattern>
+                <token>ó</token>
+                <token>sin</token>
+                <token>go</token>
+                <token>dtí</token>
+            </antipattern>
+            <antipattern>
+                <token>ó</token>
+                <token>sin</token>
+                <token regexp="yes">chuig|go</token>
+            </antipattern>
+            <pattern>
+                <token>ó</token>
+                <marker>
+                    <token>sin</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>shin</suggestion> a scríobh.</message>
+            <example correction="shin">ó <marker>sin</marker></example>
+        </rule>
+        <rule id="NOTVERB_SE" name="NOTVERB sé">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sé</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>é</suggestion> a scríobh.</message>
+            <example correction="é">is fearr liom <marker>sé</marker></example>
+        </rule>
+        <rule id="COP_SE" name="NOTVERB sé">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sé</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>é</suggestion> a scríobh.</message>
+            <example correction="é">ba <marker>sé</marker></example>
+        </rule>
+        <rule id="AUT_SE" name="NOTVERB sé">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sé</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>é</suggestion> a scríobh.</message>
+            <example correction="é">deirtear <marker>sé</marker></example>
+        </rule>
+        <rule id="NOTVERB_SEISEAN" name="NOTVERB seisean">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">seisean</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>eisean</suggestion> a scríobh.</message>
+            <example correction="eisean">is fearr liom <marker>seisean</marker></example>
+        </rule>
+        <rule id="COP_SEISEAN" name="NOTVERB seisean">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">seisean</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>eisean</suggestion> a scríobh.</message>
+            <example correction="eisean">ba <marker>seisean</marker></example>
+        </rule>
+        <rule id="AUT_SEISEAN" name="NOTVERB seisean">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">seisean</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>eisean</suggestion> a scríobh.</message>
+            <example correction="eisean">deirtear <marker>seisean</marker></example>
+        </rule>
+        <rule id="NOTVERB_SI" name="NOTVERB sí">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sí</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>í</suggestion> a scríobh.</message>
+            <example correction="í">is fearr liom <marker>sí</marker></example>
+        </rule>
+        <rule id="COP_SI" name="NOTVERB sí">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sí</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>í</suggestion> a scríobh.</message>
+            <example correction="í">ba <marker>sí</marker></example>
+        </rule>
+        <rule id="AUT_SI" name="NOTVERB sí">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sí</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>í</suggestion> a scríobh.</message>
+            <example correction="í">deirtear <marker>sí</marker></example>
+        </rule>
+        <rule id="NOTVERB_SISE" name="NOTVERB sise">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sise</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ise</suggestion> a scríobh.</message>
+            <example correction="ise">is fearr liom <marker>sise</marker></example>
+        </rule>
+        <rule id="COP_SISE" name="NOTVERB sise">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sise</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ise</suggestion> a scríobh.</message>
+            <example correction="ise">ba <marker>sise</marker></example>
+        </rule>
+        <rule id="AUT_SISE" name="NOTVERB sise">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">sise</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>ise</suggestion> a scríobh.</message>
+            <example correction="ise">deirtear <marker>sise</marker></example>
+        </rule>
+        <rule id="NOTVERB_SIAD" name="NOTVERB siad">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siad</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iad</suggestion> a scríobh.</message>
+            <example correction="iad">is fearr liom <marker>siad</marker></example>
+        </rule>
+        <rule id="COP_SIAD" name="NOTVERB siad">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siad</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iad</suggestion> a scríobh.</message>
+            <example correction="iad">Is <marker>siad</marker> na rudaí crua a mhairfidh.</example>
+        </rule>
+        <rule id="AUT_SIAD" name="NOTVERB siad">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siad</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iad</suggestion> a scríobh.</message>
+            <example correction="iad">deirtear <marker>siad</marker></example>
+        </rule>
+        <rule id="NOTVERB_SIADSAN" name="NOTVERB siadsan">
+            <pattern>
+                <token postag=".*Verb.*" postag_regexp="yes" negate_pos="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siadsan</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iadsan</suggestion> a scríobh.</message>
+            <example correction="iadsan">is fearr liom <marker>siadsan</marker></example>
+        </rule>
+        <rule id="COP_SIADSAN" name="NOTVERB siadsan">
+            <pattern>
+                <token postag=".*Cop.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siadsan</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iadsan</suggestion> a scríobh.</message>
+            <example correction="iadsan">ba <marker>siadsan</marker></example>
+        </rule>
+        <rule id="AUT_SIADSAN" name="NOTVERB siadsan">
+            <pattern>
+                <token postag=".*Verb.*Auto.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag=".*Pron.*" postag_regexp="yes">siadsan</token>
+                </marker>
+            </pattern>
+            <message>Ba chóir duit <suggestion>iadsan</suggestion> a scríobh.</message>
+            <example correction="iadsan">deirtear <marker>siadsan</marker></example>
         </rule>
     </category>
     <category id="GRAMADOIR_IONADAI" name="ionadai">
