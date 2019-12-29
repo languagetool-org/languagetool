@@ -40,10 +40,12 @@ import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.
+ * @since 4.9
  */
 public class Arabic extends Language implements AutoCloseable {
 
   private static final Language DEFAULT_ARABIC = new AlgerianArabic();
+  
   private SentenceTokenizer sentenceTokenizer;
   private WordTokenizer wordTokenizer;
   private Tagger tagger;
@@ -82,7 +84,7 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer =new SRXSentenceTokenizer(this);
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
@@ -121,7 +123,6 @@ public class Arabic extends Language implements AutoCloseable {
     };
   }
 
-
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
@@ -144,7 +145,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
       new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
   }

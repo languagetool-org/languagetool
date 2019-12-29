@@ -22,6 +22,9 @@ import org.languagetool.rules.DoublePunctuationRule;
 
 import java.util.ResourceBundle;
 
+/**
+ * @since 4.9
+ */
 public class ArabicDoublePunctuationRule extends DoublePunctuationRule {
 
   public ArabicDoublePunctuationRule(ResourceBundle messages) {
