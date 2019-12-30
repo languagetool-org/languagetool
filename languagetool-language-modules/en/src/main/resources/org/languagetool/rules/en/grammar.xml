@@ -14347,7 +14347,11 @@ USA
                 <token postag="VBN"/>
             </antipattern>
             <pattern>
-                <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
+                <token skip="5">if
+                    <exception scope="next" regexp="yes">had|could</exception>
+                    <exception scope="next" postag="VBD"/>
+                    <exception scope="previous" postag_regexp="yes" postag="VB.*" inflected="yes">wonder</exception>
+                    </token>
                 <marker>
                     <token>would</token>
                     <token>have</token>
@@ -14361,6 +14365,7 @@ USA
             <example>And if looks could kill, Wally would have been dead.</example>
             <example>I don't know if he would have done it for me.</example><!-- In formal text, use 'whether' not 'if', but that is a different problem. -->
             <example>Jane doesn't know if she would have gone to the party, even if she had known about it.</example>
+            <example>I’m wondering if fatter tires would have helped on this occasion.</example><!-- #2253 -->
         </rule>
         <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
             <url>https://www.lexico.com/grammar/less-or-fewer</url>
