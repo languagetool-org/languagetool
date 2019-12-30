@@ -12,22 +12,24 @@ my %TOKEN = (
     '<N>UNLENITED</N>' => '<token postag=".*Noun.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
     '<A>UNLENITED</A>' => '<token postag="Adj:.*" postag_regexp="yes"><exception postag="*:Len" postag_regexp="yes"/></token>',
     '<N pl="n" gnt="n" gnd="f">ECLIPSED</N>' => '<token postag="(?:C[UMC]:)?Noun:Fem:Com:Sg:Ecl" postag_regexp="yes"></token>',
+    '<S>COMPOUND</S>' => '<token postag="&lt;/Prep:Cmpd&gt;"></token>',
+    '<S>NONCOMPOUND</S>' => '<token postag=".*Prep.*" postag_regexp="yes"></token>',
 );
 
 my %PARTTOKEN = (
-    '<V cop="y">' => 'Cop:.*',
-    '<N pl="n" gnt="n" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Com:Sg',
-    '<N pl="n" gnt="n" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Com:Sg',
-    '<N pl="n" gnt="y" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Gen:Sg',
-    '<N pl="n" gnt="y" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Gen:Sg',
-    '<N pl="y" gnt="n" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Com:Pl',
-    '<N pl="y" gnt="n" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Com:Pl',
-    '<N pl="y" gnt="y" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Gen:Pl',
-    '<N pl="y" gnt="y" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Gen:Pl',
+    '<V cop="y">' => '.*Cop:.*',
+    '<N pl="n" gnt="n" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Com:Sg.*',
+    '<N pl="n" gnt="n" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Com:Sg.*',
+    '<N pl="n" gnt="y" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Gen:Sg.*',
+    '<N pl="n" gnt="y" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Gen:Sg.*',
+    '<N pl="y" gnt="n" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Com:Pl.*',
+    '<N pl="y" gnt="n" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Com:Pl.*',
+    '<N pl="y" gnt="y" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Gen:Pl.*',
+    '<N pl="y" gnt="y" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Gen:Pl.*',
 );
 
 my %POS = (
-    'A' => 'Adj:.*',
+    'A' => '.*Adj:.*',
     'N' => '.*Noun.*',
     'NG' => '.*Noun.*:Gen.*',
     'NFCS' => '.*Noun:Fem:Com:Sg',
@@ -36,6 +38,13 @@ my %POS = (
     'NFGS' => '.*Noun:Fem:Gen:Sg',
     'NMGS' => '.*Noun:Masc:Gen:Sg',
     'NP' => '.*Noun:.*:Pl',
+    '[NY]' => '.*Noun.*',
+    'S' => '.*Prep.*|&lt;/Prep:Cmpd&gt;',
+    'T' => '.*:Art.*',
+    'Q' => '.*:(?:Q|NegQ).*',
+    'C' => '.*Conj:.*',
+    'A' => '.*Adj:.*',
+    'Y' => '.*Prop:Noun.*',
 );
 
 my @mentities = qw/
