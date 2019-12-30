@@ -25,8 +25,10 @@ import org.languagetool.UserConfig;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * @since 4.9
@@ -34,7 +36,7 @@ import java.util.ResourceBundle;
 public final class ArabicHunspellSpellerRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_RULE_AR";
-  
+
   private static final String RESOURCE_FILENAME = "/ar/hunspell/ar.dic";
 
   public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) {
@@ -63,4 +65,23 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
   protected String getDictFilenameInResources(String langCountry) {
     return RESOURCE_FILENAME;
   }
+
+  @Override
+  protected String[] tokenizeText(String sentence) {
+    Pattern pattern = Pattern.compile("[^\\p{L}\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]");
+    return pattern.split(sentence);
+  }
+
+  @Override
+  protected boolean ignoreWord(String word) throws IOException {
+    String striped = word.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
+    return super.ignoreWord(striped);
+  }
+
+  @Override
+  public boolean isMisspelled(String word) {
+    String striped = word.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
+    return super.isMisspelled(striped);
+  }
+  
 }
