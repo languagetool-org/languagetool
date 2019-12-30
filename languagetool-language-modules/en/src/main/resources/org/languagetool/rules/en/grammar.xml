@@ -9964,6 +9964,20 @@ USA
                         <token postag='VBP?' postag_regexp='yes'/>
                     </and>
                 </antipattern>
+                <antipattern><!-- #2257 Doesn't this belong to the new repository? -->
+                    <token regexp='yes'>doesn|didn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token skip='-1' regexp='yes'>th(?:is|at)</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- #2257 Shouldn't this belong to the new repository? -->
+                    <token postag='MD'/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token skip='-1' regexp='yes'>th(?:is|at)</token>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>th(?:is|at)
                         <exception scope="previous" postag='IN'/>
@@ -10045,6 +10059,8 @@ USA
                 <example>... but would this happen if the ...</example>
                 <example>... but letting this occur was not my intention.</example>
                 <example>... by making this disambiguate correctly.</example>
+                <example>Doesn't this belong to the new repository?</example><!-- #2257 -->
+                <example>Shouldn't this belong to the new repository?</example><!-- #2257 -->
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
