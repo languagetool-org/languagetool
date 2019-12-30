@@ -33,6 +33,11 @@ Connexe Projects
 	https://github.com/linuxscout/mysam-tagmanager
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
+* Common words
+	Tashkeela Coprus
+	https://github.com/linuxscout/tashkeela2
+    licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
+
 How to contribute
 ==================
 * Add new rules
