@@ -37069,6 +37069,29 @@ The accident victim died from her injuries.
             <example correction="a priori">Particle volume should not be treated as an a <marker>a priory</marker> given value.</example>
             <example>This is an <marker>a priori</marker> assumption.</example>
         </rule>
+        <rule id="DE_JURE_DU_JOUR" name="de jure (du jour)" default="temp_off"><!-- https://forum.languagetool.org/t/soup-de-jure/5191 -->
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token skip="-1" regexp="yes">govern.*|law.*|legal.*|legislation</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token>de</token>
+                <token skip="-1">facto</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>jure</token>
+            </pattern>
+            <message>'\1 \2' is a legal term. Did you mean <suggestion>du jour</suggestion> or more simply <suggestion>of the day</suggestion>?</message>
+            <url>https://www.lexico.com/definition/du_jour</url>
+            <short>Commonly confused term</short>
+            <example correction="du jour|of the day">Do you like the soup <marker>de jure</marker>?</example>
+            <example>Do you like the soup <marker>du jour</marker>?</example>
+            <example>Now it has to be done de jure (by law), so it can become official.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
