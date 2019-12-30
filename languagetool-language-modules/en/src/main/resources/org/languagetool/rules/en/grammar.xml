@@ -18543,15 +18543,17 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">an?</token>
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token><!-- MFU 2019-12-20: Why do the rules have only a subset of non-count nouns? -->
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example><marker>The information</marker> in your files is correct.</example>
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example correction="Accommodation"><marker>An accommodation</marker> is too expensive.</example>
+                <example correction="wisdom">You need <marker>a wisdom</marker> in your life.</example>
+                <example correction="wisdom">The lack of <marker>a wisdom</marker> caused him to upset many people.</example>
             </rule>
             <rule> <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
                 <pattern>
@@ -18577,9 +18579,9 @@ USA
                         <token regexp="yes">an?</token>
                         <token postag="JJ"><exception>little</exception></token>
                         <!-- note: 'food' is not included here, as 'a particular food' is considered standard English, see http://www.ldoceonline.com/dictionary/taste_1 -->
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|news|pasta|progress|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|news|pasta|progress|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
@@ -18587,6 +18589,9 @@ USA
                 <example>I have a little money.</example>
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example correction="Nice accommodation"><marker>A nice accommodation</marker> is too expensive.</example>
+                <example correction="bad graffiti">He made <marker>a bad graffiti</marker> with his hands.</example><!-- #2268 -->
+                <example correction="bad graffiti">Unfortunately, <marker>a bad graffiti</marker> were on the walls.</example><!-- #2268 -->
+                <example correction="incorrect advice">Unfortunately, <marker>an incorrect advice</marker> resulted in his financial ruin.</example>
                 <example>This was mentioned in a German research.</example>
                 <example>Automated Mathematician, an artificial intelligence program</example>
             </rule>
@@ -18598,13 +18603,14 @@ USA
                         <token postag="JJ"><exception>little</exception></token>
                         <token>knowledge</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example>Knowledge is power.</example>
                 <example>A little knowledge of accounting was necessary for the job.</example>
                 <example correction="Good knowledge"><marker>A good knowledge</marker> is power.</example>
+                <example correction="poor knowledge">Because <marker>a poor knowledge</marker> caused him to fail the exam, he...</example>
             </rule>
             <rule>
                 <antipattern><!-- #2061. a few different food options. -->
@@ -18617,9 +18623,9 @@ USA
                         <token regexp="yes">an?</token>
                         <token postag="JJ|RB" postag_regexp="yes"><exception>little</exception></token>
                         <token postag="JJ"/>
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
@@ -18628,6 +18634,7 @@ USA
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example>I can find a few different food options.</example><!-- #2061 -->
                 <example correction="Very nice accommodation"><marker>A very nice accommodation</marker> is too expensive.</example>
+                <example correction="very nice accommodation">Although <marker>a very nice accommodation</marker> was offered, we decided that it was too expensive.</example>
             </rule>
             <rule>
                 <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
@@ -18638,12 +18645,13 @@ USA
                         <token postag="JJ"/>
                         <token>knowledge</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example>A very little knowledge of accounting was necessary for the job.</example>
                 <example correction="Very good knowledge"><marker>A very good knowledge</marker> is too time-consuming.</example>
+                <example correction="Very good knowledge"><marker>A very good knowledge</marker> was the result of much study.</example>
             </rule>
         </rulegroup>
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
