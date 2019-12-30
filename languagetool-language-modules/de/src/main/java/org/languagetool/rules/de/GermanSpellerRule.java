@@ -155,6 +155,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
     putRepl("Jänners?", "Jänner", "Januar");
+    put("check", "checke");
+    put("Reinfolge", "Reihenfolge");
     put("Investion", "Investition");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));

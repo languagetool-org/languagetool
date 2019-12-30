@@ -9964,6 +9964,34 @@ USA
                         <token postag='VBP?' postag_regexp='yes'/>
                     </and>
                 </antipattern>
+                <antipattern><!-- #2257 Doesn't this belong to the new repository? -->
+                    <token regexp='yes'>doesn|didn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token skip='-1' regexp='yes'>th(?:is|at)</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- #2257 Shouldn't this belong to the new repository? -->
+                    <token postag='MD'/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token skip='-1' regexp='yes'>th(?:is|at)</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- #2259 I’ve had this happen twice now. -->
+                    <token inflected='yes'>have</token>
+                    <token regexp='yes'>th(?:is|at)</token>
+                    <token postag='VBP'/>
+                </antipattern>
+                <antipattern><!-- #2259 suggestions on how I can achieve this are -->
+                    <token postag='NNS'/>
+                    <token postag='IN'/>
+                    <token postag='WRB'/>
+                    <token postag='PRP'/>
+                    <token postag='MD'/>
+                    <token postag='VBP'/>
+                    <token regexp='yes'>th(?:is|at)</token>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>th(?:is|at)
                         <exception scope="previous" postag='IN'/>
@@ -9974,10 +10002,13 @@ USA
                     <token min='0' postag_regexp='yes' postag='NN(:U|P)?'><exception regexp='yes'>can|one</exception></token>
                     <token postag='VBP?' postag_regexp='yes'><exception negate_pos='yes' postag='VBP?' postag_regexp='yes'/><exception>be</exception></token>
                 </pattern>
-                <message>The verb '\3' is plural. Did you mean: <suggestion>\1 \2 <match no="3" include_skipped='all' postag="VBZ"/></suggestion>?</message>
+                <message>The verb '\3' is plural. Did you mean: <suggestion>\1 \2 <match no="3" include_skipped='all' postag="VBZ"/></suggestion>? Did you use a verb instead of a noun?</message>
                 <short>Grammar error</short>
                 <example correction='This word has'><marker>This word have</marker> errors.</example>
                 <example correction='this sheep eats'>You know <marker>this sheep eat</marker> grass, don't you?</example>
+                <example correction='This writes'><marker>This write</marker> up the results nicely; it's the best AI summarizer that I know.</example>
+                <example correction='This writes'><marker>This write</marker> have many defects; he is careless, slow, and lazy.</example><!-- Should be a noun: writer -->
+                <example correction='This writes'><marker>This write</marker> up is for this device.</example><!-- #2258 Should be hyphenated: https://www.lexico.com/definition/write-up -->
                 <example>Certain frogs that lay eggs underground have unpigmented eggs.</example>
                 <example>... blocs; other organisational tactics pioneered in this time include security culture, affinity groups and the use of ...</example>
                 <example>Anything that can be misunderstood will be.</example>
@@ -10045,6 +10076,15 @@ USA
                 <example>... but would this happen if the ...</example>
                 <example>... but letting this occur was not my intention.</example>
                 <example>... by making this disambiguate correctly.</example>
+                <example>Doesn't this belong to the new repository?</example><!-- #2257 -->
+                <example>Shouldn't this belong to the new repository?</example><!-- #2257 -->
+                <example>Won't this prevent errors?</example><!-- #2258 -->
+                <example>Any suggestions on how I can achieve this are most appreciated.</example><!-- #2258 -->
+                <example>I’ve had this happen twice now.</example><!-- #2258 -->
+                <example>You can then use this tamper alert to set off the alarm using SHM.</example><!-- #2258 -->
+                <example>Has anyone had this happen?</example><!-- #2258 -->
+                <example>I had this happen to me for one of the older on/off versions.</example><!-- #2258 -->
+                <example>... but having this occur three times now makes me angry.</example><!-- #2258 -->
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
@@ -14347,7 +14387,11 @@ USA
                 <token postag="VBN"/>
             </antipattern>
             <pattern>
-                <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
+                <token skip="5">if
+                    <exception scope="next" regexp="yes">had|could</exception>
+                    <exception scope="next" postag="VBD"/>
+                    <exception scope="previous" postag_regexp="yes" postag="VB.*" inflected="yes">wonder</exception>
+                    </token>
                 <marker>
                     <token>would</token>
                     <token>have</token>
@@ -14361,6 +14405,7 @@ USA
             <example>And if looks could kill, Wally would have been dead.</example>
             <example>I don't know if he would have done it for me.</example><!-- In formal text, use 'whether' not 'if', but that is a different problem. -->
             <example>Jane doesn't know if she would have gone to the party, even if she had known about it.</example>
+            <example>I’m wondering if fatter tires would have helped on this occasion.</example><!-- #2253 -->
         </rule>
         <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
             <url>https://www.lexico.com/grammar/less-or-fewer</url>
@@ -16623,6 +16668,7 @@ USA
                 <example>... and these were Grade A major milestones for me.</example>
                 <example>We have a good chance things will not become worse.</example><!--  #2069 -->
                 <example>I expressed a warm thanks.</example><!-- MFU 2019-10-11. Although 'a warm thanks' is possibly a FP, the 'correction' is '(thanks)'. Thus, I added an exception.-->
+                <example>He made a bad graffiti with his hands.</example><!-- #2250 -->
                 <example type="triggers_error">I'm going to sign up for a German class right now.</example><!-- MFU 2019-10-11. Caused by disambiguation NN_are_NNS. I do not know how to fix the disambiguation, because it's a semantic problem. -->
                 <example type="triggers_error">The American Military authorities established a displaced persons (DP) camp in what used to be a sanatorium...</example>
             </rule>
@@ -18497,15 +18543,17 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">an?</token>
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token><!-- MFU 2019-12-20: Why do the rules have only a subset of non-count nouns? -->
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example><marker>The information</marker> in your files is correct.</example>
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example correction="Accommodation"><marker>An accommodation</marker> is too expensive.</example>
+                <example correction="wisdom">You need <marker>a wisdom</marker> in your life.</example>
+                <example correction="wisdom">The lack of <marker>a wisdom</marker> caused him to upset many people.</example>
             </rule>
             <rule> <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
                 <pattern>
@@ -18531,9 +18579,9 @@ USA
                         <token regexp="yes">an?</token>
                         <token postag="JJ"><exception>little</exception></token>
                         <!-- note: 'food' is not included here, as 'a particular food' is considered standard English, see http://www.ldoceonline.com/dictionary/taste_1 -->
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|news|pasta|progress|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|news|pasta|progress|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
@@ -18541,6 +18589,9 @@ USA
                 <example>I have a little money.</example>
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example correction="Nice accommodation"><marker>A nice accommodation</marker> is too expensive.</example>
+                <example correction="bad graffiti">He made <marker>a bad graffiti</marker> with his hands.</example><!-- #2268 -->
+                <example correction="bad graffiti">Unfortunately, <marker>a bad graffiti</marker> were on the walls.</example><!-- #2268 -->
+                <example correction="incorrect advice">Unfortunately, <marker>an incorrect advice</marker> resulted in his financial ruin.</example>
                 <example>This was mentioned in a German research.</example>
                 <example>Automated Mathematician, an artificial intelligence program</example>
             </rule>
@@ -18552,13 +18603,14 @@ USA
                         <token postag="JJ"><exception>little</exception></token>
                         <token>knowledge</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example>Knowledge is power.</example>
                 <example>A little knowledge of accounting was necessary for the job.</example>
                 <example correction="Good knowledge"><marker>A good knowledge</marker> is power.</example>
+                <example correction="poor knowledge">Because <marker>a poor knowledge</marker> caused him to fail the exam, he...</example>
             </rule>
             <rule>
                 <antipattern><!-- #2061. a few different food options. -->
@@ -18571,9 +18623,9 @@ USA
                         <token regexp="yes">an?</token>
                         <token postag="JJ|RB" postag_regexp="yes"><exception>little</exception></token>
                         <token postag="JJ"/>
-                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|graffiti|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience|wisdom</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
@@ -18582,6 +18634,7 @@ USA
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
                 <example>I can find a few different food options.</example><!-- #2061 -->
                 <example correction="Very nice accommodation"><marker>A very nice accommodation</marker> is too expensive.</example>
+                <example correction="very nice accommodation">Although <marker>a very nice accommodation</marker> was offered, we decided that it was too expensive.</example>
             </rule>
             <rule>
                 <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
@@ -18592,12 +18645,13 @@ USA
                         <token postag="JJ"/>
                         <token>knowledge</token>
                     </marker>
-                    <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+                    <token postag="RP|VB[ZD]|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
                 </pattern>
                 <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
                 <short>Uncountable noun with an article</short>
                 <example>A very little knowledge of accounting was necessary for the job.</example>
                 <example correction="Very good knowledge"><marker>A very good knowledge</marker> is too time-consuming.</example>
+                <example correction="Very good knowledge"><marker>A very good knowledge</marker> was the result of much study.</example>
             </rule>
         </rulegroup>
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
@@ -26686,6 +26740,12 @@ USA
                 <token regexp="yes">ha[ds]</token>
                 <token regexp="yes">s?he|it</token>
             </antipattern>
+            <antipattern><!-- #2251 provide to you information -->
+                <token postag_regexp="yes" postag="VB.*"/>
+                <token>to</token>
+                <token regexp="yes">you|it</token>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
                 <marker>
@@ -26744,6 +26804,10 @@ USA
             <example>On no condition <marker>has he permission</marker> to touch it.</example>
             <example>... but <marker>had she time</marker> to do it?</example>
             <example>I'm going to stand with you arm in arm.</example>
+            <example>I can provide to you information that you asked for.</example><!-- #2251 -->
+            <example>I can give to you something that makes you happy.</example><!-- #2251 -->
+            <example>... and by providing to it data which it will use in its calculations.</example><!-- #2251 -->
+            <example>Peter and him have someone they know and Ralph admires.</example><!-- #2252 -->
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
 <!-- testrules gives an error when 'triggers_error' is used and when it is not used. 
             <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
@@ -37004,6 +37068,29 @@ The accident victim died from her injuries.
             <example correction="a priori">This is an <marker>a priory</marker> assumption.</example>
             <example correction="a priori">Particle volume should not be treated as an a <marker>a priory</marker> given value.</example>
             <example>This is an <marker>a priori</marker> assumption.</example>
+        </rule>
+        <rule id="DE_JURE_DU_JOUR" name="de jure (du jour)" default="temp_off"><!-- https://forum.languagetool.org/t/soup-de-jure/5191 -->
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token skip="-1" regexp="yes">govern.*|law.*|legal.*|legislation</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token>de</token>
+                <token skip="-1">facto</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>jure</token>
+            </pattern>
+            <message>'\1 \2' is a legal term. Did you mean <suggestion>du jour</suggestion> or more simply <suggestion>of the day</suggestion>?</message>
+            <url>https://www.lexico.com/definition/du_jour</url>
+            <short>Commonly confused term</short>
+            <example correction="du jour|of the day">Do you like the soup <marker>de jure</marker>?</example>
+            <example>Do you like the soup <marker>du jour</marker>?</example>
+            <example>Now it has to be done de jure (by law), so it can become official.</example>
         </rule>
     </category>
 

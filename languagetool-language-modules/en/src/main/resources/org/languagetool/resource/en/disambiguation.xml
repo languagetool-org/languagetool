@@ -4725,6 +4725,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="NN_CC_NN" name="nouns in coordination">
+            <antipattern><!-- #2252 someone they know and Ralph admires -->
+                <token regexp="yes">I|you|we|they</token>
+                <token chunk="B-VP" postag="VB[PD]" postag_regexp="yes"/>
+                <token postag="CC"/>
+                <token postag="NNP"/>
+                <token postag="VB[ZD]" postag_regexp="yes"/><!-- Not chunk: admires/E-NP-singular -->
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -4736,6 +4743,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Tickets are selling fast and space is limited.</example>
             <example type="untouched">Adjective: ... because it's <marker>free</marker> and support is not provided.</example>
             <example type="untouched">Adjective: I would like having this with you <marker>sooner</marker> but discussions...</example><!-- #1803 -->
+            <example type="untouched">Verb: I saw someone they <marker>know</marker> and Ralph admires.</example><!-- #2252 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
         </rule>
@@ -6139,6 +6147,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd pos=""/><wd pos=""/></disambig>
         </rule>
 -->
+
+        <rule id="DU_JOUR" name="du jour">
+            <pattern>
+                <token>du</token>
+                <token>jour</token>
+            </pattern>
+            <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
+        </rule>
+
         <rule id="EMBARRAS_DE_RICHESSE" name="embarras de richesse">
             <pattern>
                 <token regexp="yes">embarr?as</token>

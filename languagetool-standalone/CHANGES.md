@@ -102,6 +102,8 @@
     https://gitlab.com/dumonts/hunspell-java as the project providing the bindings.
     For Portuguese, this speeds up generating suggestions for misspellings by
     a factor of about 3 (but it's still slow compared to Morfologik).
+    32-bit systems are not supported anymore (only affects languages like German
+    and French).
   * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
     turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
   * Many external dependencies have been updated to new versions.

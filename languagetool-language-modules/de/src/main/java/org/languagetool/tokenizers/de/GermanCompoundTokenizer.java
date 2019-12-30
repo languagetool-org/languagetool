@@ -62,6 +62,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("blog");
       words.add("durchsuchung");
       words.add("kritisch");
+      words.add("fortbewegung");
       return words;
     }
   }
