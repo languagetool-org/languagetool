@@ -5127,6 +5127,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token />
+                    <token />
+                    <token case_sensitive="yes">Link</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">mit|zu</token>
                     <token>recht</token>
                 </antipattern>
@@ -5140,6 +5145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Stoßstange ist vorne recht lädiert.</example>
                 <example>Er steht mit Recht hinten.</example>
                 <example>Die Stoßstange ist vorne recht stark beschädigt.</example>
+                <example>Bitte in der Regel den Link oben einbinden.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -16255,19 +16261,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">ust\.?</token>
-                    <token regexp="yes">id(-?nr)?</token>
+                    <token spacebefore="no" min="0">.</token>
+                    <token regexp="yes">\-?id(-?nr)?</token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
                 <example correction="USt-IdNr."><marker>Ust ID.</marker>: DEXXXXXXX</example>
+                <example correction="USt-IdNr."><marker>Ust.-Id.</marker>: DEXXXXXXX</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">ust\.?</token>
-                    <token regexp="yes">id(-?nr)?</token>
+                    <token spacebefore="no" min="0">.</token>
+                    <token regexp="yes">\-?id(-?nr)?</token>
                 </pattern>
                 <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST ID</marker>: DEXXXXXXX</example>
+                <example correction="USt-IdNr."><marker>Ust.Id</marker>: DEXXXXXXX</example>
+                <example correction="USt-IdNr."><marker>Ust.-Id</marker>: DEXXXXXXX</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'">
@@ -16596,13 +16607,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
+                        <token regexp="yes">[lL]ieb.*<exception regexp="yes">Liebe|Liebste</exception></token>
                         <token regexp="yes">Grüße|Grüsse</token>
                     </marker>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie die Schlussformel <suggestion>Liebe Grüße</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie die Schlussformel <suggestion>Liebe <match no="3" case_conversion="startupper" /></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="Liebe Grüße"><marker>Lieb Grüße</marker></example>
+                <example correction="Liebe Grüsse"><marker>Lieb Grüsse</marker></example>
+                <example>Liebste Grüße auch von Karl.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIT_FREUNDLICHEN" name="'mit Freundlichen (freundlichen) grüßen (Grüßen)'">
@@ -16613,30 +16626,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Freundlichen</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2" /></suggestion>?</message>
                 <example correction="freundlichen">Mit <marker>Freundlichen</marker> Grüßen</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
-                    <token regexp="yes">(herz|freund)lichen|besten|lieben</token>
+                    <token regexp="yes">(herz|freund)lichen|besten|lieben|liebsten</token>
                     <marker>
-                        <token regexp="yes">grüßen|grüssen</token>
+                        <token regexp="yes">grüßen?|grüssen?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Grüßen</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper" regexp_match="(?i)en?$" regexp_replace="en" /></suggestion>?</message>
                 <example correction="Grüßen">Mit freundlichen <marker>grüßen</marker></example>
+                <example correction="Grüssen">Mit freundlichen <marker>grüsse</marker></example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste</token>
+                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste|Liebste</token>
                     <marker>
                         <token regexp="yes">grüße|grüsse</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Grüße</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Grüße">Herzliche <marker>grüße</marker></example>
                 <example correction="Grüße">Viele <marker>grüße</marker></example>
+                <example correction="Grüsse">Liebste <marker>grüsse</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBLEIBEN_WIR" name="'verbleibe ich' (altmodische Formel)" default="off">
@@ -30560,6 +30575,7 @@ Andere Projekte</example>
                 </marker>
             </pattern>
             <message>In dieser Redewendung wird <suggestion>Frage</suggestion> großgeschrieben.</message>
+            <url>https://www.duden.de/rechtschreibung/infrage</url>
             <short>&prgk;.</short>
             <example correction="Frage">etwas in <marker>frage</marker> stellen</example>
             <example correction="Frage">Das steht außer <marker>frage</marker>.</example>
@@ -41735,6 +41751,7 @@ Andere Projekte</example>
                     <token case_sensitive="yes" regexp="yes">Frage|Stand</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <url>https://www.duden.de/rechtschreibung/infrage</url>
                 <short>&getrennt;.</short>
                 <example correction="infrage">Eine Teilung kommt nicht <marker>in Frage</marker>.</example>
                 <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
