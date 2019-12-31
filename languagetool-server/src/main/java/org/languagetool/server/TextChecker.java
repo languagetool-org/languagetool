@@ -488,7 +488,6 @@ abstract class TextChecker {
       //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
       //logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
-    PipelinePool.PipelineSettings settings = null;
 
     if (parameters.get("sourceText") != null) {
       if (parameters.get("sourceLanguage") == null) {
@@ -503,6 +502,7 @@ abstract class TextChecker {
       List<BitextRule> bitextRules = Tools.getBitextRules(sourceLanguage, lang);
       return Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules);
     } else {
+      PipelinePool.PipelineSettings settings = null;
       Pipeline lt = null;
       try {
         settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
