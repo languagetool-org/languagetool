@@ -107,7 +107,6 @@ class ApiV2 {
       throw new IllegalArgumentException("'language' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(parameters.get("language"));
-
     String response = getConfigurationInfo(lang, config);
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
@@ -117,11 +116,9 @@ class ApiV2 {
 
   private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     AnnotatedText aText;
-    int paramCount = (parameters.containsKey("text") ? 1 : 0) + (parameters.containsKey("data") ? 1 : 0);
-    if (paramCount > 1) {
-      throw new IllegalArgumentException("Set only 'text' or 'data' parameters, not both");
-    }
-    if (parameters.containsKey("text")) {
+    if (parameters.containsKey("text") && parameters.containsKey("data")) {
+      throw new IllegalArgumentException("Set only 'text' or 'data' parameter, not both");
+    } else if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
