@@ -38,20 +38,16 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
   public static final String RULE_ID = "HUNSPELL_RULE_AR";
   private static final String RESOURCE_FILENAME = "/ar/hunspell/ar.dic";
 
-  public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) {
-    super(messages, language, userConfig);
-  }
-
   public ArabicHunspellSpellerRule(ResourceBundle messages, UserConfig userConfig) {
-    this(messages, new Arabic(), userConfig);
+    super(messages, new Arabic(), userConfig);
   }
 
   public ArabicHunspellSpellerRule(ResourceBundle messages) {
     this(messages, null);
   }
 
-  public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-    super(messages, language, userConfig, altLanguages);
+  public ArabicHunspellSpellerRule(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, new Arabic(), userConfig, altLanguages);
   }
 
   @Override

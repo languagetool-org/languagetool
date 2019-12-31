@@ -19,7 +19,7 @@
 package org.languagetool.rules.ar;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
+import org.languagetool.language.Arabic;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
 
@@ -30,10 +30,10 @@ import java.util.ResourceBundle;
  */
 public class ArabicWordRepeatRule extends WordRepeatRule {
 
-  public ArabicWordRepeatRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public ArabicWordRepeatRule(ResourceBundle messages) {
+    super(messages, new Arabic());
     addExamplePair(Example.wrong("هذا <marker>فقط فقط</marker> مثال."),
-                   Example.fixed("هذا <marker>فقط</marker> مثال."));
+      Example.fixed("هذا <marker>فقط</marker> مثال."));
   }
 
   @Override
