@@ -110,9 +110,7 @@ public class Arabic extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[]{
       new Contributor("Taha Zerrouki"),
-      new Contributor("Sohaib Afifi"),
-      new Contributor("Imen Kali"),
-      new Contributor("Karima Tchoketch"),
+      new Contributor("Sohaib Afifi")
     };
   }
 
