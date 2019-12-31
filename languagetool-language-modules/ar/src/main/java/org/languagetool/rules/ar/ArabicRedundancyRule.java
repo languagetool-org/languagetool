@@ -23,77 +23,70 @@ import org.languagetool.language.Arabic;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ITSIssueType;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
+/**
+ * A rule that matches redundant expression.
+ * Arabic implementations. Loads the list of words from
+ * <code>/ar/redundancies.txt</code>.
+ *
+ * @author Sohaib Afifi
+ * @author Taha Zerrouki
+ * @since 5.0
+ */
+public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String RULE_ID = "AR_SIMPLE_REPLACE";
+  public static final String AR_REDUNDANCY_REPLACE = "AR_REDUNDANCY_REPLACE";
 
-  private static final String RESOURCE_FILENAME = "ar/replaces.txt";
+  private static final String FILE_NAME = "/ar/redundancies.txt";
+  private static final Locale AR_LOCALE = new Locale("ar");  // locale used on case-conversion
 
-  public ArabicSimpleReplaceRule(ResourceBundle messages) {
+  public ArabicRedundancyRule(ResourceBundle messages) throws IOException {
     super(messages, new Arabic());
-    super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
-    addExamplePair(Example.wrong("<marker>إنشاء</marker>"),
-      Example.fixed("<marker>إن شاء</marker>"));
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Style);
+    //setDefaultOff();
+    addExamplePair(Example.wrong("<marker>سوف لن</marker>"),
+      Example.fixed("<marker>لن</marker>"));
   }
 
   @Override
-  public String getFileName() {
-    return RESOURCE_FILENAME;
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
   @Override
-  public String getId() {
-    return RULE_ID;
+  public final String getId() {
+    return AR_REDUNDANCY_REPLACE;
   }
 
   @Override
   public String getDescription() {
-    return "قاعدة تطابق الكلمات التي يجب تجنبها وتقترح تصويبا لها";
+    return "1. تكرار (عام)";
   }
 
   @Override
   public String getShort() {
-    return "خطأ، يفضل أن  يقال:";
+    return "تكرار";
   }
 
-  @Override
-  public boolean isDictionaryBasedSpellingRule() {
-    return false;
-  }
-
-
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
-
-  /**
-   * @return A string where {@code $match} will be replaced with the matching word
-   * and {@code $suggestions} will be replaced with the alternatives. This is the string
-   * shown to the user.
-   */
   @Override
   public String getSuggestion() {
-    return "قل $suggestions";
+    return "'$match' تعبير فيه تكرار.في بعض الحالات، يستحسن استعمال $suggestions";
   }
 
-  /**
-   * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.
-   */
   @Override
   public String getSuggestionsSeparator() {
-    return " أو  ";
+    return " أو ";
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
-    return new Locale("ar");
+    return AR_LOCALE;
   }
+
 }

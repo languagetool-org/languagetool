@@ -17,46 +17,53 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.ar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.Arabic;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArabicSimpleReplaceRuleTest {
+/**
+ * @author Sohaib AFIFI
+ * @since 5.0
+ */
+public class ArabicWordCoherencyRuleTest {
 
-  private ArabicSimpleReplaceRule rule;
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
-  public void setUp() throws Exception {
-    Language arabic = new Arabic();
-    rule = new ArabicSimpleReplaceRule(TestTools.getMessages("ar"));
+  public void before() throws IOException {
+    TestTools.disableAllRulesExcept(lt, "AR_WORD_COHERENCY");
   }
 
   @Test
   public void testRule() throws IOException {
-
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
 
-    // incorrect sentences:
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("إنشاء"));
-    assertEquals(1, matches.length);
-    assertEquals("إن شاء", matches[0].getSuggestedReplacements().get(0));
-
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("يدردشون")).length);
-
-
+    // errors:
+    assertError("أنا أظن أن هذا ممكن لكنني أضن أنني كنت مخطئا");
+    assertError("أنا أحب الرياضيات وأنت تحب الرياضات");
   }
+
+  private void assertGood(String s) throws IOException {
+    ArabicWordCoherencyRule rule = new ArabicWordCoherencyRule(TestTools.getEnglishMessages());
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
+    assertEquals(0, rule.match(analyzedSentences).length);
+  }
+
+
+  private void assertError(String s) throws IOException {
+    ArabicWordCoherencyRule rule = new ArabicWordCoherencyRule(TestTools.getEnglishMessages());
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
+    assertEquals(1, rule.match(analyzedSentences).length);
+  }
+
 }
