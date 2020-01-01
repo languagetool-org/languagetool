@@ -36,12 +36,12 @@ import java.util.Scanner;
  * @author Sohaib Afifi
  * @since 4.9
  */
-final class LuceneIndexCreator {
+final class ArabicLuceneIndexCreator {
 
 
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
-      System.out.println("Usage: " + LuceneIndexCreator.class + " <gumarNgramsDir> <ngramIndexDir>");
+      System.out.println("Usage: " + ArabicLuceneIndexCreator.class + " <gumarNgramsDir> <ngramIndexDir>");
       System.exit(1);
     }
     File gumarNgramsDir = new File(args[0]);
