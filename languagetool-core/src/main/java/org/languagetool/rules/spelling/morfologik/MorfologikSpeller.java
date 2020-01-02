@@ -123,7 +123,7 @@ public class MorfologikSpeller {
           uppercaseFirst = sugg.getWord();
         }
         // remove capitalized duplicates
-        int auxIndex = sugg.getWord().indexOf(uppercaseFirst);
+        int auxIndex = getSuggestionIndex(suggestions, uppercaseFirst);
         if (auxIndex > i) {
           suggestions.remove(auxIndex);
         }
@@ -136,6 +136,17 @@ public class MorfologikSpeller {
       }
     }
     return suggestions;
+  }
+
+  private int getSuggestionIndex(List<WeightedSuggestion> suggestions, String uppercaseFirst) {
+    int i = 0;
+    for (WeightedSuggestion suggestion : suggestions) {
+      if (suggestion.getWord().equals(uppercaseFirst)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
   }
 
   /**

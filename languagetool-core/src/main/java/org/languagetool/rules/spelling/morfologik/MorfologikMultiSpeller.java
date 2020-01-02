@@ -22,13 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -250,12 +244,14 @@ public class MorfologikMultiSpeller {
   @NotNull
   private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
     List<WeightedSuggestion> result = new ArrayList<>();
+    Set<String> seenWords = new HashSet<>();
     for (MorfologikSpeller speller : spellerList) {
       List<WeightedSuggestion> suggestions = speller.getSuggestions(word);
       for (WeightedSuggestion suggestion : suggestions) {
-        if (!result.contains(suggestion) && !suggestion.getWord().equals(word)) {
+        if (!seenWords.contains(suggestion.getWord()) && !suggestion.getWord().equals(word)) {
           result.add(suggestion);
         }
+        seenWords.add(suggestion.getWord());
       }
     }
     Collections.sort(result);
