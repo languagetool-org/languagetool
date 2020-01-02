@@ -469,9 +469,44 @@ public class Utils {
   private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = (int) '\uDCEA';
   private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = (int) '\uDD03';
   private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = (int) '\uDD04';
-  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = (int) '\uDDE9';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = (int) '\uDDEA';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = (int) '\uDD03';
+  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = (int) '\uDD1D';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = (int) '\uDD1E';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = (int) '\uDD37';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A = (int) '\uDD38';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z = (int) '\uDD51';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_A = (int) '\uDD52';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_Z = (int) '\uDD6B';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A = (int) '\uDD6C';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z = (int) '\uDD85';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_A = (int) '\uDD86';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z = (int) '\uDD9F';
+  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_A = (int) '\uDDA0';
+  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_Z = (int) '\uDDB9';
+  private static final int MATHEMATICAL_SANSSERIF_SMALL_A = (int) '\uDDBA';
+  private static final int MATHEMATICAL_SANSSERIF_SMALL_Z = (int) '\uDDD3';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A = (int) '\uDDD4';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z = (int) '\uDDED';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_A = (int) '\uDDEE';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z = (int) '\uDE07';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A = (int) '\uDE08';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z = (int) '\uDE21';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A = (int) '\uDE22';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z = (int) '\uDE3B';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A = (int) '\uDE3C';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z = (int) '\uDE55';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A = (int) '\uDE56';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z = (int) '\uDE6F';
+  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_A = (int) '\uDE70';
+  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_Z = (int) '\uDE89';
+  private static final int MATHEMATICAL_MONOSPACE_SMALL_A = (int) '\uDE8A';
+  private static final int MATHEMATICAL_MONOSPACE_SMALL_Z = (int) '\uDEA3';
+  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_I = (int) '\uDEA4';
+  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_J = (int) '\uDEA5';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_ALPHA = (int) '\uDEA8';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = (int) '\uDEC0';
+  private static final int MATHEMATICAL_BOLD_NABLA = (int) '\uDEC1';
+  private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = (int) '\uDEC2';
+  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEC0';
   private static final int CAPITAL_A = (int) 'A';
   private static final int SMALL_A = (int) 'a';
 
@@ -504,9 +539,38 @@ public class Utils {
       } else if(numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);
       } else if(numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
+        // Not all Fraktur capitals have valid characters, but include them anyway
         return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);
       } else if(numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_DOUBLESTRUCK_SMALL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_MONOSPACE_CAPITAL_A && numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);
       }
       return c;
     }
