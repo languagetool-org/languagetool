@@ -8945,7 +8945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
-                    <token min="0" max="6" postag="[DNAS].*" postag_regexp="yes"/>
+                    <token min="0" max="12" postag="[DNASR].*|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>per</token>
                         <token>tal</token>
@@ -8954,9 +8954,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Probablement cal usar la preposició "per a".</message>
-                <suggestion>per a \5</suggestion>
+                <suggestion>per a \6</suggestion>
                 <example correction="per a canviar">Serveixen <marker>per tal de canviar</marker> la investigació.</example>
-                <example correction="per a aprovar">Era necessari l'acord d'una part de l'assemble constituent <marker>per tal d'aprovar</marker> les reformes.</example>
+                <example correction="per a aprovar">Era necessari l'acord d'una part de l'assemblea constituent <marker>per tal d'aprovar</marker> les reformes.</example>
+                <example correction="per a aprovar">Era necessari a vegades l'acord d'una part de l'assemblea constituent <marker>per tal d'aprovar</marker> les reformes.</example>
                 <example>Una eina feta servir pels mecànics.</example>
             </rule>
         </rulegroup>
