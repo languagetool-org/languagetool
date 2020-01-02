@@ -490,9 +490,12 @@ public class Utils {
   private static final int MATHEMATICAL_SCRIPT_LOWER_Z = (int) '\uDCCF';
   private static final String ASCII_CAPITALS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   private static final String ASCII_LOWERS = "abcdefghijklmnopqrstuvwxyz";
+  private static final int UPPER_A = (int) 'A';
+  private static final int LOWER_A = (int) 'a';
 
   private static char getMathsChar(char c) {
     int numeric = (int) c;
+    System.err.println("Begin " + numeric);
     if(numeric < 0) {
       throw new RuntimeException("Failed to read character " + c);
     }
@@ -502,13 +505,9 @@ public class Utils {
       String inmap = MATHEMATICAL_BOLD_CAPITALS;
       String outmap = ASCII_CAPITALS;
       if(numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
-        System.err.println("Upper " + numeric);
-        inmap = MATHEMATICAL_BOLD_CAPITALS;
-        outmap = ASCII_CAPITALS;
+        return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + UPPER_A);
       } else if(numeric >= MATHEMATICAL_BOLD_LOWER_A && numeric <= MATHEMATICAL_BOLD_LOWER_Z) {
-        System.err.println("Lower");
-        inmap = MATHEMATICAL_BOLD_LOWERS;
-        outmap = ASCII_LOWERS;
+        return (char) (numeric - MATHEMATICAL_BOLD_LOWER_A + LOWER_A);
       } else if(numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
         inmap = MATHEMATICAL_ITALIC_CAPITALS;
         outmap = ASCII_CAPITALS;
@@ -541,7 +540,7 @@ public class Utils {
     for(int i = 0; i < s.length(); i++) {
       if(s.charAt(i) == '\uD835') {
         int j = i + 1;
-        if(j < s.length() && Character.getNumericValue(s.charAt(j)) >= MATHEMATICAL_BOLD_CAPITAL_A) {
+        if(j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
           char mapped = getMathsChar(s.charAt(j));
           if(mapped == s.charAt(j)) {
             out += s.charAt(i);
