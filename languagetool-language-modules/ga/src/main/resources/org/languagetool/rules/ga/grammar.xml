@@ -19163,12 +19163,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">[dts]h.*</token>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes"><exception postag=".*DefArt.*" postag_regexp="yes"/>[dts]h.*</token>
                     <token regexp="yes">sh?ean</token>
                 </pattern>
                 <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>shean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
                 <short>Réimír i ndiaidh an ainmfhocal.</short>
                 <example correction="sheanduine"><marker>dhuine sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun:Fem:Com:Sg:DefArt.*" postag_regexp="yes" regexp="yes">[dt]h.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>tsean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="tseandeirfiúr">an <marker>dheirfiúr sean</marker></example>
             </rule>
             <rule>
                 <pattern>
