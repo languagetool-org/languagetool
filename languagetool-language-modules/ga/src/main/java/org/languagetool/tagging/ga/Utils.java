@@ -457,6 +457,21 @@ public class Utils {
   private static final String MATHEMATICAL_ITALIC_CAPITALS =
     "\uDC34\uDC35\uDC36\uDC37\uDC38\uDC39\uDC3A\uDC3B\uDC3C\uDC3D\uDC3E\uDC3F\uDC40"
   + "\uDC41\uDC42\uDC43\uDC44\uDC45\uDC46\uDC47\uDC48\uDC49\uDC4A\uDC4B\uDC4C\uDC4D";
+  private static final String MATHEMATICAL_ITALIC_LOWERS =
+    "\uDC4E\uDC4F\uDC50\uDC51\uDC52\uDC53\uDC54\uDC55\uDC56\uDC57\uDC58\uDC59\uDC5A"
+  + "\uDC5B\uDC5C\uDC5D\uDC5E\uDC5F\uDC60\uDC61\uDC62\uDC63\uDC64\uDC65\uDC66\uDC67";
+  private static final String MATHEMATICAL_BOLD_ITALIC_CAPITALS =
+    "\uDC68\uDC69\uDC6A\uDC6B\uDC6C\uDC6D\uDC6E\uDC6F\uDC70\uDC71\uDC72\uDC73\uDC74"
+  + "\uDC75\uDC76\uDC77\uDC78\uDC79\uDC7A\uDC7B\uDC7C\uDC7D\uDC7E\uDC7F\uDC80\uDC81";
+  private static final String MATHEMATICAL_BOLD_ITALIC_LOWERS =
+    "\uDC82\uDC83\uDC84\uDC85\uDC86\uDC87\uDC88\uDC89\uDC8A\uDC8B\uDC8C\uDC8D\uDC8E"
+  + "\uDC8F\uDC90\uDC91\uDC92\uDC93\uDC94\uDC95\uDC96\uDC97\uDC98\uDC99\uDC9A\uDC9B";
+  private static final String MATHEMATICAL_SCRIPT_CAPITALS =
+    "\uDC9C\uDC9D\uDC9E\uDC9F\uDCA0\uDCA1\uDCA2\uDCA3\uDCA4\uDCA5\uDCA6\uDCA7\uDCA8"
+  + "\uDCA9\uDCAA\uDCAB\uDCAC\uDCAD\uDCAE\uDCAF\uDCB0\uDCB1\uDCB2\uDCB3\uDCB4\uDCB5";
+  private static final String MATHEMATICAL_SCRIPT_LOWERS =
+    "\uDCB6\uDCB7\uDCB8\uDCB9\uDCBA\uDCBB\uDCBC\uDCBD\uDCBE\uDCBF\uDCC0\uDCC1\uDCC2"
+  + "\uDCC3\uDCC4\uDCC5\uDCC6\uDCC7\uDCC8\uDCC9\uDCCA\uDCCB\uDCCC\uDCCD\uDCCE\uDCCF";
   private static final int MATHEMATICAL_BOLD_CAPITAL_A = Character.getNumericValue('\uDC00');
   private static final int MATHEMATICAL_BOLD_CAPITAL_Z = Character.getNumericValue('\uDC19');
   private static final int MATHEMATICAL_BOLD_LOWER_A = Character.getNumericValue('\uDC1A');
@@ -492,6 +507,21 @@ public class Utils {
       } else if(numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
         inmap = MATHEMATICAL_ITALIC_CAPITALS;
         outmap = ASCII_CAPITALS;
+      } else if(numeric >= MATHEMATICAL_ITALIC_LOWER_A && numeric <= MATHEMATICAL_ITALIC_LOWER_Z) {
+        inmap = MATHEMATICAL_ITALIC_LOWERS;
+        outmap = ASCII_LOWERS;
+      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
+        inmap = MATHEMATICAL_BOLD_ITALIC_CAPITALS;
+        outmap = ASCII_CAPITALS;
+      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_LOWER_A && numeric <= MATHEMATICAL_BOLD_ITALIC_LOWER_Z) {
+        inmap = MATHEMATICAL_BOLD_ITALIC_LOWERS;
+        outmap = ASCII_LOWERS;
+      } else if(numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
+        inmap = MATHEMATICAL_SCRIPT_CAPITALS;
+        outmap = ASCII_CAPITALS;
+      } else if(numeric >= MATHEMATICAL_SCRIPT_LOWER_A && numeric <= MATHEMATICAL_SCRIPT_LOWER_Z) {
+        inmap = MATHEMATICAL_SCRIPT_LOWERS;
+        outmap = ASCII_LOWERS;
       }
       int pos = inmap.indexOf(c);
       if(pos < 0) {
