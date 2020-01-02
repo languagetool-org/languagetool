@@ -8707,6 +8707,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Von der leben sie heute.</example>
             <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
         </rule>
+        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Emmanuel</token>
+                <token>Macron</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">E?mm?anue?ll?e?</token>
+                <token regexp="yes">Macrone?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Emmanuel Macron</suggestion> (= Politiker)?</message>
+            <url>https://de.wikipedia.org/wiki/Emmanuel_Macron</url>
+            <example correction="Emmanuel Macron"><marker>Manuel macron</marker> ist ein französischer Politiker.</example>
+            <example><marker>Emmanuel Macron</marker> ist ein französischer Politiker.</example>
+        </rule>
         <rule id="JEROME_BOATENG" name="Jérôme Boateng">
             <antipattern case_sensitive="yes">
                 <token>Jérôme</token>
