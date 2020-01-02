@@ -26,10 +26,20 @@ my %PARTTOKEN = (
     '<N pl="y" gnt="n" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Com:Pl.*',
     '<N pl="y" gnt="y" gnd="f">' => '(?:C[UMC]:)?Noun:Fem:Gen:Pl.*',
     '<N pl="y" gnt="y" gnd="m">' => '(?:C[UMC]:)?Noun:Masc:Gen:Pl.*',
+    '<A pl="." gnt="n">' => '.*Adj.*Com.*',
+    #'<A pl="n" gnt="n" h="y">' => '',
+    '<A pl="n" gnt="n">' => '.*Adj.*Com.*Sg.*|.*Adj:Base.*',
+    '<A pl="n" gnt="y" gnd="f">' => '.*Adj:Gen:Fem:Sg.*',
+    '<A pl="n" gnt="y" gnd="m">' => '.*Adj:Gen:Masc:Sg.*',
+    '<A pl="y" gnt="n">' => '.*Adj.*Com.*Pl.*',
+
 );
 
 my %POS = (
     'A' => '.*Adj:.*',
+    'AG' => '.*Adj:.*Gen.*',
+    'AP' => '.*Adj:.*Pl.*',
+    'AS' => '.*Adj:.*Sg.*',
     'N' => '.*Noun.*',
     'NG' => '.*Noun.*:Gen.*',
     'NFCS' => '.*Noun:Fem:Com:Sg',
@@ -43,7 +53,6 @@ my %POS = (
     'T' => '.*:Art.*',
     'Q' => '.*:(?:Q|NegQ).*',
     'C' => '.*Conj:.*',
-    'A' => '.*Adj:.*',
     'Y' => '.*Prop:Noun.*',
 );
 
