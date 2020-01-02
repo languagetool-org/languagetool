@@ -2098,6 +2098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>als extrems meridional i septentrional valencians</example>
                 <example>literatures catalana, castellana i anglesa contemporànies</example>
                 <example>les primeres regulars del teatre</example>
+                <example>Havia utilitzat serveis d'assessoria.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5386,6 +5387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hem manta vegada opinat</example>
                 <example>No l'hem pas abandonat</example>
                 <example>rep els rius Liao He i Daling He.</example>
+                <example>Haurem per fi automatitzat el procés.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17140,7 +17142,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>el transitar</example>
         </rule>
         <rulegroup id="PERQUE_PER_QUE" name="*perquè/per què">
-            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+            <!--<url>http://esadir.cat/gramatica/sintaxi/conjperque</url>-->
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=perqu%E8+per+qu%E8&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12663&amp;idHit=12663&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27perqu%E8%27%2C+%27per+qu%E8%27+o+%27per+a+qu%E8%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token>no</token>
@@ -17151,6 +17154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Cal dir <suggestion>per què</suggestion>.</message>
+                <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=no+tenir+per+qu%E8&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12748&amp;idHit=12748&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%C9s+correcte+%27no+tenir+per+qu%E8%27+%2B+infinitiu+en+catal%E0%3F+%2F+Pronom+interrogatiu+davant+d%27infinitiu+en+interrogatives+indirectes+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
                 <example correction="per què">No teníeu <marker>perquè</marker> fer-ho.</example>
             </rule>
             <rule>
@@ -17228,7 +17232,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
-            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+            <!--<url>http://esadir.cat/gramatica/sintaxi/conjperque</url>-->
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=perqu%E8+per+qu%E8&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12663&amp;idHit=12663&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27perqu%E8%27%2C+%27per+qu%E8%27+o+%27per+a+qu%E8%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
                     <token>el</token>
@@ -33421,10 +33426,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Si no véns, m'enfadaré.</example>
                 </rule> -->
         </rulegroup>
-        <rulegroup id="COM_PER_A" name="com per a">
+        <rulegroup id="COM_PER_A" name="*(com) per a/perquè">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=perqu%E8+per+qu%E8&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12451&amp;idHit=12451&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=3&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Nova+gram%E0tica+%2F+%C9s+correcte+%27com+perqu%E8%27%2C+%27com+per%27+en+catal%E0%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">massa|prou|suficients?</token>
+                    <token regexp="yes" skip="-1">massa|prou|suficients?|suficientment</token>
                     <marker>
                         <token>com<exception scope="previous">així</exception></token>
                         <token>per</token>
@@ -33433,11 +33439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Redundància.</message>
+                <message>Expressió redundant.</message>
                 <suggestion>per a</suggestion>
                 <!-- , <suggestion>que n'hi ha per a</suggestion>,
                     <suggestion>que n'hi havia per a</suggestion> -->
-                <short>Redundància</short>
                 <example correction="per a">hi ha massa solucions <marker>com per a</marker> desesperar-se</example>
                 <example>n'hi ha prou per a desesperar-se</example>
                 <example>tant per a comprar com per a vendre</example>
@@ -33445,7 +33450,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">massa|prou|suficients?</token>
+                    <token regexp="yes" skip="-1">massa|prou|suficients?|suficientment</token>
                     <marker>
                         <token>com</token>
                         <token>per</token>
@@ -33453,30 +33458,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Redundància.</message>
+                <message>Expressió redundant.</message>
                 <suggestion>per a</suggestion>
                 <suggestion>per</suggestion>
                 <!-- , <suggestion>que n'hi ha per a</suggestion>,
                     <suggestion>que n'hi havia per a</suggestion> -->
-                <short>Redundància</short>
                 <example correction="per a|per">hi ha massa solucions <marker>com per</marker> desesperar-se</example>
                 <example>n'hi ha prou per a desesperar-se</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1">massa|prou|suficients?|suficientment<exception postag="_PUNCT.*" postag_regexp="yes" scope="next"/></token>
+                    <marker>
+                        <token>com</token>
+                        <token>perquè</token>
+                    </marker>
+                </pattern>
+                <message>Expressió redundant.</message>
+                <suggestion>perquè</suggestion>
+                <example correction="perquè">no tens prou experiència <marker>com perquè</marker> et surti bé</example>
+                <example>no tens prou experiència perquè et surti bé</example>
+                <example>tant per aquesta raó com perquè no podia fer altra cosa.</example>
+            </rule>
         </rulegroup>
-        <rule id="COM_PERQUE" name="com perquè">
-            <pattern>
-                <token regexp="yes" skip="-1">massa|prou|suficients?<exception postag="_PUNCT.*" postag_regexp="yes" scope="next"/></token>
-                <marker>
-                    <token>com</token>
-                    <token>perquè</token>
-                </marker>
-            </pattern>
-            <message>Redundància.</message>
-            <suggestion>perquè</suggestion>
-            <example correction="perquè">no tens prou experiència <marker>com perquè</marker> et surti bé</example>
-            <example>no tens prou experiència perquè et surti bé</example>
-            <example>tant per aquesta raó com perquè no podia fer altra cosa.</example>
-        </rule>
         <rule id="NI_CURT_NI_MANDROS" name="ni curt ni mandrós">
             <pattern>
                 <token>ni</token>

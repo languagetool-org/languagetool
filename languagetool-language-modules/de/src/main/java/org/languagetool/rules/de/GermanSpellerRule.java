@@ -157,6 +157,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Jänners?", "Jänner", "Januar");
     put("check", "checke");
     put("Reinfolge", "Reihenfolge");
+    put("Schloß", "Schloss");
     put("Investion", "Investition");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));

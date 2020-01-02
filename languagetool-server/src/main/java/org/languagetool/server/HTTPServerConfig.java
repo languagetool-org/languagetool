@@ -280,8 +280,7 @@ public class HTTPServerConfig {
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
-        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
-          "slowRuleLoggingThreshold", "-1"));
+        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props, "slowRuleLoggingThreshold", "-1"));
         disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -391,7 +390,6 @@ public class HTTPServerConfig {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-
   /**
    * @since 4.8
    * @return prefix / base URL for API requests
@@ -417,7 +415,6 @@ public class HTTPServerConfig {
       serverURL = null;
     }
   }
-
 
   /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer
@@ -535,7 +532,6 @@ public class HTTPServerConfig {
     return word2vecModelDir;
   }
 
-
   /**
    * Get base directory for neural network models or {@code null}
    * @since 4.4
@@ -621,15 +617,14 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.4
-   * Cache initalized JLanguageTool instances and share between non-parallel requests with identical paramenters
+   * Cache initialized JLanguageTool instances and share between non-parallel requests with identical parameters.
    * Improves response time (especially when dealing with many small requests without specific settings),
    * but increases memory usage
    */
   public boolean isPipelineCachingEnabled() {
     return pipelineCaching;
   }
-
-
+  
   /**
    * @since 4.4
    * Before starting to listen for requests, create a few pipelines for frequently used request settings
@@ -882,7 +877,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public boolean isPrometheusMonitoring() {
     return prometheusMonitoring;
@@ -890,7 +884,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public int getPrometheusPort() {
     return prometheusPort;
@@ -956,7 +949,6 @@ public class HTTPServerConfig {
     }
     this.abTest = abTest;
   }
-
 
   /**
    * @throws IllegalConfigurationException if property is not set 

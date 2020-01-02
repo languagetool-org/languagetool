@@ -955,6 +955,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace"><wd lemma="en va" pos="LOC_ADV"/><wd lemma="en va" pos="LOC_ADV"/></disambig>
         </rule>
+        <rule id="per_fi" name="per fi (locució adverbial)">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                    <token>fi</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="per fi" pos="LOC_ADV"/><wd lemma="per fi" pos="LOC_ADV"/></disambig>
+        </rule>
+        <rule id="de_moment" name="de moment (locució adverbial)">
+            <antipattern>
+                <token>moment</token>
+                <token regexp="yes">angular|lineal|dipolar|inercial</token>
+            </antipattern>
+            <antipattern>
+                <token>moment</token>
+                <token>d'</token>
+                <token>inèrcia</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>de</token>
+                    <token>moment</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="de moment" pos="LOC_ADV"/><wd lemma="de moment" pos="LOC_ADV"/></disambig>
+        </rule>
         <rule id="llevat_de" name="llevat de (locució preposicional)">
             <pattern>
                 <token><exception inflected="yes">haver</exception></token>

@@ -75,6 +75,11 @@ public class ArabicHunspellSpellerRuleTest {
     assertThat(matches[8].getFromPos(), is(87));
     assertThat(matches[8].getToPos(), is(93));
     assertTrue(matches[8].getSuggestedReplacements().contains("الرؤوس"));
+
+    matches = rule.match(langTool.getAnalyzedSentence("مُقَدِّمَةُ الطَّبَرِيِّ شَيْخِ الدِّينِ فَجَاءَ فِيهِ بِالْعَجَبِ الْعُجَابِ"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getFromPos(), is(12));
+    assertThat(matches[0].getToPos(), is(24));
   }
 
 }

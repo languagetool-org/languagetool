@@ -27,7 +27,6 @@ import org.languagetool.tagging.BaseTagger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.StringBuilder;
 import java.util.Locale;
 
 /**
@@ -64,11 +63,12 @@ public class ArabicTagger extends BaseTagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      String striped = word.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
       if (l.isEmpty()) {
-        addTokens(additionalTags(word, dictLookup), l);
+        addTokens(additionalTags(striped, dictLookup), l);
       }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
