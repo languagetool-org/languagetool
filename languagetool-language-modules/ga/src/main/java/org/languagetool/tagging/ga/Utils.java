@@ -118,7 +118,7 @@ public class Utils {
         case 'B':
         case 'b':
           if((ch1 == 'p' || ch1 == 'P') ||
-            in.length() > 3 && in.charAt(1) == '-' && (ch1 == 'p' || ch1 == 'P')) {
+            in.length() > 3 && in.charAt(1) == '-') {
             return unEclipseChar(in, 'b', 'p');
           } else {
             return unEclipseF(in);
