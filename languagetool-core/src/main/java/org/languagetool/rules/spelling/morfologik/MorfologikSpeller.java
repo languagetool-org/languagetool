@@ -164,11 +164,9 @@ public class MorfologikSpeller {
   }
 
   public int getFrequency(String word) {
-    CharSequence w = word;
-    int freq = speller.getFrequency(w);
-    if (freq == 0 && word != word.toLowerCase()) {
-      w = word.toLowerCase();
-      freq = speller.getFrequency(w);
+    int freq = speller.getFrequency(word);
+    if (freq == 0 && !word.equals(word.toLowerCase())) {
+      freq = speller.getFrequency(word.toLowerCase());
     }
     return freq;
   }
