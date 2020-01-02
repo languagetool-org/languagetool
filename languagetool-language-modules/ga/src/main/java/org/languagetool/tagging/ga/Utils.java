@@ -118,7 +118,7 @@ public class Utils {
         case 'B':
         case 'b':
           if((ch1 == 'p' || ch1 == 'P') ||
-            in.length() > 3 && in.charAt(1) == '-' && (ch1 == 'p' || ch1 == 'P')) {
+            in.length() > 3 && in.charAt(1) == '-') {
             return unEclipseChar(in, 'b', 'p');
           } else {
             return unEclipseF(in);
@@ -446,5 +446,134 @@ public class Utils {
     } else {
       return s.toLowerCase();
     }
+  }
+
+  private static boolean isUpperPonc(char c) {
+    switch(c) {
+      case 'Ḃ':
+      case 'Ċ':
+      case 'Ḋ':
+      case 'Ḟ':
+      case 'Ġ':
+      case 'Ṁ':
+      case 'Ṗ':
+      case 'Ṡ':
+      case 'Ṫ':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  private static boolean isLowerPonc(char c) {
+    switch(c) {
+      case 'ḃ':
+      case 'ċ':
+      case 'ḋ':
+      case 'ḟ':
+      case 'ġ':
+      case 'ṁ':
+      case 'ṗ':
+      case 'ṡ':
+      case 'ṫ':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * Check if the character is dotted ('ponc' in Irish)
+   * @param c the character to check
+   * @return true if the character is dotted, false otherwise
+   */
+  public static boolean isPonc(char c) {
+    return isUpperPonc(c) || isLowerPonc(c);
+  }
+
+  public static boolean containsPonc(String s) {
+    for(char c : s.toCharArray()) {
+      if(isPonc(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static char unPonc(char c) {
+    switch(c) {
+      case 'Ḃ':
+        return 'B';
+      case 'Ċ':
+        return 'C';
+      case 'Ḋ':
+        return 'D';
+      case 'Ḟ':
+        return 'F';
+      case 'Ġ':
+        return 'G';
+      case 'Ṁ':
+        return 'M';
+      case 'Ṗ':
+        return 'P';
+      case 'Ṡ':
+        return 'S';
+      case 'Ṫ':
+        return 'T';
+      case 'ḃ':
+        return 'b';
+      case 'ċ':
+        return 'c';
+      case 'ḋ':
+        return 'd';
+      case 'ḟ':
+        return 'f';
+      case 'ġ':
+        return 'g';
+      case 'ṁ':
+        return 'm';
+      case 'ṗ':
+        return 'p';
+      case 'ṡ':
+        return 's';
+      case 'ṫ':
+        return 't';
+      default:
+        return c;
+    }
+  }
+
+  /**
+   * Converts pre-standard lenition to modern
+   * (converts dotted (= ponc) letters to the equivalent
+   * undotted, followed by 'h'
+   * @param s string to convert
+   * @return converted string
+   */
+  public static String unPonc(String s) {
+    StringBuilder sb = new StringBuilder();
+    for(int i = 0; i < s.length(); i++) {
+      if(!isPonc(s.charAt(i))) {
+        sb.append(unPonc(s.charAt(i)));
+      } else {
+        if(isLowerPonc(s.charAt(i))) {
+          sb.append(unPonc(s.charAt(i)));
+          sb.append('h');
+        } else {
+          if(i < s.length() - 1 && Character.isUpperCase(s.charAt(i + 1))) {
+            sb.append(unPonc(s.charAt(i)));
+            sb.append('H');
+          } else if(i == s.length() - 1 && i > 0 && Character.isUpperCase(s.charAt(i - 1))) {
+            sb.append(unPonc(s.charAt(i)));
+            sb.append('H');
+          } else {
+            sb.append(unPonc(s.charAt(i)));
+            sb.append('h');
+          }
+        }
+      }
+    }
+
+    return sb.toString();
   }
 }

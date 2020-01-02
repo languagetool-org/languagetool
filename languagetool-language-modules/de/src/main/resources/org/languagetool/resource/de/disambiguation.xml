@@ -3312,13 +3312,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="BLACK" id="BLACK">
-      <pattern>
-        <token case_sensitive="yes">Black</token>
-        <token regexp="yes">Fridays?|Panther|Jack</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
     <rule name="al dente" id="AL_DENTE">
       <pattern case_sensitive="yes">
         <token>al</token>
@@ -3397,5 +3390,32 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <token regexp="yes">Lalandes?|Leroys?|Cahuzacs?|Ferraris?|Bonapartes?|Ferandnez|Bels?|Kerviels?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup name="CASUAL" id="CASUAL">
+        <!-- https://de.wikipedia.org/wiki/Casual -->
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Casual</token>
+                <token regexp="yes">Fridays?|Days?|Games?|Sex|Look</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!-- https://www.dresscode.de/dresscodes/business-casual/ -->
+            <pattern case_sensitive="yes">
+                <token>Business</token>
+                <token>Casual</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule name="BLACK" id="BLACK">
+        <!-- https://www.duden.de/suchen/dudenonline/black -->
+        <!-- https://de.wikipedia.org/wiki/Black -->
+        <pattern>
+            <token>Black</token>
+            <token regexp="yes">Fridays?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Butler|Lives|Site|Lakes?|Paintings?|Forests?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 </rules>

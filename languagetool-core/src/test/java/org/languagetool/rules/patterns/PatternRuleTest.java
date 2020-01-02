@@ -172,7 +172,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       String ruleFilePath = rulesDir + "/" + grammarFile;
       try (InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath)) {
         if (xmlStream == null) {
-          System.out.println("No rule file found at " + ruleFilePath + " in classpath. THIS SHOULD BE FIXED!");
+          if (!ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-de.xml") && !ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-fr.xml")) {
+            System.out.println("No rule file found at " + ruleFilePath + " in classpath. THIS SHOULD BE FIXED!");
+          }
           continue;
         }
         // if there are multiple xml grammar files we'll prepend all unification elements 

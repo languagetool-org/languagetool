@@ -101,4 +101,12 @@ public class UtilsTest {
     Retaggable tmp = Utils.fixSuffix("caimiléaracht");
     assertEquals(tmp.getWord(), "caimiléireacht");
   }
+
+  @Test
+  public void testUnPonc() {
+    assertEquals("chuir", Utils.unPonc("ċuir"));
+    assertEquals("CHUIR", Utils.unPonc("ĊUIR"));
+    assertEquals("Chuir", Utils.unPonc("Ċuir"));
+    assertEquals("FÉACH", Utils.unPonc("FÉAĊ"));
+  }
 }
