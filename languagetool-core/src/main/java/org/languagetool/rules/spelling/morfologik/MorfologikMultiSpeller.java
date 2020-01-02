@@ -249,25 +249,21 @@ public class MorfologikMultiSpeller {
 
   @NotNull
   private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
-    List<String> result = new ArrayList<>();
+    List<WeightedSuggestion> result = new ArrayList<>();
     for (MorfologikSpeller speller : spellerList) {
-      List<String> suggestions = speller.getSuggestions(word);
-      for (String suggestion : suggestions) {
-        // this is how we could normalize special chars:
-        //String noSpecialCharSuggestion = Normalizer.normalize(suggestion, Normalizer.Form.NFD).replaceAll("\\p{M}", "");  // https://stackoverflow.com/questions/3322152
-        if (!result.contains(suggestion) && !suggestion.equals(word)) {
-          if (word.equals(StringTools.uppercaseFirstChar(suggestion)) || suggestion.equals(StringTools.uppercaseFirstChar(word))) {
-            // We're appending the results of both lists, even though the second list isn't necessarily 
-            // worse than the first. So at least try to move the best matches to the beginning. 
-            // See https://github.com/languagetool-org/languagetool/issues/2010
-            result.add(0, suggestion);
-          } else {
-            result.add(suggestion);
-          }
+      List<WeightedSuggestion> suggestions = speller.getSuggestions(word);
+      for (WeightedSuggestion suggestion : suggestions) {
+        if (!result.contains(suggestion) && !suggestion.getWord().equals(word)) {
+          result.add(suggestion);
         }
       }
     }
-    return result;
+    Collections.sort(result);
+    List<String> wordResults = new ArrayList<>();
+    for (WeightedSuggestion weightedSuggestion : result) {
+      wordResults.add(weightedSuggestion.getWord());
+    }
+    return wordResults;
   }
 
   /**

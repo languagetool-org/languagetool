@@ -13921,6 +13921,15 @@ USA
             <url>https://www.merriam-webster.com/dictionary/takeaway</url>
             <example correction="takeaways">Those were my biggest <marker>take aways</marker> from today's event.</example>
         </rule>
+        <rule id="ANTI_AMERICAN_HYPHEN" name="missing hyphen in 'anti-Semitism'" default="temp_off">
+            <pattern>
+                <token>anti</token>
+                <token regexp="yes">Semitism|Semitic|American|Americanism</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>anti-<match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="anti-American">He's an <marker>anti american</marker>.</example>
+        </rule>
         <rulegroup id="NO_GO_HYPHEN" name="missing hyphen in 'no-go'" default="temp_off">
             <url>https://www.merriam-webster.com/dictionary/no-go</url>
             <rule>
@@ -41292,6 +41301,18 @@ The accident victim died from her injuries.
                 <suggestion><match no="1" regexp_match="^(.).+$" regexp_replace="$1" />.<match no="1" regexp_match="^.(.+)$" regexp_replace="$1" />.</suggestion>
                 <example correction="M.Sc.">I have a <marker>MSc.</marker> from CMU.</example>
                 <example correction="B.Eng.">I have a <marker>BEng.</marker> from CMU.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        [BM](Sc|Eng|Comp|Arch)
+                        <exception scope="next">.</exception>
+                    </token>
+                </pattern>
+                <message>Consider using a more common abbreviation of this university degree.</message>
+                <suggestion><match no="1" regexp_match="^(.).+$" regexp_replace="$1" />.<match no="1" regexp_match="^.(.+)$" regexp_replace="$1" />.</suggestion>
+                <example correction="M.Sc.">I have a <marker>MSc</marker> from CMU.</example>
+                <example correction="B.Eng.">I have a <marker>BEng</marker> from CMU.</example>
             </rule>
             <rule>
                 <pattern>

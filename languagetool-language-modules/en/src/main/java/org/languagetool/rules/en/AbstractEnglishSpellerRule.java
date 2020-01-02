@@ -210,6 +210,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("account", "accusative");
     } else if ("Acc".equals(word)) {
       return Arrays.asList("Account", "Accusative");
+    } else if ("&&".equals(word)) {
+      return Arrays.asList("&");
     } else if ("cmon".equals(word)) {
       return Arrays.asList("c'mon");
     } else if ("Cmon".equals(word)) {
@@ -220,6 +222,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("the");
     } else if ("Da".equals(word)) {
       return Arrays.asList("The");
+    } else if ("Vue".equals(word)) {
+      return Arrays.asList("Vue.JS");
     } else if ("errornous".equals(word)) {
       return Arrays.asList("erroneous");
     } else if ("brang".equals(word) || "brung".equals(word)) {
@@ -392,6 +396,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     } else if ("pls".equals(word)) {
       return Arrays.asList("please");
     } else if ("Pls".equals(word)) {
+      return Arrays.asList("Please");
+    } else if ("plz".equals(word)) {
+      return Arrays.asList("please");
+    } else if ("Plz".equals(word)) {
       return Arrays.asList("Please");
     } else if ("prio".equals(word)) {
       return Arrays.asList("priority");
