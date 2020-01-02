@@ -19687,8 +19687,18 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="ADMIT_ENJOY_VB" name="'admit', 'appreciate', 'avoid', 'enjoy' etc. with a base form of a verb">
-            <url>http://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
+            <url>https://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
             <rule>
+                <antipattern><!-- https://community.languagetool.org/rule/show/ADMIT_ENJOY_VB?lang=en-GB&ref=standalone-gui -->
+                    <token chunk="B-NP-singular" postag="WP"/>
+                    <token min="0" max="3" chunk="I-NP-singular"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                    <token postag="MD"/>
+                    <token postag="PRP"/>
+                    <token postag="VBP"/>
+                    <token>to</token>
+                    <token postag="VB"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">a(dmit|ppreciate|void)|delay|practice|risk|deny|discuss|imagine|suggest|dislike|keep|tolerate|enjoy|mi(nd|ss)|re(commend|s(ent|istist))|finish|postpone<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
                     <token>to</token>
@@ -19700,10 +19710,13 @@ USA
                 <message>The verb '\1' is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
                 <short>Grammatical problem: use 'ing'</short>
                 <example correction="enjoy running">I <marker>enjoy to run</marker>.</example>
+                <example correction="recommended gaining">My teachers <marker>recommended to gain</marker> a better understanding of statistics.</example>
+                <example correction="recommend gaining">Would you <marker>recommend to gain</marker> a better understanding of statistics?</example>
                 <example>I <marker>enjoy running</marker>.</example>
                 <example>Before we proceed, I recommend to please take a full backup of your database.</example>
                 <example>A three-man committee has recommended to Commission Chairman Charles O. Emmerich...</example>
                 <example>Although Peter also seems happy on the surface, he admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
+                <example>Which scientific literature would you recommend to gain a better understanding of the subject matter?</example>
             </rule>
             <rule>
                 <pattern>
