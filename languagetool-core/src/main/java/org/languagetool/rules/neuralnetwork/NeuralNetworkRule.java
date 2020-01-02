@@ -139,7 +139,7 @@ public class NeuralNetworkRule extends Rule {
         Suggestion suggestion = getSuggestion(y);
         if (!suggestion.matches(token)) {
           if (!suggestion.isUnsure()) {
-            ruleMatches.add(createRuleMatch(tokens[i], suggestion, y));
+            ruleMatches.add(createRuleMatch(tokens[i], suggestion, y, sentence));
           } else {
             if (DEBUG) {
               System.out.println("unsure: " + getMessage(suggestion, y) + Arrays.toString(context));
@@ -171,10 +171,10 @@ public class NeuralNetworkRule extends Rule {
   }
 
   @NotNull
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings token, Suggestion suggestion, float[] y) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings token, Suggestion suggestion, float[] y, AnalyzedSentence sentence) {
     String msg = getMessage(suggestion, y);
     int pos = token.getStartPos();
-    RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.getToken().length(), msg);
+    RuleMatch ruleMatch = new RuleMatch(this, sentence, pos, pos + token.getToken().length(), msg);
     ruleMatch.setSuggestedReplacement(suggestion.toString());
     return ruleMatch;
   }

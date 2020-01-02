@@ -206,28 +206,110 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
+    } else if ("acc".equals(word)) {
+      return Arrays.asList("account", "accusative");
+    } else if ("Acc".equals(word)) {
+      return Arrays.asList("Account", "Accusative");
+    } else if ("&&".equals(word)) {
+      return Arrays.asList("&");
+    } else if ("cmon".equals(word)) {
+      return Arrays.asList("c'mon");
+    } else if ("Cmon".equals(word)) {
+      return Arrays.asList("C'mon");
     } else if ("alot".equals(word)) {
       return Arrays.asList("a lot");
+    } else if ("da".equals(word)) {
+      return Arrays.asList("the");
+    } else if ("Da".equals(word)) {
+      return Arrays.asList("The");
+    } else if ("Vue".equals(word)) {
+      return Arrays.asList("Vue.JS");
+    } else if ("errornous".equals(word)) {
+      return Arrays.asList("erroneous");
+    } else if ("brang".equals(word) || "brung".equals(word)) {
+      return Arrays.asList("brought");
     } else if ("thru".equals(word)) {
       return Arrays.asList("through");
     } else if ("speach".equals(word)) {  // the replacement pairs would prefer "speak"
       return Arrays.asList("speech");
     } else if ("icecreem".equals(word)) {
       return Arrays.asList("ice cream");
+    } else if ("math".equals(word)) { // in en-gb it's 'maths'
+      return Arrays.asList("maths");
     } else if ("fora".equals(word)) {
       return Arrays.asList("for a");
+    } else if ("lotsa".equals(word)) {
+      return Arrays.asList("lots of");
+    } else if ("coulda".equals(word)) {
+      return Arrays.asList("could have");
+    } else if ("shoulda".equals(word)) {
+      return Arrays.asList("should have");
+    } else if ("woulda".equals(word)) {
+      return Arrays.asList("would have");
+    } else if ("tellem".equals(word)) {
+      return Arrays.asList("tell them");
+    } else if ("Tellem".equals(word)) {
+      return Arrays.asList("Tell them");
+    } else if ("afro-american".equalsIgnoreCase(word)) {
+      return Arrays.asList("Afro-American");
+    } else if ("Webex".equals(word)) {
+      return Arrays.asList("WebEx");
+    } else if ("didint".equals(word)) {
+      return Arrays.asList("didn't");
+    } else if ("Didint".equals(word)) {
+      return Arrays.asList("Didn't");
+    } else if ("wasint".equals(word)) {
+      return Arrays.asList("wasn't");
+    } else if ("hasint".equals(word)) {
+      return Arrays.asList("hasn't");
+    } else if ("doesint".equals(word)) {
+      return Arrays.asList("doesn't");
+    } else if ("ist".equals(word)) {
+      return Arrays.asList("is");
+    } else if ("Boing".equals(word)) {
+      return Arrays.asList("Boeing");
     } else if ("te".equals(word)) {
       return Arrays.asList("the");
     } else if ("todays".equals(word)) {
       return Arrays.asList("today's");
     } else if ("Todays".equals(word)) {
       return Arrays.asList("Today's");
+    } else if ("todo".equals(word)) {
+      return Arrays.asList("to-do", "to do");
+    } else if ("Todo".equals(word)) {
+      return Arrays.asList("To-do", "To do");
     } else if ("heres".equals(word)) {
       return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
     } else if ("McDonalds".equals(word)) {
       return Arrays.asList("McDonald's");
+    } else if ("ux".equals(word)) {
+      return Arrays.asList("UX");
+    } else if ("ive".equals(word)) {
+      return Arrays.asList("I've");
+    } else if ("infos".equals(word)) {
+      return Arrays.asList("informations");
+    } else if ("Infos".equals(word)) {
+      return Arrays.asList("Informations");
+    } else if ("prios".equals(word)) {
+      return Arrays.asList("priorities");
+    } else if ("Prio".equals(word)) {
+      return Arrays.asList("Priority");
+    } else if ("prio".equals(word)) {
+      return Arrays.asList("Priority");
+    } else if ("esport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("Esport".equals(word)) {
+      return Arrays.asList("E-Sport");
+    } else if ("eSport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("esports".equals(word)) {
+      return Arrays.asList("e-sports");
+    } else if ("Esports".equals(word)) {
+      return Arrays.asList("E-Sports");
+    } else if ("eSports".equals(word)) {
+      return Arrays.asList("e-sports");
     } else if ("ecommerce".equals(word)) {
       return Arrays.asList("e-commerce");
     } else if ("Ecommerce".equals(word)) {
@@ -240,10 +322,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("e-learning");
     } else if ("ebook".equals(word)) {
       return Arrays.asList("e-book");
+    } else if ("ebooks".equals(word)) {
+      return Arrays.asList("e-books");
     } else if ("eBook".equals(word)) {
       return Arrays.asList("e-book");
+    } else if ("eBooks".equals(word)) {
+      return Arrays.asList("e-books");
     } else if ("Ebook".equals(word)) {
       return Arrays.asList("E-Book");
+    } else if ("Ebooks".equals(word)) {
+      return Arrays.asList("E-Books");
+    } else if ("R&B".equals(word)) {
+      return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {
@@ -252,10 +342,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
       return Arrays.asList("thanks");
+    } else if ("ty".equals(word)) {
+      return Arrays.asList("thank you", "thanks");
     } else if ("Sry".equals(word)) {
       return Arrays.asList("Sorry");
     } else if ("sry".equals(word)) {
       return Arrays.asList("sorry");
+    } else if ("im".equals(word)) {
+      return Arrays.asList("I'm");
+    } else if ("spoilt".equals(word)) {
+      return Arrays.asList("spoiled");
     } else if ("Lil".equals(word)) {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
@@ -264,6 +360,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Sucker");
     } else if ("sucka".equals(word)) {
       return Arrays.asList("sucker");
+    } else if ("whaddya".equals(word)) {
+      return Arrays.asList("what are you", "what do you");
+    } else if ("Whaddya".equals(word)) {
+      return Arrays.asList("What are you", "What do you");
+    } else if ("sinc".equals(word)) {
+      return Arrays.asList("sync");
+    } else if ("Hongkong".equals(word)) {
+      return Arrays.asList("Hong Kong");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");
@@ -287,6 +391,181 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("After-party");
     } else if ("wellbeing".equals(word)) {
       return Arrays.asList("well-being");
+    } else if ("cuz".equals(word) || "coz".equals(word) ) {
+      return Arrays.asList("because");
+    } else if ("pls".equals(word)) {
+      return Arrays.asList("please");
+    } else if ("Pls".equals(word)) {
+      return Arrays.asList("Please");
+    } else if ("plz".equals(word)) {
+      return Arrays.asList("please");
+    } else if ("Plz".equals(word)) {
+      return Arrays.asList("Please");
+    } else if ("prio".equals(word)) {
+      return Arrays.asList("priority");
+    } else if ("prios".equals(word)) {
+      return Arrays.asList("priorities");
+    } else if ("gmail".equals(word)) {
+      return Arrays.asList("Gmail");
+      // AtD irregular plurals - START
+    } else if ("addendums".equals(word)) {
+      return Arrays.asList("addenda");
+    } else if ("algas".equals(word)) {
+      return Arrays.asList("algae");
+    } else if ("alumnas".equals(word)) {
+      return Arrays.asList("alumnae");
+    } else if ("alumnuses".equals(word)) {
+      return Arrays.asList("alumni");
+    } else if ("analysises".equals(word)) {
+      return Arrays.asList("analyses");
+    } else if ("appendixs".equals(word)) {
+      return Arrays.asList("appendices");
+    } else if ("axises".equals(word)) {
+      return Arrays.asList("axes");
+    } else if ("bacilluses".equals(word)) {
+      return Arrays.asList("bacilli");
+    } else if ("bacteriums".equals(word)) {
+      return Arrays.asList("bacteria");
+    } else if ("basises".equals(word)) {
+      return Arrays.asList("bases");
+    } else if ("beaus".equals(word)) {
+      return Arrays.asList("beaux");
+    } else if ("bisons".equals(word)) {
+      return Arrays.asList("bison");
+    } else if ("buffalos".equals(word)) {
+      return Arrays.asList("buffaloes");
+    } else if ("calfs".equals(word)) {
+      return Arrays.asList("calves");
+    } else if ("childs".equals(word)) {
+      return Arrays.asList("children");
+    } else if ("crisises".equals(word)) {
+      return Arrays.asList("crises");
+    } else if ("criterions".equals(word)) {
+      return Arrays.asList("criteria");
+    } else if ("curriculums".equals(word)) {
+      return Arrays.asList("curricula");
+    } else if ("datums".equals(word)) {
+      return Arrays.asList("data");
+    } else if ("deers".equals(word)) {
+      return Arrays.asList("deer");
+    } else if ("diagnosises".equals(word)) {
+      return Arrays.asList("diagnoses");
+    } else if ("echos".equals(word)) {
+      return Arrays.asList("echoes");
+    } else if ("elfs".equals(word)) {
+      return Arrays.asList("elves");
+    } else if ("ellipsises".equals(word)) {
+      return Arrays.asList("ellipses");
+    } else if ("embargos".equals(word)) {
+      return Arrays.asList("embargoes");
+    } else if ("erratums".equals(word)) {
+      return Arrays.asList("errata");
+    } else if ("firemans".equals(word)) {
+      return Arrays.asList("firemen");
+    } else if ("fishs".equals(word)) {
+      return Arrays.asList("fishes", "fish");
+    } else if ("genuses".equals(word)) {
+      return Arrays.asList("genera");
+    } else if ("gooses".equals(word)) {
+      return Arrays.asList("geese");
+    } else if ("halfs".equals(word)) {
+      return Arrays.asList("halves");
+    } else if ("heros".equals(word)) {
+      return Arrays.asList("heroes");
+    } else if ("indexs".equals(word)) {
+      return Arrays.asList("indices", "indexes");
+    } else if ("lifes".equals(word)) {
+      return Arrays.asList("lives");
+    } else if ("mans".equals(word)) {
+      return Arrays.asList("men");
+    } else if ("matrixs".equals(word)) {
+      return Arrays.asList("matrices");
+    } else if ("meanses".equals(word)) {
+      return Arrays.asList("means");
+    } else if ("mediums".equals(word)) {
+      return Arrays.asList("media");
+    } else if ("memorandums".equals(word)) {
+      return Arrays.asList("memoranda");
+    } else if ("mooses".equals(word)) {
+      return Arrays.asList("moose");
+    } else if ("mosquitos".equals(word)) {
+      return Arrays.asList("mosquitoes");
+    } else if ("neurosises".equals(word)) {
+      return Arrays.asList("neuroses");
+    } else if ("nucleuses".equals(word)) {
+      return Arrays.asList("nuclei");
+    } else if ("oasises".equals(word)) {
+      return Arrays.asList("oases");
+    } else if ("ovums".equals(word)) {
+      return Arrays.asList("ova");
+    } else if ("oxs".equals(word)) {
+      return Arrays.asList("oxen");
+    } else if ("oxes".equals(word)) {
+      return Arrays.asList("oxen");
+    } else if ("paralysises".equals(word)) {
+      return Arrays.asList("paralyses");
+    } else if ("potatos".equals(word)) {
+      return Arrays.asList("potatoes");
+    } else if ("radiuses".equals(word)) {
+      return Arrays.asList("radii");
+    } else if ("selfs".equals(word)) {
+      return Arrays.asList("selves");
+    } else if ("serieses".equals(word)) {
+      return Arrays.asList("series");
+    } else if ("sheeps".equals(word)) {
+      return Arrays.asList("sheep");
+    } else if ("shelfs".equals(word)) {
+      return Arrays.asList("shelves");
+    } else if ("scissorses".equals(word)) {
+      return Arrays.asList("scissors");
+    } else if ("specieses".equals(word)) {
+      return Arrays.asList("species");
+    } else if ("stimuluses".equals(word)) {
+      return Arrays.asList("stimuli");
+    } else if ("stratums".equals(word)) {
+      return Arrays.asList("strata");
+    } else if ("tableaus".equals(word)) {
+      return Arrays.asList("tableaux");
+    } else if ("thats".equals(word)) {
+      return Arrays.asList("those");
+    } else if ("thesises".equals(word)) {
+      return Arrays.asList("theses");
+    } else if ("thiefs".equals(word)) {
+      return Arrays.asList("thieves");
+    } else if ("thises".equals(word)) {
+      return Arrays.asList("these");
+    } else if ("tomatos".equals(word)) {
+      return Arrays.asList("tomatoes");
+    } else if ("tooths".equals(word)) {
+      return Arrays.asList("teeth");
+    } else if ("torpedos".equals(word)) {
+      return Arrays.asList("torpedoes");
+    } else if ("vertebras".equals(word)) {
+      return Arrays.asList("vertebrae");
+    } else if ("vetos".equals(word)) {
+      return Arrays.asList("vetoes");
+    } else if ("vitas".equals(word)) {
+      return Arrays.asList("vitae");
+    } else if ("watchs".equals(word)) {
+      return Arrays.asList("watches");
+    } else if ("wifes".equals(word)) {
+      return Arrays.asList("wives");
+    } else if ("womans".equals(word)) {
+      return Arrays.asList("women");
+      // AtD irregular plurals - END
+    } else if ("tippy-top".equals(word) || "tippytop".equals(word)) {
+      // "tippy-top" is an often used word by Donald Trump
+      return Arrays.asList("tip-top", "top most");
+    } else if ("imma".equals(word)) {
+      return Arrays.asList("I'm going to", "I'm a");
+    } else if ("Imma".equals(word)) {
+      return Arrays.asList("I'm going to", "I'm a");
+    } else if ("dontcha".equals(word)) {
+      return Arrays.asList("don't you");
+    } else if ("Dontcha".equals(word)) {
+      return Arrays.asList("don't you");
+    } else if ("greatfruit".equals(word)) {
+      return Arrays.asList("grapefruit", "great fruit");
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {

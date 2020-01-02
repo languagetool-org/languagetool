@@ -40,9 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
- * Loads the list of words from <code>/xx/replace.txt</code>.
- *
- * <p>Unlike AbstractSimpleReplaceRule, supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
+ * <p>Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
  *
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
@@ -78,7 +76,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           .build(new CacheLoader<PathAndLanguage, List<Map<String, String>>>() {
             @Override
             public List<Map<String, String>> load(@NotNull PathAndLanguage lap) throws IOException {
-              return loadWords(lap.path, lap.lang);
+              return loadWords(lap.path, lap.lang, lap.caseSensitive);
             }
           });
 
@@ -89,7 +87,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   /**
-   * use case-insensitive matching.
+   * use case-sensitive matching.
    */
   public boolean isCaseSensitive() {
     return false;
@@ -100,7 +98,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public List<Map<String, String>> getWrongWords() {
     try {
-      return cache.get(new PathAndLanguage(getFileName(), language));
+      return cache.get(new PathAndLanguage(getFileName(), language, isCaseSensitive()));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -112,7 +110,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    * @param filename the file from classpath to load
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */
-  private static List<Map<String, String>> loadWords(String filename, Language lang)
+  private static List<Map<String, String>> loadWords(String filename, Language lang, boolean caseSensitive)
           throws IOException {
     List<Map<String, String>> list = new ArrayList<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename);
@@ -147,7 +145,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           for (int i = list.size(); i < wordCount; i++) {
             list.add(new HashMap<>());
           }
-          list.get(wordCount - 1).put(wrongForm, parts[1]);
+          list.get(wordCount - 1).put(caseSensitive ? wrongForm : wrongForm.toLowerCase(), parts[1]);
         }
       }
     }
@@ -193,7 +191,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
         int crtWordCount = len - j;
-        String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
+        String crtMatch = isCaseSensitive() ?
+          wrongWords.get(crtWordCount - 1).get(crt) :
+          wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
           List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
           String msgSuggestions = "";
@@ -227,12 +227,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return false;
   }
 
-  class PathAndLanguage {
+  static class PathAndLanguage {
     final String path;
     final Language lang;
-    PathAndLanguage(String fileName, Language language) {
+    final boolean caseSensitive;
+    PathAndLanguage(String fileName, Language language, boolean caseSensitive) {
       this.path = Objects.requireNonNull(fileName);
       this.lang = Objects.requireNonNull(language);
+      this.caseSensitive = caseSensitive;
     }
 
     @Override
@@ -240,12 +242,12 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       PathAndLanguage that = (PathAndLanguage) o;
-      return path.equals(that.path) && lang.equals(that.lang);
+      return path.equals(that.path) && lang.equals(that.lang) && caseSensitive == that.caseSensitive;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(path, lang);
+      return Objects.hash(path, lang, caseSensitive);
     }
   }
 }

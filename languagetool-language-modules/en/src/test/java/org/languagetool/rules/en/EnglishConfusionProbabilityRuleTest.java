@@ -20,11 +20,7 @@ package org.languagetool.rules.en;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
@@ -37,7 +33,7 @@ import static org.junit.Assert.*;
 
 public class EnglishConfusionProbabilityRuleTest {
 
-  private final English english = new English();
+  private final Language english = Languages.getLanguageForShortCode("en");
   private final JLanguageTool lt = new JLanguageTool(english);
   
   private EnglishConfusionProbabilityRule rule;

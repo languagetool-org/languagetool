@@ -18,6 +18,9 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+/**
+ * @deprecated deprecated October 2019 - doesn't seem to be used
+ */
 public class ArticleLimitReachedException extends RuntimeException {
 
   private final int limit;

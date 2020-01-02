@@ -1380,18 +1380,20 @@
       <example>1 = 1</example>
       <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
     </rule>
-    <!--rule> FIXME &lt; sequence is not being properly escaped. Verify interpreter.
+    <rule>
       <pattern>
-          <token>&lt;</token>
-          <token>=</token>
-          <token negate="yes">></token>
+          <marker>
+            <token>&lt;</token>
+            <token spacebefore="no">=</token>
+          </marker>
+          <token negate="yes">&gt;</token>
       </pattern>
       <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>≤</suggestion>
-        <suggestion>≦</suggestion>
+      <suggestion>≤</suggestion>
+      <suggestion>≦</suggestion>
       <example>1 ≤ 3</example>
-      <example type="incorrect">1 <marker>&gt;=</marker> 3</example>
-            </rule-->
+      <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="ARROWS" name="-&gt; (→)">
@@ -1414,13 +1416,13 @@
         <suggestion>⇛</suggestion>
       <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
     </rule>
-    <!--rule> FIXME &lt; equence is not being properly escaped. Verify interpreter.
+    <rule>
       <pattern>
         <marker>
           <token>&lt;</token>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
         </marker>
-          <token negate="yes">&gt;</token>
+        <token negate="yes">&gt;</token>
       </pattern>
       <message>Pretende utilizar um seta?</message>
         <suggestion>≤</suggestion>
@@ -1431,7 +1433,8 @@
         <suggestion>⇦</suggestion>
         <suggestion>⇚</suggestion>
       <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
-      <example >A ← B</example>
+      <example>A ← B</example>
+      <example>-128 &lt; -127 &lt; -126</example>
     </rule>
     <rule>
       <pattern>
@@ -1449,7 +1452,7 @@
         <suggestion>⇔</suggestion>
       <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
       <example>A ⇔ B</example>
-            </rule-->
+    </rule>
   </rulegroup>
 
   <rulegroup id='YEAR_NUMBER_FORMAT' name="Formateo de números: anos">

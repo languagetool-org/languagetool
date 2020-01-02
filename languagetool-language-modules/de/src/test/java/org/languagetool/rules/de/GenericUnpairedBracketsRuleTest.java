@@ -25,7 +25,7 @@ import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 
@@ -36,7 +36,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testGermanRule() throws IOException {
-    lt = new JLanguageTool(new GermanyGerman());
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("(Das sind die Sätze, die sie testen sollen).", 0);

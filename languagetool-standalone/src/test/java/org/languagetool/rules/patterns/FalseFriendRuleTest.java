@@ -35,7 +35,7 @@ import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 public class FalseFriendRuleTest {
 
   @Test
-  @Ignore("not active for German anymore - repalced by ngram-based false friend rule")
+  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English(), new German());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
@@ -47,7 +47,7 @@ public class FalseFriendRuleTest {
   }
 
   @Test
-  @Ignore("not active for German anymore - repalced by ngram-based false friend rule")
+  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakersWithVariant() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);

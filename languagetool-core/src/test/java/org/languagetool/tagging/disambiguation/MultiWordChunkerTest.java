@@ -27,7 +27,7 @@ public class MultiWordChunkerTest {
             if( readings.isWhitespace() )
               continue;
             
-            readings.addReading(new AnalyzedToken(readings.getToken(), "FakePosTag", readings.getToken()));
+            readings.addReading(new AnalyzedToken(readings.getToken(), "FakePosTag", readings.getToken()), "");
           }
           return tokenReadings;
         }

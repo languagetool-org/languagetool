@@ -55,7 +55,7 @@ import org.languagetool.rules.Rule;
 public class Configuration {
 
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
-  static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
+  static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
   static final Color STYLE_COLOR = new Color(0, 175, 0);
@@ -97,7 +97,6 @@ public class Configuration {
   private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
-  private static final String USE_SERVER_CONFIGURATION_KEY = "useServerConfiguration";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -137,7 +136,7 @@ public class Configuration {
   private File oldConfigFile;
   private boolean enabledRulesOnly = false;
   private Language language;
-  private Language motherTongue;
+  private Language motherTongue = null;
   private File ngramDirectory;
   private File word2vecDirectory;
   private boolean runServer;
@@ -159,7 +158,6 @@ public class Configuration {
   private boolean isMultiThreadLO = false;
   private String currentProfile = null;
   private boolean doRemoteCheck = false;
-  private boolean useServerConfiguration = false;
   private boolean useOtherServer = false;
   private String otherServerUrl = null;
 
@@ -238,7 +236,6 @@ public class Configuration {
     isMultiThreadLO = false;
     currentProfile = null;
     doRemoteCheck = false;
-    useServerConfiguration = false;
     useOtherServer = false;
     otherServerUrl = null;
   }
@@ -283,7 +280,6 @@ public class Configuration {
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.currentProfile = configuration.currentProfile;
     this.doRemoteCheck = configuration.doRemoteCheck;
-    this.useServerConfiguration = configuration.useServerConfiguration;
     this.useOtherServer = configuration.useOtherServer;
     this.otherServerUrl = configuration.otherServerUrl;
     
@@ -417,14 +413,6 @@ public class Configuration {
 
   public boolean doRemoteCheck() {
     return doRemoteCheck;
-  }
-
-  public void setUseServerConfiguration(boolean useServerConfiguration) {
-    this.useServerConfiguration = useServerConfiguration;
-  }
-
-  public boolean useServerConfiguration() {
-    return useServerConfiguration;
   }
 
   public void setUseOtherServer(boolean useOtherServer) {
@@ -952,6 +940,18 @@ public class Configuration {
         prefix += PROFILE_DELIMITER;
       }
 
+      String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
+      if (useDocLangString != null) {
+        useDocLanguage = Boolean.parseBoolean(useDocLangString);
+      }
+      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
+      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
+        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+      }
+      if(!useDocLanguage && motherTongue != null) {
+        qualifier = getQualifier(motherTongue);
+      }
+
       disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, prefix + ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier));
@@ -961,10 +961,6 @@ public class Configuration {
       String languageStr = (String) props.get(prefix + LANGUAGE_KEY);
       if (languageStr != null) {
         language = Languages.getLanguageForShortCode(languageStr);
-      }
-      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
-      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
       }
       String ngramDir = (String) props.get(prefix + NGRAM_DIR_KEY);
       if (ngramDir != null) {
@@ -1026,11 +1022,6 @@ public class Configuration {
         doFullCheckAtFirst = Boolean.parseBoolean(doFullCheckAtFirstString);
       }
 
-      String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
-      if (useDocLangString != null) {
-        useDocLanguage = Boolean.parseBoolean(useDocLangString);
-      }
-
       String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);
       if (switchOffString != null) {
         switchOff = Boolean.parseBoolean(switchOffString);
@@ -1044,11 +1035,6 @@ public class Configuration {
       String doRemoteCheckString = (String) props.get(prefix + DO_REMOTE_CHECK_KEY);
       if (doRemoteCheckString != null) {
         doRemoteCheck = Boolean.parseBoolean(doRemoteCheckString);
-      }
-      
-      String useServerConfigurationString = (String) props.get(prefix + USE_SERVER_CONFIGURATION_KEY);
-      if (useServerConfigurationString != null) {
-        useServerConfiguration = Boolean.parseBoolean(useServerConfigurationString);
       }
       
       String useOtherServerString = (String) props.get(prefix + USE_OTHER_SERVER_KEY);
@@ -1231,9 +1217,6 @@ public class Configuration {
         if(doRemoteCheck) {
           props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
         }
-        if(useServerConfiguration) {
-          props.setProperty(prefix + USE_SERVER_CONFIGURATION_KEY, Boolean.toString(useServerConfiguration));
-        }
         if(useOtherServer) {
           props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
@@ -1329,7 +1312,6 @@ public class Configuration {
     allProfileKeys.add(DO_REMOTE_CHECK_KEY);
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
-    allProfileKeys.add(USE_SERVER_CONFIGURATION_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

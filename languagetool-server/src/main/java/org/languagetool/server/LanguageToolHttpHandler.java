@@ -20,19 +20,26 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.util.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
@@ -40,6 +47,8 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
   
@@ -49,16 +58,18 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final RequestLimiter requestLimiter;
   private final ErrorRequestLimiter errorRequestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
+  private final Server httpServer;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final RequestCounter reqCounter = new RequestCounter();
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue, Server httpServer) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
     this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
+    this.httpServer = httpServer;
     this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
@@ -76,9 +87,21 @@ class LanguageToolHttpHandler implements HttpHandler {
     boolean incrementHandleCount = false;
     try {
       URI requestedUri = httpExchange.getRequestURI();
-      if (requestedUri.getRawPath().startsWith("/v2/")) {
+      String path = requestedUri.getRawPath();
+      if (config.getServerURL() != null) {
+        path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
+        if (!path.startsWith("/")) {
+          path = "/" + path;
+        }
+      }
+      if (path.startsWith("/v2/stop") && config.isStoppable()) {
+        logger.warn("Stopping server by external command");
+        httpServer.stop();
+        return;
+      }
+      if (path.startsWith("/v2/")) {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
-        String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+        String pathWithoutVersion = path.substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
           if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
@@ -148,17 +171,17 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
-        if (requestedUri.getRawPath().startsWith("/v2/")) {
+        if (path.startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
-          String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+          String pathWithoutVersion = path.substring("/v2/".length());
           apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
-        } else if (requestedUri.getRawPath().endsWith("/Languages")) {
+        } else if (path.endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
-        } else if (requestedUri.getRawPath().equals("/")) {
+        } else if (path.equals("/")) {
           throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
-        } else if (requestedUri.getRawPath().contains("/v2/")) {
+        } else if (path.contains("/v2/")) {
           throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
-        } else if (requestedUri.getRawPath().equals("/favicon.ico")) {
+        } else if (path.equals("/favicon.ico")) {
           sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
           throw new IllegalArgumentException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
@@ -258,7 +281,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
-            " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+            " - HTTP UserAgent: " + ServerTools.getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
     // TODO: might need more than 512 chars:
     //message += ", referrer: " + getHttpReferrer(httpExchange);
     //message += ", language: " + params.get("language");
@@ -272,32 +295,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logToDb) {
       logToDatabase(params, message);
     }
-    print(message);
+    logger.error(message);
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
                         boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
-    String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
-    message += "Access from " + remoteAddress + ", ";
-    message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
-    message += "User agent param: " + params.get("useragent") + ", ";
-    if (params.get("v") != null) {
-      message += "v: " + params.get("v") + ", ";
-    }
-    message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
-    message += "language: " + params.get("language") + ", ";
-    message += "h: " + reqCounter.getHandleCount() + ", ";
-    message += "r: " + reqCounter.getRequestCount() + ", ";
-    if (params.get("username") != null) {
-      message += "user: " + params.get("username") + ", ";
-    }
-    if (params.get("apiKey") != null) {
-      message += "apiKey: " + params.get("apiKey") + ", ";
-    }
-    if (params.get("tokenV2") != null) {
-      message += "tokenV2: " + params.get("tokenV2") + ", ";
-    }
-    message += "time: " + runtimeMillis + ", ";
+    String message = ServerTools.getLoggingInfo(remoteAddress, e, errorCode, httpExchange, params, runtimeMillis, reqCounter);
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";
@@ -309,10 +312,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logStacktrace) {
       message += "Stacktrace follows:";
       message += ExceptionUtils.getStackTrace(e);
-      print(message, System.err);
+      logger.error(message);
     } else {
       message += "(no stacktrace logged)";
-      print(message, System.err);
+      logger.error(message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
@@ -342,15 +345,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       // invalid username, api key or combination thereof - user stays null
     }
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
-  }
-
-  @Nullable
-  private String getHttpUserAgent(HttpExchange httpExchange) {
-    return httpExchange.getRequestHeaders().getFirst("User-Agent");
-  }
-  @Nullable
-  private String getHttpReferrer(HttpExchange httpExchange) {
-    return httpExchange.getRequestHeaders().getFirst("Referer");
   }
 
   /**

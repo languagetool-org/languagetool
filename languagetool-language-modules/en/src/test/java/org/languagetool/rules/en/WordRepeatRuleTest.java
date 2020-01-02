@@ -20,8 +20,9 @@ package org.languagetool.rules.en;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 
@@ -31,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 
 public class WordRepeatRuleTest {
 
-  private final English english = new English();
+  private final Language english = Languages.getLanguageForShortCode("en");
   private final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), english);
   private final JLanguageTool langTool = new JLanguageTool(english);
 

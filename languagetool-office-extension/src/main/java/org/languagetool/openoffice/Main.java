@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -155,7 +156,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
   }
   
-  public SwJLanguageTool getJLanguageTool () {
+  public SwJLanguageTool getJLanguageTool() {
     return documents.getLanguageTool();
   }
 
@@ -350,6 +351,16 @@ public class Main extends WeakBase implements XJobExecutor,
         documents.ignoreOnce();
         resetCheck();
         documents.optimizeReset();
+      } else if ("deactivateRule".equals(sEvent)) {
+        documents.deactivateRule();
+        resetDocument();
+      } else if ("remoteHint".equals(sEvent)) {
+        if(documents.getConfiguration().useOtherServer()) {
+          MessageHandler.showMessage(MessageFormat.format(MESSAGES.getString("loRemoteInfoOtherServer"), 
+              documents.getConfiguration().getServerUrl()));
+        } else {
+          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoDefaultServer"));
+        }
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
@@ -525,6 +536,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public void resetIgnoreRules() {
     documents.resetDisabledRules();
     documents.setRecheck();
+    documents.resetIgnoreOnce();
     docReset = true;
   }
 

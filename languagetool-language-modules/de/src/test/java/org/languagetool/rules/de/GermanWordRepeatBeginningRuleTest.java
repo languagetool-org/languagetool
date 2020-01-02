@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 
 /**
  * @author Markus Brenneis
@@ -33,7 +33,7 @@ public class GermanWordRepeatBeginningRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     // correct sentences:
     assertEquals(0, lt.check("Er ist nett. Er heißt Max.").size());
     assertEquals(0, lt.check("Außerdem kommt er. Ferner kommt sie. Außerdem kommt es.").size());

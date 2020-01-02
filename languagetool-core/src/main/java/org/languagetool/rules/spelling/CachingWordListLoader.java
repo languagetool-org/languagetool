@@ -60,10 +60,7 @@ public class CachingWordListLoader {
               if (line.isEmpty() || line.startsWith("#")) {
                 continue;
               }
-              if (line.trim().length() < line.length()) {
-                throw new RuntimeException("No leading or trailing space expected in " + filePath + ": '" + line + "'");
-              }
-              result.add(StringUtils.substringBefore(line, "#"));
+              result.add(StringUtils.substringBefore(line.trim(), "#"));
             }
           }
           return result;

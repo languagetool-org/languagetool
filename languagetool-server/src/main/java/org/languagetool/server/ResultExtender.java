@@ -27,6 +27,8 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
@@ -39,11 +41,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import static org.languagetool.server.ServerTools.print;
 
 /**
  * Extend results by adding rules matches from a different API server.
@@ -52,10 +49,11 @@ import static org.languagetool.server.ServerTools.print;
 @Experimental
 class ResultExtender {
 
+  private static final Logger logger = LoggerFactory.getLogger(ResultExtender.class);
+
   private final URL url;
   private final int connectTimeoutMillis;
   private final ObjectMapper mapper = new ObjectMapper();
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
   ResultExtender(String url, int connectTimeoutMillis) {
     this.url = Tools.getUrl(url);
@@ -83,11 +81,6 @@ class ResultExtender {
     return filteredExtMatches;
   }
 
-  @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Map<String, String> params) {
-    return executor.submit(() -> getExtensionMatches(plainText, params));
-  }  
-  
   @NotNull
   List<RemoteRuleMatch> getExtensionMatches(String plainText, Map<String, String> params) throws IOException {
     HttpURLConnection huc = (HttpURLConnection) url.openConnection();
@@ -122,11 +115,12 @@ class ResultExtender {
       return parseJson(input);
     } catch (SSLHandshakeException | SocketTimeoutException e) {
       // "hard" errors that will probably not resolve themselves easily:
+      logger.error("Error while querying hidden matches server", e);
       throw e;
     } catch (Exception e) {
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
+      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
       return Collections.emptyList();
     } finally {
       huc.disconnect();

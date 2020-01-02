@@ -708,6 +708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="з">Потяг <marker>зі</marker> Австрії.</example>
         <example correction="з">Потяг <marker>із</marker> Австрії.</example>
       </rule>
+
       <rule>
         <pattern>
           <token postag="SENT_START"/>
@@ -715,7 +716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">зі|із</token>
           </marker>
           <token regexp="yes">[^зсшщ].*
-            <exception regexp="yes">(мн|вс).*</exception>
+            <exception regexp="yes">(мн|вс|ст).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
@@ -724,6 +725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
         <example>Зі мною.</example>
+        <example>Зі 104 стрічками.</example>
       </rule>
       <!--
           <rule>
@@ -763,7 +765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">із|з</token>
           </marker>
-          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*
+          <token regexp="yes">[зсшщ]ь?[ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*|1[0-9][0-9](-[а-яіїєґ]{1,3})?
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
@@ -775,6 +777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Організація з США підкуплена.</example>
         <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
         <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
+        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
       </rule>
     </rulegroup>
 
@@ -1136,7 +1139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="zirka_vs_zorya" name="Зірка і зоря">
       <pattern>
-        <token inflected="yes" regexp="yes">яскравий|гарячий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
+        <token inflected="yes" regexp="yes">яскравий|гарячий|далекий|ранній|ранішній|вечірній|падучий|полярний|щасливий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
         <marker>
           <token inflected="yes">зірка</token>
         </marker>
@@ -1188,19 +1191,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Загроза вибуху стала причиною евакуювання.</example>
       </rule>
 
-      <rule>
-        <pattern>
-          <token regexp="yes">після|перед</token>
-          <marker>
-            <token inflected="yes">їжа</token>
-          </marker>
-        </pattern>
-        <message>Правильно: <suggestion>їда</suggestion></message>
-        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
-        <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
-        <example>Багато їжи.</example>
-      </rule>
-
       <!-- http://r2u.org.ua/forum/viewtopic.php?f=6&t=5766
       <rule>
         <pattern>
@@ -1233,6 +1223,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Дощові хмари</example>
       </rule>
 -->
+    </rulegroup>
+
+    <rulegroup id="yizha_vs_yida" name="Їжа та їда">
+      <rule>
+        <pattern>
+          <token regexp="yes">після|перед</token>
+          <marker>
+            <token inflected="yes">їжа</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>їда</suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+        <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
+        <example>Багато їжи.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">хвилина|година|півгодини|вжива.*</token>
+          <token>до</token>
+          <marker>
+            <token>їжі</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>їда</suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+        <example correction="їда">Випиту склянку 30 хвилин до <marker>їжі</marker>.</example>
+        <example>Взявся до їжи.</example>
+      </rule>
 
     </rulegroup>
 

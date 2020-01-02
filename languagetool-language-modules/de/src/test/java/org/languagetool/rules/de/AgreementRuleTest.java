@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
@@ -42,8 +43,8 @@ public class AgreementRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new AgreementRule(TestTools.getMessages("de"), new GermanyGerman());
-    lt = new JLanguageTool(new GermanyGerman());
+    rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   }
 
   @Test
@@ -52,6 +53,9 @@ public class AgreementRuleTest {
     assertBad("Das ist die neue Original Mail", "die neue Originalmail", "die neue Original-Mail");
     assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität", "Die Standard-Priorität");
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
+    assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
+    assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
+    assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
   }
@@ -115,6 +119,8 @@ public class AgreementRuleTest {
     assertGood("Das Dach von meinen Autos.");
     assertGood("Da stellt sich die Frage: Ist das Science-Fiction oder moderne Mobilität?");
     assertGood("Er hat einen Post veröffentlicht.");
+    assertGood("Eine lückenlose Aufklärung sämtlicher physiologischer Gehirnprozesse");
+    assertGood("Sie fragte verwirrt: „Ist das Zucker?“");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -238,6 +244,8 @@ public class AgreementRuleTest {
     assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
     assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
     assertGood("Unser Hund vergräbt seine Knochen im Garten.");
+    assertGood("Ob das Mehrwert bringt?");
+    assertGood("Warum das Sinn macht?");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -312,6 +320,10 @@ public class AgreementRuleTest {
     assertGood("Unter diesen rief das großen Unmut hervor.");
     assertGood("Bei mir löste das Panik aus.");
 
+    assertGood("Dann wird das Konsequenzen haben.");
+    assertGood("Dann hat das Konsequenzen.");
+    assertGood("Sollte das Konsequenzen nach sich ziehen?");
+
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
 
@@ -364,7 +376,7 @@ public class AgreementRuleTest {
 
   @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
       // used to be not detected > 1.0.1:
       String str = "Und so.\r\nDie Bier.";
       List<RuleMatch> matches = lt.check(str);

@@ -105,14 +105,14 @@ public class Galician extends Language {
 
   @Override
   public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
+    return LanguageMaintainedState.LookingForNewMaintainer;
   }
 
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Susana Sotelo Docío"),
-            new Contributor("Tiago F. Santos (4.0+)", "https://github.com/TiagoSantos81")
+            new Contributor("Tiago F. Santos (4.0-4.7)", "https://github.com/TiagoSantos81")
     };
   }
 

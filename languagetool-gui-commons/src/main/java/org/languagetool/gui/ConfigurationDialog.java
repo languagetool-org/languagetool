@@ -40,6 +40,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class ConfigurationDialog implements ActionListener {
   private boolean configChanged = false;
   private boolean profileChanged = true;
   private boolean restartShow = false;
+  private boolean firstSelection = true;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
@@ -141,6 +143,12 @@ public class ConfigurationDialog implements ActionListener {
     if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff()) && !config.getEnabledRuleIds().contains(rule.getId())) {
       ret = false;
     }
+    if (insideOffice && rule.isOfficeDefaultOff() && !config.getEnabledRuleIds().contains(rule.getId())) {
+      ret = false;
+    }
+    if (insideOffice && rule.isOfficeDefaultOn() && !config.getDisabledRuleIds().contains(rule.getId())) {
+      ret = true;
+    }
     if (rule.isDefaultOff() && rule.getCategory().isDefaultOff()
             && config.getEnabledRuleIds().contains(rule.getId())) {
       config.getDisabledCategoryNames().remove(rule.getCategory().getName());
@@ -166,12 +174,7 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     // close dialog when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-    ActionListener actionListener = new ActionListener() {
-      @Override
-      public void actionPerformed(@SuppressWarnings("unused") ActionEvent actionEvent) {
-        dialog.setVisible(false);
-      }
-    };
+    ActionListener actionListener = actionEvent -> dialog.setVisible(false);
     JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -450,19 +453,11 @@ public class ConfigurationDialog implements ActionListener {
     serverCheckbox.setMnemonic(Tools.getMnemonic(messages.getString("guiRunOnPort")));
     serverCheckbox.setSelected(config.getRunServer());
     portPanel.add(serverCheckbox, cons);
-    serverCheckbox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
-        serverPortField.setEnabled(serverCheckbox.isSelected());
-        serverSettingsCheckbox.setEnabled(serverCheckbox.isSelected());
-      }
+    serverCheckbox.addActionListener(e -> {
+      serverPortField.setEnabled(serverCheckbox.isSelected());
+      serverSettingsCheckbox.setEnabled(serverCheckbox.isSelected());
     });
-    serverCheckbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setRunServer(serverCheckbox.isSelected());
-      }
-    });
+    serverCheckbox.addItemListener(e -> config.setRunServer(serverCheckbox.isSelected()));
 
     serverPortField = new JTextField(Integer.toString(config.getServerPort()));
     serverPortField.setEnabled(serverCheckbox.isSelected());
@@ -503,18 +498,13 @@ public class ConfigurationDialog implements ActionListener {
     serverSettingsCheckbox.setMnemonic(Tools.getMnemonic(messages.getString("useGUIConfig")));
     serverSettingsCheckbox.setSelected(config.getUseGUIConfig());
     serverSettingsCheckbox.setEnabled(config.getRunServer());
-    serverSettingsCheckbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setUseGUIConfig(serverSettingsCheckbox.isSelected());
-      }
-    });
+    serverSettingsCheckbox.addItemListener(e -> config.setUseGUIConfig(serverSettingsCheckbox.isSelected()));
     portPanel.add(serverSettingsCheckbox, cons);
   }
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
     int numParaCheck = config.getNumParasToCheck();
-    JRadioButton[] radioButtons = new JRadioButton[3];
+    JRadioButton[] radioButtons = new JRadioButton[4];
     ButtonGroup numParaGroup = new ButtonGroup();
     radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckOnlyParagraph")));
     radioButtons[0].setActionCommand("ParagraphCheck");
@@ -522,54 +512,70 @@ public class ConfigurationDialog implements ActionListener {
     radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
     radioButtons[1].setActionCommand("FullTextCheck");
     
-    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
-    radioButtons[2].setActionCommand("NParagraphCheck");
-    radioButtons[2].setSelected(true);
+    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckChapter")));
+    radioButtons[2].setActionCommand("ChapterCheck");
+    
+    radioButtons[3] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
+    radioButtons[3].setActionCommand("NParagraphCheck");
 
     JTextField numParaField = new JTextField(Integer.toString(5), 2);
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
     
-    for (int i = 0; i < 3; i++) {
+    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
+    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
+    fullTextCheckAtFirstBox.addItemListener(e -> config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected()));
+
+    for (int i = 0; i < 4; i++) {
       numParaGroup.add(radioButtons[i]);
     }
     
     if (numParaCheck == 0) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
-    } else if (numParaCheck < 0) {
+      fullTextCheckAtFirstBox.setEnabled(true);
+    } else if (numParaCheck < -1) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);    
-    } else {
+      fullTextCheckAtFirstBox.setEnabled(false);
+    } else if (numParaCheck < 0) {
       radioButtons[2].setSelected(true);
+      numParaField.setEnabled(false);    
+      fullTextCheckAtFirstBox.setEnabled(false);
+    } else {
+      radioButtons[3].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
       numParaField.setEnabled(true);
+      fullTextCheckAtFirstBox.setEnabled(true);
     }
 
-    radioButtons[0].addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        numParaField.setEnabled(false);
-        config.setNumParasToCheck(0);
-      }
+    radioButtons[0].addActionListener(e -> {
+      numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(true);
+      config.setNumParasToCheck(0);
     });
     
-    radioButtons[1].addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        numParaField.setEnabled(false);
-        config.setNumParasToCheck(-1);
-      }
+    radioButtons[1].addActionListener(e -> {
+      numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(false);
+      config.setNumParasToCheck(-2);
     });
     
-    radioButtons[2].addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        int numParaCheck = Integer.parseInt(numParaField.getText());
-        if (numParaCheck < 1) numParaCheck = 1;
-        else if (numParaCheck > 99) numParaCheck = 99;
-        config.setNumParasToCheck(numParaCheck);
-        numParaField.setForeground(Color.BLACK);
-        numParaField.setText(Integer.toString(numParaCheck));
-        numParaField.setEnabled(true);
-      }
+    radioButtons[2].addActionListener(e -> {
+      numParaField.setEnabled(false);
+      fullTextCheckAtFirstBox.setEnabled(false);
+      config.setNumParasToCheck(-1);
+    });
+    
+    radioButtons[3].addActionListener(e -> {
+      int numParaCheck1 = Integer.parseInt(numParaField.getText());
+      if (numParaCheck1 < 1) numParaCheck1 = 1;
+      else if (numParaCheck1 > 99) numParaCheck1 = 99;
+      config.setNumParasToCheck(numParaCheck1);
+      numParaField.setForeground(Color.BLACK);
+      numParaField.setText(Integer.toString(numParaCheck1));
+      numParaField.setEnabled(true);
+      fullTextCheckAtFirstBox.setEnabled(true);
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
@@ -603,9 +609,9 @@ public class ConfigurationDialog implements ActionListener {
     
     cons.gridy++;
     cons.insets = new Insets(0, 30, 0, 0);
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       portPanel.add(radioButtons[i], cons);
-      if (i < 2) cons.gridy++;
+      if (i < 3) cons.gridy++;
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
@@ -613,21 +619,13 @@ public class ConfigurationDialog implements ActionListener {
     JCheckBox noMultiResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiNoMultiReset")));
     noMultiResetbox.setSelected(config.isNoMultiReset());
     noMultiResetbox.setEnabled(config.isResetCheck());
-    noMultiResetbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setNoMultiReset(noMultiResetbox.isSelected());
-      }
-    });
+    noMultiResetbox.addItemListener(e -> config.setNoMultiReset(noMultiResetbox.isSelected()));
     
     JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
     resetCheckbox.setSelected(config.isResetCheck());
-    resetCheckbox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setDoResetCheck(resetCheckbox.isSelected());
-        noMultiResetbox.setEnabled(resetCheckbox.isSelected());
-      }
+    resetCheckbox.addItemListener(e -> {
+      config.setDoResetCheck(resetCheckbox.isSelected());
+      noMultiResetbox.setEnabled(resetCheckbox.isSelected());
     });
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
@@ -639,14 +637,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noMultiResetbox, cons);
     
-    JCheckBox fullTextCheckAtFirstBox = new JCheckBox(Tools.getLabel(messages.getString("guiCheckFullTextAtFirst")));
-    fullTextCheckAtFirstBox.setSelected(config.doFullCheckAtFirst());
-    fullTextCheckAtFirstBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setFullCheckAtFirst(fullTextCheckAtFirstBox.isSelected());
-      }
-    });
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
     cons.gridy++;
@@ -654,12 +644,7 @@ public class ConfigurationDialog implements ActionListener {
     
     JCheckBox isMultiThreadBox = new JCheckBox(Tools.getLabel(messages.getString("guiIsMultiThread")));
     isMultiThreadBox.setSelected(config.isMultiThread());
-    isMultiThreadBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setMultiThreadLO(isMultiThreadBox.isSelected());
-      }
-    });
+    isMultiThreadBox.addItemListener(e -> config.setMultiThreadLO(isMultiThreadBox.isSelected()));
     cons.gridy++;
     JLabel dummyLabel3 = new JLabel(" ");
     portPanel.add(dummyLabel3, cons);
@@ -690,20 +675,22 @@ public class ConfigurationDialog implements ActionListener {
 
     JCheckBox useServerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServer")) + " ");
     useServerBox.setSelected(config.useOtherServer());
-    useServerBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
+    useServerBox.addItemListener(e -> {
+      int select = JOptionPane.OK_OPTION;
+      boolean selected = useServerBox.isSelected();
+      if(selected && firstSelection) {
+        select = showRemoteServerHint(useServerBox, true);
+        firstSelection = false;
+      } else {
+        firstSelection = true;
+      }
+      if(select == JOptionPane.OK_OPTION) {
+        useServerBox.setSelected(selected);
         config.setUseOtherServer(useServerBox.isSelected());
         otherServerNameField.setEnabled(useServerBox.isSelected());
-      }
-    });
-
-    JCheckBox useServerSettingsBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseServerSettings")));
-    useServerSettingsBox.setSelected(config.useServerConfiguration());
-    useServerSettingsBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        config.setUseServerConfiguration(useServerSettingsBox.isSelected());
+      } else {
+        useServerBox.setSelected(false);
+        firstSelection = true;
       }
     });
 
@@ -711,20 +698,29 @@ public class ConfigurationDialog implements ActionListener {
     useRemoteServerBox.setSelected(config.doRemoteCheck());
     useServerBox.setEnabled(useRemoteServerBox.isSelected());
     otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-    useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
-//    useServerSettingsBox.setEnabled(false);  // TODO: advance Java API to support this feature
     isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
-    useRemoteServerBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
+    
+    useRemoteServerBox.addItemListener(e -> {
+      int select = JOptionPane.OK_OPTION;
+      boolean selected = useRemoteServerBox.isSelected();
+      if(selected && firstSelection) {
+        select = showRemoteServerHint(useRemoteServerBox, false);
+        firstSelection = false;
+      } else {
+        firstSelection = true;
+      }
+      if(select == JOptionPane.OK_OPTION) {
+        useRemoteServerBox.setSelected(selected);
         config.setRemoteCheck(useRemoteServerBox.isSelected());
         useServerBox.setEnabled(useRemoteServerBox.isSelected());
         otherServerNameField.setEnabled(useRemoteServerBox.isSelected() && useServerBox.isSelected());
-        useServerSettingsBox.setEnabled(useRemoteServerBox.isSelected());
         isMultiThreadBox.setEnabled(!useRemoteServerBox.isSelected());
+      } else {
+        useRemoteServerBox.setSelected(false);
+        firstSelection = true;
       }
     });
-    
+  
     cons.gridy++;
     portPanel.add(useRemoteServerBox, cons);
     cons.insets = new Insets(0, 30, 0, 0);
@@ -743,9 +739,18 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
-    cons.gridy++;
-    portPanel.add(useServerSettingsBox, cons);
 
+  }
+  
+  private int showRemoteServerHint(Component component, boolean otherServer) {
+    if(config.useOtherServer() || otherServer) {
+        return JOptionPane.showConfirmDialog(component, 
+            MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), config.getServerUrl()), 
+          messages.getString("loMenuRemoteInfo"), JOptionPane.OK_CANCEL_OPTION);
+    } else {
+      return JOptionPane.showConfirmDialog(component, messages.getString("loRemoteInfoDefaultServer"), 
+          messages.getString("loMenuRemoteInfo"), JOptionPane.OK_CANCEL_OPTION);
+    }
   }
 
   @NotNull
@@ -830,19 +835,16 @@ public class ConfigurationDialog implements ActionListener {
           if (node.isLeaf()) {
             JPopupMenu popup = new JPopupMenu();
             JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
-            aboutRuleMenuItem.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent actionEvent) {
-                RuleNode node = (RuleNode) tree.getSelectionPath().getLastPathComponent();
-                Rule rule = node.getRule();
-                Language lang = config.getLanguage();
-                if(lang == null) {
-                  lang = Languages.getLanguageForLocale(Locale.getDefault());
-                }
-                Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
-                        rule.getDescription(), rule, rule.getUrl(), messages,
-                        lang.getShortCodeWithCountryAndVariant());
+            aboutRuleMenuItem.addActionListener(actionEvent -> {
+              RuleNode node1 = (RuleNode) tree.getSelectionPath().getLastPathComponent();
+              Rule rule = node1.getRule();
+              Language lang = config.getLanguage();
+              if(lang == null) {
+                lang = Languages.getLanguageForLocale(Locale.getDefault());
               }
+              Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
+                      rule.getDescription(), rule, rule.getUrl(), messages,
+                      lang.getShortCodeWithCountryAndVariant());
             });
             popup.add(aboutRuleMenuItem);
             popup.show(tree, e.getX(), e.getY());
@@ -874,17 +876,13 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy = 0;
     JButton expandAllButton = new JButton(messages.getString("guiExpandAll"));
     treeButtonPanel.add(expandAllButton, cons);
-    expandAllButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
-        TreePath parent = new TreePath(root);
-        for (Enumeration cat = root.children(); cat.hasMoreElements();) {
-          TreeNode n = (TreeNode) cat.nextElement();
-          TreePath child = parent.pathByAddingChild(n);
-          configTree[num].expandPath(child);
-        }
+    expandAllButton.addActionListener(e -> {
+      TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
+      TreePath parent = new TreePath(root);
+      for (Enumeration cat = root.children(); cat.hasMoreElements();) {
+        TreeNode n = (TreeNode) cat.nextElement();
+        TreePath child = parent.pathByAddingChild(n);
+        configTree[num].expandPath(child);
       }
     });
 
@@ -892,16 +890,13 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy = 0;
     JButton collapseAllButton = new JButton(messages.getString("guiCollapseAll"));
     treeButtonPanel.add(collapseAllButton, cons);
-    collapseAllButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
-        TreePath parent = new TreePath(root);
-        for (Enumeration categ = root.children(); categ.hasMoreElements();) {
-          TreeNode n = (TreeNode) categ.nextElement();
-          TreePath child = parent.pathByAddingChild(n);
-          configTree[num].collapsePath(child);
-        }
+    collapseAllButton.addActionListener(e -> {
+      TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
+      TreePath parent = new TreePath(root);
+      for (Enumeration categ = root.children(); categ.hasMoreElements();) {
+        TreeNode n = (TreeNode) categ.nextElement();
+        TreePath child = parent.pathByAddingChild(n);
+        configTree[num].collapsePath(child);
       }
     });
     return treeButtonPanel;
@@ -929,31 +924,28 @@ public class ConfigurationDialog implements ActionListener {
     } else {
       profileBox.setSelectedItem(currentProfile);
     }
-    profileBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          if(profileChanged) {
-            try {
-              List<String> saveProfiles = new ArrayList<String>(); 
-              saveProfiles.addAll(config.getDefinedProfiles());
-              if(e.getItem().equals(userOptions)) {
-                config.initOptions();
-                config.loadConfiguration("");
-                config.setCurrentProfile(null);
-              } else {
-                config.initOptions();
-                config.loadConfiguration((String) e.getItem());
-                config.setCurrentProfile((String) e.getItem());
-              }
-              config.addProfiles(saveProfiles);
-              restartShow = true;
-              dialog.setVisible(false);
-            } catch (IOException e1) {
+    profileBox.addItemListener(e -> {
+      if (e.getStateChange() == ItemEvent.SELECTED) {
+        if(profileChanged) {
+          try {
+            List<String> saveProfiles = new ArrayList<String>(); 
+            saveProfiles.addAll(config.getDefinedProfiles());
+            if(e.getItem().equals(userOptions)) {
+              config.initOptions();
+              config.loadConfiguration("");
+              config.setCurrentProfile(null);
+            } else {
+              config.initOptions();
+              config.loadConfiguration((String) e.getItem());
+              config.setCurrentProfile((String) e.getItem());
             }
-          } else {
-            profileChanged = true;
+            config.addProfiles(saveProfiles);
+            restartShow = true;
+            dialog.setVisible(false);
+          } catch (IOException e1) {
           }
+        } else {
+          profileChanged = true;
         }
       }
     });
@@ -964,18 +956,15 @@ public class ConfigurationDialog implements ActionListener {
     profilePanel.add(profileBox, cons);
     
     JButton defaultButton = new JButton(defaultOptions);
-    defaultButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        List<String> saveProfiles = new ArrayList<String>(); 
-        saveProfiles.addAll(config.getDefinedProfiles());
-        String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
-        config.initOptions();
-        config.addProfiles(saveProfiles);
-        config.setCurrentProfile(saveCurrent);
-        restartShow = true;
-        dialog.setVisible(false);
-      }
+    defaultButton.addActionListener(e -> {
+      List<String> saveProfiles = new ArrayList<String>(); 
+      saveProfiles.addAll(config.getDefinedProfiles());
+      String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
+      config.initOptions();
+      config.addProfiles(saveProfiles);
+      config.setCurrentProfile(saveCurrent);
+      restartShow = true;
+      dialog.setVisible(false);
     });
     cons.gridy++;
     profilePanel.add(defaultButton, cons);
@@ -983,22 +972,19 @@ public class ConfigurationDialog implements ActionListener {
     JButton deleteButton = new JButton(messages.getString("guiDeleteProfile"));
     deleteButton.setEnabled(!profileBox.getSelectedItem().equals(defaultOptions) 
         && !profileBox.getSelectedItem().equals(userOptions));
-    deleteButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        List<String> saveProfiles = new ArrayList<String>(); 
-        saveProfiles.addAll(config.getDefinedProfiles());
-        config.initOptions();
-        try {
-          config.loadConfiguration("");
-        } catch (IOException e1) {
-        }
-        config.setCurrentProfile(null);
-        config.addProfiles(saveProfiles);
-        config.removeProfile((String)profileBox.getSelectedItem());
-        restartShow = true;
-        dialog.setVisible(false);
+    deleteButton.addActionListener(e -> {
+      List<String> saveProfiles = new ArrayList<String>(); 
+      saveProfiles.addAll(config.getDefinedProfiles());
+      config.initOptions();
+      try {
+        config.loadConfiguration("");
+      } catch (IOException e1) {
       }
+      config.setCurrentProfile(null);
+      config.addProfiles(saveProfiles);
+      config.removeProfile((String)profileBox.getSelectedItem());
+      restartShow = true;
+      dialog.setVisible(false);
     });
     cons.gridy++;
     profilePanel.add(deleteButton, cons);
@@ -1012,22 +998,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx++;
     profilePanel.add(newProfileName, cons);
     JButton addNewButton = new JButton(messages.getString("guiAddProfileButton"));
-    addNewButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        String profileName = newProfileName.getText();
-        while(config.getDefinedProfiles().contains(profileName) || userOptions.equals(profileName)) {
-          profileName += "_new";
-        }
-        profileName = profileName.replaceAll("[ \t]", "_");
-        config.addProfile(profileName);
-        config.setCurrentProfile(profileName);
-        profileChanged = false;
-        profileBox.addItem(profileName);
-        profileBox.setSelectedItem(profileName);
-        newProfileName.setText("");
-        deleteButton.setEnabled(true);
+    addNewButton.addActionListener(e -> {
+      String profileName = newProfileName.getText();
+      while(config.getDefinedProfiles().contains(profileName) || userOptions.equals(profileName)) {
+        profileName += "_new";
       }
+      profileName = profileName.replaceAll("[ \t]", "_");
+      config.addProfile(profileName);
+      config.setCurrentProfile(profileName);
+      profileChanged = false;
+      profileBox.addItem(profileName);
+      profileBox.setSelectedItem(profileName);
+      newProfileName.setText("");
+      deleteButton.setEnabled(true);
     });
     cons.gridx++;
     profilePanel.add(addNewButton, cons);
@@ -1059,20 +1042,17 @@ public class ConfigurationDialog implements ActionListener {
       if (config.getMotherTongue() != null) {
         motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
       }
-      motherTongueBox.addItemListener(new ItemListener() {
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-          if (e.getStateChange() == ItemEvent.SELECTED) {
-            Language motherTongue;
-            if (motherTongueBox.getSelectedItem() instanceof String) {
-              motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
-            } else {
-              motherTongue = (Language) motherTongueBox.getSelectedItem();
-            }
-            config.setMotherTongue(motherTongue);
-            config.setUseDocLanguage(false);
-            radioButtons[1].setSelected(true);
+      motherTongueBox.addItemListener(e -> {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          Language motherTongue;
+          if (motherTongueBox.getSelectedItem() instanceof String) {
+            motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+          } else {
+            motherTongue = (Language) motherTongueBox.getSelectedItem();
           }
+          config.setMotherTongue(motherTongue);
+          config.setUseDocLanguage(false);
+          radioButtons[1].setSelected(true);
         }
       });
       
@@ -1086,23 +1066,17 @@ public class ConfigurationDialog implements ActionListener {
         radioButtons[1].setSelected(true);
       }
 
-      radioButtons[0].addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          config.setUseDocLanguage(true);
-        }
-      });
+      radioButtons[0].addActionListener(e -> config.setUseDocLanguage(true));
       
-      radioButtons[1].addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          config.setUseDocLanguage(false);
-          Language motherTongue;
-          if (motherTongueBox.getSelectedItem() instanceof String) {
-            motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
-          } else {
-            motherTongue = (Language) motherTongueBox.getSelectedItem();
-          }
-          config.setMotherTongue(motherTongue);
+      radioButtons[1].addActionListener(e -> {
+        config.setUseDocLanguage(false);
+        Language motherTongue;
+        if (motherTongueBox.getSelectedItem() instanceof String) {
+          motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+        } else {
+          motherTongue = (Language) motherTongueBox.getSelectedItem();
         }
+        config.setMotherTongue(motherTongue);
       });
       motherTonguePanel.add(radioButtons[0], cons1);
       cons1.gridy++;
@@ -1115,18 +1089,15 @@ public class ConfigurationDialog implements ActionListener {
       if (config.getMotherTongue() != null) {
         motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
       }
-      motherTongueBox.addItemListener(new ItemListener() {
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-          if (e.getStateChange() == ItemEvent.SELECTED) {
-            Language motherTongue;
-            if (motherTongueBox.getSelectedItem() instanceof String) {
-              motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
-            } else {
-              motherTongue = (Language) motherTongueBox.getSelectedItem();
-            }
-            config.setMotherTongue(motherTongue);
+      motherTongueBox.addItemListener(e -> {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          Language motherTongue;
+          if (motherTongueBox.getSelectedItem() instanceof String) {
+            motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+          } else {
+            motherTongue = (Language) motherTongueBox.getSelectedItem();
           }
+          config.setMotherTongue(motherTongue);
         }
       });
       motherTonguePanel.add(motherTongueBox, cons);
@@ -1141,36 +1112,28 @@ public class ConfigurationDialog implements ActionListener {
     int maxDirDisplayLength = 45;
     String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiNgramDirSelect");
     JButton ngramDirButton = new JButton(buttonText);
-    ngramDirButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        File newDir = Tools.openDirectoryDialog(owner, dir);
-        if (newDir != null) {
-          try {
-            if (config.getLanguage() != null) {  // may happen in office context
-              File checkDir = new File(newDir, config.getLanguage().getShortCode());
-              LuceneLanguageModel.validateDirectory(checkDir);
-            }
-            config.setNgramDirectory(newDir);
-            ngramDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
-          } catch (Exception ex) {
-            Tools.showErrorMessage(ex);
+    ngramDirButton.addActionListener(e -> {
+      File newDir = Tools.openDirectoryDialog(owner, dir);
+      if (newDir != null) {
+        try {
+          if (config.getLanguage() != null) {  // may happen in office context
+            File checkDir = new File(newDir, config.getLanguage().getShortCode());
+            LuceneLanguageModel.validateDirectory(checkDir);
           }
-        } else {
-          // not the best UI, but this way user can turn off ngram feature without another checkbox
-          config.setNgramDirectory(null);
-          ngramDirButton.setText(StringUtils.abbreviate(messages.getString("guiNgramDirSelect"), maxDirDisplayLength));
+          config.setNgramDirectory(newDir);
+          ngramDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
+        } catch (Exception ex) {
+          Tools.showErrorMessage(ex);
         }
+      } else {
+        // not the best UI, but this way user can turn off ngram feature without another checkbox
+        config.setNgramDirectory(null);
+        ngramDirButton.setText(StringUtils.abbreviate(messages.getString("guiNgramDirSelect"), maxDirDisplayLength));
       }
     });
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
-    helpButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data");
-      }
-    });
+    helpButton.addActionListener(e -> Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data"));
     panel.add(helpButton, cons);
     return panel;
   }
@@ -1311,18 +1274,15 @@ public class ConfigurationDialog implements ActionListener {
       ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
       panel.add(ruleValueField, cons);
       
-      ruleCheckbox.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
-          ruleValueField.setEnabled(ruleCheckbox.isSelected());
-          ruleLabel.setEnabled(ruleCheckbox.isSelected());
-          if (ruleCheckbox.isSelected()) {
-            config.getEnabledRuleIds().add(rule.getId());
-            config.getDisabledRuleIds().remove(rule.getId());
-          } else {
-            config.getEnabledRuleIds().remove(rule.getId());
-            config.getDisabledRuleIds().add(rule.getId());
-          }
+      ruleCheckbox.addActionListener(e -> {
+        ruleValueField.setEnabled(ruleCheckbox.isSelected());
+        ruleLabel.setEnabled(ruleCheckbox.isSelected());
+        if (ruleCheckbox.isSelected()) {
+          config.getEnabledRuleIds().add(rule.getId());
+          config.getDisabledRuleIds().remove(rule.getId());
+        } else {
+          config.getEnabledRuleIds().remove(rule.getId());
+          config.getDisabledRuleIds().add(rule.getId());
         }
       });
   
@@ -1409,25 +1369,21 @@ public class ConfigurationDialog implements ActionListener {
       panel.add(underlineLabel.get(nCat), cons);
 
       changeButton.add(new JButton(messages.getString("guiUColorChange")));
-      changeButton.get(nCat).addActionListener( new ActionListener() {
-        @Override public void actionPerformed( ActionEvent e ) {
-          Color oldColor = uLabel.getForeground();
-          Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
-          if(newColor != null && newColor != oldColor) {
-            uLabel.setForeground(newColor);
-            config.setUnderlineColor(cLabel, newColor);
-          }
+      changeButton.get(nCat).addActionListener(e -> {
+        Color oldColor = uLabel.getForeground();
+        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+        if(newColor != null && newColor != oldColor) {
+          uLabel.setForeground(newColor);
+          config.setUnderlineColor(cLabel, newColor);
         }
       });
       cons.gridx++;
       panel.add(changeButton.get(nCat), cons);
   
       defaultButton.add(new JButton(messages.getString("guiUColorDefault")));
-      defaultButton.get(nCat).addActionListener( new ActionListener() {
-        @Override public void actionPerformed( ActionEvent e ) {
-          config.setDefaultUnderlineColor(cLabel);
-          uLabel.setForeground(config.getUnderlineColor(cLabel));
-        }
+      defaultButton.get(nCat).addActionListener(e -> {
+        config.setDefaultUnderlineColor(cLabel);
+        uLabel.setForeground(config.getUnderlineColor(cLabel));
       });
       cons.gridx++;
       panel.add(defaultButton.get(nCat), cons);
@@ -1436,5 +1392,5 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-  
+
 }

@@ -25,8 +25,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.rules.en.EnglishWrongWordInContextRule;
+import org.languagetool.Languages;
 
 public class EnglishWrongWordInContextRuleTest {
 
@@ -35,7 +34,7 @@ public class EnglishWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new AmericanEnglish());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new EnglishWrongWordInContextRule(null);
   }
 
@@ -71,6 +70,10 @@ public class EnglishWrongWordInContextRuleTest {
     // neutron/neuron
     assertGood("Protons and neutrons");
     assertBad("Protons and neurons");
+    // hangar / hanger
+    // neutron/neuron
+    assertBad("The plane taxied to the hanger.");
+    assertGood("The plane taxied to the hangar.");
   }
 
   private void assertGood(String sentence) throws IOException {

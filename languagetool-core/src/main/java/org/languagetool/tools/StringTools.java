@@ -399,6 +399,10 @@ public final class StringTools {
         || "\u0001".equals(str)) { // breakable field in OOo
       return false;
     }
+
+    if ("\uFEFF".equals(str)) {
+      return true;
+    }
     String trimStr = str.trim();
     if (isEmpty(trimStr)) {
       return true;

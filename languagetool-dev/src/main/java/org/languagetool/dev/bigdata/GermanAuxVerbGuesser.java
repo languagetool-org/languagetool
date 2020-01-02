@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 import static java.util.Arrays.asList;
 
@@ -52,11 +53,15 @@ final class GermanAuxVerbGuesser {
     int unambiguous = 0;
     try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(indexTopDir))) {
       for (String line : lines) {
+        if (line.startsWith("#")) {
+          continue;
+        }
         String pa2 = line.split("\t")[0];
         String lemma = line.split("\t")[1];
-        long haben = countHaben(lm, pa2, lemma);
-        long sein = countSein(lm, pa2, lemma);
-        System.out.println(lemma + ": haben: " + haben + ", sein: " + sein);
+        long haben = countHaben(lm, pa2);
+        long sein = countSein(lm, pa2);
+        float ratio = (float)haben/sein;
+        System.out.printf(Locale.ENGLISH, "%.2f " + lemma + ": haben: " + haben + ", sein: " + sein + "\n", ratio);
         if (haben == 0 && sein == 0) {
           noMatch++;
         } else {
@@ -73,45 +78,63 @@ final class GermanAuxVerbGuesser {
     System.out.println("unambiguous: " + unambiguous);
   }
 
-  private static long countHaben(LuceneLanguageModel lm, String pa2, String lemma) {
+  private static long countHaben(LuceneLanguageModel lm, String pa2) {
     return 
-        lm.getCount(asList("habe", pa2))
-      + lm.getCount(asList("hast", pa2))
-      + lm.getCount(asList("hat", pa2))
-      + lm.getCount(asList("habt", pa2))
-      + lm.getCount(asList("haben", pa2))
+        count(lm, pa2, "habe")
+      + count(lm, pa2, "hast")
+      + count(lm, pa2, "hat")
+      + count(lm, pa2, "habt")
+      + count(lm, pa2, "haben")
 
-      + lm.getCount(asList("hatte", pa2))
-      + lm.getCount(asList("hattest", pa2))
-      + lm.getCount(asList("hatte", pa2))
-      + lm.getCount(asList("hatten", pa2))
-      + lm.getCount(asList("hattet", pa2))
+      + count(lm, pa2, "hatte")
+      + count(lm, pa2, "hattest")
+      + count(lm, pa2, "hatte")
+      + count(lm, pa2, "hatten")
+      + count(lm, pa2, "hattet")
       
-      + lm.getCount(asList("werde", pa2, "haben"))
-      + lm.getCount(asList("wirst", pa2, "haben"))
-      + lm.getCount(asList("wird", pa2, "haben"))
-      + lm.getCount(asList("werden", pa2, "haben"))
-      + lm.getCount(asList("werdet", pa2, "haben"));
+      + count2(lm, pa2, "werde", "haben")
+      + count2(lm, pa2, "wirst", "haben")
+      + count2(lm, pa2, "wird", "haben")
+      + count2(lm, pa2, "werden", "haben")
+      + count2(lm, pa2, "werdet", "haben");
   }
 
-  private static long countSein(LuceneLanguageModel lm, String pa2, String lemma) {
+  private static long countSein(LuceneLanguageModel lm, String pa2) {
     return
-        lm.getCount(asList("bin", pa2))
-      + lm.getCount(asList("bist", pa2))
-      + lm.getCount(asList("ist", pa2))
-      + lm.getCount(asList("sind", pa2))
-      + lm.getCount(asList("seid", pa2))
+        count(lm, pa2, "bin")
+      + count(lm, pa2, "bist")
+      + count(lm, pa2, "ist")
+      + count(lm, pa2, "sind")
+      + count(lm, pa2, "seid")
 
-      + lm.getCount(asList("war", pa2))
-      + lm.getCount(asList("warst", pa2))
-      + lm.getCount(asList("war", pa2))
-      + lm.getCount(asList("waren", pa2))
-      + lm.getCount(asList("wart", pa2))
+      + count(lm, pa2, "war")
+      + count(lm, pa2, "warst")
+      + count(lm, pa2, "war")
+      + count(lm, pa2, "waren")
+      + count(lm, pa2, "wart")
 
-      + lm.getCount(asList("werde", pa2, "sein"))
-      + lm.getCount(asList("wirst", pa2, "sein"))
-      + lm.getCount(asList("wird", pa2, "sein"))
-      + lm.getCount(asList("werden", pa2, "sein"))
-      + lm.getCount(asList("werdet", pa2, "sein"));
+      + count2(lm, pa2, "werde", "sein")
+      + count2(lm, pa2, "wirst", "sein")
+      + count2(lm, pa2, "wird", "sein")
+      + count2(lm, pa2, "werden", "sein")
+      + count2(lm, pa2, "werdet", "sein");
+  }
+
+  private static long count(LuceneLanguageModel lm, String pa2, String verb) {
+    long count = lm.getCount(asList(verb, pa2));
+    if (count > 0) {
+      System.out.println(verb + " " + pa2 + ": " + count);
+      //long count2 = lm.getCount(asList(verb, pa2, "worden"));
+      //System.out.println("  BUT: " + verb + " " + pa2 + " worden: " + count2);
+    }
+    return count;
+  }
+
+  private static long count2(LuceneLanguageModel lm, String pa2, String werde, String sein) {
+    long count = lm.getCount(asList(werde, pa2, sein));
+    if (count > 0) {
+      System.out.println(werde + " " + pa2 + " " + sein + ": " + count);
+    }
+    return count;
   }
 }

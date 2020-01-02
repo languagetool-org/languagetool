@@ -39,6 +39,7 @@ public class PlainTextSentenceSource extends SentenceSource {
 
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
   private int articleCount = 0;
+  private String currentUrl = null;
 
   public PlainTextSentenceSource(InputStream textInput, Language language) {
     this(textInput, language, null);
@@ -68,13 +69,17 @@ public class PlainTextSentenceSource extends SentenceSource {
 
   @Override
   public String getSource() {
-    return "plaintext";
+    return currentUrl;
   }
 
   private void fillSentences() {
     while (sentences.isEmpty() && scanner.hasNextLine()) {
       String line = scanner.nextLine();
       if (line.isEmpty()) {
+        continue;
+      }
+      if (line.startsWith("# source:")) {
+        currentUrl = line.substring("# source: ".length());
         continue;
       }
       if (acceptSentence(line)) {

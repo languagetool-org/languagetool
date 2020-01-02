@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -37,6 +38,9 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.Tools;
 
 import morfologik.speller.Speller;
@@ -55,6 +59,22 @@ public class CompoundInfinitivRule extends Rule {
   private final LinguServices linguServices;
   private Speller speller = null;
   private final Language lang;
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    //
+    // NOTE: antipatterns only work when they cover "zu":
+    //
+    Arrays.asList(
+      token("auf"),
+      token("Nummer"),
+      token("sicher"),
+      token("zu")
+    )
+  );
+
+  private static PatternToken token(String s) {
+    return new PatternTokenBuilder().token(s).build();
+  }
 
   public CompoundInfinitivRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
@@ -175,6 +195,11 @@ public class CompoundInfinitivRule extends Rule {
   }
 
   @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, lang);
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (linguServices == null && speller == null) {
       // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
@@ -182,11 +207,12 @@ public class CompoundInfinitivRule extends Rule {
       speller = new Speller(getDictionary());
     }
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 2; i < tokens.length - 1; i++) {
       if ("zu".equals(tokens[i].getToken())
         && isInfinitiv(tokens[i + 1])
         && isRelevant(tokens[i - 1])
+        && !tokens[i].isImmunized()
         && !isException(tokens, i)
         && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
         String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()

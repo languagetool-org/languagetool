@@ -47,6 +47,15 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
+          new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
+          new Pair("läusen", "Insekt", "läufen", "Bewegungsart"),
+          new Pair("ruck", "plötzliche Bewegung", "druck", "Belastung"),
+          new Pair("brüste", "Plural von Brust", "bürste", "Gerät mit Borsten, z.B. zum Reinigen"),
+          new Pair("attraktion", "Sehenswürdigkeit", "akttaktion", "vermutlicher Tippfehler"),
+          new Pair("nah", "zu 'nah' (wenig entfernt)", "näh", "zu 'nähen' (mit einem Faden verbinden)"),
+          new Pair("turn", "zu 'turnen'", "turm", "hohes Bauwerk"),
+          new Pair("mit", "Präposition", "miet", "zu 'Miete' (Überlassung gegen Bezahlung)"),
           new Pair("bart", "Behaarung im Gesicht", "brat", "zu 'braten', z.B. 'Bratkartoffel'"),
           new Pair("uhr", "Instrument zur Zeitmessung", "ur", "ursprünglich"),
           new Pair("abschluss", "Ende", "abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
@@ -74,6 +83,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Korrekturlösung",
           "Regelschreiber",
           "Glasreinigern",
+          "Holzstele",
+          "Brandschutz",
           "Testbahn",
           "Reiszwecke"
   ));
@@ -196,7 +207,7 @@ public class ProhibitedCompoundRule extends Rule {
          only nouns can be compounds
          all parts are at least 3 characters long -> words must have at least 6 characters
        */
-      if (!readings.hasPartialPosTag("SUB") || word.length() <= 6) {
+      if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || word.length() <= 6) {
         continue;
       }
       List<Pair> candidatePairs = new ArrayList<>();

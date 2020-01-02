@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Fred Kruse
+ * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,13 +21,11 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -35,12 +33,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
-import org.languagetool.remote.CheckConfiguration;
-import org.languagetool.remote.CheckConfigurationBuilder;
-import org.languagetool.remote.RemoteLanguageTool;
-import org.languagetool.remote.RemoteResult;
-import org.languagetool.remote.RemoteRuleMatch;
-import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -52,27 +44,29 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SwJLanguageTool {
   
-  private final boolean isMultiThread;
-  private final boolean isRemote;
-  private final boolean useServerConfig;
-  private final String serverUrl;
-  private final Map<String, Integer> configurableValues;
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
+  private boolean isMultiThread;
+  private boolean isRemote;
   private final MultiThreadedJLanguageTool mlt;
   private final LORemoteLanguageTool rlt;
-
   private JLanguageTool lt;
+  private boolean doReset;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
       Configuration config, List<Rule> extraRemoteRules, boolean testMode) throws MalformedURLException {
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
-    useServerConfig = config.useServerConfiguration();
-    serverUrl = config.getServerUrl();
-    configurableValues = config.getConfigurableValues();
+    doReset = false;
     if(isRemote) {
       lt = null;
       mlt = null;
-      rlt = new LORemoteLanguageTool(language, motherTongue, userConfig, extraRemoteRules);
+      rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
+      if(!rlt.remoteRun()) {
+        MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
+        isRemote = false;
+        isMultiThread = false;
+        lt = new JLanguageTool(language, motherTongue, null, userConfig);
+      }
     } else if(isMultiThread) {
       lt = null;
       mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);
@@ -82,6 +76,10 @@ public class SwJLanguageTool {
       mlt = null;
       rlt = null;
     }
+  }
+  
+  public boolean isRemote() {
+    return isRemote;
   }
 
   public List<Rule> getAllRules() {
@@ -95,8 +93,10 @@ public class SwJLanguageTool {
   }
 
   public List<Rule> getAllActiveOfficeRules() {
-    if(isMultiThread && !isRemote) {
-      return mlt.getAllActiveOfficeRules(); 
+    if(isRemote) {
+      return rlt.getAllActiveOfficeRules();
+    } else if(isMultiThread) {
+        return mlt.getAllActiveOfficeRules(); 
     } else {
       return lt.getAllActiveOfficeRules(); 
     }
@@ -122,33 +122,54 @@ public class SwJLanguageTool {
     }
   }
 
+  public Set<String> getDisabledRules() {
+    if(isRemote) {
+      return rlt.getDisabledRules();
+    } else if(isMultiThread) {
+        return mlt.getDisabledRules(); 
+    } else {
+      return lt.getDisabledRules(); 
+    }
+  }
+
   public void disableCategory(CategoryId id) {
-    if(isMultiThread && !isRemote) {
-      mlt.disableCategory(id); 
+    if(isRemote) {
+      rlt.disableCategory(id);
+    } else if(isMultiThread) {
+        mlt.disableCategory(id); 
     } else {
       lt.disableCategory(id); 
     }
   }
 
   public void activateLanguageModelRules(File indexDir) throws IOException {
-    if(isMultiThread && !isRemote) {
-      mlt.activateLanguageModelRules(indexDir); 
-    } else {
-      lt.activateLanguageModelRules(indexDir); 
+    if(!isRemote) {
+      if(isMultiThread) {
+        mlt.activateLanguageModelRules(indexDir); 
+      } else {
+        lt.activateLanguageModelRules(indexDir); 
+      }
     }
   }
 
   public void activateWord2VecModelRules(File indexDir) throws IOException {
-    if(isMultiThread && !isRemote) {
-      mlt.activateWord2VecModelRules(indexDir); 
-    } else {
-      lt.activateWord2VecModelRules(indexDir); 
+    if(!isRemote) {
+      if(isMultiThread) {
+        mlt.activateWord2VecModelRules(indexDir); 
+      } else {
+        lt.activateWord2VecModelRules(indexDir); 
+      }
     }
   }
 
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
     if(isRemote) {
-      return rlt.check(text, paraMode); 
+      List<RuleMatch> ruleMatches = rlt.check(text, paraMode);
+      if(ruleMatches == null) {
+        doReset = true;
+        ruleMatches = new ArrayList<RuleMatch>();
+      }
+      return ruleMatches;
     } else if(isMultiThread) {
       return mlt.check(text, tokenizeText, paraMode); 
     } else {
@@ -169,8 +190,10 @@ public class SwJLanguageTool {
   }
 
   public List<String> sentenceTokenize(String text) {
-    if(isMultiThread && !isRemote) {
-      return mlt.sentenceTokenize(text); 
+    if(isRemote) {
+      return lt.sentenceTokenize(text);   // This is only a dummy; don't use it for call of remote server
+    } else if(isMultiThread) {
+        return mlt.sentenceTokenize(text); 
     } else {
       return lt.sentenceTokenize(text); 
     }
@@ -186,168 +209,8 @@ public class SwJLanguageTool {
     }
   }
   
-  private class LORemoteLanguageTool {
-    private static final String SERVER_URL = "https://languagetool.org/api";
-    private static final int SERVER_LIMIT = 20000;
-    private boolean initDone = false;
-    private URL serverBaseUrl;
-    private Language language;
-    private RemoteLanguageTool remoteLanguageTool;
-    private List<String> enabledRules = new ArrayList<>();
-    private List<String> disabledRules = new ArrayList<>();
-    private List<Rule> allRules = new ArrayList<Rule>();
-    private CheckConfiguration remoteConfig;
-    private CheckConfigurationBuilder configBuilder;
-    private List<Rule> extraRemoteRules;
-    
-    LORemoteLanguageTool(Language language, Language motherTongue, UserConfig userConfig
-        , List<Rule> extraRemoteRules) throws MalformedURLException {
-      this.language = language;
-      configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
-      configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
-      serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
-      remoteLanguageTool = new RemoteLanguageTool(serverBaseUrl) ;
-      lt = new JLanguageTool(language, motherTongue, null, userConfig);
-      this.extraRemoteRules = extraRemoteRules; 
-      allRules.addAll(lt.getAllRules());
-      allRules.addAll(extraRemoteRules);
-    }
-    
-    List<RuleMatch> check(String text, ParagraphHandling paraMode) throws MalformedURLException {
-      if(!initDone) {
-        if(!useServerConfig) {
-          configBuilder.enabledRuleIds(enabledRules);
-          configBuilder.disabledRuleIds(disabledRules);
-          configBuilder.ruleValues(getRuleValues());
-        }
-        if(paraMode == ParagraphHandling.ONLYPARA) {
-          configBuilder.mode("textLevelOnly");
-        } else {
-          configBuilder.mode("allButTextLevelOnly");
-        }
-        remoteConfig = configBuilder.build();
-      }
-      List<RuleMatch> ruleMatches = new ArrayList<>();
-      int limit = SERVER_LIMIT;
-      for (int nStart = 0; text.length() > nStart; nStart += limit) {
-        String subText;
-        if(text.length() <= nStart + SERVER_LIMIT) {
-          subText = text.substring(nStart);
-          limit = SERVER_LIMIT;
-        } else {
-          int nEnd = text.lastIndexOf(SingleDocument.END_OF_PARAGRAPH, nStart + SERVER_LIMIT) + SingleDocument.NUMBER_PARAGRAPH_CHARS;
-          if(nEnd <= nStart) {
-            nEnd = nStart + SERVER_LIMIT;
-          }
-          subText = text.substring(nStart, nEnd);
-          limit = nEnd;
-        }
-        RemoteResult remoteResult = remoteLanguageTool.check(subText, remoteConfig);
-        ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
-      }
-      return ruleMatches;
-    }
-    
-    Language getLanguage() {
-      return language;
-    }
-    
-    List<Rule> getAllRules() {
-      return allRules;
-    }
-    
-    void enableRule (String ruleId) {
-      disabledRules.remove(ruleId);
-      enabledRules.add(ruleId);
-      lt.enableRule(ruleId);
-      initDone = false;
-    }
-    
-    void disableRule (String ruleId) {
-      disabledRules.add(ruleId);
-      enabledRules.remove(ruleId);
-      lt.disableRule(ruleId);
-      initDone = false;
-    }
-    List<String> getRuleValues() {
-      List<String> ruleValues = new ArrayList<>();
-      Set<String> rules = configurableValues.keySet();
-      for (String rule : rules) {
-        ruleValues.add(rule + ":" + configurableValues.get(rule));
-      }
-      return ruleValues;
-    }
-    
-    private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
-      Rule matchRule = null;
-      for (Rule rule : allRules) {
-        if(remoteMatch.getRuleId().equals(rule.getId())) {
-          matchRule = rule;
-        }
-      }
-      if(matchRule == null) {
-        matchRule = new DummyRule(remoteMatch.getRuleId(), remoteMatch.getRuleDescription(),
-            remoteMatch.getCategoryId().isPresent() ? remoteMatch.getCategoryId().get() : null,
-            remoteMatch.getCategory().isPresent() ? remoteMatch.getCategory().get() : null);
-        allRules.add(matchRule);
-        extraRemoteRules.add(matchRule);
-      }
-      RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
-          remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
-          remoteMatch.getShortMessage().isPresent() ? remoteMatch.getShortMessage().get() : null);
-      if(remoteMatch.getUrl().isPresent()) {
-        ruleMatch.setUrl(new URL(remoteMatch.getUrl().get()));
-      }
-      if(remoteMatch.getReplacements().isPresent()) {
-        ruleMatch.setSuggestedReplacements(remoteMatch.getReplacements().get());
-      }
-      return ruleMatch;
-    }
-    
-    private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
-      List<RuleMatch> ruleMatches = new ArrayList<>();
-      if(remoteRulematches == null || remoteRulematches.isEmpty()) {
-        return ruleMatches;
-      }
-      for(RemoteRuleMatch remoteMatch : remoteRulematches) {
-        RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
-        if(ruleMatch != null) {
-          ruleMatches.add(ruleMatch);
-        }
-      }
-      return ruleMatches;
-    }
-    
-    class DummyRule extends Rule {
-      
-      private final String ruleId;
-      private final String description;
-      
-      DummyRule(String ruleId, String description, String categoryId, String categoryName) {
-        this.ruleId = ruleId;
-        this.description = description != null ? description : "unknown rule name";
-        if (categoryId != null && categoryName != null) {
-          setCategory(new Category(new CategoryId(categoryId), categoryName));
-        }
-      }
-
-      @Override
-      public String getId() {
-        return ruleId;
-      }
-
-      @Override
-      public String getDescription() {
-        return description;
-      }
-
-      @Override
-      public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-        return null;
-      }
-      
-    }
-    
+  public boolean doReset() {
+    return doReset;
   }
 
 }

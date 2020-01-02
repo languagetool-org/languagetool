@@ -26,14 +26,14 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 
 public class SentenceWhitespaceRuleTest {
 
   @Test
   public void testMatch() throws Exception {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     TestTools.disableAllRulesExcept(lt, "DE_SENTENCE_WHITESPACE");
 
     assertGood("Das ist ein Satz. Und hier der nächste.", lt);

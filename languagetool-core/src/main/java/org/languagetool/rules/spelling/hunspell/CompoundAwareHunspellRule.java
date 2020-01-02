@@ -143,7 +143,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     int partCount = 0;
     List<String> candidates = new ArrayList<>();
     for (String part : parts) {
-      if (hunspellDict.misspelled(part)) {
+      if (!hunspell.spell(part)) {
         // assume noun, so use uppercase:
         boolean doUpperCase = partCount > 0 && !StringTools.startsWithUppercase(part);
         List<String> suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.uppercaseFirstChar(part) : part);
@@ -213,7 +213,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       String[] words = tokenizeText(wordOrPhrase);
       boolean wordIsOkay = true;
       for (String word : words) {
-        if (hunspellDict.misspelled(word)) {
+        if (!hunspell.spell(word)) {
           wordIsOkay = false;
           break;
         }

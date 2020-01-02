@@ -122,13 +122,15 @@ public class Spanish extends Language implements AutoCloseable{
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "«", "»", "¿", "¡"),
-                    Arrays.asList("]", ")", "}", "”", "»", "«", "?", "!")),
+                    Arrays.asList("[", "(", "{", "“", "«", "»"),
+                    Arrays.asList("]", ")", "}", "”", "»", "«")),
+            new QuestionMarkRule(messages),
             new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new SpanishWikipediaRule(messages)
+            new SpanishWikipediaRule(messages),
+            new SpanishDiacriticsCheckRule(messages)
     );
   }
 
@@ -161,6 +163,14 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
+  }
+  
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "ACCENTUATION_CHECK_ES": return 10;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

@@ -71,7 +71,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       }
       String[] parts = line.replaceFirst("=> ", "").replaceFirst("; \\d.*", "").split("; ");
       String key = parts[0] + ";" + parts[1];
-      Pattern data = Pattern.compile("^(.+?); (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), (\\d+)\\+(\\d+),.*");
+      Pattern data = Pattern.compile("^(.+?); (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), f0.5=\\d\\.\\d+, (\\d+)\\+(\\d+),.*");
       Matcher m = data.matcher(line.replaceFirst("=> ", ""));
       m.find();
       String word1 = m.group(1);

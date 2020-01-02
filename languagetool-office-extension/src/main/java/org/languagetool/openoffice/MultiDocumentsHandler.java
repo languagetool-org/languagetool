@@ -102,6 +102,8 @@ public class MultiDocumentsHandler {
   private boolean switchOff = false;        //  is LT switched off
   private boolean noMultiReset = true;      //  will be overwritten by config;
 
+  private String menuDocId = null;          //  Id of document at which context menu was called 
+
   @SuppressWarnings("unused")
   private LanguagetoolMenu ltMenu = null;
 
@@ -150,6 +152,17 @@ public class MultiDocumentsHandler {
       return paRes;
     }
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, isParallelThread, docReset, langTool);
+    if(langTool.doReset()) {
+      // langTool.doReset() == true: if server connection is broken ==> switch to internal check
+      MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
+      config.setRemoteCheck(false);
+      try {
+        config.saveConfiguration(docLanguage);
+      } catch (IOException e) {
+        MessageHandler.showError(e);
+      }
+      mainThread.resetDocument();
+    }
     if(isParallelThread) {
       isParallelThread = false;
     } else {
@@ -569,8 +582,46 @@ public class MultiDocumentsHandler {
     return true;
   }
   
+  public void setMenuDocId(String docId) {
+    menuDocId = new String(docId);
+  }
+  
   public void ignoreOnce() {
-    documents.get(docNum).ignoreOnce();
+    for (SingleDocument document : documents) {
+      if(menuDocId.equals(document.getDocID())) {
+        document.ignoreOnce();
+        break;
+      }
+    }
+  }
+  
+  public void deactivateRule() {
+    for (SingleDocument document : documents) {
+      if(menuDocId.equals(document.getDocID())) {
+        String ruleId = document.deactivateRule();
+        if (ruleId != null) {
+          try {
+            Configuration confg = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
+            Set<String> ruleIds = new HashSet<>();
+            ruleIds.add(ruleId);
+            confg.addDisabledRuleIds(ruleIds);
+            confg.saveConfiguration(docLanguage);
+          } catch (IOException e) {
+            MessageHandler.printException(e);
+          }
+        }
+        if (debugMode) {
+          MessageHandler.printToLogFile("Rule Disabled: " + (ruleId == null ? "null" : ruleId));
+        }
+        break;
+      }
+    }
+  }
+  
+  public void resetIgnoreOnce() {
+    for (SingleDocument document : documents) {
+      document.resetIgnoreOnce();
+    }
   }
 
   /**
@@ -609,7 +660,8 @@ public class MultiDocumentsHandler {
       textLevelRules = new ArrayList<List<String>>();
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
-        if(rule instanceof TextLevelRule) {
+        if(rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
+            && !disabledRulesUI.contains(rule.getId())) {
           insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
         }
       }
@@ -627,8 +679,7 @@ public class MultiDocumentsHandler {
     private void insertRule (int minPara, String RuleId) {
       if(minPara < 0) {
         int n = minToCheckParagraph.indexOf(minPara);
-        if( n >= 0) {
-        } else {
+        if( n < 0) {
           minToCheckParagraph.add(minPara);
           textLevelRules.add(new ArrayList<String>());
         }

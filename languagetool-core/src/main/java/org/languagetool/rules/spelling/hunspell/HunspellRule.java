@@ -19,10 +19,29 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.*;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
@@ -33,13 +52,7 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtr
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import com.google.common.io.Resources;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -57,7 +70,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected final SuggestionsOrderer suggestionsOrderer;
   protected boolean needsInit = true;
-  protected Hunspell.Dictionary hunspellDict = null;
+  protected Hunspell hunspell = null;
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
@@ -128,7 +141,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (needsInit) {
       init();
     }
-    if (hunspellDict == null) {
+    if (hunspell == null) {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
@@ -150,7 +163,7 @@ public class HunspellRule extends SpellingCheckRule {
       int prevStartPos = -1;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
-        if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
+        if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
           len += word.length() + 1;
           continue;
@@ -224,7 +237,7 @@ public class HunspellRule extends SpellingCheckRule {
                 Tools.i18n(messages, "accepted_in_alt_language", cleanWord, messages.getString(acceptingLanguage.getShortCode())));
               ruleMatch.setType(RuleMatch.Type.Hint);
             }
-            filterSuggestions(suggestions);
+            suggestions = filterSuggestions(suggestions, sentence, i);
             filterDupes(suggestions);
 
             // TODO user suggestions
@@ -272,6 +285,7 @@ public class HunspellRule extends SpellingCheckRule {
    * @since public since 4.1
    */
   @Experimental
+  @Override
   public boolean isMisspelled(String word) {
     try {
       if (needsInit) {
@@ -281,21 +295,22 @@ public class HunspellRule extends SpellingCheckRule {
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
       }
-      return (isAlphabetic && !"--".equals(word) && hunspellDict.misspelled(word) && !ignoreWord(word)) || isProhibited(removeTrailingDot(word));
+      return (
+              isAlphabetic && !"--".equals(word)
+              && (hunspell != null && !hunspell.spell(word))
+              && !ignoreWord(word)
+             )
+             || isProhibited(cutOffDot(word));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private String removeTrailingDot(String word) {
-    return StringUtils.removeEnd(word, ".");
   }
 
   public List<String> getSuggestions(String word) throws IOException {
     if (needsInit) {
       init();
     }
-    return hunspellDict.suggest(word);
+    return hunspell.suggest(word);
   }
 
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
@@ -350,37 +365,54 @@ public class HunspellRule extends SpellingCheckRule {
     if (language.getCountries().length > 0) {
       langCountry += "_" + language.getCountries()[0];
     }
-    String shortDicPath = "/"
-        + language.getShortCode()
-        + "/hunspell/"
-        + langCountry
-        + FILE_EXTENSION;
+    String shortDicPath = getDictFilenameInResources(langCountry);
     String wordChars = "";
     // set dictionary only if there are dictionary files:
+    Path affPath = null;
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
       String path = getDictionaryPath(langCountry, shortDicPath);
       if ("".equals(path)) {
-        hunspellDict = null;
+        hunspell = null;
       } else {
-        hunspellDict = Hunspell.getInstance().getDictionary(path);
-        if (!hunspellDict.getWordChars().isEmpty()) {
-          wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
-        }
+        affPath = Paths.get(path + ".aff");
+        hunspell = Hunspell.getInstance(Paths.get(path + ".dic"), affPath);
         addIgnoreWords();
       }
+    } else if (new File(shortDicPath + ".dic").exists()) {
+      // for dynamic languages
+      affPath = Paths.get(shortDicPath + ".aff");
+      hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
+    }
+    if (affPath != null) {
+      Scanner sc = new Scanner(affPath);
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
+        if (line.startsWith("WORDCHARS ")) {
+          String wordCharsFromAff = line.substring("WORDCHARS ".length());
+          //System.out.println("#" + wordCharsFromAff+ "#");
+          wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
+          break;
+        }
+      }
+      
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;
   }
 
+  @NotNull
+  protected String getDictFilenameInResources(String langCountry) {
+    return "/" + language.getShortCode() + "/hunspell/" + langCountry + FILE_EXTENSION;
+  }
+
   private void addIgnoreWords() throws IOException {
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
-    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOLER);
+    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOL);
+    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOLER);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
-    List<String> ignoreLines = Resources.readLines(ignoreUrl, Charsets.UTF_8);
+    List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
       if (!ignoreLine.startsWith("#")) {
-        hunspellDict.addWord(ignoreLine);
+        wordsToBeIgnored.add(ignoreLine);
       }
     }
   }
@@ -434,8 +466,10 @@ public class HunspellRule extends SpellingCheckRule {
   /**
    * Used in combination with <code>acceptedInAlternativeLanguage</code> to surpress spelling
    * errors for words from a foreign language
-   * @since 4.6
+   * @param language
+   * @param word
    * @return true if the {@code word} from {@code language} can be considered as correctly spelled
+   * @since 4.6
    */
   protected boolean isAcceptedWordFromLanguage(Language language, String word) {
     return false;

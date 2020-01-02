@@ -27,6 +27,8 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -49,6 +51,8 @@ public class HTTPServerConfig {
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
+
+  protected URI serverURL = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
   protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
@@ -93,6 +97,7 @@ public class HTTPServerConfig {
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
+  protected boolean stoppable = false;
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -167,6 +172,9 @@ public class HTTPServerConfig {
         case NN_MODEL_OPTION:
           setNeuralNetworkModelDir(args[++i]);
           break;
+        case "--stoppable":  // internal only, doesn't need to be documented
+          stoppable = true;
+          break;
         default:
           if (args[i].contains("=")) {
             System.out.println("WARNING: unknown option: " + args[i] +
@@ -203,6 +211,8 @@ public class HTTPServerConfig {
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
+        String url = getOptionalProperty(props, "serverURL", null);
+        setServerURL(url);
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -270,8 +280,7 @@ public class HTTPServerConfig {
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
-        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
-          "slowRuleLoggingThreshold", "-1"));
+        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props, "slowRuleLoggingThreshold", "-1"));
         disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -303,9 +312,6 @@ public class HTTPServerConfig {
         File dictPathFile = new File(dictPath);
         if (!dictPathFile.exists() || !dictPathFile.isFile()) {
           throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
-        }
-        if (!dictPathFile.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
-          throw new IllegalArgumentException("dictionary file is supposed to have the filename extension '.dict': '" + dictPath + "'");
         }
         ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
         Language lang = Languages.addLanguage(name, code, new File(dictPath));
@@ -382,6 +388,32 @@ public class HTTPServerConfig {
    */
   public void setAllowOriginUrl(String allowOriginUrl) {
     this.allowOriginUrl = allowOriginUrl;
+  }
+
+  /**
+   * @since 4.8
+   * @return prefix / base URL for API requests
+   */
+  @Nullable
+  public URI getServerURL() {
+    return serverURL;
+  }
+
+  /**
+   * @since 4.8
+   * @param url prefix / base URL for API requests
+   */
+  public void setServerURL(@Nullable String url) {
+    if (url != null) {
+      try {
+        // ignore different protocols, ports,... just use path for relative requests
+        serverURL = new URI(new URI(url).getPath());
+      } catch (URISyntaxException e) {
+        throw new IllegalArgumentException("Could not parse provided serverURL: '" + url + "'", e);
+      }
+    } else {
+      serverURL = null;
+    }
   }
 
   /**
@@ -500,7 +532,6 @@ public class HTTPServerConfig {
     return word2vecModelDir;
   }
 
-
   /**
    * Get base directory for neural network models or {@code null}
    * @since 4.4
@@ -586,15 +617,14 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.4
-   * Cache initalized JLanguageTool instances and share between non-parallel requests with identical paramenters
+   * Cache initialized JLanguageTool instances and share between non-parallel requests with identical parameters.
    * Improves response time (especially when dealing with many small requests without specific settings),
    * but increases memory usage
    */
   public boolean isPipelineCachingEnabled() {
     return pipelineCaching;
   }
-
-
+  
   /**
    * @since 4.4
    * Before starting to listen for requests, create a few pipelines for frequently used request settings
@@ -847,7 +877,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public boolean isPrometheusMonitoring() {
     return prometheusMonitoring;
@@ -855,7 +884,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public int getPrometheusPort() {
     return prometheusPort;
@@ -891,6 +919,13 @@ public class HTTPServerConfig {
   public List<String> getDisabledRuleIds() {
     return disabledRuleIds;
   }
+
+  /**
+   * Whether the server can be stopped by sending a command (useful for tests only).
+   */
+  boolean isStoppable() {
+    return stoppable;
+  }
   
   /**
    * @since 4.4
@@ -914,7 +949,6 @@ public class HTTPServerConfig {
     }
     this.abTest = abTest;
   }
-
 
   /**
    * @throws IllegalConfigurationException if property is not set 

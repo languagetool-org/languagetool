@@ -28,12 +28,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 
@@ -44,8 +41,8 @@ public class SubjectVerbAgreementRuleTest {
 
   @BeforeClass
   public static void setUp() {
-    German german = new GermanyGerman();
-    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), german);
+    Language german = Languages.getLanguageForShortCode("de-DE");
+    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
     langTool = new JLanguageTool(german);
   }
 
@@ -153,6 +150,9 @@ public class SubjectVerbAgreementRuleTest {
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
+        "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",
+        "Denken Sie daran, dass Sie hier zu Gast sind und sich entsprechend verhalten sollten.",
+        "Ist es wahr, dass Sie ein guter Mensch sind?",
         "Die Katze ist schön.",
         "Die eine Katze ist schön.",
         "Eine Katze ist schön.",
@@ -413,7 +413,8 @@ public class SubjectVerbAgreementRuleTest {
         "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
         "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
         "Sie sind so erfolgreich, weil sie eine Einheit sind.",
-        "Auch Polizisten zu Fuß sind unterwegs."
+        "Auch Polizisten zu Fuß sind unterwegs.",
+        "Julia sagte, dass Vater und Mutter zu Hause sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

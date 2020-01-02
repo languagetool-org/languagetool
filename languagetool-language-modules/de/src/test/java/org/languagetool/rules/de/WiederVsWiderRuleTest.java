@@ -24,8 +24,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 
 public class WiederVsWiderRuleTest {
 
@@ -33,7 +33,7 @@ public class WiederVsWiderRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
     assertGood("Das spiegelt wider, wie es wieder läuft.", lt);
     assertGood("Das spiegelt die Situation gut wider.", lt);

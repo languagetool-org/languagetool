@@ -33,7 +33,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
@@ -45,14 +44,16 @@ public class ProhibitedCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     Map<String,Integer> map = new HashMap<>();
+    map.put("Mietauto", 100);
     map.put("Leerzeile", 100);
     map.put("Urberliner", 100);
     map.put("Ureinwohner", 100);
     map.put("Wohnungsleerstand", 50);
     map.put("Xliseihflehrstand", 50);
     ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     assertMatches("Er ist Uhrberliner.", 1, rule, lt);
+    assertMatches("Das ist ein Mitauto.", 1, rule, lt);
     assertMatches("Hier leben die Uhreinwohner.", 1, rule, lt);
     assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
     assertMatches("Eine Lehrzeile einfügen.", 1, rule, lt);

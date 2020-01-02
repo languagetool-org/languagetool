@@ -22,8 +22,8 @@ package org.languagetool.rules.en;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
@@ -41,8 +41,8 @@ public class EnglishUnpairedBracketsRuleTest {
 
   @Before
   public void setUp() {
-    rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), new English());
-    langTool = new JLanguageTool(new English());
+    rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("en"));
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test
@@ -75,6 +75,7 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
     assertCorrect("Kill 'em all!");
     assertCorrect("Puttin' on the Ritz");
+    assertCorrect("Dunkin' Donuts");
     //some more cases
     assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
     assertCorrect("On their 'host' societies.");
@@ -136,7 +137,7 @@ public class EnglishUnpairedBracketsRuleTest {
 
   @Test
   public void testMultipleSentences() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new English());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
                              + "[This is a bracket. With some text.] and this continues.\n", lt));

@@ -315,10 +315,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
       </pattern>
-      <message>Правильно: <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:.*):v_oru(.*)" postag_replace="$1:v_zna(:r(in)?anim)?$2"/> <match no="3" postag_regexp="yes" postag="(noun:.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+      <message>Хворіти вимагає конструкції з «на»</message>
+      <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:.*):v_oru(.*)" postag_replace="$1:v_zna(:r(in)?anim)?$2"/> <match no="3" postag_regexp="yes" postag="(noun:.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion>
       <example correction="на ангіну">Він хворіє <marker>ангіною</marker></example>
       <example correction="на страшну ангіну">Він хворіє <marker>страшною ангіною</marker></example>
       <example correction="на неї|на її">хворітиме <marker>нею</marker> на відстані.</example>
+      <example correction="на щось">хворітиме <marker>чимсь</marker> дивним.</example>
       <!--
           <example correction="на себе">Перестати хворіти <marker>собою</marker></example>
       -->
@@ -665,11 +667,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="(adj|numr):[mp]:v_(naz|rod).*" min="0" max="2"/>
           <token inflected="yes" regexp="yes">екзамен|іспит|тест</token>
         </pattern>
-        <message>Правильно: <suggestion>складати</suggestion></message>
-        <example correction="складати">Він <marker>здав</marker> складний екзамен</example>
-        <example correction="Складати"><marker>Здаючи</marker> іспит весь спітнів.</example>
-        <example correction="складати">Треба <marker>здавати</marker> також складний екзамен в школі.</example>
-        <example correction="складати">при вступі до ВНЗ <marker>здавали</marker> два–три екзамени.</example>
+        <message>Правильно: <suggestion>складати</suggestion>, <suggestion>скласти</suggestion></message>
+        <example correction="складати|скласти">Він <marker>здав</marker> складний екзамен</example>
+        <example correction="Складати|Скласти"><marker>Здаючи</marker> іспит весь спітнів.</example>
+        <example correction="складати|скласти">Треба <marker>здавати</marker> також складний екзамен в школі.</example>
+        <example correction="складати|скласти">при вступі до ВНЗ <marker>здавали</marker> два–три екзамени.</example>
         <example>Тоді на іспити здавали по 50 гривень.</example>
         <example>Він склав екзамен</example>
       </rule>
@@ -684,9 +686,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">здавати|здати|зданий|здаваний</token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion>складати</suggestion></message>
-        <example correction="складати">Екзамен <marker>здав</marker> на відмінно.</example>
-        <example correction="складати">Екзамен би швидко не <marker>здав</marker>.</example>
+        <message>Правильно: <suggestion>складати</suggestion>, <suggestion>скласти</suggestion></message>
+        <example correction="складати|скласти">Екзамен <marker>здав</marker> на відмінно.</example>
+        <example correction="складати|скласти">Екзамен би швидко не <marker>здав</marker>.</example>
         <example>Він склав екзамен</example>
       </rule>
     </rulegroup>
@@ -2272,27 +2274,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="prep.*"/>
           <token inflected="yes">другий</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj:[mfn]:v_...).*" postag_replace="$1.*">один</match></suggestion></message>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj:.:v_...)(.*?):&amp;numr" postag_replace="$1$2:&amp;pron:dem:ind">один</match></suggestion></message>
         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
         <example correction="один коло одного"><marker>один коло другого</marker></example>
         <example correction="одне коло одного"><marker>одне коло другого</marker></example>
-        <example correction="один на один|один на одного"><marker>один на другий</marker></example>
+        <example correction="один на один"><marker>один на другий</marker></example>
+        <example correction="одні за одні"><marker>одні за другі</marker></example>
         <example>Один одному допомагають.</example>
       </rule>
     </rulegroup>
 
     <rule id="ODYN_I_TOY_ZHE" name="Один і той же" default="off">
       <pattern>
-       <token inflected='yes'>один</token>
-       <token regexp='yes'>і|й</token>
-       <token inflected='yes'>той</token>
-       <token regexp='yes'>же|ж</token>
+        <token inflected='yes'>один</token>
+        <token regexp='yes'>і|й</token>
+        <token inflected='yes'>той</token>
+        <token regexp='yes'>же|ж</token>
       </pattern>
       <message>Вираз "\1 \2 \3 \4" не характерний українській мові. Варто вживати <suggestion>той самий</suggestion>, <suggestion>один і той самий</suggestion></message>
       <url>https://r2u.org.ua/node/213</url>
       <example correction="той самий|один і той самий">Представники різних рас і народів по-різному реагують на <marker>один і той же</marker> препарат</example>
       <example correction="Той самий|Один і той самий"><marker>Один і той же</marker> одяг можу носити півроку</example>
       <example>Конституція також передбачає випадки, коли один і той самий закон повинен бути підтриманий Верховною Радою та народом</example>
+    </rule>
+
+    <rule id="iz-za" name="Із-за">
+      <pattern>
+        <marker>
+          <token>із-за</token>
+        </marker>
+        <token regexp='yes'>цього|.*(ості|стей|ції)</token>
+      </pattern>
+      <message>Правильно: <suggestion>через</suggestion></message>
+      <example correction="через"><marker>із-за</marker> відсутності</example>
     </rule>
 
     <rule id="ODYN_NA_ODYM" name="Один на один">
@@ -3368,7 +3382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
         <suggestion><match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_oru$2"/></suggestion>
         <example correction="як кого|як хто|за кого|ким">І <marker>в якості кого</marker> їх викликають на допит.</example>
-        <example correction="як віщо|як що|за віщо|за що|чим">І <marker>в якості чого</marker> цей прилад використовують.</example>
+        <example correction="як що|за що|чим">І <marker>в якості чого</marker> цей прилад використовують.</example>
       </rule>
 
       <rule>
@@ -3930,6 +3944,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>близько</suggestion>, <suggestion>коло</suggestion>, <suggestion>приблизно</suggestion></message>
       <example correction="близько|коло|приблизно">Напруга <marker>порядка</marker> 100 вольт</example>
       <example>Порушення порядка</example>
+    </rule>
+
+    <rule id="jakscho_b" name="Якщо б">
+      <pattern>
+        <token>якщо</token>
+        <token regexp="yes">би?</token>
+      </pattern>
+      <message>Правильно: <suggestion>якби</suggestion></message>
+      <example correction="якби">І <marker>якщо б</marker> це відбулося</example>
     </rule>
 
     <rule id="RUKOYU_PODATY" name="Рукою подати">
@@ -5514,6 +5537,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>тимчасом як</suggestion>, <suggestion>тоді як</suggestion></message>
       <example correction="тимчасом як|тоді як"><marker>між тим як</marker> в інших випадках</example>
+    </rule>
+
+    <rule id="postupok" name="Вчинок">
+      <pattern>
+        <token postag_regexp="yes" postag="adj:m:v_(naz|oru).*"/>
+        <marker>
+          <token regexp="yes">поступ(ок|ком)</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>вчинок</suggestion></message>
+      <example correction="вчинок">чесний <marker>поступок</marker></example>
+      <example correction="вчинок">своїм <marker>поступком</marker></example>
+      <example>серйозних поступок</example>
     </rule>
 
     <rulegroup id="vechorom" name="Вечором і увечері">

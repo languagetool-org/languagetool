@@ -20,14 +20,14 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
-import org.languagetool.language.GermanyGerman;
 
 public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRuleTest {
   @Test
   public void testMatch() throws Exception {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     
     LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6, true);
     

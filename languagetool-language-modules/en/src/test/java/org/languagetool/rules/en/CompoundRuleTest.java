@@ -23,15 +23,15 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(new AmericanEnglish());
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new CompoundRule(TestTools.getEnglishMessages());
   }
 
@@ -41,9 +41,12 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "The software supports case-sensitive search.");
     check(0, "He is one-year-old.");
     check(0, "If they're educated people, they will know.");
+    check(0, "Another one bites the dust");
     // incorrect sentences:
-    check(1, "case sensitive", new String[]{"case-sensitive"});
+    check(1, "case sensitive", "case-sensitive");
     check(1, "Young criminals must be re educated.");
+    check(1, "And an other one bites the dust");
+    check(1, "An other one bites the dust");
   }
  
 }

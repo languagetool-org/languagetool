@@ -32,6 +32,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.TextLevelRule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -47,6 +48,7 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 class ApiV2 {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
+  private static final String TEXT_CONTENT_TYPE = "text/plain";
   private static final String ENCODING = "UTF-8";
 
   private final TextChecker textChecker;
@@ -61,6 +63,10 @@ class ApiV2 {
   void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
+    } else if (path.equals("maxtextlength")) {
+      handleMaxTextLengthRequest(httpExchange, config);
+    } else if (path.equals("configinfo")) {
+      handleGetConfigurationInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
@@ -71,7 +77,7 @@ class ApiV2 {
       handleWordDeleteRequest(httpExchange, parameters, config);
     } else if (path.equals("rule/examples")) {
       // private (i.e. undocumented) API for our own use only
-      handleRuleExamplesRequest(httpExchange, parameters, config);
+      handleRuleExamplesRequest(httpExchange, parameters);
     } else if (path.equals("log")) {
       // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);
@@ -88,13 +94,31 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
+  private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
+    String response = Integer.toString(config.maxTextLength);
+    ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
+  }
+
+  private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+    if (parameters.get("language") == null) {
+      throw new IllegalArgumentException("'language' parameter missing");
+    }
+    Language lang = Languages.getLanguageForShortCode(parameters.get("language"));
+    String response = getConfigurationInfo(lang, config);
+    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
+  }
+
   private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     AnnotatedText aText;
-    int paramCount = (parameters.containsKey("text") ? 1 : 0) + (parameters.containsKey("data") ? 1 : 0);
-    if (paramCount > 1) {
-      throw new IllegalArgumentException("Set only 'text' or 'data' parameters, not both");
-    }
-    if (parameters.containsKey("text")) {
+    if (parameters.containsKey("text") && parameters.containsKey("data")) {
+      throw new IllegalArgumentException("Set only 'text' or 'data' parameter, not both");
+    } else if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
@@ -140,7 +164,7 @@ class ApiV2 {
     writeResponse("deleted", deleted, httpExchange);
   }
 
-  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
     if (params.get("lang") == null) {
       throw new IllegalArgumentException("'lang' parameter missing");
@@ -316,7 +340,7 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartArray();
       List<Language> languages = new ArrayList<>(Languages.get());
-      languages.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+      languages.sort(Comparator.comparing(Language::getName));
       for (Language lang : languages) {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
@@ -325,6 +349,70 @@ class ApiV2 {
         g.writeEndObject();
       }
       g.writeEndArray();
+    }
+    return sw.toString();
+  }
+
+  String getConfigurationInfo(Language lang, HTTPServerConfig config) throws IOException {
+    StringWriter sw = new StringWriter();
+    JLanguageTool lt = new JLanguageTool(lang);
+    if (textChecker.config.languageModelDir != null) {
+      lt.activateLanguageModelRules(textChecker.config.languageModelDir);
+    }
+    if (textChecker.config.word2vecModelDir != null) {
+      lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
+    }
+    List<Rule> rules = lt.getAllRules();
+    try (JsonGenerator g = factory.createGenerator(sw)) {
+      g.writeStartObject();
+
+      g.writeObjectFieldStart("software");
+      g.writeStringField("name", "LanguageTool");
+      g.writeStringField("version", JLanguageTool.VERSION);
+      g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
+      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeEndObject();
+      
+      g.writeObjectFieldStart("parameter");
+      g.writeNumberField("maxTextLength", config.maxTextLength);
+      g.writeEndObject();
+
+      g.writeArrayFieldStart("rules");
+      for (Rule rule : rules) {
+        g.writeStartObject();
+        g.writeStringField("ruleId", rule.getId());
+        g.writeStringField("description", rule.getDescription());
+        if(rule.isDictionaryBasedSpellingRule()) {
+          g.writeStringField("isDictionaryBasedSpellingRule", "yes");
+        }
+        if(rule.isDefaultOff()) {
+          g.writeStringField("isDefaultOff", "yes");
+        }
+        if(rule.isOfficeDefaultOff()) {
+          g.writeStringField("isOfficeDefaultOff", "yes");
+        }
+        if(rule.isOfficeDefaultOn()) {
+          g.writeStringField("isOfficeDefaultOn", "yes");
+        }
+        if(rule.hasConfigurableValue()) {
+          g.writeStringField("hasConfigurableValue", "yes");
+          g.writeStringField("configureText", rule.getConfigureText());
+          g.writeStringField("maxConfigurableValue", Integer.toString(rule.getMaxConfigurableValue()));
+          g.writeStringField("minConfigurableValue", Integer.toString(rule.getMinConfigurableValue()));
+          g.writeStringField("defaultValue", Integer.toString(rule.getDefaultValue()));
+        }
+        g.writeStringField("categoryId", rule.getCategory().getId().toString());
+        g.writeStringField("categoryName", rule.getCategory().getName());
+        g.writeStringField("locQualityIssueType", rule.getLocQualityIssueType().toString());
+        if(rule instanceof TextLevelRule) {
+          g.writeStringField("isTextLevelRule", "yes");
+          g.writeStringField("minToCheckParagraph", Integer.toString(((TextLevelRule) rule).minToCheckParagraph()));
+        }
+        g.writeEndObject();
+      }
+      g.writeEndArray();
+
+      g.writeEndObject();
     }
     return sw.toString();
   }

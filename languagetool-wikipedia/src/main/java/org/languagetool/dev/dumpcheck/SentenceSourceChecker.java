@@ -27,6 +27,7 @@ import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -150,28 +151,39 @@ public class SentenceSourceChecker {
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors,
                    File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
+    long startTime = System.currentTimeMillis();
     Language lang = Languages.getLanguageForShortCode(langCode);
-    MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
-    languageTool.setCleanOverlappingMatches(false);
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
+    lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
-      languageTool.activateLanguageModelRules(languageModelDir);
+      lt.activateLanguageModelRules(languageModelDir);
     }
     if (word2vecModelDir != null) {
-      languageTool.activateWord2VecModelRules(word2vecModelDir);
+      lt.activateWord2VecModelRules(word2vecModelDir);
     }
     if (neuralNetworkModelDir != null) {
-      languageTool.activateNeuralNetworkRules(neuralNetworkModelDir);
+      lt.activateNeuralNetworkRules(neuralNetworkModelDir);
+    }
+    for (Rule rule : lt.getAllRules()) {
+      if (rule.isDefaultTempOff()) {
+        if (rule instanceof AbstractPatternRule) {
+          System.out.println("Activating " + ((AbstractPatternRule) rule).getFullId() + ", which is default='temp_off'");
+        } else {
+          System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
+        }
+        lt.enableRule(rule.getId());
+      }
     }
     if (ruleIds != null) {
-      enableOnlySpecifiedRules(ruleIds, languageTool);
+      enableOnlySpecifiedRules(ruleIds, lt);
     } else {
-      applyRuleDeactivation(languageTool, disabledRules);
+      applyRuleDeactivation(lt, disabledRules);
     }
     if (filter != null) {
       System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
     }
-    activateAdditionalCategories(additionalCategoryIds, languageTool);
-    disableSpellingRules(languageTool);
+    activateAdditionalCategories(additionalCategoryIds, lt);
+    disableSpellingRules(lt);
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
@@ -191,7 +203,7 @@ public class SentenceSourceChecker {
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
         try {
-          List<RuleMatch> matches = languageTool.check(sentence.getText());
+          List<RuleMatch> matches = lt.check(sentence.getText());
           resultHandler.handleResult(sentence, matches, lang);
           sentenceCount++;
           if (sentenceCount % 5000 == 0) {
@@ -207,11 +219,13 @@ public class SentenceSourceChecker {
     } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
       System.out.println(getClass().getSimpleName() + ": " + e);
     } finally {
-      languageTool.shutdown();
+      lt.shutdown();
       if (resultHandler != null) {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
-        System.out.printf(lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        long runTimeMillis = System.currentTimeMillis() - startTime;
+        //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
         try {
           resultHandler.close();
         } catch (Exception e) {
@@ -221,21 +235,21 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
-    for (Rule rule : languageTool.getAllRules()) {
-      languageTool.disableRule(rule.getId());
+  private void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool lt) {
+    for (Rule rule : lt.getAllRules()) {
+      lt.disableRule(rule.getId());
     }
     for (String ruleId : ruleIds) {
-      languageTool.enableRule(ruleId);
+      lt.enableRule(ruleId);
     }
-    warnOnNonExistingRuleIds(ruleIds, languageTool);
+    warnOnNonExistingRuleIds(ruleIds, lt);
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
-  private void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool languageTool) {
+  private void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool lt) {
     for (String ruleId : ruleIds) {
       boolean found = false;
-      for (Rule rule : languageTool.getAllRules()) {
+      for (Rule rule : lt.getAllRules()) {
         if (rule.getId().equals(ruleId)) {
           found = true;
           break;
@@ -247,33 +261,33 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void applyRuleDeactivation(JLanguageTool languageTool, Set<String> disabledRules) {
+  private void applyRuleDeactivation(JLanguageTool lt, Set<String> disabledRules) {
     // disabled via config file, usually to avoid too many false alarms:
     for (String disabledRuleId : disabledRules) {
-      languageTool.disableRule(disabledRuleId);
+      lt.disableRule(disabledRuleId);
     }
-    System.out.println("These rules are disabled: " + languageTool.getDisabledRules());
+    System.out.println("These rules are disabled: " + lt.getDisabledRules());
   }
 
-  private void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool languageTool) {
+  private void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool lt) {
     if (additionalCategoryIds != null) {
       for (String categoryId : additionalCategoryIds) {
-        for (Rule rule : languageTool.getAllRules()) {
+        for (Rule rule : lt.getAllRules()) {
           CategoryId id = rule.getCategory().getId();
           if (id != null && id.toString().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
-            languageTool.enableRule(rule.getId());
+            lt.enableRule(rule.getId());
           }
         }
       }
     }
   }
 
-  private void disableSpellingRules(JLanguageTool languageTool) {
-    List<Rule> allActiveRules = languageTool.getAllActiveRules();
+  private void disableSpellingRules(JLanguageTool lt) {
+    List<Rule> allActiveRules = lt.getAllActiveRules();
     for (Rule rule : allActiveRules) {
       if (rule.isDictionaryBasedSpellingRule()) {
-        languageTool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       }
     }
     System.out.println("All spelling rules are disabled");

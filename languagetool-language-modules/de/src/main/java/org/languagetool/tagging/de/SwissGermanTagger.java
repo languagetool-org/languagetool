@@ -44,7 +44,7 @@ public class SwissGermanTagger extends GermanTagger {
         AnalyzedTokenReadings replacementReading = lookup(reading.getToken().replace("ss", "ß"));
         if(replacementReading != null) {
           for(AnalyzedToken at : replacementReading.getReadings()) {
-            reading.addReading(new AnalyzedToken(reading.getToken(), at.getPOSTag(), at.getLemma()));
+            reading.addReading(new AnalyzedToken(reading.getToken(), at.getPOSTag(), at.getLemma()), "SwissGermanTagger");
           }
         }
       }

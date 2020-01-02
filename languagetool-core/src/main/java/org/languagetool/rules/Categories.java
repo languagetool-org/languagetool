@@ -35,6 +35,10 @@ public final class Categories {
   /** General style issues not covered by other categories, like overly verbose wording. */
   public static final Categories STYLE = make("STYLE", "category_style");
 
+
+  /** Created to match PLAIN_ENGLISH XML category. */
+  public static final Categories PLAIN_ENGLISH = make("PLAIN_ENGLISH", "category_plain_english");
+
   public static final Categories GENDER_NEUTRALITY = make("GENDER_NEUTRALITY", "category_gender_neutrality");
 
   /** Logic, content, and consistency problems. */

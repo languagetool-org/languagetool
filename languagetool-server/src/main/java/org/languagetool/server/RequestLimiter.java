@@ -131,8 +131,7 @@ class RequestLimiter {
       if (paramValue == null) {
         return null;
       }
-      Long agentId = db.getOrCreateClientId(paramValue);
-      return agentId;
+      return db.getOrCreateClientId(paramValue);
     } else {
       return null;
     }

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -27,24 +27,24 @@ import java.util.Map;
  * Use this builder to create input of text with markup for LanguageTool, so that it
  * can check only the plain text parts and ignore the markup, yet still calculate the
  * positions of errors so that they refer to the complete text, including markup.
- * 
+ *
  * <p>It's up to you to split the input into parts that are plain text and parts that
  * are markup.
- * 
+ *
  * <p>For example, text with XML markup like</p>
- * 
+ *
  * <pre>
  *   Here is &lt;b&gt;some text&lt;/b&gt;
  * </pre>
- * 
+ *
  * <p>needs to be prepared like this:</p>
- * 
+ *
  * <pre>
  * new AnnotatedTextBuilder()
  *   .addText("Here is ").addMarkup("&lt;b&gt;").addText("some text").addMarkup("&lt;/b&gt;")
  *   .build()
  * </pre>
- * 
+ *
  * @since 2.3
  */
 public class AnnotatedTextBuilder {
@@ -65,7 +65,7 @@ public class AnnotatedTextBuilder {
     metaData.put(key, value);
     return this;
   }
-  
+
   /**
    * Add any global meta data about the document to be checked. Some rules may use this information.
    * Unless you're using your own rules for which you know useful keys, you probably want to
@@ -76,7 +76,7 @@ public class AnnotatedTextBuilder {
     customMetaData.put(key, value);
     return this;
   }
-  
+
   /**
    * Add a plain text snippet, to be checked by LanguageTool when using
    * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
@@ -113,20 +113,38 @@ public class AnnotatedTextBuilder {
   public AnnotatedText build() {
     int plainTextPosition = 0;
     int totalPosition = 0;
-    Map<Integer,Integer> mapping = new HashMap<>();
-    mapping.put(0, 0);
-    for (TextPart part : parts) {
+    Map<Integer, MappingValue> mapping = new HashMap<>();
+    for (int i = 0; i < parts.size(); i++) {
+      TextPart part = parts.get(i);
       if (part.getType() == TextPart.Type.TEXT) {
         plainTextPosition += part.getPart().length();
         totalPosition += part.getPart().length();
+        MappingValue mappingValue = new MappingValue(totalPosition);
+        mapping.put(plainTextPosition, mappingValue);
       } else if (part.getType() == TextPart.Type.MARKUP) {
         totalPosition += part.getPart().length();
-      } else if (part.getType() == TextPart.Type.FAKE_CONTENT) {
-        plainTextPosition += part.getPart().length();
+        if (hasFakeContent(i, parts)) {
+          plainTextPosition += parts.get(i + 1).getPart().length();
+          i++;
+          if (mapping.get(plainTextPosition) == null) {
+            MappingValue mappingValue = new MappingValue(totalPosition, part.getPart().length());
+            mapping.put(plainTextPosition, mappingValue);
+          }
+        }
       }
-      mapping.put(plainTextPosition, totalPosition);
     }
     return new AnnotatedText(parts, mapping, metaData, customMetaData);
   }
-  
+
+  private boolean hasFakeContent(int i, List<TextPart> parts) {
+    int nextPartIndex = i + 1;
+    if (nextPartIndex < parts.size()) {
+      if (parts.get(nextPartIndex).getType().equals(TextPart.Type.FAKE_CONTENT)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
+

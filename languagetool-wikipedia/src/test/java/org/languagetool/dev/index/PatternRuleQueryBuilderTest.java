@@ -114,7 +114,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   public void testCaseSensitive() throws Exception {
     InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" +
             "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'><token>How</token></pattern> </rule>" +
-            "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token>" + "</pattern> </rule>" +
+            "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'><token>how</token></pattern> </rule>" +
             "<rule id='TEST_RULE_3' name='test_3'> <pattern><token>How</token></pattern> </rule>" +
             "<rule id='TEST_RULE_4' name='test_4'> <pattern><token>how</token></pattern> </rule>" +
             "</category> </rules>").getBytes());
@@ -127,7 +127,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertEquals(1, searcher.search(query1, 1000).totalHits);
 
     Query query2 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(1));
-    assertEquals(0, searcher.search(query2, 1000).totalHits);
+    assertEquals(1, searcher.search(query2, 1000).totalHits);  // also a match, as candidates are always case-insensitive
 
     Query query3 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(2));
     assertEquals(1, searcher.search(query3, 1000).totalHits);
@@ -139,7 +139,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   public void testUnsupportedPatternRule() throws Exception {
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
-      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token skip='-1'><exception>and</exception></token>", false));
+      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token skip='-1'><exception>and</exception></token>"));
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException ignored) {}
   }
@@ -147,13 +147,13 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   public void testUnsupportedBackReferencePatternRule() throws Exception {
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
-      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token>\\1</token>", false));
+      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token>\\1</token>"));
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException ignored) {}
   }
 
   public void testSpecialRegexSyntax() throws Exception {
-    AbstractPatternRule patternRule = makeRule("<token regexp='yes'>\\p{Punct}</token>", false);
+    AbstractPatternRule patternRule = makeRule("<token regexp='yes'>\\p{Punct}</token>");
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
       queryBuilder.buildRelaxedQuery(patternRule);
@@ -162,7 +162,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testSpecialRegexSyntax2() throws Exception {
-    AbstractPatternRule patternRule = makeRule("<token regexp='yes' inflected='yes'>\\p{Lu}\\p{Ll}+</token>", false);
+    AbstractPatternRule patternRule = makeRule("<token regexp='yes' inflected='yes'>\\p{Lu}\\p{Ll}+</token>");
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
       queryBuilder.buildRelaxedQuery(patternRule);
@@ -202,16 +202,13 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token>LanguageTool</token>"), 1);
     assertMatches(makeRule("<token>UnknownWord</token>"), 0);
 
-    assertMatches(makeCaseSensitiveRule("<token>How</token>"), 1);
-    assertMatches(makeCaseSensitiveRule("<token>how</token>"), 0);
+    assertMatches(makeRule("<token>How</token>"), 1);
 
     assertMatches(makeRule("<token regexp='yes'>Foo|How</token>"), 1);
     assertMatches(makeRule("<token regexp='yes'>Foo|how</token>"), 1);
     assertMatches(makeRule("<token regexp='yes'>Foo|Bar</token>"), 0);
 
-    assertMatches(makeCaseSensitiveRule("<token regexp='yes'>Foo|How</token>"), 1);
-    assertMatches(makeCaseSensitiveRule("<token regexp='yes'>foo|HOW</token>"), 0);
-    assertMatches(makeCaseSensitiveRule("<token regexp='yes'>foo|how</token>"), 0);
+    assertMatches(makeRule("<token regexp='yes'>Foo|How</token>"), 1);
 
     assertMatches(makeRule("<token postag='WRB'></token>"), 1);
     assertMatches(makeRule("<token postag='FOO'></token>"), 0);
@@ -280,23 +277,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertEquals("Query failed: " + query, expectedMatches, matches);
   }
 
-  private AbstractPatternRule makeCaseSensitiveRule(String ruleXml) throws IOException {
-    return makeRule(ruleXml, true);
-  }
-
   private AbstractPatternRule makeRule(String ruleXml) throws IOException {
-    return makeRule(ruleXml, false);
-  }
-
-  private AbstractPatternRule makeRule(String ruleXml, boolean caseSensitive) throws IOException {
     StringBuilder sb = new StringBuilder();
     sb.append("<?xml version='1.0' encoding='UTF-8'?>");
     sb.append("<rules lang='en'> <category name='Test'> <rule id='TEST_RULE' name='test'>");
-    if (caseSensitive) {
-      sb.append("<pattern case_sensitive='yes'>");
-    } else {
-      sb.append("<pattern>");
-    }
+    sb.append("<pattern>");
     sb.append(ruleXml);
     sb.append("</pattern> </rule> </category> </rules>");
     InputStream input = new ByteArrayInputStream(sb.toString().getBytes());

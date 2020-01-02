@@ -24,14 +24,14 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.WordRepeatRule;
 
 public class WordRepeatRuleTest {
 
-  private final German german = new GermanyGerman();
+  private final Language german = Languages.getLanguageForShortCode("de-DE");
   private final WordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), german);
 
   @Test

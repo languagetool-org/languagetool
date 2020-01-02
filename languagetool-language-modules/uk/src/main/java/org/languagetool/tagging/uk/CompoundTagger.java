@@ -63,6 +63,7 @@ class CompoundTagger {
   private static final Pattern REQ_NUM_DESYAT_PATTERN = Pattern.compile("(класни[кц]|раундов|томн|томов|хвилин|десятиріч|кілометрів|річ).{0,4}");
   private static final Pattern REQ_NUM_STO_PATTERN = Pattern.compile("(річч|літт|метрів|грамов|тисячник).{0,3}");
   private static final Pattern INTJ_PATTERN = Pattern.compile("intj.*");
+  private static final Pattern ONOMAT_PATTERN = Pattern.compile("onomat.*");
 
   private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*?:[mnp]:v_naz.*");
   private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*?:[mnp]:v_zna.*");
@@ -467,7 +468,9 @@ class CompoundTagger {
       List<TaggedWord> rightWdList = tagEitherCase(new ArrayList<>(set).get(1));
 
       if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)
-          && PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
+          && PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN)
+          || PosTagHelper.hasPosTag2(leftWdList, ONOMAT_PATTERN)
+          && PosTagHelper.hasPosTag2(rightWdList, ONOMAT_PATTERN)) {
         return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
       }
     }
@@ -862,7 +865,7 @@ class CompoundTagger {
         
         if (stripPerfImperf(leftPosTag).equals(stripPerfImperf(rightPosTag)) 
             && (IPOSTag.startsWith(leftPosTag, IPOSTag.numr, IPOSTag.adv, IPOSTag.adj, IPOSTag.verb)
-            || (IPOSTag.startsWith(leftPosTag, IPOSTag.intj) 
+            || (IPOSTag.startsWith(leftPosTag, IPOSTag.intj, IPOSTag.onomat) 
                 && leftAnalyzedToken.getLemma().equalsIgnoreCase(rightAnalyzedToken.getLemma())) ) ) {
           String newPosTag = leftPosTag + extraNvTag + leftPosTagExtra;
 
@@ -1025,6 +1028,10 @@ class CompoundTagger {
         if( substring1.equals(substring2) ) {
           if( ! stdNounMatcherLeft.group(1).equals(stdNounMatcherRight.group(1)) ) {
             compoundDebugLogger.logGenderMix(word, leftNv, leftPosTag, rightPosTag);
+            // yes for вчителька-педагог
+            // no for піт-стопа
+            if( word.length() < 10 )
+              return null;
           }
           
           if( leftNv )

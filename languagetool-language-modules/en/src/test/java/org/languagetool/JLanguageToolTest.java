@@ -108,7 +108,7 @@ public class JLanguageToolTest {
       assertNoError("It's a kind of agreement in which each party gives something to the other, Jack said.", lt);
       assertNoError("Later, you shall know it better.", lt);
       assertNoError("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.", lt);
-      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason why he had fled the army.", lt);
+      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason he had fled the army.", lt);
       assertNoError("I think it's better, and it's not a big deal.", lt);
 
       assertOneError("A test test that should give errors.", lt);

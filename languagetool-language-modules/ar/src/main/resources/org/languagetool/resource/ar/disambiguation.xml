@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Arabic Disambiguation Rules for LanguageTool
+	Copyright (C) 2019 Sohaib Afifi & Taha Zerrouki
+-->
+<!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY horof_jar "في|من|إلى|على|عن|مع">
+]>
+<rules lang="ar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag="NNP?(:UN?)?|VB[ZD]|SENT_END|PCT" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag="NNP?S|VB[PD]|SENT_END|PCT" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+       <rule name="verb_only_1" id="Keep_Only_verbs_after_some_tools_1">
+          <!-- work with some tools which must precede verbs and tools only (exclude nouns) -->
+          <pattern>
+            <token regexp="yes">في|قبل|بعد|من|إلى</token>
+            <token regexp="yes">من|أن</token>
+			<marker>
+            <token/>
+			</marker>
+          </pattern>
+		  <disambig><match no="2" postag="^(?!N).*" postag_regexp="yes" /></disambig>
+          <example type="ambiguous" inputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1I-;---,عامل/NA-;M1U-;---,عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+outputform="عامل[عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+>
+رأيته بعد أن <marker>عامل</marker> المسكين بالحسنى.</example>
+
+         <example type="ambiguous" inputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1I-;---,عامل/NA-;M1U-;---,عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+outputform="عامل[عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+>
+رأيت التقوى في من <marker>عامل</marker> المسكين بالحسنى.</example>
+ 
+        </rule>
+    <rule name="verb_only" id="Keep_Only_verbs_after_some_tools">
+          <!-- work with some tools which must precede verbs and tools only (exclude nouns) -->
+          <pattern>
+            <token regexp="yes">قد|فقد|وقد|لن|لم</token>
+
+			<marker>
+            <token/>
+			</marker>
+          </pattern>
+		  <disambig><match no="2" postag="^(?!N).*" postag_regexp="yes" /></disambig>
+          <example type="ambiguous" inputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1I-;---,عامل/NA-;M1U-;---,عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+outputform="عامل[عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]"
+>
+رأيته قد <marker>عامل</marker> المسكين بالحسنى.</example>
+        </rule> 
+
+       <rule name="Jar" id="Keep_Only_Nouns_after_Jar">
+          <!-- work with Prepositions which must precede nouns and tools only (exclude verbs) -->
+          <pattern>
+            <token regexp="yes">في|بأن|بين|ففي|وفي|عن|إلى|على|بعض|تجاه|تلقاء|جميع|حسب|سبحان|سوى|شبه|غير|كل|لعمر|مثل|مع|معاذ|نحو|خلف|أمام|فوق|تحت|يمين|شمال|دون|بدون|خلال|أثناء</token>
+			<marker>
+            <token/>
+			</marker>
+          </pattern>
+		  <disambig><match no="2" postag="^(?!V).*" postag_regexp="yes" /></disambig>
+          <example type="ambiguous" inputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1I-;---,عامل/NA-;M1U-;---,عَامَلَ/VW1;M1A-iaH;---,عَامَلَ/VW1;M1A-ipY;---]" outputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1I-;---,عامل/NA-;M1U-;---]">
+رأيت التفاني  في <marker>عامل</marker> النظافة.</example>
+        </rule>
+
+   
+</rules>

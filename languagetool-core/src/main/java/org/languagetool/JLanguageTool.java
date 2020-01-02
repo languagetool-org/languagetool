@@ -68,7 +68,7 @@ import java.util.regex.Pattern;
 public class JLanguageTool {
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "4.7-SNAPSHOT";
+  public static final String VERSION = "4.9-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /** 
@@ -758,7 +758,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, this.enabledRules).filter(ruleMatches);
+    ruleMatches = new LanguageDependentFilter(language, this.enabledRules, this.disabledRuleCategories).filter(ruleMatches);
 
     ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
 
@@ -884,11 +884,11 @@ public class JLanguageTool {
     int fromPos = match.getFromPos() + charCount;
     int toPos = match.getToPos() + charCount;
     if (annotatedText != null) {
-      fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
-      toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
+      fromPos = annotatedText.getOriginalTextPositionFor(fromPos, false);
+      toPos = annotatedText.getOriginalTextPositionFor(toPos -1, true) + 1;
     }
     RuleMatch thisMatch = new RuleMatch(match);
-    thisMatch.setOffsetPosition(fromPos, toPos);
+    thisMatch.setOffsetPosition(fromPos, toPos, thisMatch);
     List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
     thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
 
@@ -1027,14 +1027,14 @@ public class JLanguageTool {
     int posFix = 0; 
     for (int i = 0; i < numTokens; i++) {
       if( i > 0 ) {
-        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).getToken());
         aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
       }
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         // addReading() modifies a readings.token if last token is longer - need to use it first
         posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
         AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
-        aTokens.get(i).addReading(newToken);
+        aTokens.get(i).addReading(newToken, "softHyphenTokens");
       }
     }
         
@@ -1268,10 +1268,10 @@ public class JLanguageTool {
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
-            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
-            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
+            int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
+            int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
             RuleMatch newMatch = new RuleMatch(match);
-            newMatch.setOffsetPosition(newFromPos, newToPos);
+            newMatch.setOffsetPosition(newFromPos, newToPos, newMatch);
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
