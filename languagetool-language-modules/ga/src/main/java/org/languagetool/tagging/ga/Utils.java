@@ -472,31 +472,33 @@ public class Utils {
   private static final String MATHEMATICAL_SCRIPT_LOWERS =
     "\uDCB6\uDCB7\uDCB8\uDCB9\uDCBA\uDCBB\uDCBC\uDCBD\uDCBE\uDCBF\uDCC0\uDCC1\uDCC2"
   + "\uDCC3\uDCC4\uDCC5\uDCC6\uDCC7\uDCC8\uDCC9\uDCCA\uDCCB\uDCCC\uDCCD\uDCCE\uDCCF";
-  private static final int MATHEMATICAL_BOLD_CAPITAL_A = Character.getNumericValue('\uDC00');
-  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = Character.getNumericValue('\uDC19');
-  private static final int MATHEMATICAL_BOLD_LOWER_A = Character.getNumericValue('\uDC1A');
-  private static final int MATHEMATICAL_BOLD_LOWER_Z = Character.getNumericValue('\uDC33');
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = Character.getNumericValue('\uDC34');
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = Character.getNumericValue('\uDC4D');
-  private static final int MATHEMATICAL_ITALIC_LOWER_A = Character.getNumericValue('\uDC4E');
-  private static final int MATHEMATICAL_ITALIC_LOWER_Z = Character.getNumericValue('\uDC67');
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = Character.getNumericValue('\uDC68');
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = Character.getNumericValue('\uDC81');
-  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_A = Character.getNumericValue('\uDC82');
-  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_Z = Character.getNumericValue('\uDC9B');
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = Character.getNumericValue('\uDC9C');
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = Character.getNumericValue('\uDCB5');
-  private static final int MATHEMATICAL_SCRIPT_LOWER_A = Character.getNumericValue('\uDCB6');
-  private static final int MATHEMATICAL_SCRIPT_LOWER_Z = Character.getNumericValue('\uDCCF');
+  private static final int MATHEMATICAL_BOLD_CAPITAL_A = (int) '\uDC00';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = (int) '\uDC19';
+  private static final int MATHEMATICAL_BOLD_LOWER_A = (int) '\uDC1A';
+  private static final int MATHEMATICAL_BOLD_LOWER_Z = (int) '\uDC33';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = (int) '\uDC34';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = (int) '\uDC4D';
+  private static final int MATHEMATICAL_ITALIC_LOWER_A = (int) '\uDC4E';
+  private static final int MATHEMATICAL_ITALIC_LOWER_Z = (int) '\uDC67';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = (int) '\uDC68';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = (int) '\uDC81';
+  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_A = (int) '\uDC82';
+  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_Z = (int) '\uDC9B';
+  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = (int) '\uDC9C';
+  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = (int) '\uDCB5';
+  private static final int MATHEMATICAL_SCRIPT_LOWER_A = (int) '\uDCB6';
+  private static final int MATHEMATICAL_SCRIPT_LOWER_Z = (int) '\uDCCF';
   private static final String ASCII_CAPITALS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   private static final String ASCII_LOWERS = "abcdefghijklmnopqrstuvwxyz";
 
   private static char getMathsChar(char c) {
-    int numeric = Character.getNumericValue(c);
+    int numeric = (int) c;
+    if(numeric < 0) {
+      throw new RuntimeException("Failed to read character " + c);
+    }
     if(numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
       return c;
     } else {
-      System.err.println("BASR");
       String inmap = MATHEMATICAL_BOLD_CAPITALS;
       String outmap = ASCII_CAPITALS;
       if(numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
