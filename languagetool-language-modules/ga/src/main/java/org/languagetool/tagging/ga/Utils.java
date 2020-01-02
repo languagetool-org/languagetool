@@ -447,4 +447,42 @@ public class Utils {
       return s.toLowerCase();
     }
   }
+
+  private static final String MATHEMATICAL_BOLD_CAPITALS =
+    "\uDC00\uDC01\uDC02\uDC03\uDC04\uDC05\uDC06\uDC07\uDC08\uDC09\uDC0A\uDC0B\uDC0C"
+  + "\uDC0D\uDC0E\uDC0F\uDC10\uDC11\uDC12\uDC13\uDC14\uDC15\uDC16\uDC17\uDC18\uDC19";
+  private static final int MATHEMATICAL_BOLD_CAPITAL_A = Character.getNumericValue('\uDC00');
+  private static final String ASCII_CAPITALS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  private static char getMathsChar(char c) {
+    int numeric = Character.getNumericValue(c);
+    if(numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
+      return c;
+    } else {
+      int pos = MATHEMATICAL_BOLD_CAPITALS.indexOf(c);
+      if(pos < 0) {
+        throw new RuntimeException("Error reading character " + c + " (" + numeric + ")");
+      }
+      return ASCII_CAPITALS.charAt(pos);
+    }
+  }
+
+  public static String simplifyMathematical(String s) {
+    String out = "";
+    for(int i = 0; i < s.length(); i++) {
+      if(s.charAt(i) == '\uD835') {
+        int j = i + 1;
+        if(j < s.length() && Character.getNumericValue(s.charAt(j)) >= MATHEMATICAL_BOLD_CAPITAL_A) {
+          char mapped = getMathsChar(s.charAt(j));
+          if(mapped == s.charAt(j)) {
+            out += s.charAt(i);
+            out += s.charAt(j);
+          } else {
+            out += mapped;
+          }
+        }
+      }
+    }
+    return out;
+  }
 }

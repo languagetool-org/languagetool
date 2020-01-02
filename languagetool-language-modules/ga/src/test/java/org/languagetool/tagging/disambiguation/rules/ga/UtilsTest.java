@@ -101,4 +101,10 @@ public class UtilsTest {
     Retaggable tmp = Utils.fixSuffix("caimiléaracht");
     assertEquals(tmp.getWord(), "caimiléireacht");
   }
+
+  @Test
+  public void testSimplify() {
+    String bold = "\uD835\uDC12\uD835\uDC04\uD835\uDC00\uD835\uDC0D\uD835\uDC00\uD835\uDC13\uD835\uDC07\uD835\uDC00\uD835\uDC08\uD835\uDC11";
+    assertEquals("SEANATHAIR", Utils.simplifyMathematical(bold));
+  }
 }
