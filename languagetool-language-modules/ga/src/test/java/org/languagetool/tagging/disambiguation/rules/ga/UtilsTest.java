@@ -104,7 +104,11 @@ public class UtilsTest {
 
   @Test
   public void testSimplify() {
-    String bold = "\uD835\uDC12\uD835\uDC04\uD835\uDC00\uD835\uDC0D\uD835\uDC00\uD835\uDC13\uD835\uDC07\uD835\uDC00\uD835\uDC08\uD835\uDC11";
-    assertEquals("SEANATHAIR", Utils.simplifyMathematical(bold));
+    String boldUpper = "\uD835\uDC12\uD835\uDC04\uD835\uDC00\uD835\uDC0D\uD835\uDC00\uD835\uDC13\uD835\uDC07\uD835\uDC00\uD835\uDC08\uD835\uDC11";
+//    assertEquals("SEANATHAIR", Utils.simplifyMathematical(boldUpper));
+    String boldLower = "\uD835\uDC1A";
+    assertEquals("a", Utils.simplifyMathematical(boldLower));
+//    String boldLower = "\uD835\uDC2C\uD835\uDC1E\uD835\uDC1A\uD835\uDC27\uD835\uDC1A\uD835\uDC2D\uD835\uDC2B\uD835\uDC1A\uD835\uDC22\uD835\uDC2B";
+//    assertEquals("seanathair", Utils.simplifyMathematical(boldLower));
   }
 }

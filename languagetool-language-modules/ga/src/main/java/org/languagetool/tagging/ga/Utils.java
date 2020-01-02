@@ -496,12 +496,15 @@ public class Utils {
     if(numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
       return c;
     } else {
+      System.err.println("BASR");
       String inmap = MATHEMATICAL_BOLD_CAPITALS;
       String outmap = ASCII_CAPITALS;
-      if(numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
+      if(numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
+        System.err.println("Upper " + numeric);
         inmap = MATHEMATICAL_BOLD_CAPITALS;
         outmap = ASCII_CAPITALS;
       } else if(numeric >= MATHEMATICAL_BOLD_LOWER_A && numeric <= MATHEMATICAL_BOLD_LOWER_Z) {
+        System.err.println("Lower");
         inmap = MATHEMATICAL_BOLD_LOWERS;
         outmap = ASCII_LOWERS;
       } else if(numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
