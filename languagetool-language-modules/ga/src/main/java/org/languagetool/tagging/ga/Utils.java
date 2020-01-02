@@ -450,22 +450,30 @@ public class Utils {
 
   private static final int MATHEMATICAL_BOLD_CAPITAL_A = (int) '\uDC00';
   private static final int MATHEMATICAL_BOLD_CAPITAL_Z = (int) '\uDC19';
-  private static final int MATHEMATICAL_BOLD_LOWER_A = (int) '\uDC1A';
-  private static final int MATHEMATICAL_BOLD_LOWER_Z = (int) '\uDC33';
+  private static final int MATHEMATICAL_BOLD_SMALL_A = (int) '\uDC1A';
+  private static final int MATHEMATICAL_BOLD_SMALL_Z = (int) '\uDC33';
   private static final int MATHEMATICAL_ITALIC_CAPITAL_A = (int) '\uDC34';
   private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = (int) '\uDC4D';
-  private static final int MATHEMATICAL_ITALIC_LOWER_A = (int) '\uDC4E';
-  private static final int MATHEMATICAL_ITALIC_LOWER_Z = (int) '\uDC67';
+  private static final int MATHEMATICAL_ITALIC_SMALL_A = (int) '\uDC4E';
+  private static final int MATHEMATICAL_ITALIC_SMALL_Z = (int) '\uDC67';
   private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = (int) '\uDC68';
   private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = (int) '\uDC81';
-  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_A = (int) '\uDC82';
-  private static final int MATHEMATICAL_BOLD_ITALIC_LOWER_Z = (int) '\uDC9B';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_A = (int) '\uDC82';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_Z = (int) '\uDC9B';
   private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = (int) '\uDC9C';
   private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = (int) '\uDCB5';
-  private static final int MATHEMATICAL_SCRIPT_LOWER_A = (int) '\uDCB6';
-  private static final int MATHEMATICAL_SCRIPT_LOWER_Z = (int) '\uDCCF';
-  private static final int UPPER_A = (int) 'A';
-  private static final int LOWER_A = (int) 'a';
+  private static final int MATHEMATICAL_SCRIPT_SMALL_A = (int) '\uDCB6';
+  private static final int MATHEMATICAL_SCRIPT_SMALL_Z = (int) '\uDCCF';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A = (int) '\uDCD0';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z = (int) '\uDCE9';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = (int) '\uDCEA';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = (int) '\uDD03';
+  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = (int) '\uDD04';
+  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = (int) '\uDDE9';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = (int) '\uDDEA';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = (int) '\uDD03';
+  private static final int CAPITAL_A = (int) 'A';
+  private static final int SMALL_A = (int) 'a';
 
   private static char getMathsChar(char c) {
     int numeric = (int) c;
@@ -476,21 +484,29 @@ public class Utils {
       return c;
     } else {
       if(numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + UPPER_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_LOWER_A && numeric <= MATHEMATICAL_BOLD_LOWER_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_LOWER_A + LOWER_A);
+        return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_SMALL_A && numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_SMALL_A + SMALL_A);
       } else if(numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + UPPER_A);
-      } else if(numeric >= MATHEMATICAL_ITALIC_LOWER_A && numeric <= MATHEMATICAL_ITALIC_LOWER_Z) {
-        return (char) (numeric - MATHEMATICAL_ITALIC_LOWER_A + LOWER_A);
+        return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_ITALIC_SMALL_A && numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_A + SMALL_A);
       } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + UPPER_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_LOWER_A && numeric <= MATHEMATICAL_BOLD_ITALIC_LOWER_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_LOWER_A + LOWER_A);
+        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_A + SMALL_A);
       } else if(numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + UPPER_A);
-      } else if(numeric >= MATHEMATICAL_SCRIPT_LOWER_A && numeric <= MATHEMATICAL_SCRIPT_LOWER_Z) {
-        return (char) (numeric - MATHEMATICAL_SCRIPT_LOWER_A + LOWER_A);
+        return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_SCRIPT_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);
+      } else if(numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
+        return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);
+      } else if(numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
+        return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);
       }
       return c;
     }
