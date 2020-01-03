@@ -38,11 +38,6 @@ Connexe Projects
     https://github.com/linuxscout/tashkeela2
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
-* Corpus N-grams
-    Converted using LuceneIndexCreator from The Gumar Corpus N-grams
-    https://github.com/CAMeL-Lab/Gumar-Ngrams
-    licensed under a Creative Commons Attribution 3.0
-
 How to contribute
 ==================
 * Add new rules
