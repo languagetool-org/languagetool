@@ -638,9 +638,12 @@ public class Utils {
   private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEC0';
   private static final int CAPITAL_A = (int) 'A';
   private static final int SMALL_A = (int) 'a';
+  private static final int CAPITAL_ALPHA = (int) 'Α';
+  private static final int SMALL_ALPHA = (int) 'α';
 
   private static char getMathsChar(char c) {
     int numeric = (int) c;
+    boolean normaliseGreek = false;
     if(numeric < 0) {
       throw new RuntimeException("Failed to read character " + c);
     }
@@ -700,6 +703,24 @@ public class Utils {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);
       } else if(numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);
+      } else if(numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {
+        return 'i';
+      } else if(numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_J) {
+        return 'j';
+      } else if(numeric >= MATHEMATICAL_BOLD_CAPITAL_ALPHA && numeric <= MATHEMATICAL_BOLD_CAPITAL_OMEGA) {
+        if(normaliseGreek) {
+          return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);
+        } else {
+          return c;
+        }
+      } else if(numeric == MATHEMATICAL_BOLD_NABLA) {
+        return '\u2207';
+      } else if(numeric >= MATHEMATICAL_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_SMALL_OMEGA) {
+        if(normaliseGreek) {
+          return (char) (numeric - MATHEMATICAL_BOLD_SMALL_ALPHA + SMALL_ALPHA);
+        } else {
+          return c;
+        }
       }
       return c;
     }
