@@ -64,8 +64,8 @@ public class SpecificCaseRule extends Rule {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("I really like <marker>Harry potter</marker>."),
-                   Example.fixed("I really like <marker>Harry Potter</marker>."));
+    addExamplePair(Example.wrong("Rugadh agus tógadh i <marker>mbéal Feirste</marker> é."),
+                   Example.fixed("Rugadh agus tógadh i <marker>mBéal Feirste</marker> é."));
   }
 
   @Override
