@@ -457,6 +457,34 @@ public class Utils {
    * account initial mutations which must remain lowercase.
    */
   public static boolean startsWithUppercase(String s) {
+    if (startsWithMutatedUppercase(s)) {
+      return true;
+    }
+    // otherwise, as normal
+    if (Character.isUpperCase(s.charAt(0))) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean isAllUppercase(String s) {
+    int startFrom = 0;
+    if (startsWithMutatedUppercase(s)) {
+      if (s.startsWith("bhF")) {
+        startFrom = 2;
+      } else {
+        startFrom = 1;
+      }
+    }
+    for (char c : s.substring(startFrom).toCharArray()) {
+      if (Character.isLetter(c) && Character.isLowerCase(c)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean startsWithMutatedUppercase(String s) {
     // Consonant eclipsis
     if (s.startsWith("mB")) {
       return true;
@@ -493,10 +521,6 @@ public class Utils {
     }
     // definite s lenition
     if (s.startsWith("tS")) {
-      return true;
-    }
-    // otherwise, as normal
-    if (Character.isUpperCase(s.charAt(0))) {
       return true;
     }
     return false;
