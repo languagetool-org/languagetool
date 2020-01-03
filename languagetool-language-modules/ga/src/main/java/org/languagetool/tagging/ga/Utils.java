@@ -744,4 +744,67 @@ public class Utils {
     }
     return out;
   }
+  public static char greekLookalikes(char c) {
+    switch(c) {
+      case 'Α':
+        return 'A';
+      case 'Β':
+        return 'B';
+      case 'Ε':
+        return 'E';
+      case 'Ζ':
+        return 'Z';
+      case 'Η':
+        return 'H';
+      case 'Ι':
+        return 'I';
+      case 'Κ':
+        return 'K';
+      case 'Μ':
+        return 'M';
+      case 'Ν':
+        return 'N';
+      case 'Ο':
+        return 'O';
+      case 'Ρ':
+        return 'P';
+      case 'Τ':
+        return 'T';
+      case 'Υ':
+        return 'Y';
+      case 'Χ':
+        return 'X';
+      case 'α':
+        return 'a';
+      case 'β':
+        return 'B';
+      case 'γ':
+        return 'y';
+      case 'δ':
+        return 'd';
+      case 'ε':
+        return 'e';
+      case 'η':
+        return 'n';
+      case 'ι':
+        return 'i';
+      case 'κ':
+        return 'K';
+      case 'ν':
+        return 'v';
+      case 'ο':
+        return 'o';
+      case 'ρ':
+        return 'p';
+      case 'τ':
+        return 'T';
+      case 'χ':
+        return 'x';
+      case 'ω':
+        return 'w';
+
+      default:
+        return c;
+    }
+  }
 }
