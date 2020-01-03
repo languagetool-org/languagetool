@@ -10282,6 +10282,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="Fragezeichen">Mein Gesicht war ein einziges <marker>Frage Zeichen</marker>.</example>
         </rule>
+        <rule id="MEIST_GESEHEN" name="meist + Verb (zusammengeschrieben)" default="temp_off">
+            <pattern>
+                <token>meist</token>
+                <token regexp="yes">(gefragt|gebräuchlich|gebraucht|gekauft|gelesen|gesucht|geklickt|belastet|verkauft|gehört|gestreamt|gelikt|gegoogelt|benutzt|besucht|begünstigt|beteiligt|verbreitet)(e|es|er|en|em)?</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="meistgestreamte">Die <marker>meist gestreamte</marker> Netflix-Serie 2019 war "The Witcher".</example>
+            <example correction="meistgesuchten">Der Artikel Halbwissen ist sicherlich nicht eines der <marker>meist gesuchten</marker> Wörter auf Wikipedia, aber er gibt einige gute Denkanstöße zum Thema Realität und empfundene Wirklichkeit.</example>
+            <example>Das <marker>meistgeklickte</marker> Suchergebnis auf Google.</example>
+        </rule>
         <rulegroup id="HIN_WEISEN" name="'darauf hin weisen (hinweisen)'">
             <rule>
                 <pattern>
