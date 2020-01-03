@@ -19,6 +19,7 @@
 package org.languagetool.rules.ga;
 
 class DativePluralsEntry {
+  
   private String form;
   private String formModern;
   private String lemma;

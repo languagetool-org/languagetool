@@ -35,6 +35,7 @@ import java.util.*;
  * @author Jim O'Regan
  */
 public class DativePluralStandardReplaceRule extends AbstractSimpleReplaceRule {
+  
   private static final Map<String, String> replacements = DativePluralsData.getSimpleReplacements();
   private static final Map<String, List<String>> wrongWords = listify(replacements);
   private static final Locale GA_LOCALE = new Locale("GA");
@@ -59,7 +60,7 @@ public class DativePluralStandardReplaceRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("Dá mba thruamhéalach é cás an sclábhaí fir, ba mheasa fós do na <marker>mnáibh</marker> a gcás siúd."),
-      Example.fixed("Dá mba thruamhéalach é cás an sclábhaí fir, ba mheasa fós do na <marker>mná</marker> a gcás siúd."));
+                   Example.fixed("Dá mba thruamhéalach é cás an sclábhaí fir, ba mheasa fós do na <marker>mná</marker> a gcás siúd."));
     this.setCheckLemmas(false);
   }
 
