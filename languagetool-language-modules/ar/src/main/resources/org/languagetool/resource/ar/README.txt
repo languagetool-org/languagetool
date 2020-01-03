@@ -14,28 +14,28 @@ Project resources
 Connexe Projects
 =================
 * Fareh
-    Arabic rules database for grammar and style checking فارح: لغتنا الجميلة
-    https://github.com/linuxscout/fareh
+	Arabic rules database for grammar and style checking فارح: لغتنا الجميلة
+	https://github.com/linuxscout/fareh
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Arramooz
-    Arabic Dictionary for Morphological analysis
-    https://github.com/linuxscout/arramooz
+	Arabic Dictionary for Morphological analysis
+	https://github.com/linuxscout/arramooz
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Ayaspell
-    AyaSpell Arabic Dictionary for Hunspell Spellchecker
-    https://github.com/linuxscout/ayaspell
+	AyaSpell Arabic Dictionary for Hunspell Spellchecker
+	https://github.com/linuxscout/ayaspell
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Tagset and Tag manager
-    mysam-tagmanager
-    https://github.com/linuxscout/mysam-tagmanager
+	mysam-tagmanager
+	https://github.com/linuxscout/mysam-tagmanager
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 * Common words
-    Tashkeela Coprus
-    https://github.com/linuxscout/tashkeela2
+	Tashkeela Coprus
+	https://github.com/linuxscout/tashkeela2
     licensed under the GNU GENERAL PUBLIC LICENSE (GPL)
 
 How to contribute
@@ -46,8 +46,8 @@ You can contribute in adding new rules by using the Fareh project as an assistan
 
 Authors
 =======
-Taha Zerrouki taha.zerrouki (at) gmail.com    http://tahadz.com
-Sohaib Afifi me(at)sohaibafifi.com    http://sohaibafifi.com
+Taha Zerrouki taha.zerrouki (at) gmail.com		http://tahadz.com
+Sohaib Afifi me(at)sohaibafifi.com	http://sohaibafifi.com
 
 Credits
 =======
