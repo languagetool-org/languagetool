@@ -19167,4 +19167,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="agatsa"><marker>a'atsa</marker></example>
         </rule>
     </category>
+    <category id="REIMIREANNA" name="réimíreann (sean, droch)">
+        <rulegroup id="SEAN" name="NOUN sean">
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">[dts][^h].*|[lrjzv].*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>sean\1</suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="seanduine"><marker>duine sean</marker></example>
+                <example correction="seanjóc"><marker>jóc sean</marker></example>
+                <example correction="seanlitir"><marker>litir sean</marker></example>
+                <example correction="seanzombaí"><marker>zombaí sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes"><exception postag=".*DefArt.*" postag_regexp="yes"/>[dts]h.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>shean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="sheanduine"><marker>dhuine sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun:Fem:Com:Sg:DefArt.*" postag_regexp="yes" regexp="yes">[dt]h.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>tsean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="tseandeirfiúr">an <marker>dheirfiúr sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">ts.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>tsean<match no="1" regexp_match="t(s.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="tseansiopa">an <marker>tsiopa sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">n.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>sean-\1</suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="sean-namhaid"><marker>namhaid sean</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
