@@ -13164,6 +13164,91 @@ USA
             <url>https://en.wikipedia.org/wiki/Game_Boy</url>
             <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
         </rule>
+        <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Donald_Trump</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">donald|melania|ivank?a|fred|tiffany|barron|eric</token>
+                    <token case_sensitive="yes">trump</token>
+                </pattern>
+                <message>The word needs to be capitalized.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Donald Trump"><marker>Donald trump</marker> is president of the United States.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">president|leader|ceo|commander-in-chief|candidate</token>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">President <marker>trump</marker> is on vacation in Mar-A-Lago.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">s</token>
+                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">According to Rudy Giuliani, <marker>trump</marker>'s attorney, Trump had sought advice about pardoning Manafort but was counseled against it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                    <token regexp="yes">and|or|&amp;</token>
+                    <token>his</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">According to <marker>trump</marker> and his attorney, Trump had sought advice about pardoning Manafort but was counseled against it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">
+                            <exception regexp="yes" scope="previous">the|an?</exception>
+                            trump
+                        </token>
+                    </marker>
+                    <token postag="VBZ" />
+                    <token>his</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">Yet again <marker>trump</marker> displays his ignorance of and contempt for history and current politics, as well as the lives of all others.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">donald|melania|ivank?a|fred|tiffany|barron|eric|president|leader|ceo|commander-in-chief|candidate</token>
+                    <marker>
+                        <token>Trumps</token>
+                    </marker>
+                </pattern>
+                <message>A possessive apostrophe is required here.</message>
+                <suggestion>Trump's</suggestion>
+                <example correction="Trump's">Donald <marker>Trumps</marker> presidency.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>
+                            <exception scope="previous">the</exception>
+                            Trumps
+                        </token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                </pattern>
+                <message>A possessive apostrophe is required here.</message>
+                <suggestion>Trump's</suggestion>
+                <example correction="Trump's">Donald <marker>Trumps</marker> first presidency.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_GOOGLE" name="a/the + proper noun">
             <antipattern>
                 <token>let</token>
