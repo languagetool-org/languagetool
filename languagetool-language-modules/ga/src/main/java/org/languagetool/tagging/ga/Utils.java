@@ -448,6 +448,60 @@ public class Utils {
     }
   }
 
+  /**
+   * Equivalent of
+   * {@link org.languagetool.tools.StringTools#startsWithUppercase(String)},
+   * adapted for Irish case folding oddities.
+   * @param s String to check
+   * @return true if string starts with uppercase, taking into
+   * account initial mutations which must remain lowercase.
+   */
+  public static boolean startsWithUppercase(String s) {
+    // Consonant eclipsis
+    if (s.startsWith("mB")) {
+      return true;
+    }
+    if (s.startsWith("gC")) {
+      return true;
+    }
+    if (s.startsWith("nD")) {
+      return true;
+    }
+    if (s.startsWith("bhF")) {
+      return true;
+    }
+    if (s.startsWith("nG")) {
+      return true;
+    }
+    if (s.startsWith("bP")) {
+      return true;
+    }
+    if (s.startsWith("dT")) {
+      return true;
+    }
+    // Vowel eclipsis
+    if (s.length() > 1 && s.charAt(0) == 'n' && isUpperVowel(s.charAt(1))) {
+      return true;
+    }
+    // t-prothesis
+    if (s.length() > 1 && s.charAt(0) == 't' && isUpperVowel(s.charAt(1))) {
+      return true;
+    }
+    // h-prothesis
+    if (s.length() > 1 && s.charAt(0) == 'h' && isUpperVowel(s.charAt(1))) {
+      return true;
+    }
+    // definite s lenition
+    if (s.startsWith("tS")) {
+      return true;
+    }
+    // otherwise, as normal
+    if (Character.isUpperCase(s.charAt(0))) {
+      return true;
+    }
+    return false;
+  }
+
   private static boolean isUpperPonc(char c) {
     switch(c) {
       case 'Ḃ':
