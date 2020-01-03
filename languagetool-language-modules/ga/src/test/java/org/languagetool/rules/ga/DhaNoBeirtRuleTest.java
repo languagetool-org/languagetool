@@ -30,6 +30,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class DhaNoBeirtRuleTest {
+  
   private DhaNoBeirtRule rule;
   private JLanguageTool langTool;
 

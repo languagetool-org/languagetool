@@ -33,27 +33,27 @@ public class MorfologikIrishSpellerRuleTest {
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    final MorfologikIrishSpellerRule rule =
+    MorfologikIrishSpellerRule rule =
       new MorfologikIrishSpellerRule (TestTools.getMessages("ga"), new Irish(), null, Collections.emptyList());
 
-    final JLanguageTool langTool = new JLanguageTool(new Irish());
+    JLanguageTool lt = new JLanguageTool(new Irish());
 
     //incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("botun"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("botun"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(5, matches[0].getToPos());
     assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
 
-    matches = rule.match(langTool.getAnalyzedSentence("amaċ"));
+    matches = rule.match(lt.getAnalyzedSentence("amaċ"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(4, matches[0].getToPos());
     assertEquals("amach", matches[0].getSuggestedReplacements().get(0));
 
-    matches = rule.match(langTool.getAnalyzedSentence("😂 botun"));
+    matches = rule.match(lt.getAnalyzedSentence("😂 botun"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(3, matches[0].getFromPos());

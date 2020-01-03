@@ -28,6 +28,7 @@ import org.languagetool.tagging.ga.Utils;
 import static org.junit.Assert.*;
 
 public class UtilsTest {
+  
   @Test
   public void testToLowerCaseIrish() {
     assertEquals("test", Utils.toLowerCaseIrish("TEST"));
