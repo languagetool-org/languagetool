@@ -18529,9 +18529,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='an Mhárta'>mí <marker>Mhárta</marker></example>
         </rule>
     </category>
-    <!--
-    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
+    <category id="GRAMADOIR_NEEDART_LOGAINMNEACHA" name="Alt cinnte ar iarraidh">
         <rule id="BREATAIN" name="Breatain">
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&fusedprep;</token>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+                <token regexp="yes">an|na</token>
+                <token postag=".*Noun.*:Gen.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
             </pattern>
@@ -18539,9 +18551,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Alt cinnte ar iarraidh</short>
             <example correction='An Bhreatain'><marker>Breatain</marker></example>
         </rule>
-    </category>
-    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
         <rule id="BREATAINE" name="Breataine">
+            <antipattern>
+                <token>na</token>
+                <token regexp="yes">m?Bh?reataine|m?Bh?ruiséile|m?Bh?eilge|m?Bh?ablóine|m?Bh?riotáine|m?Bh?rasaíle</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">m?Bh?reataine|m?Bh?ruiséile|m?Bh?eilge|m?Bh?ablóine|m?Bh?riotáine|m?Bh?rasaíle</token>
             </pattern>
@@ -18550,7 +18564,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='An Bhreatain'><marker>Breatain</marker></example>
         </rule>
     </category>
-    -->
     <category id="GRAMADOIR_PREFIXD" name="Réamhlitir ‘d'’ ar iarraidh">
         <rule id="VERB_NEEDING_D_PREFIX" name="VDEE">
             <antipattern>
