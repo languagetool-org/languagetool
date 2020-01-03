@@ -27,15 +27,12 @@ import java.util.*;
 final class DativePluralsData {
 
   private static final Set<DativePluralsEntry> datives = loadWords("/ga/dative-plurals.txt");
-
   private static final Map<String, String> modernisations = getModernisations(datives);
-
   private static final Map<String, String> simpleReplacements = buildSimpleReplacements(datives);
 
   public static Map<String, String> getModernisations() {
     return modernisations;
   }
-
   public static Map<String, String> getSimpleReplacements() {
     return simpleReplacements;
   }
@@ -53,14 +50,14 @@ final class DativePluralsData {
           continue;
         }
         String[] parts = line.split(";");
-        if(parts.length != 4) {
+        if (parts.length != 4) {
           throw new RuntimeException("Incorrect number of fields: " + line);
         }
         String form = parts[0];
         String formModern = null;
-        if(form.contains(":")) {
+        if (form.contains(":")) {
           String[] forms = form.split(":");
-          if(forms.length != 2) {
+          if (forms.length != 2) {
             throw new RuntimeException("Form has more than 1 modern form:" + line);
           }
           form = forms[0];
@@ -68,9 +65,9 @@ final class DativePluralsData {
         }
         String repl = parts[3];
         String replModern = null;
-        if(repl.contains(":")) {
+        if (repl.contains(":")) {
           String[] repls = repl.split(":");
-          if(repls.length != 2) {
+          if (repls.length != 2) {
             throw new RuntimeException("Replacement has more than 1 modern form:" + line);
           }
           repl = repls[0];
@@ -78,22 +75,22 @@ final class DativePluralsData {
         }
         String lemma = parts[1];
         String lemmaModern = null;
-        if(lemma.contains(":")) {
+        if (lemma.contains(":")) {
           String[] lemmata = lemma.split(":");
-          if(lemmata.length != 2) {
+          if (lemmata.length != 2) {
             throw new RuntimeException("Lemma has more than 1 modern form:" + line);
           }
           lemma = lemmata[0];
           lemmaModern = lemmata[1];
         }
         DativePluralsEntry entry = new DativePluralsEntry(form, lemma, parts[2], repl);
-        if(formModern != null) {
+        if (formModern != null) {
           entry.setModernised(formModern);
         }
-        if(replModern != null) {
+        if (replModern != null) {
           entry.setEquivalent(replModern);
         }
-        if(lemmaModern != null) {
+        if (lemmaModern != null) {
           entry.setModernLemma(lemmaModern);
         }
         set.add(entry);
@@ -104,37 +101,37 @@ final class DativePluralsData {
 
   private static Map<String, String> buildSimpleReplacements(Set<DativePluralsEntry> datives) {
     Map<String, String> out = new HashMap<>();
-    for(DativePluralsEntry entry : datives) {
+    for (DativePluralsEntry entry : datives) {
       out.put(entry.getForm(), entry.getStandard());
       String lenitedForm = Utils.lenite(entry.getForm());
       String lenitedRepl = Utils.lenite(entry.getStandard());
-      if(!lenitedForm.equals(entry.getForm())) {
+      if (!lenitedForm.equals(entry.getForm())) {
         out.put(lenitedForm, lenitedRepl);
       }
       String eclipsedForm = Utils.eclipse(entry.getForm());
       String eclipsedRepl = Utils.eclipse(entry.getStandard());
-      if(!eclipsedForm.equals(entry.getForm())) {
+      if (!eclipsedForm.equals(entry.getForm())) {
         out.put(eclipsedForm, eclipsedRepl);
       }
       // h-prothesis
-      if(Utils.isVowel(entry.getForm().charAt(0))) {
+      if (Utils.isVowel(entry.getForm().charAt(0))) {
         out.put("h" + entry.getForm(), "h" + entry.getStandard());
         out.put("h-" + entry.getForm(), "h" + entry.getStandard());
       }
-      if(entry.hasModernised()) {
+      if (entry.hasModernised()) {
         out.put(entry.getModern(), entry.getStandard());
         lenitedForm = Utils.lenite(entry.getModern());
         lenitedRepl = Utils.lenite(entry.getStandard());
-        if(!lenitedForm.equals(entry.getModern())) {
+        if (!lenitedForm.equals(entry.getModern())) {
           out.put(lenitedForm, lenitedRepl);
         }
         eclipsedForm = Utils.eclipse(entry.getModern());
         eclipsedRepl = Utils.eclipse(entry.getStandard());
-        if(!eclipsedForm.equals(entry.getModern())) {
+        if (!eclipsedForm.equals(entry.getModern())) {
           out.put(eclipsedForm, eclipsedRepl);
         }
         // h-prothesis
-        if(Utils.isVowel(entry.getModern().charAt(0))) {
+        if (Utils.isVowel(entry.getModern().charAt(0))) {
           out.put("h" + entry.getModern(), "h" + entry.getStandard());
           out.put("h-" + entry.getModern(), "h" + entry.getStandard());
         }
@@ -152,21 +149,21 @@ final class DativePluralsData {
    */
   private static Map<String, String> getModernisations(Set<DativePluralsEntry> datives) {
     Map<String, String> out = new HashMap<>();
-    for(DativePluralsEntry entry : datives) {
-      if(entry.hasModernised()) {
+    for (DativePluralsEntry entry : datives) {
+      if (entry.hasModernised()) {
         out.put(entry.getForm(), entry.getModern());
         String lenitedForm = Utils.lenite(entry.getForm());
         String lenitedRepl = Utils.lenite(entry.getReplacement());
-        if(!lenitedForm.equals(entry.getForm())) {
+        if (!lenitedForm.equals(entry.getForm())) {
           out.put(lenitedForm, lenitedRepl);
         }
         String eclipsedForm = Utils.eclipse(entry.getForm());
         String eclipsedRepl = Utils.eclipse(entry.getReplacement());
-        if(!eclipsedForm.equals(entry.getForm())) {
+        if (!eclipsedForm.equals(entry.getForm())) {
           out.put(eclipsedForm, eclipsedRepl);
         }
         // h-prothesis
-        if(Utils.isVowel(entry.getForm().charAt(0))) {
+        if (Utils.isVowel(entry.getForm().charAt(0))) {
           out.put("h" + entry.getForm(), "h" + entry.getModern());
           out.put("h-" + entry.getForm(), "h" + entry.getModern());
         }

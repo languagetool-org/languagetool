@@ -52,8 +52,8 @@ public class Utils {
   );
 
   public static Retaggable fixSuffix(String in) {
-    for(SuffixGuess guess : guesses) {
-      if(in.endsWith(guess.suffix)) {
+    for (SuffixGuess guess : guesses) {
+      if (in.endsWith(guess.suffix)) {
         String base = in.substring(0, in.length() - guess.suffix.length());
         return new Retaggable(base + guess.suffixReplacement, guess.restrictToTags, guess.appendTags);
       }
@@ -65,15 +65,15 @@ public class Utils {
     List<Retaggable> out = new ArrayList<>();
     // First, mutations
     Retaggable mut = demutate(in);
-    if(mut.getAppendTag().equals(":Len:MorphError") || mut.getAppendTag().equals(":Ecl:MorphError") || mut.getAppendTag().equals(":EclLen")) {
+    if (mut.getAppendTag().equals(":Len:MorphError") || mut.getAppendTag().equals(":Ecl:MorphError") || mut.getAppendTag().equals(":EclLen")) {
       out.add(mut);
       out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), ":DefArt:MorphError"));
-    } else if(!"".equals(mut.getAppendTag())) {
+    } else if (!"".equals(mut.getAppendTag())) {
       out.add(mut);
     }
     // Second, suffixes
     Retaggable sfx = fixSuffix(mut.getWord());
-    if(!"".equals(sfx.getAppendTag())) {
+    if (!"".equals(sfx.getAppendTag())) {
       sfx.setAppendTag(mut.getAppendTag());
       out.add(sfx);
     }
@@ -84,15 +84,15 @@ public class Utils {
 
   public static Retaggable demutate(String in) {
     String out;
-    if((out = unLeniteDefiniteS(in)) != null) {
+    if ((out = unLeniteDefiniteS(in)) != null) {
       return new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError");
     }
-    if((out = unLenite(in)) != null) {
+    if ((out = unLenite(in)) != null) {
       return new Retaggable(out, "", ":Len:MorphError");
     }
-    if((out = unEclipse(in)) != null) {
+    if ((out = unEclipse(in)) != null) {
       String out2 = unLenite(out);
-      if(out2 == null) {
+      if (out2 == null) {
         return new Retaggable(out, "", ":Ecl:MorphError");
       } else {
         return new Retaggable(out2, "", ":EclLen");
@@ -102,22 +102,22 @@ public class Utils {
   }
 
   public static String unEclipse(String in) {
-    if(in.length() > 2) {
+    if (in.length() > 2) {
       char ch1 = in.charAt(1);
       switch(in.charAt(0)) {
         case 'N':
         case 'n':
-          if(in.length() > 3 && in.charAt(1) == '-') {
+          if (in.length() > 3 && in.charAt(1) == '-') {
             ch1 = in.charAt(2);
           }
-          if(ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1) || ch1 == 'g' || ch1 == 'd' || isLowerVowel(ch1)) {
+          if (ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1) || ch1 == 'g' || ch1 == 'd' || isLowerVowel(ch1)) {
             return unEclipseChar(in, 'n', Character.toLowerCase(ch1));
           } else {
             return null;
           }
         case 'B':
         case 'b':
-          if((ch1 == 'p' || ch1 == 'P') ||
+          if ((ch1 == 'p' || ch1 == 'P') ||
             in.length() > 3 && in.charAt(1) == '-') {
             return unEclipseChar(in, 'b', 'p');
           } else {
@@ -145,10 +145,10 @@ public class Utils {
    * @return
    */
   public static String unLenite(String in) {
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return null;
     }
-    if(in.charAt(1) == 'h' || in.charAt(1) == 'H') {
+    if (in.charAt(1) == 'h' || in.charAt(1) == 'H') {
       return in.charAt(0) + in.substring(2);
     }
     return null;
@@ -168,19 +168,19 @@ public class Utils {
   public static String unLeniteDefiniteS(String in) {
     String[] uppers = {"Ts", "T-s", "TS", "T-S", "t-S", "tS"};
     String[] lowers = {"ts", "t-s"};
-    for(String start : uppers) {
-      if(in.length() < start.length()) {
+    for (String start : uppers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "S" + in.substring(start.length());
       }
     }
-    for(String start : lowers) {
-      if(in.length() < start.length()) {
+    for (String start : lowers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "s" + in.substring(start.length());
       }
     }
@@ -189,19 +189,19 @@ public class Utils {
   public static String unEclipseF(String in) {
     String[] uppers = {"Bhf", "bhF", "Bf", "bhF", "bF", "Bh-f", "bh-F", "B-f", "bh-F", "b-F"};
     String[] lowers = {"bhf", "bh-f", "bf", "b-f"};
-    for(String start : uppers) {
-      if(in.length() < start.length()) {
+    for (String start : uppers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "F" + in.substring(start.length());
       }
     }
-    for(String start : lowers) {
-      if(in.length() < start.length()) {
+    for (String start : lowers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "f" + in.substring(start.length());
       }
     }
@@ -222,24 +222,24 @@ public class Utils {
     char upperSecond = Character.toUpperCase(second);
     char retSecond = (in.charAt(0) == upperFirst) ? upperSecond : second;
     // bail out if there's nothing to do
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return null;
     }
     // no match
-    if(in.charAt(0) != first && in.charAt(0) != upperFirst) {
+    if (in.charAt(0) != first && in.charAt(0) != upperFirst) {
       return null;
     }
     // properly eclipsed
-    if(in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
+    if (in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
       return in.substring(1);
     }
 
     char ch1 = in.charAt(1);
-    if(in.length() > 3 && in.charAt(1) == '-') {
+    if (in.length() > 3 && in.charAt(1) == '-') {
       from++;
       ch1 = in.charAt(2);
     }
-    if(ch1 == second || ch1 == upperSecond) {
+    if (ch1 == second || ch1 == upperSecond) {
       return Character.toString(retSecond)+ in.substring(from);
     } else {
       return null;
@@ -363,13 +363,13 @@ public class Utils {
    * cannot be lenited
    */
   public static String lenite(String in) {
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return in;
     }
     String outh = (Character.isUpperCase(in.charAt(0)) && Character.isUpperCase(1)) ? "H" : "h";
-    if(isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
-      if(in.charAt(0) == 'S' || in.charAt(0) == 's') {
-        if(isSLenitable(Character.toLowerCase(in.charAt(1)))) {
+    if (isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
+      if (in.charAt(0) == 'S' || in.charAt(0) == 's') {
+        if (isSLenitable(Character.toLowerCase(in.charAt(1)))) {
           return Character.toString(in.charAt(0)) + outh + in.substring(1);
         } else {
           return in;
@@ -398,13 +398,13 @@ public class Utils {
    * cannot be eclipsed
    */
   public static String eclipse(String in) {
-    if(in == null || in.equals("")) {
+    if (in == null || in.equals("")) {
       return in;
     }
-    if(isUpperVowel(in.charAt(0))) {
+    if (isUpperVowel(in.charAt(0))) {
       return "n" + in;
     }
-    if(isLowerVowel(in.charAt(0))) {
+    if (isLowerVowel(in.charAt(0))) {
       return "n-" + in;
     }
 
@@ -441,7 +441,7 @@ public class Utils {
    * @return lowercased word
    */
   public static String toLowerCaseIrish(String s) {
-    if(s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
+    if (s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
       return s.substring(0,1) + "-" + s.substring(1).toLowerCase();
     } else {
       return s.toLowerCase();
@@ -492,8 +492,8 @@ public class Utils {
   }
 
   public static boolean containsPonc(String s) {
-    for(char c : s.toCharArray()) {
-      if(isPonc(c)) {
+    for (char c : s.toCharArray()) {
+      if (isPonc(c)) {
         return true;
       }
     }
@@ -552,18 +552,18 @@ public class Utils {
    */
   public static String unPonc(String s) {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < s.length(); i++) {
-      if(!isPonc(s.charAt(i))) {
+    for (int i = 0; i < s.length(); i++) {
+      if (!isPonc(s.charAt(i))) {
         sb.append(unPonc(s.charAt(i)));
       } else {
-        if(isLowerPonc(s.charAt(i))) {
+        if (isLowerPonc(s.charAt(i))) {
           sb.append(unPonc(s.charAt(i)));
           sb.append('h');
         } else {
-          if(i < s.length() - 1 && Character.isUpperCase(s.charAt(i + 1))) {
+          if (i < s.length() - 1 && Character.isUpperCase(s.charAt(i + 1))) {
             sb.append(unPonc(s.charAt(i)));
             sb.append('H');
-          } else if(i == s.length() - 1 && i > 0 && Character.isUpperCase(s.charAt(i - 1))) {
+          } else if (i == s.length() - 1 && i > 0 && Character.isUpperCase(s.charAt(i - 1))) {
             sb.append(unPonc(s.charAt(i)));
             sb.append('H');
           } else {

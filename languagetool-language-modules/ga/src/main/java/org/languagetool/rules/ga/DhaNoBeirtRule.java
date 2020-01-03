@@ -35,7 +35,7 @@ public class DhaNoBeirtRule extends Rule {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Tá <marker>dhá</marker> dheartháireacha agam."),
-      Example.fixed("Tá <marker>beirt</marker> dheartháireacha agam."));
+                   Example.fixed("Tá <marker>beirt</marker> dheartháireacha agam."));
   }
 
   @Override

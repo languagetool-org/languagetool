@@ -53,7 +53,7 @@ public class PeopleRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Bhí sí cosúil le claíomh <marker>Damocles</marker> ar crochadh sa spéir."),
-      Example.fixed("Bhí sí cosúil le claíomh <marker>Dámaicléas</marker> ar crochadh sa spéir."));
+                   Example.fixed("Bhí sí cosúil le claíomh <marker>Dámaicléas</marker> ar crochadh sa spéir."));
     this.setCheckLemmas(false);
   }  
 

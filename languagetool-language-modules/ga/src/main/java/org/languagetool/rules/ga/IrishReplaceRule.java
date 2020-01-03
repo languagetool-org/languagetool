@@ -53,7 +53,7 @@ public class IrishReplaceRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Níl beann agam oraibh, ar <marker>bhúr</marker> gcuid cainte."),
-      Example.fixed("Níl beann agam oraibh, ar <marker>bhur</marker> gcuid cainte."));
+                   Example.fixed("Níl beann agam oraibh, ar <marker>bhur</marker> gcuid cainte."));
     this.setCheckLemmas(false);
   }
 
