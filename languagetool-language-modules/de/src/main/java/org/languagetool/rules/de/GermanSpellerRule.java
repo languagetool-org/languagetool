@@ -192,6 +192,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("veräht", "verrät");
     put("helfte", "half");
     put("helften", "halfen");
+    put("lad", "lade");
     put("befehlte", "befahl");
     put("befehlten", "befahlen");
     put("angelügt", "angelogen");
