@@ -96,6 +96,7 @@ public class QuestionWhitespaceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokens();
+    String prevPrevToken = "";
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
       if (tokens[i].isImmunized()) {
@@ -137,9 +138,13 @@ public class QuestionWhitespaceRule extends Rule {
           }
         } else if (token.equals("»")) {
           msg = "Le guillemet fermant est précédé d'une espace insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " »";
-          fixLen = 1;
+          if (prevPrevToken.equals("«")) {  // would be nice if this covered more than one word... ()
+            suggestionText = "« " + prevToken + " »";  // non-breaking spaces 
+            fixLen = 2;
+          } else {
+            suggestionText = prevToken + " »";  // non-breaking space
+            fixLen = 1;
+          }
         }
       }
 
@@ -152,6 +157,7 @@ public class QuestionWhitespaceRule extends Rule {
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
+      prevPrevToken = prevToken;
       prevToken = token;
     }
 
