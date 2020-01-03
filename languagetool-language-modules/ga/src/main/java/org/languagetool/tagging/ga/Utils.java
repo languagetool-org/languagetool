@@ -635,7 +635,7 @@ public class Utils {
   private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = (int) '\uDEC0';
   private static final int MATHEMATICAL_BOLD_NABLA = (int) '\uDEC1';
   private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = (int) '\uDEC2';
-  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEC0';
+  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEDA';
   private static final int CAPITAL_A = (int) 'A';
   private static final int SMALL_A = (int) 'a';
   private static final int CAPITAL_ALPHA = (int) 'Α';
