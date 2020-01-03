@@ -24,11 +24,22 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class GermanCompoundTokenizerTest {
   
   @Test
-  @Ignore("for interactive use only")
   public void test() throws IOException {
+    GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(true);
+    assertThat(tokenizer.tokenize("Bahnhofsuhr").toString(), is("[Bahnhofs, uhr]"));
+    assertThat(tokenizer.tokenize("natofreundlich").toString(), is("[nato, freundlich]"));
+    assertThat(tokenizer.tokenize("natofreundliches").toString(), is("[nato, freundliches]"));
+  }
+
+  @Test
+  @Ignore("for interactive use only")
+  public void testInteractively() throws IOException {
     GermanCompoundTokenizer.ExtendedGermanWordSplitter splitter = new GermanCompoundTokenizer.ExtendedGermanWordSplitter(false);
     String wordsInput = "Bahnhofsuhr, Bahnhofssanierung, Thermostattest";
     String[] words = wordsInput.split(",\\s*");
