@@ -650,58 +650,58 @@ public class Utils {
     if (numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
       return c;
     } else {
-      if (numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
+      if (numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SMALL_A && numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_ITALIC_SMALL_A && numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SCRIPT_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
         // Not all Fraktur capitals have valid characters, but include them anyway
         return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_SMALL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_MONOSPACE_CAPITAL_A && numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
+      } else if (numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
+      } else if (numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);
       } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {
         return 'i';
