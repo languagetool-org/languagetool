@@ -642,8 +642,11 @@ public class Utils {
   private static final int SMALL_ALPHA = (int) 'α';
 
   private static char getMathsChar(char c) {
+    return getMathsChar(c, false);
+  }
+
+  private static char getMathsChar(char c, boolean normaliseGreek) {
     int numeric = (int) c;
-    boolean normaliseGreek = false;
     if (numeric < 0) {
       throw new RuntimeException("Failed to read character " + c);
     }
@@ -727,22 +730,22 @@ public class Utils {
   }
 
   public static String simplifyMathematical(String s) {
-    String out = "";
+    StringBuilder out = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
       if (s.charAt(i) == '\uD835') {
         int j = i + 1;
         if (j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
           char mapped = getMathsChar(s.charAt(j));
           if (mapped == s.charAt(j)) {
-            out += s.charAt(i);
-            out += s.charAt(j);
+            out.append(s.charAt(i));
+            out.append(s.charAt(j));
           } else {
-            out += mapped;
+            out.append(mapped);
           }
         }
       }
     }
-    return out;
+    return out.toString();
   }
   public static char greekLookalikes(char c) {
     switch(c) {
