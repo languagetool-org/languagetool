@@ -156,6 +156,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
     putRepl("Jänners?", "Jänner", "Januar");
     put("check", "checke");
+    put("ala", "à la");
+    put("Ala", "À la");
     put("Reinfolge", "Reihenfolge");
     put("Schloß", "Schloss");
     put("Investion", "Investition");

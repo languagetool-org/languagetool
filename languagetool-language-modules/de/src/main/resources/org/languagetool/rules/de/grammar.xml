@@ -309,6 +309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="WURST_SEIN" name="Wurst (wurst) sein">
+            <url>https://www.duden.de/rechtschreibung/wurst</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">sein</token>
@@ -319,7 +320,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>In festen Verbindungen wie 'wurst sein' wird <suggestion><match no="4" case_conversion="startlower"/></suggestion> neu kleingeschrieben.</message>
-                <url>http://www.canoonet.eu/services/GermanSpelling/Reform/grossklein/einzelfaelle.jsp</url>
                 <short>&prgk;.</short>
                 <example correction="wurst">Das ist mir <marker>Wurst</marker>!</example>
                 <example correction="wurst">Das ist ihm doch <marker>Wurst</marker>!</example>
@@ -336,9 +336,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">sein</token>
                 </pattern>
                 <message>In festen Verbindungen wie 'wurst sein' wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> neu kleingeschrieben.</message>
-                <url>http://www.canoonet.eu/services/GermanSpelling/Reform/grossklein/einzelfaelle.jsp</url>
                 <short>&prgk;.</short>
                 <example correction="wurst">Das kann ihm doch <marker>Wurst</marker> sein!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token regexp="yes">dir|mir|ihm|ihr|euch|uns|denen|dem|der</token>
+                    <token min="0" regexp="yes">das|es</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                    </marker>
+                </pattern>
+                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
+                <example correction="wurst">Ich bin dem doch <marker>Wurst</marker>.</example>
+                <example correction="wurst">Ist dir das eigentlich <marker>Wurst</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">können|müssen|dürfen|sollen</token>
+                    <token regexp="yes">dir|mir|ihm|ihr|euch|uns|denen|dem|der</token>
+                    <token min="0" regexp="yes">das|es|alles</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                    </marker>
+                </pattern>
+                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
+                <example correction="wurst">Das könnte dir alles ja <marker>Wurst</marker> sein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token regexp="yes">das|es|alles</token>
+                    <token min="0">alles</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                    </marker>
+                </pattern>
+                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
+                <example correction="wurst">Von daher ist das alles eh <marker>Wurst</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ENTGEHEN_LASSEN" name="entgegen (entgehen) lassen">
@@ -17061,54 +17103,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
-        <rulegroup id="WURST_SEIN" name="Das ist mir Wurst (wurst)" default="temp_off">
-            <url>https://www.duden.de/rechtschreibung/wurst</url>
-            <rule>
-                <pattern>
-                    <token inflected="yes">sein</token>
-                    <token regexp="yes">dir|mir|ihm|ihr|euch|uns|denen|dem|der</token>
-                    <token min="0" regexp="yes">das|es</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
-                    </marker>
-                </pattern>
-                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
-                <example correction="wurst">Das war mir <marker>Wurst</marker>.</example>
-                <example correction="wurst">Das ist mir <marker>Wurst</marker>.</example>
-                <example correction="wurst">Ich bin dem doch <marker>Wurst</marker>.</example>
-                <example correction="wurst">Ist dir das eigentlich <marker>Wurst</marker>?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">können|müssen|dürfen|sollen</token>
-                    <token regexp="yes">dir|mir|ihm|ihr|euch|uns|denen|dem|der</token>
-                    <token min="0" regexp="yes">das|es|alles</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
-                    </marker>
-                </pattern>
-                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
-                <example correction="wurst">Das könnte dir ja <marker>Wurst</marker> sein.</example>
-                <example correction="wurst">Das sollte dir <marker>Wurscht</marker> sein.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">sein</token>
-                    <token regexp="yes">das|es|alles</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
-                    <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
-                    </marker>
-                </pattern>
-                <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="5" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
-                <example correction="wurst">Von daher ist das <marker>Wurst</marker>.</example>
-            </rule>
-        </rulegroup>
         <rule id="FRAGE_KLEIN" name="eine frage (Frage)">
             <pattern>
                 <token regexp="yes">einer?</token>
@@ -36150,17 +36144,52 @@ Andere Projekte</example>
             <url>https://de.wikipedia.org/wiki/Liste_gefl%C3%BCgelter_Worte/Z#Zweischneidiges_Schwert</url>
             <example correction='zweischneidiges Schwert'>Das ist ein <marker>zweigleisiges Schwert</marker>.</example>
         </rule>
-        <rule id="A_LA_CARTE" name="Wendung: à la carte">
-            <pattern>
-                <marker>
-                    <token>a</token>
+        <rulegroup id="A_LA_CARTE" name="Wendung: à la carte">
+            <url>https://www.duden.de/rechtschreibung/a_la</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|á</token>
+                        <token>la</token>
+                        <token regexp='yes'>[CckK]art[e]</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
+                <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">a|á</token>
                     <token>la</token>
-                    <token regexp='yes'>[CckK]art[e]</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
-            <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
-        </rule>
+                    <token regexp="yes">bonne|baisse|hausse|mode|longue|duchesse|grecque|suite|diable|française|mesure|saison|maison|meunière|minute|dijonnaise|pékinoise|dieppoise|diplomate|jardinière|petite-marièe|périgourdine</token>
+                </pattern>
+                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la <match no="3" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="à la française">Wir essen heute <marker>a la Française</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">a|á</token>
+                        <token>la</token>
+                        <token regexp='yes'>[CckK]art[e]</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
+                <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SUB.+|EIG.+" postag_regexp="yes" />
+                    <marker>
+                        <token regexp="yes">a|á</token>
+                        <token>la</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la</suggestion>?</message>
+                <example correction="à la">Das ist ein Gesetz <marker>a la</marker> Merkel.</example>
+                <example correction="à la">Wir essen Schnitzel <marker>a la</marker> Holstein.</example>
+            </rule>
+        </rulegroup>
         <rule id="CREME_FRAICHE" name="Creme Fraiche (Crème fraîche)">
             <pattern>
                 <marker>
@@ -36169,6 +36198,7 @@ Andere Projekte</example>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion>Crème fraîche</suggestion>?</message>
+            <url>https://www.duden.de/rechtschreibung/Creme_fraiche</url>
             <example correction="Crème fraîche">Verrühren Sie nun die <marker>Creme fraiche</marker> mit den übrigen Zutaten.</example>
         </rule>
         <rule id="ZUM_VORSCHEIN" name="Wendung: zum Vorschein bringen">
