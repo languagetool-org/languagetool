@@ -3293,7 +3293,7 @@ USA
                 <example correction="it's|it is">Purely to save money - always smoked so dunno whether <marker>its</marker> beneficial.</example>
                 <example>Not mine but its own.</example> 
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -3334,7 +3334,7 @@ USA
                 <example>Not mine but its own</example> 
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
                     <marker>
@@ -6528,7 +6528,7 @@ USA
                 <message>Did you mean <suggestion>excited</suggestion> (=enthusiastic) instead of 'exited' (=gone away)?</message>
                 <example correction="excited">She is really <marker>exited</marker> about it.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag="RB">
@@ -6543,7 +6543,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -6573,7 +6573,7 @@ USA
                 <example correction="you're">A reason I think life goes by so quickly when <marker>your</marker> older.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -6589,7 +6589,7 @@ USA
                 <example correction="you're">But <marker>your</marker> very cool.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC  -->
@@ -6605,7 +6605,7 @@ USA
                 <example>Not mine, but your own</example>
             </rule>
 
-            <rule default="temp_off"><!-- needed because of wrong tagging: "cool" is tagged NN in "Your cool." -->
+            <rule><!-- needed because of wrong tagging: "cool" is tagged NN in "Your cool." -->
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC  -->
@@ -6622,7 +6622,7 @@ USA
                 <example>Not mine, but your own.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
                     <marker>
@@ -13668,7 +13668,7 @@ USA
             <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
             <example correction="von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
         </rule>
-        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron" default="temp_off">
+        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
                 <token>Emmanuel</token>
                 <token>Macron</token>
@@ -13682,7 +13682,7 @@ USA
             <example correction="Emmanuel Macron"><marker>Manuel macron</marker> is a French politician who has been President of France and ex officio Co-Prince of Andorra since 14 May 2017.</example>
             <example><marker>Emmanuel Macron</marker> is a French politician who has been President of France and ex officio Co-Prince of Andorra since 14 May 2017.</example>
         </rule>
-        <rule id="RED_NOSED_REINDEER" name="Red-Nosed Reindeer" default="temp_off">
+        <rule id="RED_NOSED_REINDEER" name="Red-Nosed Reindeer">
             <antipattern>
                 <token>red-nosed</token>
                 <token regexp="yes">reindeers?</token>
@@ -13982,7 +13982,7 @@ USA
             <example correction="month-to-month">My lease is up, so now I'm on the ordinary <marker>month to month</marker> portion of the contract.</example>
             <example correction="day-to-day">My <marker>day to day</marker> routine during finals weeks did not change dramatically</example>
         </rule>
-        <rule id="TAKEAWAY" name="take away (takeaway)" default="temp_off">
+        <rule id="TAKEAWAY" name="take away (takeaway)">
             <antipattern>
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -14006,7 +14006,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/takeaway</url>
             <example correction="takeaways">Those were my biggest <marker>take aways</marker> from today's event.</example>
         </rule>
-        <rule id="ANTI_AMERICAN_HYPHEN" name="missing hyphen in 'anti-Semitism'" default="temp_off">
+        <rule id="ANTI_AMERICAN_HYPHEN" name="missing hyphen in 'anti-Semitism'">
             <pattern>
                 <token>anti</token>
                 <token regexp="yes">Semitism|Semitic|American|Americanism</token>
@@ -14015,7 +14015,7 @@ USA
             <suggestion>anti-<match no="2" case_conversion="startupper" /></suggestion>
             <example correction="anti-American">He's an <marker>anti american</marker>.</example>
         </rule>
-        <rulegroup id="NO_GO_HYPHEN" name="missing hyphen in 'no-go'" default="temp_off">
+        <rulegroup id="NO_GO_HYPHEN" name="missing hyphen in 'no-go'">
             <url>https://www.merriam-webster.com/dictionary/no-go</url>
             <rule>
                 <pattern>
@@ -14552,7 +14552,7 @@ USA
                 <example correction="write-ups">I created 2 new <marker>write ups</marker> for school.</example>
                 <example>Only a few write down their notes.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|JJ.*|DT|IN|CD" postag_regexp="yes" />
                     <marker>
@@ -33180,7 +33180,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="PRICE_SENSIBILITY" name="price sensibility (sensivity)" default="temp_off">
+        <rule id="PRICE_SENSIBILITY" name="price sensibility (sensivity)">
             <!-- error mostly done by Germans translating "Preissensibilität" -->
             <pattern>
                 <token>price</token>
@@ -39778,7 +39778,7 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
-        <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'" default="temp_off">
+        <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'">
             <pattern>
                 <token inflected="yes">merchandize</token>
             </pattern>
