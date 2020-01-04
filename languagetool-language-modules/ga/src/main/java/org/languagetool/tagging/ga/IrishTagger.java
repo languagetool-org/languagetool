@@ -36,6 +36,7 @@ import java.util.Locale;
  * @author Jim O'Regan
  */
 public class IrishTagger extends BaseTagger {
+  
   public IrishTagger() {
     super("/ga/irish.dict", new Locale("ga"));
   }
@@ -109,7 +110,7 @@ public class IrishTagger extends BaseTagger {
   private List<TaggedWord> filterMorph(String in) {
     List<TaggedWord> tagged = new ArrayList<>();
     List<Retaggable> tocheck = Utils.morphWord(in);
-    if(tocheck == null || tocheck.size() == 0) {
+    if (tocheck.size() == 0) {
       return tagged;
     }
     for(Retaggable rt : tocheck) {
@@ -122,7 +123,7 @@ public class IrishTagger extends BaseTagger {
         String hyphword = rt.getPrefix() + "-" + Utils.lenite(rt.getWord());
         List<TaggedWord> hyphen = getWordTagger().tag(hyphword);
 
-        if(!joined.isEmpty()) {
+        if (!joined.isEmpty()) {
           cur = joined;
           pfx = false;
         } else if(!hyphen.isEmpty()) {
@@ -133,10 +134,10 @@ public class IrishTagger extends BaseTagger {
         }
       }
 
-      if(cur.isEmpty()) {
+      if (cur.isEmpty()) {
         continue;
       }
-      for(TaggedWord tw : cur) {
+      for (TaggedWord tw : cur) {
         String append = (pfx) ? rt.getAppendTag() + ":NonStdCmpd" : rt.getAppendTag();
         if(tw.getPosTag().matches(rt.getRestrictToPos())) {
           String lemma = (pfx) ? rt.getPrefix() + Utils.lenite(tw.getLemma()) : tw.getLemma();
@@ -149,9 +150,7 @@ public class IrishTagger extends BaseTagger {
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      for (AnalyzedToken at : taggedTokens) {
-        l.add(at);
-      }
+      l.addAll(taggedTokens);
     }
   }
 }

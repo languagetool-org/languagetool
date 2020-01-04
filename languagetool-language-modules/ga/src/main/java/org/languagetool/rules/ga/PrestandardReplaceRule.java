@@ -53,7 +53,7 @@ public class PrestandardReplaceRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("“Ní <marker>baoghal</marker> daoibh,” ar sise."),
-      Example.fixed("“Ní <marker>baol</marker> daoibh,” ar sise."));
+                   Example.fixed("“Ní <marker>baol</marker> daoibh,” ar sise."));
     this.setCheckLemmas(false);
   }
 

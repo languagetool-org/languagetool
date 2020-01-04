@@ -52,8 +52,8 @@ public class Utils {
   );
 
   public static Retaggable fixSuffix(String in) {
-    for(SuffixGuess guess : guesses) {
-      if(in.endsWith(guess.suffix)) {
+    for (SuffixGuess guess : guesses) {
+      if (in.endsWith(guess.suffix)) {
         String base = in.substring(0, in.length() - guess.suffix.length());
         return new Retaggable(base + guess.suffixReplacement, guess.restrictToTags, guess.appendTags);
       }
@@ -65,15 +65,15 @@ public class Utils {
     List<Retaggable> out = new ArrayList<>();
     // First, mutations
     Retaggable mut = demutate(in);
-    if(mut.getAppendTag().equals(":Len:MorphError") || mut.getAppendTag().equals(":Ecl:MorphError") || mut.getAppendTag().equals(":EclLen")) {
+    if (mut.getAppendTag().equals(":Len:MorphError") || mut.getAppendTag().equals(":Ecl:MorphError") || mut.getAppendTag().equals(":EclLen")) {
       out.add(mut);
       out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), ":DefArt:MorphError"));
-    } else if(!"".equals(mut.getAppendTag())) {
+    } else if (!"".equals(mut.getAppendTag())) {
       out.add(mut);
     }
     // Second, suffixes
     Retaggable sfx = fixSuffix(mut.getWord());
-    if(!"".equals(sfx.getAppendTag())) {
+    if (!"".equals(sfx.getAppendTag())) {
       sfx.setAppendTag(mut.getAppendTag());
       out.add(sfx);
     }
@@ -84,15 +84,15 @@ public class Utils {
 
   public static Retaggable demutate(String in) {
     String out;
-    if((out = unLeniteDefiniteS(in)) != null) {
+    if ((out = unLeniteDefiniteS(in)) != null) {
       return new Retaggable(out, "(?:C[UMC]:)?Noun:.*:DefArt", ":MorphError");
     }
-    if((out = unLenite(in)) != null) {
+    if ((out = unLenite(in)) != null) {
       return new Retaggable(out, "", ":Len:MorphError");
     }
-    if((out = unEclipse(in)) != null) {
+    if ((out = unEclipse(in)) != null) {
       String out2 = unLenite(out);
-      if(out2 == null) {
+      if (out2 == null) {
         return new Retaggable(out, "", ":Ecl:MorphError");
       } else {
         return new Retaggable(out2, "", ":EclLen");
@@ -102,22 +102,22 @@ public class Utils {
   }
 
   public static String unEclipse(String in) {
-    if(in.length() > 2) {
+    if (in.length() > 2) {
       char ch1 = in.charAt(1);
       switch(in.charAt(0)) {
         case 'N':
         case 'n':
-          if(in.length() > 3 && in.charAt(1) == '-') {
+          if (in.length() > 3 && in.charAt(1) == '-') {
             ch1 = in.charAt(2);
           }
-          if(ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1) || ch1 == 'g' || ch1 == 'd' || isLowerVowel(ch1)) {
+          if (ch1 == 'G' || ch1 == 'D' || isUpperVowel(ch1) || ch1 == 'g' || ch1 == 'd' || isLowerVowel(ch1)) {
             return unEclipseChar(in, 'n', Character.toLowerCase(ch1));
           } else {
             return null;
           }
         case 'B':
         case 'b':
-          if((ch1 == 'p' || ch1 == 'P') ||
+          if ((ch1 == 'p' || ch1 == 'P') ||
             in.length() > 3 && in.charAt(1) == '-') {
             return unEclipseChar(in, 'b', 'p');
           } else {
@@ -145,10 +145,10 @@ public class Utils {
    * @return
    */
   public static String unLenite(String in) {
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return null;
     }
-    if(in.charAt(1) == 'h' || in.charAt(1) == 'H') {
+    if (in.charAt(1) == 'h' || in.charAt(1) == 'H') {
       return in.charAt(0) + in.substring(2);
     }
     return null;
@@ -168,19 +168,19 @@ public class Utils {
   public static String unLeniteDefiniteS(String in) {
     String[] uppers = {"Ts", "T-s", "TS", "T-S", "t-S", "tS"};
     String[] lowers = {"ts", "t-s"};
-    for(String start : uppers) {
-      if(in.length() < start.length()) {
+    for (String start : uppers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "S" + in.substring(start.length());
       }
     }
-    for(String start : lowers) {
-      if(in.length() < start.length()) {
+    for (String start : lowers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "s" + in.substring(start.length());
       }
     }
@@ -189,19 +189,19 @@ public class Utils {
   public static String unEclipseF(String in) {
     String[] uppers = {"Bhf", "bhF", "Bf", "bhF", "bF", "Bh-f", "bh-F", "B-f", "bh-F", "b-F"};
     String[] lowers = {"bhf", "bh-f", "bf", "b-f"};
-    for(String start : uppers) {
-      if(in.length() < start.length()) {
+    for (String start : uppers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "F" + in.substring(start.length());
       }
     }
-    for(String start : lowers) {
-      if(in.length() < start.length()) {
+    for (String start : lowers) {
+      if (in.length() < start.length()) {
         continue;
       }
-      if(in.startsWith(start)) {
+      if (in.startsWith(start)) {
         return "f" + in.substring(start.length());
       }
     }
@@ -222,24 +222,24 @@ public class Utils {
     char upperSecond = Character.toUpperCase(second);
     char retSecond = (in.charAt(0) == upperFirst) ? upperSecond : second;
     // bail out if there's nothing to do
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return null;
     }
     // no match
-    if(in.charAt(0) != first && in.charAt(0) != upperFirst) {
+    if (in.charAt(0) != first && in.charAt(0) != upperFirst) {
       return null;
     }
     // properly eclipsed
-    if(in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
+    if (in.charAt(0) == first && (in.charAt(1) == second || in.charAt(1) == upperSecond)) {
       return in.substring(1);
     }
 
     char ch1 = in.charAt(1);
-    if(in.length() > 3 && in.charAt(1) == '-') {
+    if (in.length() > 3 && in.charAt(1) == '-') {
       from++;
       ch1 = in.charAt(2);
     }
-    if(ch1 == second || ch1 == upperSecond) {
+    if (ch1 == second || ch1 == upperSecond) {
       return Character.toString(retSecond)+ in.substring(from);
     } else {
       return null;
@@ -363,13 +363,13 @@ public class Utils {
    * cannot be lenited
    */
   public static String lenite(String in) {
-    if(in.length() < 2) {
+    if (in.length() < 2) {
       return in;
     }
     String outh = (Character.isUpperCase(in.charAt(0)) && Character.isUpperCase(1)) ? "H" : "h";
-    if(isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
-      if(in.charAt(0) == 'S' || in.charAt(0) == 's') {
-        if(isSLenitable(Character.toLowerCase(in.charAt(1)))) {
+    if (isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {
+      if (in.charAt(0) == 'S' || in.charAt(0) == 's') {
+        if (isSLenitable(Character.toLowerCase(in.charAt(1)))) {
           return Character.toString(in.charAt(0)) + outh + in.substring(1);
         } else {
           return in;
@@ -398,13 +398,13 @@ public class Utils {
    * cannot be eclipsed
    */
   public static String eclipse(String in) {
-    if(in == null || in.equals("")) {
+    if (in == null || in.equals("")) {
       return in;
     }
-    if(isUpperVowel(in.charAt(0))) {
+    if (isUpperVowel(in.charAt(0))) {
       return "n" + in;
     }
-    if(isLowerVowel(in.charAt(0))) {
+    if (isLowerVowel(in.charAt(0))) {
       return "n-" + in;
     }
 
@@ -441,7 +441,7 @@ public class Utils {
    * @return lowercased word
    */
   public static String toLowerCaseIrish(String s) {
-    if(s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
+    if (s.length() > 1 && (s.charAt(0) == 'n' || s.charAt(0) == 't') && isUpperVowel(s.charAt(1))) {
       return s.substring(0,1) + "-" + s.substring(1).toLowerCase();
     } else {
       return s.toLowerCase();
@@ -492,8 +492,8 @@ public class Utils {
   }
 
   public static boolean containsPonc(String s) {
-    for(char c : s.toCharArray()) {
-      if(isPonc(c)) {
+    for (char c : s.toCharArray()) {
+      if (isPonc(c)) {
         return true;
       }
     }
@@ -552,18 +552,18 @@ public class Utils {
    */
   public static String unPonc(String s) {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < s.length(); i++) {
-      if(!isPonc(s.charAt(i))) {
+    for (int i = 0; i < s.length(); i++) {
+      if (!isPonc(s.charAt(i))) {
         sb.append(unPonc(s.charAt(i)));
       } else {
-        if(isLowerPonc(s.charAt(i))) {
+        if (isLowerPonc(s.charAt(i))) {
           sb.append(unPonc(s.charAt(i)));
           sb.append('h');
         } else {
-          if(i < s.length() - 1 && Character.isUpperCase(s.charAt(i + 1))) {
+          if (i < s.length() - 1 && Character.isUpperCase(s.charAt(i + 1))) {
             sb.append(unPonc(s.charAt(i)));
             sb.append('H');
-          } else if(i == s.length() - 1 && i > 0 && Character.isUpperCase(s.charAt(i - 1))) {
+          } else if (i == s.length() - 1 && i > 0 && Character.isUpperCase(s.charAt(i - 1))) {
             sb.append(unPonc(s.charAt(i)));
             sb.append('H');
           } else {
@@ -575,236 +575,5 @@ public class Utils {
     }
 
     return sb.toString();
-  }
-
-  private static final int MATHEMATICAL_BOLD_CAPITAL_A = (int) '\uDC00';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = (int) '\uDC19';
-  private static final int MATHEMATICAL_BOLD_SMALL_A = (int) '\uDC1A';
-  private static final int MATHEMATICAL_BOLD_SMALL_Z = (int) '\uDC33';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = (int) '\uDC34';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = (int) '\uDC4D';
-  private static final int MATHEMATICAL_ITALIC_SMALL_A = (int) '\uDC4E';
-  private static final int MATHEMATICAL_ITALIC_SMALL_Z = (int) '\uDC67';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = (int) '\uDC68';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = (int) '\uDC81';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_A = (int) '\uDC82';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_Z = (int) '\uDC9B';
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = (int) '\uDC9C';
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = (int) '\uDCB5';
-  private static final int MATHEMATICAL_SCRIPT_SMALL_A = (int) '\uDCB6';
-  private static final int MATHEMATICAL_SCRIPT_SMALL_Z = (int) '\uDCCF';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A = (int) '\uDCD0';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z = (int) '\uDCE9';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = (int) '\uDCEA';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = (int) '\uDD03';
-  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = (int) '\uDD04';
-  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = (int) '\uDD1D';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = (int) '\uDD1E';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = (int) '\uDD37';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A = (int) '\uDD38';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z = (int) '\uDD51';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_A = (int) '\uDD52';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_Z = (int) '\uDD6B';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A = (int) '\uDD6C';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z = (int) '\uDD85';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_A = (int) '\uDD86';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z = (int) '\uDD9F';
-  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_A = (int) '\uDDA0';
-  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_Z = (int) '\uDDB9';
-  private static final int MATHEMATICAL_SANSSERIF_SMALL_A = (int) '\uDDBA';
-  private static final int MATHEMATICAL_SANSSERIF_SMALL_Z = (int) '\uDDD3';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A = (int) '\uDDD4';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z = (int) '\uDDED';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_A = (int) '\uDDEE';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z = (int) '\uDE07';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A = (int) '\uDE08';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z = (int) '\uDE21';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A = (int) '\uDE22';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z = (int) '\uDE3B';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A = (int) '\uDE3C';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z = (int) '\uDE55';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A = (int) '\uDE56';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z = (int) '\uDE6F';
-  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_A = (int) '\uDE70';
-  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_Z = (int) '\uDE89';
-  private static final int MATHEMATICAL_MONOSPACE_SMALL_A = (int) '\uDE8A';
-  private static final int MATHEMATICAL_MONOSPACE_SMALL_Z = (int) '\uDEA3';
-  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_I = (int) '\uDEA4';
-  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_J = (int) '\uDEA5';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_ALPHA = (int) '\uDEA8';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = (int) '\uDEC0';
-  private static final int MATHEMATICAL_BOLD_NABLA = (int) '\uDEC1';
-  private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = (int) '\uDEC2';
-  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEDA';
-  private static final int CAPITAL_A = (int) 'A';
-  private static final int SMALL_A = (int) 'a';
-  private static final int CAPITAL_ALPHA = (int) 'Α';
-  private static final int SMALL_ALPHA = (int) 'α';
-
-  private static char getMathsChar(char c) {
-    int numeric = (int) c;
-    boolean normaliseGreek = false;
-    if (numeric < 0) {
-      throw new RuntimeException("Failed to read character " + c);
-    }
-    if (numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
-      return c;
-    } else {
-      if (numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SMALL_A && numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_ITALIC_SMALL_A && numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_SCRIPT_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
-        // Not all Fraktur capitals have valid characters, but include them anyway
-        return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_SMALL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if (numeric >= MATHEMATICAL_MONOSPACE_CAPITAL_A && numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
-        return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);
-      } else if (numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
-        return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);
-      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {
-        return 'i';
-      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_J) {
-        return 'j';
-      } else if (numeric >= MATHEMATICAL_BOLD_CAPITAL_ALPHA && numeric <= MATHEMATICAL_BOLD_CAPITAL_OMEGA) {
-        if (normaliseGreek) {
-          return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);
-        } else {
-          return c;
-        }
-      } else if (numeric == MATHEMATICAL_BOLD_NABLA) {
-        return '\u2207';
-      } else if (numeric >= MATHEMATICAL_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_SMALL_OMEGA) {
-        if (normaliseGreek) {
-          return (char) (numeric - MATHEMATICAL_BOLD_SMALL_ALPHA + SMALL_ALPHA);
-        } else {
-          return c;
-        }
-      }
-      return c;
-    }
-  }
-
-  public static String simplifyMathematical(String s) {
-    String out = "";
-    for (int i = 0; i < s.length(); i++) {
-      if (s.charAt(i) == '\uD835') {
-        int j = i + 1;
-        if (j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
-          char mapped = getMathsChar(s.charAt(j));
-          if (mapped == s.charAt(j)) {
-            out += s.charAt(i);
-            out += s.charAt(j);
-          } else {
-            out += mapped;
-          }
-        }
-      }
-    }
-    return out;
-  }
-  public static char greekLookalikes(char c) {
-    switch(c) {
-      case 'Α':
-        return 'A';
-      case 'Β':
-        return 'B';
-      case 'Ε':
-        return 'E';
-      case 'Ζ':
-        return 'Z';
-      case 'Η':
-        return 'H';
-      case 'Ι':
-        return 'I';
-      case 'Κ':
-        return 'K';
-      case 'Μ':
-        return 'M';
-      case 'Ν':
-        return 'N';
-      case 'Ο':
-        return 'O';
-      case 'Ρ':
-        return 'P';
-      case 'Τ':
-        return 'T';
-      case 'Υ':
-        return 'Y';
-      case 'Χ':
-        return 'X';
-      case 'α':
-        return 'a';
-      case 'β':
-        return 'B';
-      case 'γ':
-        return 'y';
-      case 'δ':
-        return 'd';
-      case 'ε':
-        return 'e';
-      case 'η':
-        return 'n';
-      case 'ι':
-        return 'i';
-      case 'κ':
-        return 'K';
-      case 'ν':
-        return 'v';
-      case 'ο':
-        return 'o';
-      case 'ρ':
-        return 'p';
-      case 'τ':
-        return 'T';
-      case 'χ':
-        return 'x';
-      case 'ω':
-        return 'w';
-
-      default:
-        return c;
-    }
   }
 }

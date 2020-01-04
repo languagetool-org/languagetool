@@ -1204,6 +1204,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
+        <antipattern><!-- Information about what this does would be nice. Refer to rule NNU_IN_WP_DT_VBZ -->
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token postag="IN"/>
+            <token postag="WP">
+                <exception>that</exception>
+                </token>
+            <token regexp="yes">each|either|neither|this</token>
+            <token postag="VBZ"/><!-- Cannot use the chunker: does[doe/NNS,E-NP-plural] -->
+            <token regexp="yes">couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
+         </antipattern>
         <pattern>
             <token><exception regexp="yes">I|you|we|they|he|she|it</exception></token>
             <marker>
@@ -1218,8 +1228,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">These tests of <marker>Peters</marker> are interesting. Incorrect grammar: missing apostrophe in a double genitive (www.merriam-webster.com/dictionary/double%20genitive).</example>
         <example type="untouched">The things he <marker>says</marker> are entirely inconsequential.</example>
         <example type="untouched">First, the premises on which it <marker>rests</marker> may not be correct.</example>
+        <example type="untouched">Information about what this <marker>does</marker> would be nice.</example>
+        <example type="untouched">... but data about whoever each <marker>tries</marker> should tell us whether these judges are corrupt.</example>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
                  outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
+    </rule>
+    <rule name="NNS/VBZ + were/are -&gt; VBZ" id="NNU_IN_WP_DT_VBZ"><!-- This is the antipattern in NNS_ARE_WERE -->
+        <pattern>
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token postag="IN"/>
+            <token postag="WP">
+                <exception>that</exception>
+                </token>
+            <token regexp="yes">each|either|neither|this</token>
+            <marker>
+                <and>
+                    <token postag="VBZ"/>
+                    <token postag="NNS"><exception postag_regexp="yes" postag="NNPS?"/></token>
+                </and>
+            </marker>
+            <token regexp="yes">weren?|aren?|couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">Information about what this <marker>does</marker> would be nice.</example>
+        <example type="ambiguous" inputform="tries[try/NNS,try/VBZ]" outputform="tries[try/VBZ]">... but data about whoever each <marker>tries</marker> should tell us whether these judges are corrupt.</example>
     </rule>
     <rule name="are + we|you -&gt; are (verb)" id="ARE_PRP">
         <pattern>

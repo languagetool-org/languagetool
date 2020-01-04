@@ -54,7 +54,6 @@ my %POS = (
     'Q' => '.*:(?:Q|NegQ).*',
     'C' => '.*Conj:.*',
     'Y' => '.*Prop:Noun.*',
-    'D' => '.*Poss.*',
 );
 
 my @mentities = qw/

@@ -18472,8 +18472,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='⁊rl'><marker>ヿrl</marker></example>
         </rule>
     </category>
-    <!--
-    <category id="GRAMADOIR_NEEDART" name="Alt cinnte ar iarraidh">
+    <category id="GRAMADOIR_NEEDART_MONTHS" name="Alt cinnte ar iarraidh">
         <rule id="MI_NOLLAG" name="mí Nollag">
             <pattern>
                 <token regexp="yes">mh?í</token>
@@ -18481,7 +18480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Nollai?g</token>
                 </marker>
             </pattern>
-            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>na Nollag</suggestion></message>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="2" regexp_match="^.*$" regexp_replace="na Nollag" case_conversion="startlower"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
             <example correction='na Nollag'>mí <marker>Nollag</marker></example>
         </rule>
@@ -18492,7 +18491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Sh?amhain|Sh?amhna</token>
                 </marker>
             </pattern>
-            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>na Samhna</suggestion></message>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="2" regexp_match="^.*$" regexp_replace="na Samhna" case_conversion="startlower"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
             <example correction='na Samhna'>mí <marker>Samhna</marker></example>
         </rule>
@@ -18503,7 +18502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Bh?ealtaine</token>
                 </marker>
             </pattern>
-            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>na Bealtaine</suggestion></message>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="2" regexp_match="^.*$" regexp_replace="na Bealtaine" case_conversion="startlower"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
             <example correction='na Bealtaine'>mí <marker>Bealtaine</marker></example>
         </rule>
@@ -18514,7 +18513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Mh?eithimh|Mh?eitheamh</token>
                 </marker>
             </pattern>
-            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>an Mheithimh</suggestion></message>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="2" regexp_match="^.*$" regexp_replace="an Mheithimh" case_conversion="startlower"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
             <example correction='an Mheithimh'>mí <marker>Mheithimh</marker></example>
         </rule>
@@ -18525,9 +18524,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Mh?árta</token>
                 </marker>
             </pattern>
-            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion>an Mhárta</suggestion></message>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="2" regexp_match="^.*$" regexp_replace="an Mhárta" case_conversion="startlower"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
             <example correction='an Mhárta'>mí <marker>Mhárta</marker></example>
+        </rule>
+    </category>
+    <!--
+    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
+        <rule id="BREATAIN" name="Breatain">
+            <pattern>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+            </pattern>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="1" regexp_match="^(m?Bh?)(.*)$" regexp_replace="an Bh$2" case_conversion="preserve"/></suggestion></message>
+            <short>Alt cinnte ar iarraidh</short>
+            <example correction='An Bhreatain'><marker>Breatain</marker></example>
+        </rule>
+    </category>
+    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
+        <rule id="BREATAINE" name="Breataine">
+            <pattern>
+                <token regexp="yes">m?Bh?reataine|m?Bh?ruiséile|m?Bh?eilge|m?Bh?ablóine|m?Bh?riotáine|m?Bh?rasaíle</token>
+            </pattern>
+            <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="1" regexp_match="^(m?Bh?)(.*)$" regexp_replace="na Bh$2" case_conversion="preserve"/></suggestion></message>
+            <short>Alt cinnte ar iarraidh</short>
+            <example correction='An Bhreatain'><marker>Breatain</marker></example>
         </rule>
     </category>
     -->
@@ -19109,6 +19129,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>An <suggestion>tá mé</suggestion> a bhí i gceist agat?</message>
             <example correction="tá mé"><marker>t'mé</marker></example>
+        </rule>
+        <rule id="A_APOS_AM" name="a'am">
+            <pattern>
+                <token>a</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token spacebefore="no" regexp="yes">a?m</token>
+            </pattern>
+            <message>An <suggestion>agam</suggestion> a bhí i gceist agat?</message>
+            <example correction="agam"><marker>a'am</marker></example>
+        </rule>
+        <rule id="A_APOS_AMSA" name="a'amsa">
+            <pattern>
+                <token>a</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token spacebefore="no" regexp="yes">a?msa</token>
+            </pattern>
+            <message>An <suggestion>agamsa</suggestion> a bhí i gceist agat?</message>
+            <example correction="agamsa"><marker>a'amsa</marker></example>
+        </rule>
+        <rule id="A_APOS_AT" name="a'at">
+            <pattern>
+                <token>a</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token spacebefore="no" regexp="yes">a?[td]</token>
+            </pattern>
+            <message>An <suggestion>agat</suggestion> a bhí i gceist agat?</message>
+            <example correction="agat"><marker>a'at</marker></example>
+        </rule>
+        <rule id="A_APOS_ATSA" name="a'atsa">
+            <pattern>
+                <token>a</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
+                <token spacebefore="no" regexp="yes">a?[td]san?</token>
+            </pattern>
+            <message>An <suggestion>agatsa</suggestion> a bhí i gceist agat?</message>
+            <example correction="agatsa"><marker>a'atsa</marker></example>
         </rule>
     </category>
 </rules>

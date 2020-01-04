@@ -41,7 +41,7 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
     super(messages, language, userConfig, altLanguages);
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Tá <marker>botun</marker> san abairt seo."),
-      Example.fixed("Tá <marker>botún</marker> san abairt seo."));
+                   Example.fixed("Tá <marker>botún</marker> san abairt seo."));
     // this.setIgnoreTaggedWords();
   }
 

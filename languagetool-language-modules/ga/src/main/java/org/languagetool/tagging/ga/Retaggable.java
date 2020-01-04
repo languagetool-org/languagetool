@@ -24,16 +24,19 @@ package org.languagetool.tagging.ga;
 import java.util.Objects;
 
 public class Retaggable {
+  
   private String word;
   private String restrictToPos;
   private String appendTag;
   private String prefix;
+  
   Retaggable(String word, String restrictToPos, String appendTag) {
     Objects.requireNonNull(word, "word must not be null");
     this.word = word;
     this.restrictToPos = restrictToPos;
     this.appendTag = appendTag;
   }
+  
   Retaggable(String word, String restrictToPos, String appendTag, String prefix) {
     this(word, restrictToPos, appendTag);
     this.prefix = prefix;

@@ -123,7 +123,7 @@ public class MorfologikSpeller {
           uppercaseFirst = sugg.getWord();
         }
         // remove capitalized duplicates
-        int auxIndex = sugg.getWord().indexOf(uppercaseFirst);
+        int auxIndex = getSuggestionIndex(suggestions, uppercaseFirst);
         if (auxIndex > i) {
           suggestions.remove(auxIndex);
         }
@@ -136,6 +136,17 @@ public class MorfologikSpeller {
       }
     }
     return suggestions;
+  }
+
+  private int getSuggestionIndex(List<WeightedSuggestion> suggestions, String uppercaseFirst) {
+    int i = 0;
+    for (WeightedSuggestion suggestion : suggestions) {
+      if (suggestion.getWord().equals(uppercaseFirst)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
   }
 
   /**
@@ -153,11 +164,9 @@ public class MorfologikSpeller {
   }
 
   public int getFrequency(String word) {
-    CharSequence w = word;
-    int freq = speller.getFrequency(w);
-    if (freq == 0 && word != word.toLowerCase()) {
-      w = word.toLowerCase();
-      freq = speller.getFrequency(w);
+    int freq = speller.getFrequency(word);
+    if (freq == 0 && !word.equals(word.toLowerCase())) {
+      freq = speller.getFrequency(word.toLowerCase());
     }
     return freq;
   }

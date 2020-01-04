@@ -53,7 +53,7 @@ public class EnglishHomophoneRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("An bhialann <marker>sushi</marker> sin ba chúis leis."),
-      Example.fixed("An bhialann <marker>súisí</marker> sin ba chúis leis."));
+                   Example.fixed("An bhialann <marker>súisí</marker> sin ba chúis leis."));
     this.setCheckLemmas(false);
   }
 

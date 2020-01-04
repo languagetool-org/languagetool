@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY verbs_no_intrans_consonant "felicitar|perjudicar|concernir|cansar|sorprendre"> <!--|preocupar|molestar-->
-    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar">
+    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar|obsequiar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY verbs_colloquials "digue|vulgue|estigue|sigue|tingue|sàpigue|dugue">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
@@ -1865,6 +1865,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="DTa" /></suggestion>
                 <short>Error de concordança</short>
                 <example correction="al camió|als camions"><marker>al camions</marker>.</example>
+                <example correction="A la cap|A les caps|Al cap|Als caps"><marker>Als cap</marker> de quatre anys.</example>
                 <example>als camions</example>
                 <example>a can Garcia</example>
             </rule>
@@ -4934,6 +4935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>l'<match no="3"></match> <match no="4"></match></suggestion>
                 <short>Verb transitiu</short>
                 <example correction="l'has empipat">No <marker>li has empipat</marker></example>
+                <example correction="L'han obsequiat"><marker>Li han obsequiat</marker> amb un rellotge.</example>
                 <example>No l'has empipat</example>
             </rule>
             <rule>
@@ -8943,7 +8945,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token min="0" max="12" postag="[DNASR].*|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>per</token>
                         <token>tal</token>
@@ -8952,8 +8955,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Probablement cal usar la preposició "per a".</message>
-                <suggestion>per a \5</suggestion>
+                <suggestion>per a \6</suggestion>
                 <example correction="per a canviar">Serveixen <marker>per tal de canviar</marker> la investigació.</example>
+                <example correction="per a aprovar">Era necessari l'acord d'una part de l'assemblea constituent <marker>per tal d'aprovar</marker> les reformes.</example>
+                <example correction="per a aprovar">Era necessari a vegades l'acord d'una part de l'assemblea constituent <marker>per tal d'aprovar</marker> les reformes.</example>
                 <example>Una eina feta servir pels mecànics.</example>
             </rule>
         </rulegroup>
@@ -10437,7 +10442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token><exception postag="P[0P].*" postag_regexp="yes">en</exception><exception inflected="yes" regexp="yes">ser|estar</exception></token>
-                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">caldre|necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
                         <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">final|fi</exception></token>
@@ -10454,6 +10459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="moure">sense necessitar <marker>de moure</marker> el cap</example>
                 <example correction="l'">no requereixen necessàriament <marker>de l’</marker>ús de noves tecnologies</example>
                 <example correction="ajuda">que necessiten, d'una banda, <marker>d'ajuda</marker></example>
+                <example correction="tota">Calia <marker>de tota</marker> l'ajuda necessària.</example>
                 <example>que necessiten, d'una banda, ajuda</example>
                 <example>hi ha necessitat de comprensió</example>
                 <example>sense necessitat de moure el cap</example>
@@ -10494,7 +10500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token><exception postag="P[0P].*" postag_regexp="yes">en</exception><exception inflected="yes" regexp="yes">ser|estar</exception></token>
-                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
+                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">caldre|necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
                         <token>de<exception postag=".*LOC_.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">final|fi</exception></token>
