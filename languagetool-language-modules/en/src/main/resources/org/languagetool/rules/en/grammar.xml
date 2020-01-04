@@ -8965,6 +8965,42 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="COPY_PASTE" name="Copy (and) paste" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/copy%20paste</url>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pasted</token>
+                </pattern>
+                <message>Did you mean <suggestion>copied and pasted</suggestion>?</message>
+                <example correction="copied and pasted">He <marker>copy  pasted</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pasting</token>
+                </pattern>
+                <message>Did you mean <suggestion>copying and pasting</suggestion>?</message>
+                <example correction="copying and pasting">I'm <marker>copy pasting</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pastes</token>
+                </pattern>
+                <message>Did you mean <suggestion>copies and pastes</suggestion>?</message>
+                <example correction="copies and pastes">He <marker>copy pastes</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>paste</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 and \2</suggestion>?</message>
+                <example correction="copy and paste">Please <marker>copy paste</marker> the file there.</example>
+            </rule>
+
+        </rulegroup>
         <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'">
             <antipattern case_sensitive="yes">
                 <token>State</token>
