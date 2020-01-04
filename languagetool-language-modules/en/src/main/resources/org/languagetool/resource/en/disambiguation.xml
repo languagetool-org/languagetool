@@ -5,6 +5,7 @@
 -->
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -5584,10 +5585,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <pattern>
         <token/>
         <token spacebefore="no">.</token>
-        <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+        <token spacebefore="no" regexp="yes">&file_name_extensions;</token>
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
+
     <rule name="Proper noun: Ho Chi Minh" id="HO_CHI_MINH"><!-- www.lexico.com/en/definition/ho_chi_minh -->
         <pattern case_sensitive="yes">
             <token>Ho</token>
