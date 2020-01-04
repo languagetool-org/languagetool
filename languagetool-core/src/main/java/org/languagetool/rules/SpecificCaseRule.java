@@ -68,7 +68,7 @@ public class SpecificCaseRule extends Rule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "SPECIFIC_CASE";
   }
 
