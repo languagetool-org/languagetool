@@ -644,79 +644,79 @@ public class Utils {
   private static char getMathsChar(char c) {
     int numeric = (int) c;
     boolean normaliseGreek = false;
-    if(numeric < 0) {
+    if (numeric < 0) {
       throw new RuntimeException("Failed to read character " + c);
     }
-    if(numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
+    if (numeric < MATHEMATICAL_BOLD_CAPITAL_A) {
       return c;
     } else {
-      if(numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
+      if (numeric >= MATHEMATICAL_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_SMALL_A && numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_SMALL_A && numeric <= MATHEMATICAL_BOLD_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_ITALIC_SMALL_A && numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_ITALIC_SMALL_A && numeric <= MATHEMATICAL_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_SCRIPT_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_SCRIPT_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SCRIPT_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_SCRIPT_SMALL_A && numeric <= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {
         // Not all Fraktur capitals have valid characters, but include them anyway
         return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_FRAKTUR_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_DOUBLESTRUCK_SMALL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_DOUBLESTRUCK_SMALL_A && numeric <= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_BOLD_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_BOLD_FRAKTUR_SMALL_A && numeric <= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A + SMALL_A);
-      } else if(numeric >= MATHEMATICAL_MONOSPACE_CAPITAL_A && numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
+      } else if (numeric >= MATHEMATICAL_MONOSPACE_CAPITAL_A && numeric <= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);
-      } else if(numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
+      } else if (numeric >= MATHEMATICAL_MONOSPACE_SMALL_A && numeric <= MATHEMATICAL_MONOSPACE_SMALL_Z) {
         return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);
-      } else if(numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {
+      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {
         return 'i';
-      } else if(numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_J) {
+      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_J) {
         return 'j';
-      } else if(numeric >= MATHEMATICAL_BOLD_CAPITAL_ALPHA && numeric <= MATHEMATICAL_BOLD_CAPITAL_OMEGA) {
-        if(normaliseGreek) {
+      } else if (numeric >= MATHEMATICAL_BOLD_CAPITAL_ALPHA && numeric <= MATHEMATICAL_BOLD_CAPITAL_OMEGA) {
+        if (normaliseGreek) {
           return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);
         } else {
           return c;
         }
-      } else if(numeric == MATHEMATICAL_BOLD_NABLA) {
+      } else if (numeric == MATHEMATICAL_BOLD_NABLA) {
         return '\u2207';
-      } else if(numeric >= MATHEMATICAL_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_SMALL_OMEGA) {
-        if(normaliseGreek) {
+      } else if (numeric >= MATHEMATICAL_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_SMALL_OMEGA) {
+        if (normaliseGreek) {
           return (char) (numeric - MATHEMATICAL_BOLD_SMALL_ALPHA + SMALL_ALPHA);
         } else {
           return c;
@@ -728,12 +728,12 @@ public class Utils {
 
   public static String simplifyMathematical(String s) {
     String out = "";
-    for(int i = 0; i < s.length(); i++) {
-      if(s.charAt(i) == '\uD835') {
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '\uD835') {
         int j = i + 1;
-        if(j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
+        if (j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
           char mapped = getMathsChar(s.charAt(j));
-          if(mapped == s.charAt(j)) {
+          if (mapped == s.charAt(j)) {
             out += s.charAt(i);
             out += s.charAt(j);
           } else {
