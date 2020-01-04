@@ -98,7 +98,7 @@ public class SpecificCaseRule extends Rule {
           }
           String msg;
           if (allWordsUppercase(properSpelling)) {
-            msg = "If the term is a proper noun, use initial capitals.";
+            msg = "Más ainmfhocal dílis é, scríobh é i gceannlitreacha.";
           } else {
             msg = "If the term is a proper noun, use the suggested capitalization.";
           }
