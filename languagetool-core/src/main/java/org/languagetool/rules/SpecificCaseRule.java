@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.rules;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -33,7 +33,7 @@ import java.util.*;
  */
 public class SpecificCaseRule extends Rule {
   
-  private static final Set<String> phrases = new HashSet<>(loadPhrases("/en/specific_case.txt"));
+  private final Set<String> phrases;
   private static int maxLen;
 
   private static List<String> loadPhrases(String path) {
@@ -53,29 +53,36 @@ public class SpecificCaseRule extends Rule {
     return l;
   }
 
-  private static final Map<String,String> lcToProperSpelling = new HashMap<>();
-  static {
-    for (String phrase : phrases) {
-      lcToProperSpelling.put(phrase.toLowerCase(), phrase);
-    }
-  }
+  private final Map<String,String> lcToProperSpelling = new HashMap<>();
 
-  public SpecificCaseRule(ResourceBundle messages) {
+  public SpecificCaseRule(ResourceBundle messages, String phrases) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("I really like <marker>Harry potter</marker>."),
                    Example.fixed("I really like <marker>Harry Potter</marker>."));
+    this.phrases = new HashSet<>(loadPhrases(phrases));
+    for (String phrase : this.phrases) {
+      lcToProperSpelling.put(phrase.toLowerCase(), phrase);
+    }
   }
 
   @Override
   public final String getId() {
-    return "EN_SPECIFIC_CASE";
+    return "SPECIFIC_CASE";
   }
 
   @Override
   public String getDescription() {
     return "Checks upper/lower case spelling of some proper nouns";
+  }
+
+  public String getAllUpperMessage() {
+    return "If the term is a proper noun, use initial capitals.";
+  }
+
+  public String getMixedCaseMessage() {
+    return "If the term is a proper noun, use the suggested capitalization.";
   }
 
   @Override
@@ -91,16 +98,16 @@ public class SpecificCaseRule extends Rule {
         String phrase = String.join(" ", l);
         String lcPhrase = phrase.toLowerCase();
         String properSpelling = lcToProperSpelling.get(lcPhrase);
-        if (properSpelling != null && !StringTools.isAllUppercase(phrase) && !phrase.equals(properSpelling)) {
-          if (i > 0 && tokens[i-1].isSentenceStart() && !StringTools.startsWithUppercase(properSpelling)) {
+        if (properSpelling != null && !isAllUppercase(phrase) && !phrase.equals(properSpelling)) {
+          if (i > 0 && tokens[i-1].isSentenceStart() && !startsWithUppercase(properSpelling)) {
             // avoid suggesting e.g. "vitamin C" at sentence start:
             continue;
           }
           String msg;
           if (allWordsUppercase(properSpelling)) {
-            msg = "If the term is a proper noun, use initial capitals.";
+            msg = getAllUpperMessage();
           } else {
-            msg = "If the term is a proper noun, use the suggested capitalization.";
+            msg = getMixedCaseMessage();
           }
           RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i].getStartPos() + phrase.length(), msg);
           match.setSuggestedReplacement(properSpelling);
@@ -112,7 +119,14 @@ public class SpecificCaseRule extends Rule {
   }
 
   private boolean allWordsUppercase(String s) {
-    return Arrays.stream(s.split(" ")).allMatch(StringTools::startsWithUppercase);
+    return Arrays.stream(s.split(" ")).allMatch(this::startsWithUppercase);
   }
 
+  private boolean isAllUppercase(String str) {
+    return StringTools.isAllUppercase(str);
+  }
+
+  private boolean startsWithUppercase(String str) {
+    return StringTools.startsWithUppercase(str);
+  }
 }

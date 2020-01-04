@@ -211,7 +211,7 @@ public class English extends Language implements AutoCloseable {
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         // specific to English:
-        new SpecificCaseRule(messages),
+        new SpecificCaseRule(messages, "/en/specific_case.txt"),
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),

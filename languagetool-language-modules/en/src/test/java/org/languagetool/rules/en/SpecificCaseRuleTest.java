@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SpecificCaseRule;
 
 import java.io.IOException;
 
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 public class SpecificCaseRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
-  private final SpecificCaseRule rule = new SpecificCaseRule(TestTools.getEnglishMessages());
+  private final SpecificCaseRule rule = new SpecificCaseRule(TestTools.getEnglishMessages(), "/en/specific_case.txt");
 
   @Test
   public void testRule() throws IOException {
