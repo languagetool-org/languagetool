@@ -110,4 +110,13 @@ public class UtilsTest {
     assertEquals("Chuir", Utils.unPonc("Ċuir"));
     assertEquals("FÉACH", Utils.unPonc("FÉAĊ"));
   }
+
+  @Test
+  public void testSimplify() {
+    // perl -e 'for my $i (qw/18 4 0 13 0 19 7 0 8 17/) { printf "\\uD835\\uDC%X", (hex("1A") + $i);}'
+    String boldUpper = "\uD835\uDC12\uD835\uDC04\uD835\uDC00\uD835\uDC0D\uD835\uDC00\uD835\uDC13\uD835\uDC07\uD835\uDC00\uD835\uDC08\uD835\uDC11";
+    assertEquals("SEANATHAIR", Utils.simplifyMathematical(boldUpper));
+    String boldLower = "\uD835\uDC2C\uD835\uDC1E\uD835\uDC1A\uD835\uDC27\uD835\uDC1A\uD835\uDC2D\uD835\uDC21\uD835\uDC1A\uD835\uDC22\uD835\uDC2B";
+    assertEquals("seanathair", Utils.simplifyMathematical(boldLower));
+  }
 }
