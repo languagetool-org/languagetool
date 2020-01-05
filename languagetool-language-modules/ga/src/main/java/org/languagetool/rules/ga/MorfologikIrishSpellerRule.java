@@ -29,6 +29,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tagging.ga.Utils;
 
 public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
 
@@ -39,6 +40,7 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   public MorfologikIrishSpellerRule(ResourceBundle messages,
                                      Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+    super.ignoreWordsWithLength = 1;
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Tá <marker>botun</marker> san abairt seo."),
                    Example.fixed("Tá <marker>botún</marker> san abairt seo."));
@@ -58,6 +60,17 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   @Override
   public Pattern tokenizingPattern() {
     return IRISH_TOKENIZING_CHARS;
+  }
+
+  @Override
+  public boolean isMisspelled(String word) throws IOException {
+    String checkWord = word;
+    if (Utils.isAllMathsChars(word)) {
+      checkWord = Utils.simplifyMathematical(word);
+    } else if (Utils.isAllHalfWidthChars(word)) {
+      checkWord = Utils.halfwidthLatinToLatin(word);
+    }
+    return super.isMisspelled(checkWord);
   }
 
 }
