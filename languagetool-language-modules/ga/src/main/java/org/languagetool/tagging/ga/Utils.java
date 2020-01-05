@@ -669,8 +669,8 @@ public class Utils {
   private static final int SMALL_A = (int) 'a';
   private static final int CAPITAL_ALPHA = (int) 'Α';
   private static final int SMALL_ALPHA = (int) 'α';
-  private static final int SMALL_ZERO = (int) '0';
-  private static final int SMALL_NINE = (int) '9';
+  private static final int DIGIT_ZERO = (int) '0';
+  private static final int DIGIT_NINE = (int) '9';
 
   private static char getMathsChar(char c) {
     return getMathsChar(c, false, false);
@@ -746,21 +746,52 @@ public class Utils {
           return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);
         } else if (numeric >= MATHEMATICAL_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_SMALL_OMEGA) {
           return (char) (numeric - MATHEMATICAL_BOLD_SMALL_ALPHA + SMALL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_ITALIC_CAPITAL_ALPHA && numeric <= MATHEMATICAL_ITALIC_CAPITAL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_ITALIC_SMALL_ALPHA && numeric <= MATHEMATICAL_ITALIC_SMALL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_ALPHA + SMALL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA && numeric <= MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA && numeric <= MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA + SMALL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA && numeric <= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA && numeric <= MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA + SMALL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);
+        } else if (numeric >= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA && numeric <= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA + SMALL_ALPHA);
         }
       } else if (normaliseDigits) {
-
+        if (numeric >= MATHEMATICAL_BOLD_DIGIT_ZERO && numeric <= MATHEMATICAL_BOLD_DIGIT_NINE) {
+          return (char) (numeric - MATHEMATICAL_BOLD_DIGIT_ZERO + DIGIT_ZERO);
+        } else if (numeric <= MATHEMATICAL_DOUBLESTRUCK_DIGIT_NINE) {
+          return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_DIGIT_ZERO + DIGIT_ZERO);
+        } else if (numeric <= MATHEMATICAL_SANSSERIF_DIGIT_NINE) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_DIGIT_ZERO + DIGIT_ZERO);
+        } else if (numeric <= MATHEMATICAL_SANSSERIF_BOLD_DIGIT_NINE) {
+          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_DIGIT_ZERO + DIGIT_ZERO);
+        } else if (numeric <= MATHEMATICAL_MONOSPACE_DIGIT_NINE) {
+          return (char) (numeric - MATHEMATICAL_MONOSPACE_DIGIT_ZERO + DIGIT_ZERO);
+        }
       }
       return c;
     }
   }
 
   public static String simplifyMathematical(String s) {
+    return simplifyMathematical(s, false, false);
+  }
+
+  public static String simplifyMathematical(String s, boolean normaliseGreek, boolean normaliseDigits) {
     StringBuilder out = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
       if (s.charAt(i) == '\uD835') {
         int j = i + 1;
-        if (j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A) {
-          char mapped = getMathsChar(s.charAt(j));
+        if (j < s.length() && (int) s.charAt(j) >= MATHEMATICAL_BOLD_CAPITAL_A
+          && (int) s.charAt(j) <= MATHEMATICAL_MONOSPACE_DIGIT_NINE) {
+          char mapped = getMathsChar(s.charAt(j), normaliseGreek, normaliseDigits);
           if (mapped == s.charAt(j)) {
             out.append(s.charAt(i));
             out.append(s.charAt(j));
