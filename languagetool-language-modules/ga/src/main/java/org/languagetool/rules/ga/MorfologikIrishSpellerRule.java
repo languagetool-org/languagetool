@@ -29,6 +29,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tagging.ga.Utils;
 
 public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
 
@@ -59,6 +60,16 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   @Override
   public Pattern tokenizingPattern() {
     return IRISH_TOKENIZING_CHARS;
+  }
+
+  @Override
+  public boolean isMisspelled(String word) throws IOException {
+    if (Utils.isAllMathsChars(word)) {
+      word = Utils.simplifyMathematical(word);
+    } else if (Utils.isAllHalfWidthChars(word)) {
+      word = Utils.halfwidthLatinToLatin(word);
+    }
+    return super.isMisspelled(word);
   }
 
 }
