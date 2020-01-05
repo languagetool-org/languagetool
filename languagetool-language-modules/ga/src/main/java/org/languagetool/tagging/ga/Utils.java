@@ -745,6 +745,25 @@ public class Utils {
   private static final int SMALL_ALPHA = (int) 'α';
   private static final int DIGIT_ZERO = (int) '0';
 
+  public static boolean isAllMathsChars(String s) {
+    if(s.length() % 2 != 0) {
+      return false;
+    }
+    for (int i = 0; i < s.length(); i++) {
+      if (i % 2 == 0) {
+        if (s.charAt(i) != '\uD835') {
+          return false;
+        }
+      } else {
+        int numValue = (int) s.charAt(i);
+        if (numValue < MATHEMATICAL_BOLD_CAPITAL_A || numValue > MATHEMATICAL_MONOSPACE_DIGIT_NINE) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   private static char getMathsChar(char c) {
     return getMathsChar(c, false, false);
   }
