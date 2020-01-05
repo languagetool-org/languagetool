@@ -764,6 +764,37 @@ public class Utils {
     return true;
   }
 
+  public static boolean isAllHalfWidthChars(String s) {
+    for (char c : s.toCharArray()) {
+      int charValue = (int) c;
+      if ((charValue < (int) 'Ａ' || charValue > (int) 'Ｚ')
+      || (charValue < (int) 'ａ' || charValue > (int) 'ｚ')) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public static String halfwidthLatinToLatin(String s) {
+    StringBuilder sb = new StringBuilder();
+    int HALFWIDTH_LATIN_CAPITAL_A = (int) 'Ａ';
+    int HALFWIDTH_LATIN_CAPITAL_Z = (int) 'Ｚ';
+    int HALFWIDTH_LATIN_SMALL_A = (int) 'ａ';
+    int HALFWIDTH_LATIN_SMALL_Z = (int) 'ｚ';
+
+    for (char c : s.toCharArray()) {
+      int charValue = (int) c;
+      if (charValue >= HALFWIDTH_LATIN_CAPITAL_A && charValue <= HALFWIDTH_LATIN_CAPITAL_Z) {
+        sb.append((char) c - HALFWIDTH_LATIN_CAPITAL_A + CAPITAL_A);
+      } else if (charValue >= HALFWIDTH_LATIN_SMALL_A && charValue <= HALFWIDTH_LATIN_SMALL_Z) {
+        sb.append((char) c - HALFWIDTH_LATIN_SMALL_A + SMALL_A);
+      } else {
+        sb.append((char) c);
+      }
+    }
+    return sb.toString();
+  }
+
   private static char getMathsChar(char c) {
     return getMathsChar(c, false, false);
   }

@@ -139,4 +139,16 @@ public class UtilsTest {
     assertEquals(false, Utils.isAllMathsChars("f\uD835\uDC12"));
     assertEquals(true, Utils.isAllMathsChars(boldUpper));
   }
+
+  String torrach = "ｔｏｒｒａｃｈ";
+  @Test
+  public void testIsAllHalfWidthChars() {
+    assertEquals(true, Utils.isAllHalfWidthChars(torrach));
+    assertEquals(false, Utils.isAllHalfWidthChars(torrach + "a"));
+  }
+  @Test
+  public void testHalfwidthLatinToLatin() {
+    assertEquals("torrach", Utils.halfwidthLatinToLatin(torrach));
+  }
+
 }
