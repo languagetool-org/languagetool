@@ -31,7 +31,7 @@ import java.util.*;
  * A rule that matches words which are complex and suggests easier to understand alternatives. 
  * @since 4.8
  */
-public class SpecificCaseRule extends Rule {
+public class IrishSpecificCaseRule extends Rule {
   
   private static final Set<String> phrases = new HashSet<>(loadPhrases("/ga/specific_case.txt"));
   private static int maxLen;
@@ -60,7 +60,7 @@ public class SpecificCaseRule extends Rule {
     }
   }
 
-  public SpecificCaseRule(ResourceBundle messages) {
+  public IrishSpecificCaseRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
