@@ -64,12 +64,13 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public boolean isMisspelled(String word) throws IOException {
+    String checkWord = word;
     if (Utils.isAllMathsChars(word)) {
-      word = Utils.simplifyMathematical(word);
+      checkWord = Utils.simplifyMathematical(word);
     } else if (Utils.isAllHalfWidthChars(word)) {
-      word = Utils.halfwidthLatinToLatin(word);
+      checkWord = Utils.halfwidthLatinToLatin(word);
     }
-    return super.isMisspelled(word);
+    return super.isMisspelled(checkWord);
   }
 
 }
