@@ -873,4 +873,8 @@ public class Utils {
   public static boolean hasMixedGreekAndLatin(String s) {
     return s.matches(".*[A-Za-z].*") && s.matches(".*\\p{InGREEK}.*");
   }
+
+  public static boolean hasMixedGreekAndCyrillic(String s) {
+    return s.matches(".*[A-Za-z].*") && s.matches(".*\\p{InCYRILLIC}.*");
+  }
 }
