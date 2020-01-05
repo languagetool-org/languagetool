@@ -767,8 +767,11 @@ public class Utils {
   public static boolean isAllHalfWidthChars(String s) {
     for (char c : s.toCharArray()) {
       int charValue = (int) c;
-      if ((charValue < (int) 'Ａ' || charValue > (int) 'Ｚ')
-      || (charValue < (int) 'ａ' || charValue > (int) 'ｚ')) {
+      if (charValue < (int) 'Ａ') {
+        return false;
+      } else if (charValue > (int) 'Ｚ' && charValue < (int) 'ａ') {
+        return false;
+      } else if (charValue > (int) 'ｚ') {
         return false;
       }
     }
@@ -785,11 +788,11 @@ public class Utils {
     for (char c : s.toCharArray()) {
       int charValue = (int) c;
       if (charValue >= HALFWIDTH_LATIN_CAPITAL_A && charValue <= HALFWIDTH_LATIN_CAPITAL_Z) {
-        sb.append((char) c - HALFWIDTH_LATIN_CAPITAL_A + CAPITAL_A);
+        sb.append((char) (charValue - HALFWIDTH_LATIN_CAPITAL_A + CAPITAL_A));
       } else if (charValue >= HALFWIDTH_LATIN_SMALL_A && charValue <= HALFWIDTH_LATIN_SMALL_Z) {
-        sb.append((char) c - HALFWIDTH_LATIN_SMALL_A + SMALL_A);
+        sb.append((char) (charValue - HALFWIDTH_LATIN_SMALL_A + SMALL_A));
       } else {
-        sb.append((char) c);
+        sb.append(c);
       }
     }
     return sb.toString();
