@@ -871,16 +871,6 @@ public class Utils {
   }
 
   public static boolean hasMixedGreekAndLatin(String s) {
-    if(!s.matches(".*[A-Za-z].*")) {
-      return false;
-    } else {
-      for (char c : s.toCharArray()) {
-        System.err.println(Character.UnicodeBlock.of(c));
-        if (Character.UnicodeBlock.of(c) == Character.UnicodeBlock.GREEK) {
-          return true;
-        }
-      }
-      return false;
-    }
+    return s.matches(".*[A-Za-z].*") && s.matches(".*\\p{InGREEK}.*");
   }
 }
