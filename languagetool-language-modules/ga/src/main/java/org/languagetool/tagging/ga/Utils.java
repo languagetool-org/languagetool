@@ -637,22 +637,18 @@ public class Utils {
   private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEDA';
   private static final int MATHEMATICAL_ITALIC_CAPITAL_ALPHA = (int) '\uDEE2';
   private static final int MATHEMATICAL_ITALIC_CAPITAL_OMEGA = (int) '\uDEFA';
-  private static final int MATHEMATICAL_ITALIC_NABLA = (int) '\uDEFB';
   private static final int MATHEMATICAL_ITALIC_SMALL_ALPHA = (int) '\uDEFC';
   private static final int MATHEMATICAL_ITALIC_SMALL_OMEGA = (int) '\uDF14';
   private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA = (int) '\uDF1C';
   private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA = (int) '\uDF34';
-  private static final int MATHEMATICAL_BOLD_ITALIC_NABLA = (int) '\uDF35';
   private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA = (int) '\uDF36';
   private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA = (int) '\uDF4E';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA = (int) '\uDF56';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA = (int) '\uDF6E';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_NABLA = (int) '\uDF6F';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA = (int) '\uDF70';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA = (int) '\uDF88';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA = (int) '\uDF90';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA = (int) '\uDFA8';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_NABLA = (int) '\uDFA9';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA = (int) '\uDFAA';
   private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA = (int) '\uDFC2';
   private static final int MATHEMATICAL_BOLD_DIGIT_ZERO = (int) '\uDFCE';
@@ -670,7 +666,6 @@ public class Utils {
   private static final int CAPITAL_ALPHA = (int) 'Α';
   private static final int SMALL_ALPHA = (int) 'α';
   private static final int DIGIT_ZERO = (int) '0';
-  private static final int DIGIT_NINE = (int) '9';
 
   private static char getMathsChar(char c) {
     return getMathsChar(c, false, false);
