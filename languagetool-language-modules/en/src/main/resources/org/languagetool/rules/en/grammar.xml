@@ -52,7 +52,7 @@ USA
     <!ENTITY rude_sarcastic_2 "(?:are you blind\?|are you deaf\?|bite me|I hope you're happy[\.!]|oh really\!?\?|since when\?|what do you know\?|whoosh[\.!]|you don't say\?|you think\?)"><!-- XXX should be avoided in writting: what's new\?|what else is new| -->
     <!ENTITY rude_sarcastic_3 "(?:glorified)">
     <!ENTITY ATD_to_collocation "(?:ability|able|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|contributes?|contribution|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|refusal|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing)">
-    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx">
+    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY hyphen "(?:[-‑])">
 
     <!ENTITY ambiguous_date '
@@ -3293,7 +3293,7 @@ USA
                 <example correction="it's|it is">Purely to save money - always smoked so dunno whether <marker>its</marker> beneficial.</example>
                 <example>Not mine but its own.</example> 
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -3334,7 +3334,7 @@ USA
                 <example>Not mine but its own</example> 
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
                     <marker>
@@ -3463,6 +3463,12 @@ USA
                     <token postag="RB"/>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </antipattern>
+                <antipattern><!-- will host its first Ashes Test match. -->
+                    <token chunk="I-VP" postag_regexp="yes" postag="VBP?"/>
+                    <token>its</token>
+                    <token postag="RB"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
                 <antipattern><!-- Its exponentially larger development -->
                     <token chunk="B-NP-singular">its</token>
                     <token chunk="I-NP-singular" postag="RB"/>
@@ -3487,6 +3493,7 @@ USA
                 <example>Leading its first rally it went off the road...</example>
                 <example>... into the American Le Mans Series; which ran its first season in 1999, the European races...</example>
                 <example>Its exponentially larger development at the end of the...</example>
+                <example>..2013, Durham's Chester-le-Street ground will host its first Ashes Test match.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6528,7 +6535,7 @@ USA
                 <message>Did you mean <suggestion>excited</suggestion> (=enthusiastic) instead of 'exited' (=gone away)?</message>
                 <example correction="excited">She is really <marker>exited</marker> about it.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag="RB">
@@ -6543,7 +6550,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -6573,7 +6580,7 @@ USA
                 <example correction="you're">A reason I think life goes by so quickly when <marker>your</marker> older.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -6589,7 +6596,7 @@ USA
                 <example correction="you're">But <marker>your</marker> very cool.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC  -->
@@ -6605,7 +6612,7 @@ USA
                 <example>Not mine, but your own</example>
             </rule>
 
-            <rule default="temp_off"><!-- needed because of wrong tagging: "cool" is tagged NN in "Your cool." -->
+            <rule><!-- needed because of wrong tagging: "cool" is tagged NN in "Your cool." -->
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC  -->
@@ -6622,7 +6629,7 @@ USA
                 <example>Not mine, but your own.</example>
             </rule>
 
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
                     <marker>
@@ -8965,6 +8972,42 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="COPY_PASTE" name="Copy (and) paste" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/copy%20paste</url>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pasted</token>
+                </pattern>
+                <message>Did you mean <suggestion>copied and pasted</suggestion>?</message>
+                <example correction="copied and pasted">He <marker>copy  pasted</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pasting</token>
+                </pattern>
+                <message>Did you mean <suggestion>copying and pasting</suggestion>?</message>
+                <example correction="copying and pasting">I'm <marker>copy pasting</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>pastes</token>
+                </pattern>
+                <message>Did you mean <suggestion>copies and pastes</suggestion>?</message>
+                <example correction="copies and pastes">He <marker>copy pastes</marker> the file there.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>paste</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 and \2</suggestion>?</message>
+                <example correction="copy and paste">Please <marker>copy paste</marker> the file there.</example>
+            </rule>
+
+        </rulegroup>
         <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'">
             <antipattern case_sensitive="yes">
                 <token>State</token>
@@ -13164,6 +13207,91 @@ USA
             <url>https://en.wikipedia.org/wiki/Game_Boy</url>
             <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
         </rule>
+        <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Donald_Trump</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">donald|melania|ivank?a|fred|tiffany|barron|eric</token>
+                    <token case_sensitive="yes">trump</token>
+                </pattern>
+                <message>The word needs to be capitalized.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Donald Trump"><marker>Donald trump</marker> is president of the United States.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">president|leader|ceo|commander-in-chief|candidate</token>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">President <marker>trump</marker> is on vacation in Mar-A-Lago.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">s</token>
+                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">According to Rudy Giuliani, <marker>trump</marker>'s attorney, Trump had sought advice about pardoning Manafort but was counseled against it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">trump</token>
+                    </marker>
+                    <token regexp="yes">and|or|&amp;</token>
+                    <token>his</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">According to <marker>trump</marker> and his attorney, Trump had sought advice about pardoning Manafort but was counseled against it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">
+                            <exception regexp="yes" scope="previous">the|an?</exception>
+                            trump
+                        </token>
+                    </marker>
+                    <token postag="VBZ" />
+                    <token>his</token>
+                </pattern>
+                <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
+                <example correction="Trump">Yet again <marker>trump</marker> displays his ignorance of and contempt for history and current politics, as well as the lives of all others.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">donald|melania|ivank?a|fred|tiffany|barron|eric|president|leader|ceo|commander-in-chief|candidate</token>
+                    <marker>
+                        <token>Trumps</token>
+                    </marker>
+                </pattern>
+                <message>A possessive apostrophe is required here.</message>
+                <suggestion>Trump's</suggestion>
+                <example correction="Trump's">Donald <marker>Trumps</marker> presidency.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>
+                            <exception scope="previous">the</exception>
+                            Trumps
+                        </token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                </pattern>
+                <message>A possessive apostrophe is required here.</message>
+                <suggestion>Trump's</suggestion>
+                <example correction="Trump's">Donald <marker>Trumps</marker> first presidency.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_GOOGLE" name="a/the + proper noun">
             <antipattern>
                 <token>let</token>
@@ -13583,7 +13711,7 @@ USA
             <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
             <example correction="von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
         </rule>
-        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron" default="temp_off">
+        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
                 <token>Emmanuel</token>
                 <token>Macron</token>
@@ -13597,7 +13725,7 @@ USA
             <example correction="Emmanuel Macron"><marker>Manuel macron</marker> is a French politician who has been President of France and ex officio Co-Prince of Andorra since 14 May 2017.</example>
             <example><marker>Emmanuel Macron</marker> is a French politician who has been President of France and ex officio Co-Prince of Andorra since 14 May 2017.</example>
         </rule>
-        <rule id="RED_NOSED_REINDEER" name="Red-Nosed Reindeer" default="temp_off">
+        <rule id="RED_NOSED_REINDEER" name="Red-Nosed Reindeer">
             <antipattern>
                 <token>red-nosed</token>
                 <token regexp="yes">reindeers?</token>
@@ -13897,7 +14025,7 @@ USA
             <example correction="month-to-month">My lease is up, so now I'm on the ordinary <marker>month to month</marker> portion of the contract.</example>
             <example correction="day-to-day">My <marker>day to day</marker> routine during finals weeks did not change dramatically</example>
         </rule>
-        <rule id="TAKEAWAY" name="take away (takeaway)" default="temp_off">
+        <rule id="TAKEAWAY" name="take away (takeaway)">
             <antipattern>
                 <token>let</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -13921,7 +14049,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/takeaway</url>
             <example correction="takeaways">Those were my biggest <marker>take aways</marker> from today's event.</example>
         </rule>
-        <rule id="ANTI_AMERICAN_HYPHEN" name="missing hyphen in 'anti-Semitism'" default="temp_off">
+        <rule id="ANTI_AMERICAN_HYPHEN" name="missing hyphen in 'anti-Semitism'">
             <pattern>
                 <token>anti</token>
                 <token regexp="yes">Semitism|Semitic|American|Americanism</token>
@@ -13930,7 +14058,7 @@ USA
             <suggestion>anti-<match no="2" case_conversion="startupper" /></suggestion>
             <example correction="anti-American">He's an <marker>anti american</marker>.</example>
         </rule>
-        <rulegroup id="NO_GO_HYPHEN" name="missing hyphen in 'no-go'" default="temp_off">
+        <rulegroup id="NO_GO_HYPHEN" name="missing hyphen in 'no-go'">
             <url>https://www.merriam-webster.com/dictionary/no-go</url>
             <rule>
                 <pattern>
@@ -14467,7 +14595,7 @@ USA
                 <example correction="write-ups">I created 2 new <marker>write ups</marker> for school.</example>
                 <example>Only a few write down their notes.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|JJ.*|DT|IN|CD" postag_regexp="yes" />
                     <marker>
@@ -20079,6 +20207,7 @@ USA
                 <example type="triggers_error">Although my cat is very <marker>loving</marker>, she sometimes scratches me.</example><!-- Adjective -->
                 <example>This is incredibly satisfying.</example>
                 <example type="triggers_error">Mr Jones is <marker>tasting</marker> the soup his wife made.</example>
+                <example>Their aesthetics are not to everyone’s liking.</example><!-- #2277 -->
             </rule>
             <rule>
                 <pattern>
@@ -33095,7 +33224,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="PRICE_SENSIBILITY" name="price sensibility (sensivity)" default="temp_off">
+        <rule id="PRICE_SENSIBILITY" name="price sensibility (sensivity)">
             <!-- error mostly done by Germans translating "Preissensibilität" -->
             <pattern>
                 <token>price</token>
@@ -39693,7 +39822,7 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
-        <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'" default="temp_off">
+        <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'">
             <pattern>
                 <token inflected="yes">merchandize</token>
             </pattern>
@@ -40309,12 +40438,19 @@ The accident victim died from her injuries.
                 <example correction="ancient">This is <marker>extremely old</marker>.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2278 -->
+                    <token regexp='yes'>really|truly</token>
+                    <token>pretty</token>
+                    <token postag='JJ'/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>&extreme_qualifiers;</token>
                     <token inflected="yes">pretty</token>
                 </pattern>
                 <message>The extreme adjective for pretty is <suggestion><match no="2">gorgeous</match></suggestion>.</message>
                 <example correction="gorgeous">This is <marker>extremely pretty</marker>.</example>
+                <example>This is <marker>gorgeous</marker>.</example>
+                <example>It's really pretty ugly.</example><!-- #2278 -->
             </rule>
             <rule>
                 <pattern>
@@ -44764,40 +44900,32 @@ The accident victim died from her injuries.
     <rulegroup id="NON_STANDARD_ALPHABETIC_CHARACTERS" name="Non-standard alphabetic characters" default="temp_off"><!-- #2211 -->
         <url>https://www.unicode.org/charts/</url><!-- Unicode charts are in PDF format. Thus, do not link to the specific chart. Reference: www.utf8-chartable.de/unicode-utf8-table.pl?start=384&number=1024 -->
         <short>Non-standard alphabetic character</short>
-        <rule><!-- Cyrillic small letter o, U+043E -->
+        <rule id="NON_ENGLISH_CHARACTER_IN_A_WORD" name="Non-standard character in a word">
             <pattern>
-                <token postag="UNKNOWN" regexp="yes">.*\u043E.*</token>
+                <or>
+                    <token postag="UNKNOWN" regexp="yes">(\u043E|\u0455|\u0435|\u0440)[a-z]+</token>
+                    <token postag="UNKNOWN" regexp="yes">[a-z]+(\u043E|\u0455|\u0435|\u0440)</token>
+                    <token postag="UNKNOWN" regexp="yes">[a-z]+(\u043E|\u0455|\u0435|\u0440)[a-z]+</token>
+                </or>
             </pattern>
-            <message>The character 'о' is a Cyrillic small letter 'o' (Unicode U+043E), although it can look like an English 'o'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u043E(.*)" regexp_replace="$1o$2"/></suggestion>.</message>
-            <example correction="hot">The sun is <marker>hоt</marker> (contains Cyrillic small letter 'o').</example>
-            <example correction="o">Cyrillic small letter <marker>о</marker>.</example>
-            <example correction="open">Please <marker>оpen</marker> the door.</example>
-            <example correction="Houѕе">The word '<marker>Hоuѕе</marker>' contains 3 non-standard characters.</example>
-            <example>The sun is <marker>hot</marker>.</example>
-        </rule>
-        <rule><!-- Cyrillic small letter dze, U+0455 -->
-            <pattern>
-                <token postag="UNKNOWN" regexp="yes">.*\u0455.*</token>
-            </pattern>
-            <message>The character 'ѕ' is a Cyrillic small letter 'dze' (Unicode U+0455), although it can look like an English 's'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0455(.*)" regexp_replace="$1s$2"/></suggestion>.</message>
-            <example correction="his">This is <marker>hiѕ</marker> (contains Cyrillic small letter 'dze').</example>
-            <example>This is <marker>his</marker>.</example>
-        </rule>
-        <rule><!-- Cyrillic small letter ie, U+0435 -->
-            <pattern>
-                <token postag="UNKNOWN" regexp="yes">.*\u0435.*</token>
-            </pattern>
-            <message>The character 'е' is a Cyrillic small letter 'ie' (Unicode U+0435), although it can look like an English 'e'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0435(.*)" regexp_replace="$1e$2"/></suggestion>.</message>
-            <example correction="tea">I like <marker>tеa</marker> (contains Cyrillic small letter 'ie').</example>
-            <example>I like <marker>tea</marker>.</example>
-        </rule>
-        <rule><!-- Cyrillic small letter er, U+0440 -->
-            <pattern>
-                <token postag="UNKNOWN" regexp="yes">.*\u0440.*</token>
-            </pattern>
-            <message>The character 'р' is a Cyrillic small letter 'er' (Unicode U+0440), although it can look like an English 'e'. The character can cause a spelling error and disambiguation errors. Use <suggestion><match no="1" regexp_match="(.*)\u0440(.*)" regexp_replace="$1p$2"/></suggestion>.</message>
-            <example correction="pea">This is a <marker>рea</marker> (contains Cyrillic small letter 'er').</example>
-            <example>This is a <marker>pea</marker>.</example>
+            <message>A character in '\1' is not an English character, although it can look like an English character. The character can cause a spelling error and disambiguation errors. Type the word again.</message>
+            <example correction="">Please <marker>оpen</marker> the door. (Contains Cyrillic small letter 'o', Unicode U+043E.)</example>
+            <example correction="">Can you <marker>ѕee</marker> it? (Contains Cyrillic small letter 'dze', Unicode U+0455.)</example>
+            <example correction="">Did you <marker>еat</marker> the last biscuit? (Contains Cyrillic small letter 'ie', Unicode, U+0435.)</example>
+            <example correction="">This is a <marker>рea</marker>. (Contains Cyrillic small letter 'er', Unicode U+0440.)</example>
+            <example correction=""><marker>Nо</marker>, thank you. (Contains Cyrillic small letter 'o'.)</example>
+            <example correction=""><marker>Thiѕ</marker> is not correct. (Contains Cyrillic small letter 'dze')</example>
+            <example correction="">Tell <marker>mе</marker> more! (Contains Cyrillic small letter 'ie'.)</example>
+            <example correction="">Do you like the <marker>souр</marker>? (Contains Cyrillic small letter 'er')</example>
+            <example correction="">The sun is <marker>hоt</marker>. (Contains Cyrillic small letter 'o'.)</example>
+            <example>Please <marker>open</marker> the door.</example>
+            <example>Cyrillic small letter <marker>о</marker>.</example>
+            <example>...of China use astronaut while texts in Russian use <marker>космонавт</marker> (kosmonavt).</example>
+            <example>Russian: <marker>Чужой</marker> simple:Alien</example>
+            <example>The word '<marker>Hоuѕе</marker>' contains 3 non-standard characters.</example><!-- A rule to find more than one character is likely to cause FP for foreign words such as космонавт. -->
+            <example>... <marker>ru</marker>: ....</example>
+            <example>Contains Cyrillic small letter '<marker>dze</marker>'.</example>
+            <example>... baby's first word "<marker>googoogoo</marker>".</example>
         </rule>
     </rulegroup>
 

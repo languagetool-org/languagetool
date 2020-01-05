@@ -10977,6 +10977,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="GRAMADOIR_MORPH" name="morph">
+        <rule id="BH_APOST" name="bh'fhiú">
+            <pattern>
+                <marker>
+                    <token>bh</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token regexp="yes" spacebefore="ignore">[aeiouáéíóú].*|fh.*</token>
+            </pattern>
+            <message>Foirm neamhchaighdeánach de <suggestion>b</suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="b"><marker>bh</marker>'fhiú</example>
+        </rule>
+        <rule id="MBH-" name="mbh-">
+            <pattern>
+                <token regexp="yes">mbh.*</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ga.IrishPartialPosTagFilter"
+            args="no:1 regexp:(mb)h(.*) postag_regexp:.*Ecl.* two_groups_regexp:yes" />
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" suppress_misspelled="yes" regexp_match="(mb)h(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="mbeidh"><marker>mbheidh</marker></example>
+        </rule>
+        <rule id="BUADH-" name="buadh-">
+            <pattern>
+                <token regexp="yes">m?bh?uadh.*</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ga.IrishPartialPosTagFilter"
+                    args="no:1 regexp:((?:mb|bh|b)ua)dh(.*) postag_regexp:.* two_groups_regexp:yes" />
+            <message>Foirm neamhchaighdeánach de <suggestion><match no="1" suppress_misspelled="yes" regexp_match="((?:mb|bh|b)ua)dh(.*)" regexp_replace="$1$2"/></suggestion></message>
+            <short>Neamhchaighdeánach</short>
+            <example correction="buabhall"><marker>buadhbhall</marker></example>
+        </rule>
+    </category>
     <category id="GRAMADOIR_SEIMHIU" name="Séimhiú ar iarraidh" type="grammar">
         <rule id="AMHAIL_AN_MBEAN" name="amhail an mbean">
             <pattern>
@@ -12001,6 +12035,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>murar canadh</example>
         </rule>
         <rule id="NAR_VNOPAUT" name="nár cantar">
+            <antipattern>
+                <token>nár</token>
+                <token postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token>nár</token>
                 <marker>
@@ -17680,6 +17718,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">dá|go|sula|mura|nár</token>
                 <token postag=".*PresSubj.*|.*PastImp.*Ecl" postag_regexp="yes"></token>
             </antipattern>
+            <antipattern>
+                <token>é</token>
+            </antipattern>
             <pattern>
                 <token postag=".*PresSubj.*|.*PastImp.*Ecl" postag_regexp="yes"></token>
             </pattern>
@@ -17689,6 +17730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Ba iad mo shinsear <marker>rithe</marker> Chúige Uladh.</example>
             <example correction="">Is iad na trí cholún sin le <marker>cheile</marker> an tAontas Eorpach.</example>
             <example>Bhrostaigh sé go dtí an t-ospidéal</example>
+            <example>Chonaic mé é.</example>
         </rule>
     </category>
     <category name="Prefix H" id="GRAMADOIR_PREFIXH" type="grammar">
@@ -18529,9 +18571,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='an Mhárta'>mí <marker>Mhárta</marker></example>
         </rule>
     </category>
-    <!--
-    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
+    <category id="GRAMADOIR_NEEDART_LOGAINMNEACHA" name="Alt cinnte ar iarraidh">
         <rule id="BREATAIN" name="Breatain">
+            <antipattern>
+                <token>an</token>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&fusedprep;</token>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
+                <token regexp="yes">an|na</token>
+                <token postag=".*Noun.*:Gen.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">m?Bh?reatain|m?Bh?ruiséil|m?Bh?eilg|m?Bh?ablóin|m?Bh?riotáin|m?Bh?rasaíl</token>
             </pattern>
@@ -18539,18 +18593,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Alt cinnte ar iarraidh</short>
             <example correction='An Bhreatain'><marker>Breatain</marker></example>
         </rule>
-    </category>
-    <category id="GRAMADOIR_NEEDART_COUNTRIES" name="Alt cinnte ar iarraidh">
         <rule id="BREATAINE" name="Breataine">
+            <antipattern>
+                <token>na</token>
+                <token regexp="yes">m?Bh?reataine|m?Bh?ruiséile|m?Bh?eilge|m?Bh?ablóine|m?Bh?riotáine|m?Bh?rasaíle</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">m?Bh?reataine|m?Bh?ruiséile|m?Bh?eilge|m?Bh?ablóine|m?Bh?riotáine|m?Bh?rasaíle</token>
             </pattern>
             <message>Ba chóir duit an t-alt cinnte a úsáid: <suggestion><match no="1" regexp_match="^(m?Bh?)(.*)$" regexp_replace="na Bh$2" case_conversion="preserve"/></suggestion></message>
             <short>Alt cinnte ar iarraidh</short>
-            <example correction='An Bhreatain'><marker>Breatain</marker></example>
+            <example correction='Na Bhreataine'><marker>Breataine</marker></example>
         </rule>
     </category>
-    -->
     <category id="GRAMADOIR_PREFIXD" name="Réamhlitir ‘d'’ ar iarraidh">
         <rule id="VERB_NEEDING_D_PREFIX" name="VDEE">
             <antipattern>
@@ -18959,14 +19014,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='bhféidir'>go <marker>b&apos;féidir</marker></example>
             </rule>
         </rulegroup>
-        <!-- need to relax tagging for this to work
+        <!--
         <rule id="NA_NGP" name="na NGP">
             <pattern>
                 <token>na</token>
                 <marker>
-                    <token postag=".*Noun.*Gen.*Pl.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
+                    <token postag=".*Noun.*" postag_regexp="yes"><exception postag=".*:Ecl" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
+            <filter class="org.languagetool.rules.ga.NoDisambiguationIrishPartialPosTagFilter" args="no:2 postag_regexp:.*Noun.*Gen.*Pl.*"/>
             <message>Urú ar iarraidh: <suggestion><match no="2" postag="([^:]*):(.*)" postag_regexp="yes" postag_replace="$1:$2:Ecl"/></suggestion></message>
             <short>Urú ar iarraidh</short>
             <example correction='dtigh'>na <marker>tigh</marker></example>
@@ -19166,5 +19222,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>An <suggestion>agatsa</suggestion> a bhí i gceist agat?</message>
             <example correction="agatsa"><marker>a'atsa</marker></example>
         </rule>
+    </category>
+    <category id="REIMIREANNA" name="réimíreann (sean, droch)">
+        <rulegroup id="SEAN" name="NOUN sean">
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">[dts][^h].*|[lrjzv].*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>sean\1</suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="seanduine"><marker>duine sean</marker></example>
+                <example correction="seanjóc"><marker>jóc sean</marker></example>
+                <example correction="seanlitir"><marker>litir sean</marker></example>
+                <example correction="seanzombaí"><marker>zombaí sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes"><exception postag=".*DefArt.*" postag_regexp="yes"/>[dts]h.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>shean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="sheanduine"><marker>dhuine sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun:Fem:Com:Sg:DefArt.*" postag_regexp="yes" regexp="yes">[dt]h.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>tsean<match no="1" regexp_match="([dts])h(.*)" regexp_replace="$1$2"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="tseandeirfiúr">an <marker>dheirfiúr sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">ts.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>tsean<match no="1" regexp_match="t(s.*)" regexp_replace="$1"/></suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="tseansiopa">an <marker>tsiopa sean</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*Noun.*" postag_regexp="yes" regexp="yes">n.*</token>
+                    <token regexp="yes">sh?ean</token>
+                </pattern>
+                <message>Cuirtear an réimír “sean” roimh an ainmfhocal - ní féidir í a chur ina dhiaidh: <suggestion>sean-\1</suggestion></message>
+                <short>Réimír i ndiaidh an ainmfhocal.</short>
+                <example correction="sean-namhaid"><marker>namhaid sean</marker></example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>

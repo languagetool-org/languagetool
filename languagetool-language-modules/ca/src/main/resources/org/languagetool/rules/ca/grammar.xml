@@ -1931,6 +1931,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La número 2, per a cors i instruments de vent</example>
                 <example>És la número cinquanta-u.</example>
                 <example>Era el base de l'equip</example>
+                <example>els pro-pèptids hidroxilats</example>
+                <example>En els cap. 3.4 i 3.5.</example>
+                <example>En els cap. 3, 5 i 6.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -8931,7 +8934,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=per+tal+de&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=12665&amp;idHit=12665&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=per+tal+de%2C+per+tal+que&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <rule>
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou|suficientment<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token min="0" max="12" postag="[DNASR].*|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>per</token>
                         <token>tal</token>
@@ -8945,7 +8949,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|idoni|suficient|prou|suficientment<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <token min="0" max="12" postag="[DNASR].*|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>per</token>
@@ -10404,40 +10408,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="NECESSITAR_DE" name="necessitar/requerir *de">
             <antipattern>
-                <marker>
-                    <token inflected="yes">de</token>
-                    <token postag="D[NI].*" postag_regexp="yes"/>
-                    <token>a</token>
-                    <token postag="D[NI].*" postag_regexp="yes"/>
-                </marker>
+                <token inflected="yes">de</token>
+                <token postag="D[NI].*" postag_regexp="yes"/>
+                <token>a</token>
+                <token postag="D[NI].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>de</token>
-                    <token>l'</token>
-                    <token>ordre</token>
-                    <token inflected="yes">de</token>
-                </marker>
+                <token>de</token>
+                <token>l'</token>
+                <token>ordre</token>
+                <token inflected="yes">de</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token regexp="yes">un|una</token>
-                    <token regexp="yes">mica|poc|miqueta</token>
-                    <token inflected="yes">de</token>
-                </marker>
+                <token regexp="yes">un|una</token>
+                <token regexp="yes">mica|poc|miqueta</token>
+                <token inflected="yes">de</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>gens</token>
-                    <token inflected="yes">de</token>
-                </marker>
+                <token>gens</token>
+                <token inflected="yes">de</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token>d'</token>
-                    <token>una</token>
-                    <token regexp="yes">manera|forma</token>
-                </marker>
+                <token inflected="yes">de</token>
+                <token regexp="yes">una|tota</token>
+                <token regexp="yes">manera|forma|evidència</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">caldre</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">si|que</token>
+                <token inflected="yes">caldre</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -10491,6 +10493,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou requerit d'amors</example>
                 <example>no hi va haver necessitat de canviar la bandera</example>
                 <example>Necessita de mitjana 500 kg.</example>
+                <example>Cal, de tota manera, que evitem els motius de queixa.</example>
+                <example>Necessita, de tota manera, que evitem els motius de queixa.</example>
+                <example>I, si cal, de les que hem dit.</example>
+                <example>de les barretes que calguin del motor</example>
                 <!--<example>No necessitaran "molt de personal".</example> problema de desambiguació: personal (nom/adj)-->
                 <!-- requeria del Consell executiu la presentació d'un projecte
                     que hom requereix dels alumnes
