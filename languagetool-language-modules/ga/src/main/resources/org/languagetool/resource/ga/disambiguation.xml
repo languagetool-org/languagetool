@@ -1075,6 +1075,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="NOT_PRESSUBJ" name="fhille, é">
+        <pattern>
+            <token><exception postag="Part:Vb:Neg:Subj">nár</exception></token>
+            <marker>
+                <and>
+                    <token negate_pos="yes" postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+                    <token postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".*Verb.*PresSubj:Neg.*"/>
+    </rule>
     <rule id="GO_N-OIBRI" name="go n-oibrí">
         <pattern>
             <marker>

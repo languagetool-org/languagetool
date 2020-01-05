@@ -31,8 +31,7 @@ public class Retaggable {
   private String prefix;
   
   Retaggable(String word, String restrictToPos, String appendTag) {
-    Objects.requireNonNull(word, "word must not be null");
-    this.word = word;
+    this.word = Objects.requireNonNull(word, "word must not be null");
     this.restrictToPos = restrictToPos;
     this.appendTag = appendTag;
   }

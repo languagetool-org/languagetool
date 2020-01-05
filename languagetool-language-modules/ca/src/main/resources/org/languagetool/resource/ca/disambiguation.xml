@@ -1540,7 +1540,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="prefixos_amb_guionet" name="prefixos amb guionet: micro-, mini-">
         <pattern>
             <marker>
-                <token regexp="yes">mini|micro|semi|multi|anti|super|re|pro</token>
+                <token regexp="yes">mini|micro|semi|multi|anti|super|re|pro|sots</token>
             </marker>
             <token spacebefore="no">-</token>
         </pattern>
@@ -5328,6 +5328,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
+        <rule> <!--abreviatura capítols: cap. 3 i 4-->
+            <pattern>
+                <marker>
+                    <token>cap</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d[\d\.,]*</token>
+                <token regexp="yes">i|o|,</token>
+                <token regexp="yes">\d[\d\.,]*</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="capítol" pos="NCMP000"/></disambig>
         </rule>
     </rulegroup>
     <rule id="llavors" name="llavors">

@@ -72,6 +72,7 @@ public class SentenceSourceChecker {
     }
     int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
+    int contextSize = Integer.parseInt(commandLine.getOptionValue("context-size", "50"));
     String[] ruleIds = commandLine.hasOption('r') ? commandLine.getOptionValue('r').split(",") : null;
     String[] categoryIds = commandLine.hasOption("also-enable-categories") ?
                            commandLine.getOptionValue("also-enable-categories").split(",") : null;
@@ -84,7 +85,7 @@ public class SentenceSourceChecker {
       new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
     prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
-      maxErrors, languageModelDir, word2vecModelDir, neuralNetworkModelDir, filter);
+      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -125,6 +126,9 @@ public class SentenceSourceChecker {
     options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
             .desc("maximum number of errors, stop when finding more")
             .build());
+    options.addOption(Option.builder().longOpt("context-size").argName("number").hasArg()
+            .desc("context size per error, in characters")
+            .build());
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
             .desc("directory with a '3grams' sub directory that contains an ngram index")
             .build());
@@ -149,7 +153,7 @@ public class SentenceSourceChecker {
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors,
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors, int contextSize,
                    File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
     long startTime = System.currentTimeMillis();
     Language lang = Languages.getLanguageForShortCode(langCode);
@@ -186,6 +190,7 @@ public class SentenceSourceChecker {
     disableSpellingRules(lt);
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
+    System.out.println("Context size: " + contextSize);
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
     //System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
 
@@ -196,8 +201,7 @@ public class SentenceSourceChecker {
       if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
-        //resultHandler = new CompactStdoutHandler(maxSentences, maxErrors);
-        resultHandler = new StdoutHandler(maxSentences, maxErrors);
+        resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
       }
       MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang, filter);
       while (mixingSource.hasNext()) {

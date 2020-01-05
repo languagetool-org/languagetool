@@ -156,6 +156,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
     putRepl("Jänners?", "Jänner", "Januar");
     put("check", "checke");
+    put("ala", "à la");
+    put("Ala", "À la");
     put("Reinfolge", "Reihenfolge");
     put("Schloß", "Schloss");
     put("Investion", "Investition");
@@ -192,6 +194,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("veräht", "verrät");
     put("helfte", "half");
     put("helften", "halfen");
+    put("lad", "lade");
     put("befehlte", "befahl");
     put("befehlten", "befahlen");
     put("angelügt", "angelogen");
