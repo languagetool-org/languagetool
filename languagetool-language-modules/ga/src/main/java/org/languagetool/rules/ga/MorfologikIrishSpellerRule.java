@@ -39,6 +39,7 @@ public final class MorfologikIrishSpellerRule extends MorfologikSpellerRule {
   public MorfologikIrishSpellerRule(ResourceBundle messages,
                                      Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+    super.ignoreWordsWithLength = 1;
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Tá <marker>botun</marker> san abairt seo."),
                    Example.fixed("Tá <marker>botún</marker> san abairt seo."));
