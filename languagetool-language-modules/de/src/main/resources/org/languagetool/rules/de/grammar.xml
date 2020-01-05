@@ -33180,6 +33180,19 @@ Andere Projekte</example>
             <message>Bitte prüfen, ob hier ein Partizip verwendet werden muss.</message>
             <example correction="">Unklar ist, wie der Hund ins Wasser <marker>gelang</marker> ist.</example>
         </rule>
+        <rule id="LTD_ABK" name="Ltd" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Ltd</token>
+                <token>.</token>
+            </antipattern>
+            <pattern>
+                <token>ltd</token>
+            </pattern>
+            <message>Die Rechtsform <suggestion>Ltd.</suggestion> (Limited) wird großgeschrieben und hat einen Punkt am Ende.</message>
+            <url>https://de.wikipedia.org/wiki/Kapitalgesellschaft_(Vereinigtes_K%C3%B6nigreich)</url>
+            <example correction="Ltd.">Arbeitest du für die Müller <marker>Ltd</marker>?</example>
+            <example>Er arbeitet für die Müller <marker>Ltd.</marker></example>
+        </rule>
         <rulegroup id="ZB_ABK" name="Schreibweise der Abkürzung 'z. B.'">
             <rule>
                 <pattern>
