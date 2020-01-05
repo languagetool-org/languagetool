@@ -40437,12 +40437,19 @@ The accident victim died from her injuries.
                 <example correction="ancient">This is <marker>extremely old</marker>.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2278 -->
+                    <token regexp='yes'>really|truly</token>
+                    <token>pretty</token>
+                    <token postag='JJ'/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>&extreme_qualifiers;</token>
                     <token inflected="yes">pretty</token>
                 </pattern>
                 <message>The extreme adjective for pretty is <suggestion><match no="2">gorgeous</match></suggestion>.</message>
                 <example correction="gorgeous">This is <marker>extremely pretty</marker>.</example>
+                <example>This is <marker>gorgeous</marker>.</example>
+                <example>It's really pretty ugly.</example><!-- #2278 -->
             </rule>
             <rule>
                 <pattern>
