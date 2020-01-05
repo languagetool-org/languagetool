@@ -18,10 +18,18 @@
  */
 package org.languagetool.rules.ga;
 
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.ga.Utils;
+import org.languagetool.tools.StringTools;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Irish localisation of {@link AbstractDateCheckFilter}.
@@ -29,46 +37,51 @@ import java.util.Locale;
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
+  // The day of the month may contain not only digits but also extra letters
+  // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
+  // the numerical part.
+  private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
+
   @Override
   protected Calendar getCalendar() {
     return Calendar.getInstance(Locale.UK);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected int getDayOfMonth(String dayStr) {
-    String day = dayStr.toLowerCase();
-    if (day.charAt(0) == 't') day = 'd' + day.substring(1);
-    if (day.charAt(0) == 'p') day = 'b' + day.substring(1);
-    if (day.endsWith("vet")) {
-      // Removing final vet if any.
-      day = day.substring(0, day.length() - 3);
+    switch(Utils.toLowerCaseIrish(dayStr)) {
+      case "chéad":
+      case "céad":
+      case "aonú":
+      case "t-aonú":
+        return 1;
+      case "dara":
+      case "dóú":
+        return 2;
+      case "tríú":
+        return 3;
+      case "ceathrú":
+        return 4;
+      case "cúigiú":
+        return 5;
+      case "séú":
+        return 6;
+      case "seachtú":
+        return 7;
+      case "ochtú":
+      case "t-ochtú":
+        return 8;
+      case "naoú":
+        return 9;
+      case "deichiú":
+        return 10;
+      case "fichiú":
+        return 20;
+      case "tríochadú":
+        return 30;
+      default:
+        return 0;
     }
-
-    if (day.equals("c’hentañ") || day.equals("unan"))    return 1;
-    if (day.equals("daou")     || day.equals("eil"))     return 2;
-    if (day.equals("dri")      || day.equals("drede") || day.equals("deir")) return 3;
-    if (day.equals("bevar"))                             return 4;
-    // bemp or bemvet (vet has been removed).
-    if (day.equals("bemp")     || day.equals("bem"))     return 5;
-    if (day.equals("c’hwerc’h"))                         return 6;
-    if (day.equals("seizh"))                             return 7;
-    if (day.equals("eizh"))                              return 8;
-    // nav and navet (vet has been removed).
-    if (day.equals("nav")      || day.equals("na"))     return 9;
-    if (day.equals("dek"))                              return 10;
-    if (day.equals("unnek"))                            return 11;
-    if (day.equals("daouzek"))                          return 12;
-    if (day.equals("drizek"))                           return 13;
-    if (day.equals("bevarzek"))                         return 14;
-    if (day.equals("bemzek"))                           return 15;
-    if (day.equals("c’hwezek"))                         return 16;
-    if (day.equals("seitek"))                           return 17;
-    if (day.equals("driwec’h"))                         return 18;
-    if (day.equals("naontek"))                          return 19;
-    if (day.equals("ugent"))                            return 20;
-    if (day.equals("dregont"))                          return 30;
-    return 0;
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
@@ -101,6 +114,38 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     return "";
   }
 
+  protected String getDayOfWeek(Calendar date, String prefix) {
+    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
+    if(prefix.toLowerCase().equals("an")) {
+      if (englishDay.equals("Sunday"))    return "An Domhnach";
+      if (englishDay.equals("Monday"))    return "An Luan";
+      if (englishDay.equals("Tuesday"))   return "An Mháirt";
+      if (englishDay.equals("Wednesday")) return "An Chéadaoin";
+      if (englishDay.equals("Thursday"))  return "An Déardaoin";
+      if (englishDay.equals("Friday"))    return "An Aoine";
+      if (englishDay.equals("Saturday"))  return "An Satharn";
+      return "";
+    } else if(prefix.toLowerCase().equals("dé") || prefix.toLowerCase().equals("de")) {
+      if (englishDay.equals("Sunday"))    return "Dé Domhnaigh";
+      if (englishDay.equals("Monday"))    return "Dé Luain";
+      if (englishDay.equals("Tuesday"))   return "Dé Máirt";
+      if (englishDay.equals("Wednesday")) return "Dé Céadaoin";
+      if (englishDay.equals("Thursday"))  return "Déardaoin";
+      if (englishDay.equals("Friday"))    return "Dé hAoine";
+      if (englishDay.equals("Saturday"))  return "Dé Sathairn";
+      return "";
+    } else {
+      if (englishDay.equals("Sunday"))    return "Domhnach";
+      if (englishDay.equals("Monday"))    return "Luan";
+      if (englishDay.equals("Tuesday"))   return "Máirt";
+      if (englishDay.equals("Wednesday")) return "Céadaoin";
+      if (englishDay.equals("Thursday"))  return "Déardaoin";
+      if (englishDay.equals("Friday"))    return "Aoine";
+      if (englishDay.equals("Saturday"))  return "Satharn";
+      return "";
+    }
+  }
+
   @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
   @Override
   protected int getMonth(String monthStr) {
@@ -118,5 +163,82 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.equals("du"))                                return 11;
     if (mon.equals("kerzu"))                             return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
+  }
+
+  /**
+   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   */
+  @Override
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
+    Calendar dateFromDate = getDate(args);
+    String dayPrefix = args.get("dayPrefix");
+    String tensNumber = args.get("");
+    int dayOfWeekFromDate;
+    try {
+      dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
+    } catch (IllegalArgumentException ignore) {
+      // happens with 'dates' like '32.8.2014' - those should be caught by a different rule
+      return null;
+    }
+    if (dayOfWeekFromString != dayOfWeekFromDate) {
+      Calendar calFromDateString = Calendar.getInstance();
+      calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
+      String message = match.getMessage()
+        .replace("{realDay}", getDayOfWeek(dateFromDate))
+        .replace("{day}", getDayOfWeek(calFromDateString))
+        .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      ruleMatch.setType(match.getType());
+      return ruleMatch;
+    } else {
+      return null;
+    }
+  }
+
+  private Calendar getDate(Map<String, String> args) {
+    String yearArg = args.get("year");
+    int year;
+    if (yearArg == null) {
+      // assume current year for rule DATUM_WOCHENTAG_OHNE_JAHR etc.
+      year = getCalendar().get(Calendar.YEAR);
+    } else {
+      year = Integer.parseInt(yearArg);
+    }
+    int month = getMonthFromArguments(args);
+    int dayOfMonth = getDayOfMonthFromArguments(args);
+
+    Calendar calendar = getCalendar();
+    calendar.setLenient(false);  // be strict about validity of dates
+    //noinspection MagicConstant
+    calendar.set(year, month, dayOfMonth, 0, 0, 0);
+    return calendar;
+  }
+
+  private int getDayOfMonthFromArguments(Map<String, String> args) {
+    String dayOfMonthString = getRequired("day", args);
+    int dayOfMonth;
+    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);
+    if (matcherDayOfMonth.matches()) {
+      // The day of the month is a number, possibly with a suffix such
+      // as "22nd" for example.
+      dayOfMonth = Integer.parseInt(matcherDayOfMonth.group(1));
+    } else {
+      // In some languages, the day of the month can also be written with
+      // letters rather than with digits, so parse localized numbers.
+      dayOfMonth = getDayOfMonth(dayOfMonthString);
+    }
+    return dayOfMonth;
+  }
+
+  private int getMonthFromArguments(Map<String, String> args) {
+    String monthStr = getRequired("month", args);
+    int month;
+    if (StringUtils.isNumeric(monthStr)) {
+      month = Integer.parseInt(monthStr);
+    } else {
+      month = getMonth(StringTools.trimSpecialCharacters(monthStr));
+    }
+    return month - 1;
   }
 }
