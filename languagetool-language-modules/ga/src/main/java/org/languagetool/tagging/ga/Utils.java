@@ -798,7 +798,7 @@ public class Utils {
     }
     return out.toString();
   }
-  public static char greekLookalikes(char c) {
+  private static char greekLookalikes(char c) {
     switch(c) {
       case 'Α':
         return 'A';
@@ -859,6 +859,28 @@ public class Utils {
 
       default:
         return c;
+    }
+  }
+
+  public static String greekToLatin(String s) {
+    StringBuilder sb = new StringBuilder();
+    for (char c : s.toCharArray()) {
+      sb.append(greekLookalikes(c));
+    }
+    return sb.toString();
+  }
+
+  public static boolean hasMixedGreekAndLatin(String s) {
+    if(!s.matches(".*[A-Za-z].*")) {
+      return false;
+    } else {
+      for (char c : s.toCharArray()) {
+        System.err.println(Character.UnicodeBlock.of(c));
+        if (Character.UnicodeBlock.of(c) == Character.UnicodeBlock.GREEK) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 }

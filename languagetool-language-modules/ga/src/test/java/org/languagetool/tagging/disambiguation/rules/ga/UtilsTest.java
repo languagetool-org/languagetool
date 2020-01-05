@@ -118,5 +118,17 @@ public class UtilsTest {
     assertEquals("SEANATHAIR", Utils.simplifyMathematical(boldUpper));
     String boldLower = "\uD835\uDC2C\uD835\uDC1E\uD835\uDC1A\uD835\uDC27\uD835\uDC1A\uD835\uDC2D\uD835\uDC21\uD835\uDC1A\uD835\uDC22\uD835\uDC2B";
     assertEquals("seanathair", Utils.simplifyMathematical(boldLower));
+
+    assertEquals("999", Utils.simplifyMathematical("\uD835\uDFFF\uD835\uDFFF\uD835\uDFFF", false, true));
+  }
+
+  @Test
+  public void testGreekToLatin() {
+    assertEquals("BOTTOM", Utils.greekToLatin("ΒΟΤΤΟΜ"));
+  }
+
+  @Test
+  public void testHasMixedGreekAndLatin() {
+    assertEquals(true, Utils.hasMixedGreekAndLatin("Nοt"));
   }
 }
