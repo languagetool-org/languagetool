@@ -21,7 +21,7 @@ public class GenerateIrishWordforms {
   private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);
   private static final String[] BASEFORMS = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
 
-  public void writeFromGuess(String word) {
+  public static void writeFromGuess(String word) {
     Matcher m = NOUN_PATTERN.matcher(word);
     if(m.find()) {
       String stem = m.group(1);
@@ -82,44 +82,44 @@ public class GenerateIrishWordforms {
   }
 
   private static Map<String, String> getIrishFSTTags(Map<String, String> forms) {
-    HashMap<String, String> out = new HashMap<>();
+    Map<String, String> out = new HashMap<>();
     boolean strong = (forms.get("pl.nom").equals(forms.get("pl.gen")));
-    StringBuilder sb = new StringBuilder();
+    StringBuilder builder = new StringBuilder();
     if(forms.get("pos").equals("n"))  {
-      sb.append("Noun");
+      builder.append("Noun");
     }
     if (forms.get("gender").equals("m")) {
-      sb.append(":Masc");
+      builder.append(":Masc");
     } else if (forms.get("gender").equals("f")) {
-      sb.append(":Fem");
+      builder.append(":Fem");
     }
-    String base = sb.toString();
+    String base = builder.toString();
     for (String k : forms.keySet()) {
       if (!k.startsWith("sg") || !k.startsWith("pl")) {
         continue;
       }
       String[] tagParts = k.split("\\.");
-      StringBuilder sb2 = new StringBuilder();
-      sb2.append(base);
+      StringBuilder sb = new StringBuilder();
+      sb.append(base);
       if (k.startsWith("pl.gen")) {
-        sb2.append(":Gen");
+        sb.append(":Gen");
         if (strong) {
-          sb2.append(":Strong");
+          sb.append(":Strong");
         } else {
-          sb2.append(":Weak");
+          sb.append(":Weak");
         }
-        sb2.append(":Pl");
-        sb2.append(morphTag(k));
+        sb.append(":Pl");
+        sb.append(morphTag(k));
       } else {
-        sb2.append(':');
-        sb2.append(tagParts[1].toUpperCase().charAt(0));
-        sb2.append(tagParts[1].substring(1));
-        sb2.append(':');
-        sb2.append(tagParts[0].toUpperCase().charAt(0));
-        sb2.append(tagParts[0].substring(1));
-        sb2.append(morphTag(k));
+        sb.append(':');
+        sb.append(tagParts[1].toUpperCase().charAt(0));
+        sb.append(tagParts[1].substring(1));
+        sb.append(':');
+        sb.append(tagParts[0].toUpperCase().charAt(0));
+        sb.append(tagParts[0].substring(1));
+        sb.append(morphTag(k));
       }
-      out.put(k, sb2.toString());
+      out.put(k, sb.toString());
     }
     return out;
   }
@@ -155,6 +155,9 @@ public class GenerateIrishWordforms {
   }
 
   private static String mutate(String word, String mutation) {
+    if (mutation == null) {
+      return "";
+    }
     if (mutation.equals("len")) {
       return Utils.lenite(word);
     } else if (mutation.equals("ecl")) {
