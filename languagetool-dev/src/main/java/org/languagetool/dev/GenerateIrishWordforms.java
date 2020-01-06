@@ -95,7 +95,7 @@ public class GenerateIrishWordforms {
     }
     String base = builder.toString();
     for (String k : forms.keySet()) {
-      if (!k.startsWith("sg") || !k.startsWith("pl")) {
+      if (!k.startsWith("sg") && !k.startsWith("pl")) {
         continue;
       }
       String[] tagParts = k.split("\\.");
@@ -150,13 +150,15 @@ public class GenerateIrishWordforms {
       map.put(key, ecl);
     }
     for (String s : BASEFORMS) {
-      map.put(s + ".hpref", "h" + map.get(s));
+      if (Utils.isVowel(map.get(s).charAt(0))) {
+        map.put(s + ".hpref", "h" + map.get(s));
+      }
     }
   }
 
   private static String mutate(String word, String mutation) {
     if (mutation == null) {
-      return "";
+      return word;
     }
     if (mutation.equals("len")) {
       return Utils.lenite(word);

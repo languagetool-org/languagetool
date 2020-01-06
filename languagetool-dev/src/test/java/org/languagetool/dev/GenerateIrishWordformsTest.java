@@ -33,4 +33,10 @@ public class GenerateIrishWordformsTest {
     assertEquals("b", aMap.get("stem"));
     assertEquals("ádóirí", aMap.get("pl.gen"));
   }
+
+  @Test
+  public void foo() {
+    GenerateIrishWordforms.writeFromGuess("blagadóir");
+    GenerateIrishWordforms.writeFromGuess("blagálaí");
+  }
 }
