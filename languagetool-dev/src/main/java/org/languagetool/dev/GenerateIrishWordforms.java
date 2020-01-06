@@ -21,6 +21,27 @@ public class GenerateIrishWordforms {
   private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);
   private static final String[] BASEFORMS = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
 
+  public void writeFromGuess(String word) {
+    Matcher m = NOUN_PATTERN.matcher(word);
+    if(m.find()) {
+      String stem = m.group(1);
+      String ending = m.group(2);
+      String[] endings = nounGuesses.get(ending);
+      Map<String, String> forms = expandNounForms(stem, endings);
+      Map<String, String> tags = getIrishFSTTags(forms);
+      for (String s : tags.keySet()) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(forms.get(s));
+        sb.append('\t');
+        sb.append(word);
+        sb.append('\t');
+        sb.append(tags.get(s));
+        System.out.println(sb.toString());
+      }
+    }
+
+  }
+
   public static Map<String, String> expandNounForms(String stem, String[] parts) {
     String gender = parts[0];
     String nounClass = "";
