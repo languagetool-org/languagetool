@@ -25,4 +25,12 @@ public class GenerateIrishWordformsTest {
   public void testGuessIrishFSTNounClassSimple() {
     assertEquals("Nm3-1", GenerateIrishWordforms.guessIrishFSTNounClassSimple("blagadóir"));
   }
+
+  @Test
+  public void testExtractEnWiktionaryNounTemplate() {
+    String a = "bádóirí, type: {{ga-decl-m3|b|ádóir|ádóra|ádóirí}}";
+    Map<String, String> aMap = GenerateIrishWordforms.extractEnWiktionaryNounTemplate(a);
+    assertEquals("b", aMap.get("stem"));
+    assertEquals("ádóirí", aMap.get("pl.gen"));
+  }
 }

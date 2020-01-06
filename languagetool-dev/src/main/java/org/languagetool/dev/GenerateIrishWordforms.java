@@ -171,6 +171,34 @@ public class GenerateIrishWordforms {
     return null;
   }
 
+  public static Map<String, String> extractEnWiktionaryNounTemplate(String tpl) {
+    Map<String, String> out = new HashMap<>();
+    if (!tpl.contains("{{") && !tpl.contains("}}")) {
+      return out;
+    }
+    int start = tpl.indexOf("{{") + 2;
+    int end = tpl.indexOf("}}", start);
+    String inner = tpl.substring(start, end);
+    String[] parts = inner.split("\\|");
+    if(parts[0].equals("ga-decl-m3") && parts.length >= 4) {
+      out.put("class", "m3");
+      out.put("stem", parts[1]);
+      out.put("sg.nom", parts[2]);
+      out.put("sg.gen", parts[3]);
+      if (parts.length == 4) {
+        out.put("pl.nom", parts[3]);
+        out.put("pl.gen", parts[3]);
+      } else if (parts.length == 5) {
+        out.put("pl.nom", parts[3]);
+        out.put("pl.gen", parts[4]);
+      } else if (parts.length == 6) {
+        out.put("pl.nom", parts[4]);
+        out.put("pl.gen", parts[5]);
+      }
+    }
+    return out;
+  }
+
 
   static String getEndingsRegex (Map<String, String[]> map) {
     List<String> endings = new ArrayList<>(map.size());
