@@ -167,7 +167,7 @@ class SingleDocument {
         ignoredMatches = new HashMap<>();
       }
       SingleProofreadingError[] sErrors = null;
-      paraNum = getParaPos(paraText, isParallelThread);
+      paraNum = getParaPos(paraText, isParallelThread, paRes.nStartOfSentencePosition);
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0 && doResetCheck) {
         sErrors = sentencesCache.getMatches(paraNum, paRes.nStartOfSentencePosition);
@@ -340,7 +340,7 @@ class SingleDocument {
    * Search for Position of Paragraph
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
-  private int getParaPos(String chPara, boolean isParallelThread) {
+  private int getParaPos(String chPara, boolean isParallelThread, int startPos) {
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
@@ -372,8 +372,8 @@ class SingleDocument {
     }
     
     // try to get next position from last FlatParagraph position (for performance reasons)
-    nParas = findNextParaPos(numLastFlPara, chPara);
-    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
+    nParas = findNextParaPos(numLastFlPara, chPara, startPos);
+    if (nParas >= 0) {
       numLastFlPara = nParas;
       if (debugMode > 0) {
         MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nParas + logLineBreak);
@@ -520,13 +520,14 @@ class SingleDocument {
       return nParas;
     }
     // try to get next position from last ViewCursor position (proof per dialog box)
-    nParas = findNextParaPos(numLastVCPara, chPara);
-    if (nParas >= 0) {
-      numLastVCPara = nParas;
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + nParas + logLineBreak);
+    for(int i = numLastVCPara; i < allParas.size(); i++) {
+      if (chPara.equals(allParas.get(i))) {
+        numLastVCPara = i;
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + i + logLineBreak);
+        }
+        return numLastVCPara;
       }
-      return nParas;
     }
     return -1;
   }
@@ -564,21 +565,19 @@ class SingleDocument {
    * Heuristic try to find next position (dialog box or automatic iteration)
    * Is paragraph same, next not empty after or before   
    */
-  private int findNextParaPos(int startPara, String paraStr) {
+  private int findNextParaPos(int startPara, String paraStr, int startPos) {
     if (allParas == null || allParas.size() < 1) {
       return -1;
     }
-    if (startPara >= allParas.size() || startPara < 0) {
-      startPara = 0;
-    }
-    if (startPara + 1 < allParas.size() && paraStr.equals(allParas.get(startPara + 1))) {
-      return startPara + 1;
-    }
-    if (paraStr.equals(allParas.get(startPara))) {
-      return startPara;
-    }
-    if (startPara - 1 >= 0 && paraStr.equals(allParas.get(startPara - 1))) {
-      return startPara - 1;
+    if (startPos > 0) {
+      if (startPara >= 0 && startPara < allParas.size() && paraStr.equals(allParas.get(startPara))) {
+        return startPara;
+      }
+    } else if (startPos == 0) {
+      startPara++;
+      if (startPara >= 0 && startPara < allParas.size() && paraStr.equals(allParas.get(startPara))) {
+        return startPara;
+      }
     }
     return -1;
   }

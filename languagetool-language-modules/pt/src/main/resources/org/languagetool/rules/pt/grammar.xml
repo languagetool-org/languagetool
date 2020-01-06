@@ -6,8 +6,8 @@ title="Easy editing stylesheet" ?>
 
     <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2012-2019 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright © 2016-2019 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2012-2020 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2020 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
@@ -1159,6 +1159,14 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>alvo|padrão</token>
       </antipattern>
+<!-- MARCOAGPINTO 2020-01-06 *START* -->
+<!-- "cujos recibos anexo" -->
+      <antipattern>
+          <token postag='PR0MP000' postag_regexp='no'/>
+          <token postag='NCMP000' postag_regexp='no'/>
+          <token postag='VMIP1S0' postag_regexp='no'/>		  
+      </antipattern>
+<!-- MARCOAGPINTO 2020-01-06 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -2433,6 +2441,13 @@ title="Easy editing stylesheet" ?>
           <token max='2' postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
       </antipattern>
+<!-- MARCOAGPINTO 2020-01-04 *START* -->
+      <antipattern>
+		<token regexp='yes'>nas?|nos?</token>
+		<token postag_regexp='yes' postag='DP1[MF][SP]P'></token>
+		<token postag_regexp='yes' postag='NC[CMF][SP]000'></token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-01-04 *END* -->
       <pattern>
           <token postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>

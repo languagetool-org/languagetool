@@ -3744,6 +3744,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Кое-кто"><marker>Кое- кто</marker> пошёл в магазин.</example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="Tire_and_spaces" name="Тире и пробелы">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[а-яёa-z]</token>
+                    <token spacebefore="no">—</token>
+                    <token regexp="yes" >[а-яёa-z].*</token>
+                </pattern>
+                <message>Перед и после тире должны быть пробелы: <suggestion>\1 \2 \3</suggestion></message>
+                <url>https://ru.wikipedia.org/wiki/%D0%A2%D0%B8%D1%80%D0%B5</url>
+                <short>Нужен пробел.</short>
+                <example>LanguageTool — это свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
+                <example correction="LanguageTool — это"><marker>LanguageTool— это</marker> свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[а-яёa-z]</token>
+                    <token spacebefore="yes">—</token>
+                    <token regexp="yes" spacebefore="no" >[а-яёa-z].*</token>
+                </pattern>
+                <message>Перед и после тире должны быть пробелы: <suggestion>\1 \2 \3</suggestion></message>
+                <url>https://ru.wikipedia.org/wiki/%D0%A2%D0%B8%D1%80%D0%B5</url>
+                <short>Нужен пробел.</short>
+                <example>LanguageTool — это свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
+                <example correction="LanguageTool — это"><marker>LanguageTool —это</marker> свободное программное обеспечение для проверки грамматики, пунктуации и стиля.</example>
+            </rule>
+        </rulegroup>	    
         <rulegroup default="on" id="Punct_and_spaces" name="Пробелы перед знаками препинания">
             <rule>
                 <pattern case_sensitive="yes">

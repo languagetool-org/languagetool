@@ -34,8 +34,12 @@ class StdoutHandler extends ResultHandler {
   private final ContextTools contextTools = new ContextTools();
 
   StdoutHandler(int maxSentences, int maxErrors) {
+    this(maxSentences, maxErrors, CONTEXT_SIZE);
+  }
+
+  StdoutHandler(int maxSentences, int maxErrors, int contextSize) {
     super(maxSentences, maxErrors);
-    contextTools.setContextSize(CONTEXT_SIZE);
+    contextTools.setContextSize(contextSize);
   }
 
   @Override
