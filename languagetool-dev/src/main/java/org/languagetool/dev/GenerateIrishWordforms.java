@@ -1,5 +1,7 @@
 package org.languagetool.dev;
 
+import org.languagetool.tagging.ga.Utils;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +19,42 @@ public class GenerateIrishWordforms {
   }
   private static final String NOUN_ENDINGS_REGEX = getEndingsRegex(nounGuesses);
   private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);
+
+  public static void expandNounForms(String stem, String[] parts) {
+    String gender = parts[0];
+    Map<String, String> forms = new HashMap<>();
+    forms.put("sg.nom", stem + parts[1]);
+    forms.put("sg.gen", stem + parts[2]);
+    forms.put("pl.nom", stem + parts[3]);
+    forms.put("pl.gen", stem + parts[4]);
+    //Not doing separate vocative yet
+    //if (parts.length == 6) {}
+    addMutatedForms(forms);
+    boolean strong = (forms.get("pl.nom").equals(forms.get("pl.gen")));
+    String genderForDefArt = gender;
+    if (Utils.isVowel(stem.charAt(0))) {
+      genderForDefArt += "v";
+    } else if (stem.toLowerCase().charAt(0) == 's' && stem.length() >= 2 && Utils.isSLenitable(stem.charAt(1))) {
+      genderForDefArt += "s";
+    }
+
+  }
+  private static void addMutatedForms(Map<String, String> map) {
+    String[] baseforms = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
+    for (String s : baseforms) {
+      String key = s + ".len";
+      String len = Utils.lenite(map.get(s));
+      map.put(key, len);
+    }
+    for (String s : baseforms) {
+      String key = s + ".ecl";
+      String ecl = Utils.eclipse(map.get(s));
+      map.put(key, ecl);
+    }
+    for (String s : baseforms) {
+      map.put(s + ".hpref", "h" + map.get(s));
+    }
+  }
 
   public static String guessIrishFSTNounClassSimple(String ending) {
     Matcher m = NOUN_PATTERN.matcher(ending);
