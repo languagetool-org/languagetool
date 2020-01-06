@@ -9,21 +9,34 @@ import java.util.regex.Pattern;
 public class GenerateIrishWordforms {
   private static final Map<String, String[]> nounGuesses = new HashMap<>();
   static {
-    nounGuesses.put("óir", new String[]{"m", "óir", "óra", "óirí", "óirí"});
-    nounGuesses.put("eoir", new String[]{"m", "eoir", "eora", "eoirí", "eoirí"});
-    nounGuesses.put("éir", new String[]{"m", "éir", "éara", "éirí", "éirí"});
-    nounGuesses.put("úir", new String[]{"m", "úir", "úra", "úirí", "úirí"});
-    nounGuesses.put("aeir", new String[]{"m", "aeir", "aera", "aeirí", "aeirí"});
-    nounGuesses.put("álaí", new String[]{"m", "álaí", "álaí", "álaithe", "álaithe"});
-    nounGuesses.put("eálaí", new String[]{"m", "eálaí", "eálaí", "eálaithe", "eálaithe"});
+    nounGuesses.put("óir", new String[]{"m3", "óir", "óra", "óirí", "óirí"});
+    nounGuesses.put("eoir", new String[]{"m3", "eoir", "eora", "eoirí", "eoirí"});
+    nounGuesses.put("éir", new String[]{"m3", "éir", "éara", "éirí", "éirí"});
+    nounGuesses.put("úir", new String[]{"m3", "úir", "úra", "úirí", "úirí"});
+    nounGuesses.put("aeir", new String[]{"m3", "aeir", "aera", "aeirí", "aeirí"});
+    nounGuesses.put("álaí", new String[]{"m4", "álaí", "álaí", "álaithe", "álaithe"});
+    nounGuesses.put("eálaí", new String[]{"m4", "eálaí", "eálaí", "eálaithe", "eálaithe"});
   }
   private static final String NOUN_ENDINGS_REGEX = getEndingsRegex(nounGuesses);
   private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);
   private static final String[] BASEFORMS = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
 
-  public static void expandNounForms(String stem, String[] parts) {
+  public static Map<String, String> expandNounForms(String stem, String[] parts) {
     String gender = parts[0];
+    String nounClass = "";
+    if (parts[0].matches("[mf][0-9]")) {
+      gender = parts[0].substring(0, 1);
+      nounClass = parts[0].substring(1);
+    }
+    if (nounClass.equals("")) {
+      String irishFSTOut = getIrishFSTNounClass(parts[1]);
+      nounClass = irishFSTOut.substring(2, 1);
+    }
     Map<String, String> forms = new HashMap<>();
+    forms.put("stem", stem);
+    forms.put("pos", "n");
+    forms.put("class", gender + nounClass);
+    forms.put("gender", gender);
     forms.put("sg.nom", stem + parts[1]);
     forms.put("sg.gen", stem + parts[2]);
     forms.put("pl.nom", stem + parts[3]);
@@ -31,15 +44,79 @@ public class GenerateIrishWordforms {
     //Not doing separate vocative yet
     //if (parts.length == 6) {}
     addMutatedForms(forms);
-    boolean strong = (forms.get("pl.nom").equals(forms.get("pl.gen")));
+    if (nounClass.equals("3") || nounClass.equals("4")) {
+      forms.put("sg.voc.len", forms.get("sg.nom.len"));
+      forms.put("pl.voc.len", forms.get("pl.nom.len"));
+    }
+    for (String bf : BASEFORMS) {
+      forms.put(bf + ".defart", mutate(forms.get(bf), getDefArtMutation(gender, bf)));
+    }
     String genderForDefArt = gender;
     if (Utils.isVowel(stem.charAt(0))) {
       genderForDefArt += "v";
     } else if (stem.toLowerCase().charAt(0) == 's' && stem.length() >= 2 && Utils.isSLenitable(stem.charAt(1))) {
       genderForDefArt += "s";
     }
-
+    return forms;
   }
+
+  private static Map<String, String> getIrishFSTTags(Map<String, String> forms) {
+    HashMap<String, String> out = new HashMap<>();
+    boolean strong = (forms.get("pl.nom").equals(forms.get("pl.gen")));
+    StringBuilder sb = new StringBuilder();
+    if(forms.get("pos").equals("n"))  {
+      sb.append("Noun");
+    }
+    if (forms.get("gender").equals("m")) {
+      sb.append(":Masc");
+    } else if (forms.get("gender").equals("f")) {
+      sb.append(":Fem");
+    }
+    String base = sb.toString();
+    for (String k : forms.keySet()) {
+      if (!k.startsWith("sg") || !k.startsWith("pl")) {
+        continue;
+      }
+      String[] tagParts = k.split("\\.");
+      StringBuilder sb2 = new StringBuilder();
+      sb2.append(base);
+      if (k.startsWith("pl.gen")) {
+        sb2.append(":Gen");
+        if (strong) {
+          sb2.append(":Strong");
+        } else {
+          sb2.append(":Weak");
+        }
+        sb2.append(":Pl");
+        sb2.append(morphTag(k));
+      } else {
+        sb2.append(':');
+        sb2.append(tagParts[1].toUpperCase().charAt(0));
+        sb2.append(tagParts[1].substring(1));
+        sb2.append(':');
+        sb2.append(tagParts[0].toUpperCase().charAt(0));
+        sb2.append(tagParts[0].substring(1));
+        sb2.append(morphTag(k));
+      }
+      out.put(k, sb2.toString());
+    }
+    return out;
+  }
+
+  private static String morphTag(String s) {
+    if (s.endsWith(".len")) {
+      return ":Len";
+    } else if (s.endsWith(".ecl")) {
+      return ":Ecl";
+    } else if (s.endsWith(".hpref")) {
+      return ":hPref";
+    } else if (s.endsWith(".defart")) {
+      return ":DefArt";
+    } else {
+      return "";
+    }
+  }
+
   private static void addMutatedForms(Map<String, String> map) {
     for (String s : BASEFORMS) {
       String key = s + ".len";
@@ -53,6 +130,18 @@ public class GenerateIrishWordforms {
     }
     for (String s : BASEFORMS) {
       map.put(s + ".hpref", "h" + map.get(s));
+    }
+  }
+
+  private static String mutate(String word, String mutation) {
+    if (mutation.equals("len")) {
+      return Utils.lenite(word);
+    } else if (mutation.equals("ecl")) {
+      return Utils.eclipse(word);
+    } else if (mutation.equals("hpref")) {
+      return "h" + word;
+    } else {
+      return word;
     }
   }
 
