@@ -19,6 +19,7 @@ public class GenerateIrishWordforms {
   }
   private static final String NOUN_ENDINGS_REGEX = getEndingsRegex(nounGuesses);
   private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);
+  private static final String[] BASEFORMS = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
 
   public static void expandNounForms(String stem, String[] parts) {
     String gender = parts[0];
@@ -40,18 +41,17 @@ public class GenerateIrishWordforms {
 
   }
   private static void addMutatedForms(Map<String, String> map) {
-    String[] baseforms = {"sg.nom", "sg.gen", "pl.nom", "pl.gen"};
-    for (String s : baseforms) {
+    for (String s : BASEFORMS) {
       String key = s + ".len";
       String len = Utils.lenite(map.get(s));
       map.put(key, len);
     }
-    for (String s : baseforms) {
+    for (String s : BASEFORMS) {
       String key = s + ".ecl";
       String ecl = Utils.eclipse(map.get(s));
       map.put(key, ecl);
     }
-    for (String s : baseforms) {
+    for (String s : BASEFORMS) {
       map.put(s + ".hpref", "h" + map.get(s));
     }
   }
