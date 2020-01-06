@@ -96,6 +96,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.startsWith("ché"))   return Calendar.WEDNESDAY;
     if (day.startsWith("déar"))  return Calendar.THURSDAY;
     if (day.startsWith("aoin"))  return Calendar.FRIDAY;
+    if (day.startsWith("haoin"))  return Calendar.FRIDAY;
     if (day.startsWith("sath"))  return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
@@ -117,13 +118,13 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected String getDayOfWeek(Calendar date, String prefix) {
     String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
     if(prefix.toLowerCase().equals("an")) {
-      if (englishDay.equals("Sunday"))    return "An Domhnach";
-      if (englishDay.equals("Monday"))    return "An Luan";
-      if (englishDay.equals("Tuesday"))   return "An Mháirt";
-      if (englishDay.equals("Wednesday")) return "An Chéadaoin";
-      if (englishDay.equals("Thursday"))  return "An Déardaoin";
-      if (englishDay.equals("Friday"))    return "An Aoine";
-      if (englishDay.equals("Saturday"))  return "An Satharn";
+      if (englishDay.equals("Sunday"))    return "an Domhnach";
+      if (englishDay.equals("Monday"))    return "an Luan";
+      if (englishDay.equals("Tuesday"))   return "an Mháirt";
+      if (englishDay.equals("Wednesday")) return "an Chéadaoin";
+      if (englishDay.equals("Thursday"))  return "an Déardaoin";
+      if (englishDay.equals("Friday"))    return "an Aoine";
+      if (englishDay.equals("Saturday"))  return "an Satharn";
       return "";
     } else if(prefix.toLowerCase().equals("dé") || prefix.toLowerCase().equals("de")) {
       if (englishDay.equals("Sunday"))    return "Dé Domhnaigh";
@@ -150,18 +151,23 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
-    if (mon.equals("genver"))                            return 1;
-    if (mon.equals("c’hwevrer"))                         return 2;
-    if (mon.equals("meurzh"))                            return 3;
-    if (mon.equals("ebrel"))                             return 4;
-    if (mon.equals("mae"))                               return 5;
-    if (mon.equals("mezheven") || mon.equals("even"))    return 6;
-    if (mon.equals("gouere")   || mon.equals("gouhere")) return 7;
-    if (mon.equals("eost"))                              return 8;
-    if (mon.equals("gwengolo"))                          return 9;
-    if (mon.equals("here"))                              return 10;
-    if (mon.equals("du"))                                return 11;
-    if (mon.equals("kerzu"))                             return 12;
+    if (mon.equals("eanáir"))       return 1;
+    if (mon.equals("feabhra"))      return 2;
+    if (mon.equals("márta"))        return 3;
+    if (mon.equals("aibreán"))      return 4;
+    if (mon.equals("bealtaine"))    return 5;
+    if (mon.equals("meitheamh"))    return 6;
+    if (mon.equals("mheitheamh"))   return 6;
+    if (mon.equals("iúil"))         return 7;
+    if (mon.equals("lúnasa"))       return 8;
+    if (mon.equals("meán"))         return 9;
+    if (mon.equals("mf"))           return 9;
+    if (mon.equals("deireadh"))     return 10;
+    if (mon.equals("df"))           return 10;
+    if (mon.equals("samhain"))      return 11;
+    if (mon.equals("samhna"))       return 11;
+    if (mon.equals("nollaig"))      return 12;
+    if (mon.equals("nollag"))       return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 
@@ -171,9 +177,14 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
+    String tensNumber = args.get("tens");
+    if (tensNumber.toLowerCase().startsWith("d")) {
+      dayOfWeekFromString += 10;
+    } else if (tensNumber.toLowerCase().startsWith("f")) {
+      dayOfWeekFromString += 20;
+    }
     Calendar dateFromDate = getDate(args);
     String dayPrefix = args.get("dayPrefix");
-    String tensNumber = args.get("");
     int dayOfWeekFromDate;
     try {
       dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
@@ -184,8 +195,9 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (dayOfWeekFromString != dayOfWeekFromDate) {
       Calendar calFromDateString = Calendar.getInstance();
       calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
+      String dayOfWeek = (dayPrefix != null) ? getDayOfWeek(dateFromDate, dayPrefix) : getDayOfWeek(dateFromDate);
       String message = match.getMessage()
-        .replace("{realDay}", getDayOfWeek(dateFromDate))
+        .replace("{realDay}", dayOfWeek)
         .replace("{day}", getDayOfWeek(calFromDateString))
         .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
