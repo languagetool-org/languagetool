@@ -3972,6 +3972,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="MD"/>
         <token postag="PCT"/>
       </antipattern>
+      <antipattern><!-- Fix for chunker. Will this actually work...? -->
+        <token postag="MD"/>
+        <token>this</token>
+        <token chunk="I-NP-singular" postag="RB"/>
+        <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
+        <token>?</token>
+      </antipattern>
+      <antipattern><!-- Fix for chunker. Won't this still work...? -->
+        <token postag="MD"/>
+        <token regexp="yes">&apostrophe;</token>
+        <token>t</token>
+        <token>this</token>
+        <token chunk="I-NP-singular" postag="RB"/>
+        <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
+        <token>?</token>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4011,8 +4027,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Won’t <marker>start</marker>, but turns over.</example><!-- Incomplete sentence, but a verb in this context. -->
       <example type="untouched">Won’t further <marker>address</marker> it.</example><!-- Incomplete sentence, but a verb in this context. -->
       <example type="untouched">Those who send in old junk they don't use anymore <marker>will</marker>, without exception, receive a present.</example>
+      <example type="untouched">Will this actually <marker>work</marker> when the sun shines?</example>
+      <example type="untouched">Won't this still <marker>work</marker> on Sunday?</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
+      <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <antipattern><!-- Fix for chunker: staves off hunger -->
