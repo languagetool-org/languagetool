@@ -1847,9 +1847,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_NOM" name="Concordances determinant i nom">
             <antipattern case_sensitive="yes">
-                <marker>
                     <token>barça</token>
-                </marker>
+            </antipattern>
+            <antipattern>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token>des</token>
+                <token postag="_possible_nompropi"/>
             </antipattern>
             <rule>
                 <pattern>
@@ -1868,6 +1871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="A la cap|A les caps|Al cap|Als caps"><marker>Als cap</marker> de quatre anys.</example>
                 <example>als camions</example>
                 <example>a can Garcia</example>
+                <example>A la des Mercadal.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9381,6 +9385,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>no permeten participar a tenistes professionals</example>
             <example>no deixen participar a menors d'edat</example>
             <!-- ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
+        </rule>
+        <rule id="DELEGAR_EN" name="delegar *(en)">
+            <pattern>
+                <token inflected="yes">delegar</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token>en</token>
+            </pattern>
+            <message>El v. 'delegar' és transitiu. Probablement cal fer la construcció sense la preposició 'en'.</message>
+            <example correction="">El president <marker>delegava sempre en</marker> el vicepresident.</example>
+            <example>El president delegava sempre el vicepresident.</example>
+        </rule>
+        <rule id="ENCERTAR_AMB" name="encertar *(amb)">
+            <antipattern>
+                <token regexp="yes">ho|la|el|els|les|l'</token>
+                <token min="0" regexp="yes" inflected="yes">anar|haver</token>
+                <token inflected="yes">encertar</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">encertar</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token>amb</token>
+            </pattern>
+            <message>El v. 'encertar' és transitiu. Probablement cal fer la construcció sense la preposició 'amb'.</message>
+            <example correction="">Vam <marker>encertar amb</marker> el regal.</example>
+            <example>La vam encertar amb el regal.</example>
+            <example>Ho has encertat amb el regal.</example>
+            <example>L'hem encertada amb el regal.</example>
+            <example>Vam encertar-la amb el regal.</example>
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
@@ -28577,6 +28609,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="NI_QUE_DIR" name="ni què dir">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                   <token>ni</token>
+                   <token regexp="yes">que|què</token>
+                   <token>dir</token>
+                   <token min="0" inflected="yes" postag="VM..3S.." postag_regexp="yes">tenir</token>
+                   <token>que</token>
+                </marker>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion>no cal dir que</suggestion>
+            <suggestion>no calia dir que</suggestion>
+            <example correction="No cal dir que|No calia dir que"><marker>Ni què dir té que</marker> li agradava molt</example>
+        </rule>
         <rule id="PRINGAT" name="pringat">
             <pattern>
                 <token inflected="yes" postag="A.*" postag_regexp="yes">pringat</token>
@@ -37249,7 +37297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">escoltar</token>
                     </marker>
-                    <token min="0" max="8" postag="[ANDSR].*" postag_regexp="yes"><exception regexp="yes">atentament|atenció</exception></token>
+                    <token min="0" max="8" postag="[ANDSRU].*" postag_regexp="yes"><exception regexp="yes">atentament|atenció</exception></token>
                     <token postag="V.N.*" postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">anar|sense|per|a|en|el|no</exception></token><!--<exception postag="C.*|_PUNCT.*" postag_regexp="yes"/> -->
                 </pattern>
                 <message>Probablement cal usar el verb 'sentir'.</message>
@@ -37258,6 +37306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sentit">No li he <marker>escoltat</marker> mai alçar la veu.</example>
                 <example correction="sentir">És difícil <marker>escoltar</marker> gent parlar valencià.</example>
                 <example correction="sentir">Acabe d'<marker>escoltar</marker> un home de Foios de 71 anys cantar.</example>
+                <example correction="sentit">Heu <marker>escoltat</marker> alguna vegada al MHP Puigdemont dir això.</example>
                 <example>Escoltam atentament per no perdre cap detall.</example>
                 <example>Vam escoltar amb atenció per no perdre'ns ni una paraula.</example>
             </rule>
