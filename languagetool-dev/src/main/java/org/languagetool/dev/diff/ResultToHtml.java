@@ -18,6 +18,12 @@
  */
 package org.languagetool.dev.diff;
 
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.rules.Rule;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -27,10 +33,28 @@ import java.util.*;
  */
 class ResultToHtml {
 
+  private final Map<String, String> ruleIdToCategoryId = new HashMap<>();
+  
+  ResultToHtml(Language lang) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllRules()) {
+      ruleIdToCategoryId.put(rule.getId(), rule.getCategory().getId().toString());
+    }
+  }
+
   private void run(String filename) throws FileNotFoundException {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     List<LightRuleMatch> matches = parser.parse(new FileReader(filename));
-    matches.sort((k, v) -> k.getRuleId().compareTo(v.getRuleId()));
+    matches.sort((k, v) -> {
+      String catIdK = getCategoryId(k);
+      String catIdV = getCategoryId(v);
+      if (catIdK.equals(catIdV)) {
+        return k.getRuleId().compareTo(v.getRuleId());
+      } else {
+        return catIdK.compareTo(catIdV);
+      }
+    }
+    );
     printHtml(filename, matches);
   }
 
@@ -50,14 +74,19 @@ class ResultToHtml {
     print(matches.size() + " total matches<br>");
     printToc(matches);
     String prevRuleId = "";
+    String prevCategoryId = "";
     boolean listStarted = false;
     for (LightRuleMatch match : matches) {
+      String categoryId = getCategoryId(match);
       if (!match.getRuleId().equals(prevRuleId)) {
         if (listStarted) {
           print("</ol>");
         }
+        if (!categoryId.equals(prevCategoryId)) {
+          print("<h1>Category " + categoryId + "</h1>");
+        }
         String tempOff = match.isTempOff() ? "[temp_off]" : "";
-        print("<a name='" + match.getRuleId() + "'></a><h1>" + match.getRuleId() + " " + tempOff +   "</h1>");
+        print("<a name='" + match.getRuleId() + "'></a><h3>" + match.getRuleId() + " " + tempOff + "</h3>");
         print("Source: " + match.getRuleSource() + "<br><br>");
         print("<ol>");
         listStarted = true;
@@ -67,22 +96,38 @@ class ResultToHtml {
       print("  <span class='sentence'>" + match.getContext() + "</span><br>");
       print("</li>");
       prevRuleId = match.getRuleId();
+      prevCategoryId = categoryId;
     }
     print("</ol>");
     print("</body>");
     print("</html>");
   }
 
+  @NotNull
+  private String getCategoryId(LightRuleMatch match) {
+    String categoryId = ruleIdToCategoryId.get(match.getRuleId());
+    if (categoryId == null) {
+      categoryId = "unknown";  // some rules cannot be mapped, as the rule ids might have changes since the input was generated
+    }
+    return categoryId;
+  }
+
   private void printToc(List<LightRuleMatch> matches) {
     Map<String, Integer> catToCount = getCatToCount(matches);
     String prevRuleId = "";
+    String prevCategoryId = "";
     print("<h1>TOC</h1>");
     for (LightRuleMatch match : matches) {
       String ruleId = match.getRuleId();
+      String categoryId = getCategoryId(match);
       if (!ruleId.equals(prevRuleId)) {
+        if (!categoryId.equals(prevCategoryId)) {
+          print("<h3>Category " + categoryId + "</h3>");
+        }
         print("<a href='#" + ruleId + "'>" + ruleId + " (" + catToCount.get(ruleId) + ")</a><br>");
       }
       prevRuleId = ruleId;
+      prevCategoryId = categoryId;
     }
     print("<br>");
   }
@@ -105,12 +150,12 @@ class ResultToHtml {
   }
 
   public static void main(String[] args) throws FileNotFoundException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + ResultToHtml.class.getSimpleName() + " <plainTextResult>");
+    if (args.length != 2) {
+      System.out.println("Usage: " + ResultToHtml.class.getSimpleName() + " <langCode> <plainTextResult>");
       System.out.println("  <plainTextResult> is the result of e.g. Main or SentenceSourceChecker");
       System.exit(1);
     }
-    ResultToHtml prg = new ResultToHtml();
-    prg.run(args[0]);
+    ResultToHtml prg = new ResultToHtml(Languages.getLanguageForShortCode(args[0]));
+    prg.run(args[1]);
   }
 }
