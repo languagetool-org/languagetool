@@ -212,6 +212,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Account", "Accusative");
     } else if ("lieing".equals(word)) {
       return Arrays.asList("lying");
+    } else if ("preffered".equals(word)) {
+      return Arrays.asList("preferred");
+    } else if ("preffering".equals(word)) {
+      return Arrays.asList("preferring");
+    } else if ("reffered".equals(word)) {
+      return Arrays.asList("referred");
+    } else if ("reffering".equals(word)) {
+      return Arrays.asList("referring");
+    } else if ("passthrough".equals(word)) {
+      return Arrays.asList("pass-through");
     } else if ("&&".equals(word)) {
       return Arrays.asList("&");
     } else if ("cmon".equals(word)) {
