@@ -56,7 +56,8 @@ class ResultToHtml {
         if (listStarted) {
           print("</ol>");
         }
-        print("<a name='" + match.getRuleId() + "'></a><h1>" + match.getRuleId() + "</h1>");
+        String tempOff = match.isTempOff() ? "[temp_off]" : "";
+        print("<a name='" + match.getRuleId() + "'></a><h1>" + match.getRuleId() + " " + tempOff +   "</h1>");
         print("Source: " + match.getRuleSource() + "<br><br>");
         print("<ol>");
         listStarted = true;

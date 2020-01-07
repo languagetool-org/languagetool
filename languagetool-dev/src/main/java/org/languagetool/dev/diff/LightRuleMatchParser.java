@@ -86,8 +86,9 @@ class LightRuleMatchParser {
           //e.printStackTrace();
           coveredText = "???";
         }
+        boolean isTempOff = ruleId.contains("[temp_off]"); 
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", ""); 
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source, isTempOff));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -102,9 +103,9 @@ class LightRuleMatchParser {
   }
   
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
-                                   String context, String coveredText, String title, String source) {
+                                   String context, String coveredText, String title, String source, boolean isTempOff) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s);
+    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s, isTempOff);
   }
   
 }
