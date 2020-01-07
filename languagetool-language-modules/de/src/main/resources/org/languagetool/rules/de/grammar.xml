@@ -8657,6 +8657,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="CITROEN" name="Citroën" default="temp_off">
+            <pattern>
+                <token regexp="yes">[ZC]itr[oö]en|[ZC]itröe?n</token>
+            </pattern>
+            <message>Die korrekte Eigenschreibweise des Autoherstellers lautet <suggestion>Citroën</suggestion>.</message>
+            <url>https://de.wikipedia.org/wiki/Citro%C3%ABn</url>
+            <example correction="Citroën"><marker>Citroen</marker> ist ein französischer Automobilhersteller.</example>
+        </rule>
+        <rulegroup id="APRES_SKI" name="Après-Ski" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Apres_Ski</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Apr.s</token>
+                    <token regexp="yes">Skis?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Après-Ski</suggestion> (= nach dem Skilaufen)?</message>
+                <example correction="Après-Ski">Er trank ein Radler beim <marker>Apres Ski</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Apr.s</token>
+                    <token regexp="yes">Skis?</token>
+                    <token regexp="yes">Party|Kostüme?|Kleidung|Bars?|Hits?|Album|Orte?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Après-Ski-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Après-Ski-Party">Die <marker>Apres Ski Party</marker> war ein voller Erfolg.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Apr.s-?Ski</token>
+                    <token regexp="yes">Party|Kostüm|Kleidung|Bar</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Après-Ski-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Après-Ski-Party">Die <marker>Apres-Ski Party</marker> war ein voller Erfolg.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="JONG_UN" name="Kim Jong-un">
             <url>https://de.wikipedia.org/wiki/Kim_Jong-un</url>
             <rule>
@@ -10330,7 +10366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="Fragezeichen">Mein Gesicht war ein einziges <marker>Frage Zeichen</marker>.</example>
         </rule>
-        <rule id="MEIST_GESEHEN" name="meist + Verb (zusammengeschrieben)" default="temp_off">
+        <rule id="MEIST_GESEHEN" name="meist + Verb (zusammengeschrieben)">
             <pattern>
                 <token>meist</token>
                 <token regexp="yes">(gefragt|gebräuchlich|gebraucht|gekauft|gelesen|gesucht|geklickt|belastet|verkauft|gehört|gestreamt|gelikt|gegoogelt|benutzt|besucht|begünstigt|beteiligt|verbreitet)(e|es|er|en|em)?</token>
@@ -32817,7 +32853,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?</token>
+                    <token regexp="yes">autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Autos">Die <marker>E Autos</marker> sind oft umweltschonender als Autos mit Verbrenner.</example>
@@ -32827,7 +32863,7 @@ Andere Projekte</example>
                     <token regexp="yes">E-[A-Z].+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?)</token>
+                    <token regexp="yes">e-?(autos?|mobilität|motor(s|en)?|bikes?|mobil[es]?|mobility|roller[sn]?|zigaretten?|scooter[sn]?|shishas?|fahrrads?|fahrräder|gitarren?|herds?|heizung(en)?|motorrads?|motorräder|tretroller|bus(se)?|pkws?|lkws?|maschinen?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)^e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="E-Auto">Ein <marker>eAuto</marker> ist oft umweltschonender als ein Auto mit Verbrenner.</example>
@@ -36176,7 +36212,7 @@ Andere Projekte</example>
                 <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
                 <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">a|á</token>
                     <token>la</token>
@@ -36196,7 +36232,7 @@ Andere Projekte</example>
                 <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
                 <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SUB.+|EIG.+" postag_regexp="yes" />
                     <marker>
@@ -38223,35 +38259,41 @@ Andere Projekte</example>
                 <example correction="54″">45,<marker>54 ″</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Fehlender/zu viel gesetzter Schrägstrich bei Einheiten">
+        <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Fehlender/zu viel gesetzter Schrägstrich bei Einheiten" default="temp_off">
             <rule>
-                <regexp case_sensitive='yes'>kmh</regexp>
+                <pattern>
+                    <token regexp="yes">[Kk]m[Hh]</token>
+                </pattern>
                 <message>Meinten Sie <suggestion>km/h</suggestion> (Kilometer pro Stunde, Maßeinheit der Geschwindigkeit)?</message>
                 <example correction="km/h">Er fährt mit 50 <marker>kmh</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(kw|KW|kW)/h</regexp>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">(kw|KW|kW)</token>
+                    <token min="0">/</token>
+                    <token>h</token>
+                </pattern>
                 <message>Meinten Sie <suggestion>kWh</suggestion> (Leistung mal Zeit, Maßeinheit der Arbeit)?</message>
                 <example correction="kWh">Wir verbrauchen 2000 <marker>kw/h</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[Mk]bits</token>
+                        <token regexp="yes">[MKG]bits</token>
                     </marker>
                     <token regexp="yes" inflected="yes">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load|Daten)rate)</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="([Mk]).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="1" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="^(.).+" regexp_replace="$1" case_conversion="allupper" />bit/s</suggestion> (Datenübertragungsrate) oder <suggestion><match no="1" regexp_match="^(.).+" regexp_replace="$1" case_conversion="allupper" />bit</suggestion> (Datenmenge)?</message>
                 <example correction="Mbit/s|Mbit">Der DSL-Anschluss ist 16000 <marker>Mbits</marker> schnell.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="3">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load|Daten)rate)</token>
                     <marker>
-                        <token regexp="yes">[Mk]bits</token>
+                        <token regexp="yes">[MKG]bits</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="([Mk]).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="^(.).+" regexp_replace="$1" case_conversion="allupper" />bit/s</suggestion> (Datenübertragungsrate) oder <suggestion><match no="2" regexp_match="^(.).+" regexp_replace="$1" case_conversion="allupper" />bit</suggestion> (Datenmenge)?</message>
                 <example correction="Mbit/s|Mbit">Der DSL-Anschluss bietet eine Datenübertragungsrate von 16000 <marker>Mbits</marker>.</example>
             </rule>
         </rulegroup>
