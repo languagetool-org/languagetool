@@ -38241,6 +38241,21 @@ The accident victim died from her injuries.
             <example>Although being de facto independent since the end of the war, de jure it is still...</example>
             <example>...and the region is still considered a de jure part of Azerbaijan, despite being de facto independent since the end of the war.</example>
         </rule>
+        <rule id="OEDOMETER_ODOMETER" name="oedometer (odometer)">
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token skip="-1" regexp="yes">geotechnical</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">oedometers?<exception scope="next" regexp="yes">tests?</exception></token>
+            </pattern>
+            <message>An oedometer is instrument used in geotechnical investigation. Did you mean <suggestion><match no="1" postag="NNS?">odometer</match></suggestion> (an instrument that measures the distance that a vehicle travels)?</message>
+            <url>https://en.wikipedia.org/wiki/Oedometer_test</url>
+            <example correction="odometer">The <marker>oedometer</marker> in my automobile is defective.</example>
+            <example>The <marker>odometer</marker> in my automobile is defective.</example>
+            <example>Oedometers are used in geotechnical investigations.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -45280,7 +45295,7 @@ The accident victim died from her injuries.
             </rule>
             <rule><!-- adjectives -->
                 <pattern>
-                    <token postag="JJ" regexp="yes" case_sensitive="yes">abelian|bohemian|byzantine|draconian|herculean|philistine|platonic|stentorian|stoic|thespian</token>
+                    <token postag="JJ" regexp="yes" case_sensitive="yes">abelian|bohemian|byzantine|draconian|herculean|pharaonic|philistine|platonic|stentorian|stoic|thespian</token>
                 </pattern>
                 <message>Possible incorrect capitalization. Some adjectives that are derived from proper nouns can have both an initial capital letter and an initial lower case letter. If there is a close association with the proper noun, use <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
                 <short>Capitalization: words from proper nouns</short>
