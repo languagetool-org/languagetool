@@ -8972,7 +8972,107 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="COPY_PASTE" name="Copy (and) paste" default="temp_off">
+        <rule id="BE_TO_VBG" name="He is to making (is making)" default="temp_off">
+            <antipattern>
+                <token>here</token>
+                <token min="0" regexp="yes">&apostrophe;</token>
+                <token regexp="yes">i?s</token>
+            </antipattern>
+            <antipattern>
+                <token>heres</token>
+                <token>to</token>
+            </antipattern>
+            <antipattern><!-- Youth sees too far to see how near it is to seeing farther. -->
+                <token regexp="yes" skip="9">what|which|how</token>
+                <token regexp="yes">be|was|i?s|a?m|a?re|were|been</token>
+                <token>to</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">was|i?s|a?m|a?re|were|been</token>
+                <marker>
+                    <token>to</token>
+                    <token postag="VBG">
+                        <exception regexp="yes">trying|being|taxing|amazing</exception><!-- "ing"-adjectives, "too amazing" (different error found by TO_TOO) -->
+                    </token>
+                </marker>
+            </pattern>
+            <message>The word 'to' seems to be wrong here.</message>
+            <suggestion>\3</suggestion>
+            <example correction="making">He was <marker>to making</marker> America great again.</example>
+            <example correction="melting">This material is <marker>to melting</marker>.</example>
+            <example>Here's to hoping …</example>
+            <example>Youth sees too far to see how near it is to seeing farther.</example>
+            <example>I realized I was to trying to live someone else's understanding.</example>
+            <example>There’s no way to tell how close a clicking CV joint is to failing without removing it from the car and examining on the bench.</example>
+            <example>We need to know what the resolution plan is to getting Aquilia straight for trading Physical and Financial products.</example>
+            <example>This invitation is to being extended to Energy Service Provider and Contracted Marketers in SoCalGas' programs.</example>
+            <example>It doesn’t matter how close it is to being expired or not.</example>
+            <example>Closest I’ve ever been to being a moderator though.</example>
+            <example>The kernel and image of a homomorphism can be interpreted as measuring how close it is to being an isomorphism.</example>
+            <example>Mark, I was wondering how close you and your group are to making a decision on the Paralegal position.</example>
+            <example>If it is to taxing on the servers to claim guild seals per battle why not automatically claim them at the first daily login?</example>
+            <example>If you decide that Australia is to amazing to leave, I will completely understand and we can reschedule.</example>
+        </rule>
+        <rulegroup id="TO_JJR_THAN" name="'is too high than' vs. 'is higher than'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">too?</token>
+                        <token postag="JJR">
+                            <exception regexp="yes">more|less</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">than|compared</token>
+                </pattern>
+                <message>The word 'to' seems to be wrong here.</message>
+                <suggestion>\4</suggestion>
+                <example correction="higher">From 70,000 to 12,000 years ago, the lake's level was <marker>to higher</marker> than its current level.</example>
+                <example>I've been to more than ten foreign countries so far.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">too?</token>
+                        <token postag="JJR">
+                            <exception regexp="yes">more|less</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">than|compared</token>
+                </pattern>
+                <message>The word 'to' seems to be wrong here.</message>
+                <suggestion>\5</suggestion>
+                <example correction="higher">From 70,000 to 12,000 years ago, the lake's level wasn't <marker>to higher</marker> than its current level.</example>
+                <example>I've been to more than ten foreign countries so far.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MANY_TIME" name="many time (times)" default="temp_off">
+            <antipattern>
+                <token>many</token>
+                <token>time</token>
+                <token postag="NNP|NN|UNKNOWN|NN:.*" postag_regexp="yes" />
+                <token postag="NNP?S" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>many</token>
+                <token>time</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token>many</token>
+                <token>time</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 times</suggestion> or <suggestion>much time</suggestion>?</message>
+            <url>https://www.gymglish.com/en/gymglish/english-grammar/much-vs-many</url>
+            <example correction="many times|much time">I have been there <marker>many time</marker>.</example>
+            <example>I guess many time tracking apps would benefit from that too, and some service desk/agent tools as well.</example>
+            <example>In some cases, we are many time zones apart.</example>
+        </rule>
+        <rulegroup id="COPY_PASTE" name="Copy (and) paste">
             <url>https://www.merriam-webster.com/dictionary/copy%20paste</url>
             <rule>
                 <pattern>
@@ -9006,7 +9106,6 @@ USA
                 <message>Did you mean <suggestion>\1 and \2</suggestion>?</message>
                 <example correction="copy and paste">Please <marker>copy paste</marker> the file there.</example>
             </rule>
-
         </rulegroup>
         <rule id="STATE_OF_THE_UNION" name="proper capitalization of 'State of the Union'">
             <antipattern case_sensitive="yes">
@@ -13207,7 +13306,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Game_Boy</url>
             <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
         </rule>
-        <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)" default="temp_off">
+        <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)">
             <url>https://en.wikipedia.org/wiki/Donald_Trump</url>
             <rule>
                 <pattern>
@@ -13508,7 +13607,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -13629,9 +13728,27 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rulegroup id="FEDEX" name="FedEx" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/FedEx</url>
+            <rule>
+                <pattern>
+                    <token>fed</token>
+                    <token>ex</token>
+                </pattern>
+                <message>Did you mean <suggestion>FedEx</suggestion> (= delivery service)?</message>
+                <example correction="FedEx"><marker>Fed Ex</marker> Corporation is an American multinational courier delivery services company headquartered in Memphis.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">fed\-?ex|Fed\-?ex|fed\-?Ex</token>
+                </pattern>
+                <message>Did you mean <suggestion>FedEx</suggestion> (= delivery service)?</message>
+                <example correction="FedEx"><marker>Fedex</marker> Corporation is an American multinational courier delivery services company headquartered in Memphis.</example>
+            </rule>
+        </rulegroup>
         <rule id="LOS_ANGELS" name="Los Angels (Angeles)">
             <pattern>
-                <token>los</token>
+                <token regexp="yes">l[ao]s</token>
                 <token>angels</token>
             </pattern>
             <message>Did you mean <suggestion>Los Angeles</suggestion>?</message>
@@ -20679,17 +20796,30 @@ USA
                 <url>https://www.engvid.com/english-resource/the-with-country-names-lakes-rivers/</url>
                 <short>Grammatical problem: missing determiner</short>
             <rule>
+                <antipattern>
+                    <token>USA</token>
+                    <token>Today</token>
+                </antipattern>
+                <antipattern>
+                    <token>Atlantic</token>
+                    <token regexp="yes">City|Records|Airways|College</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
                         <token case_sensitive="yes" regexp="yes">Alps|Andes|Appalachians|Atlantic|Bahamas|Baltic|Caribbean|Caspian|Caucasus|Comoros|Danube|equator|Euphrates|Gambia|Ganges|Gobi|Himalayas|Indus|Kalahari|Maldives|Netherlands|Nile|Ob|Occident|Orient|Orinoco|Philippines|Pyrenees|Rhine|Rhone|Rockies|Sahara|Thames|Tiber|Tigris|UAE|Urals|USA|Volga|Yangtze</token>
                     </marker>
-                         <token>
-                           <exception>'</exception></token>
+                    <token>
+                        <exception regexp="yes">'</exception>
+                        <exception postag="NN?S" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
                 <example correction="in the Netherlands">He lived <marker>in Netherlands</marker> from 1933 till 1945.</example>
                 <example>Royal Netherlands Air Force</example>
+                <example>The articles came from USA Today.</example>
+                <example>He lives in Atlantic City.</example>
+                <example>There are certain dynamics between Caribbean countries.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -20895,6 +21025,11 @@ USA
                 <example correction="in the United Kingdom">He lived <marker>in United Kingdom</marker> from 1933 till 1945.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>united</token>
+                    <token>states</token>
+                    <token>history</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
@@ -34340,6 +34475,446 @@ The accident victim died from her injuries.
             <example correction="in the past">We succeeded <marker>in the passed</marker>.</example>
             <example>In the past, we had a number of successes.</example>
         </rule>
+        <rulegroup id="BY_BUY" name="I will by (buy) this car" default="temp_off">
+            <antipattern>
+                <token postag="IN" />
+                <token>to</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern><!-- "opted-in to by" (opted-in is UNKNOWN) -->
+                <token postag="UNKNOWN|NN.*" postag_regexp="yes" regexp="yes">.+\-(in|up|out|around)</token>
+                <token>to</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">by</token>
+                <token regexp="yes">means|default|mistake|def(inition)?|design|convention|condition|exercise|chances?|doc(umentation)?|necc?ess?ity|laws?|miracles?|passion|hearts?|extensions?|return</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">by</token>
+                <token regexp="yes">now|far|nature</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes">
+                    <exception postag="MD" />
+                </token>
+                <token postag="RB" min="0" />
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="6">which|what|how|who</token>
+                <token postag="MD" />
+                <token postag="RB" min="0" />
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">as|than</token>
+                <token postag="PRP|NNP?|UNKNOWN" postag_regexp="yes" />
+                <token regexp="yes">can|would|could</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">can(not)?|will|[wc]ould|must|should|did|might|to|please</token>
+                <token postag="RB" min="0" />
+                <token>by</token>
+                <token postag="RB" min="0" />
+                <token postag="VBG" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">can(not)?|will|[wc]ould|must|should|did|might|to|please</token>
+                <token postag="RB" min="0" />
+                <token>by</token>
+                <token postag="RB" min="0" />
+                <token regexp="yes" postag="UNKNOWN">.+ing</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token postag="DT" min="0" />
+                <token regexp="yes">end|start|beginning|close</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token postag="DT"/>
+                <token>day</token>
+                <token regexp="yes">of|after|before</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token postag="CD" />
+                <token>of</token>
+                <token>the</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token postag="RB" min="0" />
+                <token>equal</token>
+                <token>to</token>
+                <token>by</token>
+                <token>the</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token>the</token>
+                <token regexp="yes">way|time|book|looks?</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token postag="RB|DT" min="0" postag_regexp="yes" />
+                <token regexp="yes">\d+|\d+[ap]m|bikes?|cars?|bus(ses)?|trains?|plane|(tele)?phone|IM|e|e?\-?mail|sms|fax|whatsapp|messenger|courier|facebook|twitter|fedex|dhl|ups|wechat|mobile|airplanes?|boats?|jet(ski)?s?|helicopters?|scooter|bi-?cycles?|Christmas|X-?mas|Thanksgiving|week\-?end|week|day|S[uo]mmer|Winter|Autumn|Fall|Spring|Eastern|sunset|sunrise|(after)?noon|evening|morning|night|yesterday|tomorrow|today|&weekdays;|&abbrevWeekdays;|&months;|&abbrevMonths;</token>
+            </antipattern>
+            <antipattern>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token>by</token>
+                <token postag="DT" min="0" />
+                <token regexp="yes">next|upcoming|last|previous|early|late|mid(\-.+)?</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token regexp="yes">.+(self|selves?)</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token regexp="yes">him|her|it|their|them|your|my</token>
+                <token regexp="yes">(self|selve)s?</token>
+            </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token>pass</token>
+            </antipattern>
+            <antipattern>
+                <token>here</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token>s</token>
+                <token min="0" />
+                <token>will</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern><!-- by a small/wide margin -->
+                <token>by</token>
+                <token>a</token>
+                <token postag="JJ.*" postag_regexp="yes" />
+                <token regexp="yes">margins?|percent(age)?|shares?</token>
+            </antipattern>
+            <antipattern>
+                <token>that</token>
+                <token>it</token>
+                <token regexp="yes">should|could|would</token>
+                <token>by</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN" /><!-- at will (will = noun) -->
+                <token>will</token>
+                <token>by</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        can(not)?|will|ll|[wc]ould|must|should|did|might|to|please
+                        <exception case_sensitive="yes" regexp="yes">Will|WILL</exception>
+                    </token>
+                    <token postag="RB" min="0">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                        <exception>so</exception>
+                        <exception scope="previous" regexp="yes">to|please</exception><!-- "to" needed here? "He wanted to simply buy a new car." -->
+                    </token>
+                    <marker>
+                        <token>by</token>
+                    </marker>
+                </pattern>
+                <message>Did you maybe mean <suggestion>buy</suggestion> or <suggestion>be</suggestion>?</message>
+                <example>Referred to by Tom.</example>
+                <example correction="buy|be">I would <marker>by</marker> a new iPhone if I had the money.</example>
+                <example correction="buy|be">I will <marker>by</marker> you lunch.</example>
+                <example correction="buy|be">Soup cannot <marker>by</marker> eaten with a fork.</example>
+                <example correction="buy|be">Your family wants you to <marker>by</marker> happy.</example>
+                <example correction="buy|be">Recently, two bills that would impose a windfall profits tax on California generators have been advancing through the California legislature and will likely <marker>by</marker> heard on the floor of the Assembly this week.</example>
+                <example>You should by all means read the book.</example>
+                <example>In other word, the roots of form a field of order , which is equal to by the minimality of the splitting field.</example>
+                <example>Although written in Greek, by convention the works are referred to by Latin titles, and often by merely abbreviations of those.</example>
+                <example>The game was looked forward to by everyone.</example>
+                <example>Our plan was objected to by the majority.</example>
+                <example>We know that reducing demand will not by itself solve our energy crisis.</example>
+                <example>Decent computer setup too, and I will by the looks of it be able to work in maybe two weeks.</example>
+                <example>Nobody can live by himself.</example>
+                <example>As I have mentioned to you, Enron has been referred to specifically by one of the most powerful Senators.</example>
+                <example>It is referred to locally by terms such as "dialect" (pronounced "dialek"), Anguilla Talk or "Anguillian".</example>
+                <example>This time, however, the East German authorities allowed people to leave, provided that they did so by train through East Germany.</example>
+                <example>The company announced a 3-year U.S.$1bn rapid-development program to boost output to by early 2001.</example>
+                <example>In many jurisdictions, it’s actually the case that a corporate charter can be revoked at will by the government.</example>
+                <example>But that’s all, it did by itself, I promise.</example>
+                <example>He is looked up to by friends.</example>
+                <example correction="buy|be">My next vacuum will definitely <marker>by</marker> network ready.</example>
+                <example>The contract should by now be posted on the website.</example>
+                <example correction="buy|be">These charts will <marker>by</marker> (1) tracked for timely receipt; and (2) integrated for daily volumes when received.</example>
+                <example>A long-term plan is to make the city's metro system expand to over by 2020 with 15 lines in operation.</example>
+                <example>The Saturn IB was an upgraded version of the Saturn I. The S-IB first stage increased the thrust to by upgrading the H-1 engine.</example>
+                <example>Sometimes, where there is no risk of confusion, the angle may be referred to simply by its vertex.</example>
+                <example>If feeling sick of the world could by itself grant saintliness, I don't see how I could avoid canonization.</example>
+                <example>In Japan, reigning emperors are known simply as "the Emperor" and he is now referred to primarily by his posthumous name.</example>
+                <example>I will again by the end of this month.</example>
+                <example>From the article linked to by Solomon.</example>
+                <example>The rate at which the central bank lends money can indeed be chosen at will by the central bank; this is the rate that makes the financial headlines.</example>
+                <example>we save extra over what some other families might by not having a huge tank of hot water on standby all the time.</example>
+                <example>According to an MNB forecast however, until 2011, the deficit will by a small margin fall short of the 3.0% criterion.</example>
+                <example>The British harshly punished those who would not by jailing them.</example>
+                <example>Uncle Zebulon's Will by Magnus Olsson.</example>
+                <example>Far more than I can by disenchanting.</example>
+                <example>I did so by holding a jumper wire from GND to GPIO0.</example>
+                <example>A Convention's representative on mission in Nantes commissioned in October to pacify the region did so by simply drowning prisoners in the river Loire.</example>
+                <example>What are you referring to by "relationship"?</example>
+                <example>Final version agreed to by April 11th.</example>
+                <example>I was able to get `rbtrace` working using the solution in the issue I linked to above by requiring `rbtrace` after Passenger forked.</example>
+                <example>While we don’t expose a “full” API one can be built that does 90% of what a full API could by a developer.</example>
+                <example>Their temperature ranges from at dawn and steadily increases to by sunset, before they cool off at night again.</example>
+                <example>A Synthetics test that records no traffic will by definition fail.</example>
+                <example>A given stage of rock and the corresponding age of time will by convention have the same name, and the same boundaries.</example>
+                <example>Cotton exports from the U.S. boomed after the cotton gin's appearance – from less than in 1793 to by 1810.</example>
+                <example>We probably could by the end of the quarter.</example>
+                <example>This is the goal for me to get back to by June.</example>
+                <example>I can get Mystic Ingots but need to Lvl up my Legendary weapons is there a way to either by picking rooms to do or upgrading treasure hoard to ensure what even ingots I get are only legendary?</example>
+                <example correction="buy|be">Then you can <marker>by</marker> them for the exorbitant cost of 50.</example>
+                <example correction="buy|be">If the agent is attached to a JVM after the classes have already been loaded, they will not <marker>by</marker> modified for profiling and no performance monitoring data will generated.</example>
+                <example correction="buy|be">I really should <marker>by</marker> Google stock.</example>
+                <example correction="buy|be">So that will soon <marker>by</marker> 100x the size of the SmartThings market.</example>
+                <example correction="buy|be">Also you could <marker>by</marker> 2-pack and save a few bucks.</example>
+                <example>The board, however, can by improving its own performance withstand the hardships created by phase I.</example>
+                <example>Growth is almost entirely driven by rising oil production which surpassed in late 2005 and was expected to grow to by 2007.</example>
+                <example>The LED on the WD500Z-1 will by default turn ON.</example>
+                <example>Design improvements allowed the available MTOW to increase to by 1993.</example>
+                <example>I propose the language agreed to by you for the PB agreement.</example>
+                <example>A Synthetics test that records no traffic will by definition fail.</example>
+                <example>Asia is home to by far the greatest absolute number of city-dwellers.</example>
+                <example>It did so by propagandizing the opinion.</example>
+                <example>Also I can’t upgrade my docker because it’s a part of CoreOS 1520.6.0 stable release and it can only by 1.12.</example>
+                <example>I can continue creating them at will simply by connecting or disconnecting USB power.</example>
+                <example>It will please only by causing pain.</example>
+                <example correction="buy|be">That would probably <marker>by</marker> why the panel can’t see them.</example>
+                <example correction="buy|be">We really need to <marker>by</marker> transparent about how the project is managed.</example>
+                <example correction="buy|be">Hi everybody, Bill Ketcheson has asked me to let everyone know that if you are interested, you can <marker>by</marker> up to 15 tickets for the Order of Good Cheer.</example>
+                <example>It's hard to get to by bike because it's far away.</example>
+                <example>You don’t get any better coverage then you would by just putting a plug in pocket socket in the same location.</example>
+                <example>It did so by disrupting industrial programmable logic controllers.</example>
+                <example>Sometimes the city is informally referred to as by people from Alexandria.</example>
+                <example>You did so by making sure the truth was on your side and that you could back up your claims.</example>
+                <example>TJ looking into the formulas, with Anna's assistance as best she can by telephone and IM.</example>
+                <example>This might be your day time running lights, I doubt you can by pass these.</example><!-- different error (bypass) -->
+                <example>Uneducated parents, increasingly left behind by an increasingly automated labor market, cannot by themselves make up for the lack of education that test-in school systems are testing for.</example>
+                <example>Once again, gym’s single squat rack taken up for way to long by folks who thought it the day to train jaws.</example><!-- different error (too) -->
+                <example correction="buy|be">Thinking to buy, but wondering if I should <marker>by</marker> via Vodafone or Amazon UK.</example>
+                <example correction="buy|be">It will surely <marker>by</marker> useful for your future to put forth this much effort.</example>
+                <example correction="buy|be">You should <marker>by</marker> another brand like Ring to use with Samsung hubs.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        can|won|[wc]ouldn|mustn|shouldn|didn|doesn|don
+                    </token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="RB" min="0">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                        <exception>so</exception>
+                        <exception scope="previous" regexp="yes">to|please</exception><!-- "to" needed here? "He wanted to simply buy a new car." -->
+                    </token>
+                    <marker>
+                        <token>by</token>
+                    </marker>
+                </pattern>
+                <message>Did you maybe mean <suggestion>buy</suggestion> or <suggestion>be</suggestion>?</message>
+                <example correction="buy|be">I wouldn't <marker>by</marker> this pen.</example>
+                <example correction="buy|be">Long story short: don’t <marker>by</marker> Visonic MCT-340 E if you want a high resolution temperature measurement.</example>
+                <example>You don’t by any means need to do this.</example>
+                <example>I’ve been told it doesn’t by default.</example>
+                <example>Preferably something that doesn’t by its very definition rely upon oppressing people.</example>
+                <example>Man can't live by bread alone.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Chaos|Enigma|Book|War|King</token>
+                    <token>I</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="3">King|Prince|Lord|Queen</token>
+                    <token>I</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token>I</token>
+                </antipattern>
+                <antipattern><!-- "workaround you by" -->
+                    <token postag="NN.*|UNKNOWN" postag_regexp="yes" regexp="yes">.+\-(in|up|out|around)</token>
+                    <token regexp="yes">you|it</token>
+                    <token>by</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes" />
+                    <token regexp="yes">and|or|&amp;</token>
+                    <token>I</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="IN" min="0" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN" regexp="yes">\w{3,}|"|”|'|’|»|\)|\]</token><!-- unknown misspelled verbs or words in quotes/parenthesis -->
+                    <token postag="IN" min="0" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN:UN" /><!-- verbs incorrectly tagged as "NN:UN" in "Those who speak most of progress measure it by quantity and not by quality" -->
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="IN" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token>than</token>
+                    <token regexp="yes">they|you|I|we|s?he|it</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">they|you|I|we|s?he|it</token>
+                    <token postag="RB" min="0">
+                        <exception postag="VB.*" postag_regexp="yes" />
+                        <exception>so</exception>
+                    </token>
+                    <marker>
+                        <token>by</token>
+                    </marker>
+                </pattern>
+                <message>Did you maybe mean <suggestion>buy</suggestion>?</message>
+                <example correction="buy">I usually <marker>by</marker> my stuff at Walmart.</example>
+                <example correction="buy">Whether you <marker>by</marker> the Ferrari from a dealer or private sale the expectation is the same.</example>
+                <example correction="buy">Does he <marker>by</marker> his groceries at the supermarket nearby?</example>
+                <example>Are you by yourselves?</example>
+                <example>He is older than I by two years.</example>
+                <example>I was referred to you by Corry Bentley.</example>
+                <example>It’s done for you by SmartThings.</example>
+                <example>I by the end of the week.</example>
+                <example>Saturday, I by noon.</example>
+                <example>Draft GTA being DHLed to you by our Jakarta office.</example>
+                <example>We will submit these to you by Thursday.</example>
+                <example>Congrats to you by the way.</example>
+                <example>Will send revision to you by 2pm CST.</example>
+                <example>Further transmission to you by the sender of this email may be stopped at no cost to you by sending in the subject line.</example>
+                <example>Enigma machine G was modified to the Enigma I by June 1930.</example>
+                <example>We will put something together for you by this evening.</example>
+                <example>I am also forwarding hard copies of the documents to you by courier.</example>
+                <example>Could you by any chance name any of these devices off the top of your head?</example>
+                <example>However normally Jira is smart enough to fix this issue automatically for you by using cache busting techniques like hashed file names.</example>
+                <example>Would it be OK if I identified these for you by using the “flag post” to bring these to your attention?</example>
+                <example>Those who speak most of progress measure it by quantity and not by quality.</example>
+                <example>I “force pushed” it by Ctrl-clicking it on the push arrow.</example>
+                <example>The plan itself was materially lower than that presented to John and I by the business and support groups.</example>
+                <example>After reading your work, I feel a kinship with the people and place and the misery that's been imposed on them and it by nature.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABOUT_TO_VBD" name="He is about to (be) executed" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">be</token>
+                    <token>about</token>
+                    <marker>
+                        <token>to</token>
+                        <token postag="VB[DN]" postag_regexp="yes">
+                            <exception postag="VBP?" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\3 be <match no="4" postag="VBN" /></suggestion> or <suggestion>\3 <match no="4" postag="VBP" /></suggestion>?</message>
+                <example correction="to be implemented|to implement">The feature is about <marker>to implemented</marker>.</example>
+                <example correction="to be drilled|to drill">I am looking to see if TWPL is close to the two wells that are about <marker>to drilled</marker>.</example>
+                <example correction="to be given|to give">Orlando and Sergio Assad are about <marker>to gave</marker> me their clearance to start a legal suit against ANEEL having in view its refusal to grant to Elektro such passthrough.</example>
+                <example>Tom was about to burst into tears.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BY_PASS" name="by pass (bypass)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/bypass</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">can(not)?|will|[wc]ould|must|should|did|do|does|might|may|to|please|was|were|has|(ha)?ve|had|been|a?re|a?m|i?s</token>
+                    <token postag="RB" min="0">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                        <exception>so</exception>
+                    </token>
+                    <marker>
+                        <token>by</token>
+                        <token inflected="yes">pass</token>
+                    </marker>
+                </pattern>
+                <message>The verb or noun 'bypass' is spelled as one word.</message>
+                <suggestion><match no="3" /><match no="4" case_conversion="alllower" /></suggestion>
+                <example correction="bypass">The thrust of the Lamfulussy process is a plan that would <marker>by pass</marker> the normal EU legislative process that includes passage of legislation through the Council of Ministers and the European Parliament, which usually takes at least two years.</example>
+                <example correction="bypassing">He is always <marker>by passing</marker> the meeting by coming late to work.</example>
+                <example correction="bypassing">I am not <marker>by passing</marker> life.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">can|won|[wc]ouldn|mustn|shouldn|didn|don|doesn|wasn|weren|hasn|haven|hadn|aren|isn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="RB" min="0">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                        <exception>so</exception>
+                    </token>
+                    <marker>
+                        <token>by</token>
+                        <token inflected="yes">pass</token>
+                    </marker>
+                </pattern>
+                <message>The verb or noun 'bypass' is spelled as one word.</message>
+                <suggestion><match no="5" /><match no="6" case_conversion="alllower" /></suggestion>
+                <example correction="bypassing">He isn't always <marker>by passing</marker> the meeting by coming late to work.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                    <token postag="IN" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">s?he|you|I|we|they|it</token>
+                    <token postag="RB" min="0">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                        <exception>so</exception>
+                    </token>
+                    <marker>
+                        <token>by</token>
+                        <token inflected="yes">pass</token>
+                    </marker>
+                </pattern>
+                <message>The verb or noun 'bypass' is spelled as one word.</message>
+                <suggestion><match no="3" /><match no="4" case_conversion="alllower" /></suggestion>
+                <example correction="bypasses">He always <marker>by passes</marker> the meeting by coming late to work.</example>
+                <example>He amazed everyone by passing his driving test.</example>
+                <example>You can change it by passing a different parameter to dockerd.</example>
+                <example>I also tested it by passing the actual date instead of System Clipboard and it fails too.</example>
+                <example>In the meantime, depending on your use case, maybe Get group members API can help you out by passing a group like confluence-users?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|their|his|her|its|s</token>
+                    <marker>
+                        <token>by</token>
+                        <token>pass</token>
+                    </marker>
+                </pattern>
+                <message>The verb or noun 'bypass' is spelled as one word.</message>
+                <suggestion><match no="2" /><match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="bypass">The <marker>by pass</marker> saved his life.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="TOO_TO" name="too go (to go)">
             <antipattern><!-- https://www.lexico.com/en/definition/all_too_%E2%80%94 -->
                 <token>all</token>
@@ -34497,31 +35072,110 @@ The accident victim died from her injuries.
                     <token>to</token>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </antipattern>
+                <antipattern><!-- "It can be hard to impossible" -->
+                    <token postag="MD" />
+                    <token>be</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token>to</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>the</token>
+                    <token postag="JJR" />
+                    <token postag="PRP" />
+                    <token inflected="yes">be</token>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">be|&apostrophe;</token>
+                    <token postag="RB" min="0">
+                        <exception regexp="yes">
+                            back|next|close|about|little|hard|small|off|on|in|down|up|right
+                        </exception>
+                    </token>
                     <token min="0" regexp="yes">not|t</token>
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ.?" postag_regexp="yes"><exception postag="NNPS?|VB" postag_regexp="yes"/></token>
-                    <token postag="SENT_END"/>
+                    <token postag="JJ.?" postag_regexp="yes"><exception postag="NNPS?|VB|NN:UN" postag_regexp="yes"/></token>
+                    <token postag="CC|PCT|IN" postag_regexp="yes" />
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="too">It's <marker>to</marker> early.</example>
+                <example correction="too">It's <marker>to</marker> big and complicated.</example>
+                <example correction="too">Larry, you need to direct this to them also, they dont seem to be <marker>to</marker> worried.</example>
                 <example>I've never been <marker>to</marker> Paris.</example>
                 <example>Perhaps we are <marker>to</marker> blame for this.</example>
                 <example>... no visual signs reveal how close the material is to melting.</example>
-                <example type="triggers_error">This material is to melting.</example><!-- this sentence is indeed incorrect. The 'to' particle has probably been forgotten while rephrasing -->
                 <example>This material is melting.</example>
                 <example>This material is to melt in the oven.</example>
                 <example>This material is too melted.</example>
                 <example>... 18th century documents show how close some people were to flying.</example>
                 <example type="triggers_error">They were <marker>to</marker> flying.</example><!-- The 'to' particle has probably been forgotten while rephrasing -->
+                <example correction="too">I think it's probably <marker>to</marker> old.</example>
+                <example correction="too">She's likely not <marker>to</marker> old.</example>
+                <example correction="too">This is <marker>to</marker> funny.</example>
+                <example correction="too">I think it’s just <marker>to</marker> new.</example>
                 <example>They were flying.</example>
                 <example>From 10 am to midnight.</example><!-- #2036 -->
                 <example>From 11:35 am to midnight.</example>
                 <example>From seven am to evening.</example>
+                <example>Highlighting is back to normal.</example>
+                <example>She is close to sixty.</example>
+                <example>Sami's Arabic was little to none.</example>
+                <example>Replacing them can be hard to impossible.</example>
+                <example>I’m down to less than 20 zwave devices and over 240 zigbee devices.</example>
+                <example correction="too">Sami is being <marker>to</marker> aggressive now.</example>
+                <example correction="too">The game is already <marker>to</marker> cluttered with game modes.</example>
+                <example correction="too">It is still not <marker>to</marker> late to register to attend.</example>
+                <example correction="too">Another indication that it is still <marker>to</marker> early to return to semis.</example>
+                <example correction="too">I’m far <marker>to</marker> novice to win.</example>
+                <example correction="too">They were <marker>to</marker> good for you to miss.</example>
+                <example correction="too">If so, it is way <marker>to</marker> big, just to cover our needs.</example>
+                <example correction="too">I hope we were not <marker>to</marker> far off.</example>
+                <example>I wonder where Tom is off to now.</example>
+                <example>We will need to finalize our thoughts about the markets we are trying to develop and what the best approach should be to choice of law/jurisdiction going forward.</example>
+                <example>As the two versions are supposed to merge, the more the work progresses, the harder they are to distinct.</example>
+                <example>I want freedom, the right to self-expression, everybody's right to beautiful, radiant things.</example>
+                <example>What you need to do is to calm down and FIND something productive to do.</example>
+                <example>Here is to clear skies.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag="RB" min="0">
+                        <exception regexp="yes">
+                            back|next|close|about|little|hard|small|off|on|in|down|up|right
+                        </exception>
+                    </token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes" postag="SENT_END">
+                        &short_adjectives;|&optional_short_adjectives;
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="too">It is <marker>to</marker> small</example>
+                <example correction="too">It is not <marker>to</marker> small</example>
+                <example correction="too">It was <marker>to</marker> great</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">s|t</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes" postag="SENT_END">
+                        &short_adjectives;|&optional_short_adjectives;
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="too">It isn't <marker>to</marker> small</example>
             </rule>
             <rule>
                 <pattern>
@@ -40854,10 +41508,14 @@ The accident victim died from her injuries.
             <token regexp="yes">doggy|doggie</token>
             <token regexp="yes">style|bag</token>
         </antipattern>
+        <antipattern><!-- "to lie doggo" https://www.merriam-webster.com/dictionary/doggo -->
+            <token inflected="yes">lie</token>
+            <token>doggo</token>
+        </antipattern>
         <pattern>
-            <token regexp="yes">doggie|doggy</token>
+            <token regexp="yes">doggie|doggy|doggo</token>
         </pattern>
-        <message>In some contexts, this is childish language. Consider alternatives.</message>
+        <message>In some contexts, this is informal language. Consider alternatives.</message>
         <suggestion>dog</suggestion>
         <suggestion>puppy</suggestion>
         <suggestion>pup</suggestion>
@@ -44590,7 +45248,7 @@ The accident victim died from her injuries.
                     <token>New</token>
                     <token>Years</token>
                     <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
-                    <token regexp="yes">resolutions?|goals?|wish(es)?</token>
+                    <token regexp="yes">resolutions?|goals?|wish(es)?|countdown|card|fireworks|greetings?|holidays?|kiss(es)?</token>
                 </pattern>
                 <message>It seems that a possessive apostrophe is missing.</message>
                 <suggestion>New Year's \4</suggestion>
