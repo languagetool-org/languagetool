@@ -8972,6 +8972,81 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)" default="temp_off">
+            <rule><!-- they, we -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                        <token regexp="yes">i?s</token>
+                    </marker>
+                    <token regexp="yes">they|we</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">a?re</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1</suggestion>?</message>
+                <example correction="that">It's WordPress <marker>that's</marker> we are having problems with.</example>
+            </rule>
+            <rule><!-- you -->
+                <pattern>
+                    <token regexp="yes">[wt]hat</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">i?s</token>
+                    <token>you</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">a?re</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 \4 are</suggestion> or <suggestion>\1 is your</suggestion>?</message>
+                <example correction="that you are|that is your">It's WordPress <marker>that's you are</marker> having problems with.</example>
+                <example correction="that you are|that is your">Good <marker>that’s you are</marker> well.</example>
+                <example correction="What you are|What is your"><marker>What's you're</marker> biggest regret?</example>
+                <example correction="what you are|what is your">I think this post can improve if you add a screenshot to the dashboard, otherwise non-support people like myself can’t see <marker>what’s you’re</marker> experiencing.</example>
+            </rule>
+            <rule><!-- it -->
+                <pattern>
+                    <token regexp="yes">[wt]hat</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">i?s</token>
+                    <token case_sensitive="yes" regexp="yes">[Ii]t</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">i?s</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 \4 is</suggestion> or <suggestion>\1 is its</suggestion>?</message>
+                <example correction="that it is|that is its">It's WordPress <marker>that's it is</marker> having problems with.</example>
+                <example correction="what it is|what is its">If I am making a child device, <marker>what is it's</marker> parent?</example>
+                <example>That's IT she's referring to (IT = Information Technology).</example>
+            </rule>
+            <rule><!-- she, he -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                        <token regexp="yes">i?s</token>
+                    </marker>
+                    <token regexp="yes">s?he</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">i?s</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1</suggestion>?</message>
+                <example correction="that">It's WordPress <marker>that's</marker> she is having problems with.</example>
+                <example correction="that">It just astounds me <marker>that’s</marker> she’s paranoid but still thinks she cam get away with doing.</example>
+            </rule>
+            <rule><!-- I -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                        <token regexp="yes">i?s</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">I</token>
+                    <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes">a?m</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1</suggestion>?</message>
+                <example correction="that">It's WordPress <marker>that's</marker> I am having problems with.</example>
+                <example correction="what">Lastly, <marker>what's</marker> I'm playing with here is to get the palette color to match the Mojave dark mode Finder window frames to see it that works.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_TO_VBG" name="He is to making (is making)" default="temp_off">
             <antipattern>
                 <token>here</token>
