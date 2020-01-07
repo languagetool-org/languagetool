@@ -28,6 +28,7 @@ package org.languagetool.rules.br;
 
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
@@ -47,11 +48,13 @@ public class BretonCompoundRule extends AbstractCompoundRule {
 
   public BretonCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
-            "Ce mot est coupé.",
-            "Ce mot est composé de juxtaposition.",
-            "Ce mot peut être composé d'une juxtaposition ou d'un trait d'union.",
-            "Cet ensemble forme un mot composé.");
+            "Skrivet e vez ar ger-mañ boaz gant ur varrennig-stagañ.",
+            "Ar ger-mañ a zo skrivet boaz evel unan hepken.",
+            "An droienn-mañ a zo skrivet evel ur ger hepken pe gant ur varrennig-stagañ.",
+            "Kudenn barrennig-stagañ");
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
+    addExamplePair(Example.wrong("Gwelet em eus un <marker>alc'hweder gwez</marker> e-kerzh an dibenn-sizhun-mañ."),
+                   Example.fixed("Gwelet em eus un <marker>alc'hweder-gwez</marker> e-kerzh an dibenn-sizhun-mañ."));
     setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
