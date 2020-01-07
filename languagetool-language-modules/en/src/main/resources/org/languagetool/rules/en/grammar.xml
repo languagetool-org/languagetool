@@ -12445,6 +12445,63 @@ USA
                 <token regexp="yes">an?|the</token>
                 <token>few</token>
             </antipattern>
+            <rule default="temp_off"><!-- the log in -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>log</token>
+                        <token>in</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the noun <suggestion>login</suggestion> instead of the verb 'to log in'?</message>
+                <url>https://www.lexico.com/definition/login</url>
+                <example correction="login">Your <marker>log in</marker> attempt was not successful.</example>
+            </rule>
+            <rule default="temp_off"><!-- the reschedule -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>reschedule</token>
+                    </marker>
+                </pattern>
+                <message>The word 'reschedule' is not a noun. Did you mean <suggestion>rescheduling</suggestion>?</message>
+                <url>https://en.wiktionary.org/wiki/rescheduling</url>
+                <example correction="rescheduling">Your <marker>reschedule</marker> didn't reach me.</example>
+            </rule>
+            <rule default="temp_off"><!-- the conceal -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>conceal</token>
+                    </marker>
+                </pattern>
+                <message>The word 'conceal' is not a noun. Did you mean <suggestion><match no="3" regexp_match="$" regexp_replace="er" /></suggestion> (= cosmetic)?</message>
+                <url>https://www.merriam-webster.com/dictionary/concealer</url>
+                <example correction="concealer">Your <marker>conceal</marker> looks nice.</example>
+            </rule>
+            <rule default="temp_off"><!-- the explode -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>explode</token>
+                    </marker>
+                </pattern>
+                <message>The word 'explode' is not a noun. Did you mean <suggestion>explosion</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/explosion</url>
+                <example correction="explosion">It was a big <marker>explode</marker>.</example>
+            </rule>
             <rule><!-- the rebrand/understand -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -13971,7 +14028,7 @@ USA
             <rule>
                 <pattern>
                     <token>mar</token>
-                    <token>a</token>
+                    <token min="0">a</token>
                     <token>lago</token>
                 </pattern>
                 <message>Did you mean <suggestion>Mar-a-Lago</suggestion> (= resort and landmark in Palm Beach)?</message>
@@ -15799,6 +15856,19 @@ USA
             <message>Did you mean <suggestion>at</suggestion>?</message>
             <short>Wrong preposition</short>
             <example correction="At"><marker>On</marker> first glance it seems to be a good idea.</example>
+        </rule>
+        <rule id="CONGRATULATIONS_FOR" name="congratulations for (on)" default="temp_off">
+            <pattern>
+                <token>congratulations</token>
+                <marker>
+                    <token>
+                        for
+                    </token>
+                </marker>
+            </pattern>
+            <message>The correct preposition here is <suggestion>on</suggestion>.</message>
+            <url>https://dictionary.cambridge.org/grammar/british-grammar/nouns-and-prepositions</url>
+            <example correction="on">Congratulations <marker>for</marker> your new job!</example>
         </rule>
         <rulegroup id="DONT_NEEDS" name="don't ... 3rd person verb">
             <rule>
@@ -33726,17 +33796,29 @@ The accident victim died from her injuries.
             <url>https://grammarist.com/spelling/log-in-login/</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">I|you|we|please|can(not)?|[cw]ould|did|will|should|who|must</token>
+                    <token regexp="yes">I|you|we|they|s?he|it|please|can(not)?|[cw]ould|did|will|ll|should|who|must|might|may|do|wanna|gonna</token>
+                    <token postag="RB" min="0" />
                     <marker><token regexp="yes">log(in|out|off|on)</token></marker>
                 </pattern>
-                <message>Did you mean the verb <suggestion>log <match no="2" regexp_match="(?i)log" regexp_replace="" /></suggestion> instead of the noun '\2'?</message>
+                <message>Did you mean the verb <suggestion>log <match no="3" regexp_match="(?i)log" regexp_replace="" /></suggestion> instead of the noun '\2'?</message>
                 <example correction="log in">Please <marker>login</marker> before commenting.</example>
                 <example correction="log in">People who <marker>login</marker> get a discount.</example>
                 <example>Your login attempt was not successful.</example>
+                <example correction="log in">Why doesn’t it <marker>login</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">lets?</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">me|him|her|u?s|you|them|it</token>
+                    <marker><token regexp="yes">log(in|out|off|on)</token></marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>log <match no="4" regexp_match="(?i)log" regexp_replace="" /></suggestion> instead of the noun '\2'?</message>
+                <example correction="log in">Please let us <marker>login</marker> before commenting.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">can|[cw]ouldn|won|shouldn|didn|haven|mustn</token>
+                    <token regexp="yes">can|[cw]ouldn|won|shouldn|didn|don|doesn|haven|hadn|hasn|mustn</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker><token regexp="yes">log(in|out|off|on)</token></marker>
@@ -33746,24 +33828,13 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="VB.*|MD" postag_regexp="yes" />
                     <token>to</token>
                     <marker><token regexp="yes">log(in|out|off|on)</token></marker>
                 </pattern>
                 <message>Did you mean the verb <suggestion>log <match no="3" regexp_match="(?i)log" regexp_replace="" /></suggestion> instead of the noun '\3'?</message>
                 <example correction="log out">Have you tried to <marker>logout</marker>?</example>
                 <example>He tried everything from login to logout.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">your|their|his|her|my|the</token>
-                    <marker>
-                        <token>log</token>
-                        <token>in</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean the noun <suggestion>login</suggestion> instead of the verb 'to log in'?</message>
-                <example correction="login">Your <marker>log in</marker> attempt was not successful.</example>
             </rule>
             <rule>
                 <pattern>
@@ -34689,7 +34760,7 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        can(not)?|will|ll|[wc]ould|must|should|did|might|to|please
+                        can(not)?|will|ll|[wc]ould|must|should|did|might|to|please|gonna|wanna
                         <exception case_sensitive="yes" regexp="yes">Will|WILL</exception>
                     </token>
                     <token postag="RB" min="0">
