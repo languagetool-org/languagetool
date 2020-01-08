@@ -41,7 +41,6 @@ public class QuestionWhitespaceRuleTest {
     public final void testRule() throws IOException {
       Language french = new French();
       QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages(), french);
-      RuleMatch[] matches;
       JLanguageTool lt = new JLanguageTool(french);
       
       // correct sentences:
@@ -54,27 +53,23 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est vrai ??")).length);
       
       // errors:
-      matches = rule.match(lt.getAnalyzedSentence("C'est vrai!"));
-      assertEquals(1, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?"));
-      assertEquals(1, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
-      assertEquals(2, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
-      assertThat(matches[0].getFromPos(), is(29));
-      assertThat(matches[0].getToPos(), is(36));
-      assertEquals(1, matches.length);
-      // check match positions:
-      assertEquals(29, matches[0].getFromPos());
-      assertEquals(36, matches[0].getToPos());
-      //guillemets
-      matches = rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
-      assertEquals(1, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("LanguageTool offre une «vérification» orthographique."));
-      assertEquals(1, matches.length);
-      assertThat(matches[0].getFromPos(), is(23));
-      assertThat(matches[0].getToPos(), is(37));
-      assertEquals("[« vérification »]", matches[0].getSuggestedReplacements().toString());
+      assertThat(rule.match(lt.getAnalyzedSentence("C'est vrai!")).length, is(1));
+      assertThat(rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?")).length, is(1));
+      assertThat(rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;")).length, is(2));
+      
+      RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
+      assertEquals(1, matches1.length);
+      assertThat(matches1[0].getFromPos(), is(29));
+      assertThat(matches1[0].getToPos(), is(36));
+      assertThat(matches1[0].getSuggestedReplacements().toString(), is("[triple :]"));
+      
+      //guillemets:
+      assertThat(rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature».")).length, is(1));
+      RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("LanguageTool offre une «vérification» orthographique."));
+      assertThat(matches2.length, is(1));
+      assertThat(matches2[0].getFromPos(), is(23));
+      assertThat(matches2[0].getToPos(), is(37));
+      assertThat(matches2[0].getSuggestedReplacements().toString(), is("[« vérification »]"));
     }
     
 }
