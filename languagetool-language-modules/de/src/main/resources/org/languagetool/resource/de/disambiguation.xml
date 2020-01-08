@@ -911,6 +911,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="SUBSTANTIVIERTES_VERB" name="kein Verb: substantiviertes Verb">
+        <pattern case_sensitive="yes">
+            <token postag="PRP:LOK:DAT|ART:DEF:.+:NEU" postag_regexp="yes"/>
+            <marker>
+                    <and>
+                        <token postag_regexp="yes" postag="SUB:.+:INF" regexp="yes">[A-ZÄÖÜ].+</token>
+                        <token postag_regexp="yes" postag="VER:INF.+"></token>
+                    </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <rule id="SEIN_PA2" name="PA2 nach 'sein'">
         <pattern case_sensitive="yes">
             <token inflected="yes">sein</token>
@@ -1724,9 +1736,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">Apple|B(en|an[dg]|rother)|Data</token>
+            <token regexp="yes">Apple|B(en|an[dg]|uisnes|rother)s?|Datas?|Macs?|Points?|Pushs?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Chief" id="CHIEF"><!-- common job titles -->
+      <pattern case_sensitive="yes">
+        <token>Chief</token>
+        <token regexp="yes">Executive|Grwoth|Product|Technology|Sales|Business|Information|People|Procurement</token>
+        <token regexp="yes">Officers?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="sapere aude" id="SAPERE_AUDE">
