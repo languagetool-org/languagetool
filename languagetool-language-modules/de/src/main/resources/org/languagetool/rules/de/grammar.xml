@@ -8657,7 +8657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
-        <rule id="CITROEN" name="Citroën" default="temp_off">
+        <rule id="CITROEN" name="Citroën">
             <pattern>
                 <token regexp="yes">[ZC]itr[oö]en|[ZC]itröe?n</token>
             </pattern>
@@ -8665,7 +8665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/Citro%C3%ABn</url>
             <example correction="Citroën"><marker>Citroen</marker> ist ein französischer Automobilhersteller.</example>
         </rule>
-        <rulegroup id="APRES_SKI" name="Après-Ski" default="temp_off">
+        <rulegroup id="APRES_SKI" name="Après-Ski">
             <url>https://www.duden.de/rechtschreibung/Apres_Ski</url>
             <rule>
                 <pattern>
@@ -9882,7 +9882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive='yes'>
                 <marker>
                     <token>Log</token>
-                    <token>in</token>
+                    <token regexp="yes">[Ii]n</token>
                 </marker>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>Log-in</suggestion>?</message>
@@ -10136,17 +10136,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/forum.pl/md/read/id/36144/sbj/solange-so-lange-und-eine-weitere-frage/</url>
             <rule>
                 <pattern>
-                    <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                     <marker>
+                        <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                         <token regexp="yes">solange?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="ol" regexp_replace="o l"/></suggestion> &odkomma; vor '\2'?</message>
+                <message>Meinten Sie "<match no="2" regexp_match="ol" regexp_replace="o l"/>" &odkomma; vor der Konjunktion '\2'?</message>
+                <suggestion><match no="1" /> <match no="2" regexp_match="ol" regexp_replace="o l" /></suggestion>
+                <suggestion><match no="1" />, <match no="2" /></suggestion>
                 <short>&getrennt;.</short>
-                <example correction="so lange">Wir sind schon <marker>solange</marker> hier.</example>
-                <example correction="so lang">Er kaufte <marker>solang</marker> Kaugummis, wie er Geld hatte.</example>
+                <example correction="schon so lange|schon, solange">Wir sind <marker>schon solange</marker> hier.</example>
+                <example correction="kaufte so lang|kaufte, solang">Er <marker>kaufte solang</marker> Kaugummis, wie er Geld hatte.</example>
                 <example>Solange er lebt, so lange wird er kämpfen.</example>
-                <example correction="so lange">Ich werde <marker>solange</marker> wie möglich warten.</example>
+                <example correction="werde so lange|werde, solange">Ich <marker>werde solange</marker> wie möglich warten.</example>
             </rule>
             <rule>
                 <pattern>
@@ -33216,7 +33218,7 @@ Andere Projekte</example>
             <message>Bitte prüfen, ob hier ein Partizip verwendet werden muss.</message>
             <example correction="">Unklar ist, wie der Hund ins Wasser <marker>gelang</marker> ist.</example>
         </rule>
-        <rule id="LTD_ABK" name="Ltd" default="temp_off">
+        <rule id="LTD_ABK" name="Ltd">
             <antipattern case_sensitive="yes">
                 <token>Ltd</token>
                 <token>.</token>
@@ -38259,7 +38261,7 @@ Andere Projekte</example>
                 <example correction="54″">45,<marker>54 ″</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Fehlender/zu viel gesetzter Schrägstrich bei Einheiten" default="temp_off">
+        <rulegroup id="SCHRAEGSTRICH_EINHEITEN" name="Fehlender/zu viel gesetzter Schrägstrich bei Einheiten">
             <rule>
                 <pattern>
                     <token regexp="yes">[Kk]m[Hh]</token>
