@@ -8972,7 +8972,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)" default="temp_off">
+        <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)">
             <rule><!-- they, we -->
                 <pattern>
                     <marker>
@@ -9047,7 +9047,7 @@ USA
                 <example correction="what">Lastly, <marker>what's</marker> I'm playing with here is to get the palette color to match the Mojave dark mode Finder window frames to see it that works.</example>
             </rule>
         </rulegroup>
-        <rule id="BE_TO_VBG" name="He is to making (is making)" default="temp_off">
+        <rule id="BE_TO_VBG" name="He is to making (is making)">
             <antipattern>
                 <token>here</token>
                 <token min="0" regexp="yes">&apostrophe;</token>
@@ -9088,7 +9088,7 @@ USA
             <example>If it is to taxing on the servers to claim guild seals per battle why not automatically claim them at the first daily login?</example>
             <example>If you decide that Australia is to amazing to leave, I will completely understand and we can reschedule.</example>
         </rule>
-        <rulegroup id="TO_JJR_THAN" name="'is too high than' vs. 'is higher than'" default="temp_off">
+        <rulegroup id="TO_JJR_THAN" name="'is too high than' vs. 'is higher than'">
             <rule>
                 <pattern>
                     <token inflected="yes">be</token>
@@ -9125,7 +9125,7 @@ USA
                 <example>I've been to more than ten foreign countries so far.</example>
             </rule>
         </rulegroup>
-        <rule id="MANY_TIME" name="many time (times)" default="temp_off">
+        <rule id="MANY_TIME" name="many time (times)">
             <antipattern>
                 <token>many</token>
                 <token>time</token>
@@ -11481,6 +11481,10 @@ USA
                 <token regexp="yes" spacebefore="no">a</token>
             </antipattern>
             <antipattern>
+                <token>conceal</token>
+                <token regexp="yes">macro|palettes?</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">write|read</token>
                 <token regexp="yes">access|protection|operations?</token>
             </antipattern>
@@ -12445,7 +12449,7 @@ USA
                 <token regexp="yes">an?|the</token>
                 <token>few</token>
             </antipattern>
-            <rule default="temp_off"><!-- the log in -->
+            <rule><!-- the log in -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12455,12 +12459,14 @@ USA
                         <token>log</token>
                         <token>in</token>
                     </marker>
+                    <token regexp="yes">credentials?|passwords?|forms?|users?|usernames?|informations?|details?|name|emails?|fields?|pages?|account|site|section|buttons?|and|or|issues?|problems?|rewards?|options?|times?|attempts?|queues?|is|might|was|has|would|should|could|can|\p{P}</token>
                 </pattern>
                 <message>Did you mean the noun <suggestion>login</suggestion> instead of the verb 'to log in'?</message>
                 <url>https://www.lexico.com/definition/login</url>
                 <example correction="login">Your <marker>log in</marker> attempt was not successful.</example>
+                <example>You can check the log in the files stored on the server.</example>
             </rule>
-            <rule default="temp_off"><!-- the reschedule -->
+            <rule><!-- the reschedule -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12474,7 +12480,11 @@ USA
                 <url>https://en.wiktionary.org/wiki/rescheduling</url>
                 <example correction="rescheduling">Your <marker>reschedule</marker> didn't reach me.</example>
             </rule>
-            <rule default="temp_off"><!-- the conceal -->
+            <rule><!-- the conceal -->
+                <antipattern>
+                    <token>conceal</token>
+                    <token regexp="yes">macro|palettes?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12488,7 +12498,11 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/concealer</url>
                 <example correction="concealer">Your <marker>conceal</marker> looks nice.</example>
             </rule>
-            <rule default="temp_off"><!-- the explode -->
+            <rule><!-- the explode -->
+                <antipattern>
+                    <token skip="4">explode</token>
+                    <token regexp="yes">gems?|nerf</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13466,7 +13480,7 @@ USA
                     </marker>
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                    <token regexp="yes">admin|impeachment|tweet(s|ed)?|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|(re\-?)?elect(s|ed)?|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
                 </pattern>
                 <message>The word needs to be capitalized if you mean Donald <suggestion>Trump</suggestion> (= politician, business man).</message>
                 <example correction="Trump">According to Rudy Giuliani, <marker>trump</marker>'s attorney, Trump had sought advice about pardoning Manafort but was counseled against it.</example>
@@ -13516,7 +13530,7 @@ USA
                         </token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">impeachment|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
+                    <token regexp="yes">admin|impeachment|tweet(s|ed)?|wall|decision|tariffs|negotiat(e|ions?)|sign(s|ed)|family|tax|war|wealth|jr|successor|re-?election|(re\-?)?elect(s|ed)?|father|mother|daughters?|sons?|children|child|grand[pm]a|net|investments?|ukraine|compan(y|ies)|attorneys?|team|government|political|vice|campaigns?|victory|2020|2016|presidential|presidency|executive|immigration|economy|administration|cabinet|approval|voters?|scandals?|twitter|russia|associates?|lawyers?|candidacy|military|personal|butler|war|legal|china|trade|deals?|regime|polic(y|ies)|wife|wives|spouses?|relatives?|financial|finances?|career|tv|lawsuits?|health|business(es)?</token>
                 </pattern>
                 <message>A possessive apostrophe is required here.</message>
                 <suggestion>Trump's</suggestion>
@@ -13860,7 +13874,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="FEDEX" name="FedEx" default="temp_off">
+        <rulegroup id="FEDEX" name="FedEx">
             <url>https://en.wikipedia.org/wiki/FedEx</url>
             <rule>
                 <pattern>
@@ -13878,10 +13892,19 @@ USA
                 <example correction="FedEx"><marker>Fedex</marker> Corporation is an American multinational courier delivery services company headquartered in Memphis.</example>
             </rule>
         </rulegroup>
-        <rule id="LOS_ANGELS" name="Los Angels (Angeles)">
+        <rule id="LOS_ANGELS" name="Los Angels (Los Angeles)">
+            <antipattern>
+                <token>cerro</token>
+                <token>de</token>
+                <token>los</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Los</token>
+                <token>Angeles</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">l[ao]s</token>
-                <token>angels</token>
+                <token regexp="yes">angel[oe]?s</token>
             </pattern>
             <message>Did you mean <suggestion>Los Angeles</suggestion>?</message>
             <example correction="Los Angeles">I live in <marker>Los Angels</marker>.</example>
@@ -15857,7 +15880,7 @@ USA
             <short>Wrong preposition</short>
             <example correction="At"><marker>On</marker> first glance it seems to be a good idea.</example>
         </rule>
-        <rule id="CONGRATULATIONS_FOR" name="congratulations for (on)" default="temp_off">
+        <rule id="CONGRATULATIONS_FOR" name="congratulations for (on)">
             <pattern>
                 <token>congratulations</token>
                 <marker>
@@ -33806,7 +33829,7 @@ The accident victim died from her injuries.
                 <example>Your login attempt was not successful.</example>
                 <example correction="log in">Why doesn’t it <marker>login</marker>?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">lets?</token>
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -34621,7 +34644,7 @@ The accident victim died from her injuries.
             <example correction="in the past">We succeeded <marker>in the passed</marker>.</example>
             <example>In the past, we had a number of successes.</example>
         </rule>
-        <rulegroup id="BY_BUY" name="I will by (buy) this car" default="temp_off">
+        <rulegroup id="BY_BUY" name="I will by (buy) this car">
             <antipattern>
                 <token postag="IN" />
                 <token>to</token>
@@ -34961,7 +34984,7 @@ The accident victim died from her injuries.
                 <example>After reading your work, I feel a kinship with the people and place and the misery that's been imposed on them and it by nature.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABOUT_TO_VBD" name="He is about to (be) executed" default="temp_off">
+        <rulegroup id="ABOUT_TO_VBD" name="He is about to (be) executed">
             <rule>
                 <pattern>
                     <token inflected="yes" skip="2">be</token>
@@ -34980,7 +35003,7 @@ The accident victim died from her injuries.
                 <example>Tom was about to burst into tears.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BY_PASS" name="by pass (bypass)" default="temp_off">
+        <rulegroup id="BY_PASS" name="by pass (bypass)">
             <url>https://www.merriam-webster.com/dictionary/bypass</url>
             <rule>
                 <pattern>
@@ -35287,7 +35310,7 @@ The accident victim died from her injuries.
                 <example>What you need to do is to calm down and FIND something productive to do.</example>
                 <example>Here is to clear skies.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag="RB" min="0">
@@ -35308,7 +35331,7 @@ The accident victim died from her injuries.
                 <example correction="too">It is not <marker>to</marker> small</example>
                 <example correction="too">It was <marker>to</marker> great</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">&apostrophe;</token>
                     <token regexp="yes">s|t</token>
@@ -38390,7 +38413,7 @@ The accident victim died from her injuries.
         <rule id="OEDOMETER_ODOMETER" name="oedometer (odometer)">
             <antipattern>
                 <token skip="-1" postag="SENT_START"/>
-                <token skip="-1" regexp="yes">geotechnical</token>
+                <token skip="-1">geotechnical</token>
                 <token postag="SENT_END"/>
             </antipattern>
             <pattern>
