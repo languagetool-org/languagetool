@@ -4463,7 +4463,7 @@ USA
             </antipattern>
             <antipattern><!-- www.investopedia.com/terms-beginning-with-e-4769355 and others-->
                 <token>earnings</token>
-                <token regexp="yes">announcement|estimate|management|multiplier|news|report|season|yield</token><!-- (This is a full list, not only non-count nouns.) 'news' is not in the dictionary, but many web pages show it as a singular compound noun. -->
+                <token regexp="yes">announcement|estimate|management|multiplier|news|report|season|yield|release</token><!-- (This is a full list, not only non-count nouns.) 'news' is not in the dictionary, but many web pages show it as a singular compound noun. -->
             </antipattern>
             <rule>
                 <antipattern><!-- Allow "Tom hates / likes / play ...." -->
@@ -4540,6 +4540,7 @@ USA
                 <example>...land and Australia was played in 1877, though the Ashes legend started later, after the ninth Test.</example>
                 <example>The upcoming Ashes series in 2013 will be held in England.</example>
                 <example>But not all the earnings news was cheery.</example>
+                <example>The earnings release was scheduled for May.</example>
                 <example type="triggers_error">The new restaurant was making the <marker>owners</marker> money hand over fist.</example>
             </rule>
             <rule>
@@ -9666,7 +9667,7 @@ USA
                     <token>march</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|on|during|before|after|starting|beginning|mid|at|until|till?|to|from|since</token>
+                    <token regexp="yes">in|on|during|before|after|starting|starts|started|ending|ends|ended|beginning|begins|beg[au]n|mid|at|until|till?|to|from|since|early|late</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
@@ -9706,10 +9707,20 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="3" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">From April – <marker>august</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">end|start|beginning</token>
+                    <token>of</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
+                    </marker>
+                </pattern>
+                <message>The month <suggestion><match case_conversion="startupper" no="3" /></suggestion> needs to be capitalized.</message>
+                <example correction="August">The rollout starts end of <marker>august</marker></example>
             </rule>
         </rulegroup>
         <rule id="GETTED" name="getted (got)">
@@ -20090,6 +20101,21 @@ USA
                 <example>He didn't deserve to lose his job.</example>
                 <example>This book deserves preserving.</example>
                 <example type="triggers_error">Does every boy have to learn cooking in your school?</example><!-- MFU 2019-09-20. 'cooking' is NN:U and we can parse 'cooking' as a noun. Compare "have to learn woodwork". But, 'spending' is also NN:U. Thus, I don't know how to correct this FP. -->
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="VBG"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">want</token>
+                    <marker>
+                        <token postag="VBG"/>
+                    </marker>
+                </pattern>
+                <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <short>Grammatical problem: use the infinitive</short>
+                <example correction="to spend">We dont want <marker>spending</marker> the whole month in the Alps.</example>
             </rule>
             <rule>
                 <pattern>
@@ -34743,7 +34769,7 @@ The accident victim died from her injuries.
                 <token postag="RB" min="0" />
                 <token>by</token>
                 <token postag="DT" min="0" />
-                <token regexp="yes">next|upcoming|last|previous|early|late|mid(\-.+)?</token>
+                <token regexp="yes">next|upcoming|last|previous|early|later?|mid(\-.+)?</token>
             </antipattern>
             <antipattern>
                 <token>by</token>
