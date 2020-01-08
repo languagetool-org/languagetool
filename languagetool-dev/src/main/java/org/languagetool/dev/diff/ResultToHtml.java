@@ -49,7 +49,7 @@ class ResultToHtml {
       String catIdK = getCategoryId(k);
       String catIdV = getCategoryId(v);
       if (catIdK.equals(catIdV)) {
-        return k.getRuleId().compareTo(v.getRuleId());
+        return k.getFullRuleId().compareTo(v.getFullRuleId());
       } else {
         return catIdK.compareTo(catIdV);
       }
@@ -80,7 +80,7 @@ class ResultToHtml {
     boolean listStarted = false;
     for (LightRuleMatch match : matches) {
       String categoryId = getCategoryId(match);
-      if (!match.getRuleId().equals(prevRuleId)) {
+      if (!match.getFullRuleId().equals(prevRuleId)) {
         if (listStarted) {
           print("</ol>");
         }
@@ -88,7 +88,7 @@ class ResultToHtml {
           print("<h1>Category " + categoryId + "</h1>");
         }
         String tempOff = match.isTempOff() ? "[temp_off]" : "";
-        print("<a name='" + match.getRuleId() + "'></a><h3>" + match.getRuleId() + " " + tempOff + "</h3>");
+        print("<a name='" + match.getFullRuleId() + "'></a><h3>" + match.getFullRuleId() + " " + tempOff + "</h3>");
         print("Source: " + match.getRuleSource() + "<br><br>");
         print("<ol>");
         listStarted = true;
@@ -97,7 +97,7 @@ class ResultToHtml {
       print("  <span class='message'>" + match.getMessage() + "</span><br>");
       print("  <span class='sentence'>" + match.getContext() + "</span><br>");
       print("</li>");
-      prevRuleId = match.getRuleId();
+      prevRuleId = match.getFullRuleId();
       prevCategoryId = categoryId;
     }
     print("</ol>");
@@ -120,7 +120,7 @@ class ResultToHtml {
     String prevCategoryId = "";
     print("<h1>TOC</h1>");
     for (LightRuleMatch match : matches) {
-      String ruleId = match.getRuleId();
+      String ruleId = match.getFullRuleId();
       String categoryId = getCategoryId(match);
       if (!ruleId.equals(prevRuleId)) {
         if (!categoryId.equals(prevCategoryId)) {
@@ -137,7 +137,7 @@ class ResultToHtml {
   private Map<String, Integer> getCatToCount(List<LightRuleMatch> matches) {
     Map<String, Integer> catToCount = new HashMap<>();
     for (LightRuleMatch match : matches) {
-      String id = match.getRuleId();
+      String id = match.getFullRuleId();
       if (catToCount.containsKey(id)) {
         catToCount.put(id, catToCount.get(id) + 1);
       } else {

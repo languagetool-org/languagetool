@@ -30,8 +30,7 @@ class LightRuleMatch {
   
   private final int line;
   private final int column;
-  private final String ruleId;
-  private final String subId;
+  private final String fullRuleId;
   private final String message;
   private final String context;
   private final String coveredText;
@@ -45,8 +44,7 @@ class LightRuleMatch {
                  String suggestions, String ruleSource, String title, Status status, boolean isTempOff) {
     this.line =  line;
     this.column = column;
-    this.ruleId = Objects.requireNonNull(DiffTools.getMasterId(ruleId));
-    this.subId = DiffTools.getSubId(ruleId);
+    this.fullRuleId = Objects.requireNonNull(ruleId);
     this.message = Objects.requireNonNull(message);
     this.context = Objects.requireNonNull(context);
     this.coveredText = Objects.requireNonNull(coveredText);
@@ -65,13 +63,17 @@ class LightRuleMatch {
     return column;
   }
 
+  String getFullRuleId() {
+    return fullRuleId;
+  }
+  
   String getRuleId() {
-    return ruleId;
+    return DiffTools.getMasterId(fullRuleId);
   }
   
   @Nullable
   String getSubId() {
-    return subId;
+    return DiffTools.getSubId(fullRuleId);
   }
 
   String getMessage() {
@@ -109,7 +111,7 @@ class LightRuleMatch {
   @Override
   public String toString() {
     return line + "/" + column +
-      " " + ruleId + "[" + subId + "]" +
+      " " + getRuleId() + "[" + getSubId() + "]" +
       ", msg=" + message +
       ", covered=" + coveredText +
       ", suggestions=" + suggestions +
