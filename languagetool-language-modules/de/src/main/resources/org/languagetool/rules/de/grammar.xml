@@ -39614,6 +39614,14 @@ Andere Projekte</example>
                 <example correction="'ne|’ne">Das war vielleicht <marker>`ne</marker> Party!</example>
                 <example correction="'n|’n">Auf<marker>´n</marker> Dachboden musst du gehen.</example>
             </rule>
+            <rule default="temp_off"> <!-- merge with rule above when okay -->
+                <regexp>[‘´`](s)\b</regexp>
+                <message>Typografisch korrekt sollte hier ein Apostroph verwendet werden.</message>
+                <suggestion>'\1</suggestion>
+                <suggestion>’\1</suggestion>
+                <short>Akzent statt Apostroph</short>
+                <example correction="'s|’s">Das war<marker>‘s</marker> dann wohl!</example>
+            </rule>
             <rule>
                 <regexp>\bc[´`‘]t\b</regexp>
                 <message>Der Name der Computerzeitschrift <suggestion>c’t</suggestion> wird mit einem Apostroph geschrieben.</message>
