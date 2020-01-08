@@ -29,6 +29,9 @@ import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 /**
  * @author Marcin Miłkowski
  */
@@ -58,6 +61,8 @@ public class QuestionWhitespaceRuleTest {
       matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
       assertEquals(2, matches.length);
       matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
+      assertThat(matches[0].getFromPos(), is(29));
+      assertThat(matches[0].getToPos(), is(36));
       assertEquals(1, matches.length);
       // check match positions:
       assertEquals(29, matches[0].getFromPos());
@@ -67,6 +72,8 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(1, matches.length);
       matches = rule.match(lt.getAnalyzedSentence("LanguageTool offre une «vérification» orthographique."));
       assertEquals(1, matches.length);
+      assertThat(matches[0].getFromPos(), is(23));
+      assertThat(matches[0].getToPos(), is(37));
       assertEquals("[« vérification »]", matches[0].getSuggestedReplacements().toString());
     }
     
