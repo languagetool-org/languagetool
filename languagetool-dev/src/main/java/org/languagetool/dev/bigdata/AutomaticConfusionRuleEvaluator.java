@@ -81,19 +81,16 @@ class AutomaticConfusionRuleEvaluator {
       }
       System.out.printf(Locale.ENGLISH, "Line " + lineCount + " of " + lines.size() + " (%.2f%%)\n", ((float)lineCount/lines.size())*100.f);
       String[] parts = line.split("\\s*(;|->)\\s*");
-      if (parts.length != 2) {
-        throw new IOException("Expected input to be separated by '->' or ';': " + line);
-      }
       boolean bothDirections = !removeComment(line).contains("->");
       ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(lang, lm, caseInsensitive, bothDirections);
       try {
-        int i = 1;
-        for (String part : parts) {
-          // compare pair-wise - maybe we should compare every item with every other item?
-          if (i < parts.length) {
-            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]), bothDirections);
+        for (String part1 : parts) {
+          // compare every item with every other item:
+          for (String part2 : parts) {
+            if (!part1.equals(part2)) {
+              runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), bothDirections);
+            }
           }
-          i++;
         }
       } catch (RuntimeException e) {
         e.printStackTrace();
@@ -139,7 +136,7 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Skipping, evalNewsSets=false and pair not known yet");
       return;
     }
-    System.out.println("Working on: " + line + " (" + lineCount + " of " + totalLines + ")");
+    System.out.println("Working on: " + part1 + " / " + part2 + " from line: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
