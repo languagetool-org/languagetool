@@ -27544,13 +27544,21 @@ USA
                 <token regexp="yes">you|it</token>
                 <token postag_regexp="yes" postag="NN:UN?"/>
             </antipattern>
+            <antipattern><!-- MFU 2020-01-09 Why does this AP not work? The sentence triggers an error. #2304 burned - most of it bushland, forests and national parks, which -->
+                <token postag_regexp="yes" postag="VB[DN]"/>
+                <token regexp="yes">-|—|–</token><!-- hyphen, m-dash, n-dash -->
+                <token regexp="yes">much|most</token>
+                <token>of</token>
+                <token>it</token>
+                <token skip="-1" postag_regexp="yes" postag="NN.*">
+                    <exception scope="next" postag_regexp="yes" postag="VB.*"/>
+                    </token>
+                <token>which</token>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
                 <marker>
-                    <or>
-                        <token regexp="yes">you|he|she|it|we|they<exception case_sensitive="yes">IT</exception></token>
-                        <token case_sensitive="yes">I</token>
-                    </or>
+                    <token regexp="yes">I|you|he|she|it|we|they<exception regexp="yes" case_sensitive="yes">IT|i</exception></token>
                     <token postag_regexp="yes" postag="NN.*">
                         <exception postag_regexp="yes" postag="VB.*|RB.*|JJR?|NNP"/>
                         <!-- our confusion rule will find 'he things it's great' and offer a suggestion -->
@@ -27568,6 +27576,8 @@ USA
             <example correction="">I hope <marker>I can</marker> may say that one half of ...</example>
             <example correction="">... (<marker>he status</marker> of the test is unknown).</example>
             <example correction=""><marker>They boy</marker> and the girl felt awkward after they...</example>
+            <example correction="">In Australia, nearly 18 million acres of land have been burned - most of <marker>it bushland</marker>, forests and national parks were affected by the fires.</example><!-- #2304. In this context, the correct text is: ...most of its bushland, forests,... -->
+            <example correction="">... and much of <marker>it information</marker>, data, knowledge and related concepts.</example><!-- #2304 Possibly an error, possibly correct depending on the context. -->
             <example>… to which <marker>he responds</marker>.</example>
             <example>… to which <marker>he quickly responded</marker>.</example>
             <example>She told me her secret.</example>
@@ -27607,11 +27617,11 @@ USA
             <example>... and by providing to it data which it will use in its calculations.</example><!-- #2251 -->
             <example>Peter and him have someone they know and Ralph admires.</example><!-- #2252 -->
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
-<!-- testrules gives an error when 'triggers_error' is used and when it is not used. 
             <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
             <example type="triggers_error">publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
             <example type="triggers_error">Even when a new century begins it is only we <marker>mortals</marker> who ring bells and fire off pistols.</example>
-            <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example> -->
+            <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example>
+            <example type="triggers_error">Nearly 18 million acres of land have been burned - most of it bushland, forests and national parks, which...</example><!-- #2304 -->
         </rule>
         <rule id="SEVERAL_OTHER" name="several other (others)">
             <antipattern>
