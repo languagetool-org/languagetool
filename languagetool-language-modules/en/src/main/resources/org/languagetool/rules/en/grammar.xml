@@ -20077,45 +20077,187 @@ USA
                 <example type="triggers_error">... II of Prussia limited the number of Jews allowed to live in Breslau to only ten so-called "protected" ...</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'learn', 'strive' and 'struggle' used with gerund instead of infinitive">
+        <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'learn', 'strive', 'want' and 'struggle' used with gerund instead of infinitive">
+            <antipattern>
+                <token>depending</token>
+                <token>on</token>
+            </antipattern>
+            <antipattern><!-- a type of excercise -->
+                <token>walking</token>
+                <token>lunges</token>
+            </antipattern>
+            <antipattern><!-- the "making of" -->
+                <token>making</token>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <token>nursing</token>
+                <token regexp="yes">homes?|process|partnerships?|acts?|councils?|times?|diagnosis|mothers?|m[uo]ms?</token>
+            </antipattern>
+            <antipattern>
+                <token>programming</token>
+                <token regexp="yes">languages?</token>
+            </antipattern>
+            <antipattern><!-- choose meeting locations, trading skills -->
+                <token regexp="yes">meeting|programming|trading</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>cooking</token>
+                <token regexp="yes">lessons?|courses?|channels?|compan(y|ies)|m[uo]ms?|studios?|videos?|fever|games?|shows?|recipes?|e?\-?books?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VBG"/>
+                <token postag="RB" min="1" max="2" /><!-- once again -->
+                <token regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VBG"/>
+                <token regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern><!-- batting technique, polling system, monitoring systems, billing services, towing company -->
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes">techniques?|systems?|things?|services?|compan(y|ies)|status|date|skills?|producs?|technolog(y|ies)|tool(s)?</token>
+            </antipattern>
+            <antipattern><!-- interesting things, batting technique, polling system, billing services -->
+                <token postag="VBG" skip="1" />
+                <token regexp="yes" skip="1">and|or|&amp;</token>
+                <token regexp="yes">techniques|system|things|services|companies|status|date|skills|products?|technologies|tools</token>
+            </antipattern>
+            <antipattern><!-- "choose logging and profiling", "choose subtitling over dubbing" -->
+                <token postag="VBG" skip="1" />
+                <token regexp="yes">and|or|&amp;|over</token>
+                <token postag="VBG" />
+            </antipattern>
+            <antipattern><!-- "I can accomplish what I want using ..." -->
+                <token postag="VB.*" postag_regexp="yes" skip="2" />
+                <token postag="WP" skip="3" />
+                <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn|want</token>
+            </antipattern>
+            <antipattern><!-- "Please create the products our users want using ..." -->
+                <token />
+                <token />
+                <token postag="VB.*" postag_regexp="yes" skip="7" />
+                <token postag="NN.*" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn|want</token>
+            </antipattern>
+            <antipattern><!-- "Please create the products you want using ..." -->
+                <token />
+                <token />
+                <token postag="VB.*" postag_regexp="yes" skip="7" />
+                <token regexp="yes">you|we|they|s?he|I|it</token>
+                <token postag="RB" min="0" />
+                <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn|want</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn|want</token>
+                <token postag="SENT_END" />
+            </antipattern>
             <rule>
-                <antipattern><!-- MFU 2019-09-03. In the marked token, <exception scope="next" postag="SENT_END"/> does not work. -->
-                    <token postag="VBG"/>
-                    <token postag="SENT_END"/>
-                </antipattern>
                 <antipattern>
                     <token>the</token>
                     <token>struggle</token>
                     <token postag="VBG"/>
                 </antipattern>
+                <antipattern>
+                    <token>machine</token>
+                    <token>learning</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">choose|learn</token>
+                    <token regexp="yes">meeting|engineering|reporting</token>
+                </antipattern>
+                <antipattern><!-- nouns of things that you can "learn" -->
+                    <token inflected="yes">learn</token>
+                    <token regexp="yes">programming|cooking|trading</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
                     <marker>
-                        <token postag="VBG"/>
+                        <token postag="VBG">
+                            <exception case_sensitive="yes" postag="NN.*" postag_regexp="yes" regexp="yes">[A-Z].+</exception><!-- uppercase nouns -->
+                            <exception postag="IN" /><!-- "including", "regarding" -->
+                            <exception postag="JJ" /><!-- "amazing", "interesting", "existing", "corresponding" -->
+                        </token>
                     </marker>
                 </pattern>
                 <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem: use the infinitive</short>
                 <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in the Alps.</example>
+                <example correction="to buy">Also my name is not Tom Cruise, I can’t afford <marker>buying</marker> gems.</example>
                 <example>We cannot afford <marker>to spend</marker> the whole month in the Alps.</example>
                 <example>He didn't deserve to lose his job.</example>
                 <example>This book deserves preserving.</example>
-                <example type="triggers_error">Does every boy have to learn cooking in your school?</example><!-- MFU 2019-09-20. 'cooking' is NN:U and we can parse 'cooking' as a noun. Compare "have to learn woodwork". But, 'spending' is also NN:U. Thus, I don't know how to correct this FP. -->
+                <example>Please help them choose nursing homes.</example>
+                <example>I learn interesting things.</example>
+                <example>He chose engineering because he did not want to be an academic like his father.</example>
+                <example>Recognizing that market participants are located in various geographical locations, we tried to be sensitive to that and choose meeting locations accordingly.</example>
+                <example>Customers can choose billing and metering services from their ESP.</example>
+                <example>Does every boy have to learn cooking in your school?</example>
+                <example>Choose binding: 34</example>
+                <example>Please do the things you learned using your own skills.</example>
+                <example>Machine learning using finite-state algorithms</example>
+                <example>My goal is ultimately to get this working, but also learn programming at the same time.</example>
+                <example>I really struggle being alone.</example><!-- FN or FP? -->
+                <example>My goals for this challenge are to stick to the program I choose including rest days and deloads and see where that puts me.</example>
+                <example>If he/she called her/his chosen towing company, he/she could get the car without having to pay Sears one red cent.</example>
+                <example>To enable debug logging, go to the Bitbucket Server administration area and choose Logging and Profiling.</example>
+                <example correction="to add">Creating a macro for the duplication is easy, but I am struggling <marker>adding</marker> the sequential numbering.</example>
+                <example>When airing films on television, channels in the UK often choose <marker>subtitling</marker> over dubbing, even if a dubbing in English exists.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="temp_off"><!-- want + VBG -->
                 <antipattern>
                     <token postag="VBG"/>
-                    <token postag="SENT_END"/>
+                    <token>of</token>
+                    <token>course</token>
+                    <token regexp="yes">\p{P}</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes">want</token>
                     <marker>
-                        <token postag="VBG"/>
+                        <token postag="VBG">
+                            <exception postag="JJ.*|NN.*|IN" postag_regexp="yes" />
+                            <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                            <exception>pricing</exception><!-- used like a noun (but isn't one) -->
+                        </token>
                     </marker>
+                    <token />
                 </pattern>
                 <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <url>https://www.grammaring.com/to-infinitive-or-gerund-need-require-want</url>
                 <short>Grammatical problem: use the infinitive</short>
-                <example correction="to spend">We dont want <marker>spending</marker> the whole month in the Alps.</example>
+                <example correction="to hope">We don't want <marker>hoping</marker> for the deal.</example>
+                <example correction="to create">Maybe you want <marker>creating</marker> an Issue here.</example>
+                <example correction="to seek">To me that is feature rich and could not be the only want <marker>seeking</marker> out such capabilities.</example>
+                <example correction="to duplicate">I want all the settings to be exactly the same for both and don’t want <marker>duplicating</marker> things.</example>
+                <example correction="to authorize">McCain wrote that while he supports the legislation, he does not want <marker>authorizing</marker> provisions in the final appropriations bill.</example>
+                <example>I’m thinking that I might be misguided in trying to get it to work with the new app and that I can accomplish what I want using only the classic app.</example>
+                <example>We would want Clearing broker to pay executing broker.</example>
+                <example>Tom isn't the kind of person I want dating my daughter.</example>
+                <example>Just temporarily change the DTH for the device to the tweaker, make the changes you want including setting association groups, then change back to your everyday DTH.</example>
+                <example>A thimble can be very useful for sewing, if you don't want bleeding fingers.</example>
+                <example>The belt wants replacing also.</example>
+            </rule>
+            <rule default="temp_off"><!-- want + VBG + the/an -->
+                <pattern>
+                    <token inflected="yes">want</token>
+                    <marker>
+                        <token postag="VBG">
+                            <exception postag="IN" />
+                        </token>
+                    </marker>
+                    <token regexp="yes">the|an?|my|y?our|his|her|its|their|this|many|any|some|these|those</token>
+                </pattern>
+                <message>If '\1' is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <url>https://www.grammaring.com/to-infinitive-or-gerund-need-require-want</url>
+                <short>Grammatical problem: use the infinitive</short>
+                <example correction="to create">Maybe you want <marker>creating</marker> an Issue here.</example>
+                <example>I'm not the guy you want making this decision.</example>
+                <example>I think I’ll be able to accomplish what I want using the PageView event.</example>
+                <example correction="to turn">They want <marker>turning</marker> the switch off at the wall to cut current at the light fixture on the ceiling.</example>
+                <example>Please create the products you want using the location "West Wing 500" in Product Manager.</example>
+                <example>Glad to know that you are able to collect the metrics that you wanted using our latest java agent.</example>
             </rule>
             <rule>
                 <pattern>
