@@ -8804,6 +8804,67 @@ USA
                 <example>No, but thanks you douchebag.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="THANK_THANKS" name="Thank (Thanks)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/thanks</url>
+            <rule>
+                <pattern>
+                    <token>thank</token>
+                    <token regexp="yes" spacebefore="no">[\.\,\;\:\#\*]|&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>Did you mean <suggestion>thanks</suggestion>?</message>
+                <example correction="Thanks"><marker>Thank's</marker> that was helpful.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="W.+" postag_regexp="yes" skip="7" />
+                    <token>thank</token>
+                </antipattern>
+                <antipattern>
+                    <token>to</token>
+                    <token>thank</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>thank</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">
+                        [\.\,\!\;]
+                        <exception scope="next">you</exception>
+                    </token>
+                </pattern>
+                <message>Something seems to be missing here. Did you maybe mean <suggestion>thanks</suggestion> or <suggestion>thank you</suggestion>?</message>
+                <example correction="thanks|thank you">@tiff <marker>thank</marker>!</example>
+                <example>Who can we thank?</example>
+                <example correction="Thanks|Thank you"><marker>Thank</marker>, that certainly helps.</example>
+                <example>I have you to thank.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <token>
+                        thanks
+                        <exception scope="next">to</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 thank</suggestion>?</message>
+                <example correction="to thank">I have <marker>to thanks</marker> Carl for the help.</example>
+                <example>I totally agree, but since there is no other option I say yay for what we have access to thanks to awesome community members third party magic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PCT|TO|CC" postag_regexp="yes" />
+                    <marker>
+                        <token>think</token>
+                    </marker>
+                    <token>you</token>
+                    <token regexp="yes">for|\.|\,|\!|\?</token>
+                </pattern>
+                <message>Did you mean <suggestion>thank</suggestion>?</message>
+                <example correction="thank">Tom, <marker>think</marker> you.</example>
+                <example>You don't want Tom to think you're poor.</example>
+            </rule>
+        </rulegroup>
         <rule id="HI_TIME" name="hi (his, high) time">
             <antipattern><!-- Assume initial caps is NNP -->
                 <token case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
