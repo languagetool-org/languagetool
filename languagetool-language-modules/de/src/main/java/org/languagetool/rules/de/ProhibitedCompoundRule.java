@@ -86,7 +86,13 @@ public class ProhibitedCompoundRule extends Rule {
           "Holzstele",
           "Brandschutz",
           "Testbahn",
-          "Reiszwecke"
+          "Reiszwecke",
+          "Startglocke",
+          "Ladepunkte",
+          "Kinderpreise",
+          "Kinderpreisen",
+          "Belegungsoptionen",
+          "Brandgebiete"
   ));
 
   // have per-class static list of these and reference that in instance
