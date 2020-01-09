@@ -2540,7 +2540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mails">Er schickt mir viele <marker>e-mails</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(eMail|e-Mail|e-mail|E-mail|Email)-?([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[pP]ostf[aä]ch(er|es|s)?|[pP]rogramms?|[sS]oftware)</regexp>
+                <regexp case_sensitive='yes'>(eMail|e-Mail|e-mail|E-mail|Email)-?([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[kK]ont](os?|en)|[pP]ostf[aä]ch(er|es|s)?|[pP]rogramms?|[sS]oftware|[Vv]erkehrs?)</regexp>
                 <message>Meinten Sie <suggestion><match no="0" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
@@ -2561,7 +2561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">per</token>
                     <marker>
                         <token regexp="yes">e\-?mail</token>
-                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?|Software</token>
+                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?|Postf(achs?|ächern?)|Software|Kont(os?|en)|Verkehrs?</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mail-<match no="3" case_conversion="startupper"/></suggestion>?</message>
@@ -16451,6 +16451,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
             </rule>
         </rulegroup>
+        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)" default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="3">früher|vorher|damals|davor|ehemals|bekannt|umbenannt|hie(ß|ss)</token>
+                <token>mytaxi</token>
+            </antipattern>
+            <antipattern>
+                <token>mytaxi</token>
+                <token inflected="yes">umbenennen</token>
+            </antipattern>
+            <antipattern>
+                <token skip="10">mytaxi</token>
+                <token>free</token>
+            </antipattern>
+            <antipattern>
+                <token skip="10">free</token>
+                <token>mytaxi</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Mytax[yi]s?</token>
+            </pattern>
+            <message>Der Taxi-Vermittler "Mytaxi" wurde 2019 umbenannt in <suggestion><match no="1" regexp_match=".+?(s)?$" regexp_replace="Free Now$1" /></suggestion>.</message>
+            <url>https://de.wikipedia.org/wiki/Taxi-App#myTaxi</url>
+            <example correction="Free Nows">Ich rufe mir via <marker>MyTaxis</marker> App ein Taxi.</example>
+            <example correction="Free Now"><marker>MyTaxi</marker> ist ein Taxi-Vermittler.</example>
+            <example>Die App hieß Mytaxi bis sie Anfang Juli 2019 in „Free Now“ umbenannt wurde.</example>
+        </rule>
         <rule id="SPACEX" name="SpaceX">
             <pattern>
                 <token>Space</token>
@@ -32900,6 +32926,37 @@ Andere Projekte</example>
                 <example>Das Kind wurde fast überfahren, als der LKW rückwärts fuhr.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="E_BOOK" name="E-Book/E-Commerce" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">e\-?book</token>
+                    <token regexp="yes">reader[sn]?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-Book-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/E_Book_Reader</url>
+                <example correction="E-Book-Reader">Ein <marker>EBook Reader</marker> ist oft umweltschonender als ein Buch aus Papier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>e</token>
+                    <token regexp="yes">books?|commerce|papern?|buch|bücher</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/E_Book</url>
+                <example correction="E-Books">Die <marker>E Books</marker> sind umweltschonender als normale Bücher.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">E-[A-Z].+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">e-?(books?|commerce|buch|bücher)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)^e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/E_Book</url>
+                <example correction="E-Book">Ein <marker>EBook</marker> ist oft umweltschonender als ein Buch aus Papier.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CUM_EX" name="Cum-Ex">
             <rule>
                 <pattern>
@@ -32920,6 +32977,15 @@ Andere Projekte</example>
                 <message>Die empfohlene Schreibweise laut Wikipedia ist <suggestion>Cum-Ex</suggestion> (= Dividendenstripping).</message>
                 <url>https://de.wikipedia.org/wiki/Dividendenstripping</url>
                 <example correction="Cum-Ex">Bei einer als <marker>CumEx</marker> bekannt gewordenen Variante dieser Geschäfte kam es in der Vergangenheit in großem Umfang zu bewusst herbeigeführter mehrfacher Erstattung von nur einmal abgeführter Kapitalertragsteuer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cum\-?ex</token>
+                    <token regexp="yes">Skandale?n?|Geschäfte?n?</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise laut Wikipedia ist <suggestion>Cum-Ex-<match no="2" case_conversion="startupper" /></suggestion>.</message>
+                <url>https://de.wikipedia.org/wiki/Dividendenstripping</url>
+                <example correction="Cum-Ex-Geschäften">Bei <marker>CumEx Geschäften</marker> kam es in der Vergangenheit in großem Umfang zu bewusst herbeigeführter mehrfacher Erstattung von nur einmal abgeführter Kapitalertragsteuer.</example>
             </rule>
         </rulegroup>
         <!-- TODO: too many false alarms
@@ -37984,6 +38050,7 @@ Andere Projekte</example>
                         <exception>Beck</exception>
                         <exception>McDonald</exception>
                         <exception>Andrea</exception>
+                        <exception>Mary</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
@@ -37993,6 +38060,7 @@ Andere Projekte</example>
                 <example><marker>Andrea's</marker> Blumenladen</example>
                 <example correction="Peters"><marker>Peter's</marker> Bude.</example>
                 <example correction="Peters"><marker>Peter’s</marker> Bude.</example>
+                <example>Das St Mary’s Hospital ist ein Krankenhaus im Londoner Stadtteil Paddington.</example>
             </rule>
             <rule>
                 <pattern>
