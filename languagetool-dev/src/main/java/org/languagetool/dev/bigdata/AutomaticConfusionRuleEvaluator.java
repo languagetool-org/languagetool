@@ -81,14 +81,20 @@ class AutomaticConfusionRuleEvaluator {
       }
       System.out.printf(Locale.ENGLISH, "Line " + lineCount + " of " + lines.size() + " (%.2f%%)\n", ((float)lineCount/lines.size())*100.f);
       String[] parts = line.split("\\s*(;|->)\\s*");
-      boolean bothDirections = !removeComment(line).contains("->");
+      //boolean bothDirections = !removeComment(line).contains("->");
+      boolean bothDirections = false;
       ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(lang, lm, caseInsensitive, bothDirections);
       try {
         for (String part1 : parts) {
           // compare every item with every other item:
           for (String part2 : parts) {
             if (!part1.equals(part2)) {
-              runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), bothDirections);
+              if (bothDirections) {
+                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), bothDirections);
+              } else {
+                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), false);
+                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part2), removeComment(part1), false);
+              }
             }
           }
         }
