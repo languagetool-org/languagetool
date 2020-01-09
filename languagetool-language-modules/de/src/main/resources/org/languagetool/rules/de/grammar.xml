@@ -32769,6 +32769,33 @@ Andere Projekte</example>
                 <example correction="Best-ofs">Er veröffentlichte mehrere <marker>Best-Ofs</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="MAKING_OF" name="'Making-of'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Making</token>
+                    <token regexp="yes">ofs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Making-<match no="2" case_conversion="alllower" /></suggestion> (= Blick hinter die Kulisse)?</message>
+                <url>https://www.duden.de/rechtschreibung/Best_of</url>
+                <example correction="Making-of">Das <marker>Making Of</marker> wurde auch von fast allen Kinobesuchern gesehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Makingofs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Makingof" regexp_replace="Making-of" /></suggestion> (= Blick hinter die Kulisse)?</message>
+                <url>https://www.duden.de/rechtschreibung/Making_of</url>
+                <example correction="Making-of">Sie veröffentlichten ein <marker>Makingof</marker> des Films.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Making-?Ofs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)making-?of" regexp_replace="Making-of" /></suggestion> (= Blick hinter die Kulisse)?</message>
+                <url>https://www.duden.de/rechtschreibung/Making_of</url>
+                <example correction="Making-ofs">Sie veröffentlichten zwei <marker>Making-Ofs</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="START_UP" name="'Start-up'">
             <rule>
                 <pattern>
