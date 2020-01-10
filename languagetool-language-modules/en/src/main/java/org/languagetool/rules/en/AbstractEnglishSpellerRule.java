@@ -206,10 +206,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
+    } else if ("alot".equals(word)) {
+      return Arrays.asList("a lot");
     } else if ("acc".equals(word)) {
       return Arrays.asList("account", "accusative");
     } else if ("Acc".equals(word)) {
       return Arrays.asList("Account", "Accusative");
+    } else if ("Adhoc".equals(word)) {
+      return Arrays.asList("Ad hoc");
+    } else if ("ad hoc".equals(word)) {
+      return Arrays.asList("ad hoc");
+    } else if ("biggy".equals(word)) {
+      return Arrays.asList("biggie");
     } else if ("lieing".equals(word)) {
       return Arrays.asList("lying");
     } else if ("preffered".equals(word)) {
@@ -228,8 +236,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("c'mon");
     } else if ("Cmon".equals(word)) {
       return Arrays.asList("C'mon");
-    } else if ("alot".equals(word)) {
-      return Arrays.asList("a lot");
     } else if ("da".equals(word)) {
       return Arrays.asList("the");
     } else if ("Da".equals(word)) {
@@ -403,7 +409,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("After-party");
     } else if ("wellbeing".equals(word)) {
       return Arrays.asList("well-being");
-    } else if ("cuz".equals(word) || "coz".equals(word) ) {
+    } else if ("cuz".equals(word) || "coz".equals(word)) {
       return Arrays.asList("because");
     } else if ("pls".equals(word)) {
       return Arrays.asList("please");
