@@ -16375,6 +16375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST-Id</marker>: DEXXXXXXX</example>
+                <example correction="USt-IdNr."><marker>UST-ID</marker>: DEXXXXXXX</example>
             </rule>
             <rule>
                 <pattern>
@@ -16451,14 +16452,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
             </rule>
         </rulegroup>
-        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)" default="temp_off">
+        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)">
             <antipattern>
                 <token regexp="yes" skip="3">früher|vorher|damals|davor|ehemals|bekannt|umbenannt|hie(ß|ss)</token>
                 <token>mytaxi</token>
             </antipattern>
             <antipattern>
                 <token>mytaxi</token>
-                <token inflected="yes">umbenennen</token>
+                <token regexp="yes">umbenennen|umbenannt</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">umbenennen|umbenannt</token>
+                <token>mytaxi</token>
             </antipattern>
             <antipattern>
                 <token skip="10">mytaxi</token>
@@ -32795,7 +32800,15 @@ Andere Projekte</example>
                 <example correction="Best-ofs">Er veröffentlichte mehrere <marker>Best-Ofs</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAKING_OF" name="'Making-of'" default="temp_off">
+        <rulegroup id="MAKING_OF" name="'Making-of'">
+            <antipattern><!-- english names -->
+                <token regexp="yes">the|a</token>
+                <token regexp="yes">making.*</token>
+            </antipattern>
+            <antipattern><!-- english names -->
+                <token regexp="yes">.*of</token>
+                <token regexp="yes">the|a</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Making</token>
@@ -32926,7 +32939,7 @@ Andere Projekte</example>
                 <example>Das Kind wurde fast überfahren, als der LKW rückwärts fuhr.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="E_BOOK" name="E-Book/E-Commerce" default="temp_off">
+        <rulegroup id="E_BOOK" name="E-Book/E-Commerce">
             <rule>
                 <pattern>
                     <token regexp="yes">e\-?book</token>
@@ -35873,7 +35886,7 @@ Andere Projekte</example>
                             <exception regexp="yes">Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
                         </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
+                    <token><exception postag="SUB:.+:PLU:.+|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="2" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
@@ -35885,6 +35898,7 @@ Andere Projekte</example>
                 <example>In zwei Anfang 2009 veröffentlichten Studien...</example>
                 <example>In zwei 2009 veröffentlichten Studien...</example>
                 <example>Es zeigte auch zwei Mitte der 1960er im Boden gefundene Platten.</example>
+                <example>Mit ihren schauspielerischen Leistungen gewann Jolie drei Golden Globe Awards, zwei Screen Actors Guild Awards und für ihre Rolle einer psychisch Kranken in dem Film Durchgeknallt.</example>
                 <example>Daraus wurde ein drei Stunden langer Kinofilm.</example>
                 <example>Er hatte in zwei Aufsehen erregenden Nature-Veröffentlichungen drüber berichtet.</example>
                 <example>Die Biene Maja ist die Hauptfigur in zwei Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
