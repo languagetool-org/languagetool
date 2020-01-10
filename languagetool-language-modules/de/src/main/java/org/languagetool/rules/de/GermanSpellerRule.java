@@ -497,8 +497,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Subvestitionen", "Subventionen");
     put("angeschaffen", "angeschafft");
     put("Rechtspruch", "Rechtsspruch");
+    put("[jJ]ahundert", "Jahrhundert");
+    put("Gesochse", "Gesocks");
+    put("[vV]orgensweise", "Vorgehensweise");
     put("guterletzt", "guter Letzt");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
+    putRepl("Nootbooks?", "Noot", "Note");
+    putRepl("[vV]ersendlich(e[mnrs]?)?", "send", "sehent");
     putRepl("[uU]nfäh?r(e[mnrs]?)?", "fäh?r", "fair");
     putRepl("[mM]edikatös(e[mnrs]?)?", "ka", "kamen");
     putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
