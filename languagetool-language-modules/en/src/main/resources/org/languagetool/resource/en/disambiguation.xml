@@ -5148,19 +5148,31 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="STILL_RB" name="still/further/long + verb = rb">
+          <antipattern><!-- The disadvantage to being long is that -->
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="IN"/>
+            <token regexp="yes" case_sensitive="yes">being|BEING</token><!-- This is to prevent FN for 'still' after 'Introduction to Being'. -->
+            <token regexp="yes">still|long</token>
+            <token regexp="yes">(is|was)n?</token>
+          </antipattern>
           <pattern>
             <marker>
-            <and>
-            <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">a|the</exception></token>
-            <token postag="NN.*|VB.*" postag_regexp="yes"/>
-            </and>
+              <and>
+                <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">a|the</exception></token>
+                <token postag="NN.*|VB.*" postag_regexp="yes"/>
+              </and>
             </marker>
             <token postag="VB.*|IN" postag_regexp="yes"/>
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched">Still, I need to do a lot of things.</example>
+          <example type="untouched">The risk/reward to being long is not so great.</example>
+          <example type="untouched">An advantage of being long was that the lever...</example>
+          <example type="untouched">An introduction to being still wasn't given by Jones in his lecture on meditation.</example><!-- Ambiguous. Can parse 'still' as an adjective or as an adverb. -->
           <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">Much of the diet involved the use of peppers, as it <marker>still</marker> does today.</example>
+          <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">... and her book Introduction to Being <marker>still</marker> was not correct, despite the best efforts of the proofreader.</example>
         </rule>
+
 
         <rule id="DT_RBJJ_NN_JJ" name="a + rb/jj + nn => jj">
           <pattern>
