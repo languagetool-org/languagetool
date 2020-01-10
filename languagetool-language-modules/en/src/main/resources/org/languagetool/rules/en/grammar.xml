@@ -8804,7 +8804,7 @@ USA
                 <example>No, but thanks you douchebag.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THANK_THANKS" name="Thank (Thanks)" default="temp_off">
+        <rulegroup id="THANK_THANKS" name="Thank (Thanks)">
             <url>https://www.merriam-webster.com/dictionary/thanks</url>
             <rule>
                 <pattern>
@@ -9728,7 +9728,7 @@ USA
                     <token>march</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|on|during|before|after|starting|starts|started|ending|ends|ended|beginning|begins|beg[au]n|mid|at|until|till?|to|from|since|early|late</token>
+                    <token regexp="yes">in|on|during|before|after|starting|starts|started|ending|ends|ended|beginning|begins|beg[au]n|mid|at|until|till?|to|from|since|early|late|around</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
@@ -9772,7 +9772,7 @@ USA
                 <message>The month <suggestion><match case_conversion="startupper" no="3" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">From April – <marker>august</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">end|start|beginning</token>
                     <token>of</token>
@@ -20291,7 +20291,7 @@ USA
                 <example correction="to add">Creating a macro for the duplication is easy, but I am struggling <marker>adding</marker> the sequential numbering.</example>
                 <example>When airing films on television, channels in the UK often choose <marker>subtitling</marker> over dubbing, even if a dubbing in English exists.</example>
             </rule>
-            <rule default="temp_off"><!-- want + VBG -->
+            <rule><!-- want + VBG -->
                 <antipattern>
                     <token postag="VBG"/>
                     <token>of</token>
@@ -20324,7 +20324,7 @@ USA
                 <example>A thimble can be very useful for sewing, if you don't want bleeding fingers.</example>
                 <example>The belt wants replacing also.</example>
             </rule>
-            <rule default="temp_off"><!-- want + VBG + the/an -->
+            <rule><!-- want + VBG + the/an -->
                 <pattern>
                     <token inflected="yes">want</token>
                     <marker>
