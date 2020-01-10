@@ -3782,15 +3782,49 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="like[like/IN,like/JJ,like/NN,like/VB,like/VBP]" outputform="like[like/IN]">It's <marker>like</marker> a dream.</example>
     </rule>
     <rule name="Goin'" id="VBG_IN">
+        <antipattern>
+            <token spacebefore="no" regexp="yes">['’]</token>
+            <token spacebefore="no">t</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">['‘"“]</token>
+            <token regexp="yes">[a-z]+in</token>
+            <token regexp="yes">['’"”]</token>
+        </antipattern>
+        <antipattern><!-- laughin' woman -->
+            <token regexp="yes">[a-z]+in</token>
+            <token regexp="yes">['’]</token>
+            <token chunk="E-NP-singular"/>
+        </antipattern>
+        <antipattern><!-- smilin' people -->
+            <token regexp="yes">[a-z]+in</token>
+            <token regexp="yes">['’]</token>
+            <token chunk="E-NP-plural"/>
+        </antipattern>
         <pattern>
             <marker>
-                <token regexp="yes" postag="UNKNOWN">.*in</token>
+                <token regexp="yes" postag="UNKNOWN">[a-z]+in</token>
             </marker>
-            <token spacebefore="no" regexp="yes">&apostrophe;</token>
-        </pattern>
+            <token spacebefore="no" regexp="yes">['’]</token><!-- Not &apostrophe; because only text with a correct apostrophe must be tagged. -->
+        </pattern><!-- Cannot use filter NoDisambiguationEnglishPartialPosTagFilter because not all text before 'in' is the base form of the verb, for example 'Puttin'. -->
         <disambig postag="VBG"/>
         <example type="untouched">I'm in N.Y.</example>
+        <example type="untouched">I am using ‘newrelic-admin’.</example><!-- #2311 -->
+        <example type="untouched">The 'atlas-create-jira-plugin`</example>
+        <example type="untouched">Adding 'Access-Control-Allow-Origin’: ‘*’ to the request header isn’t working for me</example>
+        <example type="untouched">Anderson’s effective batting away of McCain’s right-wing talking points.</example>
+        <example type="untouched">Domain’s</example>
+        <example type="untouched">www.northeastexplorers.in`</example>
+        <example type="untouched">Didin’t had that much</example>
+        <example type="untouched">case 'darwin':</example>
+        <example type="untouched">'mountain'</example>
+        <example type="untouched">I am hopin` that this test works.</example>
+        <example type="untouched">Adjective: That laughin' woman is my boss.</example>
+        <example type="untouched">Adjective: ... and smilin' people are not always truly happy.</example>
+        <example type="ambiguous" inputform="goin[goin]" outputform="goin[goin/VBG]">I'm <marker>goin</marker>’ to fix this rule.</example>
+        <example type="ambiguous" inputform="TESTIN[TESTIN]" outputform="TESTIN[TESTIN/VBG]">WE ARE <marker>TESTIN</marker>' THE SOFTWARE.</example>
         <example type="ambiguous" inputform="Puttin[Puttin]" outputform="Puttin[Puttin/VBG]"><marker>Puttin</marker>' on the Ritz!</example>
+        <example type="ambiguous" inputform="smilin[smilin]" outputform="smilin[smilin/VBG]">She was actually <marker>smilin</marker>’ all the way to the office.</example>
     </rule>
     <rulegroup name="All but" id="all_but_rb">
         <rule>
