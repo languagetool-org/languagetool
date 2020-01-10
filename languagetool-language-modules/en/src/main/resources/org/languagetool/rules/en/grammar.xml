@@ -8525,6 +8525,21 @@ USA
                 <token>this</token>
                 <token regexp="yes">morning|afternoon|evening</token>
             </antipattern>
+            <antipattern><!-- her too all those years ago -->
+                <token postag="PRP"/>
+                <token>too</token>
+                <token>all</token>
+                <token>those</token>
+                <token postag="NNS"/>
+                <token>ago</token>
+            </antipattern>
+            <antipattern><!-- should note too that spin -->
+                <token postag="MD"/>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token>too</token>
+                <token>that</token>
+                <token postag_regexp="yes" postag="NN(S|:UN?)?|DT"/>
+            </antipattern>
             <pattern>
                 <token>too</token>
                 <token postag_regexp="yes" postag="DT|PDT"><exception regexp="yes">many|much</exception></token>
@@ -8535,11 +8550,15 @@ USA
             <example correction="to all">We expanded <marker>too all</marker> the proposed new locations.</example>
             <example correction="to the">Give the bone <marker>too the</marker> dog.</example>
             <example correction="to all">The company expanded from there <marker>too all</marker> the proposed new locations.</example>
+            <example correction="to that">Please see <marker>too that</marker> problem immediately.</example>
             <example>We expanded <marker>to all</marker> proposed new locations.</example>
             <example><marker>Too much</marker> information is as bad as not enough information.</example>
             <example>LanguageTool users can be annoyed if they get <marker>too many</marker> incorrect warnings.</example>
             <example>Oddly enough, Jake was there <marker>too this evening</marker>, resplendent in evening jacket.</example>
-            <example type="triggers_error">How I wish that I'd gone with her <marker>too all</marker> those years ago. [Missing comma between 'too' and 'all'.]</example>
+            <example>How I wish that I'd gone with her too all those years ago.</example><!-- Missing comma between 'too' and 'all'. -->
+            <example>... then we should note too that spin is caused by...</example>
+            <example>You can see too that the universe is expanding.</example>
+            <example>You might notice too that these books are rather old.</example>
 <!-- TODO. --><example>The company is expanding <marker>too dozens</marker> of new locations.</example>
         </rule>
         <rule id="TH_THORIUM" name="Th (The/thorium)">
