@@ -27771,15 +27771,21 @@ USA
                 <token regexp="yes">you|it</token>
                 <token postag_regexp="yes" postag="NN:UN?"/>
             </antipattern>
-            <antipattern><!-- MFU 2020-01-09 Why does this AP not work? The sentence triggers an error. #2304 burned - most of it bushland, forests and national parks, which -->
+            <antipattern><!-- #2304 burned - most of it bushland, forests and national parks, which -->
                 <token postag_regexp="yes" postag="VB[DN]"/>
                 <token regexp="yes">-|—|–</token><!-- hyphen, m-dash, n-dash -->
                 <token regexp="yes">much|most</token>
                 <token>of</token>
                 <token>it</token>
-                <token skip="-1" postag_regexp="yes" postag="NN.*">
-                    <exception scope="next" postag_regexp="yes" postag="VB.*"/>
-                    </token>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token>,</token>
+                <token postag_regexp="yes" postag="NN.*"/><!-- forests/VBZ, thus cannot use an exception for VBZ -->
+                <token min="0" max="1">,</token>
+                <token>and</token>
+                <token chunk="B-NP-plural" postag_regexp="yes" postag="NN.*|JJ"/>
+                <token min="0" max="1" chunk="I-NP-plural" postag_regexp="yes" postag="NN.*|JJ"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token min="0" max="1">,</token>
                 <token>which</token>
             </antipattern>
             <pattern>
@@ -27843,12 +27849,12 @@ USA
             <example>I can give to you something that makes you happy.</example><!-- #2251 -->
             <example>... and by providing to it data which it will use in its calculations.</example><!-- #2251 -->
             <example>Peter and him have someone they know and Ralph admires.</example><!-- #2252 -->
+            <example>Nearly 18 million acres of land have been burned - most of it bushland, forests and national parks, which...</example><!-- #2304 -->
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
             <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
             <example type="triggers_error">publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
             <example type="triggers_error">Even when a new century begins it is only we <marker>mortals</marker> who ring bells and fire off pistols.</example>
             <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example>
-            <example type="triggers_error">Nearly 18 million acres of land have been burned - most of it bushland, forests and national parks, which...</example><!-- #2304 -->
         </rule>
         <rule id="SEVERAL_OTHER" name="several other (others)">
             <antipattern>
