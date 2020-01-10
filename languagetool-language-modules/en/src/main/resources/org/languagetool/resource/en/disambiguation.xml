@@ -4161,7 +4161,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     		<marker>
     		<and>
     			<token postag="VBZ"/>
-    			<token postag="NN(:UN?)?" postag_regexp="yes"/>
+    			<token postag="NN(:UN?)?" postag_regexp="yes">
+    				<exception postag="NNS"/>
+    				</token>
     		</and>
     		</marker>
     	</pattern>
@@ -4169,6 +4171,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     	<example type="untouched">He comes from another city.</example>
     	<example type="untouched">In music, a <marker>comes</marker> is the answer to the first subject (dux) in a fugue. [Shorter OED, 1985.]</example>
     	<example type="untouched">Are <marker>whales</marker> smarter than we are?</example>
+        <example type="untouched">Although they are often considered to be <marker>weeds</marker> in gardens, this viewpoint is not always...</example>
+        <example type="untouched">Does she still wear <marker>weeds</marker>?</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
       </rule>
 <!-- MFU 2019-12-12: This rule is not correct. Verb + to + VBZ is not correct English. Also, the rule incorrectly assigns VBZ to nouns, as in: Mary was asked to dances occasionally.
