@@ -32178,6 +32178,29 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="DEJA_VU" name="Déjà-vu" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Déjà-vus?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[èéeä][jy][aàá]</token>
+                    <token regexp="yes">v[üu]s?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Déjà-<match no="2" regexp_match="(?i)v[üu]" regexp_replace="vu" case_conversion="alllower" /></suggestion> (= Erinnerungstäuschung)?</message>
+                <url>https://www.duden.de/rechtschreibung/Deja_vu</url>
+                <example correction="Déjà-vus">Ich hatte heute schon 2 <marker>Deja vüs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[èéeä][jy][aàá]\-?v[üu]s?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Déjà-<match no="1" regexp_match="(?i)^.+v[üu]" regexp_replace="vu" case_conversion="alllower" /></suggestion> (= Erinnerungstäuschung)?</message>
+                <url>https://www.duden.de/rechtschreibung/Deja_vu</url>
+                <example correction="Déjà-vus">Ich hatte heute schon 2 <marker>Dejavüs</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="DATIV_PRP_PA1_SUB" name="mit wachsenden (wachsendem) Garten" default="temp_off">
             <rule>
                 <pattern>
@@ -35897,6 +35920,7 @@ Andere Projekte</example>
                 <example>Es war schon in Runde eins Endstation.</example>
                 <example>In zwei Anfang 2009 veröffentlichten Studien...</example>
                 <example>In zwei 2009 veröffentlichten Studien...</example>
+                <example correction="Screens">Das waren zwei <marker>Screen</marker>!</example>
                 <example>Es zeigte auch zwei Mitte der 1960er im Boden gefundene Platten.</example>
                 <example>Mit ihren schauspielerischen Leistungen gewann Jolie drei Golden Globe Awards, zwei Screen Actors Guild Awards und für ihre Rolle einer psychisch Kranken in dem Film Durchgeknallt.</example>
                 <example>Daraus wurde ein drei Stunden langer Kinofilm.</example>
@@ -38065,6 +38089,7 @@ Andere Projekte</example>
                         <exception>McDonald</exception>
                         <exception>Andrea</exception>
                         <exception>Mary</exception>
+                        <exception>Paul</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
@@ -38075,6 +38100,7 @@ Andere Projekte</example>
                 <example correction="Peters"><marker>Peter's</marker> Bude.</example>
                 <example correction="Peters"><marker>Peter’s</marker> Bude.</example>
                 <example>Das St Mary’s Hospital ist ein Krankenhaus im Londoner Stadtteil Paddington.</example>
+                <example>St Paul's Cathedral</example>
             </rule>
             <rule>
                 <pattern>
