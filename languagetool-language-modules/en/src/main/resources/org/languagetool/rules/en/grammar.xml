@@ -9039,6 +9039,134 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="MD_ABLE" name="missing 'be' in 'will able'" default="temp_off">
+            <!-- TODO other adjectives like "Do you really think it would safe to do that?" -->
+            <pattern>
+                <token postag="MD" />
+                <token case_sensitive="yes">able</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 be able</suggestion>?</message>
+            <example correction="will be able">I hope you <marker>will able</marker> to do this by tomorrow.</example>
+            <example correction="could be able">We <marker>could able</marker> to integrate almost everything but facing issue with viewing the attachments.</example>
+            <example correction="will be able">But, consider he <marker>will able</marker> to be a ghost even after done finish killing his target.</example>
+        </rule>
+        <rule id="TO_ABLE" name="missing 'be' in 'to able'" default="temp_off">
+            <pattern>
+                <token>to</token>
+                <token case_sensitive="yes">able</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 be able</suggestion>?</message>
+            <example correction="to be able">I need help in order <marker>to able</marker> to achieve this.</example>
+            <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
+        </rule>
+        <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'" default="temp_off">
+            <!-- TODO: add "won't/wouldn't/couldn't/..." / PRP_MD_JJ -->
+            <!-- TODO: add NNP + MD + NN-->
+            <rule>
+                <antipattern>
+                    <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
+                    <token postag="MD" />
+                </antipattern>
+                <antipattern>
+                    <token skip="1">cheap</token>
+                    <token>out</token>
+                </antipattern>
+                <antipattern>
+                    <token>due</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern><!-- I can high pull -->
+                    <token>high</token>
+                    <token>pull</token>
+                </antipattern>
+                <antipattern><!-- used like a verb -->
+                    <token skip="1">factory</token>
+                    <token>reset</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|we|they|s?he|it|(any|some)(body|one)</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token postag="MD">
+                            <exception case_sensitive="yes">Will</exception><!-- name -->
+                            <exception postag="VB.*" postag_regexp="yes" />
+                        </token>
+                        <token postag="NNS?|NN:UN?" postag_regexp="yes">
+                            <exception regexp="yes">most|less|skip|fed|kind|sort|one|btw|fyi|federal</exception>
+                            <exception regexp="yes">today|tonight|tomorrow|yesterday</exception>
+                            <exception>ill</exception><!-- "ill afford" (idiom) -->
+                            <exception>til</exception><!-- should be "till" -->
+                            <exception>mana</exception><!-- slang word of game nerds -->
+                            <exception>able</exception><!-- see MD_ABLE -->
+                            <exception>piggy</exception><!-- "piggy back" needs rule -->
+                            <exception>easy</exception><!-- is adverb, but not tagged like one -->
+                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
+                            <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
+                            <exception regexp="yes">figure|reference|transition|use</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
+                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq</exception><!-- abbreviation of verbs -->
+                            <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
+                            <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
+                            <exception regexp="yes">log\-?in|sign\-?up|sign\-?in|sign\-?out|log\-?out|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception postag="RB.*|VB.*|MD|IN|CC|DT" postag_regexp="yes" />
+                            <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The word '\4' is a noun. A verb or adverb is missing or misspelled here, or maybe a comma is missing.</message>
+                <example correction="">I <marker>can cheeseburger</marker>.</example>
+                <example correction="">This means I <marker>can trait</marker> Psion &amp; Venoxia.</example>
+                <example correction="">So only two possibilities I <marker>can thick</marker> of can the first procssing.</example>
+                <example correction="">I <marker>would opportunity</marker> for me.</example>
+                <example correction="">Alternatively, you <marker>could soccer</marker> practice.</example>
+                <example correction="">And if you <marker>could provider</marker> exact command that would be great as I am not a Linux guru.</example>
+                <example correction="">You may have heard that Mark Frank has moved to EES, where he <marker>will controller</marker> for EnronDirect.</example>
+                <example correction="">As you may remeber, I am very interested in the Corporate Developmet Group and it <marker>would great</marker> if we could meet tomorrow</example>
+                <example correction="">I <marker>may due</marker> that.</example>
+                <example correction="">I <marker>will due</marker> my best.</example>
+                <example correction="">If only you <marker>could internet</marker> as well as me.</example>
+                <example correction="">In the future, I’ll add support for Provisioning so it <marker>will possible</marker> to install plugins and apps from third-party Update sites like in your Eclipse IDE.</example>
+                <example>Mentally, I feel really good - I’m going to damn well will this leg back to baseline and now I feel extremely motivated to push it as far as I can beyond that.</example>
+                <example>You can diff these documents.</example>
+                <example>You should DM me.</example>
+                <example>You can then access the Dictionary Keys as easy as you can KM Variables.</example>
+                <example>I can tough it out.</example>
+                <example>I will Federal Express (for Saturday delivery) these.</example>
+                <example>As far as I know it cannot due to the Almond not supporting it being a secondary controller.</example>
+                <example>I’m new to the platform so it takes me longer than it would someone more experienced.</example>
+                <example>At the least you can cheap out on the gel.</example>
+                <example>Who could not imitate him as easily as they could other commercially successful artists.</example>
+                <example>What are the Trigger I should use and Action I should choose to automatically click.</example>
+                <example>This is making it difficult to do automation as I can’t update these conditions the way I would others.</example>
+                <example>You should shut off the main breaker to help avoid any shocks from the individual circuits, but you usually cannot shut-off the main input.</example>
+                <example>I would if I could choose which one.</example>
+                <example>My issue was the gaps in the path name, I wish we could select them from the action like you can menu items but you have to leave something for an update.</example>
+                <example>I will most likely.</example>
+                <example>We will video your final speech.</example>
+                <example>Handle your printed tickets as you would valuables or cash.</example>
+                <example>Mary seldom sings, but I think she will tonight.</example>
+                <example>If you can GREAT!</example>
+                <example>But since that is messed up you might figure a way to turn it to depress pin.</example>
+                <example>It goes without saying that we must all observe traffic signals.</example>
+                <example>I love cars like I would animals.</example>
+                <example>It would be nice if I could figure a way.</example>
+                <example>Try to do it like you would disk brakes.</example>
+                <example>A meeting is scheduled for August 21st at 10am in Cincinnati, at which time the Alliance will present its interim independent board proposal incorporating to the extent it can stakeholders' concerns.</example>
+                <example>I will Sarah.</example><!-- missing comma, TODO: create rule MD + NNP + SENT_END -->
+                <example>You can PM my colleague.</example>
+                <example>I shall fwd it to them.</example>
+                <example>I will Fed EX overnight.</example>
+                <example>I would sooner die than give up.</example>
+                <example>I can verify the selection of the default value but I cannot verify the instantiation in the code (I can tonight, if I have time).</example>
+                <example>Well I'm not giving a talk on Expect, though I could if people I would think it would be worthwhile to meet at produce row and then move, btw.</example>
+                <example>Far more than I can by disenchanting.</example>
+                <example>But we must all understand they are a fledgling business which is probably underfunded by Samsung, and must move along with a limited staff.</example>
+                <example>It will inside a double quoted string.</example>
+                <example>It might kind of work.</example>
+                <example>I would like to be able to change the order I have the teams listed, just like you can actual troop members inside a team.</example>
+                <example>If I knew I would one day catch up that would be fine, but currently I can’t.</example>
+                <example>Thanks for your input and I will def send a ticket.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)">
             <rule><!-- they, we -->
                 <pattern>
@@ -12595,9 +12723,9 @@ USA
                         <token>conceal</token>
                     </marker>
                 </pattern>
-                <message>The word 'conceal' is not a noun. Did you mean <suggestion><match no="3" regexp_match="$" regexp_replace="er" /></suggestion> (= cosmetic)?</message>
+                <message>The word 'conceal' is not a noun. Did you mean <suggestion><match no="3" regexp_match="$" regexp_replace="er" /></suggestion> (= cosmetic) or <suggestion>concealment</suggestion> (= being hidden)?</message>
                 <url>https://www.merriam-webster.com/dictionary/concealer</url>
-                <example correction="concealer">Your <marker>conceal</marker> looks nice.</example>
+                <example correction="concealer|concealment">Your <marker>conceal</marker> looks nice.</example>
             </rule>
             <rule><!-- the explode -->
                 <antipattern>
@@ -13975,22 +14103,24 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="FEDEX" name="FedEx">
-            <url>https://en.wikipedia.org/wiki/FedEx</url>
+        <rulegroup id="FEDEX" name="FedEx" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/FedEx</url>
             <rule>
                 <pattern>
                     <token>fed</token>
-                    <token>ex</token>
+                    <token regexp="yes">e?x(es|ing|ed)?</token>
                 </pattern>
-                <message>Did you mean <suggestion>FedEx</suggestion> (= delivery service)?</message>
+                <message>Did you mean <suggestion>Fed<match no="2" case_conversion="startupper" regexp_match="(?i)e?x" regexp_replace="Ex" /></suggestion>?</message>
                 <example correction="FedEx"><marker>Fed Ex</marker> Corporation is an American multinational courier delivery services company headquartered in Memphis.</example>
+                <example correction="FedExed">He <marker>Fed Xed</marker> the package.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">fed\-?ex|Fed\-?ex|fed\-?Ex</token>
+                    <token case_sensitive="yes" regexp="yes">(fed\-?e?[Xx]|Fed\-?e?[Xx]|fed\-?E?[Xx])(es|ing|ed)?</token>
                 </pattern>
-                <message>Did you mean <suggestion>FedEx</suggestion> (= delivery service)?</message>
+                <message>Did you mean <suggestion>Fed<match no="1" case_conversion="startupper" regexp_match="(?i).+e?x" regexp_replace="Ex" /></suggestion>?</message>
                 <example correction="FedEx"><marker>Fedex</marker> Corporation is an American multinational courier delivery services company headquartered in Memphis.</example>
+                <example correction="FedExed">He <marker>Fed-exed</marker> the package.</example>
             </rule>
         </rulegroup>
         <rule id="LOS_ANGELS" name="Los Angels (Los Angeles)">
@@ -27773,7 +27903,7 @@ USA
             </antipattern>
             <antipattern><!-- #2304 burned - most of it bushland, forests and national parks, which -->
                 <token postag_regexp="yes" postag="VB[DN]"/>
-                <token regexp="yes">-|—|–</token><!-- hyphen, m-dash, n-dash -->
+                <token regexp="yes">-|—|–|,|;</token><!-- hyphen, m-dash, n-dash, comma, semicolon -->
                 <token regexp="yes">much|most</token>
                 <token>of</token>
                 <token>it</token>
@@ -27786,7 +27916,7 @@ USA
                 <token min="0" max="1" chunk="I-NP-plural" postag_regexp="yes" postag="NN.*|JJ"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token min="0" max="1">,</token>
-                <token>which</token>
+                <token regexp="yes">which|that</token>
             </antipattern>
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
@@ -35038,6 +35168,14 @@ The accident victim died from her injuries.
                 <token>will</token>
                 <token>by</token>
             </antipattern>
+            <antipattern><!-- proper noun -->
+                <token>theresa</token>
+                <token>may</token>
+            </antipattern>
+            <antipattern><!-- month name -->
+                <token postag="IN" />
+                <token>may</token>
+            </antipattern>
             <antipattern><!-- by a small/wide margin -->
                 <token>by</token>
                 <token>a</token>
@@ -35058,8 +35196,8 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">
-                        can(not)?|will|ll|[wc]ould|must|should|did|might|to|please|gonna|wanna
-                        <exception case_sensitive="yes" regexp="yes">Will|WILL</exception>
+                        can(not)?|will|ll|[wc]ould|must|should|did|might|to|please|gonna|wanna|may
+                        <exception case_sensitive="yes" regexp="yes">Will|WILL|May|MAY</exception>
                     </token>
                     <token postag="RB" min="0">
                         <exception postag="VBP?" postag_regexp="yes" />
@@ -35076,6 +35214,7 @@ The accident victim died from her injuries.
                 <example correction="buy|be">I will <marker>by</marker> you lunch.</example>
                 <example correction="buy|be">Soup cannot <marker>by</marker> eaten with a fork.</example>
                 <example correction="buy|be">Your family wants you to <marker>by</marker> happy.</example>
+                <example correction="buy|be">I may <marker>by</marker> a new abwheel again.</example>
                 <example correction="buy|be">Recently, two bills that would impose a windfall profits tax on California generators have been advancing through the California legislature and will likely <marker>by</marker> heard on the floor of the Assembly this week.</example>
                 <example>You should by all means read the book.</example>
                 <example>In other word, the roots of form a field of order , which is equal to by the minimality of the splitting field.</example>
