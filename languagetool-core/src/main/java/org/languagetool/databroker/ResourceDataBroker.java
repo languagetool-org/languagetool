@@ -25,7 +25,7 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 
 /**
- * Is responsible for getting the necessary resources for the grammar checker
+ * Is responsible for getting the necessary resources for the LanguageTool
  * library. Following directories are currently needed by a couple of classes:
  *
  * <ul style="list-type: circle">
@@ -37,7 +37,7 @@ import org.languagetool.JLanguageTool;
  * directories.
  * <p>
  *
- * Make sure that you never obtain any grammar checker resources by calling
+ * Make sure that you never obtain any LanguageTool resources by calling
  * {@code Object.class.getResource(String)} or {@code
  * Object.class.getResourceAsStream(String)} directly. If you would like to
  * obtain something from these directories do always use
@@ -68,8 +68,7 @@ public interface ResourceDataBroker {
   String RULES_DIR = "/org/languagetool/rules";
 
   /**
-   * Gets any resource from the grammar checker's {@code /resource} directory.
-   *
+   * Gets any resource from LanguageTool's {@code /resource} directory.
    * @param path Path to an item from the {@code /resource} directory.
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
@@ -77,22 +76,21 @@ public interface ResourceDataBroker {
   URL getFromResourceDirAsUrl(String path);
   
   /**
-   * Checks if a resource in the grammar checker's {@code /resource} exists.
+   * Checks if a resource in LanguageTool's {@code /resource} exists.
    * @param path Path to an item from the {@code /resource} directory.
    * @return {@code true} if the resource file exists.
    */
   boolean resourceExists(String path);
   
   /**
-   * Checks if a resource in the grammar checker's {@code /rules} exists.
+   * Checks if a resource in LanguageTool's {@code /rules} exists.
    * @param path Path to an item from the {@code /rules} directory.
    * @return {@code true} if the resource file exists.
    */
   boolean ruleFileExists(String path);
   
   /**
-   * Gets any resource from the grammar checker's {@code /resource} directory.
-   *
+   * Gets any resource from LanguageTool's {@code /resource} directory.
    * @param path Path to an item from the {@code /resource} directory.
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
@@ -109,18 +107,15 @@ public interface ResourceDataBroker {
    List<String> getFromResourceDirAsLines(String path);
 
   /**
-   * Gets any resource from the grammar checker's {@code /rules} directory.
-   *
-   * @param path
-   *            Path to an item from the {@code /rules} directory.
+   * Gets any resource from LanguageTool's {@code /rules} directory.
+   * @param path Path to an item from the {@code /rules} directory.
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
   URL getFromRulesDirAsUrl(String path);
 
   /**
-   * Gets any resource from the grammar checker's {@code /rules} directory.
-   *
+   * Gets any resource from LanguageTool's {@code /rules} directory.
    * @param path Path to an item from the {@code /rules} directory.
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
@@ -129,16 +124,14 @@ public interface ResourceDataBroker {
 
   /**
    * @return The currently set resource directory path as a string. Make sure
-   *         that you comply with the following format when setting this value:
-   *         <p>
+   *         that you comply with the following format when setting this value:<br>
    *         {@code /subdir/furtherdir/resourcedir}
    */
   String getResourceDir();
 
   /**
    * @return The currently set rules directory path as a string. Make sure
-   *         that you comply with the following format when setting this value:
-   *         <p>
+   *         that you comply with the following format when setting this value:<br>
    *         {@code /subdir/furtherdir/rulesdir}
    */
   String getRulesDir();

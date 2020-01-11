@@ -30,7 +30,7 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 
 /**
- * Responsible for getting any items from the grammar checker's resource
+ * Responsible for getting any items from LanguageTool's resource
  * directories. This default data broker assumes that they are accessible
  * directly via class-path and the directory names are like specified in:
  *
@@ -58,7 +58,7 @@ import org.languagetool.JLanguageTool;
  * </ul>
  * <p>
  *
- * Make sure that you never obtain any grammar checker resources by calling
+ * Make sure that you never obtain any LanguageTool resources by calling
  * {@code Object.class.getResource(String)} or {@code
  * Object.class.getResourceAsStream(String)} directly. If you would like to
  * obtain something from these directories do always use
@@ -80,13 +80,13 @@ import org.languagetool.JLanguageTool;
 public class DefaultResourceDataBroker implements ResourceDataBroker {
 
   /**
-   * The directory's name of the grammar checker's resource directory. The
+   * The directory's name of LanguageTool's resource directory. The
    * default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
    */
   private final String resourceDir;
 
   /**
-   * The directory's name of the grammar checker's rules directory. The
+   * The directory's name of LanguageTool's rules directory. The
    * default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
   private final String rulesDir;
@@ -107,9 +107,9 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * Instantiates this data broker with the passed resource directory names.
    *
-   * @param resourceDir The directory's name of the grammar checker's resource
+   * @param resourceDir The directory's name of LanguageTool's resource
    *  directory. The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
-   * @param rulesDir The directory's name of the grammar checker's rules directory.
+   * @param rulesDir The directory's name of LanguageTool's rules directory.
    *  The default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
   public DefaultResourceDataBroker(String resourceDir, String rulesDir) {
@@ -165,9 +165,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * See:
    * {@link ResourceDataBroker#getFromResourceDirAsUrl(String)}
-   *
-   * @param path
-   *            The relative path to the item inside of the {@code /resource}
+   * @param path The relative path to the item inside of the {@code /resource}
    *            directory. Please start your path information with {@code /}
    *            because it will be concatenated with the directory's name:
    *            /resource<b>/yourpath</b>.
@@ -185,7 +183,6 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * Concatenates the passed resource path with the currently set {@code
    * resource} directory path.
-   *
    * @param path The relative path to a resource item inside of the {@code resource} directory.
    * @return The full relative path to the resource including the path to the
    *         {@code resource} directory.
@@ -214,7 +211,6 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
   /**
    * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(String)}
-   *
    * @param path The relative path to the item inside of the {@code /rules}
    *  directory. Please start your path information with {@code /} because it
    *  will be concatenated with the directory's name: /rules<b>/yourpath</b>.
@@ -238,7 +234,6 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * Concatenates the passed resource path with the currently set {@code
    * rules} directory path.
-   *
    * @param path The relative path to a resource item inside of the {@code rules} directory.
    * @return The full relative path to the resource including the path to the {@code rules} directory.
    */
@@ -262,7 +257,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * See: {@link ResourceDataBroker#resourceExists(String)}
    * 
-   * Checks if a resource in the grammar checker's {@code /resource} exists.
+   * Checks if a resource in LanguageTool's {@code /resource} exists.
    * @param path Path to an item from the {@code /resource} directory.
    * @return {@code true} if the resource file exists.
    */
@@ -275,7 +270,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * See: {@link ResourceDataBroker#ruleFileExists(String)}
    * 
-   * Checks if a resource in the grammar checker's {@code /rules} exists.
+   * Checks if a resource in LanguageTool's {@code /rules} exists.
    * @param path Path to an item from the {@code /rules} directory.
    * @return {@code true} if the resource file exists.
    */
@@ -286,7 +281,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
-   * @return The directory's name of the grammar checker's resource directory.
+   * @return The directory's name of LanguageTool's resource directory.
    *         The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
    */
   @Override
