@@ -32,6 +32,9 @@ public class ShortDescriptionProvider {
 
   private final static Map<Key,String> wordToDef = new HashMap<>();
   private final static Set<Language> initializedLangs = new HashSet<>();
+  private final static List<String> filenames = Arrays.asList(
+    "word_definitions.txt"
+  );
 
   public ShortDescriptionProvider() {
   }
@@ -62,20 +65,22 @@ public class ShortDescriptionProvider {
 
   private void init(Language lang) {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String path = "/" + lang.getShortCode() + "/word_definitions.txt";
-    if (!dataBroker.resourceExists(path)) {
-      return;
-    }
-    List<String> lines = dataBroker.getFromResourceDirAsLines(path);
-    for (String line : lines) {
-      if (line.startsWith("#") || line.trim().isEmpty()) {
+    for (String filename : filenames) {
+      String path = "/" + lang.getShortCode() + "/" + filename;
+      if (!dataBroker.resourceExists(path)) {
         continue;
       }
-      String[] parts = line.split("\t");
-      if (parts.length != 2) {
-        throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
+      List<String> lines = dataBroker.getFromResourceDirAsLines(path);
+      for (String line : lines) {
+        if (line.startsWith("#") || line.trim().isEmpty()) {
+          continue;
+        }
+        String[] parts = line.split("\t");
+        if (parts.length != 2) {
+          throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
+        }
+        wordToDef.put(new Key(parts[0], lang), parts[1]);
       }
-      wordToDef.put(new Key(parts[0], lang), parts[1]);
     }
     initializedLangs.add(lang);
   }
