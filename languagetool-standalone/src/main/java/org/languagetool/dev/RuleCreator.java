@@ -20,6 +20,7 @@ package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
 import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
@@ -54,7 +55,7 @@ public class RuleCreator {
   }
 
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
     Map<String,List<ConfusionPair>> confusionPairsMap = confusionSetLoader.loadConfusionPairs(inputStream);
     initMaps(homophoneOccurrences);

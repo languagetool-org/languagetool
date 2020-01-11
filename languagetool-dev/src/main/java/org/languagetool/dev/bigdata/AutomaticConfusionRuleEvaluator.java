@@ -63,7 +63,7 @@ class AutomaticConfusionRuleEvaluator {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() + "/confusion_sets.txt");
-    knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
+    knownSets = new ConfusionSetLoader(lang).loadConfusionPairs(confusionSetStream);
     this.lang = lang; 
   }
 

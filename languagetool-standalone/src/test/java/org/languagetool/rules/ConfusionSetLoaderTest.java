@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.Demo;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -49,7 +50,7 @@ public class ConfusionSetLoaderTest {
       if (rules.size() > 0) {
         String path = "/" + language.getShortCode() + "/confusion_sets.txt";
         try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
-          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new Demo());
           Map<String, List<ConfusionPair>> set = confusionSetLoader.loadConfusionPairs(confusionSetStream);
           count += set.size();
         }
@@ -59,6 +60,37 @@ public class ConfusionSetLoaderTest {
     assertTrue("Only got " + count + " confusion pairs for all languages, expected > " + minCount, count > minCount);
   }
   
+  @Test
+  @Ignore("one-time use, migrate descriptions to word_definition.txt")
+  public void testConfusionSetDescriptionExport() throws IOException {
+    for (Language language : Languages.get()) {
+      if (language.getShortCode().equals("de")) {
+        List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+        if (rules.size() > 0) {
+          String path = "/" + language.getShortCode() + "/confusion_sets.txt";
+          try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
+            ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new Demo());
+            Map<String, List<ConfusionPair>> set = confusionSetLoader.loadConfusionPairs(confusionSetStream);
+            for (Map.Entry<String, List<ConfusionPair>> entry : set.entrySet()) {
+              for (ConfusionPair confusionPair : entry.getValue()) {
+                printDesc(confusionPair.getTerm1());
+                printDesc(confusionPair.getTerm2());
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private void printDesc(ConfusionString confusionPair) {
+    if (confusionPair.getDescription() != null) {
+      System.out.println(confusionPair.getString() + "\t" + confusionPair.getDescription());
+    } else {
+      System.out.println("#" + confusionPair.getString() + "\t");
+    }
+  }
+
   @Test
   @Ignore("confusion pairs change rarely, so not running this regularly helps the build stay fast")
   public void testConfusionSetSpelling() throws IOException {
@@ -91,7 +123,7 @@ public class ConfusionSetLoaderTest {
         String path = "/" + lang.getShortCode() + "/confusion_sets.txt";
         System.out.println("WARN: Spell checking terms in " + path);
         try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
-          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new Demo());
           Map<String, List<ConfusionPair>> set = confusionSetLoader.loadConfusionPairs(confusionSetStream);
           for (Map.Entry<String, List<ConfusionPair>> entry : set.entrySet()) {
             //System.out.println(entry.getValue());

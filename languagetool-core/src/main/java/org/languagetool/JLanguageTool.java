@@ -923,7 +923,7 @@ public class JLanguageTool {
     for (SuggestedReplacement replacement : replacements) {
       SuggestedReplacement newReplacement = new SuggestedReplacement(replacement);
       if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
-        String descOrNull = descProvider.getShortDescription(replacement.getReplacement());
+        String descOrNull = descProvider.getShortDescription(replacement.getReplacement(), language);
         newReplacement.setShortDescription(descOrNull);
       }
       extended.add(newReplacement);

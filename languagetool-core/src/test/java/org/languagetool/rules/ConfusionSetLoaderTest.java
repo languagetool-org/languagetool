@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.Demo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +39,7 @@ public class ConfusionSetLoaderTest {
   @Test
   public void testLoadWithStrictLimits() throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
-      ConfusionSetLoader loader = new ConfusionSetLoader();
+      ConfusionSetLoader loader = new ConfusionSetLoader(new Demo());
       Map<String, List<ConfusionPair>> map = loader.loadConfusionPairs(inputStream);
       assertThat(map.size(), is(10));
 
