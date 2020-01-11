@@ -66,62 +66,6 @@ public class ConfusionProbabilityRuleTest {
     assertGood("Their are new ideas to explore and their are new plans.", rule2);
   }
 
-  @Test
-  public void testGetContext() {
-    List<GoogleToken> tokens = Arrays.asList(
-            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new GoogleToken("This", 0, 0),
-            new GoogleToken("is", 0, 0),
-            new GoogleToken("a", 0, 0),
-            new GoogleToken("test", 0, 0)
-    );
-    GoogleToken token = tokens.get(3);
-    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[is, XX, test]"));
-    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, test, .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, is, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, is, XX]"));
-  }
-
-  @Test
-  public void testGetContext2() {
-    List<GoogleToken> tokens = Arrays.asList(
-            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new GoogleToken("This", 0, 0),
-            new GoogleToken("is", 0, 0)
-    );
-    GoogleToken token = tokens.get(2);
-    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[This, XX, .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 1).toString(), is("[_START_, This, XX, .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, This, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, XX]"));
-  }
-
-  @Test
-  public void testGetContext3() {
-    List<GoogleToken> tokens = Arrays.asList(
-            new GoogleToken("This", 0, 0)
-    );
-    GoogleToken token = tokens.get(0);
-    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[XX]"));
-  }
-
-  @Test
-  public void testGetContext4() {
-    List<GoogleToken> tokens = Arrays.asList(
-            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new GoogleToken("This", 0, 0)
-    );
-    GoogleToken token = tokens.get(1);
-    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[_START_, XX, .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, XX]"));
-  }
-
   private void assertMatch(String input, Rule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Did not find match in: " + input, matches.length, is(1));

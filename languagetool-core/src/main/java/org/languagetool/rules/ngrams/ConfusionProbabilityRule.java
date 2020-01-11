@@ -286,10 +286,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return p2 >= MIN_PROB && p2 > p1 * factor ? otherWord : null;
   }
 
-  List<String> getContext(GoogleToken token, List<GoogleToken> tokens, String newToken, int toLeft, int toRight) {
-    return LanguageModelUtils.getContext(token, tokens, newToken, toLeft, toRight);
-  }
-  
   private void debug(String message, Object... vars) {
     if (DEBUG) {
       System.out.printf(Locale.ENGLISH, message, vars);
