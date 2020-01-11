@@ -27,10 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,21 +45,17 @@ public class CachingWordListLoader {
         public List<String> load(@NotNull String fileInClassPath) throws IOException {
           return loadWordsFromPath(fileInClassPath);
         }
-
-        private List<String> loadWordsFromPath(String filePath) throws IOException {
+        private List<String> loadWordsFromPath(String filePath) {
           List<String> result = new ArrayList<>();
           if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
             return result;
           }
-          try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
-               Scanner scanner = new Scanner(inputStream, "utf-8")) {
-            while (scanner.hasNextLine()) {
-              String line = scanner.nextLine();
-              if (line.isEmpty() || line.startsWith("#")) {
-                continue;
-              }
-              result.add(StringUtils.substringBefore(line.trim(), "#"));
+          List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
+          for (String line : lines) {
+            if (line.isEmpty() || line.startsWith("#")) {
+              continue;
             }
+            result.add(StringUtils.substringBefore(line.trim(), "#"));
           }
           return result;
         }

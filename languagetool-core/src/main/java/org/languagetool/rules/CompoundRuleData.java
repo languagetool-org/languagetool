@@ -18,12 +18,10 @@
  */
 package org.languagetool.rules;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.languagetool.JLanguageTool;
@@ -71,34 +69,28 @@ public class CompoundRuleData {
   }
 
   private void loadCompoundFile(String path) throws IOException {
-    try (
-      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-      InputStreamReader reader = new InputStreamReader(stream, "utf-8");
-      BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.isEmpty() || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        line = line.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
-        validateLine(path, line);
-        if (line.endsWith("+")) {
-          line = removeLastCharacter(line);
-          noDashSuggestion.add(line);
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-          onlyDashSuggestion.add(line);
-        } else if (line.endsWith("?")) { // github issue #779
-          line = removeLastCharacter(line);
-          noDashSuggestion.add(line);
-          noDashLowerCaseSuggestion.add(line);
-        } else if (line.endsWith("$")) { // github issue #779
-          line = removeLastCharacter(line);
-          noDashLowerCaseSuggestion.add(line);
-        }
-        incorrectCompounds.add(line);
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.isEmpty() || line.charAt(0) == '#') {
+        continue;     // ignore comments
       }
+      line = line.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
+      validateLine(path, line);
+      if (line.endsWith("+")) {
+        line = removeLastCharacter(line);
+        noDashSuggestion.add(line);
+      } else if (line.endsWith("*")) {
+        line = removeLastCharacter(line);
+        onlyDashSuggestion.add(line);
+      } else if (line.endsWith("?")) { // github issue #779
+        line = removeLastCharacter(line);
+        noDashSuggestion.add(line);
+        noDashLowerCaseSuggestion.add(line);
+      } else if (line.endsWith("$")) { // github issue #779
+        line = removeLastCharacter(line);
+        noDashLowerCaseSuggestion.add(line);
+      }
+      incorrectCompounds.add(line);
     }
   }
 

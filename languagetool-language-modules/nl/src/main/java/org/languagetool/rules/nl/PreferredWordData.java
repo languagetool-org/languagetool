@@ -19,11 +19,9 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedTokenReadings;
@@ -44,28 +42,23 @@ class PreferredWordData {
   
   PreferredWordData(String ruleDesc) {
     String filePath = "/nl/preferredwords.csv";
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
-         Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      Language dutch = Languages.getLanguageForShortCode("nl");
-      String message = "Voor dit woord is een gebruikelijker alternatief.";
-      String shortMessage = "Gebruikelijker woord";
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.startsWith("#")) {
-          continue;
-        }
-        String[] parts = line.split(";");
-        if (parts.length != 2) {
-          throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
-        }
-        String oldWord = parts[0];
-        String newWord = parts[1];
-        List<PatternToken> patternTokens = getTokens(oldWord, dutch);
-        PatternRule rule = new PatternRule("NL_PREFERRED_WORD_RULE_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
-        spellingRules.add(new PreferredWordRuleWithSuggestion(rule, oldWord, newWord));
+    Language dutch = Languages.getLanguageForShortCode("nl");
+    String message = "Voor dit woord is een gebruikelijker alternatief.";
+    String shortMessage = "Gebruikelijker woord";
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
+    for (String line : lines) {
+      if (line.startsWith("#")) {
+        continue;
       }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      String[] parts = line.split(";");
+      if (parts.length != 2) {
+        throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
+      }
+      String oldWord = parts[0];
+      String newWord = parts[1];
+      List<PatternToken> patternTokens = getTokens(oldWord, dutch);
+      PatternRule rule = new PatternRule("NL_PREFERRED_WORD_RULE_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
+      spellingRules.add(new PreferredWordRuleWithSuggestion(rule, oldWord, newWord));
     }
   }
 

@@ -19,9 +19,8 @@
 package org.languagetool.rules.pl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
-import java.util.Scanner;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,32 +53,29 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   public void testCompoundFile() throws IOException {
     MorfologikPolishSpellerRule spellRule =
         new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish(), null, Collections.emptyList());
-    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
-    try (Scanner scanner = new Scanner(file, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
-        if (line.isEmpty() || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        if (line.endsWith("+")) {
-          line = removeLastCharacter(line);
-          line = line.replace('-', ' ');
-          RuleMatch[] ruleMatches =
-              spellRule.match(lt.getAnalyzedSentence(line));
-          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-              0, ruleMatches.length);
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-          RuleMatch[] ruleMatches =
-              spellRule.match(lt.getAnalyzedSentence(line));
-          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-              0, ruleMatches.length);
-        } else {
-          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-              0, spellRule.match(lt.getAnalyzedSentence(line)).length);
-          assertEquals("The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!",
-              0, spellRule.match(lt.getAnalyzedSentence(line.replace("-", ""))).length);
-        }
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines("/pl/compounds.txt");
+    for (String line : lines) {
+      if (line.isEmpty() || line.charAt(0) == '#') {
+        continue;     // ignore comments
+      }
+      if (line.endsWith("+")) {
+        line = removeLastCharacter(line);
+        line = line.replace('-', ' ');
+        RuleMatch[] ruleMatches =
+            spellRule.match(lt.getAnalyzedSentence(line));
+        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+            0, ruleMatches.length);
+      } else if (line.endsWith("*")) {
+        line = removeLastCharacter(line);
+        RuleMatch[] ruleMatches =
+            spellRule.match(lt.getAnalyzedSentence(line));
+        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+            0, ruleMatches.length);
+      } else {
+        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+            0, spellRule.match(lt.getAnalyzedSentence(line)).length);
+        assertEquals("The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!",
+            0, spellRule.match(lt.getAnalyzedSentence(line.replace("-", ""))).length);
       }
     }
   }

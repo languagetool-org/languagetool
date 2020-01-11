@@ -21,15 +21,10 @@ package org.languagetool;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.ResourceDataBroker;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * Provide short (~ up to 30 characters) descriptions for words.
+ * Provide short (up to ~ 40 characters) descriptions for words.
  * Used to display as an additional hint when there are several suggestions.
  * @since 4.5
  */
@@ -71,25 +66,18 @@ public class ShortDescriptionProvider {
     if (!dataBroker.resourceExists(path)) {
       return;
     }
-    try (InputStream stream = dataBroker.getFromResourceDirAsStream(path);
-         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-         BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.startsWith("#") || line.trim().isEmpty()) {
-          continue;
-        }
-        String[] parts = line.split("\t");
-        if (parts.length != 2) {
-          throw new IOException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
-        }
-        wordToDef.put(new Key(parts[0], lang), parts[1]);
+    List<String> lines = dataBroker.getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.startsWith("#") || line.trim().isEmpty()) {
+        continue;
       }
-      initializedLangs.add(lang);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      String[] parts = line.split("\t");
+      if (parts.length != 2) {
+        throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
+      }
+      wordToDef.put(new Key(parts[0], lang), parts[1]);
     }
+    initializedLangs.add(lang);
   }
 
   private static class Key {

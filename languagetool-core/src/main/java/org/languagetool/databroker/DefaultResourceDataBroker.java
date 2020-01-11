@@ -18,8 +18,14 @@
  */
 package org.languagetool.databroker;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.languagetool.JLanguageTool;
 
@@ -129,6 +135,31 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
+  }
+
+  /**
+   * See:
+   * {@link ResourceDataBroker#getFromResourceDirAsStream(String)}
+   *
+   * @param path The relative path to the item inside of the {@code /resource}, e.g. {@code /xx/filename}
+   * @return An list of strings, one per line
+   * @throws RuntimeException if path cannot be found
+   * @since 4.9
+   */
+  public List<String> getFromResourceDirAsLines(String path) {
+    List<String> lines = new ArrayList<>();
+    try (InputStream stream = getFromResourceDirAsStream(path);
+         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+         BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        lines.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return lines;
   }
 
   /**

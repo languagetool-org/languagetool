@@ -486,6 +486,7 @@ public final class StringTools {
    * Loads file, ignoring comments (lines starting with {@code #}).
    * @param path path in resource dir
    * @since 4.6
+   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead
    */
   public static List<String> loadLines(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
@@ -502,7 +503,7 @@ public final class StringTools {
         l.add(line);
       }
     } catch (IOException e) {
-      throw new RuntimeException("Could not load coherency data from " + path, e);
+      throw new RuntimeException("Could not load data from " + path, e);
     }
     return Collections.unmodifiableList(l);
   }

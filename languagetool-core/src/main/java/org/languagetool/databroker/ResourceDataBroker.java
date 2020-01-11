@@ -20,6 +20,7 @@ package org.languagetool.databroker;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import org.languagetool.JLanguageTool;
 
@@ -89,7 +90,7 @@ public interface ResourceDataBroker {
    */
   boolean ruleFileExists(String path);
   
-   /**
+  /**
    * Gets any resource from the grammar checker's {@code /resource} directory.
    *
    * @param path Path to an item from the {@code /resource} directory.
@@ -97,6 +98,15 @@ public interface ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    */
    InputStream getFromResourceDirAsStream(String path);
+
+  /**
+   * Gets any resource from the {@code /resource} directory.
+   * @param path The relative path to the item inside of the {@code /resource}, e.g. {@code /xx/filename}
+   * @return An list of strings, one per line
+   * @throws RuntimeException if path cannot be found
+   * @since 4.9
+   */
+   List<String> getFromResourceDirAsLines(String path);
 
   /**
    * Gets any resource from the grammar checker's {@code /rules} directory.

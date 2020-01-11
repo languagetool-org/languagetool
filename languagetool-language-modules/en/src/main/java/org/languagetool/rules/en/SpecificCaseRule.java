@@ -24,7 +24,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -38,17 +37,14 @@ public class SpecificCaseRule extends Rule {
 
   private static List<String> loadPhrases(String path) {
     List<String> l = new ArrayList<>();
-    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-    try (Scanner scanner = new Scanner(file, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
-        if (line.isEmpty() || line.startsWith("#")) {
-          continue;
-        }
-        int parts = line.split(" ").length;
-        maxLen = Math.max(parts, maxLen);
-        l.add(line.trim());
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.isEmpty() || line.startsWith("#")) {
+        continue;
       }
+      int parts = line.split(" ").length;
+      maxLen = Math.max(parts, maxLen);
+      l.add(line.trim());
     }
     return l;
   }
