@@ -101,6 +101,10 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().equals("Dunkin")) {
         return false;
       }
+      // "goin'" etc 
+      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().endsWith("in")) {
+        return false;
+      }
     }
     if (precSpace && !follSpace) {
       if ("'".equals(tokenStr) && i + 1 < tokens.length) {
