@@ -291,7 +291,7 @@ public class JLanguageTool {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
-    descProvider = new ShortDescriptionProvider(language);
+    descProvider = new ShortDescriptionProvider();
   }
 
   /**

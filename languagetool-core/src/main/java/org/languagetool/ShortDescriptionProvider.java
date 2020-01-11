@@ -38,38 +38,58 @@ public class ShortDescriptionProvider {
   private final static Map<Key,String> wordToDef = new HashMap<>();
   private final static Set<Language> initializedLangs = new HashSet<>();
 
-  public ShortDescriptionProvider(Language lang) {
-    if (!initializedLangs.contains(lang)) {
-      ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-      String path = "/" + lang.getShortCode() + "/word_definitions.txt";
-      if (!dataBroker.resourceExists(path)) {
-        return;
-      }
-      try (InputStream stream = dataBroker.getFromResourceDirAsStream(path);
-           InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-           BufferedReader br = new BufferedReader(reader)
-      ) {
-        String line;
-        while ((line = br.readLine()) != null) {
-          if (line.startsWith("#") || line.trim().isEmpty()) {
-            continue;
-          }
-          String[] parts = line.split("\t");
-          if (parts.length != 2) {
-            throw new IOException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
-          }
-          wordToDef.put(new Key(parts[0], lang), parts[1]);
-        }
-        initializedLangs.add(lang);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
+  public ShortDescriptionProvider() {
   }
 
   @Nullable
   public String getShortDescription(String word, Language lang) {
+    if (!initializedLangs.contains(lang)) {
+      init(lang);
+    }
     return wordToDef.get(new Key(word, lang));
+  }
+
+  /**
+   * For testing only.
+   */
+  public Map<String, String> getAllDescriptions(Language lang) {
+    if (!initializedLangs.contains(lang)) {
+      init(lang);
+    }
+    Map<String,String> result = new HashMap<>();
+    for (Map.Entry<Key, String> entry : wordToDef.entrySet()) {
+      if (entry.getKey().lang.equals(lang)) {
+        result.put(entry.getKey().word, entry.getValue());
+      }
+    }
+    return result;
+  }
+
+  private void init(Language lang) {
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    String path = "/" + lang.getShortCode() + "/word_definitions.txt";
+    if (!dataBroker.resourceExists(path)) {
+      return;
+    }
+    try (InputStream stream = dataBroker.getFromResourceDirAsStream(path);
+         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+         BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith("#") || line.trim().isEmpty()) {
+          continue;
+        }
+        String[] parts = line.split("\t");
+        if (parts.length != 2) {
+          throw new IOException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
+        }
+        wordToDef.put(new Key(parts[0], lang), parts[1]);
+      }
+      initializedLangs.add(lang);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private static class Key {

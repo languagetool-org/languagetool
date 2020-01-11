@@ -37,7 +37,7 @@ public class ConfusionSetLoader {
   private final Language lang;
 
   public ConfusionSetLoader(Language lang) {
-    wordDefs = new ShortDescriptionProvider(lang);
+    wordDefs = new ShortDescriptionProvider();
     this.lang = Objects.requireNonNull(lang);
   }
 
