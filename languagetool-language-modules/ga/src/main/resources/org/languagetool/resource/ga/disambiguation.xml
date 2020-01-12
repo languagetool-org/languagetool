@@ -255,9 +255,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
             <marker>
                 <token postag="Prep:Simp">ar</token>
-                <token regexp="yes" postag="Noun:Masc:Com:Sg|Noun:Masc:Com:Sg:Len" postag_regexp="yes">cor|chor</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
                 <token postag="Prep:Simp">ar</token>
                 <token postag="Noun:Masc:Com:Sg">bith</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="IN_AON_CHOR" name="in aon chor">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp:Vow">in</token>
+                <token postag="Det:Qty:Idf">aon</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
             </marker>
         </pattern>
         <disambig action="filterall"></disambig>
@@ -265,8 +275,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="AON_CHOR" name="aon chor">
         <pattern>
             <marker>
-                <token postag="Det:Qty">aon</token>
-                <token regexp="yes" postag="Noun:Masc:Com:Sg|Noun:Masc:Com:Sg:Len" postag_regexp="yes">cor|chor</token>
+                <token postag="Det:Qty:Idf">aon</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
             </marker>
         </pattern>
         <disambig action="filterall"></disambig>
