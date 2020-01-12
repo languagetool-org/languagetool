@@ -89,20 +89,16 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
         }
       }
       // Exception for English plural Saxon genitive
-      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && tokens[i].hasPosTag("POS")) {
+      if ((isQuote(tokenStr)) && tokens[i].hasPosTag("POS")) {
         return false;
       }
       // puttin' on the Ritz
-      if ("'".equals(tokenStr) && prevToken.hasPosTag("VBG")
+      if (isQuote(tokenStr) && prevToken.hasPosTag("VBG")
           && prevToken.getToken().endsWith("in")) {
         return false;
       }
       // Dunkin' Donuts
-      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().equals("Dunkin")) {
-        return false;
-      }
-      // "goin'" etc 
-      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().endsWith("in")) {
+      if (isQuote(tokenStr) && prevToken.getToken().equals("Dunkin")) {
         return false;
       }
     }
@@ -119,6 +115,10 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       }
     }
     return true;
+  }
+
+  private boolean isQuote(String tokenStr) {
+    return "'".equals(tokenStr) || "’".equals(tokenStr);
   }
 
 }

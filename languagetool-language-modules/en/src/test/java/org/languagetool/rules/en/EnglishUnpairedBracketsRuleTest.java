@@ -64,6 +64,7 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
     assertCorrect("(([20] [20] [20]))");
     assertCorrect("I'm not goin'");
+    assertCorrect("He's an 'admin'.");
     // test for a case that created a false alarm after disambiguation
     assertCorrect("This is a \"special test\", right?");
     // numerical bullets
