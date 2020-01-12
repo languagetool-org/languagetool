@@ -1799,12 +1799,18 @@ USA
                     <token>other</token>
                     <token>wise</token>
                 </marker>
-                <token><exception postag="NN.*" postag_regexp="yes"/></token>
+                <token>
+                    <exception postag="NNP?S" postag_regexp="yes"/>
+                    <exception regexp="yes">man|and|or|&amp;</exception>
+                </token>
             </pattern>
             <message>Did you mean <suggestion>otherwise</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/otherwise</url>
             <short>Possible typo</short>
             <example correction="Otherwise"><marker>Other wise</marker> it's not true.</example>
+            <example correction="otherwise">Often information that you wouldn't <marker>other wise</marker> find can be found if you know where to look.</example>
             <example>The fact that Jesus' status as a wise man among other wise men is not unique tells against this being a Christian interpolation.</example>
+            <example>Aristotle, and other wise men declared, that the spirits which exist naturally in living things, are of three kinds.</example>
         </rule>
         <rule id="PER_SE" name="per say (per se)">
             <pattern>
@@ -9078,21 +9084,24 @@ USA
             <example correction="to be able">I need help in order <marker>to able</marker> to achieve this.</example>
             <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
         </rule>
-        <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'">
-            <!-- TODO: add "won't/wouldn't/couldn't/..." / PRP_MD_JJ -->
+        <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'" default="temp_off">
             <!-- TODO: add NNP + MD + NN-->
             <rule>
                 <antipattern>
                     <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
                     <token postag="MD" />
                 </antipattern>
-                <antipattern>
+                <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
                     <token skip="1">cheap</token>
                     <token>out</token>
                 </antipattern>
-                <antipattern>
+                <antipattern><!-- "I would due to other circumstances" -->
                     <token>due</token>
                     <token>to</token>
+                </antipattern>
+                <antipattern><!-- "That you wouldn't other wise find" (needs different rule)  -->
+                    <token>other</token>
+                    <token>wise</token>
                 </antipattern>
                 <antipattern><!-- I can high pull -->
                     <token>high</token>
@@ -9109,6 +9118,7 @@ USA
                         <token postag="MD">
                             <exception case_sensitive="yes">Will</exception><!-- name -->
                             <exception postag="VB.*" postag_regexp="yes" />
+                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase -->
                         </token>
                         <token postag="NNS?|NN:UN?" postag_regexp="yes">
                             <exception regexp="yes">most|less|skip|fed|kind|sort|one|btw|fyi|federal</exception>
@@ -9117,22 +9127,24 @@ USA
                             <exception>til</exception><!-- should be "till" -->
                             <exception>mana</exception><!-- slang word of game nerds -->
                             <exception>able</exception><!-- see MD_ABLE -->
-                            <exception>piggy</exception><!-- "piggy back" needs rule -->
+                            <exception>piggy</exception><!-- "piggy back" needs rule (written as one word) -->
+                            <exception>matter</exception><!-- It will matter -->
                             <exception>easy</exception><!-- is adverb, but not tagged like one -->
                             <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
                             <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
-                            <exception regexp="yes">figure|reference|transition|use</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
+                            <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">log\-?in|sign\-?up|sign\-?in|sign\-?out|log\-?out|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
-                            <exception postag="RB.*|VB.*|MD|IN|CC|DT" postag_regexp="yes" />
+                            <exception regexp="yes">start\-?up|stand\-?by|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
                     </marker>
                 </pattern>
                 <message>The word '\4' is a noun. A verb or adverb is missing or misspelled here, or maybe a comma is missing.</message>
                 <example correction="">I <marker>can cheeseburger</marker>.</example>
+                <example correction="">I usually <marker>would cheeseburger</marker>.</example>
                 <example correction="">This means I <marker>can trait</marker> Psion &amp; Venoxia.</example>
                 <example correction="">So only two possibilities I <marker>can thick</marker> of can the first procssing.</example>
                 <example correction="">I <marker>would opportunity</marker> for me.</example>
@@ -9147,6 +9159,7 @@ USA
                 <example>Mentally, I feel really good - I’m going to damn well will this leg back to baseline and now I feel extremely motivated to push it as far as I can beyond that.</example>
                 <example>You can diff these documents.</example>
                 <example>You should DM me.</example>
+                <example>Is Will good enough?</example>
                 <example>You can then access the Dictionary Keys as easy as you can KM Variables.</example>
                 <example>I can tough it out.</example>
                 <example>I will Federal Express (for Saturday delivery) these.</example>
@@ -9185,8 +9198,88 @@ USA
                 <example>If I knew I would one day catch up that would be fine, but currently I can’t.</example>
                 <example>Thanks for your input and I will def send a ticket.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
+                    <token postag="MD" />
+                </antipattern>
+                <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
+                    <token skip="1">cheap</token>
+                    <token>out</token>
+                </antipattern>
+                <antipattern><!-- "I would due to other circumstances" -->
+                    <token>due</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern><!-- "That you wouldn't other wise find" (needs different rule)  -->
+                    <token>other</token>
+                    <token>wise</token>
+                </antipattern>
+                <antipattern><!-- missing apostrophe (different error) -->
+                    <token postag="MD" />
+                    <token>t</token>
+                </antipattern>
+                <antipattern><!-- I can high pull -->
+                    <token>high</token>
+                    <token>pull</token>
+                </antipattern>
+                <antipattern><!-- used like a verb -->
+                    <token skip="1">factory</token>
+                    <token>reset</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|we|they|s?he|it|(any|some)(body|one)</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token postag="MD">
+                            <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
+                            <exception postag="VB.*" postag_regexp="yes" />
+                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase (see #2326) -->
+                        </token>
+                        <token regexp="yes" min="0">&apostrophe;</token>
+                        <token regexp="yes">
+                            not|t
+                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase (see #2326) -->
+                        </token>
+                        <token postag="NNS?|NN:UN?" postag_regexp="yes">
+                            <exception regexp="yes">most|less|skip|fed|kind|sort|one|btw|fyi|federal</exception>
+                            <exception regexp="yes">today|tonight|tomorrow|yesterday</exception>
+                            <exception>ill</exception><!-- "ill afford" (idiom) -->
+                            <exception>til</exception><!-- should be "till" -->
+                            <exception>mana</exception><!-- slang word of game nerds -->
+                            <exception>able</exception><!-- see MD_ABLE -->
+                            <exception>piggy</exception><!-- "piggy back" needs rule (written as one word) -->
+                            <exception>matter</exception><!-- It will matter -->
+                            <exception>easy</exception><!-- is adverb, but not tagged like one -->
+                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
+                            <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
+                            <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
+                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq</exception><!-- abbreviation of verbs -->
+                            <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
+                            <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
+                            <exception regexp="yes">start\-?up|stand\-?by|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
+                            <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The word '\4' is a noun. A verb or adverb is missing or misspelled here, or maybe a comma is missing.</message>
+                <example correction="">I <marker>can't cheeseburger</marker>.</example>
+                <example correction="">I <marker>can’t enough</marker> how I appreciate almost anything Hedges writes.</example>
+                <example correction="">Maybe this is documented somewhere but I <marker>couldn’t anything</marker>.</example>
+                <example>It won’t matter and Trump will still be President next November.</example>
+                <example>It's a pity when you haven't anything but a pittance.</example>
+                <example>Note that enabling redirects means that we will NOT search for any substring you’ve specified.</example><!-- "search" wrongly tagged as NN:UN -->
+                <example>Also, all smart switches use the same connection method and I would NOT call them push lock!</example><!-- "call" wrongly tagged as NN:UN -->
+                <example>Keep those where you can find them easily (having to hunt for them is additional stress you WON'T need at that point!).</example>
+                <example>I couldn't vote because nothing applied to me.</example>
+                <example>I have a mandolin lesson at 11am on Saturday, which I can't miss because Tom is teaching me less these days.</example>
+                <example>When we reduced staff the first week of December, one of the assumptions we made was that we would not longer provide 24 hour support.</example>
+                <example>We will not know whether individuals have state filing obligations without seeing their detailed tax information.</example><!-- "know" wrongly tagged as NN:UN -->
+            </rule>
         </rulegroup>
         <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)">
+            <!-- TODO add "who's" -->
             <rule><!-- they, we -->
                 <pattern>
                     <marker>
@@ -12961,6 +13054,20 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)ontribute" regexp_replace="ontribution" /></suggestion>?</message>
                 <example correction="contribution">The <marker>contribute</marker> of code was a success.</example>
             </rule>
+            <rule default="temp_off"><!-- the begin -->
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>begin</token>
+                    </marker>
+                </pattern>
+                <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>beginning</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/beginning</url>
+                <example correction="beginning">2020 is the <marker>begin</marker> of something fantastic.</example>
+            </rule>
             <rule><!-- the double-click -->
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -12981,6 +13088,10 @@ USA
                     <token>deploy</token>
                     <token>.</token>
                     <token regexp="yes" spacebefore="no">\w{1,4}</token>
+                </antipattern>
+                <antipattern><!-- tech speech -->
+                    <token regexp="yes">.*deploy</token>
+                    <token regexp="yes">master|branch</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -13428,6 +13539,10 @@ USA
                 <example correction="intent">My <marker>intend</marker> was to improve the overall situation.</example>
             </rule>
             <rule><!-- the arrive -->
+                <antipattern>
+                    <token skip="2">arrive</token>
+                    <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -14441,6 +14556,19 @@ USA
             <suggestion>\1-\2</suggestion>
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
+        </rule>
+        <rule id="STEP_BY_STEP_HYPHEN" name="missing hyphens in 'step-by-step'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>step</token>
+                    <token>by</token>
+                    <token>step</token>
+                </marker>
+                <token postag="NN.*|JJ"  postag_regexp="yes" min="0" />
+                <token regexp="yes">tutorials?|guides?|instructions?|process(es)?|cookbooks?|podcasts?|audiobooks?|e\-?book|recipes?|directions|plan|diet|knitting|lyrics|learning|landscaping|programming|courses?|origami|painting|solutions?|teaching|videos?|workouts?|screenhots?|screencasts?|approach(es)?|configurations?|pictures?|diagnostics?|photos?|documentations?|procedures?|installations?|examples?|troubleshootings?|lists?|walkthrough|help|setups?|guidances?</token>
+            </pattern>
+            <message>Did you mean the adjective or adverb <suggestion>\1-\2-\3</suggestion> (spelled with hyphens)?</message>
+            <example correction="step-by-step">The <marker>step by step</marker> diet plan helped me to lose kilos.</example>
         </rule>
         <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <pattern>
@@ -18608,7 +18736,7 @@ USA
                     <token>one</token>
                     <token>of</token>
                     <token postag="DT"/>
-                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token postag_regexp="yes" postag="JJ.*"/>
                     <token postag="NNS"/>
                     <token>who</token>
                 </antipattern>
@@ -18636,6 +18764,7 @@ USA
                 <example correction="have|haven">Mary is one of the students who <marker>has</marker> done honor to the college.</example>
                 <example>Mary is the only one of our students who has achieved national recognition.</example>
                 <example>People who win the lottery are lucky.</example>
+                <example>Tom is one of the best people who walks this earth.</example>
                 <example>They gave to him the name 'agyieus' as the protector god of public places and houses who wards off evil, and his symbol was a tapered stone or column.</example>
                 <example>Tom is one of those rare individuals who has had a clear idea of his career path since he was a teenager.</example><!-- #2011 -->
                 <example>... can only be held by someone in priestly orders who has been ordained for at least six years.</example>
@@ -33492,7 +33621,7 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token>Also</token>
-                    <token postag="VBN"/>
+                    <token postag="VB.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <!-- typical headline, but may hide real errors... -->
@@ -33564,6 +33693,7 @@ The accident victim died from her injuries.
                 <example>Also specify your gender.</example>
                 <example>Also known as UCB, ...</example>
                 <example>Still the greatest.</example>
+                <example>Also happens with other things.</example><!-- informal -->
                 <example>However you look at it, existing investors are likely to lose out.</example>
                 <example correction="Alas,"><marker>Alas</marker> James had finals and couldn’t attend.</example>
                 <example>Alas! Her heart belonged to another.</example>
@@ -35699,7 +35829,9 @@ The accident victim died from her injuries.
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ.?" postag_regexp="yes"><exception postag="NNPS?|VB|NN:UN" postag_regexp="yes"/></token>
+                    <token postag="JJ.?" postag_regexp="yes">
+                        <exception postag="NNPS?|VB|NN:UN|PRP" postag_regexp="yes"/>
+                    </token>
                     <token postag="CC|PCT|IN" postag_regexp="yes" />
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
@@ -35785,14 +35917,18 @@ The accident victim died from her injuries.
                     <marker>
                         <token>to</token>
                     </marker>
-                    <token postag="JJ"/>
+                    <token postag="JJ">
+                        <exception>trying</exception><!-- unlikely that trying is used as an adjective in this context -->
+                    </token>
                     <token regexp="yes">to|for</token>
                     <token postag="VB"/>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="too">It's <marker>to</marker> good to be true.</example>
+                <example correction="too">It's <marker>to</marker> interesting to turn into something boring.</example>
                 <example>It's too large for the box.</example>
+                <example>It could be to trying to understand how the machine works.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -35811,10 +35947,20 @@ The accident victim died from her injuries.
                         <token>,</token>
                         <token>to</token>
                     </marker>
-                <token postag="SENT_END"/>
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Did you mean <suggestion>, too</suggestion>?</message>
                 <example correction=", too">But you can use it for other things<marker>, to</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token postag="SENT_END">to</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>, too</suggestion>?</message>
+                <example correction=", too">But you can use it for other things<marker>, to</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -35832,7 +35978,7 @@ The accident victim died from her injuries.
                     <token postag="JJ"/>
                     <token>to</token>
                     <token postag="JJ"/>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </antipattern>
                 <antipattern><!-- https://www.collinsdictionary.com/dictionary/english/up-to -->
                     <token>up</token>
@@ -35843,23 +35989,37 @@ The accident victim died from her injuries.
                     <token>to</token>
                     <token>there</token>
                 </antipattern>
+                <antipattern>
+                    <token>how</token>
+                    <token>to</token>
+                    <token postag="RB" />
+                    <token postag="VBP" />
+                </antipattern>
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">anyhow|outside</exception><!-- 'too X' is not standard English. -->
-                      <exception postag_regexp="yes" postag="JJR?"/></token>
-                    <token postag="SENT_END"/>
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|not|yes|no|multiply|tomorrow|today|tonight|yesterday</exception><!-- 'too X' is not standard English. -->
+                      <exception postag_regexp="yes" postag="JJR?"/>
+                    </token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">She returned <marker>to</marker> quickly.</example>
                 <example correction="too">... but it did what we wanted <marker>to</marker> slowly.</example>
                 <example>The nights were cool <marker>to</marker> chilly.</example>
+                <example>We didn't know what they were exposed to before.</example>
                 <example>You might be staring at a long list of potential fixes which typically get postponed to later.</example>
                 <example>It is an hour's drive from <marker>here to there</marker>.</example>
                 <example>What was he <marker>up to</marker> then?</example>
                 <example>... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
                 <example>[https://en.wikipedia.org/wiki/Outside_(Alaska)]: The Alaska Rail network is not connected to Outside.</example>
                 <example>Adjective. ...and reduce his studies to part-time.</example>
+                <example>There's no reason to not go there.</example>
+                <example>I can show you how to properly drive a car.</example>
+                <example>Set that field to Yes.</example>
+                <example>It begins to rapidly increase.</example>
+                <example>Something to multiply.</example>
+                <example>I wish I could re-schedule it to tomorrow.</example>
             </rule>
             <rule>
                 <pattern>
