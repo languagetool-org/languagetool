@@ -113,6 +113,9 @@ public class RuleMatchDiffFinder {
   }
 
   private String cleanSource(String ruleSource) {
+    if (ruleSource == null) {
+      return "java";
+    }
     return ruleSource.replaceFirst("^.*/grammar", "gram.").replaceFirst("gram.-premium", "prem").replaceFirst(".xml", "");
   }
 
