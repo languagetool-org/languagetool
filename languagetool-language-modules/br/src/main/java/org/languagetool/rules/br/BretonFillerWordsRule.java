@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.br-fr;
+package org.languagetool.rules.br;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,13 +26,15 @@ import java.util.Set;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
+/*
  * A rule that gives hints on the use of Breton filler words.
  * The hints are only given when the percentage of filler words per paragraph exceeds the given limit.
  * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
  * This rule detects no grammar error but gives stylistic hints (default off).
  * It is based on the Portuguese Filler Words list and the German Filler words list.
  * @author MORVAN Pierre Wani Alan / Wanibzh29
- * @since 06.26.2018
+ * @since @4.9
+ */
 
   private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( 
 "-achu",
@@ -2410,13 +2412,13 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "zokenoc'h",
 ));
   
-  public PortugueseFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
+  public BretonFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
     super(messages, userConfig);
   }
 
   @Override
   public String getId() {
-    return RULE_ID + "_PT";
+    return RULE_ID + "_BR";
   }
 
   @Override
