@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
 /*
@@ -36,6 +37,7 @@ import org.languagetool.rules.AbstractFillerWordsRule;
  * @since @4.9
  */
 
+public class BretonFillerWordsRule extends AbstractFillerWordsRule {
   private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( 
 "-achu",
 "-bev",
@@ -471,9 +473,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "burev",
 "burlutus",
 "burzhudus",
-
-
-	"C'h/Ch:"
 "c'hoari ouzh",
 "c'hoarvezout",
 "c'hoazh ur wech",
@@ -492,8 +491,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "cheuc'h",
 "chichant",
 "chom da restañ",
-
-	
 "d'al liesañ",
 "d'an ampoent ma",
 "d'an ampoent",
@@ -2409,11 +2406,11 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "youlegezh",
 	
 "zokennoc'h",
-"zokenoc'h",
+"zokenoc'h"
 ));
   
-  public BretonFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
-    super(messages, userConfig);
+  public BretonFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+    super(messages, lang, userConfig);
   }
 
   @Override
@@ -2425,13 +2422,4 @@ import org.languagetool.rules.AbstractFillerWordsRule;
   protected boolean isFillerWord(String token) {
     return fillerWords.contains(token);
   }
-
-  @Override
-  public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if ("mas".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
-      return true;
-    }
-    return false;
-  }
-  
 }
