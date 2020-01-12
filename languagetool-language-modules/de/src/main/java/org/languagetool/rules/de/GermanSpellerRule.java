@@ -500,6 +500,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[jJ]ahundert", "Jahrhundert");
     put("Gesochse", "Gesocks");
     put("[vV]orgensweise", "Vorgehensweise");
+    put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
     putRepl("Nootbooks?", "Noot", "Note");
