@@ -8768,29 +8768,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
         </rule>
-        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
+        <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
-                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
+                <token postag="SENT_START" />
                 <token>Von</token>
                 <token>der</token>
                 <token regexp="yes">Leyens?</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>von</token>
-                <token>der</token>
-                <token regexp="yes">Leyens?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">v.n</token>
-                <token regexp="yes">der?</token>
-                <token regexp="yes">L[ea][yi]ens?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
-            <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-            <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
-            <example>Von der leben sie heute.</example>
-            <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">v.n</token>
+                        <token regexp="yes">der?</token>
+                        <token regexp="yes">L[ea][yi]ens?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="4" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="Von der Leyen"><marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example correction="Von der Leyens"><marker>Von Der Leyens</marker> Berateraffäre war ein Wendepunkt.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">v.n</token>
+                    <token regexp="yes">der?</token>
+                    <token regexp="yes">L[ea][yi]ens?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example>Von der leben sie heute.</example>
+                <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
+            </rule>
+        </rulegroup>
         <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
                 <token>Emmanuel</token>
