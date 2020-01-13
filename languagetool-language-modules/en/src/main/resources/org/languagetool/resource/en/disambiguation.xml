@@ -4072,6 +4072,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
         <token>?</token>
       </antipattern>
+      <antipattern><!-- #2326 Fix for chunker. It will NOT work here -->
+        <token postag="MD"/>
+        <token case_sensitive="yes" postag="RB">NOT</token><!-- The problem seems to occur only with NOT -->
+        <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
+            <exception scope="next">?</exception>
+            </token>
+        <token postag="SENT_END"/>
+      </antipattern>
+      <antipattern><!-- #2326 Fix for chunker. stress you WON'T need -->
+        <token postag="MD"/>
+        <token regexp="yes">&apostrophe;</token>
+        <token case_sensitive="yes">T</token>
+        <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
+            <exception scope="next">?</exception>
+            </token>
+        <token postag="SENT_END"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4113,9 +4130,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Those who send in old junk they don't use anymore <marker>will</marker>, without exception, receive a present.</example>
       <example type="untouched">Will this actually <marker>work</marker> when the sun shines?</example>
       <example type="untouched">Won't this still <marker>work</marker> on Sunday?</example>
+      <example type="untouched">It will NOT <marker>work</marker> in a normal environment.</example><!-- #2326 -->
+      <example type="untouched">IT WILL NOT <marker>WORK</marker> HERE.</example>
+      <example type="untouched">It will ACTUALLY <marker>work</marker> here.</example>
+      <example type="untouched">... you WON'T <marker>need</marker> at that point.</example><!-- #2326 -->
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
+      <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
+      <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <antipattern><!-- Fix for chunker: staves off hunger -->
