@@ -1628,6 +1628,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="TO_VB_PRP" name="to + verb + prp => TO">
+        <antipattern><!-- Refer to figure a -->
+            <token postag_regexp="yes" postag="VB.*" inflected="yes">refer</token>
+            <token>to</token>
+            <token regexp="yes">figure|table|chapter|part|section|picture|row</token>
+            <token>a</token><!-- Not capital. Refer to figure_1_NNP -->
+        </antipattern>
+        <antipattern><!-- table A.3 -->
+            <token regexp="yes">figure|table|chapter|part|section|picture|row</token>
+            <token>a</token>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no" regexp="yes">\d+|[a-z]</token>
+        </antipattern>
         <pattern>
             <marker>
             <token postag="TO">to</token>
@@ -1637,6 +1649,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">Peter admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
+        <example type="untouched">Refer to <marker>figure a</marker> for more information.</example>
+        <example type="untouched">... and if you look to <marker>TABLE A.3</marker> you can get more information.</example>
         <example type="ambiguous" inputform="bill[bill/NN,bill/VB,bill/VBP]" outputform="bill[bill/VB]">I admit to <marker>bill</marker> the customer incorrectly.</example>
     </rule>
 
@@ -3395,27 +3409,56 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NN:UN"/>
     </rule>
     <rulegroup name="Figure|Table|Appendix 1 -&gt; NNP" id="figure_1_NNP">
-    <rule>
-        <pattern>
-            <marker>
-                <token regexp="yes">figure|table|appendix|chapter|part|section|picture|lemma|column|row|fraction</token>
-            </marker>
-            <token regexp="yes">\d+([\.\-]\d+)*|[A-Z]</token>
-        </pattern>
-        <disambig postag="NNP"/>
-    </rule>
-    	<rule>
-    		<pattern>
-    			<marker>
-				<token regexp="yes">fig|chap</token>
-				</marker>
-				<token>.</token>
-				<token regexp="yes">[\d+\p{Lu}]</token>    		
-    		</pattern>
-    		<disambig postag="NNP"/>
-    		<example type="untouched">This is Figure 1.</example>
-    		<example type="ambiguous" inputform="Fig[fig/NN]" outputform="Fig[fig/NNP]">This is <marker>Fig</marker>. 1.</example>
-    	</rule>
+        <rule>
+            <antipattern><!-- #2328 if I could figure a -->
+                <token postag="MD"/>
+                <token chunk="I-VP" regexp="yes">figure|table|chapter|part|section|picture|row</token>
+                <token regexp="yes">\d+|[A-Z]</token>
+            </antipattern>
+            <antipattern><!-- #2328 like to figure a -->
+                <token postag_regexp="yes" postag="VB.*">
+                    <exception inflected="yes">refer</exception>
+                    </token>
+                <token>to</token>
+                <token chunk="I-VP" regexp="yes">figure|table|chapter|part|section|picture|row</token>
+                <token regexp="yes">\d+|[A-Z]</token>
+            </antipattern>
+            <antipattern><!-- #2328 I picture 3 beautiful  -->
+                <token>
+                    <exception regexp="yes">[\(\[]</exception>
+                    </token>
+                <token chunk="B-VP" regexp="yes">figure|table|chapter|part|section|picture|row</token>
+                <token regexp="yes">\d+|[A-Z]</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">figure|table|appendix|chapter|part|section|picture|lemma|column|row|fraction</token>
+                </marker>
+                <token regexp="yes">\d+([\.\-]\d+)*|[A-Z]</token>
+            </pattern>
+            <disambig postag="NNP"/>
+            <example type="untouched">It would be nice if I could figure a way.</example>
+            <example type="untouched">I would like to figure A way (yes, that's A way; any way is sufficient).</example>
+            <example type="untouched">I picture 3 beautiful trees with golden leaves.</example>
+            <example type="untouched">Carefully part 30 sheets (approximately) from the stack.</example>
+            <example type="ambiguous" inputform="figure[figure/NN,figure/VB,figure/VBP]" outputform="figure[figure/NNP]">Refer to <marker>figure</marker> A for more information.</example><!-- figure/I-VP, a/E-NP-singular. -->
+            <example type="ambiguous" inputform="figure[figure/NN,figure/VB,figure/VBP]" outputform="figure[figure/NNP]">Refer to <marker>figure</marker> a for more information.</example>
+            <example type="ambiguous" inputform="section[section/NN,section/VB,section/VBP]" outputform="section[section/NNP]">... as shown in <marker>section</marker> 33, part 2.</example><!-- 33/I-NP-singular] -->
+            <example type="ambiguous" inputform="TABLE[table/NN,table/VB,table/VBP]" outputform="TABLE[table/NNP]">... and if you look to <marker>TABLE</marker> A.3 you can get more information.</example>
+            <example type="ambiguous" inputform="figure[figure/NN,figure/VB,figure/VBP]" outputform="figure[figure/NNP]">... as necessary (<marker>figure</marker> a).</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">fig|chap</token>
+                </marker>
+                <token>.</token>
+                <token regexp="yes">[\d+\p{Lu}]</token>
+            </pattern>
+            <disambig postag="NNP"/>
+            <example type="untouched">This is Figure 1.</example>
+            <example type="ambiguous" inputform="Fig[fig/NN]" outputform="Fig[fig/NNP]">This is <marker>Fig</marker>. 1.</example>
+        </rule>
     </rulegroup>
     <rule name="worth + VBG/NN -&gt; VBG" id="WORTH_VBG_NN">
         <pattern>
