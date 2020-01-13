@@ -4078,8 +4078,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="VBP"/>
         <token postag="PRP"/>
       </antipattern>
-      <antipattern><!-- Fix for chunker. Can't wait to -->
-        <token postag="SENT_START"/>
+      <antipattern><!-- Fix for chunker. Can't wait to / I can`t power off -->
+        <token postag_regexp="yes" postag="SENT_START|PRP"/>
         <token postag="MD"/>
         <token regexp="yes">&apostrophe;</token>
         <token>t</token>
@@ -4132,6 +4132,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </token>
         <token postag="SENT_END"/>
       </antipattern>
+      <antipattern><!-- #2328 Fix for chunker. we can reference? -->
+        <token chunk="B-VP" postag="MD"/>
+        <token postag="NN:UN"/>
+        <token postag="SENT_END">?</token>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4177,11 +4182,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">IT WILL NOT <marker>WORK</marker> HERE.</example>
       <example type="untouched">It will ACTUALLY <marker>work</marker> here.</example>
       <example type="untouched">... you WON'T <marker>need</marker> at that point.</example><!-- #2326 -->
+      <example type="untouched">Do you have contact info or a case number we can <marker>reference</marker>?</example><!-- #2328 -->
+      <example type="untouched">I can`t <marker>power</marker> off or on or dimming it.</example><!-- #2328 -->
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
       <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
+      <example type="ambiguous" inputform="reference[reference/NN:UN,reference/VB,reference/VBP]" outputform="reference[reference/NN:UN]">The document does not show the can reference. Do you know the can <marker>reference</marker>?</example><!-- A 'can reference' is a possible technical term. -->
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <antipattern><!-- Fix for chunker: staves off hunger -->
