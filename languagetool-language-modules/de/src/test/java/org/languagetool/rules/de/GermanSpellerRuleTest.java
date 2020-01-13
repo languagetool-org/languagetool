@@ -412,6 +412,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
     assertFirstSuggestion("versendliches", "versehentliches", rule, lt);
     assertFirstSuggestion("Nootbooks", "Notebooks", rule, lt);
+    assertFirstSuggestion("Eigtl", "Eigtl.", rule, lt);
   }
 
   @Test
