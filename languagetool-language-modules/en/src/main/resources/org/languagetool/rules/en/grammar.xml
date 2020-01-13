@@ -9084,7 +9084,24 @@ USA
             <example correction="to be able">I need help in order <marker>to able</marker> to achieve this.</example>
             <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
         </rule>
-        <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'" default="temp_off">
+        <rule id="ABLE_VBP" name="missing 'to' after 'able'" default="temp_off">
+            <pattern>
+                <token inflected="yes">be</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>able</token>
+                    <token postag="VBP">
+                        <exception postag="IN" />
+                    </token>
+                </marker>
+            </pattern>
+            <message>The preposition 'to' is required in front of the verb '\4'.</message>
+            <suggestion>\3 to \4</suggestion>
+            <example correction="able to go">I'm <marker>able go</marker> forward.</example>
+            <example correction="able to make">Tom is not <marker>able make</marker> this happening.</example>
+            <example>A little man who was stumping along eastward at a good walk, and the other a girl of maybe eight or ten who was running as hard as she was able down a cross street.</example>
+        </rule>
+        <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'">
             <!-- TODO: add NNP + MD + NN-->
             <rule>
                 <antipattern>
@@ -9118,7 +9135,6 @@ USA
                         <token postag="MD">
                             <exception case_sensitive="yes">Will</exception><!-- name -->
                             <exception postag="VB.*" postag_regexp="yes" />
-                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase -->
                         </token>
                         <token postag="NNS?|NN:UN?" postag_regexp="yes">
                             <exception regexp="yes">most|less|skip|fed|kind|sort|one|btw|fyi|federal</exception>
@@ -9234,12 +9250,10 @@ USA
                         <token postag="MD">
                             <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
                             <exception postag="VB.*" postag_regexp="yes" />
-                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase (see #2326) -->
                         </token>
                         <token regexp="yes" min="0">&apostrophe;</token>
                         <token regexp="yes">
                             not|t
-                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception><!-- POS tagging seems broken when words are uppercase (see #2326) -->
                         </token>
                         <token postag="NNS?|NN:UN?" postag_regexp="yes">
                             <exception regexp="yes">most|less|skip|fed|kind|sort|one|btw|fyi|federal</exception>
@@ -9283,7 +9297,7 @@ USA
             <rule><!-- they, we -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes">[wt]hat|who</token>
                         <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                         <token regexp="yes">i?s</token>
                     </marker>
@@ -9296,7 +9310,7 @@ USA
             </rule>
             <rule><!-- you -->
                 <pattern>
-                    <token regexp="yes">[wt]hat</token>
+                    <token regexp="yes">[wt]hat|who</token>
                     <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                     <token regexp="yes">i?s</token>
                     <token>you</token>
@@ -9311,7 +9325,7 @@ USA
             </rule>
             <rule><!-- it -->
                 <pattern>
-                    <token regexp="yes">[wt]hat</token>
+                    <token regexp="yes">[wt]hat|who</token>
                     <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                     <token regexp="yes">i?s</token>
                     <token case_sensitive="yes" regexp="yes">[Ii]t</token>
@@ -9326,7 +9340,7 @@ USA
             <rule><!-- she, he -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes">[wt]hat|who</token>
                         <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                         <token regexp="yes">i?s</token>
                     </marker>
@@ -9341,7 +9355,7 @@ USA
             <rule><!-- I -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[wt]hat</token>
+                        <token regexp="yes">[wt]hat|who</token>
                         <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
                         <token regexp="yes">i?s</token>
                     </marker>
@@ -14332,28 +14346,42 @@ USA
             <url>https://en.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="'Ndrangheta">The <marker>Ndrangheta</marker> is a Mafia-type[3] organized crime group based in Calabria.</example>
         </rule>
-        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
+        <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
-                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
+                <token postag="SENT_START" />
                 <token>Von</token>
                 <token>der</token>
-                <token>Leyen</token>
+                <token regexp="yes">Leyens?</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>von</token>
-                <token>der</token>
-                <token>Leyen</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">v.n</token>
-                <token regexp="yes" min="0">der?</token>
-                <token regexp="yes">Le.en</token>
-            </pattern>
-            <message>Did you mean <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von"  /> der Leyen</suggestion> (= politician)?</message>
-            <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-            <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
-            <example correction="von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">v.n</token>
+                        <token regexp="yes">der?</token>
+                        <token regexp="yes">L[ea][yi]ens?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match case_conversion="startupper" no="2" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="4" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= politician)?</message>
+                <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="Von der Leyen"><marker>von de Leyen</marker> is a German politician and the President of the European Commission</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">v.n</token>
+                    <token regexp="yes">der?</token>
+                    <token regexp="yes">L[ea][yi]ens?</token>
+                </pattern>
+                <message>Did you mean <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= politician)?</message>
+                <url>https://en.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="von der Leyen">Ursula <marker>Van de Leyen</marker> is a German politician and the President of the European Commission</example>
+            </rule>
+        </rulegroup>
         <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
                 <token>Emmanuel</token>
