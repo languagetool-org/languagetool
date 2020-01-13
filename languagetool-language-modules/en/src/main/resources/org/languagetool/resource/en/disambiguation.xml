@@ -4968,7 +4968,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
                 </marker>
-                <token postag="CC"><exception negate_pos="yes" postag="CC"/></token>
+                <token regexp="yes">and|or|as</token><!-- #2328 quick win. If necessary, revert to CC and add antipatterns. -->
                 <token postag="NN.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="NN.*"/>
@@ -4976,8 +4976,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Adjective: ... because it's <marker>free</marker> and support is not provided.</example>
             <example type="untouched">Adjective: I would like having this with you <marker>sooner</marker> but discussions...</example><!-- #1803 -->
             <example type="untouched">Verb: I saw someone they <marker>know</marker> and Ralph admires.</example><!-- #2252 -->
+            <example type="untouched">I couldn't <marker>vote</marker> because nothing applied to me.</example><!-- #2328 -->
+            <example type="untouched">I have a mandolin lesson at 11am on Saturday, which I can't <marker>miss</marker> because Tom is teaching me less these days.</example><!-- #2328 -->
+            <example type="untouched">We will not <marker>know</marker> whether individuals have state filing obligations without seeing their detailed tax information.</example><!-- #2328 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
+            <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
+            <example type="ambiguous" inputform="books[book/NNS,book/VBZ]" outputform="books[book/NNS]">The concept of <marker>books</marker> as data has not been fully explored.</example>
         </rule>
 
         <rule id="PREPOSITIONAL_DT_VBZNNS_NNS" name="Prepositional quantifiers + noun plur/vb sg = >noun plur">
