@@ -27809,7 +27809,8 @@ Andere Projekte</example>
                         <token case_sensitive="yes">Lachen</token>
                     </marker>
                 </pattern>
-                <message>inwend;'gut <suggestion><match no="2" case_conversion="startlower"/></suggestion> haben' wird 'lachen' kleingeschrieben.</message>
+                <message>&inwend;'gut <suggestion><match no="2" case_conversion="startlower"/></suggestion> haben' wird 'lachen' kleingeschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/lachen_heiter_lustig_Mimik</url>
                 <short>prgk;.</short>
                 <example correction="lachen">Sie hat gut <marker>Lachen</marker>.</example>
             </rule>
@@ -37699,11 +37700,11 @@ Andere Projekte</example>
                 <example correction="etc.">Sie erkennt einige Fehler <marker>e.t.c.</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Fehlende Punkte in Abkürzungen ('z B.' etc.)">
+        <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Fehlende Punkte in Abkürzungen ('z B.', 'u.a' etc.)">
             <!-- TODO ergänzen. -->
             <rule>
                 <regexp>\bz B\.</regexp>
-                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <message>Meinten Sie die Abkürzung <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example>Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
             </rule>
@@ -37711,19 +37712,44 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token>z</token>
-                        <token>.</token>
-                        <token>B</token>
+                        <token spacebefore="no">.</token>
+                        <token>
+                            B
+                            <exception scope="next">.</exception>
+                        </token>
                     </marker>
-                    <token negate="yes">.</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <message>Meinten Sie die Abkürzung <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example>Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example correction="z.&nbsp;B.">Sie erkennt <marker>z. B</marker> den Fehler in diesem Satz.</example>
             </rule>
             <rule>
-                <regexp>z&nbsp;B\.</regexp>
+                <regexp>\bz&nbsp;B\.</regexp>
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
                  <example correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>u</token>
+                    <token>a</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie die Abkürzung <suggestion>u.&nbsp;a.</suggestion>?</message>
+                <url>https://www.duden.de/suchen/dudenonline/u.a.</url>
+                <example correction="u.&nbsp;a.">Sie erkennt <marker>u a.</marker> diesen Fehler</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token>u</token>
+                    <token spacebefore="no">.</token>
+                    <token>
+                        a
+                        <exception scope="next">.</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie die Abkürzung <suggestion>u.&nbsp;a.</suggestion>?</message>
+                <url>https://www.duden.de/suchen/dudenonline/u.a.</url>
+                <example correction="u.&nbsp;a.">Er arbeitete als Product Manager <marker>u.a</marker> für Google.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFFORDERUNG_MIT_FRAGEZEICHEN" name="Fragezeichen statt Ausrufezeichen">
