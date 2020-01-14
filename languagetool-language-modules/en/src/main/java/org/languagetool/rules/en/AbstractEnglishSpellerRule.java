@@ -202,6 +202,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("account", "accusative");
     } else if ("Acc".equals(word)) {
       return Arrays.asList("Account", "Accusative");
+    } else if ("Addon".equals(word)) {
+      return Arrays.asList("Add-on");
+    } else if ("Addons".equals(word)) {
+      return Arrays.asList("Add-ons");
     } else if ("Adhoc".equals(word)) {
       return Arrays.asList("Ad hoc");
     } else if ("adhoc".equals(word)) {
