@@ -200,13 +200,13 @@ public class HTTPServerConfig {
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
-        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false"));
-        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false"));
+        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false").trim());
+        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false").trim());
         maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
         pipelineExpireTime = Integer.parseInt(getOptionalProperty(props, "pipelineExpireTimeInSeconds", "10"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         ipFingerprintFactor = Integer.parseInt(getOptionalProperty(props, "ipFingerprintFactor", "1"));
-        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
+        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false").trim());
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
@@ -272,11 +272,11 @@ public class HTTPServerConfig {
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
-        dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
-        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false"));
+        dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false").trim());
+        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false").trim());
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
-        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
-        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false"));
+        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false").trim());
+        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false").trim());
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
@@ -624,7 +624,7 @@ public class HTTPServerConfig {
   public boolean isPipelineCachingEnabled() {
     return pipelineCaching;
   }
-  
+
   /**
    * @since 4.4
    * Before starting to listen for requests, create a few pipelines for frequently used request settings
@@ -926,7 +926,7 @@ public class HTTPServerConfig {
   boolean isStoppable() {
     return stoppable;
   }
-  
+
   /**
    * @since 4.4
    * See if a specific A/B-Test is to be run
