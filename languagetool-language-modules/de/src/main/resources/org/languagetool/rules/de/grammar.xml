@@ -38673,6 +38673,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                        <token spacebefore="no" min="0">.</token>
                     </marker>
                     <token regexp='yes' min='0'>de.</token>
                     <token regexp='yes'>\d\d?</token>
@@ -38680,8 +38681,8 @@ Andere Projekte</example>
                     <token regexp='yes'>\d\d?</token>
                     <token>.</token>
                 </pattern>
-                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
-                <suggestion>\1,</suggestion>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma.</message>
+                <suggestion>\1\2,</suggestion>
                 <short>Fehlendes Komma</short>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> den 23.08.2014</example>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> 23.08.2014</example>
@@ -38689,25 +38690,28 @@ Andere Projekte</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> der 23.08.2014</example>
                 <example correction="Freitag,">Termin: <marker>Freitag</marker> der 22.08.2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> dem 23.08.2014</example>
+                <example correction="Sa.,">Termin: <marker>Sa.</marker> dem 23.08.2014</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                        <token spacebefore="no" min="0">.</token>
                     </marker>
                     <token regexp='yes' min='0'>de.</token>
                     <token regexp='yes'>\d\d?</token>
                     <token>.</token>
                     <token regexp='yes'>&monate;|&abgekMonate;</token>
                 </pattern>
-                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
-                <suggestion>\1,</suggestion>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma.</message>
+                <suggestion>\1\2,</suggestion>
                 <short>Fehlendes Komma</short>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> den 23. August 2014</example>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> 23. August 2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> der 23. August 2014</example>
                 <example correction="Freitag,">Termin: <marker>Freitag</marker> der 22. August 2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> dem 23. August 2014</example>
+                <example correction="Sa.,">Termin: <marker>Sa.</marker> dem 23. August 2014</example>
                 <example>Termin: Samstag, den 23. August</example>
             </rule>
         </rulegroup>
