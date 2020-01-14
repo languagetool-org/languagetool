@@ -4976,7 +4976,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
                 </marker>
-                <token regexp="yes">and|or|as</token><!-- #2328 quick win. If necessary, revert to CC and add antipatterns. -->
+                <token postag="CC" regexp="yes">and|or|as<exception negate_pos="yes" postag="CC"/></token><!-- #2328. To prevent FP, use only CC that can coordinate 2 nouns. -->
                 <token postag="NN.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="NN.*"/>
@@ -4987,10 +4987,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">I couldn't <marker>vote</marker> because nothing applied to me.</example><!-- #2328 -->
             <example type="untouched">I have a mandolin lesson at 11am on Saturday, which I can't <marker>miss</marker> because Tom is teaching me less these days.</example><!-- #2328 -->
             <example type="untouched">We will not <marker>know</marker> whether individuals have state filing obligations without seeing their detailed tax information.</example><!-- #2328 -->
+            <example type="untouched">Astronomers who <marker>serve</marker> as faculty spend much of their time...</example>
+            <example type="untouched">... that depicted the will itself without it <marker>appearing</marker> as subject to the Principle of ...</example>
+            <example type="untouched">...myocarditis, however it can also <marker>manifests</marker> as Adams–Stokes syndrome which...</example>
+            <example type="untouched">The concept of <marker>books</marker> as data has not been fully explored.</example><!-- 'books' is not identified as a noun, but it was not identified as a noun before the 2328 change. -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
-            <example type="ambiguous" inputform="books[book/NNS,book/VBZ]" outputform="books[book/NNS]">The concept of <marker>books</marker> as data has not been fully explored.</example>
         </rule>
 
         <rule id="PREPOSITIONAL_DT_VBZNNS_NNS" name="Prepositional quantifiers + noun plur/vb sg = >noun plur">
