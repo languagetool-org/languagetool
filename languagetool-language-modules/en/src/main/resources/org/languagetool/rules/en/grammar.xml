@@ -9077,6 +9077,20 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="TO_RB_TO_VB" name="to also (to) go" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+                <marker>
+                    <token regexp="yes">maybe|perhaps|also|usually|possibly|always|never|safely|perfectly|only|just|sometimes|finally|eventually|not|really|instead|again|almost|especially|apparently|already|probably|actually|however</token>
+                    <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+                </marker>
+                <token postag="VBP?" postag_regexp="yes" />
+            </pattern>
+            <message>The 'to' seems to be obsolete.</message>
+            <suggestion>\2</suggestion>
+            <example correction="maybe">The next step with my French journey is to <marker>maybe to</marker> have a French minor.</example>
+            <example correction="never">Tom has decided to <marker>never to</marker> do that again.</example>
+        </rule>
         <rule id="MD_ABLE" name="missing 'be' in 'will able'">
             <!-- TODO other adjectives like "Do you really think it would safe to do that?" -->
             <pattern>
@@ -9116,31 +9130,31 @@ USA
         </rule>
         <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'">
             <!-- TODO: add NNP + MD + NN-->
+            <antipattern>
+                <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
+                <token postag="MD" />
+            </antipattern>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
+                <token skip="1">cheap</token>
+                <token>out</token>
+            </antipattern>
+            <antipattern><!-- "I would due to other circumstances" -->
+                <token>due</token>
+                <token>to</token>
+            </antipattern>
+            <antipattern><!-- "That you wouldn't other wise find" (needs different rule)  -->
+                <token>other</token>
+                <token>wise</token>
+            </antipattern>
+            <antipattern><!-- I can high pull -->
+                <token>high</token>
+                <token>pull</token>
+            </antipattern>
+            <antipattern><!-- used like a verb -->
+                <token skip="1">factory</token>
+                <token>reset</token>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
-                    <token postag="MD" />
-                </antipattern>
-                <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
-                    <token skip="1">cheap</token>
-                    <token>out</token>
-                </antipattern>
-                <antipattern><!-- "I would due to other circumstances" -->
-                    <token>due</token>
-                    <token>to</token>
-                </antipattern>
-                <antipattern><!-- "That you wouldn't other wise find" (needs different rule)  -->
-                    <token>other</token>
-                    <token>wise</token>
-                </antipattern>
-                <antipattern><!-- I can high pull -->
-                    <token>high</token>
-                    <token>pull</token>
-                </antipattern>
-                <antipattern><!-- used like a verb -->
-                    <token skip="1">factory</token>
-                    <token>reset</token>
-                </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it|(any|some)(body|one)</token>
                     <token postag="RB" min="0" />
@@ -9162,10 +9176,10 @@ USA
                             <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
                             <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
                             <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
-                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq</exception><!-- abbreviation of verbs -->
+                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|stand\-?by|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|stand\-?by|kick\-off|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -9228,33 +9242,9 @@ USA
                 <example>Thanks for your input and I will def send a ticket.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token skip="3" regexp="yes">how|like|as|way|extent|than</token>
-                    <token postag="MD" />
-                </antipattern>
-                <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
-                    <token skip="1">cheap</token>
-                    <token>out</token>
-                </antipattern>
-                <antipattern><!-- "I would due to other circumstances" -->
-                    <token>due</token>
-                    <token>to</token>
-                </antipattern>
-                <antipattern><!-- "That you wouldn't other wise find" (needs different rule)  -->
-                    <token>other</token>
-                    <token>wise</token>
-                </antipattern>
                 <antipattern><!-- missing apostrophe (different error) -->
                     <token postag="MD" />
                     <token>t</token>
-                </antipattern>
-                <antipattern><!-- I can high pull -->
-                    <token>high</token>
-                    <token>pull</token>
-                </antipattern>
-                <antipattern><!-- used like a verb -->
-                    <token skip="1">factory</token>
-                    <token>reset</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it|(any|some)(body|one)</token>
@@ -9281,10 +9271,10 @@ USA
                             <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
                             <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
                             <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
-                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq</exception><!-- abbreviation of verbs -->
+                            <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|stand\-?by|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|stand\-?by|kick\-off|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -9300,6 +9290,7 @@ USA
                 <example>Also, all smart switches use the same connection method and I would NOT call them push lock!</example><!-- "call" wrongly tagged as NN:UN -->
                 <example>Keep those where you can find them easily (having to hunt for them is additional stress you WON'T need at that point!).</example>
                 <example>I couldn't vote because nothing applied to me.</example>
+                <example>In this week's episode, we dig into how Google could boost sales with improved targeting on their pricing page - and also why they shouldn't right now.</example>
                 <example>I have a mandolin lesson at 11am on Saturday, which I can't miss because Tom is teaching me less these days.</example>
                 <example>When we reduced staff the first week of December, one of the assumptions we made was that we would not longer provide 24 hour support.</example>
                 <example>We will not know whether individuals have state filing obligations without seeing their detailed tax information.</example><!-- "know" wrongly tagged as NN:UN -->
@@ -14449,7 +14440,7 @@ USA
                 <marker>
                     <token case_sensitive="yes">windows</token>
                 </marker>
-                <token regexp="yes">\d{1,2}|2000|ce|nt|updates?|xp|vista|computers?|machines?|pcs?|servers?|apps?|phones?|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
+                <token regexp="yes">\d{1,2}|2000|ce|nt|updates?|re\-?boots?|boots?|xp|vista|store|computers?|machines?|pcs?|sdks?|servers?|services?|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|workstation|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
             </pattern>
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
@@ -28034,7 +28025,7 @@ USA
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid)s?|kiddo|sir</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid)s?|kiddo|sir|mamm?a|papa</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -34148,6 +34139,17 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="TORCHER_TORTURE" name="torcher (torture) yourself" default="temp_off"><!-- TODO extend -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">torchers?</token>
+                </marker>
+                <token postag="PRP" />
+            </pattern>
+            <message>Did you mean the verb <suggestion><match no="1" regexp_match="(?i)orcher" regexp_replace="orture" /></suggestion> (= punish, to cause suffering)?</message>
+            <url>https://www.merriam-webster.com/dictionary/torture</url>
+            <example correction="torture">I will <marker>torcher</marker> him.</example>
+        </rule>
         <rule id="PRICE_SENSIBILITY" name="price sensibility (sensivity)">
             <!-- error mostly done by Germans translating "Preissensibilität" -->
             <pattern>
@@ -35807,7 +35809,9 @@ The accident victim died from her injuries.
                         <token regexp="yes">tw?o</token>
                     </marker>
                     <token regexp="yes">much|few</token>
-                    <token negate_pos="yes" postag="JJR"/>
+                    <token negate_pos="yes" postag="JJR">
+                        <exception>extent</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <short>Possible typo</short>
@@ -35826,6 +35830,7 @@ The accident victim died from her injuries.
                 <example>... and which contributes to much poverty in this country.</example>
                 <example>... and this is also contributing to much poverty in this country.</example>
                 <example>We're  not going to go <marker>too much more</marker> into it.</example>
+                <example>I do not think that Chinese married women of respectability could be induced to emigrate to much extent.</example>
                 <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
                 <example correction="too">I hate to replace them; they cost <marker>to</marker> much.</example>
                 <example correction="too">They cost <marker>two</marker> much money.</example>
@@ -36065,8 +36070,8 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|not|yes|no|multiply|tomorrow|today|tonight|yesterday</exception><!-- 'too X' is not standard English. -->
-                      <exception postag_regexp="yes" postag="JJR?"/>
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here</exception><!-- 'too X' is not standard English. -->
+                      <exception postag_regexp="yes" postag="JJR?|VBP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
@@ -36085,8 +36090,10 @@ The accident victim died from her injuries.
                 <example>I can show you how to properly drive a car.</example>
                 <example>Set that field to Yes.</example>
                 <example>It begins to rapidly increase.</example>
+                <example>I don't know what he is referring to here.</example>
                 <example>Something to multiply.</example>
                 <example>I wish I could re-schedule it to tomorrow.</example>
+                <example>I'm no one to bully.</example>
             </rule>
             <rule>
                 <pattern>
