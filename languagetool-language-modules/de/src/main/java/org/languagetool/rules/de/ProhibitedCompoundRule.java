@@ -93,7 +93,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Kinderpreise",
           "Kinderpreisen",
           "Belegungsoptionen",
-          "Brandgebiete"
+          "Brandgebiete",
+          "Innenfell"
   ));
 
   // have per-class static list of these and reference that in instance
