@@ -8768,6 +8768,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
         </rule>
+        <rulegroup id="KRAMP_KARRENBAUER" name="Kramp-Karrenbauer" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Kramp-Karrenbauers?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?</token>
+                    <token regexp="yes">Karr?enbauers?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-<match regexp_match="(?i)Karr?enbauer" regexp_replace="Karrenbauer" no="2" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp Karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?.?Karr?enbauer</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-Karrenbauer</suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp-karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
             <antipattern case_sensitive="yes">
                 <token postag="SENT_START" />
@@ -10386,13 +10408,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MEIST_GESEHEN" name="meist + Verb (zusammengeschrieben)">
             <pattern>
-                <token>meist</token>
+                <token>
+                    meist
+                    <exception scope="previous">zu</exception><!-- "zu meist" (sollte eigtl. "zumeist" sein) -->
+                </token>
                 <token regexp="yes">(gefragt|gebräuchlich|gebraucht|gekauft|gelesen|gesucht|geklickt|belastet|verkauft|gehört|gestreamt|gelikt|gegoogelt|benutzt|besucht|begünstigt|beteiligt|verbreitet)(e|es|er|en|em)?</token>
             </pattern>
             <message>Das Adjektiv <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="meistgestreamte">Die <marker>meist gestreamte</marker> Netflix-Serie 2019 war "The Witcher".</example>
             <example correction="meistgesuchten">Der Artikel Halbwissen ist sicherlich nicht eines der <marker>meist gesuchten</marker> Wörter auf Wikipedia, aber er gibt einige gute Denkanstöße zum Thema Realität und empfundene Wirklichkeit.</example>
             <example>Das <marker>meistgeklickte</marker> Suchergebnis auf Google.</example>
+            <example>Das war zu meist verbreitet im Norden von Europa.</example><!-- "zu meist" wird hier eigtl. zusammengeschrieben -->
         </rule>
         <rulegroup id="HIN_WEISEN" name="'darauf hin weisen (hinweisen)'">
             <rule>
@@ -17106,7 +17132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                        <exception postag="PKT"/>
-                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
+                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
                     </token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
@@ -17114,6 +17140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
+                <example>Moin herr Müller.</example><!-- "herr" muss großgeschrieben werden, trotzdem sollte kein Komma vorgeschlagen werden -->
             </rule>
             <!--<rule>
                 <pattern case_sensitive="yes">
@@ -32171,6 +32198,43 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="KO" name="KO (K. o.)" default="temp_off">
+            <antipattern><!-- domain -->
+                <token>ko</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern><!-- domain -->
+                <token regexp="yes">.</token>
+                <token spacebefore="no">ko</token>
+            </antipattern>
+            <antipattern>
+                <token>ko</token>
+                <token regexp="yes">phi.*|ah\-.+|gi\-.+|a\-.+|e|euna?.*|ping.*|chiao.*|phra.*|chang?s?|nangs?|ph?an.gans?|uns?|donckers?|laks?|lantas?|willems|un|newcastle|phukets?|phayams?|andos?|arimas?|bylanz.*|brags?|bergmann?s?|götz|hung.*|hy.*|index(es)?|iwa|jon.*|jeon.*|joon.*|ko|kho|kha.*|kut|kret|kradats?|kyaws?|lai.*|mak|magazines?|machidas?|masakis?|matsushitas?|myongs?|ngais?|nakahiras?|nakajimas?|oks?|orbital|rent.*|rayas?|rangs?|samuis?|sa[mk]ets?|suur.*|surins?|so\-?you.*|sung.*|shamos?|sichang.*|soto.*|tao.*|taen.*|takamoros?|tt.*|wais?|wen\-?jes?|yong.*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>KO</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>K.&nbsp;o.</suggestion> ("Sieger durch K.&nbsp;o."") oder das Adjektiv <suggestion>k.&nbsp;o.</suggestion> ("k.&nbsp;o. schlagen")?</message>
+                <url>https://www.duden.de/suchen/dudenonline/k.%20o.</url>
+                <example correction="K.&nbsp;o.|k.&nbsp;o.">Er ging <marker>ko.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        KO|ko
+                        <exception scope="next" regexp="yes">.|\(</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>K.&nbsp;o.</suggestion> ("Sieger durch K.&nbsp;o."") oder das Adjektiv <suggestion>k.&nbsp;o.</suggestion> ("k.&nbsp;o. schlagen")?</message>
+                <url>https://www.duden.de/suchen/dudenonline/k.%20o.</url>
+                <example correction="K.&nbsp;o.|k.&nbsp;o.">Er ging <marker>ko</marker> nach einem heftigen Schlag.</example>
+                <example>Ko Willems war niemals in Ko Phi Phi.</example>
+                <example>12 ko(s)mische Szenen in einer schwül-heißen Sommernacht geträumt von Siegfried Carl.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZUSAMMENSEIN" name="zusammensein (zusammen sein)" default="temp_off">
             <url>https://www.korrekturen.de/wortliste/zusammen_sein.shtml</url>
             <rule>
@@ -32949,6 +33013,39 @@ Andere Projekte</example>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)close-?up" regexp_replace="Close-up" /></suggestion> (= Nahaufnahme)?</message>
                 <url>https://www.duden.de/rechtschreibung/Close_up</url>
                 <example correction="Close-ups">Er machte mehrere <marker>Close-Ups</marker> um später eines für die Galerie auszuwählen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WIN_WIN_SITUATION" name="Win-win-Situation" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Win-win-Situation(en)?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>Win</token>
+                    <token min="0" regexp="yes">/|\-</token>
+                    <token>Win</token>
+                    <token regexp="yes">Situation(en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win/Win Situation</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">win\-?win\-?situation</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-Situation</suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win-Win-Situation</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">win\-?win</token>
+                    <token regexp="yes">situation(en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win-Win Situation</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="E_AUTO" name="E-Auto/E-Mobilität">
