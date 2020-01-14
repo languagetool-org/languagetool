@@ -4144,6 +4144,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="NN:UN"/>
         <token postag="SENT_END">?</token>
       </antipattern>
+      <antipattern><!-- Fix for chunker. to have to work -->
+        <token>to</token>
+        <token>have</token>
+        <token>to</token>
+        <token chunk="E-NP-singular" postag="VBP"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4191,6 +4197,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">... you WON'T <marker>need</marker> at that point.</example><!-- #2326 -->
       <example type="untouched">Do you have contact info or a case number we can <marker>reference</marker>?</example><!-- #2328 -->
       <example type="untouched">I can`t <marker>power</marker> off or on or dimming it.</example><!-- #2328 -->
+      <example type="untouched">Tell Tom he's going <marker>to have to work</marker> late today.</example>
+      <example type="untouched">...the government which almost forces people <marker>to have to work</marker> for the larger, more corrupt businesses.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
