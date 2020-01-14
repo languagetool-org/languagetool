@@ -8864,6 +8864,19 @@ USA
                 <example correction="Thanks|Thank you"><marker>Thank</marker>, that certainly helps.</example>
                 <example>I have you to thank.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|PCT|UH" postag_regexp="yes" />
+                    <marker>
+                        <token>thank</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Did you mean <suggestion>thanks</suggestion>?</message>
+                <example correction="thanks">Ah <marker>thank</marker>?</example>
+                <example>I have you to thank.</example>
+                <example>Who can I thank?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>to</token>
@@ -9084,7 +9097,7 @@ USA
             <example correction="to be able">I need help in order <marker>to able</marker> to achieve this.</example>
             <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
         </rule>
-        <rule id="ABLE_VBP" name="missing 'to' after 'able'" default="temp_off">
+        <rule id="ABLE_VBP" name="missing 'to' after 'able'">
             <pattern>
                 <token inflected="yes">be</token>
                 <token postag="RB" min="0" />
@@ -11952,7 +11965,7 @@ USA
                         <token case_sensitive="yes">french</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">presidents?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|oragni[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revlution|\.|\!|\?</token>
+                    <token regexp="yes">presidents?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
                 </pattern>
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> government.</example>
@@ -11961,7 +11974,9 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">speak|learn|teach|read|write|translate</token>
-                    <token min="0" />
+                    <token min="0">
+                        <exception>to</exception>
+                    </token>
                     <marker>
                         <token case_sensitive="yes">french</token>
                     </marker>
@@ -11995,6 +12010,34 @@ USA
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> won the Soccer World Cup in 2018.</example>
                 <example>Don't eat my french fries.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="THE_POLISH" name="the polish (polish)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/Polish</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">polish</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">presidents?|versions?|manicures?|weather|sausages?|websites?|sites?|diasporauniversit(y|ies)|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|speakers?|press|translations?|translators?|regions?|military|guys?|country|city|cities|communit(y|ies)|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|politician|politics?|political|players?|wife|husband|bands?|currency|population|populists?|radio|citizenship|majesty|liberals?|judge|celebrations?|flag|bishops?|companys?|news(paper)?|familys?|movies?|film|administration|tradition|travel|holidays?|team|capital|ambassadors?|tv|academy|institutes?|elections?|minister|presidential|center|education|society|national(ists?)?|immigrants?|place|judiciary|wars?|agency|history|party|friends?|heritages?|schools?|roots|m[ea]n|wom[ea]n|childs|children|recipes?|girl(friend)?|boy(friend)?|grandmother|grandfather|grandparents?|counterpart</token>
+                </pattern>
+                <message><suggestion>Polish</suggestion> needs to be capitalized when not used as a verb.</message>
+                <example correction="Polish">The <marker>polish</marker> government.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">speak|learn|teach|read|write|translate</token>
+                    <token min="0">
+                        <exception>to</exception>
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">polish</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>Polish</suggestion> needs to be capitalized when not used as a verb.</message>
+                <example correction="Polish">He's learning <marker>polish</marker>.</example>
+                <example>Learn to polish a car.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_A_HARRY" name="In a harry (hurry)">
@@ -12431,16 +12474,6 @@ USA
                 <example correction="want">You don't <marker>one</marker> to win?</example>
             </rule>
         </rulegroup>
-        <rule id="POLISH_LOWERCASE" name="Proper noun 'polish' (Polish)">
-            <pattern>
-                <marker>
-                    <token case_sensitive="yes">polish</token>
-                </marker>
-                <token regexp="yes">citizens?|politician|politics?|football|players?|wife|husband|bands?|currency|population|populists?|radio|citizenship|majesty|government|liberals?|food|judge|celebrations?|flag|bishops?|companys?|organi[sz]ations?|military|news(paper)?|familys?|communitys?|movies?|film|administration|tradition|travel|holidays?|president|team|people|country|state|capital|ambassadors?|tv|languages?|city|academy|institutes?|elections?|minister|presidential|center|education|society|national(ists?)?|immigrants?|place|judiciary|wars?|agency|history|party|friends?|heritages?|schools?|villages?|colleagues?|roots|accent|teachers?|m[ea]n|wom[ea]n|childs|children|town|recipes?|girl(friend)?|boy(friend)?|grandmother|grandfather|grandparents?|counterpart|version</token>
-            </pattern>
-            <message>This word needs to be capitalized if you mean the proper noun <suggestion>Polish</suggestion> (Poland).</message>
-            <example correction="Polish">The <marker>polish</marker> president was announcing his resignation on TV.</example>
-        </rule>
         <rulegroup id="HIGH_LIGHT" name="high light (highlight)">
             <rule>
                 <pattern>
