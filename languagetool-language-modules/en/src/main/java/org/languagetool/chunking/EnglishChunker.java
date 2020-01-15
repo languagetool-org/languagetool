@@ -24,6 +24,7 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.Tools;
@@ -82,13 +83,30 @@ public class EnglishChunker implements Chunker {
   private List<ChunkTaggedToken> getChunkTagsForReadings(List<AnalyzedTokenReadings> tokenReadings) {
     // these are not thread-safe, so create them here, not as members:
     String sentence = getSentence(tokenReadings);
-    String[] tokens = tokenize(sentence);
+    String[] tokens = cleanZeroWidthWhitespaces(tokenize(sentence)).toArray(new String[0]);
     String[] posTags = posTag(tokens);
     String[] chunkTags = chunk(tokens, posTags);
     if (tokens.length != posTags.length || tokens.length != chunkTags.length) {
       throw new RuntimeException("Length of results must be the same: " + tokens.length + ", " + posTags.length + ", " + chunkTags.length);
     }
     return getTokensWithTokenReadings(tokenReadings, tokens, chunkTags);
+  }
+
+  // workaround for the add-on, which adds ﻿ZERO WIDTH NO-BREAK SPACE, which confuses the chunker: 
+  @NotNull
+  private List<String> cleanZeroWidthWhitespaces(String[] tokens) {
+    List<String> cleanTokens = new ArrayList<>();
+    for (String token : tokens) {
+      String[] splits = token.split("\uFEFF");
+      for (String split : splits) {
+        if (split.length() == 0) {
+          cleanTokens.add("");
+        } else {
+          cleanTokens.add(token);
+        }
+      }
+    }
+    return cleanTokens;
   }
 
   // non-private for test cases
