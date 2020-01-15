@@ -107,18 +107,20 @@ USA
               <pattern>
                   <marker>
                      <token>any</token>
-                     <token>more</token>
+                     <token>more
+                         <exception scope="next" regexp="yes">of|than</exception>
+                         <exception scope="next" postag="NN.*" postag_regexp="yes"/>
+                         </token>
                   </marker>
-                  <token><exception regexp="yes">of|than</exception><exception postag="NN.*" postag_regexp="yes"/></token>
               </pattern>
               <message>Did you mean <suggestion>\1\2</suggestion>?</message>
               <url>http://www.whichenglish.com/Better-English-Grammar/Online-Usage-Letter-A.html</url>
               <short>Possible typo</short>
               <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
               <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
-              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example>
+              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
+              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
               <example>I couldn't find my way around it <marker>anymore</marker>.</example>
-              <example>Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. This *should* trigger an error. -->
           </rule>
     </category>
 

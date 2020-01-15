@@ -114,12 +114,9 @@ public class SymSpellRule extends SpellingCheckRule {
         }
       }
     }
-
   }
 
   /**
-   *
-   * @param config
    * @return Spell checker using users personal dictionary, or null if no custom speller is needed
    */
   @Nullable
@@ -140,7 +137,7 @@ public class SymSpellRule extends SpellingCheckRule {
 
   protected static SymSpell initDefaultDictSpeller(Language lang) {
     SymSpell speller = new SymSpell(INITIAL_CAPACITY, 3, -1, 0);
-    System.out.println("Initalizing symspell");
+    System.out.println("Initializing symspell");
     Set<String> prohibitedWords = prohibitedWordsCache.getUnchecked(lang);
     long startTime = System.currentTimeMillis();
 
@@ -149,7 +146,6 @@ public class SymSpellRule extends SpellingCheckRule {
       base + "spelling_" + lang.getShortCodeWithCountryAndVariant() + ".txt");
     List<String> dict = Collections.singletonList(
       base + lang.getShortCodeWithCountryAndVariant().replaceFirst("-", "_") + ".dic");
-
 
     SuggestionStage stage = new SuggestionStage(100000);
     forEachLineInResources(additional, word -> {

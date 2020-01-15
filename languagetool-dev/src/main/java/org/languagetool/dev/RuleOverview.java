@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.Languages;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;
@@ -293,7 +294,7 @@ public final class RuleOverview {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
         return confusionSetLoader.loadConfusionPairs(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);

@@ -8768,29 +8768,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
             <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
         </rule>
-        <rule id="VON_DER_LEYEN" name="Ursula von der Leyen">
+        <rulegroup id="KRAMP_KARRENBAUER" name="Kramp-Karrenbauer" default="temp_off">
             <antipattern case_sensitive="yes">
-                <token postag="SENT_START|UNKNOWN|PCT" postag_regexp="yes" />
+                <token regexp="yes">Kramp-Karrenbauers?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?</token>
+                    <token regexp="yes">Karr?enbauers?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-<match regexp_match="(?i)Karr?enbauer" regexp_replace="Karrenbauer" no="2" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp Karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?.?Karr?enbauer</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-Karrenbauer</suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp-karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START" />
                 <token>Von</token>
                 <token>der</token>
                 <token regexp="yes">Leyens?</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
-                <token>von</token>
-                <token>der</token>
-                <token regexp="yes">Leyens?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">v.n</token>
-                <token regexp="yes">der?</token>
-                <token regexp="yes">L[ea][yi]ens?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
-            <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-            <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
-            <example>Von der leben sie heute.</example>
-            <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">v.n</token>
+                        <token regexp="yes">der?</token>
+                        <token regexp="yes">L[ea][yi]ens?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="4" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="Von der Leyen"><marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example correction="Von der Leyens"><marker>Von Der Leyens</marker> Berateraffäre war ein Wendepunkt.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">v.n</token>
+                    <token regexp="yes">der?</token>
+                    <token regexp="yes">L[ea][yi]ens?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example>Von der leben sie heute.</example>
+                <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
+            </rule>
+        </rulegroup>
         <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
                 <token>Emmanuel</token>
@@ -10370,13 +10408,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MEIST_GESEHEN" name="meist + Verb (zusammengeschrieben)">
             <pattern>
-                <token>meist</token>
+                <token>
+                    meist
+                    <exception scope="previous">zu</exception><!-- "zu meist" (sollte eigtl. "zumeist" sein) -->
+                </token>
                 <token regexp="yes">(gefragt|gebräuchlich|gebraucht|gekauft|gelesen|gesucht|geklickt|belastet|verkauft|gehört|gestreamt|gelikt|gegoogelt|benutzt|besucht|begünstigt|beteiligt|verbreitet)(e|es|er|en|em)?</token>
             </pattern>
             <message>Das Adjektiv <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="meistgestreamte">Die <marker>meist gestreamte</marker> Netflix-Serie 2019 war "The Witcher".</example>
             <example correction="meistgesuchten">Der Artikel Halbwissen ist sicherlich nicht eines der <marker>meist gesuchten</marker> Wörter auf Wikipedia, aber er gibt einige gute Denkanstöße zum Thema Realität und empfundene Wirklichkeit.</example>
             <example>Das <marker>meistgeklickte</marker> Suchergebnis auf Google.</example>
+            <example>Das war zu meist verbreitet im Norden von Europa.</example><!-- "zu meist" wird hier eigtl. zusammengeschrieben -->
         </rule>
         <rulegroup id="HIN_WEISEN" name="'darauf hin weisen (hinweisen)'">
             <rule>
@@ -12652,8 +12694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:.+" postag_regexp="yes">
                         <exception postag="VER:AUX:.*|SUB:.*|PRP:.*|ART.*|ZAL|ADV.*|PRO.*|PA[12].*" postag_regexp="yes"/>
                         <exception regexp="yes">(in|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder|be).+|null|genügend</exception>
-                        <exception>weiß</exception>
-                        <exception>weiss</exception>
+                        <exception regexp="yes">weiß|weiss|Skype|skype</exception>
                     </token>
                 </marker>
             </pattern>
@@ -13524,6 +13565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes" min="0">de[mnrs]</token>
                     <token regexp="yes">\d\d?</token>
@@ -13532,39 +13574,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\8 month:\6 day:\4 weekDay:\1"/>
-                <message>Das Datum \4.\6.\8 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\9 month:\7 day:\5 weekDay:\1"/>
+                <message>Das Datum \5.\7.\9 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Sonntag, 23.08.2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23.8.2014</marker></example>
                 <example correction="">Termin: <marker>So, 23.08.2014</marker></example>
+                <example correction="">Termin: <marker>So., 23.08.2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, den 23.08.2014</marker></example>
                 <example correction="">Termin: <marker>So, den 23.08.2014</marker></example>
+                <example correction="">Termin: <marker>So., den 23.08.2014</marker></example>
                 <example>Termin: Sonnabend, 23.08.2014</example>
                 <example>Termin: Samstag, 23.08.2014</example>
                 <example>Termin: Sa, 23.08.2014</example>
                 <example>Termin: Sa, 33.08.2014</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 11.13.2014</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 12.13.2014</example><!-- invalid, but ignored by this rule -->
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">&abgekWochentage;</token>
-                    <token>.</token>
-                    <token>,</token>
-                    <token regexp="yes" min="0">de[nmrs]</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token>.</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token>.</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\9 month:\7 day:\5 weekDay:\1"/>
-                <message>Das Datum \5.\7.\9 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
-                <example correction="">Termin: <marker>So., 23.08.2014</marker></example>
-                <example correction="">Termin: <marker>So., den 23.08.2014</marker></example>
-                <example>Termin: Sa., 23.08.2014</example>
-                <example>Termin: Sa., 34.08.2014</example><!-- invalid, but ignored by this rule -->
-                <example>Termin: Sa., 35.08.2014</example><!-- invalid, but ignored by this rule -->
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -13574,6 +13598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
@@ -13581,11 +13606,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&monate;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\7 month:\6 day:\4 weekDay:\1"/>
-                <message>Das Datum \4. \6 \7 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\8 month:\7 day:\5 weekDay:\1"/>
+                <message>Das Datum \5. \7 \8 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Donnerstag, 1. Jänner 2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23. August 2014</marker></example>
                 <example correction="">Termin: <marker>So, 23. August 2014</marker></example>
+                <example correction="">Termin: <marker>So., 23. August 2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, den 23. August 2014</marker></example>
                 <example>Termin: <marker>Mittwoch, 1. Jänner 2014</marker></example>
                 <example>Termin: <marker>Samstag, 23. August 2014</marker></example>
@@ -13599,6 +13625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
@@ -13607,11 +13634,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\8 month:\6 day:\4 weekDay:\1"/>
-                <message>Das Datum \4. \6 \8 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\9 month:\7 day:\5 weekDay:\1"/>
+                <message>Das Datum \5. \7 \9 fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Donnerstag, 1. Jän. 2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23. Aug. 2014</marker></example>
                 <example correction="">Termin: <marker>So, 23. Aug. 2014</marker></example>
+                <example correction="">Termin: <marker>So., 23. Aug. 2014</marker></example>
                 <example correction="">Termin: <marker>Sonntag, den 23. Aug. 2014</marker></example>
                 <example>Termin: <marker>Mittwoch, 1. Jän. 2014</marker></example>
                 <example>Termin: <marker>Samstag, 23. Aug. 2014</marker></example>
@@ -13621,12 +13649,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.YMDDateCheckFilter" args="weekDay:\1 date:\3"/>
-                <message>Das Datum \3 (JJJJ-MM-TT) fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.YMDDateCheckFilter" args="weekDay:\1 date:\4"/>
+                <message>Das Datum \4 (JJJJ-MM-TT) fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Ein Termin am <marker>Dienstag, 2015-09-28</marker>.</example>
+                <example correction="">Ein Termin am <marker>Mi, 2015-09-28</marker>.</example>
+                <example correction="">Ein Termin am <marker>Mi., 2015-09-28</marker>.</example>
                 <example>Ein Termin am <marker>Montag, 2015-09-28</marker>.</example>
             </rule>
             <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
@@ -13687,6 +13718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                <token spacebefore="no" min="0">.</token>
                 <token>,</token>
                 <token regexp="yes" min="0">de[nmrs]</token>
                 <token regexp="yes">\d\d?</token>
@@ -13696,6 +13728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                <token spacebefore="no" min="0">.</token>
                 <token>,</token>
                 <token regexp="yes" min="0">de[nmrs]</token>
                 <token regexp="yes">\d\d?</token>
@@ -13708,6 +13741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes" min="0">de[mnrs]</token>
                     <token regexp="yes">\d\d?</token>
@@ -13715,39 +13749,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
-                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4.\6.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \5.\7.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Sonntag, 23.08.</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23.8.</marker></example>
                 <example correction="">Termin: <marker>So, 23.08.</marker></example>
+                <example correction="">Termin: <marker>So., 23.08.</marker></example>
                 <example correction="">Termin: <marker>Sonntag, den 23.08.</marker></example>
                 <example correction="">Termin: <marker>So, den 23.08.</marker></example>
+                <example correction="">Termin: <marker>So., den 23.08.</marker></example>
                 <example>Termin: Sonnabend, 23.08.</example>
                 <example>Termin: Samstag, 23.08.</example>
                 <example>Termin: Sa, 23.08.</example>
                 <example>Termin: Sa, 33.08.</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 11.13.</example><!-- invalid, but ignored by this rule -->
                 <example>Termin: Sa, 12.13.</example><!-- invalid, but ignored by this rule -->
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">&abgekWochentage;</token>
-                    <token>.</token>
-                    <token>,</token>
-                    <token regexp="yes" min="0">de[nmrs]</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token>.</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token>.</token>
-                </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
-                <message>Bezieht sich dieses Datum auf das aktuelle Jahr?
-                    Der \5.\7.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
-                <example correction="">Termin: <marker>So., 23.08.</marker></example>
-                <example correction="">Termin: <marker>So., den 23.08.</marker></example>
-                <example>Termin: Sa., 23.08.</example>
-                <example>Termin: Sa., 34.08.</example><!-- invalid, but ignored by this rule -->
-                <example>Termin: Sa., 35.08.</example><!-- invalid, but ignored by this rule -->
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -13757,17 +13773,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token>,</token>
                     <token regexp="yes" min="0">de[nmrs]</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">&monate;</token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
-                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4. \6 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \5. \7 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
                 <example correction="">Termin: <marker>Donnerstag, 1. Jänner</marker></example>
                 <example correction="">Termin: <marker>Sonntag, 23. August</marker></example>
                 <example correction="">Termin: <marker>So, 23. August</marker></example>
+                <example correction="">Termin: <marker>So., 23. August</marker></example>
                 <example correction="">Termin: <marker>Sonntag, den 23. August</marker></example>
                 <example>Termin: <marker>Mittwoch, 1. Jänner</marker></example>
                 <example>Termin: <marker>Samstag, 23. August</marker></example>
@@ -17113,7 +17131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                        <exception postag="PKT"/>
-                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
+                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
                     </token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
@@ -17121,6 +17139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
+                <example>Moin herr Müller.</example><!-- "herr" muss großgeschrieben werden, trotzdem sollte kein Komma vorgeschlagen werden -->
             </rule>
             <!--<rule>
                 <pattern case_sensitive="yes">
@@ -27790,7 +27809,8 @@ Andere Projekte</example>
                         <token case_sensitive="yes">Lachen</token>
                     </marker>
                 </pattern>
-                <message>inwend;'gut <suggestion><match no="2" case_conversion="startlower"/></suggestion> haben' wird 'lachen' kleingeschrieben.</message>
+                <message>&inwend;'gut <suggestion><match no="2" case_conversion="startlower"/></suggestion> haben' wird 'lachen' kleingeschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/lachen_heiter_lustig_Mimik</url>
                 <short>prgk;.</short>
                 <example correction="lachen">Sie hat gut <marker>Lachen</marker>.</example>
             </rule>
@@ -32178,6 +32198,85 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="KO" name="KO (K. o.)" default="temp_off">
+            <antipattern><!-- domain -->
+                <token>ko</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern><!-- domain -->
+                <token regexp="yes">.</token>
+                <token spacebefore="no">ko</token>
+            </antipattern>
+            <antipattern>
+                <token>ko</token>
+                <token regexp="yes">phi.*|ah\-.+|gi\-.+|a\-.+|e|euna?.*|ping.*|chiao.*|phra.*|chang?s?|nangs?|ph?an.gans?|uns?|donckers?|laks?|lantas?|willems|un|newcastle|phukets?|phayams?|andos?|arimas?|bylanz.*|brags?|bergmann?s?|götz|hung.*|hy.*|index(es)?|iwa|jon.*|jeon.*|joon.*|ko|kho|kha.*|kut|kret|kradats?|kyaws?|lai.*|mak|magazines?|machidas?|masakis?|matsushitas?|myongs?|ngais?|nakahiras?|nakajimas?|oks?|orbital|rent.*|rayas?|rangs?|samuis?|sa[mk]ets?|suur.*|surins?|so\-?you.*|sung.*|shamos?|sichang.*|soto.*|tao.*|taen.*|takamoros?|tt.*|wais?|wen\-?jes?|yong.*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>KO</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>K.&nbsp;o.</suggestion> ("Sieger durch K.&nbsp;o."") oder das Adjektiv <suggestion>k.&nbsp;o.</suggestion> ("k.&nbsp;o. schlagen")?</message>
+                <url>https://www.duden.de/suchen/dudenonline/k.%20o.</url>
+                <example correction="K.&nbsp;o.|k.&nbsp;o.">Er ging <marker>ko.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        KO|ko
+                        <exception scope="next" regexp="yes">.|\(</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>K.&nbsp;o.</suggestion> ("Sieger durch K.&nbsp;o."") oder das Adjektiv <suggestion>k.&nbsp;o.</suggestion> ("k.&nbsp;o. schlagen")?</message>
+                <url>https://www.duden.de/suchen/dudenonline/k.%20o.</url>
+                <example correction="K.&nbsp;o.|k.&nbsp;o.">Er ging <marker>ko</marker> nach einem heftigen Schlag.</example>
+                <example>Ko Willems war niemals in Ko Phi Phi.</example>
+                <example>12 ko(s)mische Szenen in einer schwül-heißen Sommernacht geträumt von Siegfried Carl.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZUSAMMENSEIN" name="zusammensein (zusammen sein)" default="temp_off">
+            <url>https://www.korrekturen.de/wortliste/zusammen_sein.shtml</url>
+            <rule>
+                <pattern>
+                    <token>zusammenzusein</token>
+                </pattern>
+                <message>Dieses Wort wird seit der neuen Rechtschreibung auseinander geschrieben.</message>
+                <suggestion>zusammen zu sein</suggestion>
+                <example correction="zusammen zu sein">Sie versuchten <marker>zusammenzusein</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zusammensein</token>
+                </pattern>
+                <message>Dieses Wort wird seit der neuen Rechtschreibung auseinander geschrieben.</message>
+                <suggestion>zusammen sein</suggestion>
+                <example correction="zusammen sein">Liebe bedeutet, <marker>zusammensein</marker> zu wollen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DEJA_VU" name="Déjà-vu">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Déjà-vus?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[èéeä][jy][aàá]</token>
+                    <token regexp="yes">v[üu]s?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Déjà-<match no="2" regexp_match="(?i)v[üu]" regexp_replace="vu" case_conversion="alllower" /></suggestion> (= Erinnerungstäuschung)?</message>
+                <url>https://www.duden.de/rechtschreibung/Deja_vu</url>
+                <example correction="Déjà-vus">Ich hatte heute schon 2 <marker>Deja vüs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">D[èéeä][jy][aàá]\-?v[üu]s?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Déjà-<match no="1" regexp_match="(?i)^.+v[üu]" regexp_replace="vu" case_conversion="alllower" /></suggestion> (= Erinnerungstäuschung)?</message>
+                <url>https://www.duden.de/rechtschreibung/Deja_vu</url>
+                <example correction="Déjà-vus">Ich hatte heute schon 2 <marker>Dejavüs</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="DATIV_PRP_PA1_SUB" name="mit wachsenden (wachsendem) Garten" default="temp_off">
             <rule>
                 <pattern>
@@ -32914,6 +33013,39 @@ Andere Projekte</example>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)close-?up" regexp_replace="Close-up" /></suggestion> (= Nahaufnahme)?</message>
                 <url>https://www.duden.de/rechtschreibung/Close_up</url>
                 <example correction="Close-ups">Er machte mehrere <marker>Close-Ups</marker> um später eines für die Galerie auszuwählen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WIN_WIN_SITUATION" name="Win-win-Situation" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Win-win-Situation(en)?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>Win</token>
+                    <token min="0" regexp="yes">/|\-</token>
+                    <token>Win</token>
+                    <token regexp="yes">Situation(en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win/Win Situation</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">win\-?win\-?situation</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-Situation</suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win-Win-Situation</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">win\-?win</token>
+                    <token regexp="yes">situation(en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Win-win-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Win_win_Situation</url>
+                <example correction="Win-win-Situation">Das ist eine <marker>Win-Win Situation</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="E_AUTO" name="E-Auto/E-Mobilität">
@@ -35684,6 +35816,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PRP:LOK+TMP:DAT"></token>
                     <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    <token spacebefore="no" min="0">.</token>
                     <token min="0">,</token>
                     <marker><token regexp="yes">de[nrs]</token></marker>
                     <token regexp='yes'>\d\d?</token>
@@ -35692,7 +35825,8 @@ Andere Projekte</example>
                 </pattern>
                 <message>Meinten Sie <suggestion>dem</suggestion>?</message>
                 <example correction="dem">Wir sehen uns am Samstag, <marker>den</marker> 23.08.2014.</example>
-                <example correction="dem">Wir sehen uns am Samstag, <marker>den</marker> 23. Februar.</example>
+                <example correction="dem">Wir sehen uns am Samstag, <marker>den</marker> 23.08.2014.</example>
+                <example correction="dem">Wir sehen uns am Sa., <marker>den</marker> 23. Februar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -35897,6 +36031,7 @@ Andere Projekte</example>
                 <example>Es war schon in Runde eins Endstation.</example>
                 <example>In zwei Anfang 2009 veröffentlichten Studien...</example>
                 <example>In zwei 2009 veröffentlichten Studien...</example>
+                <example correction="Screens">Das waren zwei <marker>Screen</marker>!</example>
                 <example>Es zeigte auch zwei Mitte der 1960er im Boden gefundene Platten.</example>
                 <example>Mit ihren schauspielerischen Leistungen gewann Jolie drei Golden Globe Awards, zwei Screen Actors Guild Awards und für ihre Rolle einer psychisch Kranken in dem Film Durchgeknallt.</example>
                 <example>Daraus wurde ein drei Stunden langer Kinofilm.</example>
@@ -37565,11 +37700,11 @@ Andere Projekte</example>
                 <example correction="etc.">Sie erkennt einige Fehler <marker>e.t.c.</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Fehlende Punkte in Abkürzungen ('z B.' etc.)">
+        <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Fehlende Punkte in Abkürzungen ('z B.', 'u.a' etc.)">
             <!-- TODO ergänzen. -->
             <rule>
                 <regexp>\bz B\.</regexp>
-                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <message>Meinten Sie die Abkürzung <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example>Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
             </rule>
@@ -37577,19 +37712,44 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token>z</token>
-                        <token>.</token>
-                        <token>B</token>
+                        <token spacebefore="no">.</token>
+                        <token>
+                            B
+                            <exception scope="next">.</exception>
+                        </token>
                     </marker>
-                    <token negate="yes">.</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <message>Meinten Sie die Abkürzung <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example>Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example correction="z.&nbsp;B.">Sie erkennt <marker>z. B</marker> den Fehler in diesem Satz.</example>
             </rule>
             <rule>
-                <regexp>z&nbsp;B\.</regexp>
+                <regexp>\bz&nbsp;B\.</regexp>
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
                  <example correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>u</token>
+                    <token>a</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie die Abkürzung <suggestion>u.&nbsp;a.</suggestion>?</message>
+                <url>https://www.duden.de/suchen/dudenonline/u.a.</url>
+                <example correction="u.&nbsp;a.">Sie erkennt <marker>u a.</marker> diesen Fehler</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token>u</token>
+                    <token spacebefore="no">.</token>
+                    <token>
+                        a
+                        <exception scope="next">.</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie die Abkürzung <suggestion>u.&nbsp;a.</suggestion>?</message>
+                <url>https://www.duden.de/suchen/dudenonline/u.a.</url>
+                <example correction="u.&nbsp;a.">Er arbeitete als Product Manager <marker>u.a</marker> für Google.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFFORDERUNG_MIT_FRAGEZEICHEN" name="Fragezeichen statt Ausrufezeichen">
@@ -38065,6 +38225,7 @@ Andere Projekte</example>
                         <exception>McDonald</exception>
                         <exception>Andrea</exception>
                         <exception>Mary</exception>
+                        <exception>Paul</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
@@ -38075,6 +38236,7 @@ Andere Projekte</example>
                 <example correction="Peters"><marker>Peter's</marker> Bude.</example>
                 <example correction="Peters"><marker>Peter’s</marker> Bude.</example>
                 <example>Das St Mary’s Hospital ist ein Krankenhaus im Londoner Stadtteil Paddington.</example>
+                <example>St Paul's Cathedral</example>
             </rule>
             <rule>
                 <pattern>
@@ -38612,6 +38774,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                         <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                        <token spacebefore="no" min="0">.</token>
                     </marker>
                     <token regexp='yes' min='0'>de.</token>
                     <token regexp='yes'>\d\d?</token>
@@ -38619,8 +38782,8 @@ Andere Projekte</example>
                     <token regexp='yes'>\d\d?</token>
                     <token>.</token>
                 </pattern>
-                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
-                <suggestion>\1,</suggestion>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma.</message>
+                <suggestion>\1\2,</suggestion>
                 <short>Fehlendes Komma</short>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> den 23.08.2014</example>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> 23.08.2014</example>
@@ -38628,25 +38791,28 @@ Andere Projekte</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> der 23.08.2014</example>
                 <example correction="Freitag,">Termin: <marker>Freitag</marker> der 22.08.2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> dem 23.08.2014</example>
+                <example correction="Sa.,">Termin: <marker>Sa.</marker> dem 23.08.2014</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                        <token spacebefore="no" min="0">.</token>
                     </marker>
                     <token regexp='yes' min='0'>de.</token>
                     <token regexp='yes'>\d\d?</token>
                     <token>.</token>
                     <token regexp='yes'>&monate;|&abgekMonate;</token>
                 </pattern>
-                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
-                <suggestion>\1,</suggestion>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma.</message>
+                <suggestion>\1\2,</suggestion>
                 <short>Fehlendes Komma</short>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> den 23. August 2014</example>
                 <example correction="Samstag,">Termin: <marker>Samstag</marker> 23. August 2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> der 23. August 2014</example>
                 <example correction="Freitag,">Termin: <marker>Freitag</marker> der 22. August 2014</example>
                 <example correction="Sa,">Termin: <marker>Sa</marker> dem 23. August 2014</example>
+                <example correction="Sa.,">Termin: <marker>Sa.</marker> dem 23. August 2014</example>
                 <example>Termin: Samstag, den 23. August</example>
             </rule>
         </rulegroup>
@@ -39713,7 +39879,7 @@ Andere Projekte</example>
                 <example correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
             </rule>
             <rule>
-                <regexp>[‘´`](nen|ne|n)\b</regexp>
+                <regexp>[‘´`](nen|ne|n|s)\b</regexp>
                 <message>Typografisch korrekt sollte hier ein Apostroph verwendet werden.</message>
                 <suggestion>'\1</suggestion>
                 <suggestion>’\1</suggestion>
@@ -39722,14 +39888,6 @@ Andere Projekte</example>
                 <example correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
                 <example correction="'ne|’ne">Das war vielleicht <marker>`ne</marker> Party!</example>
                 <example correction="'n|’n">Auf<marker>´n</marker> Dachboden musst du gehen.</example>
-            </rule>
-            <rule default="temp_off"> <!-- merge with rule above when okay -->
-                <regexp>[‘´`](s)\b</regexp>
-                <message>Typografisch korrekt sollte hier ein Apostroph verwendet werden.</message>
-                <suggestion>'\1</suggestion>
-                <suggestion>’\1</suggestion>
-                <short>Akzent statt Apostroph</short>
-                <example correction="'s|’s">Das war<marker>‘s</marker> dann wohl!</example>
             </rule>
             <rule>
                 <regexp>\bc[´`‘]t\b</regexp>

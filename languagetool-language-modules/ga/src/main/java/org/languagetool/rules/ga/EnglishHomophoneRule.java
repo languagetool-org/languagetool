@@ -33,8 +33,9 @@ import java.util.ResourceBundle;
  * A rule that matches words which should not be used and suggests
  * correct ones instead.
  *
- * Irish version for pre-standard spellings
- * relevant words from <code>rules/ga/replace-prestandard.txt</code>.
+ * Irish version for words in English that sound alike in Irish, to
+ * suggest the Irish spelling
+ * relevant words from <code>rules/ga/english-homophones.txt</code>.
  *
  * @author Jim O'Regan
  */

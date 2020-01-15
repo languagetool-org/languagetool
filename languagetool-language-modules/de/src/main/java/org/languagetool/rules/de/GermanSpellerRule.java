@@ -497,8 +497,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Subvestitionen", "Subventionen");
     put("angeschaffen", "angeschafft");
     put("Rechtspruch", "Rechtsspruch");
+    put("[jJ]ahundert", "Jahrhundert");
+    put("Gesochse", "Gesocks");
+    put("[vV]orgensweise", "Vorgehensweise");
+    put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
     putRepl("[zZ]uguterletzt", "guterletzt", " guter Letzt");
+    putRepl("Nootbooks?", "Noot", "Note");
+    putRepl("[vV]ersendlich(e[mnrs]?)?", "send", "sehent");
     putRepl("[uU]nfäh?r(e[mnrs]?)?", "fäh?r", "fair");
     putRepl("[mM]edikatös(e[mnrs]?)?", "ka", "kamen");
     putRepl("(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)undhalb", "und", "ein");
@@ -538,6 +544,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]leine", "l", "ll");
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
+    putRepl("[Ee]igtl", "igtl", "igtl.");
     putRepl("(Baden-)?Würtenbergs?", "Würten", "Württem");
     putRepl("Betriebsratzimmer[ns]?", "rat", "rats");
     putRepl("Rechts?schreibungsfehler[ns]?", "Rechts?schreibungs", "Rechtschreib");
@@ -787,7 +794,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Böhen?$", "h", "");
     putRepl("Aufständige[mnr]?$", "ig", "isch");
     putRepl("aufständig(e[mnrs]?)?$", "ig", "isch");
-    put("aufgrundedessen", "aufgrunde dessen");
+    put("aufgrundedessen", "aufgrund dessen");
     put("Amalgane", "Amalgame");
     put("Dammbock", w -> Arrays.asList("Dambock", "Rammbock"));
     put("Dammhirsch", "Damhirsch");

@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.rules.RuleMatch;
@@ -316,7 +317,7 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs, preferredVariants, f -> ruleMatchesSoFar.add(f));
       }
     });
     String incompleteResultReason = null;
@@ -478,7 +479,10 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, Map<String, String> parameters, 
-                                         QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+                                         QueryParams params, UserConfig userConfig,
+                                         DetectedLanguage detLang,
+                                         List<String> preferredLangs, List<String> preferredVariants,
+                                         RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       double hitRate = cache.hitRate();
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
@@ -502,18 +506,82 @@ abstract class TextChecker {
       List<BitextRule> bitextRules = Tools.getBitextRules(sourceLanguage, lang);
       return Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules);
     } else {
-      PipelinePool.PipelineSettings settings = null;
-      Pipeline lt = null;
-      try {
-        settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
-        lt = pipelinePool.getPipeline(settings);
-        return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
-      } finally {
-        if (lt != null) {
-          pipelinePool.returnPipeline(settings, lt);
+      List<RuleMatch> matches = new ArrayList<>();
+
+      if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
+        matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+      } else {
+        // support for multilingual texts:
+        try {
+          Language mainLang = getLanguageVariantForCode(detLang.getDetectedLanguage().getShortCode(), preferredVariants);
+          List<Language> secondLangs = new ArrayList<>();
+          for (String preferredLangCode : preferredLangs) {
+            if (!preferredLangCode.equals(mainLang.getShortCode())) {
+              secondLangs.add(getLanguageVariantForCode(preferredLangCode, preferredVariants));
+              break;
+            }
+          }
+          LanguageAnnotator annotator = new LanguageAnnotator();
+          List<FragmentWithLanguage> fragments = annotator.detectLanguages(aText.getPlainText(), mainLang, secondLangs);
+          List<Language> langs = new ArrayList<>();
+          langs.add(mainLang);
+          langs.addAll(secondLangs);
+          Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
+          for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
+            matches.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
+          }
+        } catch (Exception e) {
+          logger.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
+            "falling back to single language.", e);
+          matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+        }
+      }
+      return matches;
+    }
+  }
+
+  private Language getLanguageVariantForCode(String langCode, List<String> preferredVariants) {
+    for (String preferredVariant : preferredVariants) {
+      if (preferredVariant.startsWith(langCode + "-")) {
+        return Languages.getLanguageForShortCode(preferredVariant);
+      }
+    }
+    return Languages.getLanguageForShortCode(langCode);
+  }
+
+  private List<RuleMatch> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+    PipelinePool.PipelineSettings settings = null;
+    Pipeline lt = null;
+    List<RuleMatch> matches = new ArrayList<>();
+    try {
+      settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
+      lt = pipelinePool.getPipeline(settings);
+      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode));
+    } finally {
+      if (lt != null) {
+        pipelinePool.returnPipeline(settings, lt);
+      }
+    }
+    return matches;
+  }
+
+  @NotNull
+  private Map<Language, AnnotatedTextBuilder> getBuilderMap(List<FragmentWithLanguage> fragments, Set<Language> maybeUsedLangs) {
+    Map<Language, AnnotatedTextBuilder> lang2builder = new HashMap<>();
+    for (Language usedLang : maybeUsedLangs) {
+      if (!lang2builder.containsKey(usedLang)) {
+        lang2builder.put(usedLang, new AnnotatedTextBuilder());
+      }
+      AnnotatedTextBuilder atb = lang2builder.get(usedLang);
+      for (FragmentWithLanguage fragment : fragments) {
+        if (usedLang.getShortCodeWithCountryAndVariant().equals(fragment.getLangCode())) {
+          atb.addText(fragment.getFragment());
+        } else {
+          atb.addMarkup(fragment.getFragment());  // markup = ignore this text
         }
       }
     }
+    return lang2builder;
   }
 
   @NotNull

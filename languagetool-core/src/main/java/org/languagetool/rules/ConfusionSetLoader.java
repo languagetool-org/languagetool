@@ -18,6 +18,9 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.Language;
+import org.languagetool.ShortDescriptionProvider;
+
 import java.io.*;
 import java.util.*;
 
@@ -29,8 +32,13 @@ import java.util.*;
 public class ConfusionSetLoader {
 
   private static final String CHARSET = "utf-8";
+  
+  private final ShortDescriptionProvider wordDefs;
+  private final Language lang;
 
-  public ConfusionSetLoader() {
+  public ConfusionSetLoader(Language lang) {
+    wordDefs = new ShortDescriptionProvider();
+    this.lang = Objects.requireNonNull(lang);
   }
 
   public Map<String,List<ConfusionPair>> loadConfusionPairs(InputStream stream) throws IOException {
@@ -67,6 +75,9 @@ public class ConfusionSetLoader {
           String description = subParts.length == 2 ? subParts[1] : null;
           if (loadedForSet.contains(word)) {
             throw new RuntimeException("Word appears twice in same confusion set: '" + word + "'");
+          }
+          if (description == null) {
+            description = wordDefs.getShortDescription(word, lang);
           }
           confusionStrings.add(new ConfusionString(word, description));
           loadedForSet.add(word);

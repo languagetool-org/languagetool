@@ -1266,6 +1266,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="CO₂-Emission" id="CO2-EMISSION">
+        <pattern>
+            <token regexp="yes">CO₂-(Emission|Emissionen|Ausstoß|Ausstoßes|Steuern?|Rechnern?|Preis|Zylinder|Fußabdrucks?|Bepreisung)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
@@ -1662,7 +1669,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Le Havre/Le Mans" id="LE_HAVRE">
         <pattern>
             <token>Le</token>
-            <token regexp='yes'>Havre|Mans|Monde|Pens?|Corbusiers?</token>
+            <token regexp='yes'>Havre|Mans|Monde|Pens?|Corbusiers?|Figaros?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3463,4 +3470,37 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="DEAL" id="DEAL">
+        <!-- https://de.wikipedia.org/wiki/Green_Deal -->
+        <!-- https://www.duden.de/rechtschreibung/New_Deal -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Green|New</token>
+            <token min="0">New</token>
+            <token>Deal</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup name="VON_DER_LEYEN" id="VON_DER_LEYEN">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <marker>
+                    <token>Von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

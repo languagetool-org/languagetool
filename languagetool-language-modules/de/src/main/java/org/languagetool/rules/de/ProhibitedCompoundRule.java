@@ -76,7 +76,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
   );
-  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
+  public static final GermanyGerman german = new GermanyGerman();
+  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
@@ -92,7 +93,8 @@ public class ProhibitedCompoundRule extends Rule {
           "Kinderpreise",
           "Kinderpreisen",
           "Belegungsoptionen",
-          "Brandgebiete"
+          "Brandgebiete",
+          "Innenfell"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -138,7 +140,7 @@ public class ProhibitedCompoundRule extends Rule {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
-        ConfusionSetLoader loader = new ConfusionSetLoader();
+        ConfusionSetLoader loader = new ConfusionSetLoader(german);
         Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
         for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
           for (ConfusionPair pair : entry.getValue()) {

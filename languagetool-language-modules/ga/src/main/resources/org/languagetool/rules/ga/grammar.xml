@@ -10463,6 +10463,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>aon</token>
                 <token>as</token>
             </antipattern>
+            <antipattern>
+                <token>aon</token>
+                <token postag=".*Noun.*|.*Subst.*" postag_regexp="yes"></token>
+            </antipattern>
             <pattern>
                 <token>aon</token>
                 <token postag=".*Noun.*|.*Subst.*" postag_regexp="yes" negate_pos="yes"></token>
@@ -13255,16 +13259,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ba chóir duit “a, an” a scríobh.</message>
             <example correction="">Bhí daoine le fáil i Sasana a chreid gach <marker>ar</marker> dúradh sa bholscaireacht.</example>
         </rule>
-        <rule id="AR_INITIALVOWEL" name="ar ea">
+        <!--rule id="AR_INITIALVOWEL" name="ar ea">
+            <antipattern>
+                <token postag="Cop:.*" postag_regexp="yes" negate_pos="yes">ar</token>
+                <token regexp="yes">&initialvowel;</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>ar</token>
+                    <token postag="Cop:.*" postag_regexp="yes">ar</token>
                 </marker>
                 <token regexp="yes">&initialvowel;</token>
             </pattern>
-            <message>Ba chóir duit “arb, arbh” a scríobh.</message>
-            <example correction=""><marker>Ar</marker> é a bhí ann?</example>
-        </rule>
+            <message>Ba chóir duit <suggestion>arb</suggestion> nó <suggestion>arbh</suggestion> a scríobh.</message>
+            <example correction="arb|arbh"><marker>Ar</marker> é a bhí ann?</example>
+        </rule-->
         <rule id="AR_LENITEDF" name="ar fhearr">
             <pattern>
                 <marker>

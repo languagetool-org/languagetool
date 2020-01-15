@@ -284,6 +284,7 @@ public class English extends Language implements AutoCloseable {
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
+      case "PRP_MD_NN":                 return -1;  // prefer other more specific rules (e.g. MD_ABLE)
       case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
@@ -299,6 +300,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_RB_NO_VB":              return -1;  // prefer other more specific rules (with suggestions)
       case "BE_TO_VBG":                 return -1;  // prefer other more specific rules (with suggestions)
       case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions)
+      case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
       case "BEEN_PART_AGREEMENT":       return -2;  // prefer other more specific rules (e.g. VARY_VERY, VB_NN)
       case "A_INFINITIVE":              return -2;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB)
       case "I_MOVING":                  return -2;  // prefer other more specific rules (e.g. PRP_VBG)

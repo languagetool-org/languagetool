@@ -236,7 +236,7 @@ public class PatternRule extends AbstractPatternRule {
     } catch (IOException e) {
       throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
     } catch (Exception e) {
-      throw new RuntimeException("Error analyzing sentence: '" + sentence + "'", e);
+      throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + getFullId(), e);
     }
   }
 

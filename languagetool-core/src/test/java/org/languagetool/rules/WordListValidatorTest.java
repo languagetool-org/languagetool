@@ -80,6 +80,7 @@ public class WordListValidatorTest {
           "ångström",
           "ångströms",
           "'Ndrangheta",
+          "Hồ Chí Minh",
           "McDonald's",
           "Bahrām",
           "µm",
