@@ -11270,6 +11270,11 @@ USA
             <example correction='caused'>This is <marker>cause</marker> by a bug.</example>
         </rule>
         <rule id="BE_INTEREST_IN" name="be interesting (interested) in">
+            <antipattern>
+                <token>there</token>
+                <token regexp='yes'>is|was</token>
+                <token>interest</token>
+            </antipattern>
             <pattern>
                 <token inflected='yes'>be</token>
                 <marker>
@@ -11280,6 +11285,9 @@ USA
             <message>Did you mean <suggestion>interested</suggestion>?</message>
             <example correction='interested'>I am <marker>interesting</marker> in this book.</example>
             <example correction='interested'>I am <marker>interest</marker> in this book.</example>
+            <example>I am <marker>interested</marker> in this book.</example>
+            <example>It would have to be pursued by the blink team if there is interest in doing it.</example><!-- #2335 -->
+            <example type='triggers_error'>Usually, I don't like her self-portraits, but I think that she is interesting in this picture.</example>
         </rule>
         <rulegroup id="TOO_EITHER" name="'too' in negation (either)">
             <rule>
