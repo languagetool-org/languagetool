@@ -9078,18 +9078,48 @@ USA
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
         <rule id="TO_RB_TO_VB" name="to also (to) go" default="temp_off">
+            <antipattern>
+                <token skip="4">set</token>
+                <token>to</token>
+                <token postag="RB" />
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>to</token>
+                <token>just</token>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- she told me to just to keep the peace -->
+                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="PRP" />
+                <token>to</token>
+                <token>just</token>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VBP?" postag_regexp="yes" />
+            </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Tt]o</token>
                 <marker>
-                    <token regexp="yes">maybe|perhaps|also|usually|possibly|always|never|safely|perfectly|only|just|sometimes|finally|eventually|not|really|instead|again|almost|especially|apparently|already|probably|actually|however</token>
+                    <token case_sensitive="yes" regexp="yes">[Tt]o</token>
+                    <token regexp="yes">maybe|perhaps|also|usually|possibly|always|never|safely|perfectly|only|sometimes|finally|eventually|not|just|really|instead|again|almost|especially|apparently|already|probably|actually|however</token>
                     <token case_sensitive="yes" regexp="yes">[Tt]o</token>
                 </marker>
                 <token postag="VBP?" postag_regexp="yes" />
             </pattern>
-            <message>The 'to' seems to be obsolete.</message>
-            <suggestion>\2</suggestion>
-            <example correction="maybe">The next step with my French journey is to <marker>maybe to</marker> have a French minor.</example>
-            <example correction="never">Tom has decided to <marker>never to</marker> do that again.</example>
+            <message>One 'to' seems to be obsolete.</message>
+            <suggestion>\1 \2</suggestion>
+            <suggestion>\2 \3</suggestion>
+            <example correction="to maybe|maybe to">The next step with my French journey is <marker>to maybe to</marker> have a French minor.</example>
+            <example correction="to never|never to">Tom has decided <marker>to never to</marker> do that again.</example>
+            <example correction="to not|not to">He tells transaction tracer and error collector <marker>to not to</marker> collect.</example>
+            <example correction="to not|not to">The solution is <marker>to not to</marker> try mirror content.</example>
+            <example>Set the execution condition to always to ensure it triggers on a daily base.</example>
+            <example>She told me to just to keep the peace.</example>
+            <example>So often, my grandmother had a spare bed she’d go to just to be able to sleep.</example>
+            <example>You can turn sound off if you want but shouldn’t have to just to avoid the repetitive annoying sounds.</example>
+            <example correction="to not|not to">I would really like to use another resource farmed in another way to be converted in shards <marker>to not to</marker> HAVE to daily farm delves.</example>
         </rule>
         <rule id="MD_ABLE" name="missing 'be' in 'will able'">
             <!-- TODO other adjectives like "Do you really think it would safe to do that?" -->
@@ -9179,7 +9209,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|stand\-?by|kick\-off|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|call\-?back|stand\-?by|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -9274,7 +9304,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|stand\-?by|kick\-off|stand\-?up|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|call\-?back|stand\-?by|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -10456,6 +10486,31 @@ USA
                 <token>dusk</token>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token>due</token>
+                <token>to</token>
+                <token>unable</token>
+                <token>to</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>to</token>
+                <token>just</token>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- she told me to just to keep the peace -->
+                <token postag="PRP|NNP" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="PRP" />
+                <token>to</token>
+                <token postag="RB" />
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VBP?" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token>to</token>
                 <token postag="JJ">
@@ -10472,6 +10527,12 @@ USA
             <example>It is next to impossible to make him stop smoking.</example>
             <example>The site is open from dawn to dusk to visitors.</example>
             <example>He traveled to Bermuda to announce that the company would also open up compliance operations there.</example>
+            <example>You can turn sound off if you want but shouldn’t have to just to avoid the repetitive annoying sounds.</example>
+            <example>One day you have to try it. You really have to just to get high once in your life.</example>
+            <example>She told me to just to keep the peace.</example>
+            <example>You have to go to china to learn about their culture.</example><!-- china should be China -->
+            <example>So often, my grandmother had a spare bed she’d go to just to be able to sleep.</example>
+            <example>2 x VIP tickets for sale at face value due to unable to attend event.</example><!-- Not proper english (but very common), should be handled by different rule -->
         </rule>
         <rule id="BASE_FORM" name="base form after I/you/we/they">
             <pattern>
