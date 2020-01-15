@@ -497,6 +497,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Subvestitionen", "Subventionen");
     put("angeschaffen", "angeschafft");
     put("Rechtspruch", "Rechtsspruch");
+    put("Second-Hand", "Secondhand");
     put("[jJ]ahundert", "Jahrhundert");
     put("Gesochse", "Gesocks");
     put("[vV]orgensweise", "Vorgehensweise");
