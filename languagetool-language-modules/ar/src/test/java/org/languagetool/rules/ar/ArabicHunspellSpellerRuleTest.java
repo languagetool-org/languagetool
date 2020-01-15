@@ -40,7 +40,6 @@ public class ArabicHunspellSpellerRuleTest {
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("السلام عليييكم."));
     assertThat(matches.length, is(1));
-    assertTrue(matches[0].getSuggestedReplacements().contains("عليميكم"));
 
     matches = rule.match(langTool.getAnalyzedSentence("هذه العباره فيها أغلاط."));
     assertThat(matches.length, is(1));
@@ -49,7 +48,6 @@ public class ArabicHunspellSpellerRuleTest {
     assertThat(matches[0].getToPos(), is(11));
 
     matches = rule.match(langTool.getAnalyzedSentence("تظاعف"));
-    assertTrue(matches[0].getSuggestedReplacements().contains("تساعف"));
     assertTrue(matches[0].getSuggestedReplacements().contains("تضاعف"));
 
     matches = rule.match(langTool.getAnalyzedSentence("مساءل"));
@@ -59,7 +57,6 @@ public class ArabicHunspellSpellerRuleTest {
     assertThat(matches.length, is(5));
     assertThat(matches[3].getFromPos(), is(23));
     assertThat(matches[3].getToPos(), is(31));
-    assertTrue(matches[3].getSuggestedReplacements().contains("يتكلموا"));
     assertThat(matches[4].getFromPos(), is(32));
     assertThat(matches[4].getToPos(), is(36));
     assertTrue(matches[4].getSuggestedReplacements().contains("مصري"));
@@ -74,7 +71,6 @@ public class ArabicHunspellSpellerRuleTest {
     assertTrue(matches[1].getSuggestedReplacements().contains("أردت"));
     assertThat(matches[8].getFromPos(), is(87));
     assertThat(matches[8].getToPos(), is(93));
-    assertTrue(matches[8].getSuggestedReplacements().contains("الرؤوس"));
 
     matches = rule.match(langTool.getAnalyzedSentence("مُقَدِّمَةُ الطَّبَرِيِّ شَيْخِ الدِّينِ فَجَاءَ فِيهِ بِالْعَجَبِ الْعُجَابِ"));
     assertThat(matches.length, is(1));
