@@ -1575,13 +1575,39 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="DT_TIMES_NNS" name="times/addresses as noun pl">
+      <antipattern><!-- ... but neither times the flies accurately. Refer to DT_TIMES_VBZ -->
+        <token postag="CC"/>
+        <token regexp="yes">each|either|neither|this</token>
+        <token regexp="yes">times|addresses</token>
+        <token postag="DT"/>
+      </antipattern>
       <pattern>
         <token postag="DT"/>
-        <marker><token regexp="yes">times|addresses</token></marker>
+        <marker><token chunk="E-NP-plural" regexp="yes">times|addresses</token></marker>
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">Five times eleven equals 34.</example>
+      <example type="untouched">This addresses most major concerns.</example><!-- #2334. addresses/B-VP -->
+      <example type="untouched">... and each addresses a different problem.</example><!-- addresses/B-VP -->
+      <example type="untouched">... but neither times the flies accurately; we need better timing equipment.</example><!-- times/E-NP-plural -->
       <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">It happened so many <marker>times</marker>.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">Each <marker>times</marker> I visit France, I rent a car.</example><!-- Grammar rule EVERY_EACH_SINGULAR finds this incorrect grammar. If I add an exception on DT for singular determiners, 'times' continues to have the postag VBZ, and EVERY_EACH_SINGULAR does not find the error. -->
+    </rule>
+
+    <rule id="DT_TIMES_VBZ" name="times/addresses as a verb">
+      <pattern><!-- This is the antipattern in DT_TIMES_NNS -->
+        <token postag="CC"/>
+        <token regexp="yes">each|either|neither|this</token>
+        <marker>
+          <token regexp="yes">times|addresses</token>
+        </marker>
+        <token postag="DT"/>
+      </pattern>
+      <disambig postag="VBZ"/>
+      <example type="untouched">It happened so many <marker>times</marker>.</example>
+      <example type="untouched">Each <marker>times</marker> I visit France, I rent a car.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/VBZ]">... but neither <marker>times</marker> the flies accurately; we need better timing equipment.</example>
+      <example type="ambiguous" inputform="addresses[address/NNS,address/VBZ]" outputform="addresses[address/VBZ]">... and each <marker>addresses</marker> a different problem.</example>
     </rule>
 
     <rule id="AT_TIMES_NNS" name="times as noun pl">
