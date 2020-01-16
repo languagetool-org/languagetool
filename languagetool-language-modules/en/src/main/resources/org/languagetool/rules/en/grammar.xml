@@ -8864,9 +8864,11 @@ USA
                 <example correction="Thanks|Thank you"><marker>Thank</marker>, that certainly helps.</example>
                 <example>I have you to thank.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token postag="SENT_START|PCT|UH" postag_regexp="yes" />
+                    <token postag="SENT_START|PCT|UH" postag_regexp="yes">
+                        <exception>why</exception>
+                    </token>
                     <marker>
                         <token>thank</token>
                     </marker>
@@ -8876,6 +8878,7 @@ USA
                 <example correction="thanks">Ah <marker>thank</marker>?</example>
                 <example>I have you to thank.</example>
                 <example>Who can I thank?</example>
+                <example>Why thanks?</example>
             </rule>
             <rule>
                 <pattern>
@@ -9077,7 +9080,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="SPLITTED" name="splitted (split)" default="temp_off">
+        <rule id="SPLITTED" name="splitted (split)">
             <pattern>
                 <token>splitted</token>
             </pattern>
@@ -9085,7 +9088,7 @@ USA
             <url>https://en.wiktionary.org/wiki/split#Verb</url>
             <example correction="split|separated|divided">The task list was <marker>splitted</marker> into smaller chunks.</example>
         </rule>
-        <rule id="TO_RB_TO_VB" name="to also (to) go" default="temp_off">
+        <rule id="TO_RB_TO_VB" name="to also (to) go">
             <antipattern>
                 <token skip="4">set</token>
                 <token>to</token>
@@ -12081,7 +12084,7 @@ USA
                 <example>Don't eat my french fries.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THE_POLISH" name="the polish (polish)" default="temp_off">
+        <rulegroup id="THE_POLISH" name="the polish (polish)">
             <url>https://www.merriam-webster.com/dictionary/Polish</url>
             <rule>
                 <pattern>
@@ -34228,7 +34231,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="TORCHER_TORTURE" name="torcher (torture) yourself" default="temp_off"><!-- TODO extend -->
+        <rule id="TORCHER_TORTURE" name="torcher (torture) yourself"><!-- TODO extend -->
             <pattern>
                 <marker>
                     <token regexp="yes">torchers?</token>
