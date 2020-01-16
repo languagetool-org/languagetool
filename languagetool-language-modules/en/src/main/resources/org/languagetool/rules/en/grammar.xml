@@ -9219,7 +9219,7 @@ USA
                             <exception>piggy</exception><!-- "piggy back" needs rule (written as one word) -->
                             <exception>matter</exception><!-- It will matter -->
                             <exception>easy</exception><!-- is adverb, but not tagged like one -->
-                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
+                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny|bonus</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
                             <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
                             <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
@@ -9314,7 +9314,7 @@ USA
                             <exception>piggy</exception><!-- "piggy back" needs rule (written as one word) -->
                             <exception>matter</exception><!-- It will matter -->
                             <exception>easy</exception><!-- is adverb, but not tagged like one -->
-                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
+                            <exception regexp="yes">self\-?support|nerd|karate|path|scape|video|fanny|bonus</exception><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
                             <exception regexp="yes">error|proxy|config|repro|superset</exception><!-- is a verb in tech speech -->
                             <exception regexp="yes">figure|reference|transition|use|need|vote|miss|power|know|bind</exception><!-- somehow not tagged as "VB" in (e.g. "It would be nice if I could figure a way", "Do you have contact info or a case number we can reference?" -->
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
@@ -11920,7 +11920,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?</token>
+                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -12029,6 +12029,7 @@ USA
             <example>The vex robotics.</example>
             <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
             <example>In the U.S.A be the best.</example>
+            <example>What is a Parse Error?</example>
             <example>Check out the <marker>send to a friend feature</marker> next to each article.</example><!-- Copied from Premium #845 -->
             <example>... but prefer to wait until early 2002 with the next reduction in the refinance rate.</example><!-- Copied from Premium #845 -->
             <example>Python provides the bisect module.</example><!-- Copied from Premium #845 -->
@@ -12945,6 +12946,104 @@ USA
                 <url>https://en.wiktionary.org/wiki/rescheduling</url>
                 <example correction="rescheduling">Your <marker>reschedule</marker> didn't reach me.</example>
             </rule>
+            <rule default="temp_off"><!-- the administer -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>administer</token>
+                    </marker>
+                </pattern>
+                <message>The word 'administer' is not a noun. Did you mean <suggestion>administrator</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/administrator</url>
+                <example correction="administrator">Your <marker>administer</marker> should have sent you the login instructions.</example>
+            </rule>
+            <rule default="temp_off"><!-- the exhale -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>exhale</token>
+                    </marker>
+                </pattern>
+                <message>The word 'exhale' is not a noun. Did you mean <suggestion>exhalation</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/exhalation</url>
+                <example correction="exhalation">The main reason for the <marker>exhale</marker> is to rid the body of carbon dioxide</example>
+            </rule>
+            <rule default="temp_off"><!-- the prevent -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>prevent</token>
+                    </marker>
+                </pattern>
+                <message>The word 'prevent' is not a noun. Did you mean <suggestion>prevention</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/prevention</url>
+                <example correction="prevention">The <marker>prevent</marker> of intruders was turned on every night.</example>
+            </rule>
+            <rule default="temp_off"><!-- the homeschool -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">homeschools?</token>
+                    </marker>
+                </pattern>
+                <message>The word 'homeschool' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)school" regexp_replace=" school" /></suggestion>?</message>
+                <url>https://en.wiktionary.org/wiki/home_school#English</url>
+                <example correction="home school">He learned all about life in his <marker>homeschool</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- the doubleclick -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">doubleclicks?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="(?i)click" regexp_replace=" click" /></suggestion> (= noun)?</message>
+                <url>https://www.merriam-webster.com/dictionary/double-click</url>
+                <example correction="double click">He tried a <marker>doubleclick</marker> to open the folder.</example>
+            </rule>
+            <rule default="temp_off"><!-- the injure -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>injure</token>
+                    </marker>
+                </pattern>
+                <message>The word 'injure' is not a noun. Did you mean <suggestion>injury</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/injury</url>
+                <example correction="injury">He got an <marker>injure</marker> while playing football.</example>
+            </rule>
+            <rule default="temp_off"><!-- the confirm -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">confirms?</token>
+                    </marker>
+                </pattern>
+                <message>The word 'confirm' is not a noun. Did you mean <suggestion><match no="3" regexp_match="(?i)rm" regexp_replace="rmation" /></suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/confirmation</url>
+                <example correction="confirmation">He sent the <marker>confirm</marker> to the client.</example>
+            </rule>
             <rule><!-- the conceal -->
                 <antipattern>
                     <token>conceal</token>
@@ -13047,6 +13146,10 @@ USA
                 <example correction="advertisement">He watched the new <marker>advertise</marker> on YouTube and skipped it.</example>
             </rule>
             <rule><!-- the analyze -->
+                <antipattern><!-- Google Analytics section/report "the Analyze Traffic report" -->
+                    <token regexp="yes" skip="3">analy.e</token>
+                    <token regexp="yes">reports?|pages?|sections?|sites?|features?|buttons?|links?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13097,7 +13200,7 @@ USA
                 <antipattern>
                     <!-- dev speech -->
                     <token skip="2">require</token>
-                    <token regexp="yes">state|statements?|modules?|code|paths?|urls?</token>
+                    <token regexp="yes">state|statements?|modules?|code|paths?|urls?|functions?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
@@ -13748,7 +13851,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>grow</token>
-                    <token>room</token>
+                    <token regexp="yes">rooms?|lights?</token>
                 </antipattern>
                 <antipattern>
                     <token>the</token>
@@ -14713,6 +14816,19 @@ USA
             </pattern>
             <message>Did you mean the adjective or adverb <suggestion>\1-\2-\3</suggestion> (spelled with hyphens)?</message>
             <example correction="step-by-step">The <marker>step by step</marker> diet plan helped me to lose kilos.</example>
+        </rule>
+        <rule id="OPEN_HEART_HYPHEN" name="missing hyphen in 'open heart'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>open</token>
+                    <token>heart</token>
+                </marker>
+                <token postag="JJ" min="0" />
+                <token regexp="yes">surger(y|ies)|operations?|procedures?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="Open-heart"><marker>Open heart</marker> surgery is an operation to repair a fault or damage in the heart.</example>
         </rule>
         <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <pattern>
