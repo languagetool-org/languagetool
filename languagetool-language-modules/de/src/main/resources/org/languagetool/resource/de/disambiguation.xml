@@ -3211,7 +3211,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="-köpfig" id="KOEPFIG">
       <pattern case_sensitive="yes">
-        <token regexp="yes">\d+-köpfige[mnsr]?</token>
+        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd)ig(e[mnsr]?)?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -3522,6 +3522,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes" case_sensitive="yes">of|for</token>
             </marker>
             <token regexp="yes">.*[a-z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="WHO_S_WHO" id="WHO_S_WHO">
+        <!-- https://www.duden.de/rechtschreibung/Who_s_who -->
+        <pattern case_sensitive="yes">
+            <token>Who</token>
+            <token regexp="yes">'|’</token>
+            <token>s</token>
+            <token>who</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
