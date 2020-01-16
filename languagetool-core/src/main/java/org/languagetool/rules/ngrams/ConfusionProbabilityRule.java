@@ -126,13 +126,18 @@ public abstract class ConfusionProbabilityRule extends Rule {
     List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, LanguageModelUtils.getGoogleStyleWordTokenizer(language));
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
+    boolean realWordBefore = false;  // more advanced than simple checking for sentence start, as it skips quotes etc.
     for (GoogleToken googleToken : tokens) {
       String token = googleToken.token;
       List<ConfusionPair> confusionPairs = wordToPairs.get(token);
       boolean uppercase = false;
-      if (confusionPairs == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
+      if (confusionPairs == null && token.length() > 0 && Character.isUpperCase(token.charAt(0)) && !realWordBefore && isRealWord(token)) {
+        // do a lowercase lookup only at sentence start
         confusionPairs = wordToPairs.get(StringTools.lowercaseFirstChar(token));
         uppercase = true;
+      }
+      if (isRealWord(token)) {
+        realWordBefore = true;
       }
       if (confusionPairs != null) {
         for (ConfusionPair confusionPair : confusionPairs) {
@@ -169,6 +174,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  private boolean isRealWord(String token) {
+    return token.matches("[\\p{L}]+");
   }
 
   private boolean isLocalException(AnalyzedSentence sentence, GoogleToken googleToken) {
