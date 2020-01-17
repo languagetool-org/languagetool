@@ -32450,6 +32450,76 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rulegroup id="E_G" name="e.g." default="temp_off"><!-- picky -->
+            <url>https://www.merriam-webster.com/dictionary/e.g.</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">
+                        [Ee]g
+                        <exception scope="previous">.</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>The abbreviation <suggestion>e.g.</suggestion> (= for example) requires two periods.</message>
+                <example correction="e.g.">He has watched many action movies (<marker>eg.</marker> Fast &amp; Furious)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">
+                        eg
+                        <exception scope="next" regexp="yes">.|…</exception>
+                        <exception scope="previous">.</exception>
+                    </token>
+                </pattern>
+                <message>The abbreviation <suggestion>e.g.</suggestion> (= for example) requires two periods.</message>
+                <example correction="e.g.">He has watched many action movies (<marker>eg</marker> Fast &amp; Furious)</example>
+                <example>Check out my website: www.VisitEgypt.eg</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        [Ee]
+                        <exception scope="previous">.</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                    <token case_sensitive="yes" spacebefore="no">
+                        g
+                        <exception scope="next" regexp="yes">.|…</exception>
+                    </token>
+                </pattern>
+                <message>The abbreviation <suggestion>e.g.</suggestion> (= for example) requires two periods.</message>
+                <example correction="e.g.">He has watched many action movies (<marker>e.g</marker> Fast &amp; Furious)</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="I_E" name="i.e." default="temp_off"><!-- picky -->
+            <url>https://www.merriam-webster.com/dictionary/i.e.</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">
+                        [Ii]e
+                        <exception scope="previous">.</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>The abbreviation <suggestion>i.e.</suggestion> (= that is) requires two periods.</message>
+                <example correction="i.e.">A walking boot which is synthetic, <marker>ie.</marker> not leather.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        [Ii]
+                        <exception scope="previous">.</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                    <token case_sensitive="yes" spacebefore="no">
+                        e
+                        <exception scope="next" regexp="yes">.|…</exception>
+                    </token>
+                </pattern>
+                <message>The abbreviation <suggestion>i.e.</suggestion> (= that is) requires two periods.</message>
+                <example correction="i.e.">A walking boot which is synthetic, <marker>i.e</marker> not leather.</example>
+            </rule>
+        </rulegroup>
         <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
             <pattern>
                 <token regexp="yes">act|season|page|unit|lesson|module|grade|chapter|row</token>
