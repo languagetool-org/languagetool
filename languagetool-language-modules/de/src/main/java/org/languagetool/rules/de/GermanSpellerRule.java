@@ -492,6 +492,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geschmelt?zt", "geschmolzen");
     put("gewunschen", "gewünscht");
     put("bittete", "bat");
+    put("nehm", "nimm");
     put("möchst", "möchtest");
     put("anschein[dt]", "anscheinend");
     put("Subvestitionen", "Subventionen");
