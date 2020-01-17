@@ -96,6 +96,10 @@ class LORemoteLanguageTool {
     if(!remoteRun) {
       return null;
     }
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    if(text == null || text.trim().isEmpty()) {
+      return ruleMatches;
+    }
     configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
     if(motherTongue != null) {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
@@ -112,7 +116,6 @@ class LORemoteLanguageTool {
       configBuilder.mode("allButTextLevelOnly");
     }
     remoteConfig = configBuilder.build();
-    List<RuleMatch> ruleMatches = new ArrayList<>();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {
       String subText;
