@@ -85,8 +85,8 @@ public class GenericUnpairedBracketsRuleTest {
     assertThat(match1.getToPos(), is(6));
     assertThat(match1.getLine(), is(0));
     assertThat(match1.getEndLine(), is(0));
-    assertThat(match1.getColumn(), is(5));
-    assertThat(match1.getEndColumn(), is(6));
+    assertThat(match1.getColumn(), is(6));
+    assertThat(match1.getEndColumn(), is(7));
 
     RuleMatch match2 = lt.check("This.\nSome stuff.\nIt »is a test.").get(0);
     assertThat(match2.getFromPos(), is(21));
