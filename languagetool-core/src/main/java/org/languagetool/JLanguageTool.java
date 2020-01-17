@@ -1276,9 +1276,12 @@ public class JLanguageTool {
             newMatch.setEndLine(range.to.line);
             if (newMatch.getLine() == 0) {
               newMatch.setColumn(range.from.column + 1);
-              newMatch.setEndColumn(range.to.column + 1);
             } else {
               newMatch.setColumn(range.from.column);
+            }
+            if (newMatch.getEndLine() == 0) {
+              newMatch.setEndColumn(range.to.column + 1);
+            } else {
               newMatch.setEndColumn(range.to.column);
             }
             adaptedMatches.add(newMatch);
