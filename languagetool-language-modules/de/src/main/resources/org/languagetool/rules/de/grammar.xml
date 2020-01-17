@@ -32211,6 +32211,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="WHO_S_WHO" name="Das Who's who" default="temp_off">
+            <pattern>
+                <token>who</token>
+                <token>is</token>
+                <token>who</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>Who's who</suggestion>?</message>
+            <url>https://www.duden.de/rechtschreibung/Who_s_who</url>
+            <example correction="Who's who">Das <marker>Who is Who</marker> des deutschen Fußballs war dort.</example>
+        </rule>
         <rulegroup id="KO" name="KO (K. o.)">
             <antipattern><!-- domain -->
                 <token>ko</token>
@@ -32760,6 +32770,25 @@ Andere Projekte</example>
                 <example correction="Make-ups">Während des Auftragens ihres <marker>Make-Ups</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PLAY_OFF" name="'Play-off'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Play</token>
+                    <token regexp="yes">offs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Play-<match no="2" case_conversion="alllower" /></suggestion> oder <suggestion>Play<match no="2" case_conversion="alllower" /></suggestion> (= Ausscheidungsspiel beim Sport)?</message>
+                <url>https://www.duden.de/rechtschreibung/Play_off</url>
+                <example correction="Play-offs|Playoffs">Das Team aus New York gewann die <marker>Play Offs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Play-?Offs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Play-?Offs?" regexp_replace="Play-off" /></suggestion> oder <suggestion><match no="1" regexp_match="Play-?Off" regexp_replace="Playoff" /></suggestion> (= Ausscheidungsspiel beim Sport)?</message>
+                <url>https://www.duden.de/rechtschreibung/Play_off</url>
+                <example correction="Make-ups">Während des Auftragens ihres <marker>Make-Ups</marker> ging etwas schief.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="POST_IT" name="'Post-it'">
             <url>https://de.wikipedia.org/wiki/Klebezettel</url>
             <rule>
@@ -33097,7 +33126,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">books?|commerce|papern?|buch|bücher</token>
+                    <token regexp="yes">books?|commerce|paper[ns]?|buch|büchern?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/E_Book</url>
@@ -33108,7 +33137,7 @@ Andere Projekte</example>
                     <token regexp="yes">E-[A-Z].+</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">e-?(books?|commerce|buch|bücher)</token>
+                    <token regexp="yes">e-?(books?|paper[ns]?|commerce|buch|büchern?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-<match no="1" regexp_match="(?i)^e-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
                 <url>https://www.duden.de/rechtschreibung/E_Book</url>
