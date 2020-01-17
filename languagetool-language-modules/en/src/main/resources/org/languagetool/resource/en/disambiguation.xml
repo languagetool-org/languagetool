@@ -5049,6 +5049,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="NNP"/>
                 <token postag="VB[ZD]" postag_regexp="yes"/><!-- Not chunk: admires/E-NP-singular -->
             </antipattern>
+            <antipattern><!--  #2343 the way you are -->
+                <token regexp="yes">I|you|we|they</token>
+                <token chunk="B-VP"  postag_regexp="yes" postag="VBP?"/>
+                <token postag="CC"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -5068,6 +5073,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">... that depicted the will itself without it <marker>appearing</marker> as subject to the Principle of ...</example>
             <example type="untouched">...myocarditis, however it can also <marker>manifests</marker> as Adams–Stokes syndrome which...</example>
             <example type="untouched">The concept of <marker>books</marker> as data has not been fully explored.</example><!-- 'books' is not identified as a noun, but it was not identified as a noun before the 2328 change. -->
+            <example type="untouched">I love the way you <marker>are</marker> and friends should honor that.</example><!-- #2343 -->
+            <example type="untouched">I love the way you <marker>are</marker> and time will tell whether we...</example><!-- #2343 -->
+            <example type="untouched">We will be lost when they <marker>die</marker> and computers take over the world.</example><!-- #2343 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
