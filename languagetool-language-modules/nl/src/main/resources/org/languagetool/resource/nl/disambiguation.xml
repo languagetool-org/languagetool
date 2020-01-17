@@ -60,6 +60,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		 xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
 	<!-- SPELLING IGNORES -->
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+    </rule>
+
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
 		<pattern case_sensitive="yes">

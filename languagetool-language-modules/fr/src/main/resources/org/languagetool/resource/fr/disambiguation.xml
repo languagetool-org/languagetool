@@ -1686,6 +1686,17 @@ RB => Règles Brutes
     <disambig postag="Z e sp"/>
   </rule>
 
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+    </rule>
+
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
     <!-- Localized from English by Tiago F. Santos, 2019-08-30  -->
       <pattern>

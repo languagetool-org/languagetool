@@ -1257,13 +1257,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rulegroup>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
-
-    <rule name="x-geschossig" id="X_GESCHOSSIG">
-    <!-- 3-geschossig etc. -->
-        <pattern>
-            <token regexp="yes">\d+-(geschoss|stöck|wöch|teil|räum|köpf)ig(e[mnrs]?)?</token>
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
         </pattern>
-        <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="CO₂-Emission" id="CO2-EMISSION">
@@ -3211,7 +3213,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="-köpfig" id="KOEPFIG">
       <pattern case_sensitive="yes">
-        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd)ig(e[mnsr]?)?</token>
+        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd|geschoss|stöck|wöch|teil|räum|köpf)ig(e[mnsr]?)?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
