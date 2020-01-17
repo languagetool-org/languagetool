@@ -9220,7 +9220,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|voiceover|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -9315,7 +9315,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|voiceover|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -11865,6 +11865,10 @@ USA
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
             </antipattern>
+            <antipattern>
+                <token>mosh</token>
+                <token regexp="yes">pits?</token>
+            </antipattern>
             <antipattern><!-- https://en.equipauto.com/ -->
                 <token>equip</token>
                 <token>auto</token>
@@ -11908,6 +11912,11 @@ USA
                 <token>for</token>
                 <token>the</token>
                 <token>add</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- "Click the Connect Domain item", "It is not on the Ignore List" -->
+                <token>the</token>
+                <token regexp="yes">[A-Z].+</token>
+                <token postag="NN.*" postag_regexp="yes" regexp="yes">[A-Z].+</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[Tt]he|[Aa]n?</token>
@@ -23318,6 +23327,26 @@ USA
             <message>Did you mean <suggestion>didn't</suggestion>?</message>
             <example correction="didn't">He <marker>dint</marker> know about it.</example>
         </rule>
+        <rule id="ANI_T" name="he ani't (ani't)" default="temp_off">
+            <pattern>
+                <token regexp="yes">ani</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>Did you mean <suggestion>ain\2t</suggestion>?</message>
+            <example correction="ain't">I <marker>ani't</marker> happy about it.</example>
+        </rule>
+        <rule id="PRP_ANIT" name="he ani't (ani't)" default="temp_off">
+            <pattern>
+                <token postag="PRP" />
+                <token postag="RB" min="0" />
+                <marker>
+                    <token case_sensitive="yes">anit</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>ain't</suggestion>?</message>
+            <example correction="ain't">I <marker>anit</marker> happy about it.</example>
+        </rule>
         <rule id="PRP_HAVES" name="he haves (has)">
             <pattern>
                 <token regexp="yes">s?he|it|I|you|we|they</token>
@@ -28216,14 +28245,18 @@ USA
                 <token postag="NNS"/>
                 <token postag_regexp="yes" postag="VB.*|MD"/>
             </antipattern>
+            <antipattern><!-- you bastards! -->
+                <token>you</token>
+                <token />
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </antipattern>
             <antipattern><!-- you bastards -->
                 <token>you</token>
-                <token/>
-                <token postag="SENT_END"/>
+                <token postag="SENT_END" />
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid)s?|kiddo|sir|mamm?a|papa</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid|weirdo)s?|kiddo|sir|mamm?a|papa|uncle|auntie</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -28332,6 +28365,7 @@ USA
                         <exception regexp="yes">things?</exception>
                         <exception>re</exception><!-- "He re attends the event" (different error) -->
                         <exception>oh</exception><!-- "I pray to you oh lord" (different error) -->
+                        <exception regexp="yes">spec|def|prob</exception><!-- short informal forms of adverbs (that we don't POS tagged) -->
                     </token>
                 </marker>
             </pattern>
