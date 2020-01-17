@@ -32,11 +32,11 @@ import org.languagetool.rules.Example;
  * 
  * @author Daniel Naber
  */
-public class CompoundRule extends AbstractCompoundRule {
+public class GermanCompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/de/compounds.txt", "/de/compound-cities.txt");
  
-  public CompoundRule(ResourceBundle messages) throws IOException {
+  public GermanCompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",

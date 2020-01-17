@@ -19,10 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.languagetool.JLanguageTool;
 
@@ -37,12 +34,18 @@ public class CompoundRuleData {
   private final Set<String> noDashSuggestion = new HashSet<>();
   private final Set<String> noDashLowerCaseSuggestion = new HashSet<>();
   private final Set<String> onlyDashSuggestion = new HashSet<>();
+  private final LineExpander expander;
 
   public CompoundRuleData(String path) {
     this(new String[] {path});
   }
 
   public CompoundRuleData(String... paths) {
+    this(null, paths);
+  }
+
+  public CompoundRuleData(LineExpander expander, String... paths) {
+    this.expander = expander;
     for (String path : paths) {
       try {
         loadCompoundFile(path);
@@ -71,26 +74,34 @@ public class CompoundRuleData {
   private void loadCompoundFile(String path) throws IOException {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
     for (String line : lines) {
-      if (line.isEmpty() || line.charAt(0) == '#') {
+      if (line.isEmpty() || line.startsWith("#")) {
         continue;     // ignore comments
       }
-      line = line.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
-      validateLine(path, line);
-      if (line.endsWith("+")) {
-        line = removeLastCharacter(line);
-        noDashSuggestion.add(line);
-      } else if (line.endsWith("*")) {
-        line = removeLastCharacter(line);
-        onlyDashSuggestion.add(line);
-      } else if (line.endsWith("?")) { // github issue #779
-        line = removeLastCharacter(line);
-        noDashSuggestion.add(line);
-        noDashLowerCaseSuggestion.add(line);
-      } else if (line.endsWith("$")) { // github issue #779
-        line = removeLastCharacter(line);
-        noDashLowerCaseSuggestion.add(line);
+      List<String> expandedLines = new ArrayList<>();
+      if (expander != null) {
+        expandedLines = expander.expandLine(line);
+      } else {
+        expandedLines.add(line);
       }
-      incorrectCompounds.add(line);
+      for (String expLine : expandedLines) {
+        expLine = expLine.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
+        validateLine(path, expLine);
+        if (expLine.endsWith("+")) {
+          expLine = removeLastCharacter(expLine);
+          noDashSuggestion.add(expLine);
+        } else if (expLine.endsWith("*")) {
+          expLine = removeLastCharacter(expLine);
+          onlyDashSuggestion.add(expLine);
+        } else if (expLine.endsWith("?")) { // github issue #779
+          expLine = removeLastCharacter(expLine);
+          noDashSuggestion.add(expLine);
+          noDashLowerCaseSuggestion.add(expLine);
+        } else if (expLine.endsWith("$")) { // github issue #779
+          expLine = removeLastCharacter(expLine);
+          noDashLowerCaseSuggestion.add(expLine);
+        }
+        incorrectCompounds.add(expLine);
+      }
     }
   }
 

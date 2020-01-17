@@ -25,8 +25,9 @@ import java.util.List;
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
  * @since 3.0
  */
-public class LineExpander {
+public class LineExpander implements org.languagetool.rules.LineExpander {
 
+  @Override
   public List<String> expandLine(String line) {
     List<String> result = new ArrayList<>();
     if (!line.startsWith("#") && line.contains("/")) {

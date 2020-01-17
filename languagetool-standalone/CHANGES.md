@@ -12,6 +12,7 @@
 
 #### German
   * added and improved rules
+  * `compounds.txt` now automatically expands `ß` to `ss` when using German (Switzerland)
 
 
 ## 4.8 (released 2019-12-27)
