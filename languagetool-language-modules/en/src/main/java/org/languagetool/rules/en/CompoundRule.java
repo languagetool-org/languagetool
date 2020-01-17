@@ -43,7 +43,7 @@ public class CompoundRule extends AbstractCompoundRule {
   private static List<DisambiguationPatternRule> antiDisambiguationPatterns = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
       Arrays.asList(
-          new PatternTokenBuilder().tokenRegex("['´]").build(),
+          new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
           new PatternTokenBuilder().token("re").build()
         )
       );
