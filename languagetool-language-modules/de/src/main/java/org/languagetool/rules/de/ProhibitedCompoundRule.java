@@ -212,57 +212,65 @@ public class ProhibitedCompoundRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
-      String word = readings.getToken();
-      /* optimizations:
-         only nouns can be compounds
-         all parts are at least 3 characters long -> words must have at least 6 characters
-       */
-      if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || word.length() <= 6) {
-        continue;
-      }
-      List<Pair> candidatePairs = new ArrayList<>();
-      // ignore other pair when confusionPair is set (-> running for evaluation)
-
-      if (confusionPair == null) {
-        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
-        // might get duplicates, but since we only ever allow one match per word it doesn't matter
-        for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
-          List<Pair> pair = pairMap.get(hit.value);
-          if (pair != null) {
-            candidatePairs.addAll(pair);
-          }
-        }
-      } else {
-        addAllCaseVariants(candidatePairs, confusionPair);
-      }
-
-      for (Pair pair : candidatePairs) {
-        String variant = null;
-        if (word.contains(pair.part1)) {
-          variant = word.replaceFirst(pair.part1, pair.part2);
-        } else if (word.contains(pair.part2)) {
-          variant = word.replaceFirst(pair.part2, pair.part1);
-        }
-        //System.out.println(word + " <> " + variant);
-        if (variant == null) {
+      String tmpWord = readings.getToken();
+      String[] words = tmpWord.split("-");
+      int partsStartPos = 0;
+      for (String word : words) {
+        /* optimizations:
+           only nouns can be compounds
+           all parts are at least 3 characters long -> words must have at least 6 characters
+        */
+        if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || word.length() <= 6) {
+          partsStartPos += word.length() + 1;
           continue;
         }
-        long wordCount = lm.getCount(word);
-        long variantCount = lm.getCount(variant);
-        //float factor = variantCount / (float)Math.max(wordCount, 1);
-        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-        if (variantCount > 0 && wordCount == 0 && !blacklist.contains(word) && !spellerRule.isMisspelled(variant)) {
-          String msg;
-          if (pair.part1Desc != null && pair.part2Desc != null) {
-            msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
-          } else {
-            msg = "Möglicher Tippfehler: " + pair.part1 + "/" + pair.part2;
+        List<Pair> candidatePairs = new ArrayList<>();
+        // ignore other pair when confusionPair is set (-> running for evaluation)
+
+        if (confusionPair == null) {
+          List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
+          // might get duplicates, but since we only ever allow one match per word it doesn't matter
+          for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
+            List<Pair> pair = pairMap.get(hit.value);
+            if (pair != null) {
+              candidatePairs.addAll(pair);
+            }
           }
-          RuleMatch match = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg);
-          match.setSuggestedReplacement(variant);
-          ruleMatches.add(match);
-          break;
+        } else {
+          addAllCaseVariants(candidatePairs, confusionPair);
         }
+
+        for (Pair pair : candidatePairs) {
+          String variant = null;
+          if (word.contains(pair.part1)) {
+            variant = word.replaceFirst(pair.part1, pair.part2);
+          } else if (word.contains(pair.part2)) {
+            variant = word.replaceFirst(pair.part2, pair.part1);
+          }
+          //System.out.println(word + " <> " + variant);
+          if (variant == null) {
+            partsStartPos += word.length() + 1;
+            continue;
+          }
+          long wordCount = lm.getCount(word);
+          long variantCount = lm.getCount(variant);
+          //float factor = variantCount / (float)Math.max(wordCount, 1);
+          //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+          if (variantCount > 0 && wordCount == 0 && !blacklist.contains(word) && !spellerRule.isMisspelled(variant)) {
+            String msg;
+            if (pair.part1Desc != null && pair.part2Desc != null) {
+              msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
+            } else {
+              msg = "Möglicher Tippfehler: " + pair.part1 + "/" + pair.part2;
+            }
+            int fromPos = readings.getStartPos() + partsStartPos;
+            RuleMatch match = new RuleMatch(this, sentence, fromPos, fromPos + word.length(), msg);
+            match.setSuggestedReplacement(variant);
+            ruleMatches.add(match);
+            break;
+          }
+        }
+        partsStartPos += word.length() + 1;
       }
     }
     return toRuleMatchArray(ruleMatches);

@@ -40,27 +40,48 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 public class ProhibitedCompoundRuleTest {
-  
+
+  private final static Map<String, Integer> map = new HashMap<>();
+  static {
+    map.put("Mietauto",100);
+    map.put("Leerzeile",100);
+    map.put("Urberliner",100);
+    map.put("Ureinwohner",100);
+    map.put("Wohnungsleerstand",50);
+    map.put("Xliseihflehrstand",50);
+  }
+  private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+
   @Test
   public void testRule() throws IOException {
-    Map<String,Integer> map = new HashMap<>();
-    map.put("Mietauto", 100);
-    map.put("Leerzeile", 100);
-    map.put("Urberliner", 100);
-    map.put("Ureinwohner", 100);
-    map.put("Wohnungsleerstand", 50);
-    map.put("Xliseihflehrstand", 50);
-    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    assertMatches("Er ist Uhrberliner.", 1, rule, lt);
-    assertMatches("Das ist ein Mitauto.", 1, rule, lt);
-    assertMatches("Hier leben die Uhreinwohner.", 1, rule, lt);
-    assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
-    assertMatches("Eine Lehrzeile einfügen.", 1, rule, lt);
-    assertMatches("Viel Wohnungsleerstand.", 0, rule, lt);
-    assertMatches("Viel Wohnungslehrstand.", 1, rule, lt);
-    assertMatches("Viel Xliseihfleerstand.", 0, rule, lt);
-    assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
+    assertMatches("Er ist Uhrberliner.", 1);
+    assertMatches("Das ist ein Mitauto.", 1);
+    assertMatches("Hier leben die Uhreinwohner.", 1);
+    assertMatches("Eine Leerzeile einfügen.", 0);
+    assertMatches("Eine Lehrzeile einfügen.", 1);
+    
+    assertMatches("Viel Wohnungsleerstand.", 0);
+    assertMatches("Viel Wohnungslehrstand.", 1);
+    assertMatches("Viel Xliseihfleerstand.", 0);
+    assertMatches("Viel Xliseihflehrstand.", 0);  // no correct spelling, so not suggested
+
+    assertMatches("Den Lehrzeile-Test einfügen.", "Lehrzeile");
+    assertMatches("Die Test-Lehrzeile einfügen.", "Lehrzeile");
+    assertMatches("Die Versuchs-Test-Lehrzeile einfügen.", "Lehrzeile");
+    assertMatches("Den Versuchs-Lehrzeile-Test einfügen.", "Lehrzeile");
+  }
+
+  void assertMatches(String input, int expectedMatches) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expectedMatches));
+  }
+
+  void assertMatches(String input, String expectedMarkedText) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(1));
+    String markedText = input.substring(matches[0].getFromPos(), matches[0].getToPos());
+    assertThat(markedText, is(expectedMarkedText));
   }
 
   ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
@@ -82,11 +103,6 @@ public class ProhibitedCompoundRuleTest {
       }
     }
     return foundRule;
-  }
-
-  void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expecteMatches));
   }
 
 }
