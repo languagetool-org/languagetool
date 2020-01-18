@@ -33,7 +33,6 @@ public class LanguageAnnotator {
   }
 
   public List<FragmentWithLanguage> detectLanguages(String input, Language mainLang, List<Language> secondLangs) {
-    List<FragmentWithLanguage> result = new ArrayList<>();
     List<TokenWithLanguages> tokens = getTokensWithPotentialLanguages(input, mainLang, secondLangs);
     List<List<TokenWithLanguages>> tokenRanges = getTokenRanges(tokens);   // split at boundaries like "."
     List<TokenRangeWithLanguage> tokenRangesWithLang = getTokenRangesWithLang(tokenRanges, mainLang, secondLangs);
@@ -41,9 +40,13 @@ public class LanguageAnnotator {
     Language prevLang = mainLang;
     int curPos = 0;
     int fromPos = 0;
+    List<FragmentWithLanguage> result = new ArrayList<>();
     for (TokenRangeWithLanguage tokenRange : tokenRangesWithLang) {
       curLang = tokenRange.lang;
-      if (curLang != prevLang) {
+      if (tokenRange.tokens.size() == 1 && isQuote(tokenRange.tokens.get(0))) {
+        // assign single quote the language of the previous element, assuming it belongs there
+        curLang = prevLang;
+      } else if (curLang != prevLang) {
         result.add(new FragmentWithLanguage(prevLang.getShortCodeWithCountryAndVariant(), input.substring(fromPos, curPos)));
         fromPos = curPos;
       }
@@ -89,13 +92,24 @@ public class LanguageAnnotator {
   List<List<TokenWithLanguages>> getTokenRanges(List<TokenWithLanguages> tokens) {
     List<List<TokenWithLanguages>> result = new ArrayList<>();
     List<TokenWithLanguages> l = new ArrayList<>();
+    boolean inQuote = false;
     for (TokenWithLanguages token : tokens) {
-      if (isBoundary(token)) {
+      if (isQuote(token.token) && !inQuote) {
+        // this is an opening quote - add to next range
+        if (l.size() > 0) {
+          result.add(l);
+        }
+        l = new ArrayList<>();
+        l.add(token);
+      } else if (isBoundary(token)) {
         l.add(token);
         result.add(l);
         l = new ArrayList<>();
       } else {
         l.add(token);
+      }
+      if (isQuote(token.token)) {
+        inQuote = !inQuote;
       }
     }
     if (l.size() > 0) {
@@ -131,6 +145,9 @@ public class LanguageAnnotator {
   private boolean isBoundary(TokenWithLanguages token) {
     return token.token.matches("[.?!;:\"„“»«()\\[\\]\n]");   // TODO: " - "
   }
+
+  private boolean isQuote(String token) {
+    return token.matches("[\"„“”»«]");  }
 
   private static boolean isWord(String s) {
     return !s.trim().isEmpty() && s.matches("\\w+");
