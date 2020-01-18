@@ -40,6 +40,8 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testRule() throws IOException {
+    assertGood("Their");
+    assertGood("There");
     assertMatch("Their are new ideas to explore.");
     assertGood("There are new ideas to explore.");
     assertMatch("Why is there car broken again?");

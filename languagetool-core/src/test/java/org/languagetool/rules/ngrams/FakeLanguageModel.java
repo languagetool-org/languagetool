@@ -37,6 +37,8 @@ public class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
   
   public FakeLanguageModel() {
     super(3);
+    map.put("_START_ There", 10);
+    map.put("_START_ Their", 1);
     // for "Their are new ideas to explore":
     map.put("There are", 10);
     map.put("There are new", 5);
