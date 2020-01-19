@@ -34454,6 +34454,51 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="YO_TO" name="yo vs. to" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>yo</token>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN" />
+                    <token>yo</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token>no</token>
+                    <token postag="UNKNOWN" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">
+                            [Yy]o
+                            <exception postag="CD" scope="previous" />
+                        </token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="MD|VB.*|NN.*" postag_regexp="yes">
+                        <exception regexp="yes">soy|man|dude|dawg|weirdo|los|m[oa]mm?a|papa|kai|decido|amo|baby|canto|bum|chen|creek|duk|el|frankie|gotti|gabba|ho|hitoto|inoue|jong?|jin|l[oae]s?|murphy|majesty|nac[íi]|oizumi|protesto|scale|te|tambi[ée]n|takenaka|uematsu|un|un\-.+|wassup|yos?|zushi</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>to</suggestion> or <suggestion>you</suggestion>?</message>
+                <example correction="to|you">I wanted <marker>yo</marker> play League of Legends.</example>
+                <example correction="to|you">What do <marker>yo</marker> think?</example>
+                <example correction="to|you">Please tell him <marker>yo</marker> go.</example>
+                <example correction="to|you">Call us if <marker>yo</marker> have any questions.</example>
+                <example>Yo, do you have anything to say?</example><!-- informal but valid grammar -->
+                <example>A 16 yo has to go to school.</example><!-- yo = abbrev "year old" (see https://www.merriam-webster.com/dictionary/yo) -->
+                <example>Yo Soy El Diego.</example><!-- book name -->
+                <example>Yo man!</example>
+                <example>Yo Lenny, glad to see you.</example>
+                <example>Yo, Blair. What are you doing?</example>
+                <example>He likes to play with his Yo Yo.</example>
+                <example>The yo scale, which does not contain minor notes, according to a traditional theory is a pentatonic scale used in much Japanese music including gagaku and shomyo.</example>
+                <example>Yo kai Watch 3 is a role-playing video game developed and published by Level-5.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="TORCHER_TORTURE" name="torcher (torture) yourself"><!-- TODO extend -->
             <pattern>
                 <marker>
