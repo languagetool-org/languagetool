@@ -14808,6 +14808,18 @@ USA
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
+        <rule id="IN_EAR_HYPHEN" name="missing hyphen in 'in ear'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>in</token>
+                    <token>ear</token>
+                </marker>
+                <token regexp="yes">buds?|noise|noise\-?cancel.*|bluetooth|translators?|headsets?|earbuds?|apple|placement|versions?|(head|ear)phones?|monitors?|eegs?|monitoring|wireless|samsung|airpods?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="in-ear">He enjoys the <marker>in ear</marker> noise cancelling.</example>
+        </rule>
         <rule id="STEP_BY_STEP_HYPHEN" name="missing hyphens in 'step-by-step'">
             <pattern>
                 <marker>
