@@ -60,7 +60,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       csToken("fragen")
     ),
     Arrays.asList(
-      regex("ha"),
+      token("ha"),
       token("ha")
     ),
     Arrays.asList( // Phi Phi Islands
