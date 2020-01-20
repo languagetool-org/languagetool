@@ -152,7 +152,20 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
-
+        <rule id="PAPUA_NEW_GUINEA" name="Papua New Guinea" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Papua</token>
+                <token>New</token>
+                <token>Guinea</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Papp?u?au?</token>
+                <token>New</token>
+                <token regexp="yes">Guinea|Gunea|Guinae|Gunae|Guniea</token>
+            </pattern>
+            <message>Did you mean <suggestion>Papua New Guinea</suggestion> (= country in Oceania)?</message>
+            <example correction="Papua New Guinea">He was born in <marker>Papa New Guinea</marker>.</example>
+        </rule>
         <rule id="LIGATURES" name="Word contains a ligature">
             <antipattern case_sensitive="yes"><!-- Assume that ligatures in text about Old English are correct -->
                 <token skip="-1" postag="SENT_START"/>
@@ -14446,7 +14459,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -42759,12 +42772,17 @@ The accident victim died from her injuries.
             <token>papa</token>
             <token regexp="yes">johns?|roach|murphy</token>
         </antipattern>
+        <antipattern><!-- caught by PAPUA_NEW_GUINEA -->
+            <token>papa</token>
+            <token>new</token>
+            <token regexp="yes">gu.+</token>
+        </antipattern>
         <antipattern><!-- Popular Musician, spider, movie -->
             <token>daddy</token>
             <token regexp="yes">yankee|fox|long(legs)?|day.*</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes">puff|fox|sugar|go</token>
+            <token regexp="yes">puff|fox|sugar|go|big</token>
             <token>daddy</token>
         </antipattern>
         <pattern>
