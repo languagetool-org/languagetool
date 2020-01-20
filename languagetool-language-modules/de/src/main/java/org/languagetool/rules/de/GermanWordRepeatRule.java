@@ -55,8 +55,12 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Na"),
       token("na")
     ),
+    Arrays.asList( // "Bei Fragen fragen"
+      csToken("Fragen"),
+      csToken("fragen")
+    ),
     Arrays.asList(
-      token("ha"),
+      regex("ha"),
       token("ha")
     ),
     Arrays.asList( // Phi Phi Islands
