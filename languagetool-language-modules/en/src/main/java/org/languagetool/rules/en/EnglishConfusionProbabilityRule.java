@@ -58,6 +58,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "G Suite",
       "paste event",
       "need to know",
+      "of you not",   // "It would be wiser of you not to see him again."
+      "of her element",
+      "very grateful of you",
       "your look is" // Really, your look is
     );
     
