@@ -3545,6 +3545,43 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="CC" name="cc">
+        <!-- https://www.duden.de/rechtschreibung/cc -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">cc</token>
+                </marker>
+                <token min="0">:</token>
+                <!-- 
+                    cc Peter
+                    cc @peter
+                -->
+                <token postag="EIG:.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*|.*@.+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!-- setz mich in cc -->
+            <pattern>
+                <token>in</token>
+                <marker>
+                    <token case_sensitive="yes">cc</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!-- ich hab dich in cc gesetzt -->
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">cc</token>
+                </marker>
+                <token inflected="yes">setzen</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="VON_DER_LEYEN" id="VON_DER_LEYEN">
         <rule>
             <pattern case_sensitive="yes">
