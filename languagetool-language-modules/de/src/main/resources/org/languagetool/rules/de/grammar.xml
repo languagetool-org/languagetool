@@ -15351,15 +15351,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bearbeitet">Das habe ich schon letzte Woche <marker>bearbeitet gehabt</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="NIX" name="nix (nichts)">
-            <pattern>
-                <token>nix</token>
-            </pattern>
-            <message>'\1' ist umgangssprachlich.</message>
-            <suggestion>nichts</suggestion>
-            <short>Umgangssprache</short>
-            <example correction="nichts">Das ist <marker>nix</marker> für mich.</example>
-        </rule>
         <rule id="SO_DERMASSEN" name="'so dermaßen (so/dermaßen)'">
             <regexp>\bso derma(ß|ss)en\b</regexp>
             <message>'So dermaßen' ist eine Doppelung oder umgangssprachlich.</message>
@@ -16421,6 +16412,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="NIX" name="nix (nichts)" default="temp_off">
+            <!-- https://de.wikipedia.org/wiki/Nix -->
+            <antipattern>
+                <token regexp="yes">Herr|Frau|SMS</token>
+                <token case_sensitive="yes">Nix</token>
+            </antipattern>
+            <antipattern>
+                <token>Nix</token>
+                <token case_sensitive="yes" regexp="yes">OS|Design</token>
+            </antipattern>
+            <antipattern>
+                <token postag="UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                <token case_sensitive="yes">Nix</token>
+            </antipattern>
+            <antipattern>
+                <token>nix</token>
+                <token>alba</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Nn]ix</token>
+            </pattern>
+            <message>Das Wort "\1" ist umgangssprachlich.</message>
+            <suggestion>nichts</suggestion>
+            <url>https://www.duden.de/rechtschreibung/nix</url>
+            <short>Umgangssprache</short>
+            <example correction="nichts">Das ist <marker>nix</marker> für mich.</example>
+            <example>Jochen Nix ist ein deutscher Schauspieler, Theaterregisseur und Hörspielsprecher.</example>
+        </rule>
         <rule id="DIESEN_JAHRES" name="diesen (dieses) Jahres">
             <!-- eigentlich Grammatik, aber so verbreitet, dass wir es "nur" als Stilfehler sehen -->
             <pattern>
