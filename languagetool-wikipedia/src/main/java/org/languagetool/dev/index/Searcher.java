@@ -21,9 +21,8 @@ package org.languagetool.dev.index;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD_VAL;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_VALUE;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.Lucene.SOURCE_FIELD_NAME;
 
 import java.io.File;
 import java.io.IOException;

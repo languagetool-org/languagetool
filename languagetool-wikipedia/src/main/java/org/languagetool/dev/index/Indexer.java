@@ -40,9 +40,9 @@ import org.languagetool.Languages;
 import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.Lucene.SOURCE_FIELD_NAME;
 
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
