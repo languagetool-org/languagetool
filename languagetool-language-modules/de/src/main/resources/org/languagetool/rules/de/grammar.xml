@@ -41821,6 +41821,11 @@ Andere Projekte</example>
                     <token regexp="yes" skip="2">ihr|du|sie</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="ADV:(MOD|CAU)" postag_regexp="yes"></token>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -41843,6 +41848,7 @@ Andere Projekte</example>
                 <example>Klarheit über die eigenen Kompetenzen, Erfolge und den Mehrwert für das Unternehmen können dabei helfen.</example>
                 <example>In der ersten Version eher nicht, d.h. es gibt kein User Interface dafür.</example>
                 <example>Hallo ihr beiden, Tim und ich sind ab heute Nachmittag unterwegs.</example>
+                <example>Einfach ohne Zweifel das beste Tool, außerdem sind die AGB benutzerfreundlich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
