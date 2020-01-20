@@ -20,6 +20,7 @@ package org.languagetool.dev.bigdata;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -43,7 +44,7 @@ class TextIndexCreator {
   static final String FIELD = "sentence";
 
   private void index(File outputDir, String[] inputFiles) throws IOException {
-    Analyzer analyzer = new StandardAnalyzer();
+    Analyzer analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
     try (FSDirectory directory = FSDirectory.open(outputDir.toPath());
          IndexWriter indexWriter = new IndexWriter(directory, config)) {
