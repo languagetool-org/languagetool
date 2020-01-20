@@ -373,6 +373,14 @@ public class CaseRule extends Rule {
     Arrays.asList(
       token("im"),
       csToken("Aus")
+    ),
+    Arrays.asList( // Die Top Fünf (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
+      csToken("Top"),
+      pos("ZAL")
+    ),
+    Arrays.asList( // Die Top Ten (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
+      csToken("Top"),
+      csToken("Ten")
     )
   );
 
@@ -577,6 +585,8 @@ public class CaseRule extends Rule {
     "Schuft",
     "Schufte",
     "Schuld",
+    "Schwangere",
+    "Schwangeren",
     "Schwärme",
     "Schwarzes",    // Schwarzes Brett
     "Sie",
