@@ -9080,6 +9080,31 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="KIND_REGARD" name="Kind regard (regards)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">kind|best|warm</token>
+                    <marker>
+                        <token>regard</token>
+                    </marker>
+                    <token regexp="yes">,|\.|!</token>
+                </pattern>
+                <message>Did you mean <suggestion>\3s</suggestion>?</message>
+                <example correction="regards">Kind <marker>regard</marker>, Chris.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">kind|best|warm</token>
+                    <marker>
+                        <token postag="SENT_END">regard</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\3s</suggestion>?</message>
+                <example correction="regards">Best <marker>regard</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="SPLITTED" name="splitted (split)">
             <pattern>
                 <token>splitted</token>
@@ -12950,7 +12975,7 @@ USA
                 <url>https://en.wiktionary.org/wiki/rescheduling</url>
                 <example correction="rescheduling">Your <marker>reschedule</marker> didn't reach me.</example>
             </rule>
-            <rule default="temp_off"><!-- the administer -->
+            <rule><!-- the administer -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12964,7 +12989,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/administrator</url>
                 <example correction="administrator">Your <marker>administer</marker> should have sent you the login instructions.</example>
             </rule>
-            <rule default="temp_off"><!-- the exhale -->
+            <rule><!-- the exhale -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12978,7 +13003,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/exhalation</url>
                 <example correction="exhalation">The main reason for the <marker>exhale</marker> is to rid the body of carbon dioxide</example>
             </rule>
-            <rule default="temp_off"><!-- the prevent -->
+            <rule><!-- the prevent -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -12992,7 +13017,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/prevention</url>
                 <example correction="prevention">The <marker>prevent</marker> of intruders was turned on every night.</example>
             </rule>
-            <rule default="temp_off"><!-- the homeschool -->
+            <rule><!-- the homeschool -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13006,7 +13031,7 @@ USA
                 <url>https://en.wiktionary.org/wiki/home_school#English</url>
                 <example correction="home school">He learned all about life in his <marker>homeschool</marker>.</example>
             </rule>
-            <rule default="temp_off"><!-- the doubleclick -->
+            <rule><!-- the doubleclick -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13019,8 +13044,9 @@ USA
                 <message>Did you mean <suggestion><match no="3" regexp_match="(?i)click" regexp_replace=" click" /></suggestion> (= noun)?</message>
                 <url>https://www.merriam-webster.com/dictionary/double-click</url>
                 <example correction="double click">He tried a <marker>doubleclick</marker> to open the folder.</example>
+                <example>He uses the DubleClick advertising platform.</example>
             </rule>
-            <rule default="temp_off"><!-- the injure -->
+            <rule><!-- the injure -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13034,7 +13060,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/injury</url>
                 <example correction="injury">He got an <marker>injure</marker> while playing football.</example>
             </rule>
-            <rule default="temp_off"><!-- the confirm -->
+            <rule><!-- the confirm -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -14833,7 +14859,7 @@ USA
             <message>Did you mean the adjective or adverb <suggestion>\1-\2-\3</suggestion> (spelled with hyphens)?</message>
             <example correction="step-by-step">The <marker>step by step</marker> diet plan helped me to lose kilos.</example>
         </rule>
-        <rule id="OPEN_HEART_HYPHEN" name="missing hyphen in 'open heart'" default="temp_off">
+        <rule id="OPEN_HEART_HYPHEN" name="missing hyphen in 'open heart'">
             <pattern>
                 <marker>
                     <token>open</token>
@@ -28268,7 +28294,7 @@ USA
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid|weirdo)s?|kiddo|sir|mamm?a|papa|uncle|auntie</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid|weirdo)s?|kiddo|sir|mamm?a|papa|uncle|auntie|ladies</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -34490,7 +34516,7 @@ The accident victim died from her injuries.
                         </token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="MD|VB.*|NN.*" postag_regexp="yes">
+                    <token postag="MD|VB.*|NN.*|PRP" postag_regexp="yes">
                         <exception regexp="yes">soy|man|dude|dawg|weirdo|los|m[oa]mm?a|papa|kai|decido|amo|baby|canto|bum|chen|creek|duk|el|frankie|gotti|gabba|ho|hitoto|inoue|jong?|jin|l[oae]s?|murphy|majesty|nac[íi]|oizumi|protesto|scale|te|tambi[ée]n|takenaka|uematsu|un|un\-.+|wassup|yos?|zushi</exception>
                     </token>
                 </pattern>
