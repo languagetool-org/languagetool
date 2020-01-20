@@ -3521,7 +3521,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="CENTER_OF" id="CENTER_OF">
         <pattern><!-- z.B. Center of Automotive Research -->
             <marker>
-                <token case_sensitive="yes">Center</token>
+                <token case_sensitive="yes" regexp="yes">Center|Bank|Institute</token>
                 <token regexp="yes" case_sensitive="yes">of|for</token>
             </marker>
             <token regexp="yes">.*[a-z].*</token>
@@ -3535,6 +3535,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">'|’</token>
             <token>s</token>
             <token>who</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="NEWS" id="NEWS">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Breaking|Soft|Fake</token>
+            <token>News</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
