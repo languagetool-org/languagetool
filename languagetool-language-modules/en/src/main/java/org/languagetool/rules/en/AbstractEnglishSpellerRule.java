@@ -270,6 +270,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("for a");
     } else if ("lotsa".equals(word)) {
       return Arrays.asList("lots of");
+    } else if ("tryna".equals(word)) {
+      return Arrays.asList("trying to");
     } else if ("coulda".equals(word)) {
       return Arrays.asList("could have");
     } else if ("shoulda".equals(word)) {
