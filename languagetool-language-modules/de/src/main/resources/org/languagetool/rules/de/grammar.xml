@@ -7290,6 +7290,225 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="WHATS_APP" name="Whats App (WhatsApp)">
+            <pattern>
+                <token>Whats</token>
+                <token>App</token>
+            </pattern>
+            <message><suggestion>WhatsApp</suggestion> wird zusammengeschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/WhatsApp</url>
+            <short>&getrennt;.</short>
+            <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
+        </rule>
+        <rulegroup id="LOREAL" name="L’Oréal" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>L</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token regexp="yes" spacebefore="no">Oréals?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>l</token>
+                    <token min="0" regexp="yes">.</token>
+                    <token regexp="yes">or[eéè]als?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>L’<match no="3" case_conversion="startupper" regexp_match="(?i)or[eéè]al" regexp_replace="Oréal" /></suggestion> (= Kosmetikhersteller)?</message>
+                <url>https://de.wikipedia.org/wiki/L%E2%80%99Or%C3%A9al</url>
+                <example correction="L’Oréal">Die <marker>L'Oreal</marker> S.A. ist ein französischer Konsumgüterkonzern mit Hauptsitz in Paris und derzeit der größte Kosmetikhersteller der Welt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">lor[eéè]als?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>L’<match no="1" case_conversion="startupper" regexp_match="(?i)lor[eéè]al" regexp_replace="Oréal" /></suggestion> (= Kosmetikhersteller)?</message>
+                <url>https://de.wikipedia.org/wiki/L%E2%80%99Or%C3%A9al</url>
+                <example correction="L’Oréal">Die <marker>LOréal</marker> S.A. ist ein französischer Konsumgüterkonzern mit Hauptsitz in Paris und derzeit der größte Kosmetikhersteller der Welt.</example>
+            </rule>
+        </rulegroup>
+        <rule id="CITROEN" name="Citroën">
+            <pattern>
+                <token regexp="yes">[ZC]itr[oö]en|[ZC]itröe?n</token>
+            </pattern>
+            <message>Die korrekte Eigenschreibweise des Autoherstellers lautet <suggestion>Citroën</suggestion>.</message>
+            <url>https://de.wikipedia.org/wiki/Citro%C3%ABn</url>
+            <example correction="Citroën"><marker>Citroen</marker> ist ein französischer Automobilhersteller.</example>
+        </rule>
+        <rulegroup id="JONG_UN" name="Kim Jong-un">
+            <url>https://de.wikipedia.org/wiki/Kim_Jong-un</url>
+            <rule>
+                <pattern>
+                    <token>jong</token>
+                    <token>un</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
+                <example correction="Jong-un">Kim <marker>Jong un</marker> kommt aus Nordkorea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jongun</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
+                <example correction="Jong-un">Kim <marker>Jongun</marker> kommt aus Nordkorea.</example>
+            </rule>
+        </rulegroup>
+        <rule id="TIK_TOK" name="TikTok">
+            <pattern>
+                <token>tik</token>
+                <token>tok</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>TikTok</suggestion> (= App)?</message>
+            <url>https://de.wikipedia.org/wiki/TikTok</url>
+            <example correction="TikTok"><marker>Tik tok</marker> wurde von ByteDance entwickelt.</example>
+        </rule>
+        <rulegroup id="FRITZ_BOX" name="Schreibweise 'Fritz!Box'">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Fritz|FRITZ</token>
+                <token>!</token>
+                <token>Box</token>
+            </antipattern>
+            <rule>
+                <pattern><token>fritzbox</token></pattern>
+                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
+                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
+                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritzbox</marker> funktioniert nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fritz</token>
+                    <token>box</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
+                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
+                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritz Box</marker> funktioniert nicht.</example>
+                <example>Die <marker>Fritz!Box</marker> ist ein beliebter WLAN-Router.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SOCIETE_GENERALE" name="Société Générale">
+            <antipattern case_sensitive="yes">
+                <token>Société</token>
+                <token regexp="yes">Générales?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Soci.t.</token>
+                <token regexp="yes">G.n.ral.?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
+            <url>https://de.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
+            <example correction="Société Générale">Die <marker>Societé General</marker> ist eine französische Bank.</example>
+        </rule>
+        <rule id="NDRANGHETA" name="'Ndrangheta">
+            <pattern>
+                <token regexp="yes">
+                    Ndranghetas?
+                    <exception scope="previous" regexp="yes">['`´’]</exception>
+                </token>
+            </pattern>
+            <message>Die Vereinigung wird normalerweise mit einem Apostroph geschrieben.</message>
+            <suggestion>’<match no="1" case_conversion="startupper" /></suggestion>
+            <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
+            <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
+        </rule>
+        <rulegroup id="KRAMP_KARRENBAUER" name="Kramp-Karrenbauer">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Kramp-Karrenbauers?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?</token>
+                    <token regexp="yes">Karr?enbauers?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-<match regexp_match="(?i)Karr?enbauer" regexp_replace="Karrenbauer" no="2" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp Karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Kr?ampp?.?Karr?enbauer</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Kramp-Karrenbauer</suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
+                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp-karenbauer</marker> ist CDU-Vorsitzende.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <token>Von</token>
+                <token>der</token>
+                <token regexp="yes">Leyens?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">v.n</token>
+                        <token regexp="yes">der?</token>
+                        <token regexp="yes">L[ea][yi]ens?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="4" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="Von der Leyen"><marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example correction="Von der Leyens"><marker>Von Der Leyens</marker> Berateraffäre war ein Wendepunkt.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>von</token>
+                    <token>der</token>
+                    <token regexp="yes">Leyens?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">v.n</token>
+                    <token regexp="yes">der?</token>
+                    <token regexp="yes">L[ea][yi]ens?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
+                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
+                <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
+                <example>Von der leben sie heute.</example>
+                <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
+            </rule>
+        </rulegroup>
+        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
+            <antipattern case_sensitive="yes">
+                <token>Emmanuel</token>
+                <token>Macron</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">E?mm?anue?ll?e?</token>
+                <token regexp="yes">Macrone?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Emmanuel Macron</suggestion> (= Politiker)?</message>
+            <url>https://de.wikipedia.org/wiki/Emmanuel_Macron</url>
+            <example correction="Emmanuel Macron"><marker>Manuel macron</marker> ist ein französischer Politiker.</example>
+            <example><marker>Emmanuel Macron</marker> ist ein französischer Politiker.</example>
+        </rule>
+        <rule id="JEROME_BOATENG" name="Jérôme Boateng">
+            <antipattern case_sensitive="yes">
+                <token>Jérôme</token>
+                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">J.r.me</token>
+                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Jérôme <match no="2" case_conversion="startupper" /></suggestion> (= prominente Person)</message>
+            <example correction="Jérôme Boateng"><marker>Jerome Boateng</marker> ist ein deutscher Fußballspieler.</example>
+            <example>Jérôme Boatengs Karriere erreichte seinen Höhepunkt mit dem Gewinn der WM 2014.</example>
+        </rule>
+        <rule id="LEROY_SANE" name="Leroy Sané">
+            <antipattern case_sensitive="yes">
+                <token>Leroy</token>
+                <token regexp="yes">Sanés?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Lee?roy</token>
+                <token regexp="yes">San.s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Leroy <match no="2" regexp_match="(?i)San." regexp_replace="Sané" /></suggestion> (= Fußballspieler)</message>
+            <url>https://de.wikipedia.org/wiki/Leroy_San%C3%A9</url>
+            <example correction="Leroy Sanés"><marker>Leroy Sanes</marker> neuer Fußballverein heißt wohl bald Bayern München.</example>
+        </rule>
         <rulegroup id="RHEINLAND_FALZ" name="'Rheinland-Falz (Rheinland-Pfalz)'">
             <rule>
                 <regexp>Rheinland[ -]Falz</regexp>
@@ -8486,6 +8705,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="VOLL_DROEHNEN" name="voll dröhnen (volldröhnen)" default="temp_off">
+            <pattern>
+                <token>voll</token>
+                <token regexp="yes">dröhnen|gedröhnt(e|er|en|em|es)?|zudröhnen|dröhnten?|dröhnst</token>
+            </pattern>
+            <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
+            <suggestion>\1\2</suggestion>
+            <url>https://www.duden.de/rechtschreibung/volldroehnen</url>
+            <example correction="vollgedröhnt">Er hat sich mit Drogen <marker>voll gedröhnt</marker>.</example>
+        </rule>
+        <rulegroup id="NACHVOLLZIEHEN" name="nach vollziehen (nachvollziehen)" default="temp_off">
+            <url>https://www.korrekturen.de/flexion/konjugation/nachvollziehen/</url>
+            <rule>
+                <pattern>
+                    <token>nach</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes" case_sensitive="yes">
+                        vollziehen
+                        <exception scope="next" regexp="yes">de[rs]|eine[rs]</token>
+                    </token>
+                </pattern>
+                <message>Dieses Verb wird zusammengeschrieben.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example correction="nachzuvollziehen">Das war nicht <marker>nach zu vollziehen</marker>.</example>
+                <example correction="nachvollzogen">Er hat das Problem <marker>nach vollzogen</marker>.</example>
+                <example correction="nachvollziehen">Ich habe es nicht mehr <marker>nach vollziehen</marker> können.</example>
+                <example>In Deutschland beantragte EORI-Nummern werden erst nach Vollziehen des Brexits nach dem 1. November 2019 aktiviert.</example>
+            </rule>
+        </rulegroup>
         <rule id="DESWEITEREN" name="desweiteren (des Weiteren)">
             <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
             <pattern>
@@ -8659,49 +8907,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="nichtsdestotrotz">Das war <marker>nichts destotrotz</marker> eine gute Leistung.</example>
         </rule>
-        <rule id="WHATSAPP" name="Whats App (WhatsApp)">
-            <pattern>
-                <token>Whats</token>
-                <token>App</token>
-            </pattern>
-            <message><suggestion>WhatsApp</suggestion> wird zusammengeschrieben.</message>
-            <url>https://de.wikipedia.org/wiki/WhatsApp</url>
-            <short>&getrennt;.</short>
-            <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
-        </rule>
-        <rulegroup id="LOREAL" name="L’Oréal" default="temp_off">
-            <antipattern case_sensitive="yes">
-                <token>L</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token regexp="yes" spacebefore="no">Oréals?</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token>l</token>
-                    <token min="0" regexp="yes">.</token>
-                    <token regexp="yes">or[eéè]als?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>L’<match no="3" case_conversion="startupper" regexp_match="(?i)or[eéè]al" regexp_replace="Oréal" /></suggestion> (= Kosmetikhersteller)?</message>
-                <url>https://de.wikipedia.org/wiki/L%E2%80%99Or%C3%A9al</url>
-                <example correction="L’Oréal">Die <marker>L'Oreal</marker> S.A. ist ein französischer Konsumgüterkonzern mit Hauptsitz in Paris und derzeit der größte Kosmetikhersteller der Welt.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">lor[eéè]als?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>L’<match no="1" case_conversion="startupper" regexp_match="(?i)lor[eéè]al" regexp_replace="Oréal" /></suggestion> (= Kosmetikhersteller)?</message>
-                <url>https://de.wikipedia.org/wiki/L%E2%80%99Or%C3%A9al</url>
-                <example correction="L’Oréal">Die <marker>LOréal</marker> S.A. ist ein französischer Konsumgüterkonzern mit Hauptsitz in Paris und derzeit der größte Kosmetikhersteller der Welt.</example>
-            </rule>
-        </rulegroup>
-        <rule id="CITROEN" name="Citroën">
-            <pattern>
-                <token regexp="yes">[ZC]itr[oö]en|[ZC]itröe?n</token>
-            </pattern>
-            <message>Die korrekte Eigenschreibweise des Autoherstellers lautet <suggestion>Citroën</suggestion>.</message>
-            <url>https://de.wikipedia.org/wiki/Citro%C3%ABn</url>
-            <example correction="Citroën"><marker>Citroen</marker> ist ein französischer Automobilhersteller.</example>
-        </rule>
         <rulegroup id="APRES_SKI" name="Après-Ski">
             <url>https://www.duden.de/rechtschreibung/Apres_Ski</url>
             <rule>
@@ -8730,182 +8935,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Après-Ski-Party">Die <marker>Apres-Ski Party</marker> war ein voller Erfolg.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="JONG_UN" name="Kim Jong-un">
-            <url>https://de.wikipedia.org/wiki/Kim_Jong-un</url>
-            <rule>
-                <pattern>
-                    <token>jong</token>
-                    <token>un</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
-                <example correction="Jong-un">Kim <marker>Jong un</marker> kommt aus Nordkorea.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>jongun</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Jong-un</suggestion> (= Person aus Nordkorea)?</message>
-                <example correction="Jong-un">Kim <marker>Jongun</marker> kommt aus Nordkorea.</example>
-            </rule>
-        </rulegroup>
-        <rule id="TIK_TOK" name="TikTok">
-            <pattern>
-                <token>tik</token>
-                <token>tok</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>TikTok</suggestion> (= App)?</message>
-            <url>https://de.wikipedia.org/wiki/TikTok</url>
-            <example correction="TikTok"><marker>Tik tok</marker> wurde von ByteDance entwickelt.</example>
-        </rule>
-        <rulegroup id="FRITZ_BOX" name="Schreibweise 'Fritz!Box'">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">Fritz|FRITZ</token>
-                <token>!</token>
-                <token>Box</token>
-            </antipattern>
-            <rule>
-                <pattern><token>fritzbox</token></pattern>
-                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
-                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
-                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritzbox</marker> funktioniert nicht.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>fritz</token>
-                    <token>box</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Fritz!Box</suggestion> oder <suggestion>FRITZ!Box</suggestion> (= Router)?</message>
-                <url>https://de.wikipedia.org/wiki/Fritz!Box</url>
-                <example correction="Fritz!Box|FRITZ!Box">Die <marker>Fritz Box</marker> funktioniert nicht.</example>
-                <example>Die <marker>Fritz!Box</marker> ist ein beliebter WLAN-Router.</example>
-            </rule>
-        </rulegroup>
-        <rule id="SOCIETE_GENERALE" name="Société Générale">
-            <antipattern case_sensitive="yes">
-                <token>Société</token>
-                <token regexp="yes">Générales?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">Soci.t.</token>
-                <token regexp="yes">G.n.ral.?s?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Société <match no="2" case_conversion="startupper" regexp_match="(?i)G.n.ral.?" regexp_replace="Générale" /></suggestion> (= Bank)?</message>
-            <url>https://de.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale</url>
-            <example correction="Société Générale">Die <marker>Societé General</marker> ist eine französische Bank.</example>
-        </rule>
-        <rule id="NDRANGHETA" name="'Ndrangheta">
-            <pattern>
-                <token regexp="yes">
-                    Ndranghetas?
-                    <exception scope="previous" regexp="yes">['`´’]</exception>
-                </token>
-            </pattern>
-            <message>Die Vereinigung wird normalerweise mit einem Apostroph geschrieben.</message>
-            <suggestion>’<match no="1" case_conversion="startupper" /></suggestion>
-            <url>https://de.wikipedia.org/wiki/%E2%80%99Ndrangheta</url>
-            <example correction="’Ndrangheta">Die <marker>Ndrangheta</marker> ist die Vereinigung der kalabrischen Mafia.</example>
-        </rule>
-        <rulegroup id="KRAMP_KARRENBAUER" name="Kramp-Karrenbauer">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">Kramp-Karrenbauers?</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">Kr?ampp?</token>
-                    <token regexp="yes">Karr?enbauers?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Kramp-<match regexp_match="(?i)Karr?enbauer" regexp_replace="Karrenbauer" no="2" /></suggestion> (= Politikerin)?</message>
-                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
-                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp Karenbauer</marker> ist CDU-Vorsitzende.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">Kr?ampp?.?Karr?enbauer</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Kramp-Karrenbauer</suggestion> (= Politikerin)?</message>
-                <url>https://de.wikipedia.org/wiki/Annegret_Kramp-Karrenbauer</url>
-                <example correction="Kramp-Karrenbauer">Annegret <marker>Kramp-karenbauer</marker> ist CDU-Vorsitzende.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="VON_DER_LEYEN" name="Ursula von der Leyen">
-            <antipattern case_sensitive="yes">
-                <token postag="SENT_START" />
-                <token>Von</token>
-                <token>der</token>
-                <token regexp="yes">Leyens?</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" />
-                    <marker>
-                        <token regexp="yes">v.n</token>
-                        <token regexp="yes">der?</token>
-                        <token regexp="yes">L[ea][yi]ens?</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="4" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
-                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-                <example correction="Von der Leyen"><marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
-                <example correction="Von der Leyens"><marker>Von Der Leyens</marker> Berateraffäre war ein Wendepunkt.</example>
-            </rule>
-            <rule>
-                <antipattern case_sensitive="yes">
-                    <token>von</token>
-                    <token>der</token>
-                    <token regexp="yes">Leyens?</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">v.n</token>
-                    <token regexp="yes">der?</token>
-                    <token regexp="yes">L[ea][yi]ens?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="1" regexp_match="(?i)v.n" regexp_replace="von" /> der <match case_conversion="startupper" no="3" regexp_match="(?i)L..en" regexp_replace="Leyen" /></suggestion> (= Politikerin)?</message>
-                <url>https://de.wikipedia.org/wiki/Ursula_von_der_Leyen</url>
-                <example correction="von der Leyen">Ursula <marker>Von de Leyen</marker> ist eine deutsche Politikerin.</example>
-                <example>Von der leben sie heute.</example>
-                <example correction="von der Leyens">Während <marker>Von Der Leyens</marker> Berateraffäre.</example>
-            </rule>
-        </rulegroup>
-        <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
-            <antipattern case_sensitive="yes">
-                <token>Emmanuel</token>
-                <token>Macron</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">E?mm?anue?ll?e?</token>
-                <token regexp="yes">Macrone?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Emmanuel Macron</suggestion> (= Politiker)?</message>
-            <url>https://de.wikipedia.org/wiki/Emmanuel_Macron</url>
-            <example correction="Emmanuel Macron"><marker>Manuel macron</marker> ist ein französischer Politiker.</example>
-            <example><marker>Emmanuel Macron</marker> ist ein französischer Politiker.</example>
-        </rule>
-        <rule id="JEROME_BOATENG" name="Jérôme Boateng">
-            <antipattern case_sensitive="yes">
-                <token>Jérôme</token>
-                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">J.r.me</token>
-                <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Jérôme <match no="2" case_conversion="startupper" /></suggestion> (= prominente Person)</message>
-            <example correction="Jérôme Boateng"><marker>Jerome Boateng</marker> ist ein deutscher Fußballspieler.</example>
-            <example>Jérôme Boatengs Karriere erreichte seinen Höhepunkt mit dem Gewinn der WM 2014.</example>
-        </rule>
-        <rule id="LEROY_SANE" name="Leroy Sané">
-            <antipattern case_sensitive="yes">
-                <token>Leroy</token>
-                <token regexp="yes">Sanés?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">Lee?roy</token>
-                <token regexp="yes">San.s?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Leroy <match no="2" regexp_match="(?i)San." regexp_replace="Sané" /></suggestion> (= Fußballspieler)</message>
-            <url>https://de.wikipedia.org/wiki/Leroy_San%C3%A9</url>
-            <example correction="Leroy Sanés"><marker>Leroy Sanes</marker> neuer Fußballverein heißt wohl bald Bayern München.</example>
-        </rule>
         <rule id="COPY_AND_PASTE" name="Copy-and-paste">
             <pattern>
                 <token>Copy</token>
