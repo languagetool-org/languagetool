@@ -118,28 +118,54 @@ public class LanguageAnnotator {
     return result;
   }
 
-  // For each range, assign the language that has most tokens there.
+  // For each range, assign the language that has most tokens there. For ambiguous parts
+  // (no winning language), use the top language of the next non-ambiguous part:
   List<TokenRangeWithLanguage> getTokenRangesWithLang(List<List<TokenWithLanguages>> tokenRanges, Language mainLang, List<Language> secondLangs) {
     List<TokenRangeWithLanguage> result = new ArrayList<>();
+    int i = 0;
     for (List<TokenWithLanguages> tokens : tokenRanges) {
-      Map<Language, Integer> langToCount = new HashMap<>();
-      langToCount.put(mainLang, tokens.stream().mapToInt(k -> k.langs.contains(mainLang) ? 1 : 0).sum());
-      for (Language lang : secondLangs) {
-        int langCount = tokens.stream().mapToInt(k -> k.langs.contains(lang) ? 1 : 0).sum();
-        langToCount.put(lang, langCount);
-      }
-      int max = 0;
-      Language topLang = mainLang;
-      for (Map.Entry<Language, Integer> entry : langToCount.entrySet()) {
-        if (entry.getValue() > max) {
-          topLang = entry.getKey();
-          max = entry.getValue();
+      //System.out.println(">"+tokens);
+      Language topLang = null;
+      boolean allAmbiguous = tokens.stream().allMatch(k -> k.ambiguous());
+      if (allAmbiguous) {
+        //System.out.println("ALL AMBIG: " + tokens);
+        for (int j = i + 1; j < tokenRanges.size(); j++) {
+          //System.out.println("testing " + j);
+          List<TokenWithLanguages> nextTokens = tokenRanges.get(j);
+          boolean nextAllAmbiguous = nextTokens.stream().allMatch(k -> k.ambiguous());
+          if (!nextAllAmbiguous) {
+            topLang = getTopLang(mainLang, secondLangs, nextTokens);
+            //System.out.println("not ambig at " + j + " (" + nextTokens + ")" +  ", top lang  + " + topLang);
+            break;
+          }
         }
+      }
+      if (topLang == null) {
+        topLang = getTopLang(mainLang, secondLangs, tokens);
       }
       List<String> tokenList = tokens.stream().map(k -> k.token).collect(Collectors.toList());
       result.add(new TokenRangeWithLanguage(tokenList, topLang));
+      i++;
     }
     return result;
+  }
+
+  private Language getTopLang(Language mainLang, List<Language> secondLangs, List<TokenWithLanguages> tokens) {
+    Map<Language, Integer> langToCount = new HashMap<>();
+    langToCount.put(mainLang, tokens.stream().mapToInt(k -> k.langs.contains(mainLang) ? 1 : 0).sum());
+    for (Language lang : secondLangs) {
+      int langCount = tokens.stream().mapToInt(k -> k.langs.contains(lang) ? 1 : 0).sum();
+      langToCount.put(lang, langCount);
+    }
+    int max = 0;
+    Language topLang = mainLang;
+    for (Map.Entry<Language, Integer> entry : langToCount.entrySet()) {
+      if (entry.getValue() > max) {
+        topLang = entry.getKey();
+        max = entry.getValue();
+      }
+    }
+    return topLang;
   }
 
   private boolean isBoundary(TokenWithLanguages token) {
@@ -163,6 +189,9 @@ public class LanguageAnnotator {
     TokenWithLanguages(String token, List<Language> langs) {
       this.token = Objects.requireNonNull(token);
       this.langs = Objects.requireNonNull(langs);
+    }
+    boolean ambiguous() {
+      return langs.size() == 0 || langs.size() > 1;
     }
     @Override
     public String toString() {

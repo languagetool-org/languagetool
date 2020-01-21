@@ -31,6 +31,7 @@ public class LanguageAnnotatorTest {
   private final Language de = Languages.getLanguageForShortCode("de-DE");
   private final List<Language> deList = Arrays.asList(de);
   private final List<Language> enList = Arrays.asList(en);
+  private final List<Language> enDe = Arrays.asList(en, de);
 
   @Test
   public void testGetTokensWithPotentialLanguages() {
@@ -57,7 +58,7 @@ public class LanguageAnnotatorTest {
     assertThat(annotator.detectLanguages("Hier steht was auf Deutsch. This is English text one. " +
                                          "Hier steht was auf Deutsch. \"This is English text two.\"", de, enList).toString(),
                                       is("[| de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
-                                          "| de-DE:  Hier steht was auf Deutsch.  |, | en-US: \"This is English text two.\" |]"));
+                                          "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));
     // TODO: sentences with typos
   }
   
@@ -94,7 +95,28 @@ public class LanguageAnnotatorTest {
     assertThat(getTokenRangeAsString(tokenRanges2), is("[This is a test!][Hier geht es weiter]"));
     assertThat(annotator.getTokenRangesWithLang(tokenRanges2, en, deList).toString(),
       is("[en-US: [This,  , is,  , a,  , test, !], de-DE: [Hier,  , geht,  , es,  , weiter]]"));
+  }
 
+  @Test
+  public void testGetTokenRangesAmbiguous() {
+    LanguageAnnotator annotator = new LanguageAnnotator();
+    List<List<LanguageAnnotator.TokenWithLanguages>> tokenRanges = annotator.getTokenRanges(Arrays.asList(
+      token("Hi", enDe), token(","),
+      token("\n"),
+      token("\n"),
+      token("this", en), token(" ", en),
+      token("is", de), token(" ", en),
+      token("a", de), token(" ", en),
+      token("test", en),
+      token(".", en),
+      token("Hier", de), token(" ", de),
+      token("geht", de), token(" ", de),
+      token("es", de), token(" ", de),
+      token("weiter", de),
+      token(".", de)
+    ));
+    assertThat(annotator.getTokenRangesWithLang(tokenRanges, de, enList).toString(),
+      is("[en-US: [Hi, ,, \n], en-US: [\n], en-US: [this,  , is,  , a,  , test, .], de-DE: [Hier,  , geht,  , es,  , weiter, .]]"));
   }
 
   @Test
@@ -151,6 +173,11 @@ public class LanguageAnnotatorTest {
 
   @NotNull
   private LanguageAnnotator.TokenWithLanguages token(String s, Language... langs) {
+    return new LanguageAnnotator.TokenWithLanguages(s, langs);
+  }
+
+  @NotNull
+  private LanguageAnnotator.TokenWithLanguages token(String s, List<Language> langs) {
     return new LanguageAnnotator.TokenWithLanguages(s, langs);
   }
 
