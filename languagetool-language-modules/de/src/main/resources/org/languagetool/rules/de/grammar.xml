@@ -140,6 +140,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rulegroup id="VIELE_DANK" name="viele (vielen) Dank" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">viele|beste|herzliche</token>
+                        <token regexp="yes" skip="1">danke?</token>
+                    </marker>
+                    <token regexp="yes">für|dir|ihnen|herr|frau|[ae]uch|\.|\!|\,|\?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1n Dank</suggestion>?</message>
+                <short>&typo;.</short>
+                <example correction="Vielen Dank"><marker>Viele Danke</marker> für die Blumen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">viele|beste|herzliche</token>
+                        <token regexp="yes" postag="SENT_END">danke?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1n Dank</suggestion>?</message>
+                <short>&typo;.</short>
+                <example correction="Vielen Dank"><marker>Viele Dank</marker></example>
+            </rule>
+        </rulegroup>
         <!-- this is an example rule: -->
         <rule id="GILBT" name="gilbt (gilt/gibt)">
             <pattern>
