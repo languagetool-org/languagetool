@@ -78,6 +78,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("abgekatertes", "abgekartetes");
+    put("wiederspiegelt", "widerspiegelt");
     put("Komplexheit", "Komplexität");
     put("einzigst", "einzig");
     put("Einzigst", "Einzig");
