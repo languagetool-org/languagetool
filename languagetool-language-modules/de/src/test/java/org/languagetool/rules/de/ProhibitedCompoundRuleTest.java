@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -55,14 +56,21 @@ public class ProhibitedCompoundRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    assertMatches("Er ist Uhrberliner.", 1);
-    assertMatches("Das ist ein Mitauto.", 1);
-    assertMatches("Hier leben die Uhreinwohner.", 1);
+    assertMatches("Er ist Uhrberliner.", "Uhrberliner");
+    assertMatches("Er ist Uhr-Berliner.", "Uhr-Berliner");
+    assertMatches("Das ist ein Mitauto.", "Mitauto");
+    assertMatches("Das ist ein Mit-Auto.", "Mit-Auto");
+    assertMatches("Hier leben die Uhreinwohner.", "Uhreinwohner");
+    assertMatches("Hier leben die Uhr-Einwohner.", "Uhr-Einwohner");
     assertMatches("Eine Leerzeile einfügen.", 0);
-    assertMatches("Eine Lehrzeile einfügen.", 1);
+    assertMatches("Eine Leer-Zeile einfügen.", 0);
+    assertMatches("Eine Lehrzeile einfügen.", "Lehrzeile");
+    assertMatches("Eine Lehr-Zeile einfügen.", "Lehr-Zeile");
     
     assertMatches("Viel Wohnungsleerstand.", 0);
-    assertMatches("Viel Wohnungslehrstand.", 1);
+    assertMatches("Viel Wohnungs-Leerstand.", 0);
+    assertMatches("Viel Wohnungslehrstand.", "Wohnungslehrstand");
+    assertMatches("Viel Wohnungs-Lehrstand.", "Wohnungs-Lehrstand");
     assertMatches("Viel Xliseihfleerstand.", 0);
     assertMatches("Viel Xliseihflehrstand.", 0);  // no correct spelling, so not suggested
 
@@ -70,6 +78,15 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Die Test-Lehrzeile einfügen.", "Lehrzeile");
     assertMatches("Die Versuchs-Test-Lehrzeile einfügen.", "Lehrzeile");
     assertMatches("Den Versuchs-Lehrzeile-Test einfügen.", "Lehrzeile");
+  }
+
+  @Test
+  public void testRemoveHyphensAndAdaptCase() {
+    assertNull(rule.removeHyphensAndAdaptCase("Marathonläuse"));
+    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse"), is("Marathonläuse"));
+    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
+    assertThat(rule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
+    assertThat(rule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
   }
 
   void assertMatches(String input, int expectedMatches) throws IOException {
