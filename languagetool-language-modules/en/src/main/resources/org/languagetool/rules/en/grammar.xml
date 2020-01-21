@@ -9258,7 +9258,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -9353,7 +9353,7 @@ USA
                             <exception regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg</exception><!-- abbreviation of verbs -->
                             <exception regexp="yes">spec|def|prob</exception><!-- abbreviation of adverbs -->
                             <exception regexp="yes">auto|re|pre|un|mini|self|inter|ex|multi</exception><!-- verb prefixes that need compounds rules -->
-                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
+                            <exception regexp="yes">start\-?up|voiceover|cash\-?out|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</exception><!-- TODO: needs different rule with suggestion -->
                             <exception postag="RB.*|VB.*|MD|IN|CC|DT|JJR" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception><!-- capitalized words -->
                         </token>
@@ -10686,7 +10686,15 @@ USA
             <url>https://en.wikipedia.org/wiki/Pok%C3%A9mon#Name</url>
             <example correction="Pokémon">I have collected almost all of the <marker>Pokemons</marker>.</example>
         </rule>
-
+        <rule id="POKEMON_GO" name="Pokémon Go" default="temp_off">
+            <pattern>
+                <token regexp="yes">Pok[eé]mon</token>
+                <token case_sensitive="yes">go</token>
+            </pattern>
+            <message>Did you mean the mobile game <suggestion>Pokémon <match no="2" case_conversion="startupper" /></suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Pok%C3%A9mon_Go</url>
+            <example correction="Pokémon Go"><marker>Pokemon go</marker> is a 2016 augmented reality (AR) mobile game.</example>
+        </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBD' name='a fleet of ships have (has)'>
             <pattern>
                 <token postag='NN'>
@@ -14513,6 +14521,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+
         <rulegroup id="LOREAL" name="L’Oréal">
             <antipattern case_sensitive="yes">
                 <token>L</token>
@@ -14872,6 +14881,55 @@ USA
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
+        <rulegroup id="FACT_CHECK_HYPHEN" name="missing hyphen in 'fact check'" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/fact-check</url>
+            <rule>
+                <antipattern>
+                    <token skip="8">from</token>
+                    <token>to</token>
+                    <token>fact</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[cw]ould|should|must|might|may|shall|will|has|(ha)?ve|was|were|been|did|is|a?re|a?m|can|cannot|to|please</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>fact</token>
+                        <token inflected="yes">
+                            check
+                            <exception>checks</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>\3-\4</suggestion>?</message>
+                <example correction="fact-check">You always need to <marker>fact check</marker> what Trump said.</example>
+                <example correction="fact-checking">I'm always <marker>fact checking</marker> before I trust what a politican said.</example>
+                <example>I did fact checks.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[cw]ouldn|shouldn|mustn|won|hasn|haven|wasn|weren|isn|aren|can</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token>fact</token>
+                        <token inflected="yes">check</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>\4-\5</suggestion>?</message>
+                <example correction="fact-checked">I haven't <marker>fact checked</marker> his words.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|it|we|they</token>
+                    <marker>
+                        <token>fact</token>
+                        <token regexp="yes">check|checked</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>\2-\3</suggestion>?</message>
+                <example correction="fact-checked">They <marker>fact checked</marker> the answers before releasing them.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_EAR_HYPHEN" name="missing hyphen in 'in ear'">
             <pattern>
                 <marker>
@@ -25339,7 +25397,7 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">[1-8]|one|two|three|four|five|six|seven|eight</token>
-                    <token regexp="yes">(bed|bath)?room|bath</token>
+                    <token regexp="yes">bed|(bed|bath)?room|bath</token>
                 </marker>
                 <token regexp="yes">apartments?|tents?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?</token>
             </pattern>
@@ -25417,6 +25475,168 @@ USA
             <example>Conditioning: treadmill 10 minutes @ 3% incline - sprint @ 7 mph for 1 minute, walk @ 3 mph for 1 minute</example>
             <example>If one assumes 24 hour/day operation for 360 days/year.</example>
         </rule>
+        <rule id="WEEK_HYPHEN" name="missing hyphen in '8 week semester'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>week</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">semester|vacation|holiday|notice|diets?|periods?|moving|streak|cycles?|arrangements?|routine|gym|plan|work\-?out|project|pregnancy|fetus|trip|training|program|courses?|highs?|lows?|trial|rotation|intervals?|warranty|delivery|median</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="two-week">He's going on a <marker>two week</marker> vacation.</example>
+        </rule>
+        <rule id="MONTH_HYPHEN" name="missing hyphen in '2 month cycle'">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>month</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="two-month">He's going on a <marker>two month</marker> vacation.</example>
+        </rule>
+        <rule id="YEAR_HYPHEN" name="missing hyphen in '2 month cycle'">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>year</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">routine|periods?|intervals?|cycles?|notice|plan|project|warranty|median|reign</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="two-year">The <marker>two year</marker> cycle.</example>
+        </rule>
+        <rule id="FIGURE_HYPHEN" name="missing hyphen in '7 figure salary'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>figure</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">salar(ies|y)|jobs?|business|revenues?|sum|developer|compensation|income|earner|number|profits?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="6-figure">He earns a <marker>6 figure</marker> salary.</example>
+        </rule>
+        <rule id="CYLINDER_HYPHEN" name="missing hyphen in '8 cylinder engine'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>cylinder</token>
+                </marker>
+                <token regexp="yes">motor|engines?|cars?|truck|pick\-?up|jeeps?|diesel|suvs?|turbos?|mustangs?|hatchbacks?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="8-cylinder">His car has a <marker>8 cylinder</marker> engine.</example>
+        </rule>
+        <rule id="CAR_HYPHEN" name="missing hyphen in 'four car garage'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">2|two|3|three|4|four|5|five|6|six</token>
+                    <token>car</token>
+                </marker>
+                <token postag="JJ.*|NN.*" postag_regexp="yes" min="0" />
+                <token>garage</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="4-car">He parks his van in a <marker>4 car</marker> basement garage.</example>
+        </rule>
+        <rule id="DEGREE_HYPHEN" name="missing hyphen in '10 degree angle'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>degree</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">angle|rotation|photos?|panoramas?|cameras?|circles?|marketing|evaluation|videos?|assessments?|appraisals?|system|feedback|turn|elbow|surface|drill|corners?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="10-degree">He looked at it from a <marker>10 degree</marker> angle.</example>
+        </rule>
+        <rule id="PIECE_HYPHEN" name="missing hyphen in '125 piece puzzle'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="CD" />
+                    <token>piece</token>
+                </marker>
+                <token postag="JJ.*|NN.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">puzzles?|jigsaw|wardrobe|canvas|set|outfit|suit|luggage|bands?|quantit(y|ies)|orchestra|units?|kits?|constructions?|systems?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="100-piece">He wanted to finish the <marker>100 piece</marker> puzzle before dawn.</example>
+        </rule>
+        <rulegroup id="CARAT_HYPHEN" name="missing hyphen in '30 carat gold'" default="temp_off">
+            <url>https://www.lexico.com/definition/carat</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token regexp="yes">[ck]arat</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">gold|emeralds?|bracelets?|diamonds?|rings?|tiffany|cut|asscher|chains?|wedding|earrings?|heart\-?shaped|necklaces?</token>
+                </pattern>
+                <message>A hyphen is missing if you mean the unit of fineness (gold, diamonds).</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="18-karat">She was wearing an <marker>18 karat</marker> gold bracelet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token postag="CD" />
+                        <token regexp="yes">[ck]arat</token>
+                    </marker>
+                </pattern>
+                <message>A hyphen is missing if you mean the unit of fineness (gold).</message>
+                <suggestion>\3-\4</suggestion>
+                <example correction="18-karat">She wanted the <marker>18 karat</marker> for her birthday.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WHEEL_HYPHEN" name="missing hyphen in '4 wheel drive'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">two|2|three|3|four|4|five|5|six|6|eight|8</token>
+                        <token>wheel</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">drives?|cars?|(motor)?bikes?|bicycles?|atvs?|suvs?|jeeps?|doll(y|ies)|f1|mercedes(\-benz)?|scooters?|motion|rickshaws?|alignment|tractors?|skateboards?|trucks?|wagons?|rover|bmw|audi|vw|vehicles?|van|bus</token>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <url>https://www.lexico.com/definition/four-wheel_drive</url>
+                <example correction="four-wheel">He owns a <marker>four wheel</marker> drive.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">two|2|three|3|four|4</token>
+                        <token>wheeler</token>
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\3-\4</suggestion>
+                <url>https://www.lexico.com/definition/two-wheeler</url>
+                <example correction="two-wheeler">He owns a <marker>two wheeler</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COURSE_HYPHEN" name="missing hyphen in '3 course meal'">
             <rule>
                 <pattern>
@@ -25569,6 +25789,18 @@ USA
             <example correction="Buy 2, Get 1"><marker>Buy 2 Get 1</marker> Free!</example>
             <example correction="Order five, receive one">New offer: <marker>Order five receive one</marker> for free</example>
         </rule>
+        <rule id="AT_CD_CLOCK" name="At 7 clock (o'clock)" default="temp_off">
+            <pattern>
+                <token>at</token>
+                <token postag="CD" />
+                <marker>
+                    <token>clock</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>o'clock</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/o'clock</url>
+            <example correction="o'clock">Let's meet at 7 <marker>clock</marker>.</example>
+        </rule>
         <rule id="MISSING_COMMA_THE_JJR_THE_JJR" name="missing comma in 'the sooner, the better'" default="off">
             <pattern>
                 <token>the</token>
@@ -25585,7 +25817,7 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
         <antipattern case_sensitive="yes">
             <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley</token>
+            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley|Loop</token>
         </antipattern>
         <antipattern>
             <token>magnitude</token>
@@ -25673,8 +25905,15 @@ USA
                 <token regexp="yes">ten|10</token>
             </antipattern>
             <antipattern>
-                <token>page</token>
+                <token regexp="yes">page|pg|clause</token>
                 <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern><!-- love you 2 babe -->
+                <token>love</token>
+                <token regexp="yes">u|you</token>
+                <token>2</token>
+                <token min="0">my</token>
+                <token regexp="yes">bab[ey]|darling|honey|sweetie|m[ao]mm?[ay]|daddy|papa</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">season|chapter|unit|module</token>
@@ -25688,14 +25927,19 @@ USA
                 <token>room</token>
                 <token>51</token>
             </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>mpg</token>
+                <token>highway</token>
+            </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|gr|semester</token>
                 <token regexp="yes">\d{1,2}</token>
-                <token regexp="yes">student|curriculum</token>
+                <token regexp="yes">student|curriculum|bully|season</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
                 <token regexp="yes">level|tier|unit</token>
-                <token regexp="yes">\d+</token>
+                <token postag="CD" />
                 <token postag="NN.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
@@ -25721,6 +25965,12 @@ USA
                 <token>need</token>
                 <token>4</token>
                 <token>speed</token>
+            </antipattern>
+            <antipattern><!-- A four to five timeline -->
+                <token postag="CD" />
+                <token>to</token>
+                <token postag="CD" />
+                <token regexp="yes">timeline|schedule</token>
             </antipattern>
             <antipattern>
                 <token postag="CD" />
@@ -25798,10 +26048,30 @@ USA
                 <token>pro</token>
                 <token>max</token>
             </antipattern>
+            <antipattern><!-- rapper name -->
+                <token>50</token>
+                <token>cent</token>
+            </antipattern>
+            <antipattern>
+                <token>vol</token>
+                <token spacebefore="no">.</token>
+                <token postag="CD" />
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token regexp="yes">more|less</token>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="IN|CC" postag_regexp="yes" />
+            </antipattern>
             <antipattern>
                 <token>half</token>
                 <token>an</token>
                 <token>hour</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>x</token>
+                <token postag="JJ.*|NN.*" postag_regexp="yes" />
             </antipattern>
             <antipattern><!--  Of your 9 questions 8 show a -->
                 <token>of</token>
@@ -25828,6 +26098,49 @@ USA
                 <token postag="NNS"/><!-- Chunker identifies some plural nouns as a verb. Example: attempt/B-VP -->
                 <token postag_regexp="yes" postag="SENT_END|IN"/>
             </antipattern>
+            <antipattern><!-- 212 Clear Lake (address) -->
+                <token postag="CD" />
+                <token>clear</token>
+                <token>lake</token>
+            </antipattern>
+            <antipattern><!-- number -->
+                <token>#</token>
+                <token postag="CD" spacebefore="no" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(US\$|\$|€|£)\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(US\$|\$|€|£)\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(US\$|\$|€|£)\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">,</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern><!-- 50th ave apartment -->
+                <token postag="CD" />
+                <token regexp="yes">Ave(nue)?|Terrace|Square|Plaza|Parkway</token>
+                <token>apartment</token>
+            </antipattern>
+            <antipattern><!-- 10 to 20 go to school -->
+                <token postag="CD" />
+                <token>to</token>
+                <token postag="CD" />
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>to</token>
+                <token />
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -25842,19 +26155,21 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]m|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|ft</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|ft|mg|kg|mpg|°C</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
+                    <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
+                    <exception regexp="yes">per|then</exception><!-- per minute -->
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
-                        <exception regexp="yes">will|year|so|pst|said</exception>
+                        <exception regexp="yes">will|year|so|pst|well|still|have|wether</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lux|stat|[ck]c|hr|min|m3|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad|bounty</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|stat|[ck]c|hr|min|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad|bounty</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception regexp="yes">trained|mentioned|assisting|voting|caused</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
@@ -25868,9 +26183,13 @@ USA
             <example correction="chapters">There are 400 College and university <marker>chapter</marker>.</example>
             <example correction="elements">... if we group 5 <marker>element</marker> in this manner.</example><!-- If the correct typography is used, the rule does not trigger an error. https://en.wikipedia.org/wiki/Group_5_element -->
             <example correction="pixels">The maximum allowed height is 32,000 <marker>pixel</marker>.</example>
+            <example correction="weeks">The icon changed 2 <marker>week</marker> ago.</example>
+            <example>Four piece with two hanging toms.</example><!-- TODO: not found because "four" is tagged as NNP -->
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
+            <example>He suggested a $5,000,000 bond.</example>
+            <example>And 10 cannot name the president's daughter.</example>
             <example>A 100,000 person lower bound has been cited for ASL users.</example>
             <example>A 5,000 year old earthen bowl found in Iran in Shahr-i Sokhta has five images</example>
             <example>A list of assassination targets, with a "$5,000 bounty on his head.</example>
@@ -25886,8 +26205,12 @@ USA
             <example>The room 51 movie.</example>
             <example>I will meet you at 5 pm PST.</example>
             <example>5 year guarantee.</example>
+            <example>Seven Nation Army</example>
+            <example>140,000 died</example>
+            <example>He received a $2,500 bonus.</example>
             <example>There are around 50 right now.</example>
             <example>One or two mentioned earlier.</example>
+            <example>And at 11 my brother was born.</example>
             <example>By 700 BC war between the two Empires became inevitable.</example>
             <example>I have two book readers in my palmtop.</example>
             <example>They had two and half an hour to leave.</example><!-- weird sentence -->
@@ -25899,16 +26222,22 @@ USA
             <example>The $6,100,000,000 measure, which was passed last Monday by the Senate...</example>
             <example>Friday's letters asked for a Nov. 15 meeting.</example>
             <example>It takes about 16 Msec. to traverse 25 mm. of tissue.</example>
+            <example>He has 500 on the bank and 1,500 still on the side.</example>
             <example>$800 billion economy was envisioned for the 1970s</example>
             <example>Middle East peace after Israel's 1956 invasion of Egypt</example>
             <example>The Apollo 8 mission was well covered in the British documentary.</example>
             <example>Labour abstained in Monday’s ballot, meaning that despite 299 MPs voting in favour and only 70 voting against, the bill failed to get the required 434 votes to pass.</example>
             <example>This is 3 H2O.</example>
+            <example>25 mpg highway</example>
+            <example>3 more die in the Indian wars</example>
+            <example>2 x wall mounted TV screens</example>
             <example>The primary 911 responder.</example>
+            <example>3910 Golf Park Loop, Bradenton, FL 34203</example>
             <example>The concept of six sigma has a simple goal.</example>
             <example>A dramatic series in 1956 saw a record that will probably never be beaten.</example>
             <example>Those with five or six are most common.</example>
             <example>I'll be in my office from ten tomorrow.</example>
+            <example>Our #2 vote was Tom Cruise.</example>
             <example>Willard Olvey, 18, of 963 Ponce De Leon Ave., was there last year.</example>
             <example>The World War 2 German bomber rolled down a runway and took off.</example>
             <example>Volume dipped to 3.28 million shares from 3.98 million Monday.</example>
@@ -32601,9 +32930,9 @@ The accident victim died from her injuries.
         </rulegroup>
         <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
             <pattern>
-                <token regexp="yes">act|season|page|unit|lesson|module|grade|chapter|row</token>
+                <token regexp="yes">act|season|page|unit|lesson|module|grade|chapter|row|section</token>
                 <token postag="CD" />
-                <token regexp="yes">scene|episode|paragraph|task|seat</token>
+                <token regexp="yes">scene|episode|paragraph|task|seat|clause</token>
                 <token postag="CD" />
             </pattern>
             <message>It seems that a comma is missing.</message>
@@ -34294,7 +34623,7 @@ The accident victim died from her injuries.
                         </token>
                         <token>day</token>
                     </marker>
-                    <token regexp="yes">weeks?|shipping|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary</token>
+                    <token regexp="yes">weeks?|shipping|calendar|window|diary|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary</token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
@@ -34314,6 +34643,17 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="4-day">Sign the contract and get <marker>4 day</marker> work weeks.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>day</token>
+                    </marker>
+                    <token regexp="yes">workweeks?</token>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
+                <example correction="4-day">Sign the contract and get <marker>4 day</marker> workweeks.</example>
             </rule>
             <rule>
                 <pattern>
