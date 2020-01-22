@@ -4480,6 +4480,10 @@ USA
                 <token>dangerous</token>
                 <token>goods</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/points_system -->
+                <token>points</token>
+                <token>system</token>
+            </antipattern>
             <antipattern><!-- www.investopedia.com/terms-beginning-with-e-4769355 and others-->
                 <token>earnings</token>
                 <token regexp="yes">announcement|estimate|management|multiplier|news|report|season|yield|release</token><!-- (This is a full list, not only non-count nouns.) 'news' is not in the dictionary, but many web pages show it as a singular compound noun. -->
@@ -4531,6 +4535,7 @@ USA
                 <example>Publishers today are at loss...</example>
                 <example>Owen was seven years younger.</example>
                 <example>My random thoughts day after day...</example>
+                <example>The results of each race are evaluated using the points system to determine two annual World Championships.</example>
                 <example>The Romans may have marked the centre of Londinium.</example>
                 <example>Universities A and B are old universities...</example>
                 <example>He made his final report to the Senate Foreign Relations Committee on U.S. affairs abroad.</example>
@@ -7917,6 +7922,11 @@ USA
         </rule>
         <!-- can backup::word=can back up -->
         <rule id="CAN_BACKUP" name="can backup (back up)">
+            <antipattern>
+                <token>subject</token>
+                <token>to</token>
+                <token>backup</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">can|to</token>
                 <token>backup</token>
@@ -7950,7 +7960,7 @@ USA
         <rulegroup id="SETUP_VERB" name="setup (set up)">
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
+                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -8208,12 +8218,16 @@ USA
         <!-- to blackout::word=to black out -->
         <rule id="TO_BLACKOUT" name="to blackout (black out)">
             <pattern>
-                <token>to</token>
+                <token>
+                    to
+                    <exception scope="previous">subject</exception>
+                </token>
                 <token>blackout</token>
             </pattern>
             <message>Did you mean <suggestion>to black out</suggestion>?</message>
             <example correction="to black out">He didn't want <marker>to blackout</marker> in front of his professor.</example>
             <example>He didn't want to black out in front of the professor.</example>
+            <example>They are subject to blackout.</example>
         </rule>
         <!-- to comeback::word=to come back -->
         <rule id="TO_COMEBACK" name="to comeback (come back)">
@@ -14881,6 +14895,21 @@ USA
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
+        <rulegroup id="PRIME_TIME_HYPHEN" name="missing hyphen in 'prime time television'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>prime</token>
+                        <token>time</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">radio|tv|television|viewing|sunday|saturday|friday|access|shows?|movies?|thanksgiving.</token>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="prime-time">NBC broadcasts the <marker>prime time</marker> Sunday Night Football package.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FACT_CHECK_HYPHEN" name="missing hyphen in 'fact check'">
             <url>https://www.merriam-webster.com/dictionary/fact-check</url>
             <rule>
@@ -21907,6 +21936,10 @@ USA
                     <token>Atlantic</token>
                     <token regexp="yes">City|Records|Airways|College</token>
                 </antipattern>
+                <antipattern>
+                    <token>Thames</token>
+                    <token>Water</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
@@ -21914,7 +21947,7 @@ USA
                     </marker>
                     <token>
                         <exception regexp="yes">'</exception>
-                        <exception postag="NN?S" postag_regexp="yes" />
+                        <exception postag="NNP?S|NN:UN?" postag_regexp="yes" />
                     </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
@@ -21922,6 +21955,7 @@ USA
                 <example>Royal Netherlands Air Force</example>
                 <example>The articles came from USA Today.</example>
                 <example>He lives in Atlantic City.</example>
+                <example>The NBA is an active member of USA Basketball.</example>
                 <example>There are certain dynamics between Caribbean countries.</example>
             </rule>
             <rule>
@@ -22131,7 +22165,7 @@ USA
                 <antipattern>
                     <token>united</token>
                     <token>states</token>
-                    <token>history</token>
+                    <token postag="NN:UN?|NNS|UNKNOWN" postag_regexp="yes" />
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -22142,6 +22176,7 @@ USA
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the United States</suggestion>.</message>
                 <example correction="in the United States">He lived <marker>in United States</marker> from 1933 till 1945.</example>
+                <example>History of the National Hockey League on United States television.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -22155,6 +22190,11 @@ USA
                 <example correction="on the Virgin Islands">He lived <marker>on Virgin Islands</marker> from 1933 till 1945.</example>
             </rule>
             <rule>
+                <antipattern><!-- https://en.wikipedia.org/wiki/Rio_Grande_do_Norte -->
+                    <token>rio</token>
+                    <token>grande</token>
+                    <token>do</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
@@ -22165,7 +22205,8 @@ USA
                 <message>A determiner is probably missing here: <suggestion>\1 the Rio Grande</suggestion>.</message>
                 <example correction="in the Rio Grande">He lived <marker>in Rio Grande</marker> from 1933 till 1945.</example>
             </rule>
-            <rule>
+            <!-- TODO: What is "St. Lawrence"? -->
+            <!-- <rule> 
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
@@ -22176,7 +22217,7 @@ USA
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the St. Lawrence</suggestion>.</message>
                 <example correction="in the St. Lawrence">He lived <marker>in St. Lawrence</marker> from 1933 till 1945.</example>
-            </rule>
+            </rule> -->
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -26171,6 +26212,7 @@ USA
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception scope="next">getters</exception>
                     </token>
                 </marker>
             </pattern>
@@ -26200,6 +26242,7 @@ USA
             <example>But mesage two said he is not available anymore.</example>
             <example>He gave over 1000 baht.</example><!-- baht and bahts (currency) is both plural -->
             <example>It's below 60 lux.</example>
+            <example>The National Hockey League publishes the names of the top three vote getters for all awards, and then names the award winner during the NHL Awards Ceremony.</example>
             <example>The iphone 11 pro max.</example>
             <example>In the 1835–36 legislative session, he voted to expand suffrage to white males.</example>
             <example>The room 51 movie.</example>
@@ -31052,7 +31095,7 @@ The accident victim died from her injuries.
       <message>The usual collocation for "\1" is "with"  or "in" or "by" or "at"  or "about" not "\2". Did you mean <suggestion>\1 with</suggestion> or <suggestion>\1 in</suggestion> or <suggestion>\1 by</suggestion> or <suggestion>\1 at</suggestion> or <suggestion>\1 about</suggestion>?</message>
       <example correction='disappointed with|disappointed in|disappointed by|disappointed at|disappointed about'>She was <marker>disappointed from</marker> the surprise.</example>
     </rule>
-    <rule id='DIVIDE_IN_INTO' name='Collocation: divide in/into'>
+    <rule id='DIVIDE_IN_INTO' name='Collocation: divide in/into' default="off">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
         <marker>
@@ -42103,6 +42146,22 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="THEMSELF" name="'themself'" default="temp_off">
+            <antipattern>
+                <token regexp="yes">"|„|‘|“</token>
+                <token spacebefore="no">themself</token>
+                <token regexp="yes" spacebefore="no">"|“|’|”</token>
+            </antipattern>
+            <pattern>
+                <token>themself</token>
+            </pattern>
+            <message>The term is non-standard and not widely accepted.</message>
+            <suggestion>himself</suggestion>
+            <suggestion>herself</suggestion>
+            <suggestion>themselves</suggestion>
+            <url>https://www.lexico.com/definition/themself</url>
+            <example correction="himself|herself|themselves">The casual observer might easily think <marker>themself</marker> back in 1945.</example>
+        </rule>
         <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'">
             <pattern>
                 <token inflected="yes">merchandize</token>
@@ -42613,6 +42672,11 @@ The accident victim died from her injuries.
             <!--      Created by Tiago F. Santos, 2018-07-20      -->
             <url>https://learnenglish.britishcouncil.org/english-grammar-reference/intensifiers</url>
             <short>Use the extreme adjective instead.</short>
+            <antipattern><!-- "He is significantly better than Tom" cannot be converted to "He is fantastic than Tom" -->
+                <token regexp="yes">&extreme_qualifiers;</token>
+                <token postag="JJR" skip="3" />
+                <token>than</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp='yes'>&extreme_qualifiers;</token>
