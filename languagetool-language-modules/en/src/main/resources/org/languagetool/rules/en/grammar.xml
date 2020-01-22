@@ -9107,15 +9107,44 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="IF_VB_PCT" name="if need (needed)" default="temp_off">
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">.+</token>
+            </antipattern>
+            <antipattern><!-- tech speech: "the if condition/statement/block/sentence" -->
+                <token regexp="yes">an?|the</token>
+                <token>if</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Ii]f|[Ww]hen</token>
+                <marker>
+                    <token postag="VBP?" postag_regexp="yes">
+                        <exception postag="JJ.*|VB[DN]|IN|DT" postag_regexp="yes" />
+                        <exception regexp="yes">yes|not?|condition|block|statement|people|err</exception>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
+                    </token>
+                </marker>
+                <token postag="PCT" spacebefore="no" />
+            </pattern>
+            <message>The conjunction "\1" requires the past participle <suggestion><match no="2" postag="VBN" /></suggestion>, or did you mean <suggestion>you \2</suggestion></message>
+            <example correction="needed|you need">You can do that if <marker>need</marker>.</example>
+            <example>When are .rnd-files created?</example>
+            <example correction="couth|you can">Call when can.</example>
+            <example>The if statement.</example>
+            <example>Contact me if <marker>found</marker>.</example>
+            <example>Or, do I need to write out a table where it says, if Feb, 02, if Mar, 03, etc?</example>
+        </rule>
         <rulegroup id="KIND_REGARD" name="Kind regard (regards)">
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
-                    <token regexp="yes">kind|best|warm</token>
+                    <token regexp="yes">kind|kindest|best|warm|warmest</token>
                     <marker>
                         <token>regard</token>
                     </marker>
-                    <token regexp="yes">,|\.|!</token>
+                    <token regexp="yes">,|\.|!|:</token>
                 </pattern>
                 <message>Did you mean <suggestion>\3s</suggestion>?</message>
                 <example correction="regards">Kind <marker>regard</marker>, Chris.</example>
@@ -9123,7 +9152,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
-                    <token regexp="yes">kind|best|warm</token>
+                    <token regexp="yes">kind|kindest|best|warm|warmest</token>
                     <marker>
                         <token postag="SENT_END">regard</token>
                     </marker>
