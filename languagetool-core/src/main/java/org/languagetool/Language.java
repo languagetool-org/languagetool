@@ -173,7 +173,7 @@ public abstract class Language {
    * languages that don't have such rules.
    * @since 2.7
    */
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Collections.emptyList();
   }
 

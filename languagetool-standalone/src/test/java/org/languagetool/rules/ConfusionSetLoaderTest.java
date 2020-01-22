@@ -43,7 +43,7 @@ public class ConfusionSetLoaderTest {
     for (Language language : Languages.get()) {
       List<Rule> rules;
       try {
-        rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+        rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
       } catch (Exception e) {
         throw new RuntimeException("Could not load confusion pairs for " + language.getName(), e);
       }
@@ -65,7 +65,7 @@ public class ConfusionSetLoaderTest {
   public void testConfusionSetDescriptionExport() throws IOException {
     for (Language language : Languages.get()) {
       if (language.getShortCode().equals("de")) {
-        List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+        List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
         if (rules.size() > 0) {
           String path = "/" + language.getShortCode() + "/confusion_sets.txt";
           try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
@@ -103,7 +103,7 @@ public class ConfusionSetLoaderTest {
       }
       List<Rule> rules;
       try {
-        rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel());
+        rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
       } catch (Exception e) {
         throw new RuntimeException("Could not load confusion pairs for " + lang.getName(), e);
       }

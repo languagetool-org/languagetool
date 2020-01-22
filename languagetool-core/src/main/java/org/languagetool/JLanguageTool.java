@@ -492,7 +492,7 @@ public class JLanguageTool {
     LanguageModel languageModel = language.getLanguageModel(indexDir);
     if (languageModel != null) {
       ResourceBundle messages = getMessageBundle(language);
-      List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel, userConfig);
       userRules.addAll(rules);
       updateOptionalLanguageModelRules(languageModel);
     }

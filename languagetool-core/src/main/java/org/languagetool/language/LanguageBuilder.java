@@ -205,8 +205,8 @@ public final class LanguageBuilder {
     }
 
     @Override
-    public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-      return baseLanguage.getRelevantLanguageModelRules(messages, languageModel);
+    public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+      return baseLanguage.getRelevantLanguageModelRules(messages, languageModel, userConfig);
     }
 
     @Override

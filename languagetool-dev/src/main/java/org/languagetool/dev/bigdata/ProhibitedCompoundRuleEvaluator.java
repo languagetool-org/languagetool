@@ -65,7 +65,7 @@ class ProhibitedCompoundRuleEvaluator {
   ProhibitedCompoundRuleEvaluator(Language language, LanguageModel languageModel) {
     this.language = language;
     try {
-      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
+      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }

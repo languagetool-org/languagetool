@@ -51,7 +51,7 @@ public class ProhibitedCompoundRuleTest {
     map.put("Wohnungsleerstand",50);
     map.put("Xliseihflehrstand",50);
   }
-  private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
+  private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
   @Test
@@ -108,7 +108,7 @@ public class ProhibitedCompoundRuleTest {
   ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
     Language lang = Languages.getLanguageForShortCode("de");
     LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
-    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
+    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
     if (rules == null) {
       throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
     }

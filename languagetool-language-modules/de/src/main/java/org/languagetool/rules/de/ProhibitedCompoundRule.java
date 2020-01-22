@@ -23,6 +23,9 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
@@ -79,7 +82,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
   );
   public static final GermanyGerman german = new GermanyGerman();
-  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null);
+  private static GermanSpellerRule spellerRule;
+  private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
@@ -199,11 +203,13 @@ public class ProhibitedCompoundRule extends Rule {
   private final BaseLanguageModel lm;
   private Pair confusionPair = null; // specify single pair for evaluation
 
-  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
+  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
+    linguServices = userConfig != null ? userConfig.getLinguServices() : null;
+    spellerRule = linguServices == null ? new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null) : null;
   }
 
   @Override
@@ -235,6 +241,10 @@ public class ProhibitedCompoundRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private boolean isMisspelled (String word) {
+    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, german));
+  }
+  
   private int getMatches(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {
     /* optimizations:
      only nouns can be compounds
@@ -276,7 +286,7 @@ public class ProhibitedCompoundRule extends Rule {
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
       //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !spellerRule.isMisspelled(variant)) {
+      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant)) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
           msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
