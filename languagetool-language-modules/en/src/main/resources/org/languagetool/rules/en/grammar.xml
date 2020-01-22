@@ -10686,7 +10686,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Pok%C3%A9mon#Name</url>
             <example correction="Pokémon">I have collected almost all of the <marker>Pokemons</marker>.</example>
         </rule>
-        <rule id="POKEMON_GO" name="Pokémon Go" default="temp_off">
+        <rule id="POKEMON_GO" name="Pokémon Go">
             <pattern>
                 <token regexp="yes">Pok[eé]mon</token>
                 <token case_sensitive="yes">go</token>
@@ -14400,7 +14400,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -14425,7 +14425,7 @@ USA
                     </marker>
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
+                    <token regexp="yes">headquarters?|cloud|os|macos|employees?|founders?|chargers?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
@@ -14881,7 +14881,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
-        <rulegroup id="FACT_CHECK_HYPHEN" name="missing hyphen in 'fact check'" default="temp_off">
+        <rulegroup id="FACT_CHECK_HYPHEN" name="missing hyphen in 'fact check'">
             <url>https://www.merriam-webster.com/dictionary/fact-check</url>
             <rule>
                 <antipattern>
@@ -25475,7 +25475,7 @@ USA
             <example>Conditioning: treadmill 10 minutes @ 3% incline - sprint @ 7 mph for 1 minute, walk @ 3 mph for 1 minute</example>
             <example>If one assumes 24 hour/day operation for 360 days/year.</example>
         </rule>
-        <rule id="WEEK_HYPHEN" name="missing hyphen in '8 week semester'" default="temp_off">
+        <rule id="WEEK_HYPHEN" name="missing hyphen in '8 week semester'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -25514,7 +25514,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="two-year">The <marker>two year</marker> cycle.</example>
         </rule>
-        <rule id="FIGURE_HYPHEN" name="missing hyphen in '7 figure salary'" default="temp_off">
+        <rule id="FIGURE_HYPHEN" name="missing hyphen in '7 figure salary'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -25527,7 +25527,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="6-figure">He earns a <marker>6 figure</marker> salary.</example>
         </rule>
-        <rule id="CYLINDER_HYPHEN" name="missing hyphen in '8 cylinder engine'" default="temp_off">
+        <rule id="CYLINDER_HYPHEN" name="missing hyphen in '8 cylinder engine'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -25539,7 +25539,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="8-cylinder">His car has a <marker>8 cylinder</marker> engine.</example>
         </rule>
-        <rule id="CAR_HYPHEN" name="missing hyphen in 'four car garage'" default="temp_off">
+        <rule id="CAR_HYPHEN" name="missing hyphen in 'four car garage'">
             <pattern>
                 <marker>
                     <token regexp="yes">2|two|3|three|4|four|5|five|6|six</token>
@@ -25552,7 +25552,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="4-car">He parks his van in a <marker>4 car</marker> basement garage.</example>
         </rule>
-        <rule id="DEGREE_HYPHEN" name="missing hyphen in '10 degree angle'" default="temp_off">
+        <rule id="DEGREE_HYPHEN" name="missing hyphen in '10 degree angle'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -25565,7 +25565,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="10-degree">He looked at it from a <marker>10 degree</marker> angle.</example>
         </rule>
-        <rule id="PIECE_HYPHEN" name="missing hyphen in '125 piece puzzle'" default="temp_off">
+        <rule id="PIECE_HYPHEN" name="missing hyphen in '125 piece puzzle'">
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -25578,7 +25578,7 @@ USA
             <suggestion>\1-\2</suggestion>
             <example correction="100-piece">He wanted to finish the <marker>100 piece</marker> puzzle before dawn.</example>
         </rule>
-        <rulegroup id="CARAT_HYPHEN" name="missing hyphen in '30 carat gold'" default="temp_off">
+        <rulegroup id="CARAT_HYPHEN" name="missing hyphen in '30 carat gold'">
             <url>https://www.lexico.com/definition/carat</url>
             <rule>
                 <pattern>
@@ -25607,7 +25607,7 @@ USA
                 <example correction="18-karat">She wanted the <marker>18 karat</marker> for her birthday.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WHEEL_HYPHEN" name="missing hyphen in '4 wheel drive'" default="temp_off">
+        <rulegroup id="WHEEL_HYPHEN" name="missing hyphen in '4 wheel drive'">
             <rule>
                 <pattern>
                     <marker>
@@ -25789,7 +25789,7 @@ USA
             <example correction="Buy 2, Get 1"><marker>Buy 2 Get 1</marker> Free!</example>
             <example correction="Order five, receive one">New offer: <marker>Order five receive one</marker> for free</example>
         </rule>
-        <rule id="AT_CD_CLOCK" name="At 7 clock (o'clock)" default="temp_off">
+        <rule id="AT_CD_CLOCK" name="At 7 clock (o'clock)">
             <pattern>
                 <token>at</token>
                 <token postag="CD" />
@@ -43097,8 +43097,8 @@ The accident victim died from her injuries.
         </antipattern>
         <pattern>
             <token regexp="yes">
-                mama|mummy|momsy|mommy
-                <exception scope="next" regexp="yes">June</exception>
+                mama|mummy|momsy|mommy|momma
+                <exception scope="next" regexp="yes">June|Dee|Cass</exception>
             </token>
         </pattern>
         <message>In some contexts, this is childish language. Consider alternatives.</message>
