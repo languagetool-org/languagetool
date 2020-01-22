@@ -9117,6 +9117,14 @@ USA
                 <token>if</token>
                 <token postag="NN.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token regexp="yes">if|when</token>
+                <token postag="NN.*" postag_regexp="yes" min="1" max="2" />
+                <token>,</token>
+                <token postag="JJ.*|NN.*|UNKNOWN" postag_regexp="yes" skip="2" />
+                <token regexp="yes">or|and</token>
+                <token postag="JJ.*|NN.*|UNKNOWN" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Ii]f|[Ww]hen</token>
                 <marker>
@@ -9128,7 +9136,7 @@ USA
                 </marker>
                 <token postag="PCT" spacebefore="no" />
             </pattern>
-            <message>The conjunction "\1" requires the past participle <suggestion><match no="2" postag="VBN" /></suggestion>, or did you mean <suggestion>you \2</suggestion></message>
+            <message>The conjunction "\1" requires the past participle <suggestion><match no="2" postag="VBN" /></suggestion>, or did you mean <suggestion>you \2</suggestion>?</message>
             <example correction="needed|you need">You can do that if <marker>need</marker>.</example>
             <example>When are .rnd-files created?</example>
             <example correction="canned|you can">Call when <marker>can</marker>.</example>
@@ -9136,6 +9144,8 @@ USA
             <example>Contact me if <marker>found</marker>.</example>
             <example>Or, do I need to write out a table where it says, if Feb, 02, if Mar, 03, etc?</example>
             <example>Baf's Guide to the Interactive Fiction Archive, a more user-friendly interface for the IF archive.</example>
+            <example>It is arguably more convincing if police, forensic experts or similar professionals are made the protagonist of a series of crime novels.</example>
+            <example>Elizabeth's reign became idealised as a time when crown, church and parliament had worked in constitutional balance.</example>
         </rule>
         <rulegroup id="KIND_REGARD" name="Kind regard (regards)">
             <rule>
