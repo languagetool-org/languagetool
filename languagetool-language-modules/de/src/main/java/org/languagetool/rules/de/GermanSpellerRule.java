@@ -815,6 +815,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("rethorisch(ere|ste)[mnrs]?$", "rethor", "rhetor");
     putRepl("repetativ(ere|ste)[mnrs]?$", "repetat", "repetit");
     putRepl("voluptös(e|ere|este)?[mnrs]?$", "tös", "tuös");
+    putRepl("[pP]flanzig(e[mnrs]?)?", "ig", "lich");
     putRepl("geblogt(e[mnrs]?)?$", "g", "gg");
   }
 
