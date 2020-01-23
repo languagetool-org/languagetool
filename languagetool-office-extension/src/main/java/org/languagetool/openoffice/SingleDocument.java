@@ -1055,8 +1055,7 @@ class SingleDocument {
               + "; startPos: " + startPos + "; Sentence: " + sentence 
               + "; Error number: " + errorArray.length + logLineBreak);
         }
-        sentencesCache.remove(numCurPara, startPos);
-        sentencesCache.add(numCurPara, startPos, nextPos, errorArray);
+        sentencesCache.put(numCurPara, startPos, nextPos, errorArray);
       }
       return errorArray;
     } catch (Throwable t) {

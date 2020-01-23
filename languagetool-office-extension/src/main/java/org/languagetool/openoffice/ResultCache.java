@@ -19,41 +19,39 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.sun.star.linguistic2.SingleProofreadingError;
 
 /**
  * Class for storing and handle the LT results prepared to use in LO/OO
  *
- * @author Fred Kruse, Marcin Miłkowski
+ * @author Fred Kruse
  * @since 4.3
  */
 class ResultCache {
 
-  private final List<CacheEntry> entries;
+  private Map<Integer, CacheSentenceEntries> entries;
 
   ResultCache() {
-    entries = new ArrayList<>();
+    entries = new HashMap<>();
   }
 
   ResultCache(ResultCache cache) {
-    entries = new ArrayList<>();
-    for(CacheEntry entry : cache.entries) {
-      entries.add(entry);
-    }
+    this.entries = new HashMap<>();
+    this.entries.putAll(cache.entries);
   }
 
   /**
    * Remove a cache entry for a sentence
    */
   void remove(int numberOfParagraph, int startOfSentencePosition) {
-    for (int i = 0; i < entries.size(); i++) {
-      if (entries.get(i).numberOfParagraph == numberOfParagraph
-              && entries.get(i).startOfSentencePosition == startOfSentencePosition) {
-        entries.remove(i);
-        return;
-      }
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries != null) {
+      sentenceEntries.remove(startOfSentencePosition);
     }
   }
 
@@ -61,23 +59,15 @@ class ResultCache {
    * Remove all cache entries for a paragraph
    */
   void remove(int numberOfParagraph) {
-    for (int i = 0; i < entries.size(); i++) {
-      if (entries.get(i).numberOfParagraph == numberOfParagraph) {
-        entries.remove(i);
-        i--;
-      }
-    }
+    entries.remove(numberOfParagraph);
   }
 
   /**
    * Remove all cache entries between firstParagraph and lastParagraph
    */
   void removeRange(int firstParagraph, int lastParagraph) {
-    for (int i = 0; i < entries.size(); i++) {
-      if (entries.get(i).numberOfParagraph >= firstParagraph && entries.get(i).numberOfParagraph <= lastParagraph) {
-        entries.remove(i);
-        i--;
-      }
+    for (int i = firstParagraph; i <= lastParagraph; i++) {
+      entries.remove(i);
     }
   }
 
@@ -85,47 +75,39 @@ class ResultCache {
    * Remove all cache entries between firstPara (included) and lastPara (included)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstPara, int lastPara, int shift) {
-    for (int i = 0; i < entries.size(); i++) {
-      if (entries.get(i).numberOfParagraph >= firstPara && entries.get(i).numberOfParagraph <= lastPara) {
-        entries.remove(i);
-        i--;
-      }
+  void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
+    for (int i = firstParagraph; i <= lastParagraph; i++) {
+      entries.remove(i);
     }
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.numberOfParagraph > lastPara) {
-        anEntry.numberOfParagraph += shift;
-      }
+    
+    Map<Integer, CacheSentenceEntries> tmpEntries = entries;
+    entries = new HashMap<>();
+    for(int i : entries.keySet()) {
+      if(i > lastParagraph) {
+        entries.put(i + shift, entries.get(i));
+      } else {
+        entries.put(i, entries.get(i));
+      } 
     }
   }
 
   /**
-   * Add an cache entry
-   */
-  public void add(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-    entries.add(new CacheEntry(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray));
-  }
-
-  /**
-   * Add an cache entry for paragraph
-   */
-  public void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
-    this.add(numberOfParagraph, 0, 0, errorArray);
-  }
-
-  /**
-   * replace an cache entry
+   * add / replace an cache entry
    */
   void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-    remove(numberOfParagraph, startOfSentencePosition);
-    add(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray);
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries == null) {
+      entries.put(numberOfParagraph, new CacheSentenceEntries(startOfSentencePosition, nextSentencePosition, errorArray));
+    } else {
+      sentenceEntries.put(startOfSentencePosition, nextSentencePosition, errorArray);
+    }
   }
 
   /**
-   * replace an cache entry for paragraph
+   *add / replace an cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
-    this.put(numberOfParagraph, 0, 0, errorArray);
+    entries.put(numberOfParagraph, new CacheSentenceEntries(0, 0, errorArray));
   }
 
   /**
@@ -139,24 +121,22 @@ class ResultCache {
    * get Proofreading errors from cache
    */
   SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.numberOfParagraph == numberOfParagraph && anEntry.startOfSentencePosition == startOfSentencePosition) {
-        return anEntry.errorArray;
-      }
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries == null) {
+      return null;
     }
-    return null;
+    return sentenceEntries.getErrorArray(startOfSentencePosition);
   }
 
   /**
-   * get Proofreading errors from cache
+   * get next sentence position from cache
    */
   int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.numberOfParagraph == numberOfParagraph && anEntry.startOfSentencePosition == startOfSentencePosition) {
-        return anEntry.nextSentencePosition;
-      }
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries == null) {
+      return -1;
     }
-    return -1;
+    return sentenceEntries.getNextSentencePosition(startOfSentencePosition);
   }
 
   /**
@@ -164,51 +144,54 @@ class ResultCache {
    */
   SingleProofreadingError[] getFromPara(int numberOfParagraph,
                                         int startOfSentencePosition, int endOfSentencePosition) {
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.numberOfParagraph == numberOfParagraph) {
-        List<SingleProofreadingError> errorList = new ArrayList<>();
-        for (SingleProofreadingError eArray : anEntry.errorArray) {
-          if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
-            errorList.add(eArray);
-          }
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries == null) {
+      return null;
+    }
+    List<SingleProofreadingError> errorList = new ArrayList<>();
+    for (int i : sentenceEntries.keySet()) {
+      for (SingleProofreadingError eArray : sentenceEntries.getErrorArray(i)) {
+        if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
+          errorList.add(eArray);
         }
-        return errorList.toArray(new SingleProofreadingError[0]);
       }
     }
-    return null;
+    return errorList.toArray(new SingleProofreadingError[0]);
   }
 
   /**
    * get an ResultCache entry by the number of paragraph
    */
-  CacheEntry getEntryByParagraph(int nPara) {
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.numberOfParagraph == nPara) {
-        return anEntry;
-      }
-    }
-    return null;
+  CacheSentenceEntries getEntryByParagraph(int numberOfParagraph) {
+    return entries.get(numberOfParagraph);
   }
 
   /**
    * Compares to Entries
    * true if the both entries are identically
    */
-  private boolean areDifferentEntries(CacheEntry newEntry, CacheEntry oldEntry) {
-    if (newEntry == null || oldEntry == null || newEntry.errorArray.length != oldEntry.errorArray.length) {
+  private boolean areDifferentEntries(CacheSentenceEntries newEntries, CacheSentenceEntries oldEntries) {
+    if (newEntries == null || oldEntries == null || newEntries.size() != oldEntries.size()) {
       return true;
     }
-    for (SingleProofreadingError nError : newEntry.errorArray) {
-      boolean found = false;
-      for (SingleProofreadingError oError : oldEntry.errorArray) {
-        if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
-                && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
+    for(int startSentence : newEntries.keySet()) {
+      SingleProofreadingError[] oldErrorArray = oldEntries.getErrorArray(startSentence);
+      SingleProofreadingError[] newErrorArray = newEntries.getErrorArray(startSentence);
+      if(oldErrorArray == null || newErrorArray == null || oldErrorArray.length != newErrorArray.length) {
         return true;
+      }
+      for (SingleProofreadingError nError : newErrorArray) {
+        boolean found = false;
+        for (SingleProofreadingError oError : oldErrorArray) {
+          if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
+                  && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          return true;
+        }
       }
     }
     return false;
@@ -220,12 +203,14 @@ class ResultCache {
    */
   List<Integer> differenceInCaches(ResultCache oldCache) {
     List<Integer> differentParas = new ArrayList<>();
-    CacheEntry oEntry;
-    for (CacheEntry nEntry : entries) {
-      oEntry = oldCache.getEntryByParagraph(nEntry.numberOfParagraph);
+    CacheSentenceEntries oEntry;
+    CacheSentenceEntries nEntry;
+    for (int nPara : entries.keySet()) {
+      nEntry = entries.get(nPara);
+      oEntry = oldCache.getEntryByParagraph(nPara);
       boolean isDifferent = areDifferentEntries(nEntry, oEntry);
       if (isDifferent) {
-        differentParas.add(nEntry.numberOfParagraph);
+        differentParas.add(nPara);
       }
     }
     return differentParas;
@@ -235,20 +220,18 @@ class ResultCache {
    * get number of paragraphs stored in cache
    */
   int getNumberOfParas() {
-    int number = 0;
-    for (CacheEntry anEntry : entries) {
-      if (anEntry.startOfSentencePosition == 0) {
-        number++;
-      }
-    }
-    return number;
+    return entries.size();
   }
 
   /**
    * get number of entries
    */
   int getNumberOfEntries() {
-    return entries.size();
+    int number = 0;
+    for(int n : entries.keySet()) {
+      number += entries.get(n).size();
+    }
+    return number;
   }
 
   /**
@@ -257,10 +240,15 @@ class ResultCache {
    * if there are more than one that begins at the same position return the one with the smallest size
    */
   SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
+    CacheSentenceEntries sentenceEntries = entries.get(numPara);
+    if(sentenceEntries == null) {
+      return null;
+    }
     SingleProofreadingError error = null;
-    for(CacheEntry entry : entries) {
-      if(entry.numberOfParagraph == numPara) {
-        for(SingleProofreadingError err : entry.errorArray) {
+    for(int sentenceStart : sentenceEntries.keySet()) {
+      int sentenceNext = sentenceEntries.getNextSentencePosition(sentenceStart);
+      if(sentenceStart <= numChar &&  (sentenceNext == 0 || sentenceNext <= numChar)) {
+        for(SingleProofreadingError err : sentenceEntries.getErrorArray(sentenceStart)) {
           if(numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
             if(error == null || error.nErrorStart < err.nErrorStart
                 || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
@@ -273,18 +261,61 @@ class ResultCache {
     return error;
   }
 
-  static class CacheEntry {
-    int numberOfParagraph;
-    final int startOfSentencePosition;
-    final int nextSentencePosition;
-    final SingleProofreadingError[] errorArray;
+  static class CacheSentenceEntries {
+    private Map<Integer, CacheEntry> sentenceEntry;
 
-    CacheEntry(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-      this.numberOfParagraph = numberOfParagraph;
-      this.startOfSentencePosition = startOfSentencePosition;
-      this.nextSentencePosition = nextSentencePosition;
-      this.errorArray = errorArray;
+    CacheSentenceEntries() {
+      sentenceEntry = new HashMap<>();
     }
+    
+    CacheSentenceEntries(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
+      sentenceEntry = new HashMap<>();
+      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
+    }
+    
+    void remove(int startOfSentencePosition) {
+      sentenceEntry.remove(startOfSentencePosition);
+    }
+    
+    void put(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
+      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
+    }
+    
+    Set<Integer> keySet() {
+      return sentenceEntry.keySet();
+    }
+    
+    int size() {
+      return sentenceEntry.size();
+    }
+    
+    
+    SingleProofreadingError[] getErrorArray(int startOfSentencePosition) {
+      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
+      if (entry == null) {
+        return null;
+      }
+      return entry.errorArray;
+    }
+    
+    int getNextSentencePosition(int startOfSentencePosition) {
+      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
+      if (entry == null) {
+        return -1;
+      }
+      return entry.nextSentencePosition;
+    }
+    
+    private class CacheEntry {
+      final int nextSentencePosition;
+      final SingleProofreadingError[] errorArray;
+
+      CacheEntry(int nextSentencePosition, SingleProofreadingError[] errorArray) {
+        this.nextSentencePosition = nextSentencePosition;
+        this.errorArray = errorArray;
+      }
+    }
+
   }
 
 } 
