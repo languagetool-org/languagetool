@@ -18,7 +18,9 @@
  */
 package org.languagetool;
 
+import org.languagetool.language.Demo;
 import org.languagetool.rules.*;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -41,6 +43,7 @@ public class LanguageSpecificTest {
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
+    testConfusionSetLoading();
     countTempOffRules(lang);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
@@ -70,6 +73,23 @@ public class LanguageSpecificTest {
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
         }
+      }
+    }
+  }
+
+  private void testConfusionSetLoading() {
+    for (Language language : Languages.get()) {
+      try {
+        List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
+        if (rules.size() > 0) {
+          String path = "/" + language.getShortCode() + "/confusion_sets.txt";
+          try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
+            ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new Demo());
+            confusionSetLoader.loadConfusionPairs(confusionSetStream);  // would throw Exception if there's a problem
+          }
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not load confusion pairs for " + language.getName(), e);
       }
     }
   }
