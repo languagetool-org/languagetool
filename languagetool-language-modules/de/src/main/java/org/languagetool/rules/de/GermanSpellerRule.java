@@ -494,6 +494,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("bittete", "bat");
     put("nehm", "nimm");
     put("möchst", "möchtest");
+    put("Win", "Windows");
     put("anschein[dt]", "anscheinend");
     put("Subvestitionen", "Subventionen");
     put("angeschaffen", "angeschafft");
