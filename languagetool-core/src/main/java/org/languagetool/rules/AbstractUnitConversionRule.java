@@ -204,9 +204,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("mi", MILE, "mi", 1, false);
     addUnit("yd", YARD, "yd", 1, false);
-    addUnit("(?:ft|′|')", FEET, "ft", 1, false);
+    // negative lookahead here to avoid matching "'s" and so on
+    addUnit("(?:ft|′|')(?!(\\w|\\d))", FEET, "ft", 1, false);
     // removed 'in', " because of many false positives
-    addUnit("(?:inch|″)", INCH, "inch", 1, false);
+    addUnit("(?:inch|″)(?!(\\w|\\d))", INCH, "inch", 1, false);
 
     addUnit("(?:km/h|kmh)", KILOMETRE_PER_HOUR, "km/h", 1, true);
     addUnit("(?:mph)", MILE.divide(HOUR), "mph", 1, false);
