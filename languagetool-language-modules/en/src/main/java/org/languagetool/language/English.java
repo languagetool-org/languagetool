@@ -280,11 +280,12 @@ public class English extends Language implements AutoCloseable {
       case "WHATS_APP":                 return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS":        return 1;   // prefer over spell checker
+      case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker
-      case "PRP_MD_NN":                 return -1;  // prefer other more specific rules (e.g. MD_ABLE)
+      case "PRP_MD_NN":                 return -1;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
