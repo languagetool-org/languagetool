@@ -133,10 +133,6 @@ public class Main extends WeakBase implements XJobExecutor,
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
       docReset = false;
-      if(documents.doResetCheck()) {
-        resetCheck();
-        documents.optimizeReset();
-      }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
@@ -270,7 +266,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Inform listener that the doc should be rechecked.
    */
-  private boolean resetCheck() {
+  public boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {

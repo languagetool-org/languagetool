@@ -255,15 +255,14 @@ public class MultiDocumentsHandler {
     testMode = mode;
   }
 
-  
-  /** 
-   * Do a reset to check document again
+  /**
+   * Inform listener that the doc should be rechecked.
    */
-  boolean doResetCheck() {
+  public boolean resetCheck() {
     if(documents.isEmpty() || (documents.size() > 1 && noMultiReset)) {
       return false;
     }
-    return documents.get(docNum).doResetCheck();
+    return mainThread.resetCheck();
   }
 
   /** 
