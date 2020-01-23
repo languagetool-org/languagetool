@@ -293,22 +293,23 @@ public class German extends Language implements AutoCloseable {
       case "EBEN_FALLS": return 1;
       case "UST_ID": return 1;
       case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
-      case "GERMAN_SPELLER_RULE": return -1;  // assume most other rules are more specific and helpful than the spelling rule
-      case "AUSTRIAN_GERMAN_SPELLER_RULE": return -1;  // assume most other rules are more specific and helpful than the spelling rule
-      case "SWISS_GERMAN_SPELLER_RULE": return -1;  // assume most other rules are more specific and helpful than the spelling rule
+      // default is 0
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS and other
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "MODALVERB_FLEKT_VERB": return -1;
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
+      case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
+      case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
+      case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
-      case "COLLOQUIALISMS": return -15; 
-      case "STYLE": return -15; 
-      case "REDUNDANCY": return -15; 
-      case "GENDER_NEUTRALITY": return -15; 
-      case "TYPOGRAPHY": return -15; 
+      case "COLLOQUIALISMS": return -15;
+      case "STYLE": return -15;
+      case "REDUNDANCY": return -15;
+      case "GENDER_NEUTRALITY": return -15;
+      case "TYPOGRAPHY": return -15;
     }
     return super.getPriorityForId(id);
   }
