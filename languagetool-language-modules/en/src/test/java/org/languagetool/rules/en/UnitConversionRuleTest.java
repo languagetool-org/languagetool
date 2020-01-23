@@ -63,6 +63,12 @@ public class UnitConversionRuleTest {
     unitConversionRuleTestHelper.assertMatches("My new apartment is 500 sq ft.", 1, "46.45 m²", rule, lt);
     unitConversionRuleTestHelper.assertMatches("It is 100 degrees Fahrenheit outside.", 1, "37.78 °C", rule, lt);
     unitConversionRuleTestHelper.assertMatches("It is 100 °F outside.", 1, "37.78 °C", rule, lt);
+
+    // https://github.com/languagetool-org/languagetool/issues/2357
+    unitConversionRuleTestHelper.assertMatches("Millions watched the 1989's Superbowl.", 0, null, rule, lt);
+
+    // https://github.com/languagetool-org/languagetool/issues/2255
+    unitConversionRuleTestHelper.assertMatches("Coordinates: 34°09′22″N 118°7′55″W", 0, null, rule, lt);
   }
 
   private void assertMatches(String input, int expectedMatches, String converted, AbstractUnitConversionRule rule, JLanguageTool lt) throws IOException {
