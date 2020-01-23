@@ -33,8 +33,12 @@ import org.languagetool.rules.UnsyncStack;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
-  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
+  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "\"");
+  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "\"");
+  // This is more strict, but also leads to confusing messages for users who mix up the many
+  // characters that are be used as a quote character (https://github.com/languagetool-org/languagetool/issues/2356): 
+  //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
+  //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
 
   private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");

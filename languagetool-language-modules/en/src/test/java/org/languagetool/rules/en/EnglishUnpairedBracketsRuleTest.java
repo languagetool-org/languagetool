@@ -103,10 +103,10 @@ public class EnglishUnpairedBracketsRuleTest {
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
-    assertIncorrect("This is a test with an apostrophe &'.");
-    assertIncorrect("&'");
-    assertIncorrect("!'");
-    assertIncorrect("What?'");
+    //assertIncorrect("This is a test with an apostrophe &'.");   -- commented out now that >'< is not checked anymore
+    //assertIncorrect("&'");
+    //assertIncorrect("!'");
+    //assertIncorrect("What?'");
     assertIncorrect("This is not so (neither a nor b");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
@@ -116,7 +116,7 @@ public class EnglishUnpairedBracketsRuleTest {
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
-    assertEquals(2, matches.length);
+    assertEquals(1, matches.length);
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }
