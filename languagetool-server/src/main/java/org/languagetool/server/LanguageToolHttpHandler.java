@@ -44,6 +44,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
+import static org.languagetool.server.ServerTools.getHttpReferrer;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
@@ -150,7 +151,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
           sendError(httpExchange, code, errorMessage);
-          // already logged vai DatabaseAccessLimitLogEntry
+          // already logged via DatabaseAccessLimitLogEntry
           logError(errorMessage, code, parameters, httpExchange, false);
           return;
         }
@@ -282,10 +283,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + ServerTools.getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
-    // TODO: might need more than 512 chars:
-    //message += ", referrer: " + getHttpReferrer(httpExchange);
-    //message += ", language: " + params.get("language");
-    //message += ", " + getTextOrDataSizeMessage(params);
     if (params.get("username") != null) {
       message += ", user: " + params.get("username");
     }
@@ -295,6 +292,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logToDb) {
       logToDatabase(params, message);
     }
+    // TODO: might need more than 512 chars, thus not logged to DB:
+    message += ", referrer: " + getHttpReferrer(httpExchange);
+    message += ", language: " + params.get("language");
+    message += ", " + getTextOrDataSizeMessage(params);
     logger.error(message);
   }
 
