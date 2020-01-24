@@ -172,6 +172,7 @@ public class Catalan extends Language {
   public int getPriorityForId(String id) {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
+      case "INCORRECT_EXPRESSIONS": return 50;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;

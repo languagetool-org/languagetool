@@ -6846,6 +6846,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="ADVERBS" name="Z) Adverbis" type="grammar">
+        <rule id="IGUAL" name="iguals*/igual de">
+            <pattern>
+                <marker>
+                    <token>iguals</token>
+                </marker>
+                <token inflected="yes">de</token>
+                <token postag="AQ..P." postag_regexp="yes"/>
+            </pattern>
+            <message>Probablement cal escriure <suggestion>igual</suggestion> perquè és un adverbi invariable.</message>
+            <example correction="igual">Són <marker>iguals</marker> d'alts.</example>
+            <example>Són iguals de fet que la resta.</example>
+        </rule>
         <rule id="MOLTS_MOLT" name="*molts/molt contents">
             <antipattern>
                 <marker>
@@ -28608,6 +28620,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="CONDIR_EL_PANIC" name="*condir el pànic">
+            <pattern>
+                <token inflected="yes">condir</token>
+                <token regexp="yes">el|la</token>
+                <token regexp="yes">pànic|terror|por</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>(estendre's) \2 \3</suggestion>
+            <suggestion>(escampar-se) \2 \3</suggestion>
+            <suggestion>(córrer) \2 \3</suggestion>
+            <example correction="(estendre's) el pànic|(escampar-se) el pànic|(córrer) el pànic">Que no <marker>condisca el pànic</marker>.</example>
+        </rule>
         <rule id="NI_QUE_DIR" name="ni què dir">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -35321,9 +35345,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>a tot gas</suggestion>
             <suggestion>fins al límit</suggestion>
             <suggestion>a tota bufa</suggestion>
+            <suggestion>de gom a gom</suggestion>
+            <suggestion>a vessar</suggestion>
+            <suggestion>saturat</suggestion>
+            <suggestion>carregat</suggestion>
+            <suggestion>a cent</suggestion>
             <short>Expressió incorrecta</short>
-            <example correction="al màxim|al cent per cent|a tot gas|fins al límit|a tota bufa"><marker>a tope</marker></example>
-            <example>al màxim</example>
+            <example correction="al màxim|al cent per cent|a tot gas|fins al límit|a tota bufa|de gom a gom|a vessar|saturat|carregat|a cent"><marker>a tope</marker></example>
         </rule>
         <rule id="A_TOT_AIXO" name="*A tot això,">
             <antipattern>
