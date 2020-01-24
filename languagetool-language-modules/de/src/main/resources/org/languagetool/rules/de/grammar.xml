@@ -34348,19 +34348,48 @@ Andere Projekte</example>
                     <token inflected="yes" regexp="yes">m?ein
                         <exception>ihr</exception>
                     </token>
+                    <token min="0" postag="ADV:MOD"/>
                     <token postag="ADJ:PRD:GRU">
                         <exception>wenig</exception>
                         <exception postag="ADV.*" postag_regexp="yes"/>
                     </token>
                     <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"/>
                 </pattern>
-                <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2' und '\3'.</message>
+                <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\3' und '\4'.</message>
                 <example correction="">Er ging zu <marker>ihren gemeinsam Vater</marker>.</example>
+                <example correction="">Wir haben deshalb <marker>eine genau Vorstellung</marker> von den Feierlichkeiten.</example>
+                <example correction="">Wir haben deshalb <marker>eine ziemlich genau Vorstellung</marker> von den Feierlichkeiten.</example>
                 <example>Er brauchte <marker>ein wenig Geld</marker>.</example>
                 <example>Er ist <marker>ein völlig Fremder</marker> für mich.</example>
                 <example>Habt <marker>ihr kurz Zeit</marker>?</example>
                 <example>Sein erst Anfang 1978 in Angriff genommenes Projekt</example>
                 <example>Ihre Rolle einer psychisch Kranken in dem Film</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ein</token>
+                    <token/>
+                    <token regexp="yes">.+er</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[mds]?eine[mnr]</token>
+                    <token/>
+                    <token regexp="yes">.+en</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">m?ein
+                        <exception>ihr</exception>
+                    </token>
+                    <token postag="ADJ:PRD:GRU"/>
+                    <token postag="ADJ:PRD:GRU">
+                        <exception>wenig</exception>
+                        <exception postag="ADV.*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"/>
+                </pattern>
+                <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2', '\3' und '\4'.</message>
+                <example correction="">Wir haben deshalb <marker>eine recht genau Vorstellung</marker> von den Feierlichkeiten.</example>
+                <example correction="">Sie hatte <marker>ein unglaublich gut Vorstellungskraft</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOUN_SUBJECT_AGREEMENT" name="fehlende Übereinstimmung zwischen Pronomen und Subjekt">
