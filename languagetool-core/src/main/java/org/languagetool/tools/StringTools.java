@@ -184,6 +184,17 @@ public final class StringTools {
   }
 
   /**
+   * Whether the first character of <code>str</code> is an uppercase character.
+   * @since 4.9
+   */
+  public static boolean startsWithLowercase(String str) {
+    if (isEmpty(str)) {
+      return false;
+    }
+    return Character.isLowerCase(str.charAt(0));
+  }
+
+  /**
    * Return <code>str</code> modified so that its first character is now an
    * uppercase character. If <code>str</code> starts with non-alphabetic
    * characters, such as quotes or parentheses, the first character is 
