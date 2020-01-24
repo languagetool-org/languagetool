@@ -52,7 +52,7 @@ USA
     <!ENTITY rude_sarcastic_2 "(?:are you blind\?|are you deaf\?|bite me|I hope you're happy[\.!]|oh really\!?\?|since when\?|what do you know\?|whoosh[\.!]|you don't say\?|you think\?)"><!-- XXX should be avoided in writting: what's new\?|what else is new| -->
     <!ENTITY rude_sarcastic_3 "(?:glorified)">
     <!ENTITY ATD_to_collocation "(?:ability|able|according|adds?|adding|addition|adherence|adhere|agreeing|aims|akin|allude|allusion|amounting|analogous|apt|aversion|belonging|belongs?|ceases|clinging|cling|closer|clung|commitment|conducive|conform|contributes?|contribution|decides|dedicated|deductible|defaults|deletions|desire|detrimental|due|eager|endeavours?|fails|going|hesitate|homage|inability|intending|intends?|liable|listening|listen|newsletter|ought|owing|percent|pertaining|preferable|prelude|prepares|prior|proceeded|prone|proportional|proximity|pursuant|reacting|recourse|refer|referring|refers|refusal|relates|relating|reluctant|resemblance|resistant|responding|respond|scrambling|strive|strove|subscribe|susceptible|tendency|tending|tends?|testament|thanks|unable|unwilling|willingness|willing)">
-    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
+    <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|docx?|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpe?g|js|json|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY hyphen "(?:[-‑])">
 
     <!ENTITY ambiguous_date '
@@ -8722,7 +8722,7 @@ USA
             <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
                 <token regexp="yes" spacebefore="no">[a-z-]+</token>
                 <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+                <token spacebefore="no" regexp="yes">[a-z0-9]{2,7}</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">['‘"“]</token>
@@ -8931,6 +8931,20 @@ USA
                 <message>Did you mean <suggestion>thank</suggestion>?</message>
                 <example correction="thank">Tom, <marker>think</marker> you.</example>
                 <example>You don't want Tom to think you're poor.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>
+                        many
+                        <exception scope="previous">how</exception>
+                    </token>
+                    <marker>
+                        <token>thank</token>
+                    </marker>
+                    <token regexp="yes">,|\.|\!|for</token>
+                </pattern>
+                <message>Did you mean <suggestion>thanks</suggestion>?</message>
+                <example correction="thanks">Many <marker>thank</marker> for helping me.</example>
             </rule>
         </rulegroup>
         <rule id="HI_TIME" name="hi (his, high) time">
@@ -31083,18 +31097,28 @@ USA
       <antipattern>
         <token>on</token>
         <token>the</token>
-        <token regexp='yes'>morning|afternoon|evening</token>
+        <token regexp='yes'>morning|afternoon|evening|dawn|first</token>
         <token>of</token>
-        <token>the</token>
       </antipattern>
       <antipattern><!-- arrive on DATE -->
         <token>on</token>
-        <token postag="CD"/>
+        <token postag="CD" min="0" />
         <token regexp="yes">&months;|&abbrevMonths;</token>
+      </antipattern>
+      <antipattern><!-- arrive on DATE -->
+        <token>on</token>
+        <token postag="DT" min="0" />
+        <token regexp="yes">\d+(th|st|rd|nd)</token>
+      </antipattern>
+      <antipattern><!-- arrive on DATE -->
+        <token>on</token>
+        <token postag="DT" min="0" />
+        <token regexp="yes">\d+</token>
+        <token regexp="yes">th|st|rd|nd</token>
       </antipattern>
       <antipattern><!-- arrive on Christmas day -->
         <token>on</token>
-        <token>Christmas</token>
+        <token min="0" />
         <token>day</token>
       </antipattern>
       <antipattern><!-- arrive on my birthday -->
@@ -31121,6 +31145,8 @@ USA
       <example>The urn arrived on 17 October 2006, going on display at the Museum ...</example>
       <example>He will <marker>arrive on Christmas day</marker>.</example>
       <example>The card <marker>arrived on my birthday</marker>.</example>
+      <example>The Vagrant arrived on the 8th.</example>
+      <example>He arrived on day #2 of the seminar.</example>
     </rule>
     <rule id='RETURN_AT_HOME' name='Collocation: return at home'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -46741,6 +46767,31 @@ The accident victim died from her injuries.
     </category>
 
   <category id="TYPOGRAPHY" name="Typography" type="typographical">
+    <rule id="CD_TH" name="number + (th, nd, st, rd)" default="temp_off">
+        <antipattern>
+            <token>.</token>
+            <token spacebefore="no" regexp="yes">\d+</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">.*[023456789]</token>
+            <token>st</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">.*[134567890]</token>
+            <token>nd</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">.*[124567890]</token>
+            <token>rd</token>
+        </antipattern>
+        <pattern>
+            <token regexp="yes">\d{1,2}</token>
+            <token regexp="yes" case_sensitive="yes">th|nd|st|rd</token>
+        </pattern>
+        <message>Did you mean <suggestion>\1\2</suggestion>?</message>
+        <url>https://www.merriam-webster.com/dictionary/-th</url>
+        <example correction="8th">He arrived on the <marker>8 th</marker>.</example>
+    </rule>
   <rule id="TRADEMARK" name="(TM) instead of ™">
      <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{Lu}.*</token>
