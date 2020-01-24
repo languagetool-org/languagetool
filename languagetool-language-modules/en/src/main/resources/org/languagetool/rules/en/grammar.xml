@@ -10967,7 +10967,7 @@ USA
             <pattern>
                 <token postag='NN'>
                     <exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'/>
-                    <exception regexp='yes'>(\w*s\b|kind|lot|majority|pair)</exception>
+                    <exception regexp='yes'>(\w*s\b|couple|kind|lot|majority|pair)</exception>
                 </token>
                 <token>of</token>
                 <token postag='NNS'>
@@ -10981,6 +10981,8 @@ USA
             <message>Possible agreement error</message>
             <suggestion><match no='4' postag='VBZ'/></suggestion>
             <example correction="has">A fleet of ships <marker>have</marker> been spotted.</example>
+            <example>A fleet of ships <marker>has</marker> been spotted.</example>
+            <example>A couple of developers have let me know they are discussing your issue.</example><!-- #2354 -->
         </rule>
         <rulegroup id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
             <rule>
