@@ -502,6 +502,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Second-Hand", "Secondhand");
     put("[jJ]ahundert", "Jahrhundert");
     put("Gesochse", "Gesocks");
+    put("Vorraus", "Voraus");
     put("[vV]orgensweise", "Vorgehensweise");
     put("[kK]autsch", "Couch");
     put("guterletzt", "guter Letzt");
