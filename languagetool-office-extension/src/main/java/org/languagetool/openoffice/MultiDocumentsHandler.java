@@ -93,8 +93,7 @@ public class MultiDocumentsHandler {
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
-  private boolean proofIsRunning = false;   //  true if a check is almost running
-  private boolean isParallelThread = false; //  is parallel thread (right mouse click, while iteration)
+//  private boolean proofIsRunning = false;   //  true if a check is almost running
   private XComponent goneContext = null;    //  save component of closed document
   private boolean recheck = true;
   private int docNum;                       //  number of the current document
@@ -142,16 +141,16 @@ public class MultiDocumentsHandler {
       initLanguageTool();
       initCheck();
     }
-    if (proofIsRunning) {
-      isParallelThread = true;          //  parallel Thread (right-click or dialog-box while background iteration is running)
-    } else {
-      proofIsRunning = true;  // main thread is running
-    }
+//    if (proofIsRunning) {
+//      isParallelThread = true;          //  parallel Thread (right-click or dialog-box while background iteration is running)
+//    } else {
+//      proofIsRunning = true;  // main thread is running
+//    }
     docNum = getNumDoc(paRes.aDocumentIdentifier);
     if(switchOff) {
       return paRes;
     }
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, isParallelThread, docReset, langTool);
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, docReset, langTool);
     if(langTool.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
       MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
@@ -163,11 +162,11 @@ public class MultiDocumentsHandler {
       }
       mainThread.resetDocument();
     }
-    if(isParallelThread) {
-      isParallelThread = false;
-    } else {
-      proofIsRunning = false;
-    }
+//    if(isParallelThread) {
+//      isParallelThread = false;
+//    } else {
+//      proofIsRunning = false;
+//    }
     return paRes;
   }
   

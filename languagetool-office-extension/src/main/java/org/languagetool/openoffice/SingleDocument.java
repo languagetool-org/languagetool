@@ -109,9 +109,10 @@ class SingleDocument {
   private MultiDocumentsHandler mDocHandler;
   
   private List<String> allParas = null;           //  List of paragraphs (only readable by parallel thread)
-  private DocumentCursorTools docCursor = null;   //  Save Cursor for the single documents
+//  private DocumentCursorTools docCursor = null;   //  Save Cursor for the single documents
   private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
   private Integer numLastFlPara = 0;              //  Save position of FlatParagraph for the single documents
+  private boolean isMouseOrDialog = false;        //  true: check was initiated by right mouse click or proofreading dialog
   private boolean textIsChanged = false;          //  false: check number of paragraphs again (ignored by parallel thread)
   private boolean resetCheck = false;             //  true: the whole text has to be checked again (use cache)
   private int resetParaNum = -1;                  //  true: do a reset after last sentence is checked
@@ -132,7 +133,7 @@ class SingleDocument {
   private List<Integer> headings;
 
   @SuppressWarnings("unused") 
-  private ContextMenuInterceptor contextMenuInterceptor;
+  private ContextMenuInterceptor contextMenuInterceptor = null;
   
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComponent, MultiDocumentsHandler mDH) {
@@ -159,7 +160,7 @@ class SingleDocument {
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      int[] footnotePositions, boolean isParallelThread, boolean docReset, SwJLanguageTool langTool) {
+      int[] footnotePositions, boolean docReset, SwJLanguageTool langTool) {
     isRemote = langTool.isRemote();
     try {
       if(docReset) {
@@ -167,7 +168,7 @@ class SingleDocument {
         ignoredMatches = new HashMap<>();
       }
       SingleProofreadingError[] sErrors = null;
-      paraNum = getParaPos(paraText, isParallelThread, paRes.nStartOfSentencePosition);
+      paraNum = getParaPos(paraText, paRes.nStartOfSentencePosition);
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0 && doResetCheck) {
         sErrors = sentencesCache.getMatches(paraNum, paRes.nStartOfSentencePosition);
@@ -195,11 +196,13 @@ class SingleDocument {
           paRes.nStartOfNextSentencePosition = text.length();
         }
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
-            paraNum, footnotePositions, isParallelThread, langTool);
+        if(!isMouseOrDialog) {
+          sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
+              paraNum, footnotePositions, langTool);
+        }
       }
       List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, paraNum, paRes.nStartOfSentencePosition,
-          paRes.nStartOfNextSentencePosition, isParallelThread, langTool);
+          paRes.nStartOfNextSentencePosition, langTool);
 
       paRes.aErrors = mergeErrors(sErrors, pErrors);
       textIsChanged = false;
@@ -212,7 +215,7 @@ class SingleDocument {
     }
     return paRes;
   }
-
+  
   /**
    * set values set by configuration dialog
    */
@@ -350,26 +353,28 @@ class SingleDocument {
    * Search for Position of Paragraph
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
-  private int getParaPos(String chPara, boolean isParallelThread, int startPos) {
+  private int getParaPos(String chPara, int startPos) {
 
     if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
     }
 
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xContext);
+    if (contextMenuInterceptor == null) {
       contextMenuInterceptor = new ContextMenuInterceptor(xContext);
     }
+    DocumentCursorTools docCursor = null;
     FlatParagraphTools flatPara = null;
 
     int nParas;
     boolean isReset = false;
     textIsChanged = false;
+    isMouseOrDialog = false;
 
-    if (allParas == null || allParas.size() < 1) {
-      if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas
-        return -1;
-      }
+    if (allParas == null || allParas.isEmpty()) {
+//      if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas
+//        return -1;
+//      }
+      docCursor = new DocumentCursorTools(xContext);
       flatPara = new FlatParagraphTools(xContext);
       if (!resetAllParas(docCursor, flatPara)) {
         return -1;
@@ -391,13 +396,16 @@ class SingleDocument {
       return nParas;
     }
     // Test if Size of allParas is correct; Reset if not
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xContext);
+    }
     nParas = docCursor.getNumberOfAllTextParagraphs();
     if (nParas < 2) {
       return -1;
     } else if (allParas.size() != nParas) {
-      if (isParallelThread) {
-        return -1;
-      }
+//      if (isParallelThread) {
+//        return -1;
+//      }
       if (debugMode > 0) {
         MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
                 + ", docID: " + docID + logLineBreak);
@@ -456,16 +464,11 @@ class SingleDocument {
     nParas = flatPara.getNumberOfAllFlatPara();
 
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("Number FlatParagraphs (isParallelThread: " + isParallelThread 
-          + "): " + nParas + "; docID: " + docID);
+      MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
     }
 
     if (nParas < allParas.size()) {   //  no automatic iteration
-      nParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
-      if (nParas >= 0) {
-        return nParas;
-      }
-      return -1;
+      return getParaFromViewCursorOrDialog(chPara, docCursor);   // try to get ViewCursor position
     }
     divNum = nParas - allParas.size();
 
@@ -479,11 +482,12 @@ class SingleDocument {
     numLastFlPara = nParas;
     
     if (!chPara.equals(allParas.get(nParas))) {
-      int nVParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
+      int nVParas = getParaFromViewCursorOrDialog(chPara, docCursor);   // try to get ViewCursor position
       if (nVParas >= 0) {
         return nVParas;
       }
-      if (isReset || isParallelThread) {
+//      if (isReset || isParallelThread) {
+      if (isReset) {
         return -1;
       } else {
         if (debugMode > 0) {
@@ -519,8 +523,9 @@ class SingleDocument {
   /** Get the number of paragraph from position of ViewCursor or from the last position (dialog)
    * @return number of paragraph or -1 if it fails
    */
-  private int getParaFromViewCursorOrDialog(String chPara) {
+  private int getParaFromViewCursorOrDialog(String chPara, DocumentCursorTools docCursor) {
     // try to get ViewCursor position (proof initiated by mouse click)
+    isMouseOrDialog = true;
     int nParas = docCursor.getViewCursorParagraph();
     if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
       numLastVCPara = nParas;
@@ -539,6 +544,7 @@ class SingleDocument {
         return numLastVCPara;
       }
     }
+    isMouseOrDialog = false;
     return -1;
   }
   
@@ -774,11 +780,11 @@ class SingleDocument {
   }
 
   private List<SingleProofreadingError[]> checkTextRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, boolean isParallelThread, SwJLanguageTool langTool) {
+      int startSentencePos, int endSentencePos, SwJLanguageTool langTool) {
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
 
     if(paraNum < 0 || (numParasToCheck >= 0 && !doFullCheckAtFirst)) {
-      pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, 0));
+      pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, 0));
       if(doResetCheck && resetCheck) {
         addChangedParas();
       }
@@ -812,7 +818,7 @@ class SingleDocument {
             paragraphsCache.set(i, new ResultCache(oldCache));
           }
         }
-        pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, isParallelThread, langTool, i));
+        pErrors.add(checkParaRules(paraText, paraNum, startSentencePos, endSentencePos, langTool, i));
         if(doResetCheck && resetCheck) {
           if(numParasToCheck < 0) {
             tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
@@ -860,7 +866,7 @@ class SingleDocument {
 
   @Nullable
   private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, boolean isParallelThread, SwJLanguageTool langTool, int cacheNum) {
+      int startSentencePos, int endSentencePos, SwJLanguageTool langTool, int cacheNum) {
 
     List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
@@ -875,7 +881,7 @@ class SingleDocument {
         pErrors = singleParaCache.getFromPara(0, startSentencePos, endSentencePos);
         return pErrors;
       }
-      if(pErrors != null || isParallelThread) {   // return Cache result if available
+      if(pErrors != null || isMouseOrDialog) {   // return Cache result if available
         return pErrors;                           // for parallel Thread only use cache
       }
       
@@ -1034,7 +1040,7 @@ class SingleDocument {
   }
   
   private SingleProofreadingError[] checkSentence(String sentence, int startPos, int nextPos, 
-      int numCurPara, int[] footnotePositions, boolean isParallelThread, SwJLanguageTool langTool) {
+      int numCurPara, int[] footnotePositions, SwJLanguageTool langTool) {
     try {
       SingleProofreadingError[] errorArray;
       if (StringTools.isEmpty(sentence)) {
@@ -1059,7 +1065,7 @@ class SingleDocument {
           errorArray = new SingleProofreadingError[0];
         }
       }
-      if(!isParallelThread && numParasToCheck != 0 && doResetCheck) {
+      if(numParasToCheck != 0 && doResetCheck) {
         if (debugMode > 1) {
           MessageHandler.printToLogFile("--> Enter to sentences cache: numCurPara: " + numCurPara 
               + "; startPos: " + startPos + "; Sentence: " + sentence 
@@ -1187,6 +1193,7 @@ class SingleDocument {
   }
   
   public void ignoreOnce() {
+    DocumentCursorTools docCursor = new DocumentCursorTools(xContext);
     int x = docCursor.getViewCursorCharacter();
     int y = docCursor.getViewCursorParagraph();
     if (ignoredMatches.containsKey(y)) {
@@ -1230,6 +1237,7 @@ class SingleDocument {
   }
   
   public String deactivateRule() {
+    DocumentCursorTools docCursor = new DocumentCursorTools(xContext);
     int x = docCursor.getViewCursorCharacter();
     int y = docCursor.getViewCursorParagraph();
     return getRuleIdFromCache(y, x);

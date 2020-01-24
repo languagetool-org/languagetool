@@ -205,10 +205,13 @@ class ResultCache {
     List<Integer> differentParas = new ArrayList<>();
     CacheSentenceEntries oEntry;
     CacheSentenceEntries nEntry;
+    boolean isDifferent = true;
     for (int nPara : entries.keySet()) {
-      nEntry = entries.get(nPara);
-      oEntry = oldCache.getEntryByParagraph(nPara);
-      boolean isDifferent = areDifferentEntries(nEntry, oEntry);
+      if(oldCache != null) {
+        nEntry = entries.get(nPara);
+        oEntry = oldCache.getEntryByParagraph(nPara);
+        isDifferent = areDifferentEntries(nEntry, oEntry);
+      }
       if (isDifferent) {
         differentParas.add(nPara);
       }
