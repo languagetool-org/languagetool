@@ -61,6 +61,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "of you not",   // "It would be wiser of you not to see him again."
       "of her element",
       "very grateful of you",
+      "your use case",
       "he's", // vs. the's
       "he’s",
       "they're",
