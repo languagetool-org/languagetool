@@ -80,6 +80,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("abgekatertes", "abgekartetes");
     put("wiederspiegelt", "widerspiegelt");
     put("Komplexheit", "Komplexität");
+    put("unterschiedet", "unterscheidet");
     put("einzigst", "einzig");
     put("Einzigst", "Einzig");
     put("geschumpfen", "geschimpft");
