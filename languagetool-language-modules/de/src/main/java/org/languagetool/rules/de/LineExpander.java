@@ -49,11 +49,18 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
         } else if (c == 'F') {
           result.add(word + "in"); // (m/f)
         } else if (c == 'A') { // Adjektiv
-          result.add(word + "e");
-          result.add(word + "er");
-          result.add(word + "es");
-          result.add(word + "en");
-          result.add(word + "em");
+          if (word.endsWith("e")) {
+            result.add(word + "r");
+            result.add(word + "s");
+            result.add(word + "n");
+            result.add(word + "m");
+          } else {
+            result.add(word + "e");
+            result.add(word + "er");
+            result.add(word + "es");
+            result.add(word + "en");
+            result.add(word + "em");
+         }
         } else {
           throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
         }
