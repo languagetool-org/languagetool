@@ -378,6 +378,10 @@ public class CaseRule extends Rule {
       token("im"),
       csToken("Aus")
     ),
+    Arrays.asList(
+      token("im"),
+      csToken("Ganzen")
+    ),
     Arrays.asList( // Die Top Fünf (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
       csToken("Top"),
       pos("ZAL")
@@ -421,6 +425,7 @@ public class CaseRule extends Rule {
     "Mag",   // "Mag. Helke Müller"
     "Studierende",
     "Suchbegriffen",
+    "Plattdeutsch",
     "Wallet",
     "Str",
     "Auszubildende",

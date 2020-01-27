@@ -12698,6 +12698,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Voraus</token>
                 </antipattern>
                 <antipattern>
+                    <token>allen</token>
+                    <token>voran</token>
+                </antipattern>
+                <antipattern>
                     <token>nach</token>
                     <token>wie</token>
                     <token>vor</token>
@@ -16481,13 +16485,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.korrekturen.de/beliebte_fehler/diesen_jahres.shtml</url>
             <example correction="dieses Jahres">Im April <marker>diesen Jahres</marker> ist Ostern.</example>
         </rule>
-        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv">
+        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv 'ideal'">
             <pattern>
                 <token regexp="yes">idealste.?</token>
             </pattern>
             <message>Das Adjektiv 'ideal' sollte nicht gesteigert werden.</message>
             <suggestion><match no="1" regexp_match="st" regexp_replace=""/></suggestion>
             <example correction="ideale">Die <marker>idealste</marker> Lösung ist das nicht.</example>
+        </rule>
+        <rule id="FEHLERHAFTER_SUPERLATIV_PREFEKT" name="nicht-steigerbares Adjektiv 'perfekt'">
+            <pattern>
+                <token regexp="yes">perfekteste.?</token>
+            </pattern>
+            <message>Das Adjektiv 'perfekt' sollte nicht gesteigert werden.</message>
+            <suggestion><match no="1" regexp_match="ste" regexp_replace=""/></suggestion>
+            <example correction="perfekte">Die <marker>perfekteste</marker> Lösung ist das nicht.</example>
         </rule>
         <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'">
             <regexp>\bnicht adäquat genug\b</regexp>
@@ -29060,6 +29072,10 @@ Andere Projekte</example>
                 <example correction="Ernst">Das ist doch nicht dein <marker>ernst</marker>!</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Ernst</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">Ernst<exception scope="previous">für</exception></token>
@@ -29073,6 +29089,7 @@ Andere Projekte</example>
                 <example correction="ernst">Die <marker>Ernst</marker> zu nehmenden Ideen sind zu prüfen.</example>
                 <example correction="ernst">Ich kann das leider nicht <marker>Ernst</marker> nehmen.</example>
                 <example>Einen Scherz für <marker>Ernst</marker> nehmen.</example>
+                <example><marker>Ernst</marker> zu nehmende Ideen sind zu prüfen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -39014,7 +39031,7 @@ Andere Projekte</example>
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
                     <marker>
-                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
+                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
@@ -39032,7 +39049,7 @@ Andere Projekte</example>
                     <token skip="-1">,</token>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
                     <marker>
-                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
+                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>

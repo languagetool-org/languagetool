@@ -37,18 +37,22 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
       }
       String word = parts[0];
       String suffix = parts[1];
-      result.add(word);
       for (int i = 0; i < suffix.length(); i++) {
         char c = suffix.charAt(i);
         if (c == 'S') {
+          add(result, word);
           result.add(word + "s");
         } else if (c == 'N') {
+          add(result, word);
           result.add(word + "n");
         } else if (c == 'E') {
+          add(result, word);
           result.add(word + "e");
         } else if (c == 'F') {
+          add(result, word);
           result.add(word + "in"); // (m/f)
         } else if (c == 'A') { // Adjektiv
+          add(result, word);
           if (word.endsWith("e")) {
             result.add(word + "r");
             result.add(word + "s");
@@ -61,6 +65,14 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
             result.add(word + "en");
             result.add(word + "em");
          }
+        } else if (c == 'V') { // Verb
+          result.add(word + "n");
+          result.add(word + "e");
+          result.add(word + "st");
+          result.add(word + "t");
+          result.add(word + "te");
+          result.add(word + "test");
+          result.add(word + "ten");
         } else {
           throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
         }
@@ -69,6 +81,12 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
       result.add(cleanTags(line));
     }
     return result;
+  }
+
+  private void add(List<String> result, String word) {
+    if (!result.contains(word)) {
+      result.add(word);
+    }
   }
 
   // ignore "#..." so it can be used as a tag:
