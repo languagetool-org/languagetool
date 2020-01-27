@@ -104,14 +104,6 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
           result.add(word + "en");
           result.add(word + "em");
         }
-      } else if (c == 'V') { // Verb
-        result.add(word + "n");
-        result.add(word + "e");
-        result.add(word + "st");
-        result.add(word + "t");
-        result.add(word + "te");
-        result.add(word + "test");
-        result.add(word + "ten");
       } else {
         throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
       }
