@@ -15318,7 +15318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Versicherung|Assekuranz">Die <marker>Assekuranzversicherung</marker> wollte nicht zahlen.</example>
             </rule>
             <rule>
-                <regexp>Haarfrisur(en)?</regexp>
+                <regexp case_sensitive="yes">Haarfrisur(en)?</regexp>
                 <message>Redundantes Kompositum: <suggestion><match no="0" regexp_replace="F" regexp_match="^Haarf"/></suggestion> ist ein anderes Wort für <suggestion>Haarschnitt</suggestion> bzw. (veraltend) 'Haartracht'.</message>
                 <url>https://de.wiktionary.org/wiki/Frisur</url>
                 <short>Redundantes Kompositum</short>
@@ -34532,6 +34532,10 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="OBJECT_AGREEMENT" name="falscher Kasus des Objekts">
             <rule>
+                <antipattern>
+                    <token>wie</token>
+                    <token regexp="yes">eine?</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">ich|du|e[rs]|sie|wir|ihr</token>
@@ -34552,6 +34556,7 @@ Andere Projekte</example>
                 <example>Sie hat <marker>den Mähdrescher</marker> gesehen.</example>
                 <example>Sie hatte <marker>die Mädchen</marker> gesehen.</example>
                 <example>Bei ihr hat der Blitz eingeschlagen.</example>
+                <example>Als ich erkältet war, habe ich wie ein Rabe gekrächzt.</example>
             </rule>
             <rule>
                 <pattern>

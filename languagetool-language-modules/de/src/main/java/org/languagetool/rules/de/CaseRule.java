@@ -72,6 +72,10 @@ public class CaseRule extends Rule {
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      regex("erste[nr]?"),
+      csToken("Hilfe")
+    ),
+    Arrays.asList(
       // Names
       regex("Alfred|Emanuel|Günter|Immanuel|Johannes|Karl|Ludvig|Anton|Peter|Robert|Rolf"),
       csToken("Nobel")
