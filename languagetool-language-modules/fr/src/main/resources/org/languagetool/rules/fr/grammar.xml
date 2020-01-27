@@ -8243,6 +8243,10 @@ though, and has since been slightly modified)-->
               <token>master</token>
               <token>2</token>
           </antipattern>
+          <antipattern>
+              <token regexp="yes">\d{5}</token>
+              <token/>
+          </antipattern>
         <pattern>
           <token regexp="yes">[2-9]|[1-9]\d+
             <exception regexp="yes">[12]\d\d\d</exception>
@@ -8259,6 +8263,7 @@ though, and has since been slightly modified)-->
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
 		<suggestion><match no="2" postag="(J|N) (.*) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
         <example>J’ai 4 enfants.</example>
+        <example>20144 Sainte Lucie de Porto-Vecchio</example>
         <example correction="enfants">J’ai 4 <marker>enfant</marker>.</example>
         <example>Il est né le 4 <marker>janvier</marker>.</example>
         <example>Son adresse est 4 <marker>rue</marker> de la gare.</example>
@@ -8427,6 +8432,9 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
         <antipattern>
+            <token regexp="yes">bonjour|bonsoir</token>
+        </antipattern>
+        <antipattern>
             <token>couleur</token>
             <token min="0" max="2"/>
             <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon</token>
@@ -8482,6 +8490,7 @@ though, and has since been slightly modified)-->
         <example correction="beau|bel">Un <marker>belle</marker> homme.</example>
         <example><marker>Un bel</marker> homme.</example>
         <example><marker>Confus face</marker> aux remarques obscures</example>
+        <example>Bonjour Josiane</example>
         <example>Elle est tout sauf courtoise.</example>
         <example>Il a eu le poste grâce à son anglais.</example>
         <example>La Guyane Française.</example>
@@ -13495,195 +13504,291 @@ though, and has since been slightly modified)-->
       <example>Il vient, n’est-ce pas ?</example>
     </rule>
     <rulegroup id="TRAIT_UNION_INVERSION" name="Trait d’union dans l’inversion verbe-pronom sujet">
-      <rule>
-        <pattern>
-          <marker>
-            <token postag="V .* 1 s" postag_regexp="yes">
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              <exception regexp="yes">.*[éèe]</exception>
-              <exception postag="N.*" postag_regexp="yes"/>
-            </token>
-            <token>je</token>
-          </marker>
-          <token negate_pos="yes" postag="V .* 1 s" postag_regexp="yes"/>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
-        <example>Puis-je déposer mes affaires ?</example>
-        <example>Sans doute je ne vais pas.</example>
-        <example>Si d’aventure on en a.</example>
-        <example>Tant que je vivrai je n’oublierai pas.</example>
-        <example>Puis j’ai acheté cela.</example>
-        <example>Puis je vais t’aider.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="V .* 1 s" postag_regexp="yes">
-            <exception postag="N.*" postag_regexp="yes"/>
-            <exception regexp="yes">.*[^éèe]</exception>
-            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-          </token>
-          <token postag="R pers suj 1 s"/>
-        </pattern>
-        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
-        <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
-        <example>Quel genre de musique j’écoute</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="V .* 2 s" postag_regexp="yes">
-            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-          </token>
-          <token postag="R pers suj 2 s"/>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
-        <example>Que manges-tu ?</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>on</token>
-          <token>ne</token>
-          <token>peut</token>
-        </antipattern>
-        <pattern>
-          <marker>
-            <and>
-              <token postag="V.* 3 s" postag_regexp="yes">
-                <exception postag="[^V].*" postag_regexp="yes"/>
-                <exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
-                <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              </token>
-              <token regexp="yes">.*[^aec]</token>
-            </and>
-            <token regexp="yes">il|on</token>
-          </marker>
-          <token><exception>y</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="prend-il">Que <marker>prend il</marker> ?</example>
-        <example>Que prend-il ?</example>
-        <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
-        <example>Ce prédateur réintroduit il y a 30 ans.</example>
-        <example>L’auditoire était on ne peut plus ravi.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>elle</token>
-          <token>aussi</token>
-        </antipattern>
-        <pattern>
-          <and>
-            <token postag="V.* 3 s" postag_regexp="yes">
-              <exception postag="[^V].*" postag_regexp="yes"/>
-              <exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-            </token>
-            <token regexp="yes">.*[^aec]</token>
-          </and>
-          <token>elle</token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="prend-elle">Que <marker>prend elle</marker> ?</example>
-        <example>Que prend-elle ?</example>
-        <example>C’est elle qui vient.</example>
-        <example>Anne menait elle aussi sa petite existence.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>elle</token>
-          <token>aussi</token>
-        </antipattern>
-        <pattern>
-          <marker>
-            <and>
-              <token postag="V.* 3 s" postag_regexp="yes">
-                <exception>cela</exception>
-                <exception postag="N.*" postag_regexp="yes"/>
-                <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              </token>
-              <token regexp="yes">.*[aec]</token>
-            </and>
-            <token regexp="yes">(t[-‑‐])?(il|elle|on)</token>
-          </marker>
-          <token><exception>y</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="mange-il">Que <marker>mange il</marker> ?</example>
-        <example>Que mange-t-il ?</example>
-        <example correction="va-il">Où <marker>va il</marker> ?</example>
-        <example>Où <marker>va-t-il</marker> ?</example>
-        <example correction="a-t-elle">Quel âge <marker>a t-elle</marker> ?</example>
-        <example>Quel âge a-t-elle ?</example>
-        <example>Comme cela elle n’a pas à cuisiner.</example>
-        <example>Les jours de fête on ne travaille pas.</example>
-        <example>L’histoire <marker>commence il</marker> y a longtemps.</example>
-        <example>La chanteuse a elle aussi annulé son concert.</example>
-        <example>À Vienne il acheta du chocolat.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token postag="V .* 1 p" postag_regexp="yes">
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-            </token>
-            <token postag="R pers suj 1 p"/>
-          </marker>
-          <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
-        <example>Que mangeons-nous ?</example>
-        <example>Allons nous asseoir ici.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token postag="V .* 2 p" postag_regexp="yes">
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              <exception regexp="yes">veuillez|sachez</exception>
-            </token>
-            <token postag="R pers suj 2 p"/>
-          </marker>
-          <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
-        <example>Que mangez-vous ?</example>
-        <example>Veuillez vous rendre à l’accueil.</example>
-        <example>Sachez vous éloigner.</example>
-        <example>Vous pouvez vous asseoir.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="V .* 3 p" postag_regexp="yes">
-            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-            <exception scope="previous">ce</exception>
-          </token>
-          <token regexp="yes">je|tu|il|elle|nous|vous|ils</token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="mangent-ils">Que <marker>mangent ils</marker> ?</example>
-        <example>Que mangent-ils ?</example>
-        <example>Ce sont elles qui parlent.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token postag="V .* 3 p" postag_regexp="yes">
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              <exception scope="previous">ce</exception>
-            </token>
-            <token>elles</token>
-          </marker>
-          <token><exception>aussi</exception></token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Vont-elles"><marker>Vont elles</marker> participer ?</example>
-        <example>Vont-elles participer ?</example>
-        <example>Les femmes vont elles aussi participer.</example>
-      </rule>
-      <rule>
+        <rule name="première personne du singuler">
+            <antipattern>
+                <token postag="V .* 1 p" postag_regexp="yes"/>
+                <token regexp="yes">moi-mêmes?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
+                <token min="0" max="1" regexp="yes">'|’</token>
+                <token min="0" max="1"/>
+                <token postag="V .* 1 s" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                    <exception regexp="yes">.*[^éèe]</exception>
+                </token>
+                <token>je</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
+                <token min="0" max="1" regexp="yes">'|’</token>
+                <token regexp="yes">en|la|le|les|l</token>
+                <token postag="V .* 1 s" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                    <exception regexp="yes">.*[^éèe]</exception>
+                </token>
+                <token>je</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V .* 1 s" postag_regexp="yes">
+                        <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                        <exception regexp="yes">.*[éèe]</exception>
+                        <exception postag="N.*" postag_regexp="yes"/>
+                    </token>
+                    <token>je</token>
+                </marker>
+                <token negate_pos="yes" postag="V .* 1 s" postag_regexp="yes"/>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
+            <example>Puis-je déposer mes affaires ?</example>
+            <example>Sans doute je ne vais pas.</example>
+            <example>Si d’aventure on en a.</example>
+            <example>Tant que je vivrai je n’oublierai pas.</example>
+            <example>Puis j’ai acheté cela.</example>
+            <example>Puis je vais t’aider.</example>
+            <example>Venez je vous raccompagne.</example>
+        </rule>
+        <rule name="première personne du singuler, verbe finissant par -e">
+            <antipattern>
+                <token postag="V .* 1 p" postag_regexp="yes"/>
+                <token regexp="yes">moi-mêmes?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
+                <token min="0" max="1" regexp="yes">['’]</token>
+                <token min="0"/>
+                <token postag="V .* 1 s" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                    <exception regexp="yes">.*[^éèe]</exception>
+                    <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                </token>
+                <token postag="R pers suj 1 s"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
+                <token min="0" max="1" regexp="yes">['’]</token>
+                <token>en</token>
+                <token postag="V .* 1 s" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                    <exception regexp="yes">.*[^éèe]</exception>
+                    <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                </token>
+                <token postag="R pers suj 1 s"/>
+            </antipattern>
+            <pattern>
+                <token postag="V .* 1 s" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                    <exception regexp="yes">.*[^éèe]</exception>
+                    <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                </token>
+                <token>je</token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
+            <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
+            <example>Quel genre de musique j’écoute.</example>
+            <example>Si j'en trouve je les corrigerai.</example>
+        </rule>
+        <rule name="deuxième personne du singuler">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 1 p" postag_regexp="yes"/>
+                <token regexp="yes">toi-mêmes?</token>
+            </antipattern>
+            <antipattern>
+                <token>tu</token>
+                <token min="0" max="1"/>
+                <token postag="V .* 2 s" postag_regexp="yes"/>
+                <token postag="R pers suj 2 s"/>
+            </antipattern>
+            <pattern>
+                <token postag="V .* 2 s" postag_regexp="yes">
+                    <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                </token>
+                <token postag="R pers suj 2 s"/>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
+            <example>Que manges-tu ?</example>
+            <example>Si tu en veux tu progresseras vite.</example>
+        </rule>
+        <rule name="troisième personne du singuler, verbe ne finissant pas par -d ou -t">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
+            </antipattern>
+            <antipattern>
+                <token>c</token>
+                <token regexp="yes">['’]</token>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">il|elle</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token>on</token>
+                <token>ne</token>
+            </antipattern>
+            <antipattern>
+                <token>date</token>
+                <token>précise</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token>il</token>
+                <token postag="V etre.*" postag_regexp="yes"/>
+                <token>vrai</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">(elle|lui)-mêmes?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">il|elle|on</token>
+                <token min="0" max="1"/>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token postag="R pers suj 3 s"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V .* 3 s" postag_regexp="yes">
+                        <exception regexp="yes">.*[td]</exception>
+                        <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                    </token>
+                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                </marker>
+                <token>
+                    <exception>y</exception>
+                    <exception postag_regexp="yes" postag="V( avoir| etre)? (ind|con|sub|imp).*"/>
+                    <exception>aussi</exception>
+                </token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
+            <example correction="mange-t-il">Que <marker>mange il</marker> ?</example>
+            <example>Que prend-il ?</example>
+            <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
+            <example>Ce prédateur réintroduit il y a 30 ans.</example>
+            <example>L’auditoire était on ne peut plus ravi.</example>
+            <example>La présence à cet endroit d'un hôpital de convalescence des soldats du Roi constituait il est vrai un terrain favorable à la prostitution et aux excès alcooliques et tabagiques.</example>
+            <example>Ni à quelle date précise il prit son nom actuel</example>
+            <example>En moyenne on observe chaque année deux à trois tempêtes dépassant les dans le Finistère.</example>
+            <example>Et c'est elle, la déesse qui prend soin des chevaux.</example>
+        </rule>
+        <rule name="troisième personne du singuler, verbe finissant par -d ou -t">
+            <antipattern>
+                <token>c</token>
+                <token regexp="yes">['’]</token>
+                <token postag="V.* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">il|elle</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token>on</token>
+                <token>ne</token>
+            </antipattern>
+            <antipattern>
+                <token>date</token>
+                <token>précise</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token>il</token>
+                <token postag="V etre.*" postag_regexp="yes"/>
+                <token>vrai</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token regexp="yes">(elle|lui)-mêmes?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">il|elle|on</token>
+                <token min="0" max="1"/>
+                <token postag="V .* 3 s" postag_regexp="yes"/>
+                <token postag="R pers suj 3 s"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V .* 3 s" postag_regexp="yes" regexp="yes">
+                        <exception regexp="yes">.*[a-ce-sw-zéè]</exception>
+                        <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                    </token>
+                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                </marker>
+                <token>
+                    <exception>y</exception>
+                    <exception postag_regexp="yes" postag="V( avoir| etre)? (ind|con|sub|imp).*"/>
+                    <exception>aussi</exception>
+                </token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="prend-il">Que <marker>prend il</marker> ?</example>
+            <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
+            <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le le traité de Maastricht prévoyant l’euro.</example>
+        </rule>
+        <rule name="première personne du pluriel">
+            <antipattern>
+                <token regexp="yes">-|\(</token>
+                <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
+            </antipattern>
+            <antipattern>
+                <token>nous</token>
+                <token min="0" max="1"></token>
+                <token postag="V .* 1 p" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 1 p" postag_regexp="yes"/>
+                <token regexp="yes">nous-mêmes?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V .* 1 p" postag_regexp="yes">
+                        <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                    </token>
+                    <token postag="R pers suj 1 p"/>
+                </marker>
+                <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
+            <example correction="pouvons-nous">Ne <marker>pouvons nous</marker> pas nous en passer ?</example>
+            <example>Que mangeons-nous ?</example>
+            <example>Allons nous asseoir ici.</example>
+            <example>Nous ne pouvons nous en passer.</example>
+        </rule>
+        <rule name="deuxième personne du pluriel">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">-|\(</token>
+                <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V .* 2 p" postag_regexp="yes"/>
+                <token regexp="yes">vous-mêmes?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V .* 2 p" postag_regexp="yes">
+                        <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                        <exception regexp="yes">veuillez|sachez</exception>
+                    </token>
+                    <token postag="R pers suj 2 p"/>
+                </marker>
+                <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
+            <example>Que mangez-vous ?</example>
+            <example>Veuillez vous rendre à l’accueil.</example>
+            <example>Sachez vous éloigner.</example>
+            <example>Vous pouvez vous asseoir.</example>
+        </rule>
+      <rule name="correction du tiret d'inversion ' -> -">
         <pattern>
           <token regexp="yes">.*[-‑‐]t</token>
           <token regexp="yes">[’´'‛′‘]</token>
