@@ -69,6 +69,12 @@ public class CompoundInfinitivRule extends Rule {
       token("Nummer"),
       token("sicher"),
       token("zu")
+    ),
+    Arrays.asList(
+      // "ohne die Erlaubnis dazu zu haben"
+      token("dazu"),
+      token("zu"),
+      token("haben")
     )
   );
 
