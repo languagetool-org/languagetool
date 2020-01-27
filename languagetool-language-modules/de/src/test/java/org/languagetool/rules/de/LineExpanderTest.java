@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 
+import static junit.framework.Assert.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -41,6 +42,13 @@ public class LineExpanderTest {
     assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
     assertThat(expand("Das  #foo"), is("[Das]"));
     assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
+    assertThat(expand("rüber+machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
+                      "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
+                      "rübermachtet, rüberzumachen]"));
+    try {
+      expand("rüber/invalidword");
+      fail();
+    } catch (RuntimeException expected) {}
   }
 
   private String expand(String line) {
