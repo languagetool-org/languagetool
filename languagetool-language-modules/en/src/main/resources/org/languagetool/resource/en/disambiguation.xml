@@ -4868,6 +4868,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
               <token>t</token>
               <token postag_regexp="yes" postag="VBP?"/>
           </antipattern>
+          <antipattern><!-- its home games -->
+              <token postag="PRP$"/>
+              <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?|NN.*"/>
+          </antipattern>
           <pattern>
             <marker>
               <and>
@@ -4882,6 +4886,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">We <marker>supply</marker> parts to the auto manufacturer.[Adverb variant of 'supplely': https://www.lexico.com/definition/supplely]</example>
           <example type="untouched">Incorrect. Should be 'setback', but 'back' is not an adverb in this context. This set <marker>back</marker> is annoying.</example>
           <example type="untouched">It's not good, <marker>so</marker> don't buy it.</example><!-- #2223 -->
+          <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
           <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
         </rule>
 
@@ -4986,6 +4991,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRPPOSS_JJ_NN" name="Possessive pronoun + adj/noun =>noun">
+          <antipattern><!-- its home games -->
+              <token postag="PRP$"/>
+              <token chunk="I-NP-plural" postag="JJ"/>
+          </antipattern>
           <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -4999,6 +5008,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">I do what I want to.</example>
           <example type="untouched">Your two best boys.</example>
+          <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
           <!-- example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example -->
         </rule>
 
