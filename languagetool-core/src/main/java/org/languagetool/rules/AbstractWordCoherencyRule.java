@@ -70,18 +70,21 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
             if (baseform != null) {
               token = baseform;
             }
+            int fromPos = pos + tmpToken.getStartPos();
+            int toPos = pos + tmpToken.getEndPos();
             if (shouldNotAppearWord.containsKey(token)) {
               RuleMatch otherMatch = shouldNotAppearWord.get(token);
               String otherSpelling = otherMatch.getMessage();
               String msg = getMessage(token, otherSpelling);
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
-              ruleMatch.setSuggestedReplacement(otherSpelling);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
+              String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());
+              ruleMatch.setSuggestedReplacement(marked.replaceFirst(token, otherSpelling));
               ruleMatches.add(ruleMatch);
               break;
             } else if (getWordMap().containsKey(token)) {
               Set<String> shouldNotAppearSet = getWordMap().get(token);
-              for(String shouldNotAppear : shouldNotAppearSet) {
-                RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
+              for (String shouldNotAppear : shouldNotAppearSet) {
+                RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, fromPos, toPos, token);
                 shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
               }
             }

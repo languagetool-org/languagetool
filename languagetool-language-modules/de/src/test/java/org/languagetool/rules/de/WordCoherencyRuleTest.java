@@ -98,6 +98,18 @@ public class WordCoherencyRuleTest {
     assertError("Bahnhofsplatz und Bahnhofplatz");
     // TODO: known to fail because jWordSplitters list is not complete:
     //assertError("Testketchup und Testketschup");
+
+    List<RuleMatch> matches1 = lt.check("Eine aufwendige Untersuchung. Oder ist sie aufwändig?");
+    assertThat(matches1.size(), is(1));
+    assertThat(matches1.get(0).getFromPos(), is(43));
+    assertThat(matches1.get(0).getToPos(), is(52));
+    assertThat(matches1.get(0).getSuggestedReplacements().toString(), is("[aufwendig]"));
+
+    List<RuleMatch> matches2 = lt.check("Eine aufwendige Untersuchung. Oder ist sie noch aufwändiger?");
+    assertThat(matches2.size(), is(1));
+    assertThat(matches2.get(0).getFromPos(), is(48));
+    assertThat(matches2.get(0).getToPos(), is(59));
+    assertThat(matches2.get(0).getSuggestedReplacements().toString(), is("[aufwendiger]"));
   }
 
   @Test
