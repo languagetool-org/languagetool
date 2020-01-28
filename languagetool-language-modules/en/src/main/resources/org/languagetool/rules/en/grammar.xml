@@ -35318,6 +35318,15 @@ The accident victim died from her injuries.
                     <token>similarly</token>
                     <token>to</token>
                 </antipattern>
+                <antipattern><!-- However highly brokerage analysts rate the -->
+                    <token postag="SENT_START"/>
+                    <token postag_regexp="yes"  postag="W.+"/>
+                    <token postag_regexp="yes" postag="RB|JJ"/>
+                    <token chunk="B-NP-plural"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$|JJR?|NN.*"/>
+                </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
@@ -35371,6 +35380,7 @@ The accident victim died from her injuries.
                 <example type="triggers_error">Still higher values of n further increase the number of errors.</example><!-- Comma is also correct. -->
                 <example type="triggers_error">Also from that general era, Martin Cruz Smith, in his ...</example><!-- MFU 2019-10-15: Incomplete sentence. Thus probably should be out of scope. -->
                 <example>Likewise in the United States.</example>
+                <example>However highly brokerage analysts rate the stock, ``I have to remain skeptical,'' said Barry Borak, energy analyst at David L. Babson &amp; Co., which manages $60 billion in Cambridge, Massachusetts.</example>
             </rule>
             <rule>
                 <pattern>
