@@ -346,7 +346,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord);
     }

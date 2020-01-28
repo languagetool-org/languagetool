@@ -359,7 +359,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   @Override
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     super.init();
     String langCountry = language.getShortCode();
     if (language.getCountries().length > 0) {
