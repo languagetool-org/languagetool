@@ -32872,6 +32872,26 @@ Andere Projekte</example>
                 <example correction="Buy-outs">Während des <marker>Buy-Outs</marker> kamen negative Schlagzeilen in die Presse.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CO_WORKING_SPACE" name="'Co-Working-Space'" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Co_Working_Space</url>
+            <rule>
+                <pattern>
+                    <token>co</token>
+                    <token>working</token>
+                    <token regexp="yes">spaces?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Co-Working-<match no="3" case_conversion="startupper" /></suggestion> (= Gemeinschaftsbüro)?</message>
+                <example correction="Co-Working-Space">Er sitzt an einem Schreibtisch in einem großen <marker>Co Working Space</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">co\-?working</token>
+                    <token regexp="yes">spaces?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Co-Working-<match no="3" case_conversion="startupper" /></suggestion> (= Gemeinschaftsbüro)?</message>
+                <example correction="Co-Working-Space">Er sitzt an einem Schreibtisch in einem großen <marker>Co-Working Space</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
             <rule>
                 <pattern>
