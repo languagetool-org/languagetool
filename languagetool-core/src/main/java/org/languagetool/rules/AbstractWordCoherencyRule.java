@@ -57,7 +57,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
+    Map<String, String> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> aufwendig
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
@@ -73,8 +73,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
             int fromPos = pos + tmpToken.getStartPos();
             int toPos = pos + tmpToken.getEndPos();
             if (shouldNotAppearWord.containsKey(token)) {
-              RuleMatch otherMatch = shouldNotAppearWord.get(token);
-              String otherSpelling = otherMatch.getMessage();
+              String otherSpelling = shouldNotAppearWord.get(token);
               String msg = getMessage(token, otherSpelling);
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
               String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());
@@ -84,8 +83,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
             } else if (getWordMap().containsKey(token)) {
               Set<String> shouldNotAppearSet = getWordMap().get(token);
               for (String shouldNotAppear : shouldNotAppearSet) {
-                RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, fromPos, toPos, token);
-                shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
+                shouldNotAppearWord.put(shouldNotAppear, token);
               }
             }
           }
