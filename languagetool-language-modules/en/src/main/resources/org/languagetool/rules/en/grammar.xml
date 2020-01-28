@@ -9117,6 +9117,78 @@ USA
             <example type="triggers_error"><marker>Bu.</marker> is an abbreviation for bushel (www.lexico.com/definition/bu.).</example>
             <example type="triggers_error">It is an Ethiopian name of the Ge‘ez script, ’ä bu gi da, taken from four letters of that script...</example><!-- http://eastafricaschoolserver.org/Wikipedia/wp/a/Abugida.htm -->
         </rule>
+        <rule id="IM_I_M" name="im (I'm)">
+            <antipattern>
+                <token postag="UNKNOWN"/>
+                <token>IM</token>
+                <token postag="UNKNOWN"/>
+            </antipattern>
+            <antipattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">IM</token>
+            </antipattern>
+            <antipattern>
+                <token>word</token>
+                <token>IM</token>
+            </antipattern>
+            <antipattern><!-- IM caused -->
+                <token>IM</token>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB.*|MD"/>
+            </antipattern>
+            <antipattern><!-- an IM -->
+                <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+                <token>IM</token><!-- Not chunk:  of the IM. -->
+            </antipattern>
+            <antipattern><!-- an IM service -->
+                <token chunk="I-NP-singular">IM</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            </antipattern>
+            <antipattern><!-- these IM services -->
+                <token chunk="I-NP-plural">IM</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">IM<exception postag="NNP"/></token>
+                </marker>
+            </pattern>
+            <message>Make sure that '\1' is an abbreviation (instant message, individual medley, infectious mononucleosis). Did you mean <suggestion>I'm</suggestion> or <suggestion>I am</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="I'm|I am"><marker>IM</marker> curious.</example>
+            <example correction="I'm|I am">... although <marker>IM</marker> not happy about it.</example>
+            <example correction="I'm|I am">Did you know <marker>IM</marker> 18 next week?</example>
+            <example correction="I'm|I am">YES, <marker>IM</marker> 100% IN ENE.</example>
+            <example correction="I'm|I am"><marker>IM</marker> SO SICK OF IT</example>
+            <example correction="I'm|I am"><marker>IM</marker> afraid we won’t be able to read the alert.</example>
+            <example><marker>I'm</marker> curious.</example>
+            <example>Im curious.</example><!-- The spell checker finds this. -->
+            <example>... and im 18 next week.</example><!-- The spell checker finds this. -->
+            <example>The word (IM) in parentheses is not likely to be an error.</example>
+            <example>The word IM (usually) is an abbreviation for 'instant message'.</example>
+            <example>This IM caused me much confusion.</example>
+            <example>Did you send an IM?</example>
+            <example>... which you use for your IM service.</example>
+            <example>... you need an accompanying IM service.</example>
+            <example>I sent you an IM yesterday.</example>
+            <example>Some of these IM services are not very good.</example>
+            <example>Attached is another redlined draft of the IM.</example>
+            <example>JUBAYR IBN MUT'IM REPORTED THAT A WOMAN...</example>
+            <example>THE FAMILY MOVED TO <marker>KÖNIGSFELD IM SCHWARZWALD</marker>, BADEN-WÜRTTEMBERG, WHERE HE...</example>
+            <example>Sitara shows HPLC IM Wellhead.</example>
+            <example>Pidgin (IM client)</example>
+            <example type="triggers_error">Pidgin (IM client).</example><!-- Compare with the example that has no full stop. -->
+            <example type="triggers_error">If you want to go ahead, then we can proceed via IM.</example>
+            <example type="triggers_error">International Master (shortened as IM).</example>
+            <example type="triggers_error">IM Read/Write 8.</example>
+            <example type="triggers_error">Add FN IM View Management Information 10.</example>
+            <example type="triggers_error">I am also attaching IM Canada.</example>
+            <example type="triggers_error">Lead Energy Services IM PDM Quality Efforts.</example>
+            <example type="triggers_error">Add FN IM View Management Information 1.</example>
+            <example type="triggers_error">I use "steveatet" on IM.</example>
+            <example type="triggers_error">Please change the desk on deal 680472 from IM ME TCO to IM NE GULF3.</example>
+            <example type="triggers_error">returnMessage = (returnMessage + " IM Used");</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
