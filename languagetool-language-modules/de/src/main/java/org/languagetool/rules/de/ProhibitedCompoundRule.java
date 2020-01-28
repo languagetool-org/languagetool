@@ -109,6 +109,12 @@ public class ProhibitedCompoundRule extends Rule {
           "Bartvogel",
           "Abschiedsmail",
           "Wohnindex",
+          "Entwicklungsstudio",
+          "Ermittlungsgesetz",
+          "Lindeverfahren",
+          "Stromspender",
+          "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
+          "Bäckerlunge",
           "Reisbeutel"
   ));
 
