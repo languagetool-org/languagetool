@@ -12718,11 +12718,26 @@ USA
                 <token>a</token>
                 <token>munch</token>
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- the Subscribe and Save button -->
+                <token>the</token>
+                <token regexp="yes" postag="VBP?" postag_regexp="yes">[A-Z][a-z]+</token>
+                <token regexp="yes">and|or|&amp;</token>
+                <token regexp="yes" postag="VBP?" postag_regexp="yes">[A-Z][a-z]+</token>
+            </antipattern>
+            <antipattern><!-- The Don't Ask, Don't Tell Repeal Act -->
+                <token regexp="yes">the|an?</token>
+                <token>don</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token>ask</token>
+                <token min="0">,</token>
+                <token>don</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                    <exception regexp="yes">cherry\-?pick|commit|remix|long-running|spend|merge|thank|add|create|re(map|store|place|quire)|occupy|emotes?|Vex</exception>
+                    <exception regexp="yes">cherry\-?pick|commit|remix|long-running|spend|merge|thank|add|create|re(map|store|place|quire|factor)|occupy|emotes?|Vex</exception>
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -12735,6 +12750,7 @@ USA
             <example>Let's have a listen to what he wants to say</example>
             <example>He had a listen.</example>
             <example>a show</example>
+            <example>We don't have time for a refactor: we're shipping in two weeks.</example><!-- https://en.wiktionary.org/wiki/refactor#Noun -->
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
             <example>... that script the way abecedary derives from Latin a be ce de.</example>
