@@ -123,13 +123,13 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial"),
       pos("UNKNOWN")
     ),
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
