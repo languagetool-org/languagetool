@@ -10151,7 +10151,7 @@ USA
                     </token>
                 </marker>
             </pattern>
-            <message>The word 'to' seems to be wrong here.</message>
+            <message>The word 'to' seems to be wrong here. "\3" is a present participle verb.</message>
             <suggestion>\3</suggestion>
             <example correction="making">He was <marker>to making</marker> America great again.</example>
             <example correction="melting">This material is <marker>to melting</marker>.</example>
@@ -15722,6 +15722,7 @@ USA
                 <token regexp="yes">tutorials?|guides?|instructions?|process(es)?|cookbooks?|podcasts?|audiobooks?|e\-?book|recipes?|directions|plan|diet|knitting|lyrics|learning|landscaping|programming|courses?|origami|painting|solutions?|teaching|videos?|workouts?|screenhots?|screencasts?|approach(es)?|configurations?|pictures?|diagnostics?|photos?|documentations?|procedures?|installations?|examples?|troubleshootings?|lists?|walkthrough|help|setups?|guidances?</token>
             </pattern>
             <message>Did you mean the adjective or adverb <suggestion>\1-\2-\3</suggestion> (spelled with hyphens)?</message>
+            <url>https://www.merriam-webster.com/dictionary/step-by-step</url>
             <example correction="step-by-step">The <marker>step by step</marker> diet plan helped me to lose kilos.</example>
         </rule>
         <rule id="OPEN_HEART_HYPHEN" name="missing hyphen in 'open heart'">
@@ -15735,24 +15736,37 @@ USA
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/open-heart</url>
             <example correction="Open-heart"><marker>Open heart</marker> surgery is an operation to repair a fault or damage in the heart.</example>
         </rule>
-        <rule id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
-            <pattern>
-                <marker>
-                    <token>all</token>
-                    <token>time</token>
-                </marker>
-                <token min="0">
-                    <exception regexp="yes">\p{P}</exception>
-                </token>
-                <token regexp="yes">highs?|lows?|highest|lowest|best|medals?|roads?|classics?|favou?rites?|awards?|leaders?|cinemas?|box|world|sales?|baseball|football|career|college|comparisons?|champions?|era|faves?|scorers?|goalscorers?|great(est)?|greats|records?|goal|hits?|interceptions?|international|jokes|jazz|movies?|nfl|nhl|nba|number|ops|olympic|office|points?|quarterback|stats?|scoring|strikeout|strikers?|touchdown|usa?|ucl|views|winners?|yankees|zones?</token>
-            </pattern>
-            <message>It appears that a hyphen is missing in the adjective <suggestion>\1-\2</suggestion></message>
+        <rulegroup id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <url>https://www.merriam-webster.com/dictionary/all-time</url>
-            <example correction="all-time">He is the best <marker>all time</marker> goalscorer.</example>
-            <example>He is the best of all time.</example>
-        </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">the|an?|our|your|my|their|its|his|her|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>all</token>
+                        <token>time</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing in the adjective <suggestion>\3-\4</suggestion></message>
+                <example correction="all-time">He is the best <marker>all time</marker> goalscorer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>all</token>
+                        <token>time</token>
+                    </marker>
+                    <token min="0" postag="JJ.*|NN.*" postag_regexp="yes" />
+                    <token regexp="yes">highs?|lows?|highest|lowest|best|medals?|roads?|classics?|favou?rites?|awards?|leaders?|cinemas?|box|world|sales?|baseball|football|career|college|comparisons?|champions?|era|faves?|scorers?|goalscorers?|great(est)?|greats|records?|goal|hits?|interceptions?|international|revenue|jokes|jazz|movies?|nfl|nhl|nba|number|ops|olympic|office|points?|quarterback|stats?|scoring|strikeout|strikers?|touchdown|usa?|ucl|views|winners?|yankees|zones?</token>
+                </pattern>
+                <message>It appears that a hyphen is missing in the adjective <suggestion>\1-\2</suggestion></message>
+                <example correction="all-time">He is the best <marker>all time</marker> goalscorer.</example>
+                <example>He is the best of all time.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALL_IN_ONE_HYPHEN" name="missing hyphens in 'all-in-one'">
             <url>https://www.lexico.com/definition/all_in_one</url>
             <rule>
@@ -17674,7 +17688,7 @@ USA
         <rule id="PRP_RB_NO_VB" name="Verb missing after personal pronoun and adverb at beginning of sentence.">
             <antipattern><!-- missing hyphen needs different rule -->
                 <token>all</token>
-                <token regexp="yes">year|day|night|week|month</token>
+                <token regexp="yes">year|day|night|week|month|time</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
@@ -35787,7 +35801,45 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs -->
+        <rulegroup id="WEN_WE" name="wen vs. when/we" default="temp_off">
+            <antipattern>
+                <token />
+                <token />
+                <token case_sensitive="yes">Wen</token><!-- middle of sentence, probably name -->
+            </antipattern>
+            <antipattern>
+                <token />
+                <token spacebefore="no">.</token>
+                <token>wen</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="PCT|SENT_START|CC" postag_regexp="yes" />
+                    <token postag="RB|UH" min="0" postag_regexp="yes" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ww]en</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="MD|VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>"Wen" is the name of a cyst. Did you maybe mean <suggestion>we</suggestion> or <suggestion>when</suggestion>?</message>
+                <example correction="We|When"><marker>Wen</marker> can do it.</example>
+                <example>Mr. Wen was a smart guy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB[DN]?" postag_regexp="yes" />
+                    <marker>
+                        <token case_sensitive="yes">wen</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>"Wen" is the name of a cyst. Did you maybe mean <suggestion>we</suggestion>?</message>
+                <example correction="we">Can <marker>wen</marker> check it now?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs (general(ly), direct(ly), eventual(ly), certain(ly), extreme(ly), immediate(ly), slow(ly) ...) -->
             <antipattern>
                 <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable</token>
                 <token>to</token>
@@ -36035,9 +36087,9 @@ The accident victim died from her injuries.
                 <token>price</token>
                 <token>sensibility</token>
             </pattern>
-            <message>Did you mean <suggestion>price sensivity</suggestion> (= degree to which the price of a product affects consumers' purchasing behaviors)?</message>
+            <message>Did you mean <suggestion>price sensitivity</suggestion> (= degree to which the price of a product affects consumers' purchasing behaviors)?</message>
             <url>https://www.investopedia.com/terms/p/price-sensitivity.asp</url>
-            <example correction="Price sensivity"><marker>Price sensibility</marker> is the degree to which the price of a product affects consumers' purchasing behaviors.</example>
+            <example correction="Price sensitivity"><marker>Price sensibility</marker> is the degree to which the price of a product affects consumers' purchasing behaviors.</example>
         </rule>
         <rulegroup id="WHAT_WOULD" name="He what (would) do it again">
             <rule>
