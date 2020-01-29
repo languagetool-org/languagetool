@@ -210,6 +210,7 @@ public class English extends Language implements AutoCloseable {
         //new OpenNMTRule(),     // commented out because of #903
         new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
+        new PunctuationMarkAtParagraphEnd2(messages, this),
         // specific to English:
         new SpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
