@@ -9728,7 +9728,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern><!-- "I must mercy them" https://en.wiktionary.org/wiki/mercy#Verb -->
                 <token>mercy</token>
@@ -9863,7 +9863,7 @@ USA
                 <example>A strategy of building local elections would seem appropriate, should Tom care to do it.</example>
                 <example>I recommend speaking to Tom should people complain about the new feature.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <or>
                         <token postag="NNP|PRP" postag_regexp="yes" />
@@ -9944,7 +9944,7 @@ USA
                 <example>An important property in this context is forward secrecy, which ensures that encrypted communications recorded in the past cannot be retrieved and decrypted should long-term secret keys or passwords be compromised in the future.</example>
                 <example>But the two states belong to regional transmission grids with little interconnection, a situation that provides safeguards should huge power failures occur but limits how much one region can help another.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <or>
                         <token postag="NNP|PRP" postag_regexp="yes" />
@@ -10009,7 +10009,7 @@ USA
                 <example>An important property in this context is forward secrecy, which ensures that encrypted communications recorded in the past cannot be retrieved and decrypted should long-term secret keys or passwords be compromised in the future.</example>
                 <example>But the two states belong to regional transmission grids with little interconnection, a situation that provides safeguards should huge power failures occur but limits how much one region can help another.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">.+</token>
                     <token spacebefore="no">.</token>
@@ -10750,7 +10750,7 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">march|may|august</token><!-- month names that have a different meaning and can be in lowercase -->
                     </marker>
-                    <token regexp="yes">\d{4}|[1-9](st|nd|th)?|[0-3]\d(st|nd|th)?|until|till</token>
+                    <token regexp="yes">\d{4}|[1-9](st|nd|th|rd)?|[0-3]\d(st|nd|th|rd)?|until|till</token>
                 </pattern>
                 <message>The month <suggestion><match case_conversion="startupper" no="1" /></suggestion> needs to be capitalized.</message>
                 <example correction="August">My birthday is on <marker>august</marker> 2nd.</example>
@@ -15209,7 +15209,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="EARL_GREY" name="Earl Grey" default="temp_off">
+        <rule id="EARL_GREY" name="Earl Grey">
             <antipattern case_sensitive="yes">
                 <token>Earl</token>
                 <token>Grey</token>
@@ -15222,7 +15222,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Earl_Grey_tea</url>
             <example correction="Earl Grey"><marker>Earl Gray</marker> tea is a tea blend which has been flavoured with the addition of oil of bergamot. </example>
         </rule>
-        <rule id="FORREST_GUMP" name="Forest (Forrest) Gump" default="temp_off">
+        <rule id="FORREST_GUMP" name="Forest (Forrest) Gump">
             <pattern>
                 <token>forest</token>
                 <token>gump</token>
@@ -15603,7 +15603,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/so-called</url>
             <example correction="so-called">The <marker>so called</marker> conspiracy theory</example>
         </rule>
-        <rule id="FIRST_PERSON_SHOOTER" name="hyphen in 'first person shooter'" default="temp_off">
+        <rule id="FIRST_PERSON_SHOOTER" name="hyphen in 'first person shooter'">
             <pattern>
                 <marker>
                     <token>first</token>
@@ -15616,7 +15616,7 @@ USA
             <url>https://www.lexico.com/definition/first-person_shooter</url>
             <example correction="first-person">He was playing a <marker>first person</marker> shooter.</example>
         </rule>
-        <rule id="SET_TOP_BOX_HYPHEN" name="missing hyphen in 'set top box'" default="temp_off">
+        <rule id="SET_TOP_BOX_HYPHEN" name="missing hyphen in 'set top box'">
             <pattern>
                 <marker>
                     <token>set</token>
@@ -23276,7 +23276,6 @@ USA
                 <example correction="in the Rocky Mountains">He lived <marker>in Rocky Mountains</marker> from 1933 till 1945.</example>
             </rule>
         </rulegroup>
-
 
           <rule id='SHORT_COMPARATIVES' name="Short comparatives">
           <!--      Created by Tiago F. Santos, 2018-07-10. Edited by MFU 2012-12-11      -->
@@ -35780,7 +35779,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb" default="temp_off"><!-- TODO add more rules (e.g. unusual -> unusually) -->
+        <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs -->
             <antipattern>
                 <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable</token>
                 <token>to</token>
