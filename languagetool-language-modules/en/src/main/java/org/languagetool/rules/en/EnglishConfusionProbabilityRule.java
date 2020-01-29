@@ -66,7 +66,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "he’s",
       "they're",
       "they’re",
-      "your look is" // Really, your look is
+      "your look is", // Really, your look is
+      "have you known",// vs. "know"
+      "have I known",// vs. "know"
+      "had I known",
+      "had you known",
+      "it's now better", // vs. no
+      "it’s now better", // vs. no
+      "it is now better" // vs. no
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
