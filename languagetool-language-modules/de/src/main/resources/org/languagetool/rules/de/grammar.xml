@@ -147,7 +147,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">viele|beste|herzliche</token>
                         <token regexp="yes" skip="1">danke?</token>
                     </marker>
-                    <token regexp="yes">für|dir|im|schon|und|ihnen|herr|frau|[ae]uch|\.|\!|\,|\?</token>
+                    <token regexp="yes">für|dir|im|schon|erst(mal)?|und|ihnen|lieber?|herr|frau|[ae]uch|\.|\!|\,|\?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>\1n Dank</suggestion>?</message>
                 <short>&typo;.</short>
@@ -32873,7 +32873,6 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="CO_WORKING_SPACE" name="'Co-Working-Space'">
-            <url>https://www.duden.de/rechtschreibung/Co_Working_Space</url>
             <rule>
                 <pattern>
                     <token>co</token>
@@ -32881,6 +32880,7 @@ Andere Projekte</example>
                     <token regexp="yes">spaces?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Co-Working-<match no="3" case_conversion="startupper" /></suggestion> (= Gemeinschaftsbüro)?</message>
+                <url>https://www.duden.de/rechtschreibung/Co_Working_Space</url>
                 <example correction="Co-Working-Space">Er sitzt an einem Schreibtisch in einem großen <marker>Co Working Space</marker>.</example>
             </rule>
             <rule>
@@ -32889,7 +32889,25 @@ Andere Projekte</example>
                     <token regexp="yes">spaces?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Co-Working-<match no="2" case_conversion="startupper" /></suggestion> (= Gemeinschaftsbüro)?</message>
+                <url>https://www.duden.de/rechtschreibung/Co_Working_Space</url>
                 <example correction="Co-Working-Space">Er sitzt an einem Schreibtisch in einem großen <marker>Co-Working Space</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>co</token>
+                    <token regexp="yes">workings?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Co-<match no="2" case_conversion="alllower" /></suggestion> bzw. <suggestion>Co<match no="2" case_conversion="alllower" /></suggestion> (= zusammenarbeiten)?</message>
+                <url>https://de.wikipedia.org/wiki/Coworking</url>
+                <example correction="Co-working|Coworking">Das <marker>Co Working</marker> ist eine Art Zusammenarbeit.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Co-?Workings?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)^co-?w" regexp_replace="Co-w" /></suggestion> bzw. <suggestion><match no="1" regexp_match="(?i)^co-?w" regexp_replace="Cow" /></suggestion> (= zusammenarbeiten)?</message>
+                <url>https://de.wikipedia.org/wiki/Coworking</url>
+                <example correction="Co-working|Coworking">Das <marker>CoWorking</marker> ist eine Art Zusammenarbeit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
