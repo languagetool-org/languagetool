@@ -108,6 +108,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Aggregatzustand");
     check(0, "Aggregat-Zustand");
     check(1, "Aggregat Zustand", "Aggregatzustand");
+    check(1, "Billard Kugel", "Billardkugel");
   }
   
 }
