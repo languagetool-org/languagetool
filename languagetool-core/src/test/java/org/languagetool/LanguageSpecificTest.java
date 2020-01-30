@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+import static junit.framework.Assert.fail;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -45,6 +46,7 @@ public class LanguageSpecificTest {
     //testExampleAvailable(onlyRunCode);
     testConfusionSetLoading();
     countTempOffRules(lang);
+    testCoherencyBaseformIsOtherForm(lang);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
@@ -52,6 +54,33 @@ public class LanguageSpecificTest {
     }
   }
 
+  protected void testCoherencyBaseformIsOtherForm(Language lang) throws IOException {
+    if (lang.getShortCode().equals("km")) {
+      // "coherency.txt" is for a different rule for Khmer
+      return;
+    }
+    JLanguageTool lt = new JLanguageTool(lang);
+    TestTools.disableAllRulesExcept(lt, "EN_WORD_COHERENCY");
+    WordCoherencyDataLoader loader = new WordCoherencyDataLoader();
+    String path = "/" + lang.getShortCode() + "/coherency.txt";
+    if (!JLanguageTool.getDataBroker().ruleFileExists(path)) {
+      System.out.println("File not found (okay for many languages): "+ path);
+      return;
+    }
+    System.out.println("Checking " + path + "...");
+    Map<String, Set<String>> map = loader.loadWords(path);
+    List<String> invalid = new ArrayList<>();
+    for (String key : map.keySet()) {
+      List<RuleMatch> matches = lt.check(key);
+      if (matches.size() > 0) {
+        invalid.add(key);
+      }
+    }
+    if (invalid.size() > 0) {
+      fail(lang + ": These words trigger the rule because their base form is one of the forms in coherency.txt, giving false alarms: " + invalid);
+    }
+  }
+  
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
   static {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
