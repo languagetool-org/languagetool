@@ -35,6 +35,6 @@ public class RussianTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("DOUBLE_PUNCTUATION", "UPPERCASE_SENTENCE_START", "MORFOLOGIK_RULE_RU_RU", "DATE_WEEKDAY1")
     );
-    // runTests(lang); // skipping, Cyrillic chars not part of the validation yet
+    runTests(lang);
   }
 }

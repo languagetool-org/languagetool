@@ -98,6 +98,9 @@ public class WordListValidatorTest {
   ));
 
   public void testWordListValidity(Language lang) {
+    if (lang.getShortCode().equals("ru")) {
+      return;   // skipping, Cyrillic chars not part of the validation yet
+    }
     Set<String> checked = new HashSet<>();
     JLanguageTool lt = new JLanguageTool(lang);
     List<Rule> rules = lt.getAllActiveRules();
