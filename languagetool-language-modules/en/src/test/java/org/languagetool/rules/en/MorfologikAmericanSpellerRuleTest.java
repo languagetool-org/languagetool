@@ -21,7 +21,6 @@ package org.languagetool.rules.en;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.CanadianEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -132,6 +131,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     // yes, we also accept fantasy words:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A web-feature-driven-car software.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
+
+    assertAllMatches(lt, rule, "timezones", "timezone", "time zones");
   }
 
   @Test

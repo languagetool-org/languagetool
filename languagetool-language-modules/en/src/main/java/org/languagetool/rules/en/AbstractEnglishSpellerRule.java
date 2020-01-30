@@ -86,6 +86,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
+  protected List<String> filterSuggestions(List<String> suggestions, AnalyzedSentence sentence, int i) {
+    List<String> result = super.filterSuggestions(suggestions, sentence, i);
+    List<String> clean = new ArrayList<>();
+    for (String suggestion : result) {
+      if (!suggestion.matches(".* (s|t|d|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+        clean.add(suggestion);
+      }
+    }
+    return clean;
+  }
+  
+  @Override
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (ruleMatches.size() > 0) {
