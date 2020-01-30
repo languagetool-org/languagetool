@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
@@ -41,7 +41,7 @@ public class ConfusionSetLoaderTest {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
       ConfusionSetLoader loader = new ConfusionSetLoader(new Demo());
       Map<String, List<ConfusionPair>> map = loader.loadConfusionPairs(inputStream);
-      assertThat(map.size(), is(10));
+      assertThat(map.size(), is(13));
 
       assertThat(map.get("there").size(), is(1));
       assertThat(map.get("there").get(0).getFactor(), is(10L));
@@ -61,7 +61,27 @@ public class ConfusionSetLoaderTest {
 
       assertThat(map.get("bar").size(), is(1));
       assertThat(map.get("bar").get(0).getFactor(), is(5L));
+      assertThat(map.get("bar").get(0).getTerms().toString(), is("[bar, foo]"));
 
+      assertThat(map.get("one").size(), is(1));
+      assertThat(map.get("one").get(0).getFactor(), is(13L));
+      assertThat(map.get("one").get(0).getTerms().toString(), is("[one, two]"));
+      assertThat(map.get("one").get(0).getTerm1().toString(), is("one"));
+      assertThat(map.get("one").get(0).getTerm2().toString(), is("two"));
+      assertNull(map.get("two"));   // it's "one -> two"
+
+      assertThat(map.get("three").size(), is(1));
+      assertThat(map.get("three").get(0).getFactor(), is(14L));
+      assertThat(map.get("three").get(0).getTerms().toString(), is("[three, four]"));
+      assertThat(map.get("three").get(0).getTerm1().toString(), is("three"));
+      assertThat(map.get("three").get(0).getTerm2().toString(), is("four"));
+      assertThat(map.get("four").size(), is(1));
+      assertThat(map.get("four").get(0).getFactor(), is(15L));
+      assertThat(map.get("four").get(0).getTerms().toString(), is("[four, five]"));
+      assertThat(map.get("four").get(0).getTerm1().toString(), is("four"));
+      assertThat(map.get("four").get(0).getTerm2().toString(), is("five"));
+      assertNull(map.get("five"));   // it's "four -> five"
+      
       List<ConfusionString> there = map.get("there").get(0).getTerms();
       assertTrue(getAsString(there).contains("there - example 1"));
       assertTrue(getAsString(there).contains("their - example 2"));

@@ -93,6 +93,9 @@ public class ConfusionSetLoader {
             pairs.add(confusionSet);
             map.put(key, pairs);
           }
+          if (!bidirectional) {
+            break;   // "A -> B", so only consider that direction
+          }
         }
       }
     }
