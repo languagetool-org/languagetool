@@ -152,6 +152,22 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="NEED_HELPS" name="I need helps (help)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                <token postag="NN.*|PRP" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token inflected="yes" regexp="yes">need|want</token>
+                <token postag="PRP$" min="0" />
+                <marker>
+                    <token regexp="yes">helps|supports</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="6" regexp_match="s$" regexp_replace="" /></suggestion>?</message>
+            <example>The one I need helps others.</example>
+            <example correction="help">I need <marker>helps</marker>.</example>
+            <example correction="help">He wants your <marker>helps</marker>.</example>
+        </rule>
         <rule id="PAPUA_NEW_GUINEA" name="Papua New Guinea">
             <antipattern case_sensitive="yes">
                 <token>Papua</token>
@@ -9549,6 +9565,10 @@ USA
                 <token skip="1">cheap</token>
                 <token>out</token>
             </antipattern>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/beta%20test -->
+                <token>beta</token>
+                <token>test</token>
+            </antipattern>
             <antipattern><!-- "I would due to other circumstances" -->
                 <token>due</token>
                 <token>to</token>
@@ -9723,7 +9743,7 @@ USA
             </antipattern>
             <antipattern>
                 <token postag="MD" skip="2" />
-                <token regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intercom|bbq|chg|ft</token><!-- abbreviation of verbs -->
+                <token regexp="yes">fwd|rsvp|dm|pm|exec|rep|mod|nom|intro|intercom|bbq|chg|ft</token><!-- abbreviation of verbs -->
             </antipattern>
             <antipattern>
                 <token postag="MD" skip="2" />
@@ -9735,7 +9755,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">hand\-?off|shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern><!-- "I must mercy them" https://en.wiktionary.org/wiki/mercy#Verb -->
                 <token>mercy</token>
@@ -9840,12 +9860,11 @@ USA
                 </pattern>
                 <message>The word '\6' is a noun or an adjective. A verb is missing or misspelled, or maybe a comma is missing.</message>
                 <example correction="">I <marker>can't cheeseburger</marker>.</example>
-                <example correction="">I <marker>can’t enough</marker> how I appreciate almost anything Hedges writes.</example>
+                <!-- <example correction="">I <marker>can’t enough</marker> how I appreciate almost anything Hedges writes.</example> -->
                 <example correction="">Maybe this is documented somewhere but I <marker>couldn’t anything</marker>.</example>
                 <example correction="">Basically, it <marker>should very simple</marker>.</example>
                 <example correction="">Maybe this is documented somewhere but I <marker>couldn’t anything</marker>.</example>
                 <example correction="">We <marker>would rather advice</marker> you not to display those issues at all.</example>
-                <example correction="">And, I <marker>can’t enough</marker> how I appreciate almost anything Hedges writes.</example>
                 <example correction="">I <marker>must here something</marker> by 3 PM Houston time today.</example>
                 <example correction="">Tom told us that it <marker>wouldn't necessary</marker> to do that.</example>
                 <example>It won’t matter and Trump will still be President next November.</example>
@@ -14799,7 +14818,7 @@ USA
                 <token regexp="yes">News|NFL|Sports</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">fox</token>
+                <token>fox</token>
                 <token regexp="yes">news|nfl|sports</token>
             </pattern>
             <message>A proper noun needs to be capitalized.</message>
@@ -28724,6 +28743,11 @@ USA
                     <token>stands</token>
                     <token>for</token>
                 </antipattern>
+                <antipattern>
+                    <token>Qur</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>an</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">an?|the</token>
@@ -28742,6 +28766,7 @@ USA
                 <example>The a in carry is not the short sound of the a in care.</example>
                 <example>And the A stands for 'alteration'.</example>
                 <example>The A to Z.</example>
+                <example>For I found within the memorization of new portions of the Qur’an a pleasure that could not be rivalled by all the pleasures of this world.</example>
                 <example type="triggers_error">... linearly in time (that is, in a word like cat the a sound comes after the c sound, and the t sound...</example>
             </rule>
             <rule>
@@ -28817,6 +28842,11 @@ USA
                 <token>a</token>
                 <token>she</token>
             </antipattern>
+            <antipattern><!-- he's the one who took care of it-->
+                <token>the</token>
+                <token>one</token>
+                <token regexp="yes">who|that|where|which|when</token>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
                 <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE|all</exception></token>
@@ -28841,6 +28871,7 @@ USA
             <example>This is your chance of a lifetime! For <marker>A ONE</marker> DAY ONLY SALE of exclusive jewellery, visit our store.</example>
             <example>The event is referred to as the My Lai Massacre in the United States</example>
             <example>It's an I/O device.</example>
+            <example>I swear by the One Who has sent down upon.</example>
             <example>It's an all new design.</example>
             <example>He's playing in the all star team.</example>
             <example>... evidence of the Hallstatt culture was found by a mine manager in the 19th century.</example>
@@ -29682,6 +29713,12 @@ USA
                 <token min="0" max="1">,</token>
                 <token regexp="yes">which|that</token>
             </antipattern>
+            <antipattern><!-- I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized -->
+                <token postag="VB.*" postag_regexp="yes" />
+                <token regexp="yes">(with)?in</token>
+                <token>it</token>
+                <token regexp="yes">any(thing|one|body)</token>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
                 <marker>
@@ -29713,6 +29750,7 @@ USA
             <example>I pray to you oh lord.</example>
             <example>All of you girls</example>
             <example>... if I ask you anything else today.</example>
+            <example>I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized.</example>
             <example>They sold you garbage!</example>
             <example>It would take me too much time to explain to you why it's not going to work.</example>
             <example>Who wrote 'The World As I See It'?</example>
