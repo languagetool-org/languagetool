@@ -5164,7 +5164,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
               <and>
                 <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
-                <token postag="NNS"/>
+                <token postag="NNS">
+                  <exception postag_regexp="yes" postag="NNPS?"/><!-- #2393 -->
+                  </token>
               </and>
             </marker>
             <token>
@@ -5179,7 +5181,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
           <example type="untouched">Verb. The reinforcement spar <marker>makes</marker> it stronger and less prone to deformation.</example>
           <example type="untouched">Verb. What makes you happy <marker>makes</marker> me happy.</example>
+          <example type="untouched">Proper noun. He did it via standard <marker>Windows</marker> deployment tools.</example><!-- #2393 -->
+          <example type="untouched">Proper noun. THEY DID IT WITH THE STANDARD <marker>WINDOWS</marker> SOFTWARE.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
+          <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
         </rule>
 
         <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
