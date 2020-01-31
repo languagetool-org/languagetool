@@ -15241,6 +15241,15 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="MAC_OS_X" name="MacOS X (Mac OS X)" default="temp_off">
+            <pattern>
+                <token>MacOS</token>
+                <token>X</token>
+            </pattern>
+            <message>Did you mean <suggestion>Mac OS X</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/MacOS#Release_history</url>
+            <example correction="Mac OS X"><marker>MacOS X</marker> is an operating system.</example>
+        </rule>
         <rule id="EARL_GREY" name="Earl Grey">
             <antipattern case_sensitive="yes">
                 <token>Earl</token>
@@ -26315,7 +26324,7 @@ USA
                     <token regexp="yes">[1-8]|one|two|three|four|five|six|seven|eight</token>
                     <token regexp="yes">bed|(bed|bath)?room|bath</token>
                 </marker>
-                <token regexp="yes">apartments?|tents?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?</token>
+                <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -26411,7 +26420,7 @@ USA
                     <token>month</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -26733,7 +26742,7 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
         <antipattern case_sensitive="yes">
             <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-            <token regexp="yes">Ave(nue)?|Street|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley|Loop</token>
+            <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley|Loop</token>
         </antipattern>
         <antipattern>
             <token>magnitude</token>
@@ -26763,7 +26772,12 @@ USA
             <token>to</token>
             <token regexp="yes">\d+</token>
             <token>vote</token>
-          </antipattern>      
+          </antipattern>
+          <antipattern><!-- A 2 House Legislature for New York City -->
+            <token postag="CD" />
+            <token>house</token>
+            <token regexp="yes">legislatures?</token>
+        </antipattern>
          <antipattern>
             <token regexp="yes">s?he|you|I|we|they|it</token>
             <token inflected="yes">be</token>
@@ -26850,8 +26864,8 @@ USA
             </antipattern>
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|gr|semester</token>
-                <token regexp="yes">\d{1,2}</token>
-                <token regexp="yes">student|curriculum|bully|season</token>
+                <token postag="CD" />
+                <token regexp="yes">student|curriculum|bully|season|birthday</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
                 <token regexp="yes">level|tier|unit</token>
@@ -27057,6 +27071,17 @@ USA
                 <token>to</token>
                 <token />
             </antipattern>
+            <antipattern><!-- On Feb '20 -->
+                <token regexp="yes">&months;|&abbrevMonths;</token>
+                <token min="0" regexp="yes">&apostrophe;</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern><!-- two web 2.0 sites -->
+                <token regexp="yes">web|industry</token>
+                <token regexp="yes">\d</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">0</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -27080,7 +27105,7 @@ USA
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
-                        <exception regexp="yes">will|year|so|pst|well|still|have|wether</exception>
+                        <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
                         <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|stat|[ck]c|hr|min|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|grad|bounty</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
@@ -27105,6 +27130,8 @@ USA
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
             <example>Exactly 1 hour!</example>
+            <example>I can carry 25 max</example>
+            <example>A 2 House Legislature for New York City</example>
             <example>He suggested a $5,000,000 bond.</example>
             <example>And 10 cannot name the president's daughter.</example>
             <example>A 100,000 person lower bound has been cited for ASL users.</example>
@@ -44166,16 +44193,6 @@ The accident victim died from her injuries.
                 <example>MacOS updates were failing.</example>
             </rule>
         </rulegroup>
-        <rule id="MAC_OS_X" name="MacOS X (Mac OS X)" default="temp_off">
-            <pattern>
-                <token>MacOS</token>
-                <token>X</token>
-            </pattern>
-            <message>Did you mean <suggestion>Mac OS X</suggestion>?</message>
-            <url>https://en.wikipedia.org/wiki/MacOS#Release_history</url>
-            <example correction="Mac OS X"><marker>MacOS X</marker> is an operating system.</example>
-        </rule>
-
       <rulegroup id="PROFANITY" name="Profanity">
          <rule>
             <antipattern>
