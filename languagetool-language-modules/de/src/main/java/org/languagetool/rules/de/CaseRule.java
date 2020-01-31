@@ -393,6 +393,16 @@ public class CaseRule extends Rule {
     Arrays.asList( // Die Top Ten (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
       csToken("Top"),
       csToken("Ten")
+    ),
+    Arrays.asList(
+      csToken("Just"),
+      token("in"),
+      csToken("Time")
+    ),
+    Arrays.asList( // Hey Süßer, 
+      regex("Hey|Hi|Hallo"),
+      regex("Süßer?|Hübscher?"),
+      pos("PKT")
     )
   );
 
@@ -456,6 +466,9 @@ public class CaseRule extends Rule {
     "Beschäftigten",
     "Bekannter",
     "Bekannte",
+    "Bevollmächtigte",
+    "Bevollmächtigter",
+    "Bevollmächtigten",
     "Brecht",
     "Tel",  // Tel. = Telefon
     "Unschuldiger",
@@ -537,7 +550,10 @@ public class CaseRule extends Rule {
     "Herzöge",
     "Herzögen",
     "Hinfahrt",
+    "Hilfsstoff",
+    "Hilfsstoffe",
     "Hundert",   // je nach Kontext groß (TODO) 
+    "Hyperwallet", // Anglizismus
     "Ihnen",
     "Ihr",
     "Ihre",
@@ -558,6 +574,7 @@ public class CaseRule extends Rule {
     "Langem",
     "Längerem",
     "Le",    // "Le Monde" etc
+    "Lehrlingsunter­weisung",
     // "Leichter", // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
     "Letzt",
     "Letzt",      // "zu guter Letzt"

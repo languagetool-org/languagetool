@@ -518,7 +518,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList( // Ich wollte erstmal allen Hallo sagen.
       token("Hallo"),
-      new PatternTokenBuilder().csToken("sagen").matchInflectedForms().build(),
+      new PatternTokenBuilder().csToken("sagen").matchInflectedForms().build()
     )
   );
 
@@ -587,6 +587,7 @@ public class AgreementRule extends Rule {
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
     "Kilogramm",
+    "Carina", // Name
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
