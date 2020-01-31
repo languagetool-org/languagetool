@@ -4182,6 +4182,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="^se" regexp_replace="ste"/></suggestion>?</message>
                 <example correction="stehe">Für Rückfragen <marker>sehe</marker> ich gerne zur Verfügung.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>sehen</token>
+                    </marker>
+                    <token inflected="yes">bleiben</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="^se" regexp_replace="ste"/></suggestion>?</message>
+                <example correction="stehen">Er ist einfach <marker>sehen</marker> geblieben.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VERENDEN_VERWENDEN" name="verenden/verwenden">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">verenden</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="VER:(AUX|MOD):.+">
+                        <exception inflected="yes">werden</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="^vere" regexp_replace="verwe"/></suggestion>?</message>
+                <example correction="verwenden">Hast du mein Buch <marker>verenden</marker> wollen?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>als</token>
+                    <token/>
+                    <marker>
+                        <token inflected="yes">verenden</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="^vere" regexp_replace="verwe"/></suggestion>?</message>
+                <example correction="verwenden">Du kannst es auch als Waffe <marker>verenden</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="VEREIST_VERREIST" name="vereist/verreist">
             <rule>
