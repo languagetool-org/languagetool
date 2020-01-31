@@ -5246,6 +5246,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
         </rule>
 
+        <rule id="PRP_MD_RB_VB" name="pronoun + modal + adverb + noun/verb > verb"><!-- #2396 -->
+            <pattern>
+                <token regexp="yes">I|you|we|they|s?he|it</token>
+                <token chunk="B-VP" postag="MD"/>
+                <token postag="RB"/>
+                <marker>
+                    <token postag="VBP?" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig postag="VB"/>
+            <example type="ambiguous" inputform="go[go/NN,go/RP,go/VB,go/VBP]" outputform="go[go/VB]">They could maybe <marker>go</marker> and hang out.</example>
+            <example type="ambiguous" inputform="try[try/NN,try/VB,try/VBP]" outputform="try[try/VB]">She might possibly <marker>try</marker> to do it.</example>
+        </rule>
+
         <rule id="PREPOSITIONAL_DT_VBZNNS_NNS" name="Prepositional quantifiers + noun plur/vb sg = >noun plur">
           <pattern>
             <token regexp="yes">group|deal|lots?|tons|plenty|litres</token>
