@@ -79,6 +79,10 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "Genetiv";
           suggWord = "Genitiv";
         }
+        if (message.contains(" fordert ")) {
+          origWord = "fordert";
+          suggWord = "erfordert";
+        }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
         }
