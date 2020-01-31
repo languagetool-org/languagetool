@@ -25294,6 +25294,12 @@ USA
                     <token postag="NNP"/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
+                <antipattern><!-- #2395 chunker fix: a new Chrome release -->
+                    <token postag="DT"/>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token postag="NNP"/>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -25361,6 +25367,9 @@ USA
                 <example>YouTube channel for cooking videos.</example>
                 <example>He was required to put Mr Johnson’s Brexit deal into law.</example><!-- #2075 -->
                 <example>Jake: <marker>So</marker> explain to me why you are unhappy.</example><!-- #2224 -->
+                <example>You can expect <marker>a new Chrome release</marker> every six weeks.</example><!-- #2395 release/E-NP-plural -->
+                <example>You can expect <marker>the newer LanguageTool release</marker> every six weeks.</example><!-- release/E-NP-plural -->
+                <example>You can expect <marker>the new LanguageTool release</marker> after three weeks.</example><!-- release/E-NP-singular -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
