@@ -7387,15 +7387,6 @@ USA
             <message>Did you mean <suggestion>brussels sprout</suggestion>?</message>
             <example correction="brussels sprout">He left the last <marker>brussel sprout</marker> on his plate.</example>
         </rule>
-        <!-- bored of::word=bored with::filter=none -->
-        <rule id="BORED_OF" name="bored of (with)">
-            <pattern>
-                <token>bored</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>bored with</suggestion>?</message>
-            <example correction="bored with">I always get <marker>bored of</marker> people who talk about themselves.</example>
-        </rule>
         <!-- build off of::word=build on::filter=none -->
         <rule id="BUILD_OFF_OF" name="build off of (build on)">
             <pattern>
@@ -43370,6 +43361,15 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="BORED_OF" name="bored of (with)">
+            <pattern>
+                <token>bored</token>
+                <token>of</token>
+            </pattern>
+            <message>In standard English it's more accepted to use <suggestion>bored with</suggestion> or <suggestion>bored by</suggestion>.</message>
+            <url>https://www.lexico.com/grammar/bored-by-of-or-with</url>
+            <example correction="bored with|bored by">I always get <marker>bored of</marker> people who talk about themselves.</example>
+        </rule>
         <rule id="THEMSELF" name="'themself'">
             <antipattern>
                 <token regexp="yes">"|„|‘|“</token>
@@ -44166,6 +44166,15 @@ The accident victim died from her injuries.
                 <example>MacOS updates were failing.</example>
             </rule>
         </rulegroup>
+        <rule id="MAC_OX_X" name="MacOS X (Mac OS X)">
+            <pattern>
+                <token>MacOS</token>
+                <token>X</token>
+            </pattern>
+            <message>Did you mean <suggestion>Mac OS X</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/MacOS#Release_history</url>
+            <example correction="Mac OS X"><marker>MacOS X</marker> is an operating system.</example>
+        </rule>
 
       <rulegroup id="PROFANITY" name="Profanity">
          <rule>
