@@ -311,12 +311,4 @@ public final class AnalyzedSentence {
     return Objects.hash(nonBlankTokens, tokens, whPositions);
   }
 
-  /**
-   * Returns true if sentences ends with a paragraph break.
-   * @since 4.3
-   */
-  public boolean hasParagraphEndMark(Language lang) {
-    return StringTools.isParagraphEnd(getText(), lang.getSentenceTokenizer().singleLineBreaksMarksPara());
-  }
-
 }
