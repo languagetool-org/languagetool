@@ -30,7 +30,6 @@ import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 
 /**
  * Information about Paragraphs of LibreOffice/OpenOffice documents
@@ -45,8 +44,8 @@ public class FlatParagraphTools {
   private final XFlatParagraphIterator xFlatParaIter;
   private final XFlatParagraph xFlatPara;
   
-  FlatParagraphTools(XComponentContext xContext) {
-    xFlatParaIter = getXFlatParagraphIterator(xContext);
+  FlatParagraphTools(XComponent xComponent) {
+    xFlatParaIter = getXFlatParagraphIterator(xComponent);
     xFlatPara = getFlatParagraph();
   }
 
@@ -55,14 +54,13 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
+  private XFlatParagraphIterator getXFlatParagraphIterator(XComponent xComponent) {
     try {
-      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
-      if (xCurrentComponent == null) {
+      if (xComponent == null) {
         return null;
       }
       XFlatParagraphIteratorProvider xFlatParaItPro 
-          = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
+          = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xComponent);
       if (xFlatParaItPro == null) {
         return null;
       }

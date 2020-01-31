@@ -257,9 +257,18 @@ public class MultiDocumentsHandler {
   /**
    * Inform listener that the doc should be rechecked.
    */
-  public boolean resetCheck() {
-    if(documents.isEmpty() || (documents.size() > 1 && noMultiReset)) {
+  public boolean resetCheck(String docId) {
+//    if(documents.isEmpty() || (documents.size() > 1 && noMultiReset)) {
+    if(documents.isEmpty()) {
       return false;
+    }
+    for(int i = 0; i < documents.size(); i++) {
+      if(!docId.equals(documents.get(i).getDocID())) {
+        documents.get(i).setPreventReset();
+        if(debugMode) {
+          MessageHandler.printToLogFile("setPreventReset (from docId = " + docId + "): docId = " + documents.get(i).getDocID());
+        }
+      }
     }
     return mainThread.resetCheck();
   }
