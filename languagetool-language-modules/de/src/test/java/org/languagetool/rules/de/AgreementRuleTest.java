@@ -184,6 +184,9 @@ public class AgreementRuleTest {
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
     assertGood("Es sollte nicht viele solcher Bilder geben");
     assertGood("In den 80er Jahren.");
+    assertGood("Hast du etwas das Carina machen kann?");
+    assertGood("Ein Artikel in den Ruhr Nachrichten.");
+    assertGood("Ich wollte nur allen Hallo sagen.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

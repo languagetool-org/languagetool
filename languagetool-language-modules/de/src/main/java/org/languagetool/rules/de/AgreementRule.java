@@ -511,6 +511,14 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       new PatternTokenBuilder().posRegex("VER:.*[1-3]:.+").setSkip(1).build(),
       csToken("vermehrt")
+    ),
+    Arrays.asList( // In den Ruhr Nachrichten
+      csToken("Ruhr"),
+      csToken("Nachrichten")
+    ),
+    Arrays.asList( // Ich wollte erstmal allen Hallo sagen.
+      token("Hallo"),
+      new PatternTokenBuilder().csToken("sagen").matchInflectedForms().build(),
     )
   );
 
