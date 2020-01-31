@@ -101,9 +101,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     boolean isFirstWord;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
-//      TestMessages.printToLogFile(sentences.get(n).getText() + "###");
       if (Tools.isParagraphEnd(sentences, n, lang)) {
-        TestMessages.printToLogFile("n = " + n + ": " + sentences.get(n).getText());
         AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
         if (tokens.length > 2) {
           isFirstWord = (isWord(tokens[1]) && !isPunctuationMark(tokens[2]))
