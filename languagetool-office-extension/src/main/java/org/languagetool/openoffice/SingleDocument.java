@@ -203,10 +203,8 @@ class SingleDocument {
           paRes.nStartOfNextSentencePosition = text.length();
         }
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        if(!isMouseOrDialog) {
-          sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
-              paraNum, footnotePositions, langTool);
-        }
+        sErrors = checkSentence(text, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
+            paraNum, footnotePositions, langTool);
       }
       List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, paraNum, paRes.nStartOfSentencePosition,
           paRes.nStartOfNextSentencePosition, langTool);
