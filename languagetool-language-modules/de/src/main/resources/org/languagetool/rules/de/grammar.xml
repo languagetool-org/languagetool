@@ -11479,6 +11479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="festzubinden">Er versuchte, es <marker>fest zu binden</marker>.</example>
+                <example correction="festzunageln">Statt ihn <marker>fest zu nageln</marker>, musste er ihn laufen lassen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11720,17 +11721,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="festnageln">Konnte die Polizei den Verdächtigen <marker>fest nageln</marker>?</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>fest</token>
-                    <token>zu</token>
-                    <token>nageln</token>
-                </pattern>
-                <message>Das Verb 'festnageln' wird zusammengeschrieben.</message>
-                <suggestion>festzunageln</suggestion>
-                <short>&getrennt;.</short>
-                <example correction="festzunageln">Statt ihn <marker>fest zu nageln</marker>, musste er ihn laufen lassen.</example>
-           </rule>
         </rulegroup>
         <rulegroup id="HEILIGSPRECHEN" name="heilig sprechen (heiligsprechen)">
             <rule>
@@ -12193,6 +12183,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2\3</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="vorfuhr">Als er <marker>vor fuhr</marker>, wichen die anderen zurück.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>stand</token>
+                        <token inflected="yes">halten</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1halten' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="standgehalten">Es hat dem Angriff nicht <marker>stand gehalten</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="INBEGRIFFEN" name="in begriffen (inbegriffen)">

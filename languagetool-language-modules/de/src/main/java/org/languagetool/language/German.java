@@ -304,6 +304,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "KOMMA_VOR_RELATIVSATZ": return -10;
+      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
