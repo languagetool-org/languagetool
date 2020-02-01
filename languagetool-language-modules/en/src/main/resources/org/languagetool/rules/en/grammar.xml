@@ -41180,6 +41180,56 @@ The accident victim died from her injuries.
             <example>The <marker>odometer</marker> in my automobile is defective.</example>
             <example>Oedometers are used in geotechnical investigations.</example>
         </rule>
+        <rulegroup id="THE_LATTER_LATER" name="the later (latter)" default="temp_off"><!-- #2401 -->
+            <url>https://www.lexico.com/definition/latter</url>
+            <rule><!-- The basic rule finds as much as possible. -->
+                <antipattern><!-- later stages -->
+                    <token chunk="I-NP-plural">later</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- later processing -->
+                    <token chunk="I-NP-singular">later</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>later</token> 
+                    </marker>
+                    <or>
+                        <token postag_regexp="yes" postag="RB|VB[ZDG]|CC|TO|IN|PCT"/>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token><!-- Does not have the POS postag, thus use a separate token -->
+                    </or>
+                </pattern>
+                <message>Did you mean <suggestion>latter</suggestion> (=the second of two items)?</message>
+                <short>Commonly confused term</short>
+                <example correction="latter">The former test was easy, but the <marker>later</marker> was difficult.</example>
+                <example correction="latter">The former is only used in relation to dates and temporal events, while the <marker>later</marker> is used to reference part of the sentence structure.</example>
+                <example correction="latter">... and the <marker>later</marker> causes problems occasionally.</example><!-- causes/I-NP-plural -->
+                <example correction="latter">... and the <marker>later</marker> very often causes problems.</example><!-- very/E-NP-singular -->
+                <example correction="latter">... because of the <marker>later</marker> actually causing more problems than we expected.</example>
+                <example correction="latter">I mention the <marker>later</marker> in passing, because it is not so important.</example>
+                <example correction="latter">I mention the <marker>later</marker> because of what we both saw under a tree some distance from us.</example>
+                <example correction="latter">Of course, the 1979 constitution subordinated the <marker>later</marker> to the former.</example>
+                <example correction="latter">The President appoints the Prime Minister and, on the <marker>later</marker>'s advice, the rest of the government.</example>
+                <example correction="latter">The <marker>later</marker> is a bad idea.</example>
+                <example correction="latter">IE the <marker>later</marker> is simply a US branch.</example>
+                <example correction="latter">The former has more uses than the <marker>later</marker> and is sometimes easier to digest.</example>
+                <example correction="latter">Among the <marker>later</marker> were the AGM-83 Bulldog, AGM-79 Blue Eye and AGM-80 Viper.</example>
+                <example correction="latter">I believe it should be the <marker>later</marker> based on your `.vm` file</example>
+                <example correction="latter">Details on the <marker>later</marker> of the agenda items above will be forthcoming.</example>
+                <example correction="latter">Making the consent effective the <marker>later</marker> or signing or financing.</example><!-- Garbled sentence, but 'later' is not correct. -->
+                <example correction="latter">The <marker>later</marker>, probably a hundred years later than Ovid, is here the superior of the two.</example>
+                <example>The former test was easy, but the <marker>latter</marker> was difficult.</example>
+                <example>There were 2 trains to Sheffield; although I could have caught the 10:00 train, I got the later train.</example>
+                <example>Francoist troops reached the Andorran border in the later stages of the war.</example><!-- Ambiguous -->
+                <example>Separation of the rare-earth elements is a step in the later processing.</example>
+                <example>The later games in the series feature several males with effeminate characteristics.</example>
+                <example>The later phases saw the Penal Laws punish Roman Catholic and nonconforming Protestants.</example>
+                <example>With that team you usually should have no problem at the later levels.</example>
+<!-- Not found --><example>The Russians could advance into either Germany or Austria—they chose the <marker>later</marker> option.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
