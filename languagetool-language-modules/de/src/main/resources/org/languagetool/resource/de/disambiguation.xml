@@ -719,6 +719,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule name="ins+Nomen" id="INS_NOMEN">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">ins|ans|vors|durchs|hinters</token>
+            <marker>
+                <token regexp="yes">[A-ZÄÖÜ].+<exception postag="SUB:.+" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="VER:[1-3].+" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="SUB:AKK:SIN:NEU"/>
+    </rule>
     <rule name="'Der' am Satzanfang (kein Genitiv Singular)" id="SENT_START_DER">
         <pattern case_sensitive="yes">
             <token postag="SENT_START"></token>

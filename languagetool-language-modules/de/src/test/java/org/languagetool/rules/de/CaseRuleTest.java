@@ -171,6 +171,7 @@ public class CaseRuleTest {
     assertGood(";-) Dies ist ein Test");
     assertGood(":) Dies ist ein Test");
     assertGood(";) Dies ist ein Test");
+    assertGood("..., die ins Nichts griff.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

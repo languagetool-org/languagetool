@@ -284,6 +284,11 @@ public class CaseRule extends Rule {
      csToken("Aus"),
      posRegex("^PRP:.+|VER:[1-3]:.+")
     ),
+    /*Arrays.asList(
+      // "...,die ins Nichts griff."
+      new PatternTokenBuilder().csTokenRegex("ins|ans|vors|durchs|hinters").setSkip(1).build(),
+      posRegex("^PRP:.+|VER:[1-3]:.+")
+    ),*/
     Arrays.asList(
      // "Bündnis 90/Die Grünen"
      csToken("90"),
