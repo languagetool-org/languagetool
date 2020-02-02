@@ -41180,16 +41180,38 @@ The accident victim died from her injuries.
             <example>The <marker>odometer</marker> in my automobile is defective.</example>
             <example>Oedometers are used in geotechnical investigations.</example>
         </rule>
-        <rulegroup id="THE_LATER_LATTER" name="the later (latter)" default="temp_off"><!-- #2401 -->
+        <rulegroup id="THE_LATER_LATTER" name="the later (latter)"><!-- #2401 -->
             <url>https://www.lexico.com/definition/latter</url>
-            <rule><!-- The basic rule finds as much as possible. -->
+            <rule><!-- The basic rule finds as much as possible. Reminder: use separate APs. -->
                 <antipattern><!-- later stages -->
                     <token chunk="I-NP-plural">later</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- later advanced lunar landings -->
+                    <token chunk="I-NP-plural">later</token>
+                    <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
+                    <token chunk="I-NP-plural" postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- later and weaker years -->
+                    <token>later</token>
+                    <token regexp="yes">and|or</token>
+                    <token chunk="B-NP-plural" postag="JJR"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
                 <antipattern><!-- later processing -->
                     <token chunk="I-NP-singular">later</token>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
+                <antipattern><!-- later westward expansion -->
+                    <token chunk="I-NP-singular">later</token>
+                    <token chunk="I-NP-singular" postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
+                <antipattern><!-- early ... later -->
+                    <token skip="-1" regexp="yes">early|earlier|earliest</token>
+                    <token>the</token>
+                    <token>later</token>
                 </antipattern>
                 <pattern>
                     <token>the</token>
@@ -41227,6 +41249,11 @@ The accident victim died from her injuries.
                 <example>The later games in the series feature several males with effeminate characteristics.</example>
                 <example>The later phases saw the Penal Laws punish Roman Catholic and nonconforming Protestants.</example>
                 <example>With that team you usually should have no problem at the later levels.</example>
+                <example>The Land Ordinance of 1785 established both the general practices of land surveying in the west and northwest and the land ownership provisions used throughout the later westward expansion beyond the Mississippi River.</example>
+                <example>Its capability grew to 103,600 pounds (47,000 kg) for the later advanced lunar landings.</example>
+                <example>During the later and weaker years of the Carolingian Empire...</example><!-- Ambiguous, but parse as JJR + CC + JJR. Refer to the AP -->
+                <example>Early steel AK-47 magazines are 9.75 in (248 mm) long, and the later ribbed steel AKM and newer plastic 7.62×39mm magazines are about 1 in (25 mm) shorter.</example>
+<!-- With or without triggers_error, testrules gives a warning. The GUI gives a warning, but it should not. Refer to the previous example and the 'early ... later' AP <example type="triggers_error">... early years of the Turkish Republic, with the later relocated 'Su Perileri' (Water Fairies)...</example>-->
 <!-- Not found --><example>The Russians could advance into either Germany or Austria—they chose the <marker>later</marker> option.</example>
             </rule>
         </rulegroup>
