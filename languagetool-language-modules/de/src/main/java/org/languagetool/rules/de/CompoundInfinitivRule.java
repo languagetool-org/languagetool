@@ -89,12 +89,6 @@ public class CompoundInfinitivRule extends Rule {
     "grün",
     "schwarz",
     "weiß",
-    "tief",
-    "hoch",
-    "viel",
-    "nicht",
-    "frisch",
-    "frei",
     "fertig",
     "neu"
   };
