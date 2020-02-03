@@ -24698,7 +24698,7 @@ USA
                 <token spacebefore="no">com</token>
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase</token>
+                <token regexp="yes">current|Article|mustang|war|phase|grade</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- my wife and I not being drinkers -->
@@ -29718,10 +29718,9 @@ USA
                 <token regexp="yes">we|you</token>
                 <token postag="NNPS"/>
             </antipattern>
-            <antipattern><!-- World War I veterans -->
-                <token>war</token>
-                <token>I</token>
-                <token regexp="yes">veterans?</token>
+            <antipattern><!-- World War I -->
+                <token regexp="yes">current|Article|mustang|war|phase|grade</token>
+                <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- has he permission -->
                 <token regexp="yes">ha[ds]</token>
@@ -35927,14 +35926,15 @@ The accident victim died from her injuries.
                 <token>it</token>
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase</token>
+                <token regexp="yes">current|Article|mustang|war|phase|grade</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">I|s?he|it</token>
                 <marker>
-                    <token>as</token>
+                    <token regexp="yes">as|war</token>
                 </marker>
+                <token postag="RB" min="0" />
                 <token postag="VBG" />
             </pattern>
             <message>Did you mean <suggestion>was</suggestion>?</message>
