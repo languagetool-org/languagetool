@@ -6693,6 +6693,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:EIZ:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token postag="SUB:.+:SIN" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SENT_START" />
                     <token postag="ART:.*" postag_regexp="yes" min="0" />
                     <token postag="SUB:.*|UNKNOWN" postag_regexp="yes"/>
@@ -6724,6 +6730,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
                 <example>Er sagt, <marker>das</marker> sei in Ordnung.</example>
                 <example>Ich glaube, das hier gehört mir.</example>
+                <example>Doch du siehst, das Land ist im Umbruch</example>
+                <example>Er sagte, das Land sei im Umbruch</example>
                 <example>Ich konnte dich sehen, das allein macht mich froh.</example>
                 <example>Ich glaube, das mit uns hat einfach keinen Sinn.</example>
                 <example>Die Außenpolitik, das neue Streitthema</example>
@@ -12188,11 +12196,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>stand</token>
+                        <token regexp="yes">hält|hielte?|hielten|halten</token>
+                    </marker>
+                    <token />
+                    <token />
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1halten' meinten, wird diese zusammengeschrieben. Wenn aber mit '\2' ein Nebensatz eingeleitet wird, muss hier ein Komma gesetzt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <suggestion>\1, \2</suggestion>
+                <url>https://www.duden.de/rechtschreibung/standhalten</url>
+                <short>&getrennt;.</short>
+                <example correction="standhielt|stand, hielt">Dass es bereits <marker>stand hielt</marker> ihn nicht davon ab es neu zu bauen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>stand</token>
                         <token inflected="yes">halten</token>
                     </marker>
                 </pattern>
                 <message>Falls Sie eine Form des Verbs '\1halten' meinten, wird diese zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
+                <url>https://www.duden.de/rechtschreibung/standhalten</url>
                 <short>&getrennt;.</short>
                 <example correction="standgehalten">Es hat dem Angriff nicht <marker>stand gehalten</marker>.</example>
             </rule>
