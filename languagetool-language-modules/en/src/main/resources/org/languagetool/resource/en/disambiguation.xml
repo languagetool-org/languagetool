@@ -2369,6 +2369,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="NN(S|:UN?)"/>
             <token postag="IN"/>
         </antipattern>
+          <antipattern><!-- #2405 the community sees it as -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="VBZ"/>
+            <token regexp="yes">me|you|him|her|it|us|them|one</token>
+            <token postag_regexp="yes" postag="CC|IN"/>
+          </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -2388,6 +2395,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... even to build a gym, much less <marker>build the</marker> administration building.</example>
         <example type="untouched">Verb: ... as when the Sovereign <marker>grants</marker> letters of denization to an alien.</example>
         <example type="untouched">Verb: ... and over again continuously until the individual <marker>gains</marker> entry to a spiritual realm or Otherworld.</example><!-- chunker error: gains/I-NP-plural -->
+        <example type="untouched">Verb: Otherwise, the community <marker>sees</marker> it as trolling, regardless of the intent.</example><!-- #2405 -->
+        <example type="untouched">Verb: Also, this group <marker>sees</marker> them on many occasions.</example><!-- #2405 -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
@@ -2435,6 +2444,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="monarch[monarch/JJ,monarch/NN]" outputform="monarch[monarch/NN]">... and a <marker>monarch</marker> as an impartial element able to practise justice.</example>
       <example type="ambiguous" inputform="model[model/JJ,model/NN,model/VB,model/VBP]" outputform="model[model/NN]">She is as beautiful a <marker>model</marker> as I have ever photographed.</example>
       <example type="ambiguous" inputform="delinquent[delinquent/JJ,delinquent/NN]" outputform="delinquent[delinquent/NN]">... contemplates the likelihood of his future son being a <marker>delinquent</marker> as he was, a prospect Alex views fatalistically.</example>
+      <example type="ambiguous" inputform="community[community/JJ,community/NN:UN]" outputform="community[community/NN:UN]">If the <marker>community</marker> at the village fête are...</example><!-- test for #2405 -->
       <example type="untouched">A short while later, Anders also went to sleep.</example>
       <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
       <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>
@@ -5164,6 +5174,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="PRP|NNP"/>
           </antipattern>
+          <antipattern><!-- #2405 the community sees it as -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="VBZ"/>
+            <token regexp="yes">me|you|him|her|it|us|them|one</token>
+            <token postag_regexp="yes" postag="CC|IN"/>
+          </antipattern>
           <pattern>
             <token postag="JJ">
               <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -5192,6 +5209,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Verb. What makes you happy <marker>makes</marker> me happy.</example>
           <example type="untouched">Proper noun. He did it via standard <marker>Windows</marker> deployment tools.</example><!-- #2393 -->
           <example type="untouched">Proper noun. THEY DID IT WITH THE STANDARD <marker>WINDOWS</marker> SOFTWARE.</example>
+          <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
           <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
         </rule>
@@ -5770,6 +5788,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-singular">period</token>
             <token chunk="E-NP-singular"/><!-- For 'time period three', DT_JJ_NN assigns three/NN] thus I cannot use CD and a general AP -->
           </antipattern>
+          <antipattern><!-- #2405 the community sees it as -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="VBZ"/>
+            <token regexp="yes">me|you|him|her|it|us|them|one</token>
+            <token postag_regexp="yes" postag="CC|IN"/>
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -5789,6 +5814,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">This <marker>component</marker> parts the wires automatically.</example>
           <example type="untouched">Noun. We have a good <marker>chance</marker> things will not become worse.</example><!--  #2069 -->
           <example type="untouched">Noun. ... will need to start over at time <marker>period</marker> three.</example>
+          <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
+          <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
         </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
