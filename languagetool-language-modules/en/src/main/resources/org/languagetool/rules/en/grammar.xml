@@ -24671,7 +24671,7 @@ USA
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
-                        <token regexp="yes">how|what|when|where|which</token>
+                        <token regexp="yes">how|what|when|where|which|who</token>
                         <token regexp="yes">you|u|ya</token>
                         <token regexp="yes">[dg]oing?</token>
                     </marker>
@@ -24683,7 +24683,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">
-                            how|what|when|where|which
+                            how|what|when|where|which|who
                             <!-- don't match "What where you doing? (caught by CONFUSION_RULE) -->
                             <exception scope="previous" postag="W.*" postag_regexp="yes" />
                         </token>
@@ -24697,6 +24697,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="PRP_VBG" name="He going (He is going)">
+            <short>Agreement error</short>
             <antipattern>
                 <token postag="VB.*|UNKNOWN" postag_regexp="yes" />
                 <token regexp="yes">you|it</token>
@@ -24802,10 +24803,20 @@ USA
                 <token spacebefore="no">he</token>
                 <token postag="VBG"/>
             </antipattern>
+            <antipattern><!-- "Is this you not needing a lesson from me?", "Was it you knocking?" -->
+                <token inflected="yes">be</token>
+                <token regexp="yes">this|that|it</token>
+                <token postag="PRP" />
+            </antipattern>
+            <antipattern><!-- "There is just you not wanting to do anything unless it turns out perfect from the start, which is impossible." -->
+                <token inflected="yes">be</token>
+                <token postag="RB" />
+                <token regexp="yes">you|it</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
-                    <token postag="RB">
+                    <token postag="RB"><!-- TODO RB.* "She better doing it" -->
                         <exception regexp="yes">before|after</exception>
                     </token>
                     <token postag="VBG" />
@@ -24909,7 +24920,10 @@ USA
                 <example>How're you doing?</example>
                 <example>I cannot continue my class with you chattering to one another.</example>
                 <example>You dithering idiot!</example>
+                <example>Is it you knocking?</example>
                 <example>You yammering clammorer</example>
+                <example>Is this you not needing a lesson from me?</example>
+                <example>There is just you not wanting to do anything unless it turns out perfect from the start, which is impossible.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
