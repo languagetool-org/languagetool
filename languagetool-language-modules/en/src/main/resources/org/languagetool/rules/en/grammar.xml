@@ -12672,6 +12672,16 @@ USA
                 <token min="0">,</token>
                 <token>don</token>
             </antipattern>
+            <antipattern><!-- Qur'an -->
+                <token>Qur</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern><!-- C and A are the same -->
+                <token regexp="yes" case_sensitive="yes">[A-Z]</token>
+                <token regexp="yes">and|or|&amp;</token>
+                <token case_sensitive="yes">A</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -12703,9 +12713,11 @@ USA
             <example>Please use the translate.google.com website.</example>
             <example>The remain campaign.</example>
             <example>The vex robotics.</example>
+            <example>Vitamin C and A are almost the same.</example>
             <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
             <example>In the U.S.A be the best.</example>
             <example>What is a Parse Error?</example>
+            <example>When I Heard the Learn’d Astronomer</example>
             <example>Check out the <marker>send to a friend feature</marker> next to each article.</example><!-- Copied from Premium #845 -->
             <example>... but prefer to wait until early 2002 with the next reduction in the refinance rate.</example><!-- Copied from Premium #845 -->
             <example>Python provides the bisect module.</example><!-- Copied from Premium #845 -->
@@ -13400,7 +13412,7 @@ USA
             </antipattern>
             <antipattern>
                 <token skip="2">let</token>
-                <token regexp="yes">complain|restrain</token>
+                <token regexp="yes">(complain|restrain|constrain)s?</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
@@ -13607,6 +13619,39 @@ USA
                 <url>https://www.lexico.com/definition/login</url>
                 <example correction="login">Your <marker>log in</marker> attempt was not successful.</example>
                 <example>You can check the log in the files stored on the server.</example>
+            </rule>
+            <rule default="temp_off"><!-- the arrange -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>arrange</token>
+                    </marker>
+                </pattern>
+                <message>The word 'arrange' is not a noun. Did you mean <suggestion>arrangement</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/arrangement</url>
+                <example correction="arrangement">The <marker>arrange</marker> was fine for me.</example>
+                <example>Alternatively, could you call your caseworker to have her arrange a switch for you?</example>
+            </rule>
+            <rule default="temp_off"><!-- the improve -->
+                <antipattern><!-- Click the Improve this Page link -->
+                    <token skip="2">improve</token>
+                    <token regexp="yes">page|site</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>improve</token>
+                    </marker>
+                </pattern>
+                <message>The word 'improve' is not a noun. Did you mean <suggestion>improvement</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/improvement</url>
+                <example correction="improvement">The <marker>improve</marker> was fine for me.</example>
             </rule>
             <rule><!-- the reschedule -->
                 <pattern>
@@ -33534,11 +33579,23 @@ The accident victim died from her injuries.
       </antipattern>
       <antipattern>
           <token inflected='yes'>welcome</token>
-          <token regexp="yes">back|page</token>
+          <token regexp="yes">back|page|letter|briefing|mat|message|home|lighting|light|screen</token>
       </antipattern>
       <antipattern>
           <token>Guided</token>
           <token postag='VBG'/>
+      </antipattern>
+      <antipattern>
+          <token>Guided</token>
+          <token regexp="yes">tour|study|essay|practice|journal</token>
+      </antipattern>
+      <antipattern>
+          <token>Guiding</token>
+          <token regexp="yes">Research|Question</token>
+      </antipattern>
+        <antipattern>
+          <token>prior</token>
+          <token regexp="yes">experience|research</token>
       </antipattern>
       <antipattern>
           <token>Prior</token>
@@ -33549,12 +33606,15 @@ The accident victim died from her injuries.
           <token postag='SENT_START'/>
         <marker>
           <token regexp="yes" inflected="yes">Epistle|Guide|Jump|Ode|Prior|Welcome</token>
-          <token postag_regexp='yes' postag='VBG?'/>
+          <token postag_regexp='yes' postag='VBG?'>
+            <exception postag="IN" />
+          </token>
         </marker>
       </pattern>
       <message>Probably a preposition is missing after '\2'.</message>
         <suggestion>\2 to \3</suggestion>
       <example correction='Prior to leaving'><marker>Prior leaving</marker>, he had a good time.</example>
+      <example>He's jumping off</example>
     </rule>
      <rule>
       <antipattern>
@@ -33584,6 +33644,11 @@ The accident victim died from her injuries.
           <token regexp="yes">an|the|various|several|some|such</token>
           <token regexp="yes">attempts?</token>
       </antipattern>
+      <antipattern>
+        <token postag="PRP\$|DT" postag_regexp="yes" />
+        <token postag="JJ.*|CD" postag_regexp="yes" min="0" max="2" />
+        <token regexp="yes" inflected="yes" postag="NN.*" postag_regexp="yes">apply|attempt|correspond|continue|want|try|seem|seeks|pretending|pretend|reference|refuse|regard</token>
+      </antipattern>
       <pattern>
           <token regexp="yes" inflected="yes">apply|attempt|correspond|continue|want|try|seem|seeks|pretending|pretend|reference|refuse|regard</token>
           <token postag='VB'>
@@ -33593,6 +33658,7 @@ The accident victim died from her injuries.
         <suggestion>\1 to \2</suggestion>
       <example correction='wants to redecorate'>She <marker>wants redecorate</marker> the house again.</example>
       <example>Such attempts have repeatedly been made.</example>
+      <example>My two references have been outstanding.</example>
       <example>It is no use pretending you know nothing about it.</example>
       <example>This is way I am refusing the offer.</example>
       <example>Chanes, Jerome A. Antisemitism: A Reference Handbook, ABC-CLIO, 2004.</example>
@@ -35986,6 +36052,46 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean the adverb <suggestion>barely</suggestion> (= hardly, scarcely)?</message>
                 <example correction="barely">I was <marker>barley</marker> able to move.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HALF_HALVE" name="half vs halve" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/half</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>halve</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>The word "\1" is a verb. Did you mean <suggestion>half</suggestion>?</message>
+                <example correction="Half"><marker>Halve</marker> of my friends are coming to the party.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token>her</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2">let</token>
+                    <token>halve</token>
+                </antipattern>
+                <antipattern><!-- https://en.wikipedia.org/wiki/De_Halve_Maan -->
+                    <token>Halve</token>
+                    <token regexp="yes">Ma[ea]n</token>
+                </antipattern>
+                <antipattern>
+                    <token>Halve</token>
+                    <token postag="UNKNOWN" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|her|his|their|its|one|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>halve</token>
+                    </marker>
+                </pattern>
+                <message>The word "\1" is a verb. Did you mean <suggestion>half</suggestion>?</message>
+                <example correction="half">That's my <marker>halve</marker> of the calzone!</example>
             </rule>
         </rulegroup>
         <rulegroup id="WEN_WE" name="wen vs. when/we">
