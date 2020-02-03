@@ -83,6 +83,7 @@ public class WordListValidatorTest {
           "Hồ Chí Minh",
           "McDonald's",
           "Bahrām",
+          "Kęstutis",
           "µm",
           "µg",
           "µl",
