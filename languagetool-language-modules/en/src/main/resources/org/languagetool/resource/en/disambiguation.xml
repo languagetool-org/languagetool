@@ -4346,6 +4346,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="RB" />
         <token chunk="E-NP-singular" postag="VBP"/>
       </antipattern>
+      <antipattern><!-- #2403 Fix for chunker. Wire it up -->
+        <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
+        <token postag="PRP"/>
+        <token postag="RP"/>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4399,6 +4404,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">We can either order in or I would love to cook anything you would like.</example>
       <example type="untouched">That said, I would gladly revolt against corporate control.</example>
       <example type="untouched">I will either put it in the mail to you today, or if I do end up making it to the states, I will mail it from there.</example>
+      <example type="untouched">Wire it up using jumper wires.</example><!-- #2403 -->
+      <example type="untouched">Please wire it up using jumper wires.</example><!-- #2403 -->
+      <example type="untouched">We accept the risks; wire us up after you do the safety tests.</example><!-- #2403 -->
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
       <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
