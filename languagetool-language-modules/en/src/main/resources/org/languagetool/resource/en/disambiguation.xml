@@ -1536,6 +1536,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 <!-- Not touched because of exception: this/PDT      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> contains cold water.</example> -->
     </rule>
     <rule>
+      <antipattern>
+        <token postag="PRP" />
+        <token postag="RB" min="0" />
+        <token>can</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>can</token>
@@ -1544,6 +1549,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig postag="NN"/>
       <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="untouched">You can will go crazy.</example><!-- error will be caught by TWO_CONNECTED_MODAL_VERBS -->
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> might be dirty.</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
     </rule>
@@ -2539,12 +2545,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token>world</token>
         <token>war</token>
         <marker>
-          <token regexp="yes">[12]</token>
+          <token regexp="yes">[12]|I|II</token>
         </marker>
       </pattern>
       <disambig postag="NNP"/>
       <example type="untouched">Another world would be a catastrophe.</example>
       <example type="ambiguous" inputform="1[1/CD]" outputform="1[1/NNP]">The World War <marker>1</marker> tank</example>
+    </rule>
+
+    <rule id="SUPER_TUESDAY" name="Super Tuesday => NNP">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Super</token>
+            </marker>
+            <token>Tuesday</token>
+        </pattern>
+        <disambig action="add"><wd pos="NNP"/></disambig>
     </rule>
 
     <!-- A is not a determiner but a variable in this context -->
