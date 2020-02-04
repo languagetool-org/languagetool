@@ -152,7 +152,7 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
-        <rule id="NEED_HELPS" name="I need helps (help)" default="temp_off">
+        <rule id="NEED_HELPS" name="I need helps (help)">
             <pattern>
                 <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                 <token postag="NN.*|PRP" postag_regexp="yes" />
@@ -9726,7 +9726,7 @@ USA
             </antipattern>
             <antipattern>
                 <token postag="MD" skip="2" />
-                <token regexp="yes">self\-?(support|control)|nerd|karate|path|scape|video|fanny|bonus|back\-?up|pop\-?up|one\-?(shot|click)|idiot\-?proof|intake</token><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
+                <token regexp="yes">self\-?(support|control)|nerd|karate|path|scape|video|fanny|bonus|back\-?up|pop\-?up|one\-?(shot|click)|idiot\-?proof|intake|rind</token><!-- maybe a verb, but not tagged as one (to nerd out, karate chop/kick, to path the way)  -->
             </antipattern>
             <antipattern>
                 <token postag="MD" skip="2" />
@@ -9746,7 +9746,12 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">roll\-?back|hang\-?out|hand\-?off|shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">run\-?off|slow\-?down|roll\-?back|hang\-?out|hand\-?off|shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- A.I -->
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">I</token>
             </antipattern>
             <antipattern><!-- "I must mercy them" https://en.wiktionary.org/wiki/mercy#Verb -->
                 <token>mercy</token>
@@ -11286,6 +11291,7 @@ USA
             <example>You kids must be hungry.</example>
             <example>You guys wait here.</example>
         </rule>
+
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (could should)">
         <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU 2019-08-31.-->
             <antipattern>
@@ -13620,7 +13626,7 @@ USA
                 <example correction="login">Your <marker>log in</marker> attempt was not successful.</example>
                 <example>You can check the log in the files stored on the server.</example>
             </rule>
-            <rule default="temp_off"><!-- the arrange -->
+            <rule><!-- the arrange -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -13635,7 +13641,7 @@ USA
                 <example correction="arrangement">The <marker>arrange</marker> was fine for me.</example>
                 <example>Alternatively, could you call your caseworker to have her arrange a switch for you?</example>
             </rule>
-            <rule default="temp_off"><!-- the improve -->
+            <rule><!-- the improve -->
                 <antipattern><!-- Click the Improve this Page link -->
                     <token skip="2">improve</token>
                     <token regexp="yes">page|site</token>
@@ -15207,7 +15213,38 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="MAC_OS_X" name="MacOS X (Mac OS X)" default="temp_off">
+        <rulegroup id="SUPER_TUESDAY" name="Super Tuesday" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Super_Tuesday</url>
+            <antipattern case_sensitive="yes">
+                <token>Super</token>
+                <token>Tuesday</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">on|at|the|their|his|her|for|during|in|to|of|before|after|and</token>
+                    <marker>
+                        <token>super</token>
+                        <token>tuesday</token>
+                    </marker>
+                </pattern>
+                <message>The proper noun <suggestion>Super Tuesday</suggestion> should be capitalized.</message>
+                <example correction="Super Tuesday">He votes on <marker>super Tuesday</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>super</token>
+                        <token>tuesday</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes" min="0">&apostrophe;</token>
+                    <token spacebefore="no" min="0">s</token>
+                    <token regexp="yes">polls?|elections?|slots?|voter?s?|countdown|campaigns?|ballots?|contests?|strategy|states?|20\d{2}|primar(y|ies)|presidential|counts?|results?|projections?|california|texas|florida|date</token>
+                </pattern>
+                <message>The proper noun <suggestion>Super Tuesday</suggestion> should be capitalized.</message>
+                <example correction="Super Tuesday">He participates in the <marker>super tuesday</marker> polls.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MAC_OS_X" name="MacOS X (Mac OS X)">
             <pattern>
                 <token>MacOS</token>
                 <token>X</token>
@@ -15739,6 +15776,21 @@ USA
             <url>https://www.merriam-webster.com/dictionary/open-heart</url>
             <example correction="Open-heart"><marker>Open heart</marker> surgery is an operation to repair a fault or damage in the heart.</example>
         </rule>
+        <rulegroup id="ALL_KNOWING_HYPHEN" name="missing hyphen in 'all knowing'" default="temp_off">
+            <url>https://www.lexico.com/definition/all-knowing</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|our|your|my|their|its|his|her|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>all</token>
+                        <token>knowing</token>
+                    </marker>
+                </pattern>
+                <message>It appears that a hyphen is missing in the adjective <suggestion>\3-\4</suggestion></message>
+                <example correction="all-knowing">He is an <marker>all knowing</marker> god.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALL_TIME_HYPHEN" name="missing hyphen in 'all time high'">
             <url>https://www.merriam-webster.com/dictionary/all-time</url>
             <rule>
@@ -17688,7 +17740,7 @@ USA
         <rule id="PRP_RB_NO_VB" name="Verb missing after personal pronoun and adverb at beginning of sentence.">
             <antipattern><!-- missing hyphen needs different rule -->
                 <token>all</token>
-                <token regexp="yes">year|day|night|week|month|time</token>
+                <token regexp="yes">year|day|night|week|month|time|access|wise|knowing(ness)?</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
@@ -24391,6 +24443,42 @@ USA
             <url>https://www.merriam-webster.com/dictionary/come</url>
             <example correction="came">He <marker>cam</marker> to help.</example>
         </rule>
+        <rule id="PRP_SOOTHS" name="it sooths (soothes)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it|we|they|I</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token regexp="yes">sooths?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" regexp_match="(?i)th" regexp_replace="the" /></suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/soothe</url>
+            <example correction="soothes">It <marker>sooths</marker> my skin.</example>
+        </rule>
+        <rule id="PRP_DISCUSES" name="he discuses (discusses)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>discuses</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>discusses</suggestion> (= 'to discuss')?</message>
+            <url>https://www.merriam-webster.com/dictionary/discuss</url>
+            <example correction="discusses">He <marker>discuses</marker> the topic.</example>
+        </rule>
+        <rule id="PRP_KNOWNS" name="he knowns (knows)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>knowns</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>knows</suggestion> (= 'to know')?</message>
+            <url>https://www.merriam-webster.com/dictionary/know</url>
+            <example correction="knows">He <marker>knowns</marker> someone.</example>
+        </rule>
         <rule id="WASEN_T" name="he wasen't (wasn't)">
             <pattern>
                 <token regexp="yes">wasen|was|wasnt</token>
@@ -24757,7 +24845,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>you</token>
-                <token postag="VBG" />
+                <token postag="VBG" /><!-- fucking, dithering -->
                 <token regexp="yes">idiots?|douche(bag)?s?|morons?</token>
             </antipattern>
             <antipattern>
@@ -24828,6 +24916,16 @@ USA
                 <token postag="RB" />
                 <token regexp="yes">you|it</token>
             </antipattern>
+            <antipattern>
+                <token>with</token>
+                <token>much</token>
+                <token>it</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- A.I -->
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">I</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
@@ -24864,6 +24962,7 @@ USA
                 <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
                 <example>You freaking change it!</example><!-- freaking is an intensifier (https://www.merriam-webster.com/dictionary/freaking) -->
                 <example>They used to have Jerry Stiller and Anne Meara perform for us because he being Jewish, and her being Irish.</example>
+                <example>With over 120 million visitors a year tourism is integral to the Alpine economy with much it coming from winter sports although summer visitors are an important component of the tourism industry.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24911,11 +25010,13 @@ USA
                 <message>Did you mean <suggestion>\1're \2 \3</suggestion>, <suggestion>\1 are \2 \3</suggestion>, or <suggestion>\1 were \2 \3</suggestion>?</message>
                 <example correction="You're usually going|You are usually going|You were usually going"><marker>You usually going</marker> to be there.</example>
                 <example correction="You're not going|You are not going|You were not going"><marker>You not going</marker> to be there.</example>
+                <example>He will further support you in achieving your goals.</example>
             </rule>
             <rule>
-                <antipattern>
+                <antipattern><!-- "you fucking communists" -->
                     <token>you</token>
                     <token postag="JJ" />
+                    <token postag="NN.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token regexp="yes">they|we|you</token>
@@ -24939,6 +25040,7 @@ USA
                 <example>You yammering clammorer</example>
                 <example>Is this you not needing a lesson from me?</example>
                 <example>There is just you not wanting to do anything unless it turns out perfect from the start, which is impossible.</example>
+                <example>The Hell's Angels came in on motorcycles and slashed banners while yelling "Go back to Russia, you fucking communists!" at the protesters.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
@@ -26387,7 +26489,7 @@ USA
                     <token regexp="yes">[1-8]|one|two|three|four|five|six|seven|eight</token>
                     <token regexp="yes">bed|(bed|bath)?room|bath</token>
                 </marker>
-                <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?</token>
+                <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?|cottages?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -29819,7 +29921,6 @@ USA
             <example correction="">… to which <marker>he response</marker>.</example>
             <example correction=""><marker>You device</marker> isn't working.</example>
             <example correction="">Sometimes, problems occur when <marker>they disambiguation</marker> the text.</example>
-            <example correction="">I hope <marker>I can</marker> may say that one half of ...</example>
             <example correction="">... (<marker>he status</marker> of the test is unknown).</example>
             <example correction=""><marker>They boy</marker> and the girl felt awkward after they...</example>
             <example correction="">In Australia, nearly 18 million acres of land have been burned - most of <marker>it bushland</marker>, forests and national parks were affected by the fires.</example><!-- #2304. In this context, the correct text is: ...most of its bushland, forests,... -->
@@ -35986,7 +36087,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="I_AS_LOOKING" name="I as (was) looking" default="temp_off">
+        <rule id="I_AS_LOOKING" name="I as (was) looking">
             <antipattern>
                 <token postag="VB.*|UNKNOWN|IN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
                 <token>it</token>
@@ -36054,7 +36155,7 @@ The accident victim died from her injuries.
                 <example correction="barely">I was <marker>barley</marker> able to move.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HALF_HALVE" name="half vs halve" default="temp_off">
+        <rulegroup id="HALF_HALVE" name="half vs halve">
             <url>https://www.merriam-webster.com/dictionary/half</url>
             <rule>
                 <pattern>
