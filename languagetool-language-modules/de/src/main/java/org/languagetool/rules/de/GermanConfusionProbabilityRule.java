@@ -58,6 +58,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "das wir uns",
     "so wir können",
     "wie zahlen sie",
+    "war sich für nichts", // war sich für nichts zu schade
     "ich drei bin" // seit ich drei bin.
   );
 
