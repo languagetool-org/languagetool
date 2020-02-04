@@ -36,10 +36,13 @@ public class PunctuationMarkAtParagraphEnd2Test {
       lt.disableRule(rule.getId());
     }
     PunctuationMarkAtParagraphEnd2 rule = new PunctuationMarkAtParagraphEnd2(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    rule.setDefaultOn();
     lt.addRule(rule);
     assertThat(lt.check("This is a test.").size(), is(0));
     assertThat(lt.check("This is a test").size(), is(0));  // too short
-    assertThat(lt.check("This is a nice test").size(), is(0));
+    assertThat(lt.check("This is a really nice test").size(), is(0));  // no error, might not be finished
+    assertThat(lt.check("This is a really nice test\n").size(), is(1));
+    assertThat(lt.check("This is a really nice test\n\n").size(), is(1));
     assertThat(lt.check("This is a test.\n\nRegards,\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nRegards,\n\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\nJim").size(), is(0));

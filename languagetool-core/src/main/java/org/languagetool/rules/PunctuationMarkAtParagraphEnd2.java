@@ -52,29 +52,49 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
+    int sentCount = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      AnalyzedTokenReadings lastToken = tokens[tokens.length - 1];
-      if (!lastToken.getToken().matches("[:.?!]") && !endsInGreeting(tokens)) {
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+lastToken.getStartPos(), pos+lastToken.getEndPos(),
+      AnalyzedTokenReadings lastNonSpaceToken = getLastNonSpaceToken(tokens);
+      boolean paragraphEnd = tokens[tokens.length - 1].isParagraphEnd();
+      boolean endsInWhitespace = tokens[tokens.length - 1].isWhitespace();
+      if (lastNonSpaceToken != null && !lastNonSpaceToken.getToken().matches("[:.?!…]") && paragraphEnd && !maybeEndsInGreeting(tokens) &&
+        (sentCount < sentences.size() - 1 || endsInWhitespace)) {
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+lastNonSpaceToken.getStartPos(), pos+lastNonSpaceToken.getEndPos(),
           messages.getString("punctuation_mark_paragraph_end_msg"));
-        ruleMatch.setSuggestedReplacement(lastToken.getToken() + ".");
+        ruleMatch.setSuggestedReplacement(lastNonSpaceToken.getToken() + ".");
         ruleMatches.add(ruleMatch);
       }
       pos += sentence.getText().length();
+      sentCount++;
     }
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean endsInGreeting(AnalyzedTokenReadings[] tokens) {
+  private AnalyzedTokenReadings getLastNonSpaceToken(AnalyzedTokenReadings[] tokens) {
+    for (int i = tokens.length-1; i >= 0; i--) {
+      if (!tokens[i].isWhitespace()) {
+        return tokens[i];
+      }
+    }
+    return null;
+  }
+
+  private boolean maybeEndsInGreeting(AnalyzedTokenReadings[] tokens) {
     int tokensToLineBreak = 0;
+    boolean hasLinebreak = false;
+    boolean hasContentAfterLinebreak = false;
     for (int i = tokens.length - 1; i >= 0; i--) {
+      if (!tokens[i].isWhitespace()) {
+        hasContentAfterLinebreak = true;
+      }
       if (tokens[i].isLinebreak()) {
+        hasLinebreak = true;
         break;
       }
       tokensToLineBreak++;
     }
-    return tokensToLineBreak < 8;  // includes whitespace
+    return hasLinebreak && hasContentAfterLinebreak && tokensToLineBreak < 8;  // includes whitespace
   }
 
   @Override
