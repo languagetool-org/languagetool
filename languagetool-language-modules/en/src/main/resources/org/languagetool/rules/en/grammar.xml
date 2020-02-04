@@ -29902,6 +29902,14 @@ USA
                 <token>it</token>
                 <token regexp="yes">any(thing|one|body)</token>
             </antipattern>
+            <antipattern><!-- #2407 make the top of it semolina -->
+                <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">make|paint</token><!-- The safe option is to specify the verbs that cause problems. -->
+                <token>the</token>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token>of</token>
+                <token>it</token>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
                 <marker>
@@ -29968,6 +29976,8 @@ USA
             <example>I love the way you <marker>are</marker> and friends should honor that.</example><!-- #2343 -->
             <example>I love the way you <marker>are</marker> and time will tell whether we...</example><!-- #2343 -->
             <example>We will be lost when they <marker>die</marker> and computers take over the world.</example><!-- #2343 -->
+            <example>I want to make the top of it <marker>semolina</marker> and and melt the chocolate...</example><!-- #2407 -->
+            <example>I'm getting ready to paint the top of it <marker>black</marker> and put a rose decal on it.</example><!-- #2407 -->
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
             <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
             <example type="triggers_error">publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
