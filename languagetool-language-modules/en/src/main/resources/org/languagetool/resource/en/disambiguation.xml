@@ -6122,6 +6122,47 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="KETO" id="SPELLING_KETO">
+      <pattern>
+          <marker>
+            <token>keto</token>
+            <token regexp="yes">acids?|diets?</token>
+          </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="CARTE_BLANCHE" id="SPELLING_CARTE_BLANCHE">
+      <pattern>
+          <marker>
+            <token>carte</token>
+            <token>blanche</token>
+          </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="IN_VIVO" id="SPELLING_IN_VIVO">
+      <pattern>
+          <marker>
+            <token>in</token>
+            <token>vivo</token>
+          </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="CARTE_DE_VISITE" id="SPELLING_CARTE_DE_VISITE">
+      <pattern>
+          <marker>
+            <token regexp="yes">cartes?</token>
+            <token>de</token>
+            <token>visite</token>
+          </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
         <pattern>
             <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
@@ -6208,6 +6249,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">las?|los</token>
             </marker>
             <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+    <rule id="MODUS" name="Ignore spelling of 'modus'">
+        <pattern>
+            <token regexp="yes">modus|modi</token>
+            <token regexp="yes">operandi|vivendi</token>
         </pattern>
         <disambig action="ignore_spelling"></disambig>
     </rule>
@@ -8673,7 +8722,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="concours d'elegance" id="CONCOURS_D_ELEGANCE">
+        <pattern>
+            <token>concours</token>
+            <token>d</token>
+            <token regexp="yes" spacebefore="no">&apostrophe;</token>
+            <token spacebefore="no">elegance</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="mea culpa" id="MEA_CULPA_SPELLING">
+        <pattern>
+            <token>mea</token>
+            <token regexp="yes">culpas?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Per capita" id="PER_CAPITA">
         <pattern>
             <token>per</token>
@@ -8701,6 +8765,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <pattern case_sensitive="yes">
           <token>de</token>
           <token regexp="yes">facto|[ji]ure|minimis|profundis|rigueur|trop</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Ignore phrases with 'ipso'" id="IGNORE_IPSO">
+      <pattern case_sensitive="yes">
+          <token>ipso</token>
+          <token>facto</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Ignore 'noblesse oblige'" id="IGNORE_NOBLESSE_OBLIGE">
+      <pattern case_sensitive="yes">
+          <token>noblesse</token>
+          <token>oblige</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
