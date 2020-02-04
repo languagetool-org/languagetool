@@ -15275,6 +15275,15 @@ USA
             <url>https://en.wikipedia.org/wiki/Forrest_Gump</url>
             <example correction="Forrest Gump">He watched <marker>forest gump</marker> in his favorite cinema.</example>
         </rule>
+        <rule id="NEW_ZEELAND" name="New Zeeland (Zealand)" default="temp_off">
+            <pattern>
+                <token>new</token>
+                <token regexp="yes">zeeland|sealand</token>
+            </pattern>
+            <message>Did you mean <suggestion>New Zealand</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/New_Zealand</url>
+            <example correction="New Zealand">I live in <marker>New Zeeland</marker>.</example>
+        </rule>
         <rulegroup id="LOREAL" name="L’Oréal">
             <antipattern case_sensitive="yes">
                 <token>L</token>
@@ -24430,6 +24439,26 @@ USA
             <message>Did you mean <suggestion>goes</suggestion> (= verb)?</message>
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
+        </rule>
+        <rule id="HE_HIS" name="he his (is)" default="temp_off">
+            <antipattern>
+                <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
+                <token>it</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>his</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="JJ.*|VBG|NN.*" postag_regexp="yes">
+                    <exception regexp="yes">moms?|mums?|dads?|m[ou]mmy|daddy|fathers?|mothers?|sisters?|friends?|pals?|buddy|buddies|brothers?|grand(pa|ma|son|daughter)s?|sons?|daughters?|granny|childs?|childrens?|kids?|aunts?|uncles?|auntie</exception>
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>is</suggestion>?</message>
+            <example correction="is">He <marker>his</marker> great!</example>
+            <example>Please make it his favorite song.</example>
+            <example>He his dad and I were going to the barbecue.</example>
         </rule>
         <rule id="PRP_CAM" name="he cam (came)">
             <pattern>
@@ -43757,11 +43786,25 @@ The accident victim died from her injuries.
                 <token>themself</token>
             </pattern>
             <message>The term is non-standard and not widely accepted.</message>
+            <suggestion>themselves</suggestion>
             <suggestion>himself</suggestion>
             <suggestion>herself</suggestion>
-            <suggestion>themselves</suggestion>
             <url>https://www.lexico.com/definition/themself</url>
-            <example correction="himself|herself|themselves">The casual observer might easily think <marker>themself</marker> back in 1945.</example>
+            <example correction="themselves|himself|herself">The casual observer might easily think <marker>themself</marker> back in 1945.</example>
+        </rule>
+        <rule id="OURSELF" name="'ourself'" default="temp_off">
+            <antipattern>
+                <token regexp="yes">"|„|‘|“</token>
+                <token spacebefore="no">ourself</token>
+                <token regexp="yes" spacebefore="no">"|“|’|”</token>
+            </antipattern>
+            <pattern>
+                <token>ourself</token>
+            </pattern>
+            <message>The term is non-standard and not widely accepted.</message>
+            <suggestion>ourselves</suggestion>
+            <url>https://www.lexico.com/definition/ourself</url>
+            <example correction="ourselves">We witnessed <marker>ourself</marker> at Southampton this thirteenth day of October.</example>
         </rule>
         <rule id="MERCHANDIZE" name="'merchandize' vs. 'merchandise'">
             <pattern>
