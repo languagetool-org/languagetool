@@ -122,6 +122,7 @@ public class AgreementRuleTest {
     assertGood("Eine lückenlose Aufklärung sämtlicher physiologischer Gehirnprozesse");
     assertGood("Sie fragte verwirrt: „Ist das Zucker?“");
     assertGood("Er versuchte sich vorzustellen, was sein Klient für ein Mensch sei.");
+    assertGood("Sie legen ein Teilstück jenes Weges zurück, den die Tausenden Juden 1945 auf sich nehmen mussten.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
