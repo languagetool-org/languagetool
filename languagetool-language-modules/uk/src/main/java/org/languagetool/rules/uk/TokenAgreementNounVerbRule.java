@@ -21,6 +21,7 @@ package org.languagetool.rules.uk;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -139,6 +140,9 @@ public class TokenAgreementNounVerbRule extends Rule {
         continue;
       }
 
+//      if( Arrays.asList("не", "б", "би").contains(tokenReadings.getToken()) )
+      if( "не".equals(tokenReadings.getToken()) )
+        continue;
 
       // see if we get a following verb
 //       System.err.println("Check for verb: " + tokenReadings);
