@@ -82,11 +82,11 @@ class ResultCache {
     
     Map<Integer, CacheSentenceEntries> tmpEntries = entries;
     entries = new HashMap<>();
-    for(int i : entries.keySet()) {
+    for(int i : tmpEntries.keySet()) {
       if(i > lastParagraph) {
-        entries.put(i + shift, entries.get(i));
+        entries.put(i + shift, tmpEntries.get(i));
       } else {
-        entries.put(i, entries.get(i));
+        entries.put(i, tmpEntries.get(i));
       } 
     }
   }
