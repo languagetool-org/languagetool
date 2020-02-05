@@ -39687,84 +39687,95 @@ The accident victim died from her injuries.
             <short>Possible redundancy</short>
             <example correction="help me find">Can any guru <marker>help me to find</marker> the reason?</example>
         </rule>
-		<rule id="JUST_BARELY" name="just barely">
-			<pattern>
-				<token postag="RB" postag_regexp="yes">just</token>
-				<token regexp="yes" postag="RB">barely|exactly|merely|only|simply|recently|precisely</token>
-			</pattern>
-			<message>Consider using <suggestion><match no="2"/></suggestion>.</message>
-			<short>Redundant phrase</short>
-			<example correction="recently" type="incorrect">The giraffe left the zoo <marker>just recently</marker>.</example>
-			<example type="correct">The giraffe left the zoo recently.</example>
-		</rule>
-		<rulegroup id="FUTURE_PLAN" name="future plan">
-			<rule>
-				<pattern>
-					<token regexp="yes">plan|predict</token>
-					<token regexp="yes">into the future|the future</token>
-				</pattern>
-				<message>Consider using <suggestion><match no="1"/></suggestion>.</message>
-				<short>Redundant phrase</short>
-				<example correction="plan" type="incorrect">The company needs to have a <marker>plan into the future</marker>.</example>
-				<example type="correct">The company needs to have a plan.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes" postag="JJ">future</token>
-					<token regexp="yes" inflected='yes'>plan</token>
-				</pattern>
-				<message>Consider using <suggestion><match no="1"/></suggestion>.</message>
-				<short>Redundant phrase</short>
-				<example correction="plans" type="incorrect">He has no <marker>future plans</marker>.</example>
-				<example type="correct">He has no plans.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="COMPLETELY_DESTROY" name="Completely destroy">
-			<rule>
-				<pattern>
-					<token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
-					<token inflected='yes' regexp='yes' postag='V.*' postag_regexp='yes'>destroy|destruct|annihilate|engulf|delete|remove|demolish|abandon|ruin|obliterate</token>
-				</pattern>
-				<message>Consider using "<match no="2"/>".</message>
-				<short>Redundant phrase</short>
-				<example correction='destroyed'>The hospital was <marker>completely destroyed</marker>.</example>
-				<example>The hospital was destroyed.</example>
-				<example correction='destroy'>They want to entirely destroy the government.</example>
-				<example>They want to destroy the government.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token inflected='yes' regexp='yes' postag='V.*' postag_regexp='yes'>destroy|destruct|annihilate|engulf|delete|remove|demolish|abandon|ruin|obliterate</token>
-					<token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
-				</pattern>
-				<message>Consider using "<match no="1"/>".</message>
-				<short>Redundant phrase</short>
-				<example correction='destroyed'>The hospital was <marker>destroyed completely</marker>.</example>
-				<example>The hospital was destroyed.</example>
-				<example correction='destroy'>They want to destroy entirely the government.</example>
-				<example>They want to destroy the government.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
-					<token regexp='yes' postag='VBG'>destroying|destructing|annihilating|engulfing|deleting|removing|demolishing|abandoning|ruining|obliterating</token>
-				</pattern>
-				<message>Consider using "<match no="1"/>".</message>
-				<short>Redundant phrase</short>
-				<example correction='destroying'>The hospital was hit by a missile, <marker>completely destroying</marker> the facility.</example>
-				<example>The hospital was hit by a missile, destroying the facility.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp='yes' postag='VBG'>destroying|destructing|annihilating|engulfing|deleting|removing|demolishing|abandoning|ruining|obliterating</token>
-					<token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
-				</pattern>
-				<message>Consider using "<match no="1"/>".</message>
-				<short>Redundant phrase</short>
-				<example correction='destroying'>The hospital was hit by a missile, <marker>destroying completely</marker> the facility.</example>
-				<example>The hospital was hit by a missile, destroying the facility.</example>
-			</rule>
-		</rulegroup>
+        <rule id="JUST_BARELY" name="just barely">
+            <pattern>
+                <token postag="RB" postag_regexp="yes">just</token>
+                <token regexp="yes" postag="RB">barely|exactly|merely|only|simply|recently|precisely</token>
+            </pattern>
+            <message>Consider using <suggestion><match no="2"/></suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="recently" type="incorrect">The giraffe left the zoo <marker>just recently</marker>.</example>
+            <example type="correct">The giraffe left the zoo recently.</example>
+        </rule>
+        <rulegroup id="FUTURE_PLAN" name="future plan">
+            <rule>
+                <pattern>
+                    <token regexp="yes">plan|predict</token>
+                    <token regexp="yes">(for|into)? the future|ahead</token>
+                </pattern>
+                <antipattern>
+                    <token postag="VB">plan</token>
+                    <token psotag="IN">ahead</token>
+                    <token>of</token>
+                    <token>time</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VB">plan</token>
+                    <token psotag="IN">in</token>
+                    <token>advance</token>
+                </antipattern>
+                <message>Consider using <suggestion><match no="1"/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="plan" type="incorrect">The company needs to <marker>plan ahead</marker> for the economic downturn.</example>
+                <example type="correct">The company needs to <marker>plan</marker> for the economic downturn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag="JJ">future|prospective</token>
+                    <token regexp="yes" inflected='yes'>plan|planning</token>
+                </pattern>
+                <message>Consider using <suggestion><match no="1"/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="plans" type="incorrect">He has no <marker>future plans</marker>.</example>
+                <example type="correct">He has no plans.</example>
+        	</rule>
+        </rulegroup>
+        <rulegroup id="COMPLETELY_DESTROY" name="Completely destroy">
+        	<rule>
+                <pattern>
+                    <token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
+                    <token inflected='yes' regexp='yes' postag='V.*' postag_regexp='yes'>destroy|destruct|annihilate|engulf|delete|remove|demolish|abandon|ruin|obliterate</token>
+                </pattern>
+                <message>Consider using "<match no="2"/>".</message>
+                <short>Redundant phrase</short>
+                <example correction="destroyed" type="incorrect">The hospital was <marker>completely destroyed</marker>.</example>
+                <example type="correct">The hospital was <marker>destroyed</marker>.</example>
+                <example correction="destroy" type="incorrect">They want to <marker>totally destroy</marker> the government.</example>
+                <example type="correct">They want to <marker>destroy</marker> the government.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes' postag='V.*' postag_regexp='yes'>destroy|destruct|annihilate|engulf|delete|remove|demolish|abandon|ruin|obliterate</token>
+                    <token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
+                </pattern>
+                <message>Consider using <suggestion><match no="1"/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="destroyed" type="incorrect">The hospital was <marker>destroyed completely</marker>.</example>
+                <example type="correct">The hospital was <marker>destroyed</marker>.</example>
+                <example correction="destroy" type="incorrect">They want to <marker>destroy entirely</marker> the government.</example>
+                <example type="correct">They want to <marker>destroy</marker> the government.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
+                    <token regexp='yes' postag='VBG'>destroying|destructing|annihilating|engulfing|deleting|removing|demolishing|abandoning|ruining|obliterating</token>
+                </pattern>
+                <message>Consider using <suggestion><match no="1"/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="destroying" type="incorrect">The hospital was hit by a missile, <marker>completely destroying</marker> the facility.</example>
+                <example type="correct">The hospital was hit by a missile, <marker>destroying</marker> the facility.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes' postag='VBG'>destroying|destructing|annihilating|engulfing|deleting|removing|demolishing|abandoning|ruining|obliterating</token>
+                    <token regexp='yes' postag='RB'>completely|entirely|wholly|totally|fully|downright|absolutely</token>
+                </pattern>
+                <message>Consider using <suggestion><match no="1"/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example type="incorrect" correction="destroying">The hospital was hit by a missile, <marker>destroying completely</marker> the facility.</example>
+                <example type="correct">The hospital was hit by a missile, <marker>destroying</marker> the facility.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
