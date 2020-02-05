@@ -430,7 +430,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes">[$+-]?[0-9,-]*[0-9]</token>
-            <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*</token>
+            <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*
+              <exception postag_regexp="yes" postag="noun.*fname:abbr"/>
+            </token>
           </marker>
         </pattern>
         <message>Відсутній дефіс або пробіл між числом і словом</message>
