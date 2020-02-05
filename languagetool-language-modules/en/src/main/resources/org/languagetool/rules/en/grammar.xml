@@ -523,21 +523,60 @@ USA
             <suggestion>\1\2\3\4</suggestion>
             <example correction="doesn't">He <marker>does n't</marker> like her.</example>
         </rule>
-        <rulegroup id="ISSUES_WITH_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't">
-        <!-- Created by Tiago F. Santos, 2018-11-25 -->
+        
+      <rulegroup id="INCORRECT_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't" default="temp_off">
           <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
           <rule>
-<!-- Cannot use antipattern with regexp            <antipattern>
-              <token>hell</token>
-              <token spacebefore="no" regexp="yes">&apostrophe;</token>
-              <token spacebefore="no">s</token>
-            </antipattern>-->
-            <regexp>\b((a[im]|are|ca|could|dares?|das|did|do(es)?|has|have|is|ought|sha|should|was|wo)(&apostrophe;n?t|n&apostrophe;[^t])|(?:I|you|s?he|it|we|they)([ds]&apostrophe;|l&apostrophe;l|l?l&apostrophe;|v&apostrophe;e|ve&apostrophe;)|(oc&apostrophe;lock))\b</regexp>
-            <message>This contraction is incorrect. Please, check the apostrophe position.</message>
-            <example correction="">...it <marker>did'nt</marker> work.</example>
-            <example>... it didn't work.</example>
-            <example type="triggers_error">Have you seen the film Hell's Angels (https://www.imdb.com/title/tt0020960/)?</example>
-            <example type="triggers_error">Sometimes, I think about hell's deep symbolism.</example>
+            <pattern>
+                <token regexp="yes">does|is|are|was|were|did|do|has|have|had|are|should|would|could|must</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" case_sensitive="yes">n?t</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1n\2t</suggestion>?</message>
+            <example correction="isn't">This <marker>is'nt</marker> true!</example>
+            <example correction="didn't">It <marker>did' t</marker> work.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token regexp="yes">doesn|isn|aren|wasn|weren|didn|hasn|hadn|aren|shouldn|wouldn|couldn|mustn</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" case_sensitive="yes">s</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
+            <example correction="hasn't">This <marker>hasn's</marker> happened!</example>
+            <example>New Haven's principal commerical corrdiors</example>
+            <example>Have you seen Don's new car?</example>
+          </rule>
+          <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">doesn|isn|aren|wasn|weren|don|won|didn|hasn|hadn|aren|shouldn|wouldn|couldn|mustn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                </marker>
+                <token><exception regexp="yes">t|s</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
+            <example correction="hasn't">This <marker>hasn'</marker> happened!</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token regexp="yes">doesnt|isnt|arent|wasnt|werent|didnt|dont|wont|hasnt|hadnt|arent|shouldnt|wouldnt|couldnt|mustnt</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="t$" regexp_replace="'t" /></suggestion>?</message>
+            <example correction="hasn't">This <marker>hasnt't</marker> happened.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">doesnt|isnt|arent|wasnt|werent|didnt|dont|wont|hasnt|hadnt|arent|shouldnt|wouldnt|couldnt|mustnt</token>
+                    <token regexp="yes">&apostrophe;</token>
+                </marker>
+                <token><exception>t</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="(?i)t$" regexp_replace="'t" /></suggestion>?</message>
+            <example correction="hasn't">This <marker>hasnt'</marker> happened.</example>
           </rule>
         </rulegroup>
         <rulegroup id="PERS_PRON_CONTRACTION" name="I'l (I'll) etc.">
@@ -12737,7 +12776,7 @@ USA
                         <token case_sensitive="yes">french</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">presidents?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
+                    <token regexp="yes">presidents?|bulldogs?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
                 </pattern>
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> government.</example>
@@ -15213,7 +15252,15 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="SUPER_TUESDAY" name="Super Tuesday" default="temp_off">
+        <rule id="ERDOGAN" name="Erdogan (Erdoğan)" default="temp_off">
+            <pattern>
+                <token>Erdogan</token>
+            </pattern>
+            <message>The name of the Turkish politician is spelled <suggestion>Erdoğan</suggestion> (= Recep Tayyip Erdoğan).</message>
+            <url>https://en.wikipedia.org/wiki/Recep_Tayyip_Erdo%C4%9Fan</url>
+            <example correction="Erdoğan"><marker>Erdogan</marker> is president of Turkey.</example>
+        </rule>
+        <rulegroup id="SUPER_TUESDAY" name="Super Tuesday">
             <url>https://en.wikipedia.org/wiki/Super_Tuesday</url>
             <antipattern case_sensitive="yes">
                 <token>Super</token>
@@ -15275,7 +15322,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Forrest_Gump</url>
             <example correction="Forrest Gump">He watched <marker>forest gump</marker> in his favorite cinema.</example>
         </rule>
-        <rule id="NEW_ZEELAND" name="New Zeeland (Zealand)" default="temp_off">
+        <rule id="NEW_ZEELAND" name="New Zeeland (Zealand)">
             <pattern>
                 <token>new</token>
                 <token regexp="yes">zeeland|sealand</token>
@@ -15785,7 +15832,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/open-heart</url>
             <example correction="Open-heart"><marker>Open heart</marker> surgery is an operation to repair a fault or damage in the heart.</example>
         </rule>
-        <rulegroup id="ALL_KNOWING_HYPHEN" name="missing hyphen in 'all knowing'" default="temp_off">
+        <rulegroup id="ALL_KNOWING_HYPHEN" name="missing hyphen in 'all knowing'">
             <url>https://www.lexico.com/definition/all-knowing</url>
             <rule>
                 <pattern>
@@ -16559,7 +16606,7 @@ USA
                     <token>made</token>
                 </marker>
                 <token min="0">natural</token>
-                <token regexp="yes">islands?|fibres?|disasters?|crisis|diamonds?|diseases?|damages?|earthquakes?|eggs?|elements?|forests?|fruits?|lakes?|beach(es)?|resources?|attractions?|jewels|jewelr(y|ies)|jungle|products?|nature|clouds?|honey?|hybrids?|hazards?|hurricanes?|animals?|galler(y|ies)|granite|greenhouse|materials?|monsters?|mountains?|noise?|objects?|pollution|rivers?|rain|rocks|radiation|risks?|structures?|storms?|snow|satellites?|sources?|tsunamis?|tourist|textiles?|tornados?|vegetables?|virus(es)?|waterfalls?|wood|wonders|water|zoo</token>
+                <token regexp="yes">islands?|fibres?|disasters?|crisis|diamonds?|diseases?|damages?|freshwater|meadows?|earthquakes?|eggs?|elements?|forests?|fruits?|lakes?|beach(es)?|resources?|attractions?|jewels|jewelr(y|ies)|jungle|products?|nature|clouds?|honey?|hybrids?|hazards?|hurricanes?|animals?|galler(y|ies)|granite|greenhouse|materials?|monsters?|mountains?|noise?|objects?|pollution|rivers?|rain|rocks|radiation|risks?|structures?|storms?|snow|satellites?|sources?|tsunamis?|tourist|textiles?|tornados?|vegetables?|virus(es)?|waterfalls?|wood|wonders|water|zoo</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion><match no="1" />-<match no="2" /></suggestion>
@@ -24511,7 +24558,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
         </rule>
-        <rule id="HE_HIS" name="he his (is)" default="temp_off">
+        <rule id="HE_HIS" name="he his (is)">
             <antipattern>
                 <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
                 <token>it</token>
@@ -24543,7 +24590,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/come</url>
             <example correction="came">He <marker>cam</marker> to help.</example>
         </rule>
-        <rule id="PRP_SOOTHS" name="it sooths (soothes)" default="temp_off">
+        <rule id="PRP_SOOTHS" name="it sooths (soothes)">
             <pattern>
                 <token regexp="yes">s?he|it|we|they|I</token>
                 <token postag="RB" min="0" />
@@ -24555,7 +24602,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/soothe</url>
             <example correction="soothes">It <marker>sooths</marker> my skin.</example>
         </rule>
-        <rule id="PRP_DISCUSES" name="he discuses (discusses)" default="temp_off">
+        <rule id="PRP_DISCUSES" name="he discuses (discusses)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <token postag="RB" min="0" />
@@ -24567,7 +24614,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/discuss</url>
             <example correction="discusses">He <marker>discuses</marker> the topic.</example>
         </rule>
-        <rule id="PRP_KNOWNS" name="he knowns (knows)" default="temp_off">
+        <rule id="PRP_KNOWNS" name="he knowns (knows)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <token postag="RB" min="0" />
@@ -34263,6 +34310,19 @@ The accident victim died from her injuries.
             <example correction="it, girls">Go for <marker>it girls</marker>!</example>
             <example correction="it, guys">Get ready for <marker>it guys</marker>!</example>
         </rule>
+        <rule id="ME_MYSELF_AND_I_COMMA" name="Comma in 'Me myself and I'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>me</token>
+                </marker>
+                <token>myself</token>
+                <token regexp="yes">and|&amp;|or</token>
+            </pattern>
+            <message>Consider adding a comma here.</message>
+            <suggestion>\1,</suggestion>
+            <url>https://en.wikipedia.org/wiki/Me,_Myself_and_I_(Beyonc%C3%A9_song)</url>
+            <example correction="me,">It's just <marker>me</marker> myself and I.</example>
+        </rule>
         <rulegroup id="PRP_COMMA" name="Missing comma after pronoun">
             <rule>
                 <antipattern><!-- confusion of it/if (found by CC_IT_PRP) -->
@@ -43863,7 +43923,7 @@ The accident victim died from her injuries.
             <url>https://www.lexico.com/definition/themself</url>
             <example correction="themselves|himself|herself">The casual observer might easily think <marker>themself</marker> back in 1945.</example>
         </rule>
-        <rule id="OURSELF" name="'ourself'" default="temp_off">
+        <rule id="OURSELF" name="'ourself'">
             <antipattern>
                 <token regexp="yes">"|„|‘|“</token>
                 <token spacebefore="no">ourself</token>
