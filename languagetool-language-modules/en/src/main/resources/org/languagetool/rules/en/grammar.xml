@@ -9755,6 +9755,10 @@ USA
                 <token>piggy</token><!-- "piggy back" needs rule (written as one word) -->
                 <token>back</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/island-hop -->
+                <token>island</token>
+                <token>hop</token>
+            </antipattern>
             <antipattern>
                 <token postag="MD" skip="2" />
                 <token>matter</token><!-- It will matter -->
@@ -9785,7 +9789,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">run\-?off|slow\-?down|roll\-?back|hang\-?out|hand\-?off|shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">run\-?off|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|short\-?cut|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -9795,6 +9799,10 @@ USA
             <antipattern><!-- "I must mercy them" https://en.wiktionary.org/wiki/mercy#Verb -->
                 <token>mercy</token>
                 <token regexp="yes">me|them|him|her|us|it</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token regexp="yes">that|this</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -9838,6 +9846,7 @@ USA
                 <example correction="could be potential|could have potential">This <marker>could potential</marker> increase our dues.</example>
                 <example correction="could be potential|could have potential">But Tom <marker>could potential</marker> increase our revenue.</example>
                 <example>Why would I need one?</example>
+                <example>The only difference is that should chocolate milk be made with soya ...</example>
                 <example>I recommend going to Tom should unfortunate things happen.</example>
                 <example>May 16th, 2017</example>
                 <example>Yes Thursday may 18th.</example>
@@ -24440,12 +24449,19 @@ USA
         </rule>
         <rule id="DIDINT" name="he didin't (didn't)">
             <pattern>
-                <token regexp="yes">didin|din|did</token>
+                <token regexp="yes">didin|diden|din|did</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>t</token>
             </pattern>
             <message>Did you mean <suggestion>didn\2t</suggestion>?</message>
             <example correction="didn't">He <marker>didin't</marker> know about it.</example>
+        </rule>
+        <rule id="DIDENT" name="he dident (didn't)">
+            <pattern>
+                <token>dident</token>
+            </pattern>
+            <message>Did you mean <suggestion>didn't</suggestion>?</message>
+            <example correction="didn't">He <marker>dident</marker> know about it.</example>
         </rule>
         <rule id="PRP_DINT" name="he dint (didn't)">
             <pattern>
@@ -24557,6 +24573,18 @@ USA
             <message>Did you mean <suggestion>goes</suggestion> (= verb)?</message>
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
+        </rule>
+        <rule id="PRP_WUS" name="he wos (was)">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token regexp="yes">w[ou]s</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>was</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/was</url>
+            <example correction="was">He <marker>wos</marker> home.</example>
         </rule>
         <rule id="HE_HIS" name="he his (is)">
             <antipattern>
@@ -24762,7 +24790,7 @@ USA
                     <token>apologies</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">response|subject</token>
+                    <token regexp="yes">response|subject|similar</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -24834,7 +24862,7 @@ USA
                     <token>priorities</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">response|subject</token>
+                    <token regexp="yes">response|subject|similar</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -24962,6 +24990,10 @@ USA
                 <token postag="RB" min="0" />
                 <token postag="JJ" />
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- online shop -->
+                <token>ABOUT</token>
+                <token>YOU</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">aren|isn|wasn|weren|ain</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -25073,6 +25105,11 @@ USA
                 <token spacebefore="no">.</token>
                 <token spacebefore="no">I</token>
             </antipattern>
+            <antipattern><!-- has he amazing skills -->
+                <token inflected="yes">have</token>
+                <token regexp="yes">s?he|it|we|they|I</token>
+                <token postag="JJ" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
@@ -25090,6 +25127,7 @@ USA
                 <example>Wire it up using jumper wires.</example><!-- see #2403 -->
                 <example>What is he currently doing?</example>
                 <example>I’m very worried about it not running tomorrow or it just stopping and it being pricey to fix.</example>
+                <example>Has he amazing skills or not?</example>
             </rule>
             <rule><!-- TODO: what (is) she doing? -->
                 <pattern>
@@ -29933,6 +29971,19 @@ USA
                 <token />
                 <token postag="SENT_END" regexp="yes">\p{P}</token>
             </antipattern>
+            <antipattern>
+                <token />
+                <token />
+                <token regexp="yes">it|you</token>
+                <token postag="SENT_END" regexp="yes">folks|guys</token>
+            </antipattern>
+            <antipattern>
+                <token />
+                <token />
+                <token regexp="yes">it|you</token>
+                <token regexp="yes">folks|guys</token>
+                <token postag="PCT" />
+            </antipattern>
             <antipattern><!-- you bastards -->
                 <token>you</token>
                 <token postag="SENT_END" />
@@ -29956,6 +30007,10 @@ USA
                 <token>you</token>
                 <token/>
                 <token regexp="yes">[,!\.]</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- online shop -->
+                <token>ABOUT</token>
+                <token>YOU</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- Division I Basketball Championship -->
                 <token regexp="yes">[A-Z][a-z].+</token>
@@ -29982,11 +30037,10 @@ USA
                 <token regexp="yes">kind|sort</token>
                 <token>of</token>
             </antipattern>
-            <antipattern><!-- the more of it producers will supply -->
-                <token>of</token>
+            <antipattern><!-- "the more of it producers will supply", "I'm sharing with you insights and statistics about yesterday's traffic."" -->
+                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="IN|TO" postag_regexp="yes" />
                 <token regexp="yes">you|it</token>
-                <token postag="NNS"/>
-                <token postag_regexp="yes" postag="MD|VB[PD]?"/>
             </antipattern>
             <antipattern><!-- with it something of / in it nothing can -->
                 <token postag="IN"/>
@@ -30011,6 +30065,14 @@ USA
             <antipattern><!-- we Argentinians -->
                 <token regexp="yes">we|you</token>
                 <token postag="NNPS"/>
+                <token postag="RB.*" postag_regexp="yes" min="0" />
+                <token postag="VB.*|MD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- we children cannot do it -->
+                <token>we</token>
+                <token regexp="yes">children|democrats|republicans</token>
+                <token postag="RB.*" postag_regexp="yes" min="0" />
+                <token postag="VB.*|MD" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- World War I -->
                 <token regexp="yes">current|Article|mustang|war|phase|grade</token>
@@ -30019,12 +30081,6 @@ USA
             <antipattern><!-- has he permission -->
                 <token regexp="yes">ha[ds]</token>
                 <token regexp="yes">s?he|it</token>
-            </antipattern>
-            <antipattern><!-- #2251 provide to you information -->
-                <token postag_regexp="yes" postag="VB.*"/>
-                <token>to</token>
-                <token regexp="yes">you|it</token>
-                <token postag_regexp="yes" postag="NN:UN?"/>
             </antipattern>
             <antipattern><!-- #2304 burned - most of it bushland, forests and national parks, which -->
                 <token postag_regexp="yes" postag="VB[DN]"/>
@@ -30089,6 +30145,7 @@ USA
             <example>... if I ask you anything else today.</example>
             <example>I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized.</example>
             <example>They sold you garbage!</example>
+            <example>I'm sharing with you insights and statistics about yesterday's traffic.</example>
             <example>It would take me too much time to explain to you why it's not going to work.</example>
             <example>Who wrote 'The World As I See It'?</example>
             <example>…success of the NCAA Men's Division I Basketball Championship.</example>
