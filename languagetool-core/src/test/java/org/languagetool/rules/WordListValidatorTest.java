@@ -39,6 +39,7 @@ public class WordListValidatorTest {
           "õș" +   // for Portuguese
           "ā" + // for Persian
           "·" +   // for Catalan
+          "_" +   // for German (syntax: prefix_verb)
           "'’" +
           "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 

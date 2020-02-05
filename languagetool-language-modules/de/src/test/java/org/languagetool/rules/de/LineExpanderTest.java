@@ -41,7 +41,7 @@ public class LineExpanderTest {
     assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
     assertThat(expand("Das  #foo"), is("[Das]"));
     assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
-    assertThat(expand("rüber+machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
+    assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
                       "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
                       "rübermachtet, rüberzumachen]"));
     try {

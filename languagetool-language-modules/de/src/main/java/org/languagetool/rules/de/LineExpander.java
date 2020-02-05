@@ -36,7 +36,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   @Override
   public List<String> expandLine(String line) {
     List<String> result = new ArrayList<>();
-    if (!line.startsWith("#") && line.contains("+")) {
+    if (!line.startsWith("#") && line.contains("_")) {
       handleLineWithPrefix(line, result);
     } else if (!line.startsWith("#") && line.contains("/")) {
       handleLineWithFlags(line, result);
@@ -47,12 +47,12 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   private void handleLineWithPrefix(String line, List<String> result) {
-    String[] parts = cleanTags(line).split("\\+");
+    String[] parts = cleanTags(line).split("_");
     if (parts.length != 2) {
-      throw new IllegalArgumentException("Unexpected line format, expected at most one '+': " + line);
+      throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
     }
     if (parts[0].contains("/") || parts[1].contains("/")) {
-      throw new IllegalArgumentException("Unexpected line format, '+' cannot be combined with '/': " + line);
+      throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
     }
     try {
       String[] forms = synthesizer.synthesize(new AnalyzedToken(parts[1], "FAKE", parts[1]), "VER:.*", true);

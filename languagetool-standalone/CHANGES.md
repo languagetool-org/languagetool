@@ -13,7 +13,8 @@
 #### German
   * added and improved rules
   * `compounds.txt` now automatically expands `ß` to `ss` when using German (Switzerland)
-
+  * German `spelling.txt` now supports `prefix_verb` syntax like `vorüber_eilen` so
+    the speller will accept all forms of "eilen" prefixed by "vorüber" 
 
 ## 4.8 (released 2019-12-27)
 
